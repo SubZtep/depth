@@ -12,7 +12,7 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@tensorflow-models/pose-detection": "^0.0.2",
+    "@tensorflow-models/pose-detection": "^0.0.3",
     "@tensorflow/tfjs-backend-wasm": "^3.6.0",
     "@tensorflow/tfjs-backend-webgl": "^3.6.0",
     "@tensorflow/tfjs-converter": "^3.6.0",

@@ -19,6 +19,12 @@ body {
   height: auto;
 }
 
+#output {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
 .container {
   z-index: 1;
   position: absolute;

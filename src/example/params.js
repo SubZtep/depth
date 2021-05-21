@@ -14,49 +14,36 @@
  * limitations under the License.
  * =============================================================================
  */
-import * as posedetection from "@tensorflow-models/pose-detection"
-import { SupportedModels } from "@tensorflow-models/pose-detection"
-import { isiOS } from "./util"
+import * as posedetection from '@tensorflow-models/pose-detection';
+import {isiOS} from './util';
 
-export const DEFAULT_LINE_WIDTH = 2
-export const DEFAULT_RADIUS = 4
+export const DEFAULT_LINE_WIDTH = 2;
+export const DEFAULT_RADIUS = 4;
 
 export const VIDEO_SIZE = {
-  "640 X 480": { width: 640, height: 480 },
-  "640 X 360": { width: 640, height: 360 },
-  "360 X 270": { width: 360, height: 270 },
-}
+  '640 X 480': {width: 640, height: 480},
+  '640 X 360': {width: 640, height: 360},
+  '360 X 270': {width: 360, height: 270}
+};
 export const STATE = {
-  camera: { targetFPS: 60, sizeOption: "640 X 480" },
-  backend: "",
+  camera: {targetFPS: 60, sizeOption: '640 X 480'},
+  backend: '',
   flags: {},
-  modelConfig: {
-    scoreThreshold: 0,
-    type: posedetection.movenet.modelType.SINGLEPOSE_THUNDER,
-    maxPoses: 0,
-  },
-
-  // me added
-  isTargetFPSChanged: false,
-  isSizeOptionChanged: false,
-  isModelChanged: false,
-  isBackendChanged: false,
-  isFlagChanged: false,
-  model: SupportedModels.MoveNet,
-}
+  modelConfig: {}
+};
 export const BLAZEPOSE_CONFIG = {
   maxPoses: 1,
-  scoreThreshold: 0.65,
-}
+  scoreThreshold: 0.65
+};
 export const POSENET_CONFIG = {
   maxPoses: 1,
-  scoreThreshold: 0.5,
-}
+  scoreThreshold: 0.5
+};
 export const MOVENET_CONFIG = {
   maxPoses: 1,
-  type: "lightning",
-  scoreThreshold: 0.3,
-}
+  type: 'lightning',
+  scoreThreshold: 0.3
+};
 /**
  * This map descripes tunable flags and theior corresponding types.
  *
@@ -80,35 +67,33 @@ export const TUNABLE_FLAG_VALUE_RANGE_MAP = {
   WEBGL_RENDER_FLOAT32_CAPABLE: [true, false],
   WEBGL_FLUSH_THRESHOLD: [-1, 0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2],
   CHECK_COMPUTATION_FOR_ERRORS: [true, false],
-}
+};
 
 export const BACKEND_FLAGS_MAP = {
-  ["tfjs-wasm"]: ["WASM_HAS_SIMD_SUPPORT", "WASM_HAS_MULTITHREAD_SUPPORT"],
-  ["tfjs-webgl"]: [
-    "WEBGL_VERSION",
-    "WEBGL_CPU_FORWARD",
-    "WEBGL_PACK",
-    "WEBGL_FORCE_F16_TEXTURES",
-    "WEBGL_RENDER_FLOAT32_CAPABLE",
-    "WEBGL_FLUSH_THRESHOLD",
+  ['tfjs-wasm']: ['WASM_HAS_SIMD_SUPPORT', 'WASM_HAS_MULTITHREAD_SUPPORT'],
+  ['tfjs-webgl']: [
+    'WEBGL_VERSION', 'WEBGL_CPU_FORWARD', 'WEBGL_PACK',
+    'WEBGL_FORCE_F16_TEXTURES', 'WEBGL_RENDER_FLOAT32_CAPABLE',
+    'WEBGL_FLUSH_THRESHOLD'
   ],
-  ["mediapipe-gpu"]: [],
-}
+  ['mediapipe-gpu']: []
+};
 
 export const MODEL_BACKEND_MAP = {
-  [posedetection.SupportedModels.PoseNet]: ["tfjs-webgl"],
-  [posedetection.SupportedModels.MoveNet]: ["tfjs-webgl", "tfjs-wasm"],
-  [posedetection.SupportedModels.BlazePose]: isiOS() ? ["tfjs-webgl"] : ["mediapipe-gpu", "tfjs-webgl"],
+  [posedetection.SupportedModels.PoseNet]: ['tfjs-webgl'],
+  [posedetection.SupportedModels.MoveNet]: ['tfjs-webgl', 'tfjs-wasm'],
+  [posedetection.SupportedModels.BlazePose]:
+      isiOS() ? ['tfjs-webgl'] : ['mediapipe-gpu', 'tfjs-webgl']
 }
 
 export const TUNABLE_FLAG_NAME_MAP = {
-  PROD: "production mode",
-  WEBGL_VERSION: "webgl version",
-  WASM_HAS_SIMD_SUPPORT: "wasm SIMD",
-  WASM_HAS_MULTITHREAD_SUPPORT: "wasm multithread",
-  WEBGL_CPU_FORWARD: "cpu forward",
-  WEBGL_PACK: "webgl pack",
-  WEBGL_FORCE_F16_TEXTURES: "enforce float16",
-  WEBGL_RENDER_FLOAT32_CAPABLE: "enable float32",
-  WEBGL_FLUSH_THRESHOLD: "GL flush wait time(ms)",
-}
+  PROD: 'production mode',
+  WEBGL_VERSION: 'webgl version',
+  WASM_HAS_SIMD_SUPPORT: 'wasm SIMD',
+  WASM_HAS_MULTITHREAD_SUPPORT: 'wasm multithread',
+  WEBGL_CPU_FORWARD: 'cpu forward',
+  WEBGL_PACK: 'webgl pack',
+  WEBGL_FORCE_F16_TEXTURES: 'enforce float16',
+  WEBGL_RENDER_FLOAT32_CAPABLE: 'enable float32',
+  WEBGL_FLUSH_THRESHOLD: 'GL flush wait time(ms)'
+};
