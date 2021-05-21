@@ -1,4 +1,4 @@
 import "./style.css"
-import { app } from "./index"
+import { app } from "./example/index"
 
 app()
