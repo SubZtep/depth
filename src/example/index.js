@@ -137,6 +137,7 @@ async function renderResult() {
   // which shouldn't be rendered.
   if (poses.length > 0 && !STATE.isModelChanged) {
     camera.drawResults(poses);
+    globalThis.update(poses[0], camera.width, camera.height)
   }
 }
 
