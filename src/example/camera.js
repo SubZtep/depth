@@ -78,8 +78,8 @@ export class Camera {
     canvasContainer.style = `width: ${videoWidth}px; height: ${videoHeight}px`;
 
     // Because the image from camera is mirrored, need to flip horizontally.
-    camera.ctx.translate(camera.video.videoWidth, 0);
-    camera.ctx.scale(-1, 1);
+      camera.ctx.translate(camera.video.videoWidth, 0);
+      camera.ctx.scale(-1, 1);
 
     return camera;
   }

@@ -12,17 +12,25 @@ body {
   overflow: hidden;
 }
 
-#video {
-  transform: scaleX(-1);
-  visibility: hidden;
-  width: auto;
-  height: auto;
+.videowrapper {
+  background-color: green;
+  position: relative;
+  width: 640px;
+  height: 480px;
 }
 
-#output {
-  position: fixed;
-  bottom: 0;
-  right: 0;
+#video {
+  /* transform: scaleX(-1); */
+  /* visibility: hidden; */
+  width: inherit;
+  height: inherit;
+}
+
+#canvas {
+  position: absolute;
+  top: 0;
+  width: inherit;
+  height: inherit;
 }
 
 .container {
