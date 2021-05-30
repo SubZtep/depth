@@ -15,18 +15,19 @@
   "dependencies": {
     "@mediapipe/pose": "^0.3.1621277220",
     "@tensorflow-models/pose-detection": "^0.0.3",
-    "@tensorflow/tfjs-backend-wasm": "^3.6.0",
-    "@tensorflow/tfjs-backend-webgl": "^3.6.0",
-    "@tensorflow/tfjs-converter": "^3.6.0",
-    "@tensorflow/tfjs-core": "^3.6.0",
-    "aframe": "^1.2.0",
-    "dat.gui": "^0.7.7",
-    "stats.js": "^0.17.0"
+    "@vueuse/core": "^4.11.2",
+    "nprogress": "^0.2.0",
+    "vue": "^3.0.11"
   },
   "devDependencies": {
+    "@types/node": "^15.6.1",
+    "@types/nprogress": "^0.2.0",
+    "@vitejs/plugin-vue": "^1.2.2",
+    "@vue/compiler-sfc": "^3.0.11",
+    "@vue/server-renderer": "^3.0.11",
     "pug": "^3.0.2",
     "typescript": "^4.3.2",
     "vite": "^2.3.4",
-    "vite-plugin-pug": "^0.3.0"
+    "vite-plugin-components": "^0.10.4"
   }
 }
