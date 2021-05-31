@@ -12,10 +12,11 @@ export function useVideoTag() {
     video.muted = true
     video.controls = false
     video.autoplay = true
+    video.style.position = "absolute"
+    video.style.opacity = "0"
     document.body.appendChild(video)
     video.addEventListener("loadeddata", () => {
-      console.log("VIDEO LOADED DATA")
-      loadedData.trigger(true)
+      loadedData.trigger({})
     })
     el.value = video
   })

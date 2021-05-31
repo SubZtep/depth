@@ -32,7 +32,7 @@ export function usePoser() {
   const { stream, start, stop } = useUserMedia({ enabled: true, audioDeviceId: false })
   const { el, onLoadedData } = useVideoTag()
   const visibility = useDocumentVisibility()
-  const pose = reactive<Partial<Pose>>({})
+  const pose = reactive<Pose>({ keypoints: [], score: 0 })
   let getPoses: () => Promise<Pose[]>
 
   const { pause, resume } = useRafFn(

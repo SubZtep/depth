@@ -1,6 +1,14 @@
 <template lang="pug">
-//- button.bordered(@click="enabled = !enabled") {{ enabled ? "Stop" : "Start" }}
-select
+Renderer(antialias resize)
+  //- Camera(:position="{ z: 2 }")
+  Camera
+  Scene(background="red")
+    PointLight
+      Box(:position="{ y: 0, z: -3 }" :rotation="{x: 90, y: 60, z: 90 }")
+        ToonMaterial(color="blue")
+        //- LambertMaterial)
+
+//- select
   option(
     v-for="camera of cameras"
     :key="camera.deviceId"
@@ -13,28 +21,42 @@ select
   //-SkeletonCanvas.pose(:poses="poses")
 </template>
 
-<script lang="ts" setup>
-import { ref, watchEffect, watch } from "vue"
+<script lang="ts">
+import { ref, watchEffect, defineComponent } from "vue"
 import { useDevicesList } from "@vueuse/core"
 import { usePoser } from "../composables/usePoser"
+import { AmbientLight, Box, Camera, ToonMaterial, PointLight, Renderer, Scene } from "troisjs"
 
-const currentCamera = ref<string>()
-const { videoInputs: cameras } = useDevicesList({
-  requestPermissions: true,
-  onUpdated() {
-    if (!cameras.value.find(i => i.deviceId === currentCamera.value)) currentCamera.value = cameras.value[0]?.deviceId
+// const currentCamera = ref<string>()
+// const { videoInputs: cameras } = useDevicesList({
+//   requestPermissions: true,
+//   onUpdated() {
+//     if (!cameras.value.find(i => i.deviceId === currentCamera.value)) currentCamera.value = cameras.value[0]?.deviceId
+//   },
+// })
+
+export default defineComponent({
+  components: {
+    AmbientLight,
+    Box,
+    Camera,
+    ToonMaterial,
+    PointLight,
+    Renderer,
+    Scene,
   },
-})
+  setup() {
+    // const { pose } = usePoser()
 
-const { pose } = usePoser()
-
-watchEffect(() => {
-  console.log("POSES in component", pose.keypoints)
+    // watchEffect(() => {
+    //   console.log("POSES in component", pose.keypoints)
+    // })
+  },
 })
 </script>
 
-<style scoped>
-.wrapper {
+<style>
+/* .wrapper {
   position: relative;
   width: 640px;
   height: 480px;
@@ -46,5 +68,5 @@ watchEffect(() => {
   top: 0;
   width: inherit;
   height: inherit;
-}
+} */
 </style>
