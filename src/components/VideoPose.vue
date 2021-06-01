@@ -1,58 +1,17 @@
 <template lang="pug">
+h3 right_eye {{body.get("right_eye")}} - {{body.get("right_eye")?.x}}
 Renderer(antialias resize)
-  //- Camera(:position="{ z: 2 }")
-  Camera
+  //- Camera(:position="{ z: 3 }" :lookAt="body.get('right_eye')")
+  Camera(:position="{ z: 3 }")
   Scene(background="red")
     PointLight
-      Box(:position="{ y: 0, z: -3 }" :rotation="{x: 90, y: 60, z: 90 }")
+      Box(:position="body.get('right_eye')" :rotation="{x: 90, y: 60, z: 90 }")
         ToonMaterial(color="blue")
-        //- LambertMaterial)
-
-//- select
-  option(
-    v-for="camera of cameras"
-    :key="camera.deviceId"
-    :selected="currentCamera === camera.deviceId"
-    @click="currentCamera = camera.deviceId")
-    | {{ camera.label }}
-
-//-.wrapper
-  video.w-full.h-full(ref="video" muted autoplay)
-  //-SkeletonCanvas.pose(:poses="poses")
 </template>
 
-<script lang="ts">
-import { ref, watchEffect, defineComponent } from "vue"
-import { useDevicesList } from "@vueuse/core"
+<script lang="ts" setup>
 import { usePoser } from "../composables/usePoser"
-import { AmbientLight, Box, Camera, ToonMaterial, PointLight, Renderer, Scene } from "troisjs"
-
-// const currentCamera = ref<string>()
-// const { videoInputs: cameras } = useDevicesList({
-//   requestPermissions: true,
-//   onUpdated() {
-//     if (!cameras.value.find(i => i.deviceId === currentCamera.value)) currentCamera.value = cameras.value[0]?.deviceId
-//   },
-// })
-
-export default defineComponent({
-  components: {
-    AmbientLight,
-    Box,
-    Camera,
-    ToonMaterial,
-    PointLight,
-    Renderer,
-    Scene,
-  },
-  setup() {
-    // const { pose } = usePoser()
-
-    // watchEffect(() => {
-    //   console.log("POSES in component", pose.keypoints)
-    // })
-  },
-})
+const { body } = usePoser()
 </script>
 
 <style>

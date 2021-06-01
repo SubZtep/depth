@@ -4,12 +4,48 @@ import type {
   PoseDetector,
   PoseDetectorInput,
   BlazePoseMediaPipeEstimationConfig,
+  Keypoint,
 } from "@tensorflow-models/pose-detection"
 import "@mediapipe/pose"
 import * as poseDetection from "@tensorflow-models/pose-detection"
 import { useRafFn, useUserMedia, useDocumentVisibility } from "@vueuse/core"
-import { watchEffect, watch, reactive } from "vue"
+import { watchEffect, watch, reactive, computed, ComputedRef } from "vue"
 import { useVideoTag } from "./useVideoTag"
+
+type KeypointName =
+  | "nose"
+  | "left_eye_inner"
+  | "left_eye"
+  | "left_eye_outer"
+  | "right_eye_inner"
+  | "right_eye"
+  | "right_eye_outer"
+  | "left_ear"
+  | "right_ear"
+  | "mouth_left"
+  | "mouth_right"
+  | "left_shoulder"
+  | "right_shoulder"
+  | "left_elbow"
+  | "right_elbow"
+  | "left_wrist"
+  | "right_wrist"
+  | "left_pinky"
+  | "right_pinky"
+  | "left_index"
+  | "right_index"
+  | "left_thumb"
+  | "right_thumb"
+  | "left_hip"
+  | "right_hip"
+  | "left_knee"
+  | "right_knee"
+  | "left_ankle"
+  | "right_ankle"
+  | "left_heel"
+  | "right_heel"
+  | "left_foot_index"
+  | "right_foot_index"
 
 async function initDetector() {
   return await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
@@ -22,24 +58,30 @@ const poser = (detector: PoseDetector) => (image: PoseDetectorInput) => async ()
   const config: Partial<BlazePoseMediaPipeEstimationConfig & BlazePoseModelConfig> = {
     enableSmoothing: true,
   }
-  const poses = await detector.estimatePoses(image, config)
-  return poses
+  return await detector.estimatePoses(image, config)
 }
 
 const detector: PoseDetector = await initDetector()
 
 export function usePoser() {
-  const { stream, start, stop } = useUserMedia({ enabled: true, audioDeviceId: false })
+  const { stream, start: startCam, stop: stopCam } = useUserMedia({ enabled: true, audioDeviceId: false })
   const { el, onLoadedData } = useVideoTag()
   const visibility = useDocumentVisibility()
-  const pose = reactive<Pose>({ keypoints: [], score: 0 })
+
+  const normalizeKeypoint = (point: Keypoint): Keypoint => ({ x: ~~(point.x / 2), y: 0, z: -3 })
+
+  const pose = reactive<Pick<Pose, "keypoints">>({ keypoints: [] })
+  const body = computed(
+    () => new Map(pose.keypoints.map(point => [point.name, normalizeKeypoint(point)]))
+  ) as ComputedRef<Map<KeypointName, ReturnType<typeof normalizeKeypoint>>>
+
   let getPoses: () => Promise<Pose[]>
 
-  const { pause, resume } = useRafFn(
+  const { pause: stopUpdate, resume: startUpdate } = useRafFn(
     async () => {
       if (getPoses) {
         if (el.value!.readyState === 4) {
-          const poses = await getPoses()
+          let poses = await getPoses()
           if (poses.length > 0) {
             pose.keypoints = poses[0].keypoints
           }
@@ -54,17 +96,17 @@ export function usePoser() {
   )
 
   onLoadedData(async () => {
-    await start()
-    resume()
+    await startCam()
+    startUpdate()
   })
 
   watch(visibility, async (current, previous) => {
     if (current === "visible") {
-      await start()
-      resume()
+      await startCam()
+      startUpdate()
     } else if (previous === "visible") {
-      pause()
-      stop()
+      stopUpdate()
+      stopCam()
     }
   })
 
@@ -76,5 +118,6 @@ export function usePoser() {
 
   return {
     pose,
+    body,
   }
 }

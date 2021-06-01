@@ -1,6 +1,7 @@
 <template lang="pug">
 div XXXXXX
-VideoPose.canvas
+VideoPose
+//- VideoPose.canvas
 </template>
 
 <script lang="ts">
@@ -20,7 +21,7 @@ export default defineComponent({
   margin-top: 60px;
 }
 .canvas {
-  width: 640px;
+  width: 80vw;
   height: 480px;
 }
 </style>
