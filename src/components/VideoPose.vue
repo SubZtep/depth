@@ -2,7 +2,7 @@
 h3 right_eye {{body.get("right_eye")}} - {{body.get("right_eye")?.x}}
 Renderer(antialias resize)
   //- Camera(:position="{ z: 3 }" :lookAt="body.get('right_eye')")
-  Camera(:position="{ z: 3 }")
+  Camera(:position="{ y: 1, z: 50 }")
   Scene(background="red")
     PointLight
       Box(:position="body.get('right_eye')" :rotation="{x: 90, y: 60, z: 90 }")
@@ -12,6 +12,8 @@ Renderer(antialias resize)
 <script lang="ts" setup>
 import { usePoser } from "../composables/usePoser"
 const { body } = usePoser()
+
+// body.value.
 </script>
 
 <style>

@@ -12,7 +12,7 @@ import { useRafFn, useUserMedia, useDocumentVisibility } from "@vueuse/core"
 import { watchEffect, watch, reactive, computed, ComputedRef } from "vue"
 import { useVideoTag } from "./useVideoTag"
 
-type KeypointName =
+export type KeypointName =
   | "nose"
   | "left_eye_inner"
   | "left_eye"
@@ -47,6 +47,7 @@ type KeypointName =
   | "left_foot_index"
   | "right_foot_index"
 
+/** create detector for estimating poses */
 async function initDetector() {
   return await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
     runtime: "mediapipe",
@@ -54,6 +55,7 @@ async function initDetector() {
   })
 }
 
+/** estimate pose per frame */
 const poser = (detector: PoseDetector) => (image: PoseDetectorInput) => async () => {
   const config: Partial<BlazePoseMediaPipeEstimationConfig & BlazePoseModelConfig> = {
     enableSmoothing: true,
@@ -67,6 +69,8 @@ export function usePoser() {
   const { stream, start: startCam, stop: stopCam } = useUserMedia({ enabled: true, audioDeviceId: false })
   const { el, onLoadedData } = useVideoTag()
   const visibility = useDocumentVisibility()
+
+  // stream.value?.getVideoTracks()[0].getCapabilities().width
 
   const normalizeKeypoint = (point: Keypoint): Keypoint => ({ x: ~~(point.x / 2), y: 0, z: -3 })
 
