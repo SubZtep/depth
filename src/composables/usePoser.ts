@@ -4,12 +4,11 @@ import type {
   PoseDetector,
   PoseDetectorInput,
   BlazePoseMediaPipeEstimationConfig,
-  Keypoint,
 } from "@tensorflow-models/pose-detection"
 import "@mediapipe/pose"
 import * as poseDetection from "@tensorflow-models/pose-detection"
-import { useRafFn, useUserMedia, useDocumentVisibility } from "@vueuse/core"
-import { watchEffect, watch, reactive, computed, ComputedRef } from "vue"
+import { useRafFn, useUserMedia, useDocumentVisibility, set, pausableWatch } from "@vueuse/core"
+import { onMounted, reactive, ref } from "vue"
 import { useVideoTag } from "./useVideoTag"
 
 export type KeypointName =
@@ -56,72 +55,95 @@ async function initDetector() {
 }
 
 /** estimate pose per frame */
-const poser = (detector: PoseDetector) => (image: PoseDetectorInput) => async () => {
+function poser(detector: PoseDetector, image: PoseDetectorInput) {
   const config: Partial<BlazePoseMediaPipeEstimationConfig & BlazePoseModelConfig> = {
     enableSmoothing: true,
   }
-  return await detector.estimatePoses(image, config)
+  return async () => await detector.estimatePoses(image, config)
 }
 
-const detector: PoseDetector = await initDetector()
-
 export function usePoser() {
-  const { stream, start: startCam, stop: stopCam } = useUserMedia({ enabled: true, audioDeviceId: false })
-  const { el, onLoadedData } = useVideoTag()
+  const { stream, start: startCam, stop: stopCam } = useUserMedia({ enabled: false, audioDeviceId: false })
+  const { el: videoEl, onLoadedData: onVideoLoaded } = useVideoTag()
   const visibility = useDocumentVisibility()
+  let detector: PoseDetector
 
-  // stream.value?.getVideoTracks()[0].getCapabilities().width
-
-  const normalizeKeypoint = (point: Keypoint): Keypoint => ({ x: ~~(point.x / 2), y: 0, z: -3 })
-
+  const width = ref<number>()
+  const height = ref<number>()
   const pose = reactive<Pick<Pose, "keypoints">>({ keypoints: [] })
-  const body = computed(
-    () => new Map(pose.keypoints.map(point => [point.name, normalizeKeypoint(point)]))
-  ) as ComputedRef<Map<KeypointName, ReturnType<typeof normalizeKeypoint>>>
 
   let getPoses: () => Promise<Pose[]>
 
-  const { pause: stopUpdate, resume: startUpdate } = useRafFn(
+  const { pause: pauseUpdate, resume: resumeUpdate } = useRafFn(
     async () => {
-      if (getPoses) {
-        if (el.value!.readyState === 4) {
-          let poses = await getPoses()
-          if (poses.length > 0) {
-            pose.keypoints = poses[0].keypoints
-          }
-        }
-      } else {
-        getPoses = poser(detector)(el.value!)
+      let poses = await getPoses()
+      if (poses.length > 0) {
+        pose.keypoints = poses[0].keypoints
       }
     },
-    {
-      immediate: false,
-    }
+    { immediate: false }
   )
 
-  onLoadedData(async () => {
-    await startCam()
-    startUpdate()
-  })
+  const {
+    pause: pauseWatchVisible,
+    resume: resumeWatchVisible,
+    isActive: isWatchVisibleActive,
+  } = pausableWatch(
+    visibility,
+    async value => {
+      if (value === "visible") {
+        await startCam()
+      } else {
+        pauseUpdate()
+        stopCam()
+      }
+    },
+    { immediate: false }
+  )
 
-  watch(visibility, async (current, previous) => {
-    if (current === "visible") {
-      await startCam()
-      startUpdate()
-    } else if (previous === "visible") {
-      stopUpdate()
+  onVideoLoaded(async loaded => {
+    set(width, loaded.width)
+    set(height, loaded.height)
+    getPoses = poser(detector, loaded.el)
+
+    console.time("first pose")
+    await getPoses()
+    console.timeEnd("first pose")
+
+    if (visibility.value === "visible") {
+      resumeUpdate()
+    } else {
       stopCam()
     }
+
+    if (!isWatchVisibleActive.value) {
+      resumeWatchVisible()
+    }
   })
 
-  watchEffect(() => {
-    if (el.value && stream.value) {
-      el.value.srcObject = stream.value
-    }
+  const { pause: pauseWatchStreamStatus, resume: resumeWatchStreamStatus } = pausableWatch(
+    stream,
+    value => {
+      videoEl.value!.srcObject = value || null
+    },
+    { immediate: false }
+  )
+
+  pauseWatchVisible()
+  pauseWatchStreamStatus()
+  pauseUpdate() // no need?
+
+  onMounted(async () => {
+    console.time("init detector")
+    detector = await initDetector()
+    console.timeEnd("init detector")
+    resumeWatchStreamStatus()
+    startCam()
   })
 
   return {
     pose,
-    body,
+    width,
+    height,
   }
 }

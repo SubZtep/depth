@@ -1,6 +1,6 @@
 <template lang="pug">
-pre {{ pose }}
-//-h3 right_eye {{body.get("right_eye")}} - {{body.get("right_eye")?.x}}
+//- h3 pose {{ pose }}
+h3 right_eye {{body.get("right_eye")}} - {{body.get("right_eye")?.x}}
 //-Renderer(antialias resize)
   //- Camera(:position="{ z: 3 }" :lookAt="body.get('right_eye')")
   Camera(:position="{ y: 1, z: 50 }")
@@ -11,8 +11,10 @@ pre {{ pose }}
 </template>
 
 <script lang="ts" setup>
+import { useBody } from "../composables/useBody"
 import { usePoser } from "../composables/usePoser"
-const { pose } = usePoser()
+const { pose, width, height } = usePoser()
+const { body } = useBody(pose, width, height)
 
 // body.value.
 </script>

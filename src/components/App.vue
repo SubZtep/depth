@@ -1,6 +1,8 @@
 <template lang="pug">
 div XXXXXX
-VideoPose
+
+UserHead
+//- VideoPose
 //- VideoPose.canvas
 </template>
 

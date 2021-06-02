@@ -1,10 +1,16 @@
 import type { Ref } from "vue"
 import { ref, onMounted, onBeforeUnmount } from "vue"
-import { createEventHook } from "@vueuse/core"
+import { createEventHook, until } from "@vueuse/core"
+
+interface LoadedVideo {
+  width: number
+  height: number
+  el: HTMLVideoElement
+}
 
 export function useVideoTag() {
   let el: Ref<HTMLVideoElement | undefined> = ref()
-  const loadedData = createEventHook<any>()
+  const loadedData = createEventHook<LoadedVideo>()
 
   onMounted(() => {
     const video = document.createElement("video")
@@ -15,8 +21,14 @@ export function useVideoTag() {
     video.style.position = "absolute"
     video.style.opacity = "0"
     document.body.appendChild(video)
-    video.addEventListener("loadeddata", () => {
-      loadedData.trigger({})
+    video.addEventListener("loadeddata", async ev => {
+      const vel = ref(ev.target as typeof video)
+      await until(vel).toMatch(v => v.readyState === 4)
+      loadedData.trigger({
+        width: vel.value.videoWidth,
+        height: vel.value.videoHeight,
+        el: video,
+      })
     })
     el.value = video
   })
@@ -30,6 +42,6 @@ export function useVideoTag() {
 
   return {
     el,
-    onLoadedData: loadedData.on
+    onLoadedData: loadedData.on,
   }
 }
