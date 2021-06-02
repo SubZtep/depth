@@ -11,7 +11,8 @@ interface Point {
 type BodyPoints = Map<KeypointName, ReturnType<typeof normalizeKeypoint>>
 
 function normalizeKeypoint(point: Keypoint): Keypoint {
-  return { x: ~~(point.x / 2), y: 0, z: -3 }
+  // return { x: ~~(point.x / 2), y: 0, z: -3 }
+  return { x: point.x, y: 0, z: 0 }
 }
 
 function streamDimensionsPercentage(width: number, height: number) {
@@ -28,6 +29,7 @@ export function useBody(pose: Pose, width: Ref<number | undefined>, height: Ref<
       pcalc.value !== undefined
         ? pose.keypoints.map(kp => {
             const norm = normalizeKeypoint({ ...kp, ...pcalc.value!(kp) })
+            console.log([kp.x, norm.x])
             return [kp.name as KeypointName, norm]
           })
         : []

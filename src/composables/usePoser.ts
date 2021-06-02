@@ -7,7 +7,7 @@ import type {
 } from "@tensorflow-models/pose-detection"
 import "@mediapipe/pose"
 import * as poseDetection from "@tensorflow-models/pose-detection"
-import { useRafFn, useUserMedia, useDocumentVisibility, set, pausableWatch } from "@vueuse/core"
+import { useRafFn, useIntervalFn, useUserMedia, useDocumentVisibility, set, pausableWatch } from "@vueuse/core"
 import { onMounted, reactive, ref } from "vue"
 import { useVideoTag } from "./useVideoTag"
 
@@ -58,11 +58,18 @@ async function initDetector() {
 function poser(detector: PoseDetector, image: PoseDetectorInput) {
   const config: Partial<BlazePoseMediaPipeEstimationConfig & BlazePoseModelConfig> = {
     enableSmoothing: true,
+    flipHorizontal: true,
   }
   return async () => await detector.estimatePoses(image, config)
 }
 
-export function usePoser() {
+interface PoserConfig {
+  interval?: number
+  keypointNames?: KeypointName[]
+  minScore?: number
+}
+
+export function usePoser(config: PoserConfig) {
   const { stream, start: startCam, stop: stopCam } = useUserMedia({ enabled: false, audioDeviceId: false })
   const { el: videoEl, onLoadedData: onVideoLoaded } = useVideoTag()
   const visibility = useDocumentVisibility()
@@ -74,15 +81,16 @@ export function usePoser() {
 
   let getPoses: () => Promise<Pose[]>
 
-  const { pause: pauseUpdate, resume: resumeUpdate } = useRafFn(
-    async () => {
-      let poses = await getPoses()
-      if (poses.length > 0) {
-        pose.keypoints = poses[0].keypoints
-      }
-    },
-    { immediate: false }
-  )
+  const update = async () => {
+    let poses = await getPoses()
+    if (poses.length > 0) {
+      pose.keypoints = poses[0].keypoints
+    }
+  }
+
+  const { pause: pauseUpdate, resume: resumeUpdate } = config.interval
+    ? useIntervalFn(update, 1000, false)
+    : useRafFn(update, { immediate: false })
 
   const {
     pause: pauseWatchVisible,
