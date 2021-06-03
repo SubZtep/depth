@@ -1,14 +1,16 @@
+import type { WritableComputedRef } from "vue"
 import type { BlazePoseModelConfig } from "@tensorflow-models/pose-detection/dist/blazepose_mediapipe/types"
 import type {
   Pose,
   PoseDetector,
   PoseDetectorInput,
   BlazePoseMediaPipeEstimationConfig,
+  Keypoint,
 } from "@tensorflow-models/pose-detection"
 import "@mediapipe/pose"
 import * as poseDetection from "@tensorflow-models/pose-detection"
-import { useRafFn, useIntervalFn, useUserMedia, useDocumentVisibility, set, pausableWatch } from "@vueuse/core"
-import { onMounted, reactive, ref } from "vue"
+import { useRafFn, useIntervalFn, useUserMedia, useDocumentVisibility, pausableWatch } from "@vueuse/core"
+import { computed, onMounted, ref } from "vue"
 import { useVideoTag } from "./useVideoTag"
 
 export type KeypointName =
@@ -64,28 +66,52 @@ function poser(detector: PoseDetector, image: PoseDetectorInput) {
 }
 
 interface PoserConfig {
+  /** update to loading state */
+  isLoading?: WritableComputedRef<boolean>
+  /** delay ms between frames */
   interval?: number
-  keypointNames?: KeypointName[]
+  /** filter to keypoint names */
+  filterKeypointNames?: KeypointName[]
+  /** minimum score to reach for update */
   minScore?: number
+  /** callback function for normalise data */
+  normalize?: (keypoint: Keypoint, width: number, height: number) => Keypoint
 }
 
 export function usePoser(config: PoserConfig) {
   const { stream, start: startCam, stop: stopCam } = useUserMedia({ enabled: false, audioDeviceId: false })
   const { el: videoEl, onLoadedData: onVideoLoaded } = useVideoTag()
   const visibility = useDocumentVisibility()
-  let detector: PoseDetector
 
-  const width = ref<number>()
-  const height = ref<number>()
-  const pose = reactive<Pick<Pose, "keypoints">>({ keypoints: [] })
-
+  const bodyMap = ref<Map<KeypointName, Keypoint>>(new Map())
   let getPoses: () => Promise<Pose[]>
+  let detector: PoseDetector
+  let width = 0
+  let height = 0
 
   const update = async () => {
     let poses = await getPoses()
-    if (poses.length > 0) {
-      pose.keypoints = poses[0].keypoints
+    if (poses.length === 0) {
+      return
     }
+    let keypoints = poses[0].keypoints
+    if (config.filterKeypointNames !== undefined) {
+      keypoints = keypoints.filter(({ name }) => config.filterKeypointNames!.includes(name as KeypointName))
+    }
+    if (config.minScore !== undefined && keypoints.some(({ score }) => !score || score < config.minScore!)) {
+      return
+    }
+    bodyMap.value = new Map(
+      keypoints.map(kp => {
+        delete kp.score
+        const { name } = kp
+        delete kp.name
+        if (config.normalize) {
+          kp = config.normalize(kp, width, height)
+        }
+        return [name as KeypointName, kp]
+      })
+    )
   }
 
   const { pause: pauseUpdate, resume: resumeUpdate } = config.interval
@@ -110,13 +136,17 @@ export function usePoser(config: PoserConfig) {
   )
 
   onVideoLoaded(async loaded => {
-    set(width, loaded.width)
-    set(height, loaded.height)
+    width = loaded.width
+    height = loaded.height
     getPoses = poser(detector, loaded.el)
 
     console.time("first pose")
     await getPoses()
     console.timeEnd("first pose")
+
+    if (config.isLoading) {
+      config.isLoading.value = false
+    }
 
     if (visibility.value === "visible") {
       resumeUpdate()
@@ -131,9 +161,7 @@ export function usePoser(config: PoserConfig) {
 
   const { pause: pauseWatchStreamStatus, resume: resumeWatchStreamStatus } = pausableWatch(
     stream,
-    value => {
-      videoEl.value!.srcObject = value || null
-    },
+    value => (videoEl.value!.srcObject = value || null),
     { immediate: false }
   )
 
@@ -142,6 +170,9 @@ export function usePoser(config: PoserConfig) {
   pauseUpdate() // no need?
 
   onMounted(async () => {
+    if (config.isLoading) {
+      config.isLoading.value = true
+    }
     console.time("init detector")
     detector = await initDetector()
     console.timeEnd("init detector")
@@ -150,8 +181,6 @@ export function usePoser(config: PoserConfig) {
   })
 
   return {
-    pose,
-    width,
-    height,
+    body: computed<Map<KeypointName, Keypoint>>(() => bodyMap.value),
   }
 }

@@ -2,8 +2,6 @@
 div XXXXXX
 
 UserHead
-//- VideoPose
-//- VideoPose.canvas
 </template>
 
 <script lang="ts">

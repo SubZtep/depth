@@ -16,6 +16,7 @@
     "@mediapipe/pose": "^0.3.1621277220",
     "@tensorflow-models/pose-detection": "^0.0.3",
     "@vueuse/core": "^4.11.2",
+    "@vueuse/integrations": "^4.11.2",
     "nprogress": "^0.2.0",
     "three": "^0.127.0",
     "troisjs": "^0.3.1",

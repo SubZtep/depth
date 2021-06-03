@@ -1,29 +1,43 @@
 <template lang="pug">
+h3 body {{ body.get('left_eye') }}
 Renderer(antialias resize)
   //- Camera(:position="{ z: 3 }" :lookAt="body.get('right_eye')")
   Camera(:position="{ x: 50, y: 1, z: 20 }")
   Scene(background="red")
     PointLight
       Box(:position="{ x: 0 }")
-        ToonMaterial(color="blue")
+        ToonMaterial(color="red")
       Box(:position="{ x: 100 }")
+        ToonMaterial(color="red")
+      Box(:position="body.get('left_eye')")
         ToonMaterial(color="blue")
       Box(:position="body.get('right_eye')")
-        ToonMaterial(color="blue")
-      //-Box(:position="body.get('right_eye')" :rotation="{x: 90, y: 60, z: 90 }")
         ToonMaterial(color="blue")
 </template>
 
 <script lang="ts" setup>
-import { useBody } from "../composables/useBody"
 import { usePoser } from "../composables/usePoser"
-const { pose, width, height } = usePoser({
+import { useNProgress } from "@vueuse/integrations"
+const { isLoading } = useNProgress()
+const { body } = usePoser({
+  isLoading,
   interval: 1000,
-  keypointNames: ["left_eye_inner", "left_eye", "left_eye_outer", "right_eye_inner", "right_eye", "right_eye_outer"],
+  filterKeypointNames: [
+    // "left_eye_inner",
+    "left_eye",
+    // "left_eye_outer",
+    // "right_eye_inner",
+    "right_eye",
+    // "right_eye_outer",
+  ],
+  minScore: 0.6,
+  normalize: (kp, width, _height) => {
+    kp.x = (kp.x / width) * 100
+    // kp.y = (kp.y / height) * 100
+    kp.y = 0
+    return kp
+  },
 })
-const { body } = useBody(pose, width, height)
-
-// body.value.
 </script>
 
 <style>
