@@ -65,7 +65,7 @@ function poser(detector: PoseDetector, image: PoseDetectorInput) {
   return async () => await detector.estimatePoses(image, config)
 }
 
-interface PoserConfig {
+interface PoserOptions {
   /** update to loading state */
   isLoading?: WritableComputedRef<boolean>
   /** delay ms between frames */
@@ -78,7 +78,7 @@ interface PoserConfig {
   normalize?: (keypoint: Keypoint, width: number, height: number) => Keypoint
 }
 
-export function usePoser(config: PoserConfig) {
+export function usePoser(options: PoserOptions) {
   const { stream, start: startCam, stop: stopCam } = useUserMedia({ enabled: false, audioDeviceId: false })
   const { el: videoEl, onLoadedData: onVideoLoaded } = useVideoTag()
   const visibility = useDocumentVisibility()
@@ -95,10 +95,10 @@ export function usePoser(config: PoserConfig) {
       return
     }
     let keypoints = poses[0].keypoints
-    if (config.filterKeypointNames !== undefined) {
-      keypoints = keypoints.filter(({ name }) => config.filterKeypointNames!.includes(name as KeypointName))
+    if (options.filterKeypointNames !== undefined) {
+      keypoints = keypoints.filter(({ name }) => options.filterKeypointNames!.includes(name as KeypointName))
     }
-    if (config.minScore !== undefined && keypoints.some(({ score }) => !score || score < config.minScore!)) {
+    if (options.minScore !== undefined && keypoints.some(({ score }) => !score || score < options.minScore!)) {
       return
     }
     bodyMap.value = new Map(
@@ -106,15 +106,15 @@ export function usePoser(config: PoserConfig) {
         delete kp.score
         const { name } = kp
         delete kp.name
-        if (config.normalize) {
-          kp = config.normalize(kp, width, height)
+        if (options.normalize) {
+          kp = options.normalize(kp, width, height)
         }
         return [name as KeypointName, kp]
       })
     )
   }
 
-  const { pause: pauseUpdate, resume: resumeUpdate } = config.interval
+  const { pause: pauseUpdate, resume: resumeUpdate } = options.interval
     ? useIntervalFn(update, 1000, false)
     : useRafFn(update, { immediate: false })
 
@@ -144,8 +144,8 @@ export function usePoser(config: PoserConfig) {
     await getPoses()
     console.timeEnd("first pose")
 
-    if (config.isLoading) {
-      config.isLoading.value = false
+    if (options.isLoading) {
+      options.isLoading.value = false
     }
 
     if (visibility.value === "visible") {
@@ -170,8 +170,8 @@ export function usePoser(config: PoserConfig) {
   pauseUpdate() // no need?
 
   onMounted(async () => {
-    if (config.isLoading) {
-      config.isLoading.value = true
+    if (options.isLoading) {
+      options.isLoading.value = true
     }
     console.time("init detector")
     detector = await initDetector()

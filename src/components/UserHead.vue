@@ -1,6 +1,8 @@
 <template lang="pug">
-h3 body {{ body.get('left_eye') }}
-Renderer(antialias resize)
+//- h3 body {{ body.get('left_eye') }}
+
+div.canvas(ref="canvas")
+//-Renderer(antialias resize)
   //- Camera(:position="{ z: 3 }" :lookAt="body.get('right_eye')")
   Camera(:position="{ x: 50, y: 1, z: 20 }")
   Scene(background="red")
@@ -16,8 +18,13 @@ Renderer(antialias resize)
 </template>
 
 <script lang="ts" setup>
-import { usePoser } from "../composables/usePoser"
+import { ref } from "vue"
 import { useNProgress } from "@vueuse/integrations"
+import { usePoser } from "../composables/usePoser"
+import { useThree } from "../composables/useThree"
+import { useSkeleton } from "../composables/useSkeleton"
+import * as THREE from "three"
+
 const { isLoading } = useNProgress()
 const { body } = usePoser({
   isLoading,
@@ -38,9 +45,27 @@ const { body } = usePoser({
     return kp
   },
 })
+
+const canvas = ref<HTMLElement | null>(null)
+const { scene, invokeRafSync, camera } = useThree(canvas)
+
+useSkeleton({ body, scene, invokeRafSync, camera })
+
+// const geometry = new THREE.BoxGeometry()
+// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+// const cube = new THREE.Mesh(geometry, material)
+// scene.add(cube)
+
+// invokeRafSync.add(() => {
+//   cube.rotation.x += 0.01
+//   cube.rotation.y += 0.01
+// })
 </script>
 
 <style>
+.canvas {
+  height: 300px;
+}
 /* .wrapper {
   position: relative;
   width: 640px;

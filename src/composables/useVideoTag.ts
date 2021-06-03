@@ -19,7 +19,8 @@ export function useVideoTag() {
     video.controls = false
     video.autoplay = true
     video.style.position = "absolute"
-    video.style.opacity = "0"
+    video.style.visibility = "hidden"
+    // video.style.opacity = "0"
     document.body.appendChild(video)
     video.addEventListener("loadeddata", async ev => {
       const vel = ref(ev.target as typeof video)
