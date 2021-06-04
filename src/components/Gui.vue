@@ -7,7 +7,7 @@
 
   label
     input(type="checkbox" v-model="threeOn")
-    | ThreeJS WebGL ON 𓀼 {{threeOn}}
+    | ThreeJS WebGL ON  {{threeOn}}
 
 </template>
 

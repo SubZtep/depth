@@ -1,9 +1,5 @@
 <template lang="pug">
-p {{skyboxNumber}}
-canvas.canvas(ref="canvas")
-
-Gui(:onThree="skyboxNumber")
-
+canvas(ref="canvas")
 </template>
 
 <script lang="ts" setup>
@@ -13,9 +9,6 @@ import { useThree } from "../composables/useThree"
 import { useSkeleton } from "../composables/useSkeleton"
 import { unrefElement } from "@vueuse/core"
 
-function onThree() {
-  //
-}
 
 const opts: PoserOptions = {
   focusJoints: ["left_eye_inner", "left_eye", "left_eye_outer", "right_eye"],

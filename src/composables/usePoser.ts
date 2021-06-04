@@ -45,7 +45,9 @@ export function usePoser(options?: PoserOptions = {}) {
     focusJoints: ["left_eye_inner", "left_eye", "left_eye_outer", "right_eye"],
     interval: 1666,
     minScore: 0.69,
-    normalizer: campxToPc,
+    normalizer: (w, h) => {
+      return p => [(p.x / w) * 100, (p.y / h) * 0, 0]
+    },
   }
   const { interval = 0, minScore = 0.69, focusJoints = [] } = options
 
