@@ -1,4 +1,3 @@
-import type { WritableComputedRef } from "vue"
 import type { BlazePoseModelConfig } from "@tensorflow-models/pose-detection/dist/blazepose_mediapipe/types"
 import type {
   Pose,
@@ -8,10 +7,12 @@ import type {
   Keypoint,
 } from "@tensorflow-models/pose-detection"
 import "@mediapipe/pose"
-import * as poseDetection from "@tensorflow-models/pose-detection"
 import { useRafFn, useIntervalFn, useUserMedia, useDocumentVisibility, pausableWatch } from "@vueuse/core"
-import { computed, onMounted, ref } from "vue"
+import * as poseDetection from "@tensorflow-models/pose-detection"
+import { useNProgress } from "@vueuse/integrations"
 import { useVideoTag } from "./useVideoTag"
+import { reactive, onMounted, computed } from "vue"
+import * as THREE from "three"
 
 export type KeypointName =
   | "nose"
@@ -48,6 +49,18 @@ export type KeypointName =
   | "left_foot_index"
   | "right_foot_index"
 
+interface NamedKeypoint extends Omit<Keypoint, "name"> {
+  name: KeypointName
+}
+
+export type BodyPoint = {
+  position: THREE.Vector3Tuple
+}
+
+export type BodyPoints = {
+  [name in KeypointName]?: BodyPoint
+}
+
 /** create detector for estimating poses */
 async function initDetector() {
   return await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
@@ -65,25 +78,39 @@ function poser(detector: PoseDetector, image: PoseDetectorInput) {
   return async () => await detector.estimatePoses(image, config)
 }
 
+function filterKeypoints(poses: Pose[], residualKeypoints?: KeypointName[], minScore?: number): NamedKeypoint[] {
+  if (poses.length === 0) {
+    throw new Error("no pose")
+  }
+  let keypoints = poses[0].keypoints as NamedKeypoint[]
+  if (residualKeypoints !== undefined) {
+    keypoints = keypoints.filter(({ name }) => residualKeypoints!.includes(name))
+  }
+  if (minScore !== undefined && keypoints.some(({ score }) => !score || score < minScore)) {
+    throw new Error("bad keypoint scores")
+  }
+  return keypoints
+}
+
 interface PoserOptions {
-  /** update to loading state */
-  isLoading?: WritableComputedRef<boolean>
   /** delay ms between frames */
   interval?: number
   /** filter to keypoint names */
-  filterKeypointNames?: KeypointName[]
+  residualKeypoints?: KeypointName[]
   /** minimum score to reach for update */
   minScore?: number
   /** callback function for normalise data */
-  normalize?: (keypoint: Keypoint, width: number, height: number) => Keypoint
+  normalize?: (keypoint: NamedKeypoint, width: number, height: number) => NamedKeypoint
 }
 
+// export function usePoser({ interval, residualKeypoints, minScore, normalize }: PoserOptions) {
 export function usePoser(options: PoserOptions) {
+  const { done: loadingDone } = useNProgress().start()
   const { stream, start: startCam, stop: stopCam } = useUserMedia({ enabled: false, audioDeviceId: false })
   const { el: videoEl, onLoadedData: onVideoLoaded } = useVideoTag()
   const visibility = useDocumentVisibility()
 
-  const bodyMap = ref<Map<KeypointName, Keypoint>>(new Map())
+  let body: BodyPoints = reactive({})
   let getPoses: () => Promise<Pose[]>
   let detector: PoseDetector
   let width = 0
@@ -91,32 +118,32 @@ export function usePoser(options: PoserOptions) {
 
   const update = async () => {
     let poses = await getPoses()
-    if (poses.length === 0) {
+
+    //console.log("PPP", poses)
+
+    let keypoints: NamedKeypoint[]
+
+    try {
+      keypoints = filterKeypoints(poses, options.residualKeypoints, options.minScore)
+    } catch (e)  {
+      console.error(e.message)
       return
     }
-    let keypoints = poses[0].keypoints
-    if (options.filterKeypointNames !== undefined) {
-      keypoints = keypoints.filter(({ name }) => options.filterKeypointNames!.includes(name as KeypointName))
-    }
-    if (options.minScore !== undefined && keypoints.some(({ score }) => !score || score < options.minScore!)) {
-      return
-    }
-    bodyMap.value = new Map(
+
+    console.log("OOP", keypoints)
+
+    Object.assign(body, Object.fromEntries(
       keypoints.map(kp => {
-        delete kp.score
-        const { name } = kp
-        delete kp.name
         if (options.normalize) {
           kp = options.normalize(kp, width, height)
         }
-        return [name as KeypointName, kp]
+        return [kp.name, { position: [kp.x, kp.y, kp.z || 0] }]
       })
-    )
+    ))
   }
 
-  const { pause: pauseUpdate, resume: resumeUpdate } = options.interval
-    ? useIntervalFn(update, 1000, false)
-    : useRafFn(update, { immediate: false })
+  const { pause: pauseUpdate, resume: resumeUpdate } =
+    options.interval !== undefined ? useIntervalFn(update, options.interval, false) : useRafFn(update, { immediate: false })
 
   const {
     pause: pauseWatchVisible,
@@ -144,9 +171,7 @@ export function usePoser(options: PoserOptions) {
     await getPoses()
     console.timeEnd("first pose")
 
-    if (options.isLoading) {
-      options.isLoading.value = false
-    }
+    loadingDone()
 
     if (visibility.value === "visible") {
       resumeUpdate()
@@ -170,9 +195,6 @@ export function usePoser(options: PoserOptions) {
   pauseUpdate() // no need?
 
   onMounted(async () => {
-    if (options.isLoading) {
-      options.isLoading.value = true
-    }
     console.time("init detector")
     detector = await initDetector()
     console.timeEnd("init detector")
@@ -180,7 +202,9 @@ export function usePoser(options: PoserOptions) {
     startCam()
   })
 
-  return {
-    body: computed<Map<KeypointName, Keypoint>>(() => bodyMap.value),
-  }
+  return computed<BodyPoints>(() => body)
+  // return {
+  //   body: computed<BodyPoints>(() => body),
+  //   // body: reactive(bodyMap),
+  // }
 }

@@ -1,67 +1,70 @@
-import type { Keypoint } from "@tensorflow-models/pose-detection"
-import type { Ref, ComputedRef } from "vue"
+import type { BodyPoint, BodyPoints, KeypointName } from "./usePoser"
+import { invoke, pausableWatch, until, toRefs } from "@vueuse/core"
+import type { ComputedRef, Ref, UnwrapRef } from "vue"
 import { onMounted } from "vue"
-import { invoke, pausableWatch, until } from "@vueuse/core"
-import type { KeypointName } from "./usePoser"
 import * as THREE from "three"
-import { Vector3 } from "three"
 
 interface SkeletonOptions {
-  body: ComputedRef<Map<KeypointName, Keypoint>>
+  // body: UnwrapRef<BodyPoints>
+  body: ComputedRef<BodyPoints>
   scene: THREE.Scene
-  invokeRafSync: Set<() => void>
   camera: Ref<THREE.Camera | undefined>
+  invokeRafSync: Set<(delta: number) => void>
 }
 
-function xyzToVector3({ x, y, z }: Keypoint) {
-  return new Vector3(x, y, z)
+// function bodyWalker(cb: (key: KeypointName, bp: BodyPoint) => void, body: ComputedRef<BodyPoints>) {
+//   let key: KeypointName
+//   for (key of Object.keys(body) as KeypointName[]) {
+//     cb(key, body[key]!)
+//   }
+// }
+
+function bodyWalker(body: ComputedRef<BodyPoints>) {
+  return (cb: (key: KeypointName, bp: BodyPoint) => void) => {
+    let key: KeypointName
+    for (key of Object.keys(body) as KeypointName[]) {
+      cb(key, body[key]!)
+    }
+  }
 }
 
-function xyzToDestruct({ x, y, z }: Keypoint): [number, number, number] {
-  return [x, y, z || 0]
+function sphereFactory(name: string, position: THREE.Vector3Tuple) {
+  const material = new THREE.MeshBasicMaterial({ color: 0x8a0303 })
+  const geometry = new THREE.SphereGeometry()
+  const sphere = new THREE.Mesh(geometry, material)
+  sphere.name = name
+  sphere.position.fromArray(position)
+  return sphere
 }
 
 export function useSkeleton(options: SkeletonOptions) {
   const joints = new Map<KeypointName, THREE.Object3D>()
 
-  const material = new THREE.MeshBasicMaterial({ color: 0x8a0303 })
-  const geometry = new THREE.SphereGeometry()
-
-  const { pause: pauseBody, resume: resumeBody } = pausableWatch(
-    options.body,
-    v => {
-      for (const [name, kp] of v.entries()) {
-        joints.get(name)?.position.set(...xyzToDestruct(kp))
-      }
+  const { pause: pauseBodyWatch, resume: resumeBodyWatch } = pausableWatch(
+    () => ({ ...options.body }),
+    () => {
+      bodyWalker(options.body)((key, bp) => {
+        joints.get(key)!.position.fromArray(bp.position)
+      })
     },
-    {
-      immediate: false,
-    }
+    { immediate: false }
   )
-  pauseBody()
+  pauseBodyWatch()
 
   onMounted(async () => {
     await invoke(async () => {
-      await until(options.body).toMatch(v => v.size > 0)
-
-      let pos: THREE.Vector3 = new Vector3()
-
-      options.body.value.forEach((value, key) => {
-        console.log(key, xyzToDestruct(value))
-        // pos = xyzToVector3(value)
-        pos.set(...xyzToDestruct(value))
-
-        const sphere = new THREE.Mesh(geometry, material)
-        sphere.name = key
-        sphere.position.set(...xyzToDestruct(value))
-
-        joints.set(key, sphere)
-        options.scene.add(sphere)
-      })
-
-      options.camera.value?.lookAt(pos)
-      resumeBody()
+      await until(() => ({ ...options.body })).toMatch(bp => Object.keys(bp).length > 0)
     })
+    console.log("VEEGRE", options.body.value)
+
+    bodyWalker(options.body)((key, bp) => {
+      console.log("INDAWALKER", key)
+      const sphere = sphereFactory(key, bp.position)
+      joints.set(key, sphere)
+      options.scene.add(sphere)
+    })
+
+    resumeBodyWatch()
   })
 
   return {}
