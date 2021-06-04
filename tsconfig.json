@@ -10,11 +10,19 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "types": ["vite/client"],
     "noEmit": true,
     "noUnusedLocals": false,
     "noUnusedParameters": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "types": [
+      "vite/client",
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types",
+      // "./node_modules/@tensorflow-models/pose-detection/dist/types.d",
+      // "./node_modules/@tensorflow-models/pose-detection/dist/blazepose_mediapipe/types"
+    ]
   },
   "include": ["./src"]
 }

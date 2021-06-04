@@ -17,9 +17,11 @@
     "@tensorflow-models/pose-detection": "^0.0.3",
     "@vueuse/core": "^4.11.2",
     "@vueuse/integrations": "^4.11.2",
+    "camera-controls": "^1.28.3",
     "nprogress": "^0.2.0",
     "three": "^0.129.0",
-    "vue": "^3.0.11"
+    "vue": "^3.0.11",
+    "vue-chemistry": "^0.2.2"
   },
   "devDependencies": {
     "@types/node": "^15.12.0",

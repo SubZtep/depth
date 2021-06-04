@@ -41,3 +41,7 @@ type KeypointName =
 ## Based On
 
 - https://github.com/tensorflow/tfjs-models/tree/master/pose-detection/demos/live_video
+
+## TODOish
+
+- [ ] [three-shaking three for camera control](https://github.com/yomotsu/camera-controls#important)
