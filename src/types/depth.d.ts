@@ -74,3 +74,21 @@ declare type NormalizerFn = (
 
 
 type InvokeUpdater = Set<(deltaTime: number) => void>
+
+/** there are defaults */
+interface PoserOptions {
+  /** delay ms between frames, zero request animation frames */
+  interval?: number
+  /** filter to keypoint names */
+  focusJoints?: Joint[]
+
+  /** filter keypoints by score 0-1 — minimum score to reach for update */
+  minScore?: number
+
+  normalizer?: NormalizerFn
+}
+
+// interface SkeletonOptions {
+//   // body: import("vue").ComputedRef<JointPoints>
+//   updater: Set<(delta: number) => void>
+// }

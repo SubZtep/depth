@@ -20,7 +20,6 @@ export function useVideoTag() {
     video.autoplay = true
     video.style.position = "absolute"
     video.style.visibility = "hidden"
-    // video.style.opacity = "0"
     document.body.appendChild(video)
     video.addEventListener("loadeddata", async ev => {
       const vel = ref(ev.target as typeof video)
@@ -37,7 +36,6 @@ export function useVideoTag() {
   onBeforeUnmount(() => {
     if (el.value) {
       el.value.pause()
-      //FIXME: unref or something?
     }
   })
 

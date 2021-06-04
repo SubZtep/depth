@@ -36,7 +36,17 @@ function filterKeypoints(poses: Pose[], focusJoints: Joint[], minScore: number):
   return keypoints
 }
 
-export function usePoser(normalizer: NormalizerFn, options: PoserOptions = {}) {
+function campxToPc(w, h) {
+  return p => [(p.x / w) * 100, (p.y / h) * 0, 0]
+}
+
+export function usePoser(options?: PoserOptions = {}) {
+  const opts: PoserOptions = {
+    focusJoints: ["left_eye_inner", "left_eye", "left_eye_outer", "right_eye"],
+    interval: 1666,
+    minScore: 0.69,
+    normalizer: campxToPc,
+  }
   const { interval = 0, minScore = 0.69, focusJoints = [] } = options
 
   const { done: loadingDone } = useNProgress().start()

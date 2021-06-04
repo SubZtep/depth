@@ -1,14 +1,16 @@
 * {
   box-sizing: border-box;
+  /* user-select: none; */
 }
 
 body {
   touch-action: pan-x pan-y;
-  background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%);
-  font-family: "Trebuchet MS", sans-serif;
+  background-image: linear-gradient(180deg, #009efd 0%, #2af598 69%);
   color: #000;
   width: 100vw;
   height: 100vh;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
 }
 
@@ -40,14 +42,18 @@ body {
   height: inherit;
 }
 
-#canvas {
+.canvas {
   position: absolute;
   top: 0;
   width: inherit;
   height: inherit;
 }
 
-.container {
-  z-index: 1;
-  position: absolute;
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }

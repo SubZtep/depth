@@ -24,12 +24,11 @@
     "vue-chemistry": "^0.2.2"
   },
   "devDependencies": {
-    "@types/node": "^15.12.0",
+    "@types/node": "^15.12.1",
     "@types/nprogress": "^0.2.0",
-    "@types/three": "^0.129.0",
+    "@types/three": "^0.129.1",
     "@vitejs/plugin-vue": "^1.2.3",
     "@vue/compiler-sfc": "^3.0.11",
-    "@vue/server-renderer": "^3.0.11",
     "pug": "^3.0.2",
     "typescript": "^4.3.2",
     "vite": "^2.3.6",

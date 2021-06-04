@@ -19,9 +19,7 @@
     ],
     "typeRoots": [
       "./node_modules/@types",
-      "./src/types",
-      // "./node_modules/@tensorflow-models/pose-detection/dist/types.d",
-      // "./node_modules/@tensorflow-models/pose-detection/dist/blazepose_mediapipe/types"
+      "./src/types"
     ]
   },
   "include": ["./src"]
