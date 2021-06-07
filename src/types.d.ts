@@ -1,5 +1,7 @@
 // import { Keypoint } from "@tensorflow-models/pose-detection"
 
+// import type { Ref } from "vue"
+
 // import { Keypoint } from "@tensorflow-models/pose-detection"
 
 // import { Keypoint } from "@tensorflow-models/pose-detection"
@@ -72,7 +74,6 @@ declare type NormalizerFn = (
   streamHeight: number
 ) => ({ x, y, z }: { x: number; y: number; z?: number }) => THREE.Vector3Tuple
 
-
 type InvokeUpdater = Set<(deltaTime: number) => void>
 
 /** there are defaults */
@@ -86,9 +87,20 @@ interface PoserOptions {
   minScore?: number
 
   normalizer?: NormalizerFn
+
+  // modelConfig: Partial<BlazePoseMediaPipeEstimationConfig & BlazePoseModelConfig>
+  modelConfig?: {
+    enableSmoothing: boolean
+    flipHorizontal: boolean
+  }
 }
 
 // interface SkeletonOptions {
 //   // body: import("vue").ComputedRef<JointPoints>
 //   updater: Set<(delta: number) => void>
+// }
+
+// declare function useThree(canvasRef: Ref<HTMLCanvasElement | undefined>): {
+// declare function useThree(canvasRef: HTMLCanvasElement | undefined): {
+//   updater: Set<(delta: number) => void
 // }

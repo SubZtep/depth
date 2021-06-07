@@ -1,6 +1,7 @@
 {
   "deno.enable": false,
   // "workbench.colorTheme": "SynthWave '84",
+  "typescript.tsdk": "node_modules/typescript/lib",
   "windicss.enableCodeFolding": true,
   "windicss.foldByLength": true,
   "windicss.includeLanguages": {},

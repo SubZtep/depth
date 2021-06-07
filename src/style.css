@@ -6,12 +6,12 @@
 body {
   touch-action: pan-x pan-y;
   background-image: linear-gradient(180deg, #009efd 0%, #2af598 69%);
-  color: #000;
+  /* color: #000; */
   width: 100vw;
   height: 100vh;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 #nprogress {
@@ -42,18 +42,47 @@ body {
   height: inherit;
 }
 
-.canvas {
-  position: absolute;
-  top: 0;
-  width: inherit;
-  height: inherit;
-}
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 60px; */
+  position: relative;
+
+  width: 100vw;
+  height: 100vh;
+}
+
+#app > canvas {
+  /* background: red; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+}
+
+#app > video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+#app > .gui {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  padding: 15px;
+  background: linear-gradient(to bottom, #b8860b, darkgreen);
+  border: 2px solid darkslategrey;
+  border-radius: 6px;
+  color: yellow;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 200;
 }
