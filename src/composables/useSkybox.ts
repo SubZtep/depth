@@ -1,9 +1,8 @@
 import type { Ref } from "vue"
-import { ref } from "vue"
 import * as THREE from "three"
 import { debouncedWatch } from "@vueuse/core"
 
-export function useSkybox(scene: THREE.Scene, skyboxNumber: Ref<number> = ref(3)) {
+export function useSkybox(scene: THREE.Scene, skyboxNumber: Ref<number>) {
   const loader = new THREE.CubeTextureLoader()
 
   debouncedWatch(

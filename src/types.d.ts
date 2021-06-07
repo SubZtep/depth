@@ -1,5 +1,7 @@
 // import { Keypoint } from "@tensorflow-models/pose-detection"
 
+// import CameraControls from "camera-controls"
+
 // import type { Ref } from "vue"
 
 // import { Keypoint } from "@tensorflow-models/pose-detection"
@@ -94,4 +96,12 @@ interface PoseNormalizerOptions {
   minScore?: number
 
   normalizer?: ({ x, y, z }: { x: number; y: number; z?: number }) => THREE.Vector3Tuple //NormalizerFn
+}
+
+interface ThreeProps {
+  clock: THREE.Clock
+  cameraControls: import("camera-controls").default
+  renderer: THREE.Renderer
+  scene: THREE.Scene
+  camera: THREE.PerspectiveCamera
 }
