@@ -78,6 +78,13 @@ type InvokeUpdater = Set<(deltaTime: number) => void>
 
 /** there are defaults */
 interface PoserOptions {
+  modelConfig?: {
+    enableSmoothing: boolean
+    flipHorizontal: boolean
+  }
+}
+
+interface PoseNormalizerOptions {
   /** delay ms between frames, zero request animation frames */
   interval?: number
   /** filter to keypoint names */
@@ -86,21 +93,5 @@ interface PoserOptions {
   /** filter keypoints by score 0-1 — minimum score to reach for update */
   minScore?: number
 
-  normalizer?: NormalizerFn
-
-  // modelConfig: Partial<BlazePoseMediaPipeEstimationConfig & BlazePoseModelConfig>
-  modelConfig?: {
-    enableSmoothing: boolean
-    flipHorizontal: boolean
-  }
+  normalizer?: ({ x, y, z }: { x: number; y: number; z?: number }) => THREE.Vector3Tuple //NormalizerFn
 }
-
-// interface SkeletonOptions {
-//   // body: import("vue").ComputedRef<JointPoints>
-//   updater: Set<(delta: number) => void>
-// }
-
-// declare function useThree(canvasRef: Ref<HTMLCanvasElement | undefined>): {
-// declare function useThree(canvasRef: HTMLCanvasElement | undefined): {
-//   updater: Set<(delta: number) => void
-// }

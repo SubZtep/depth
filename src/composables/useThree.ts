@@ -1,5 +1,5 @@
 import * as THREE from "three"
-import type { Ref } from "vue"
+import { ref, Ref } from "vue"
 import { invoke, until, unrefElement, useRafFn, debouncedWatch, useWindowSize } from "@vueuse/core"
 import { useSkybox } from "../composables/useSkybox"
 import { useFloor } from "../composables/useFloor"
@@ -15,6 +15,8 @@ export function useThree(canvasRef?: Ref<HTMLCanvasElement | undefined>) {
   const updater = new Set<(delta: number) => void>()
   const clock = new THREE.Clock()
   CameraControls.install({ THREE: THREE })
+
+  const skybox = ref(3)
 
   const setDimensions = () => {
     renderer.setSize(width.value, height.value)
@@ -49,7 +51,7 @@ export function useThree(canvasRef?: Ref<HTMLCanvasElement | undefined>) {
     setDimensions()
 
     scene.add(useFloor())
-    useSkybox(scene)
+    useSkybox(scene, skybox)
 
     resume()
   }
@@ -64,5 +66,6 @@ export function useThree(canvasRef?: Ref<HTMLCanvasElement | undefined>) {
   return {
     initThree,
     updater,
+    skybox,
   }
 }
