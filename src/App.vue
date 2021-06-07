@@ -1,61 +1,99 @@
 <template lang="pug">
 canvas(ref="canvasRef")
 video(ref="videoRef" playsinline muted autoplay :class="{ visible: guiParams.preview }")
-.gui {{ guiParams }} {{ body }}
+.gui {{ guiParams }} {{ body }} {{state}}
 </template>
 
 <script lang="ts" setup>
 import type { Fn } from "@vueuse/core"
-import { ref, toRef, onMounted, reactive } from "vue"
-import { unrefElement, useRafFn } from "@vueuse/core"
+import { ref, toRef, reactive, watch } from "vue"
+import { unrefElement, invoke, until, useRafFn, whenever, get, set } from "@vueuse/core"
+import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { useThree } from "./composables/useThree"
 import { usePoser } from "./composables/usePoser"
 import { usePoseNormalizer } from "./composables/usePoseNormalizer"
 import { useTweakGui } from "./composables/useTweakGui"
 import { useCam } from "./composables/useCam"
+const { isLoading } = useNProgress()
 
 const canvasRef = ref<HTMLCanvasElement>()
 const videoRef = ref<HTMLVideoElement>()
 
-const { onThree, skybox } = useThree(canvasRef)
+const { onThree } = useThree(canvasRef)
 
-const guiParams = reactive({
+const guiParams = reactive<GuiParams>({
   webcam: false,
-  preview: true,
-  skybox,
+  preview: false,
+  isActive: false,
+  timePerFrame: 0,
+  loadPoser: false,
+  startPoser: false,
 })
 
 const { onStream } = useCam(videoRef, toRef(guiParams, "webcam"))
-const { initPoser, state, execute } = usePoser()
+const { initPoser, state, execute, isReady } = usePoser()
 const { setStreamDimensions, body } = usePoseNormalizer(state)
-
-useTweakGui(guiParams, {
-  execute,
-})
 
 onStream(setStreamDimensions)
 
 const updateer =
   ({ clock, cameraControls, renderer, scene, camera }: ThreeProps) =>
   () => {
+    const now = Date.now()
     const delta = clock.getDelta()
     cameraControls.update(delta)
+
+    if (get(isReady)) {
+      execute()
+    }
+
     renderer.render(scene, camera)
+    guiParams.timePerFrame = Date.now() - now
   }
 
 let update: Fn
 
-const { resume } = useRafFn(() => update(), { immediate: false })
+const { pause, resume } = useRafFn(() => update(), { immediate: false })
+const { pane } = useTweakGui(guiParams)
 
-onThree(props => {
+onThree(async props => {
   update = updateer(props)
-  resume()
+
+  guiParams.isActive = true
+  pane.refresh()
 })
 
-onMounted(async () => {
-  const video: HTMLVideoElement = unrefElement(videoRef)
+watch(
+  () => guiParams.isActive,
+  run => (run ? resume() : pause())
+)
+
+invoke(async () => {
+  await until(() => guiParams.loadPoser).toBeTruthy()
+
+  set(isLoading, true)
   console.time("poser")
+  const video: HTMLVideoElement = unrefElement(videoRef)
   await initPoser(video)
   console.timeEnd("poser")
+  set(isLoading, false)
+  guiParams.loadPoser = false
 })
+
+whenever(
+  () => guiParams.startPoser,
+  async () => {
+    if (!get(isReady)) {
+      console.warn("poser isn't ready", isReady.value)
+      return
+    }
+
+    set(isLoading, true)
+    console.time("execute")
+    await execute()
+    console.timeEnd("execute")
+    set(isLoading, false)
+    guiParams.startPoser = false
+  }
+)
 </script>

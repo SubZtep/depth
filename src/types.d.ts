@@ -105,3 +105,16 @@ interface ThreeProps {
   scene: THREE.Scene
   camera: THREE.PerspectiveCamera
 }
+
+// const vue = import("vue")
+
+interface GuiParams {
+  webcam: boolean
+  preview: boolean
+  // skybox: number
+  // skybox: import("vue").Ref<number>
+  isActive: boolean
+  timePerFrame: number
+  loadPoser: boolean
+  startPoser: boolean
+}

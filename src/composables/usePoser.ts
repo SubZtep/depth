@@ -9,34 +9,34 @@ export function usePoser(options: PoserOptions = {}) {
   } = options
 
   let detector: PoseDetector | undefined = undefined
-  let _image: HTMLVideoElement // PoseDetectorInput
+  let inputImage: HTMLVideoElement // PoseDetectorInput
 
   const { state, isReady, execute } = useAsyncState(
     async () => {
-      if (_image.readyState !== 4) {
+      if (inputImage.readyState !== 4) {
         return Promise.reject(new Error("no video input"))
       }
-      return await detector!.estimatePoses(_image, modelConfig)
+      return await detector!.estimatePoses(inputImage, modelConfig)
     },
     [],
     {
+      // delay: 2000,
       immediate: false,
       resetOnExecute: false,
-      onError: e => {
-        console.log("estimate poses error", e.message)
-        // state.value = []
-      }
+      // onError: e => {
+      //   console.log("estimate poses error", e.message)
+      //   // state.value = []
+      // }
     }
   )
 
   const initPoser = async (image: HTMLVideoElement) => {
-    _image = image
+    inputImage = image
 
     detector = await createDetector(SupportedModels.BlazePose, {
       runtime: "mediapipe",
       solutionPath: "../node_modules/@mediapipe/pose",
     })
-    // await execute()
   }
 
   return {
