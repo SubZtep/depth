@@ -5,6 +5,8 @@ import { debouncedWatch } from "@vueuse/core"
 export function useSkybox(scene: THREE.Scene, skyboxNumber = ref(15)) {
   const loader = new THREE.CubeTextureLoader()
 
+  skyboxNumber.value = 5
+
   debouncedWatch(
     skyboxNumber,
     value => {

@@ -21,8 +21,8 @@ export function usePoseNormalizer(poses: Ref<Pose[]>, options: PoseNormalizerOpt
   let h = 0
 
   const {
-    focusJoints = ["left_eye_inner", "left_eye", "left_eye_outer", "right_eye"],
     minScore = 0.69,
+    focusJoints = ["left_eye_inner", "left_eye", "left_eye_outer", "right_eye"],
     normalizer = p => [(p.x / w) * 100, (p.y / h) * 0, 0],
   } = options
 

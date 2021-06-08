@@ -16,7 +16,7 @@ export function useWebCam(videoRef: Ref<HTMLVideoElement | undefined>, component
     get(videoRef)!.srcObject = newStream || null
     if (newStream) {
       const meset: MediaTrackSettings = newStream.getVideoTracks()[0].getSettings()
-      console.table(meset)
+      components.videoPreview && console.table(meset)
       if (meset.deviceId) {
         components.videoDeviceId = meset.deviceId
       }

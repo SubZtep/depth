@@ -1,13 +1,3 @@
-// import { Keypoint } from "@tensorflow-models/pose-detection"
-
-// import CameraControls from "camera-controls"
-
-// import type { Ref } from "vue"
-
-// import { Keypoint } from "@tensorflow-models/pose-detection"
-
-// import { Keypoint } from "@tensorflow-models/pose-detection"
-
 /** all the blaze joints */
 declare type Joint =
   | "nose"
@@ -44,31 +34,10 @@ declare type Joint =
   | "left_foot_index"
   | "right_foot_index"
 
-// interface NamedKeypoint extends Omit<Keypoint, "name"> {
-//   name: KeypointName
-// }
-
-// declare type BodyPoint = {
-//   position: THREE.Vector3Tuple
-// }
-
 /** sequence of body parts, normalized to 3D position */
 declare type JointPoints = {
   [name in Joint]?: THREE.Vector3Tuple
 }
-
-// interface NamedKeypoint extends Omit<Keypoint, "name"> {
-//   name: KeypointName
-// }
-
-// export type BodyPoint = {
-//   position: THREE.Vector3Tuple
-// }
-
-// export type BodyPoints = Ref({
-//   //[name in KeypointName]?: BodyPoint // rotation calc later
-//   [name in KeypointName]?: THREE.Vector3Tuple
-// })
 
 /** make canvas to the scene */
 declare type NormalizerFn = (
@@ -106,22 +75,16 @@ interface ThreeJsObjects {
   camera: THREE.PerspectiveCamera
 }
 
-// const vue = import("vue")
-
 interface ComponentTogglers {
   videoDeviceId: string
   webcam: boolean
   videoPreview: boolean
 }
 
-// interface GuiParams {
-//   webcam: boolean
-//   media?: any
-//   preview: boolean
-//   // skybox: number
-//   // skybox: import("vue").Ref<number>
-//   isActive: boolean
-//   timePerFrame: number
-//   loadPoser: boolean
-//   startPoser: boolean
-// }
+interface ObjectPoolOptions {
+  /** number of initialized objects */
+  size?: number
+}
+
+/** skeleton */
+declare type ToPosFn = ([name, pos]: [name: Joint, pos: THREE.Vector3Tuple]) => void

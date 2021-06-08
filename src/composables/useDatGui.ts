@@ -34,8 +34,20 @@ export function useDatGui(components: ComponentTogglers) {
       },
     })
 
-    cf.add(components, "webcam")
+    cf.add(components, "webcam").listen() // FIXME: idle turn on webcam (once!)
     cf.add(components, "videoPreview")
+
+    //const obb =
+
+    cf.add(
+      {
+        hello: () => {
+          console.log("aaa")
+        },
+      },
+      "hello"
+    ).name("🌕 hello add 🔥")
+
     cf.open()
   })
 }
