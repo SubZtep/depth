@@ -1,46 +1,47 @@
 import type { PoseDetector } from "@tensorflow-models/pose-detection"
 import "@mediapipe/pose"
-import { useAsyncState } from "@vueuse/core"
+import type { Ref } from "vue"
+import { useAsyncState, get } from "@vueuse/core"
 import { createDetector, SupportedModels } from "@tensorflow-models/pose-detection"
 
-export function usePoser(options: PoserOptions = {}) {
+export function useMediaPipePose(videoRef: Ref<HTMLVideoElement | undefined>, options: PoserOptions = {}) {
   const { modelConfig = { enableSmoothing: true, flipHorizontal: true } } = options
+  let detector: PoseDetector
 
-  let detector: PoseDetector | undefined = undefined
-  let inputImage: HTMLVideoElement // PoseDetectorInput
-
-  const { state, isReady, execute } = useAsyncState(
+  const {
+    state: poses,
+    isReady: isDetectorReady,
+    execute: estimatePoses,
+  } = useAsyncState(
     async () => {
-      if (inputImage.readyState !== 4) {
+      const video = get(videoRef)!
+      if (video.readyState !== 4) {
         return Promise.reject(new Error("no video input"))
       }
-      return await detector!.estimatePoses(inputImage, modelConfig)
+      return await detector.estimatePoses(video, modelConfig)
     },
     [],
     {
-      // delay: 2000,
       immediate: false,
       resetOnExecute: false,
       onError: e => {
         console.error("estimate poses error", e.message)
-        // state.value = []
       },
     }
   )
 
-  const initPoser = async (image: HTMLVideoElement) => {
-    inputImage = image
-
+  const initPoseDetector = async () => {
     detector = await createDetector(SupportedModels.BlazePose, {
       runtime: "mediapipe",
       solutionPath: "../node_modules/@mediapipe/pose",
     })
+    console.info("pose detector is ready")
   }
 
   return {
-    initPoser,
-    state,
-    isReady,
-    execute,
+    poses,
+    estimatePoses,
+    isDetectorReady,
+    initPoseDetector,
   }
 }

@@ -98,7 +98,7 @@ interface PoseNormalizerOptions {
   normalizer?: ({ x, y, z }: { x: number; y: number; z?: number }) => THREE.Vector3Tuple //NormalizerFn
 }
 
-interface ThreeProps {
+interface ThreeJsObjects {
   clock: THREE.Clock
   cameraControls: import("camera-controls").default
   renderer: THREE.Renderer
@@ -108,14 +108,20 @@ interface ThreeProps {
 
 // const vue = import("vue")
 
-interface GuiParams {
+interface ComponentTogglers {
+  videoDeviceId: string
   webcam: boolean
-  media?: any
-  preview: boolean
-  // skybox: number
-  // skybox: import("vue").Ref<number>
-  isActive: boolean
-  timePerFrame: number
-  loadPoser: boolean
-  startPoser: boolean
+  videoPreview: boolean
 }
+
+// interface GuiParams {
+//   webcam: boolean
+//   media?: any
+//   preview: boolean
+//   // skybox: number
+//   // skybox: import("vue").Ref<number>
+//   isActive: boolean
+//   timePerFrame: number
+//   loadPoser: boolean
+//   startPoser: boolean
+// }

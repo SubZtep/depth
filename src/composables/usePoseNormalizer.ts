@@ -29,6 +29,8 @@ export function usePoseNormalizer(poses: Ref<Pose[]>, options: PoseNormalizerOpt
   const body = reactive<JointPoints>({})
 
   watch(poses, newPoses => {
+    if (newPoses.length === 0) return
+
     const keypoints = filterKeypoints(newPoses, focusJoints, minScore)
     Object.assign(body, Object.fromEntries(keypoints.map(kp => [kp.name, normalizer(kp)])))
   })

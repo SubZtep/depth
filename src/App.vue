@@ -1,102 +1,65 @@
 <template lang="pug">
 canvas(ref="canvasRef")
-video(ref="videoRef" playsinline muted autoplay :class="{ visible: guiParams.preview }")
-.gui {{ body }}
+video(ref="videoRef" playsinline muted autoplay :class="{ visible: togglers.videoPreview }")
+.gui
+  pre xx {{ togglers }} {{ body }}
 </template>
 
 <script lang="ts" setup>
 import type { Fn } from "@vueuse/core"
-import { ref, toRef, reactive, watch } from "vue"
-import { unrefElement, invoke, until, useRafFn, whenever, get, set, not } from "@vueuse/core"
-import { useNProgress } from "@vueuse/integrations/useNProgress"
+import { ref, reactive, onMounted } from "vue"
+import { useRafFn, get, unrefElement } from "@vueuse/core"
 import { usePoseNormalizer } from "./composables/usePoseNormalizer"
-import { useTweakGui } from "./composables/useTweakGui"
-import { useThree } from "./composables/useThree"
-import { usePoser } from "./composables/usePoser"
-import { useCam } from "./composables/useCam"
-import { warn } from "vue-chemistry/console"
+import { useMediaPipePose } from "./composables/useMediaPipePose"
+import { useThreeJs } from "./composables/useThreeJs"
+import { useDatGui } from "./composables/useDatGui"
+import { useWebCam } from "./composables/useWebCam"
 
 const canvasRef = ref<HTMLCanvasElement>()
 const videoRef = ref<HTMLVideoElement>()
 
-const { isLoading } = useNProgress()
-const { onThree } = useThree(canvasRef)
+const { onRenderable } = useThreeJs(canvasRef)
 
-const guiParams = reactive<GuiParams>({
+const togglers: ComponentTogglers = reactive({
+  videoDeviceId: "",
   webcam: false,
-  preview: false,
-  isActive: false,
-  timePerFrame: 0,
-  loadPoser: false,
-  startPoser: false,
+  videoPreview: false,
 })
 
-const { onStream } = useCam(videoRef, toRef(guiParams, "webcam"))
-const { initPoser, state, execute, isReady } = usePoser()
-const { setStreamDimensions, body } = usePoseNormalizer(state)
+const { onVideoStream } = useWebCam(videoRef, togglers)
+const { initPoseDetector, poses, isDetectorReady, estimatePoses } = useMediaPipePose(videoRef)
+const { setStreamDimensions, body } = usePoseNormalizer(poses)
+onVideoStream(setStreamDimensions)
 
-onStream(media => {
-  setStreamDimensions(media)
-  guiParams.media = media
-})
-
-const updateer =
-  ({ clock, cameraControls, renderer, scene, camera }: ThreeProps) =>
+const initUpdater =
+  ({ clock, cameraControls, renderer, scene, camera }: ThreeJsObjects) =>
   () => {
-    const now = Date.now()
     const delta = clock.getDelta()
     cameraControls.update(delta)
 
-    if (get(isReady)) {
-      execute()
+    if (get(isDetectorReady)) {
+      estimatePoses()
     }
 
     renderer.render(scene, camera)
-    guiParams.timePerFrame = Date.now() - now
   }
 
 let update: Fn
 
-const { pause, resume } = useRafFn(() => update(), { immediate: false })
-const { pane } = useTweakGui(guiParams, body)
+const { resume } = useRafFn(() => update(), { immediate: false })
 
-onThree(async props => {
-  update = updateer(props)
-  guiParams.isActive = true
-  pane.refresh()
+useDatGui(togglers)
+
+onRenderable(async objs => {
+  update = initUpdater(objs)
+  await initPoseDetector()
+  resume()
 })
 
-watch(
-  () => guiParams.isActive,
-  run => (run ? resume() : pause())
-)
-
-invoke(async () => {
-  await until(() => guiParams.loadPoser).toBeTruthy()
-
-  set(isLoading, true)
+onMounted(() => {
   const video: HTMLVideoElement = unrefElement(videoRef)
-  await initPoser(video)
-  set(isLoading, false)
-  guiParams.loadPoser = false
+  video.addEventListener("canplay", async () => {
+    await estimatePoses()
+  })
 })
-
-let firstPosed = false
-whenever(
-  () => guiParams.startPoser,
-  async () => {
-    if (firstPosed && not(isReady)) {
-      warn("poser not ready", isReady)
-      guiParams.startPoser = false
-      firstPosed = false // FIXME: test isReady and readyState
-      return
-    }
-
-    set(isLoading, true)
-    await execute()
-    set(isLoading, false)
-    firstPosed = true
-    guiParams.startPoser = false
-  }
-)
 </script>
