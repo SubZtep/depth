@@ -1,6 +1,6 @@
 import { ComputedRef, watch } from "vue"
 // import { onMounted, toRaw } from "vue"
-import { useObjectPool } from "./useObjectPool"
+import { objectPool } from "../misc/object-pool"
 import * as THREE from "three"
 
 // function bodyWalker(cb: (key: KeypointName, bp: BodyPoint) => void, body: ComputedRef<BodyPoints>) {
@@ -29,7 +29,7 @@ import * as THREE from "three"
 // }
 
 export function useSkeleton(body: JointPoints, _updater?: InvokeUpdater) {
-  const { pop } = useObjectPool()
+  const { pop } = objectPool()
 
   let _scene: THREE.Scene
 

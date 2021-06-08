@@ -3,7 +3,7 @@ import * as THREE from "three"
 // TODO: make proper singleton (?)
 const pool: THREE.Mesh[] = []
 
-export function useObjectPool(options: ObjectPoolOptions = {}) {
+export function objectPool(options: ObjectPoolOptions = {}) {
   const { size = 10 /* 33 */ } = options
 
   const geometry = new THREE.SphereGeometry()

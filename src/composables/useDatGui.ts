@@ -1,15 +1,16 @@
 import * as dat from "dat.gui"
 import { onMounted, watch } from "vue"
-import { useDevicesList } from "@vueuse/core"
+import { useDevicesList, useFullscreen  } from "@vueuse/core"
+import { normalizeDeviceLabel } from "../misc/utils"
 
-export function useDatGui(components: ComponentTogglers) {
+export function useDatGui(togglers: ComponentTogglers) {
   onMounted(() => {
     const gui = new dat.GUI()
-    const cf = gui.addFolder("turn us on")
-    const deviceCtrl = cf.add(components, "videoDeviceId", {})
+    const sysFolder = gui.addFolder("🌕 turn me on")
+    const deviceCtrl = sysFolder.add(togglers, "videoDeviceId", {}).name("video device")
 
     watch(
-      () => components.videoDeviceId,
+      () => togglers.videoDeviceId,
       id => void deviceCtrl.setValue(id)
     )
 
@@ -23,8 +24,8 @@ export function useDatGui(components: ComponentTogglers) {
           .forEach(v => {
             const option = document.createElement("option")
             option.value = v.deviceId
-            option.text = v.label
-            if (components.videoDeviceId === v.deviceId) {
+            option.text = normalizeDeviceLabel(v.label)
+            if (togglers.videoDeviceId === v.deviceId) {
               // FIXME: check if it is happening
               option.selected = true
             }
@@ -34,20 +35,30 @@ export function useDatGui(components: ComponentTogglers) {
       },
     })
 
-    cf.add(components, "webcam").listen() // FIXME: idle turn on webcam (once!)
-    cf.add(components, "videoPreview")
+    sysFolder.add(togglers, "webcam").name("webcam on").listen() // FIXME: idle turn on webcam (once!)
+    sysFolder.add(togglers, "videoPreview").name("video stream")
+    sysFolder.open()
 
-    //const obb =
 
-    cf.add(
-      {
-        hello: () => {
-          console.log("aaa")
-        },
+    const { toggle: toggleFullscreen } = useFullscreen()
+
+    const looks = {
+      toggleFullscreen: () => {
+        toggleFullscreen()
       },
-      "hello"
-    ).name("🌕 hello add 🔥")
+    }
 
-    cf.open()
+    const lookFolder = gui.addFolder("🌕 look at me")
+    lookFolder.add(looks, "toggleFullscreen").name("toggle fullscreen")
+
+    // lookFolder.add(
+    //   {
+    //     hello: () => {
+    //       console.log("aaa")
+    //     },
+    //   },
+    //   "hello"
+    // ).name("🌕 hello add 🔥")
+
   })
 }

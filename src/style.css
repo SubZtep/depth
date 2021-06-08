@@ -1,16 +1,21 @@
+:root {
+  --video-hide-duration: 150ms;
+  --video-hide-transition: visibility var(--video-hide-duration) linear, opacity var(--video-hide-duration) linear;
+}
+
 * {
   box-sizing: border-box;
   /* user-select: none; */
 }
 
 body {
-  touch-action: pan-x pan-y;
-  background-color: #000;
-  overflow: hidden;
-  width: 100vw;
-  height: 100vh;
   margin: 0;
   padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #000;
+  touch-action: pan-x pan-y;
 }
 
 .videowrapper {
@@ -46,10 +51,15 @@ body {
   max-width: calc(100% - 15px);
   max-height: calc(100% - 15px);
   transform: translate(-50%, -50%);
+  transition: var(--video-hide-transition);
+  visibility: hidden;
+  opacity: 0;
 }
 
 #app > video.visible {
+  transition: var(--video-hide-transition);
   visibility: visible;
+  opacity: 1;
 }
 
 #app > .gui {
