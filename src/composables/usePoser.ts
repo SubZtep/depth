@@ -4,9 +4,7 @@ import { useAsyncState } from "@vueuse/core"
 import { createDetector, SupportedModels } from "@tensorflow-models/pose-detection"
 
 export function usePoser(options: PoserOptions = {}) {
-  const {
-    modelConfig = { enableSmoothing: true, flipHorizontal: true },
-  } = options
+  const { modelConfig = { enableSmoothing: true, flipHorizontal: true } } = options
 
   let detector: PoseDetector | undefined = undefined
   let inputImage: HTMLVideoElement // PoseDetectorInput
@@ -23,10 +21,10 @@ export function usePoser(options: PoserOptions = {}) {
       // delay: 2000,
       immediate: false,
       resetOnExecute: false,
-      // onError: e => {
-      //   console.log("estimate poses error", e.message)
-      //   // state.value = []
-      // }
+      onError: e => {
+        console.error("estimate poses error", e.message)
+        // state.value = []
+      },
     }
   )
 

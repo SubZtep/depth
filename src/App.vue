@@ -7,18 +7,19 @@ video(ref="videoRef" playsinline muted autoplay :class="{ visible: guiParams.pre
 <script lang="ts" setup>
 import type { Fn } from "@vueuse/core"
 import { ref, toRef, reactive, watch } from "vue"
-import { unrefElement, invoke, until, useRafFn, whenever, get, set } from "@vueuse/core"
+import { unrefElement, invoke, until, useRafFn, whenever, get, set, not } from "@vueuse/core"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
-import { useThree } from "./composables/useThree"
-import { usePoser } from "./composables/usePoser"
 import { usePoseNormalizer } from "./composables/usePoseNormalizer"
 import { useTweakGui } from "./composables/useTweakGui"
+import { useThree } from "./composables/useThree"
+import { usePoser } from "./composables/usePoser"
 import { useCam } from "./composables/useCam"
-const { isLoading } = useNProgress()
+import { warn } from "vue-chemistry/console"
 
 const canvasRef = ref<HTMLCanvasElement>()
 const videoRef = ref<HTMLVideoElement>()
 
+const { isLoading } = useNProgress()
 const { onThree } = useThree(canvasRef)
 
 const guiParams = reactive<GuiParams>({
@@ -54,11 +55,10 @@ const updateer =
 let update: Fn
 
 const { pause, resume } = useRafFn(() => update(), { immediate: false })
-const { pane } = useTweakGui(guiParams)
+const { pane } = useTweakGui(guiParams, state)
 
 onThree(async props => {
   update = updateer(props)
-
   guiParams.isActive = true
   pane.refresh()
 })
@@ -80,11 +80,14 @@ invoke(async () => {
   guiParams.loadPoser = false
 })
 
+let firstPosed = false
 whenever(
   () => guiParams.startPoser,
   async () => {
-    if (!get(isReady)) {
-      console.warn("poser isn't ready", isReady.value)
+    if (firstPosed && not(isReady)) {
+      warn("poser not ready", isReady)
+      guiParams.startPoser = false
+      firstPosed = false // FIXME: test isReady and readyState
       return
     }
 
@@ -93,6 +96,7 @@ whenever(
     await execute()
     console.timeEnd("execute")
     set(isLoading, false)
+    firstPosed = true
     guiParams.startPoser = false
   }
 )
