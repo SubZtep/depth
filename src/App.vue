@@ -35,7 +35,10 @@ const { onStream } = useCam(videoRef, toRef(guiParams, "webcam"))
 const { initPoser, state, execute, isReady } = usePoser()
 const { setStreamDimensions, body } = usePoseNormalizer(state)
 
-onStream(setStreamDimensions)
+onStream(media => {
+  setStreamDimensions(media)
+  guiParams.media = media
+})
 
 const updateer =
   ({ clock, cameraControls, renderer, scene, camera }: ThreeProps) =>
@@ -72,10 +75,8 @@ invoke(async () => {
   await until(() => guiParams.loadPoser).toBeTruthy()
 
   set(isLoading, true)
-  console.time("poser")
   const video: HTMLVideoElement = unrefElement(videoRef)
   await initPoser(video)
-  console.timeEnd("poser")
   set(isLoading, false)
   guiParams.loadPoser = false
 })
@@ -92,9 +93,7 @@ whenever(
     }
 
     set(isLoading, true)
-    console.time("execute")
     await execute()
-    console.timeEnd("execute")
     set(isLoading, false)
     firstPosed = true
     guiParams.startPoser = false

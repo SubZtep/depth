@@ -110,6 +110,7 @@ interface ThreeProps {
 
 interface GuiParams {
   webcam: boolean
+  media?: any
   preview: boolean
   // skybox: number
   // skybox: import("vue").Ref<number>
