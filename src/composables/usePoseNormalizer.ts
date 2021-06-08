@@ -26,7 +26,6 @@ export function usePoseNormalizer(poses: Ref<Pose[]>, options: PoseNormalizerOpt
     normalizer = p => [(p.x / w) * 100, (p.y / h) * 0, 0],
   } = options
 
-
   const body = reactive<JointPoints>({})
 
   watch(poses, newPoses => {

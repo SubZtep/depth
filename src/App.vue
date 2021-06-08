@@ -1,7 +1,7 @@
 <template lang="pug">
 canvas(ref="canvasRef")
 video(ref="videoRef" playsinline muted autoplay :class="{ visible: guiParams.preview }")
-.gui {{ guiParams }} {{ body }} {{state}}
+.gui {{ body }}
 </template>
 
 <script lang="ts" setup>
@@ -55,7 +55,7 @@ const updateer =
 let update: Fn
 
 const { pause, resume } = useRafFn(() => update(), { immediate: false })
-const { pane } = useTweakGui(guiParams, state)
+const { pane } = useTweakGui(guiParams, body)
 
 onThree(async props => {
   update = updateer(props)
