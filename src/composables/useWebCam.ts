@@ -5,7 +5,7 @@ import { useUserMedia, useDocumentVisibility, get, createEventHook, syncRef } fr
 
 export function useWebCam(videoRef: Ref<HTMLVideoElement | undefined>, togglers: ComponentTogglers) {
   const { stream, enabled, stop, start } = useUserMedia({ enabled: false, audioDeviceId: false })
-  const streaming = createEventHook<MediaTrackSettings>()
+  const streaming = createEventHook<[MediaStream, MediaTrackSettings?]>()
   const visibility = useDocumentVisibility()
   const { idle } = useIdle()
 
@@ -21,13 +21,14 @@ export function useWebCam(videoRef: Ref<HTMLVideoElement | undefined>, togglers:
       if (mediaset.deviceId) {
         togglers.videoDeviceId = mediaset.deviceId
       }
-      streaming.trigger(mediaset)
+      streaming.trigger([newStream, mediaset])
     }
   })
 
   watch(visibility, async newVisibility => {
     if (newVisibility === "visible") {
       if (togglers.webcam) {
+        // await videoRef.value?.play()
         await start()
       }
     } else {

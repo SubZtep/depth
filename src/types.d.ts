@@ -50,8 +50,8 @@ type InvokeUpdater = Set<(deltaTime: number) => void>
 /** there are defaults */
 interface PoserOptions {
   modelConfig?: {
-    enableSmoothing: boolean
-    flipHorizontal: boolean
+    enableSmoothing?: boolean
+    flipHorizontal?: boolean
   }
 }
 
@@ -88,3 +88,21 @@ interface ObjectPoolOptions {
 
 /** skeleton */
 declare type ToPosFn = ([name, pos]: [name: Joint, pos: THREE.Vector3Tuple]) => void
+
+interface VideoPlayerDistortion {
+  scale: number
+  // width: number
+  // height: number
+  flipX?: boolean
+  flipY?: boolean
+  transparent?: boolean
+}
+
+interface HTMLVideoElement {
+  isPlaying: boolean
+}
+
+declare type JointMesh = THREE.Mesh<THREE.SphereGeometry, THREE.MeshLambertMaterial>
+
+// declare type UpdateJointsFn = (poses: Pose[], distortion: PlayerDistortion) => void
+declare type UpdateJointsFn = (poses: any[], distortion: VideoPlayerDistortion) => void

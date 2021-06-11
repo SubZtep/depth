@@ -1,34 +1,27 @@
 import * as THREE from "three"
 
 // TODO: make proper singleton (?)
-const pool: THREE.Mesh[] = []
+const pool: JointMesh[] = []
 
-export function objectPool(options: ObjectPoolOptions = {}) {
-  const { size = 10 /* 33 */ } = options
+const poolSize = 33
+const geometry = new THREE.SphereGeometry(0.05, 6, 5)
 
-  const geometry = new THREE.SphereGeometry()
-  const material = new THREE.MeshBasicMaterial({ color: 0x8a0303 })
+for (let i = 0; i < poolSize; i++) {
+  const material = new THREE.MeshLambertMaterial({ color: 0xffffff })
+  // material.side = THREE.FrontSide // front is dedfault
+  const simpleSphere = new THREE.Mesh(geometry, material)
+  pool.push(simpleSphere)
+}
 
-  for (let i = 0; i < size; i++) {
-    const simpleSphere = new THREE.Mesh(geometry, material)
-    pool.push(simpleSphere)
+/** retreive an object */
+export function pop() {
+  if (pool.length === 0) {
+    throw new Error("empty object pool")
   }
+  return pool.pop()!
+}
 
-  /** retreive an object */
-  const pop = () => {
-    if (pool.length === 0) {
-      throw new Error("empty object pool")
-    }
-    return pool.pop()!
-  }
-
-  /** return an object */
-  const push = (obj: THREE.Mesh) => {
-    pool.push(obj)
-  }
-
-  return {
-    push,
-    pop,
-  }
+/** return an object */
+export function push(obj: JointMesh) {
+  pool.push(obj)
 }

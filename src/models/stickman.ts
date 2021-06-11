@@ -1,37 +1,92 @@
+import type { Pose } from "@tensorflow-models/pose-detection"
 import * as THREE from "three"
-import { objectPool } from "../misc/object-pool"
+import chroma from "chroma-js"
+import { pop } from "../misc/object-pool"
 
-const { pop } = objectPool()
-let _scene: THREE.Scene
+const joints = new Map<Joint, JointMesh>()
 
-const joints = new Map<Joint, THREE.Mesh>()
+const f = chroma.scale(["black", "white"])
 
-const toPos: ToPosFn = ([name, _pos]) => {
-  if (!joints.has(name)) {
+const jointNames: Joint[] = [
+  "nose",
+  "left_eye_inner",
+  "left_eye",
+  "left_eye_outer",
+  "right_eye_inner",
+  "right_eye",
+  "right_eye_outer",
+  "left_ear",
+  "right_ear",
+  "mouth_left",
+  "mouth_right",
+  "left_shoulder",
+  "right_shoulder",
+  "left_elbow",
+  "right_elbow",
+  "left_wrist",
+  "right_wrist",
+  "left_pinky",
+  "right_pinky",
+  "left_index",
+  "right_index",
+  "left_thumb",
+  "right_thumb",
+  "left_hip",
+  "right_hip",
+  "left_knee",
+  "right_knee",
+  "left_ankle",
+  "right_ankle",
+  "left_heel",
+  "right_heel",
+  "left_foot_index",
+  "right_foot_index",
+]
+
+export function add33JointsToScene(scene: THREE.Scene) {
+  if (joints.size > 0) return
+  jointNames.forEach(name => {
     const obj = pop()
-    obj.name = name
-    _scene.add(obj)
+    scene.add(obj)
     joints.set(name, obj)
-  }
-  // parts.get(name)!.position.fromArray(pos!)
-  joints.get(name)!.position.fromArray([0, 20, 50])
+  })
 }
 
-export function jointsToScene() {
-  const freshJoints: THREE.Mesh[] = []
-  joints.forEach(v => void freshJoints.push(v))
-  return freshJoints
+function getMatColor(score?: number) {
+  return score !== undefined ? new THREE.Color().fromArray(f(score).rgb()) : new THREE.Color(0x8a0303)
 }
 
-export function stickman(body: JointPoints) {
-  Object.entries(body).forEach(param => toPos(param as [Joint, THREE.Vector3Tuple]))
+// export function updateJoints([pose]: Pose[], { scale, width, height, flipX, flipY, transparent }: PlayerDistortion) {
+export function initJointUpdater(width: number, height: number) {
+  return ([pose]: Pose[], { scale, flipX, flipY, transparent }: VideoPlayerDistortion) => {
+    if (!pose) {
+      console.warn("no pose for update joints", pose)
+      joints.forEach(j => void j.position.set(0, 0, 0))
+      return
+    }
 
-  // const sceneToSkeleton = (scene: THREE.Scene) => {
-  //   _scene = scene
-  // }
+    pose.keypoints
+      .filter(keypoint => keypoint.score || (0 > 0.9 && keypoint.name?.includes("eye")))
+      .forEach(keypoint => {
+        let x = keypoint.x * scale
+        let y = keypoint.y * scale
 
-  return {
-    // parts: joints,
-    // sceneToSkeleton,
+        if (flipX) x = width - x
+        if (flipY) y = height - y
+
+        const joint = joints.get(keypoint.name as Joint)!
+        joint.position.setX(x)
+        joint.position.setY(y)
+
+        const material = joint.material
+        if (transparent) {
+          if (!material.transparent) material.transparent = true
+          material.opacity = keypoint.score || 0
+        } else {
+          if (material.transparent) material.transparent = false
+          material.color = getMatColor(keypoint.score)
+        }
+        // material.needsUpdate = true
+      })
   }
 }
