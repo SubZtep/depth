@@ -1,12 +1,11 @@
-import { debouncedWatch, useWindowSize, createEventHook, tryOnMounted, unrefElement, get } from "@vueuse/core"
-import type { MaybeRef } from "@vueuse/core"
+import { debouncedWatch, useWindowSize, createEventHook, get } from "@vueuse/core"
 import CameraControls from "camera-controls"
 import * as THREE from "three"
 import { floor } from "../models/floor"
 import { getLights } from "../models/light"
 import { loadSkybox } from "../models/skybox"
 
-export function useThreeJs(_canvasRef: MaybeRef<HTMLCanvasElement | undefined>) {
+export function useThreeJs() {
   CameraControls.install({ THREE: THREE })
 
   const readyHook = createEventHook<ThreeJsObjects>()
@@ -15,8 +14,8 @@ export function useThreeJs(_canvasRef: MaybeRef<HTMLCanvasElement | undefined>) 
 
   let scene: THREE.Scene
   let renderer: THREE.WebGLRenderer
-  let cameraControls: CameraControls
   let camera: THREE.PerspectiveCamera
+  let cameraControls: CameraControls
 
   const setRendererDimensions = (dimensions?: number[]) => {
     if (dimensions !== undefined) {
@@ -35,8 +34,8 @@ export function useThreeJs(_canvasRef: MaybeRef<HTMLCanvasElement | undefined>) 
   const initThree = (canvas: HTMLCanvasElement) => {
     scene = new THREE.Scene()
     camera = new THREE.PerspectiveCamera(60, undefined, 0.1, 500)
-    // camera.position.set(50, 20, 50)
     cameraControls = new CameraControls(camera, canvas)
+    cameraControls.setPosition(0, 2, -20)
 
     renderer = new THREE.WebGLRenderer({ premultipliedAlpha: false, precision: "lowp", canvas })
     renderer.setPixelRatio(window.devicePixelRatio)
@@ -48,10 +47,6 @@ export function useThreeJs(_canvasRef: MaybeRef<HTMLCanvasElement | undefined>) 
 
     readyHook.trigger({ clock, cameraControls, renderer, scene, camera })
   }
-
-  // tryOnMounted(() => {
-  //   initThree(unrefElement(canvasRef))
-  // })
 
   return {
     initThree,

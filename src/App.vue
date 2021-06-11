@@ -19,121 +19,97 @@ video(
 
 <script lang="ts" setup>
 import type { Fn } from "@vueuse/core"
-import { ref, onMounted, watch, reactive } from "vue"
-import { useRafFn, get, set, unrefElement } from "@vueuse/core"
-import { useMediaPipePose } from "./composables/useMediaPipePose"
+import type { FitToOptions } from "camera-controls/dist/types"
+import { useRafFn, get, set } from "@vueuse/core"
+import CameraControls from "camera-controls"
+import { ref, onMounted, watch } from "vue"
+import * as THREE from "three"
+import { videoMesh } from "./models/skybox"
 import { useThreeJs } from "./composables/useThreeJs"
 import { useDatGui } from "./composables/useDatGui"
-import { useWebCam } from "./composables/useWebCam"
+import { useMediaPipePose } from "./composables/useMediaPipePose"
 import { add33JointsToScene, initJointUpdater } from "./models/stickman"
-import { setStreamDimensions, poseNormalizer } from "./misc/pose-normalizer"
-import { videoMesh } from "./models/skybox"
-import CameraControls from "camera-controls"
-import * as THREE from "three"
+import { useWebCam } from "./composables/useWebCam"
 
 const loading = ref(false)
 const canvasRef = ref<HTMLCanvasElement>()
 const videoRef = ref<HTMLVideoElement>()
 
-const { initThree, onThreeReady } = useThreeJs(canvasRef)
-const { togglers, videoGui } = useDatGui()
-const { onVideoStream: onWebCamVideoStream } = useWebCam(videoRef, togglers)
+const { togglers } = useDatGui()
+const { initThree, onThreeReady } = useThreeJs()
 const { initPoseDetector, poses, isDetectorReady, estimatePoses } = useMediaPipePose(videoRef)
+useWebCam(videoRef, togglers)
 
-const scale = 0.01
+let scale = 1
+const videoToCamera: Partial<FitToOptions> = { paddingLeft: 1, paddingRight: 1, paddingBottom: 1, paddingTop: 1 }
 
-interface PlayerMesh {
-  mesh: THREE.Mesh
-  width: number
-  height: number
-}
-
-let videoPlayerMesh: PlayerMesh | undefined
+let tickLoop: Fn
+let setMesh: SetMeshFn
 let updateJoints: UpdateJointsFn
 
-let setMesh: (video: HTMLVideoElement) => void
 function initSetMesh(scene: THREE.Scene, cameraControls: CameraControls) {
   return (videoEl: HTMLVideoElement) => {
-    if (videoPlayerMesh?.mesh?.isObject3D) {
-      scene.remove(videoPlayerMesh.mesh)
-      videoPlayerMesh.mesh.remove()
+    let vp = scene.getObjectByName("video-player") as VideoPlayerMesh
+    let transition = false
+    if (vp) {
+      vp.material.map!.needsUpdate = true
+      transition = true
+    } else {
+      vp = videoMesh(videoEl)
+      scene.add(vp)
     }
 
-    videoPlayerMesh = videoMesh(videoEl, scale)
+    const { videoWidth, videoHeight } = videoEl
+    const ratio = videoWidth / videoHeight
 
-    updateJoints = initJointUpdater(videoPlayerMesh.width, videoPlayerMesh.height)
+    const width = 4
+    const height = width / ratio
+    scale = width / videoWidth
+    // console.log({ videoWidth, videoHeight, width, height, ratio, scale })
 
-    cameraControls.fitToBox(videoPlayerMesh.mesh, false, {
-      paddingLeft: 1,
-      paddingRight: 1,
-      paddingBottom: 1,
-      paddingTop: 1,
-    })
-    scene.add(videoPlayerMesh.mesh)
+    vp.scale.setX(width)
+    vp.scale.setY(height)
+    vp.position.setY(height / 2)
 
-    console.log([videoEl.isPlaying, videoRef.value?.videoWidth])
-    if (!videoEl?.isPlaying) {
-      videoEl?.play()
-    }
+    updateJoints = initJointUpdater(width, height)
+    cameraControls.fitToBox(vp, transition, videoToCamera)
   }
 }
 
-onWebCamVideoStream(async ([_stream, settings]) => {
-  if (settings === undefined) return
-  setStreamDimensions(settings)
-})
-
-watch(poses, newPoses => {
-  const distortion: VideoPlayerDistortion = {
-    scale,
-    flipY: true,
-    transparent: true,
-  }
-  updateJoints(newPoses, distortion)
-})
-
-const initTickLoop =
-  ({ clock, cameraControls, renderer, scene, camera }: ThreeJsObjects) =>
-  () => {
+function initTickLoop({ clock, cameraControls, renderer, scene, camera }: ThreeJsObjects) {
+  return () => {
     const delta = clock.getDelta()
     cameraControls.update(delta)
     videoRef.value!.isPlaying && get(isDetectorReady) && estimatePoses()
     renderer.render(scene, camera)
   }
+}
 
-let tickLoop: Fn
-const { resume } = useRafFn(() => tickLoop(), { immediate: false })
-
-onThreeReady(async three => {
-  console.log("THREE Ready")
-  const { scene, cameraControls } = three
-
-  add33JointsToScene(scene)
-  setMesh = initSetMesh(scene, cameraControls)
-  cameraControls.setPosition(0, 2, 5)
-
+onThreeReady(three => {
+  add33JointsToScene(three.scene)
+  setMesh = initSetMesh(three.scene, three.cameraControls)
   tickLoop = initTickLoop(three)
 })
 
-onMounted(async () => {
-  const video: HTMLVideoElement = get(videoRef)!
+watch(poses, newPoses => {
+  updateJoints(newPoses, { scale, flipY: true, transparent: true })
+})
 
-  video.addEventListener(
-    "play",
-    async () => {
-      console.log("PLAY")
-      set(loading, true)
-      setMesh(video)
-      await initPoseDetector()
-      await estimatePoses()
-      get(canvasRef)!.classList.remove("hidden")
-      set(loading, false)
-      resume()
-    }
-    // { once: true }
-  )
+const { resume } = useRafFn(() => tickLoop(), { immediate: false })
+
+onMounted(() => {
+  const video = get(videoRef)!
+
+  video.addEventListener("canplay", async () => {
+    set(loading, true)
+    await setMesh(video)
+    await initPoseDetector()
+    await estimatePoses()
+    get(canvasRef)!.classList.remove("hidden")
+    set(loading, false)
+    resume()
+  })
 
   initThree(canvasRef.value!)
-  // await initPoseDetector()
 })
 </script>

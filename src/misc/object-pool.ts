@@ -1,6 +1,5 @@
 import * as THREE from "three"
 
-// TODO: make proper singleton (?)
 const pool: JointMesh[] = []
 
 const poolSize = 33
@@ -8,7 +7,6 @@ const geometry = new THREE.SphereGeometry(0.05, 6, 5)
 
 for (let i = 0; i < poolSize; i++) {
   const material = new THREE.MeshLambertMaterial({ color: 0xffffff })
-  // material.side = THREE.FrontSide // front is dedfault
   const simpleSphere = new THREE.Mesh(geometry, material)
   pool.push(simpleSphere)
 }

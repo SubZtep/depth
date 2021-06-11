@@ -1,11 +1,11 @@
 import type { Ref } from "vue"
-import { useIdle } from '@vueuse/core'
+import { useIdle } from "@vueuse/core"
 import { onMounted, watch, toRef } from "vue"
 import { useUserMedia, useDocumentVisibility, get, createEventHook, syncRef } from "@vueuse/core"
 
 export function useWebCam(videoRef: Ref<HTMLVideoElement | undefined>, togglers: ComponentTogglers) {
   const { stream, enabled, stop, start } = useUserMedia({ enabled: false, audioDeviceId: false })
-  const streaming = createEventHook<[MediaStream, MediaTrackSettings?]>()
+  const streaming = createEventHook<MediaTrackSettings>()
   const visibility = useDocumentVisibility()
   const { idle } = useIdle()
 
@@ -16,19 +16,18 @@ export function useWebCam(videoRef: Ref<HTMLVideoElement | undefined>, togglers:
   watch(stream, newStream => {
     get(videoRef)!.srcObject = newStream || null
     if (newStream) {
-      const mediaset: MediaTrackSettings = newStream.getVideoTracks()[0].getSettings()
-      togglers.videoPreview && console.table(mediaset)
-      if (mediaset.deviceId) {
-        togglers.videoDeviceId = mediaset.deviceId
+      const settings = newStream.getVideoTracks()[0].getSettings()
+      togglers.videoPreview && console.table(settings)
+      if (settings.deviceId) {
+        togglers.videoDeviceId = settings.deviceId
       }
-      streaming.trigger([newStream, mediaset])
+      streaming.trigger(settings)
     }
   })
 
   watch(visibility, async newVisibility => {
     if (newVisibility === "visible") {
       if (togglers.webcam) {
-        // await videoRef.value?.play()
         await start()
       }
     } else {
@@ -45,6 +44,6 @@ export function useWebCam(videoRef: Ref<HTMLVideoElement | undefined>, togglers:
   })
 
   return {
-    onVideoStream: streaming.on,
+    onWebCamVideoStream: streaming.on,
   }
 }

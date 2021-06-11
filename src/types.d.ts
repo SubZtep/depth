@@ -1,3 +1,7 @@
+interface HTMLVideoElement {
+  isPlaying: boolean
+}
+
 /** all the blaze joints */
 declare type Joint =
   | "nose"
@@ -39,32 +43,12 @@ declare type JointPoints = {
   [name in Joint]?: THREE.Vector3Tuple
 }
 
-/** make canvas to the scene */
-declare type NormalizerFn = (
-  streamWidth: number,
-  streamHeight: number
-) => ({ x, y, z }: { x: number; y: number; z?: number }) => THREE.Vector3Tuple
-
-type InvokeUpdater = Set<(deltaTime: number) => void>
-
 /** there are defaults */
 interface PoserOptions {
   modelConfig?: {
     enableSmoothing?: boolean
     flipHorizontal?: boolean
   }
-}
-
-interface PoseNormalizerOptions {
-  /** delay ms between frames, zero request animation frames */
-  interval?: number
-  /** filter to keypoint names */
-  focusJoints?: Joint[]
-
-  /** filter keypoints by score 0-1 — minimum score to reach for update */
-  minScore?: number
-
-  normalizer?: ({ x, y, z }: { x: number; y: number; z?: number }) => THREE.Vector3Tuple //NormalizerFn
 }
 
 interface ThreeJsObjects {
@@ -81,28 +65,16 @@ interface ComponentTogglers {
   videoPreview: boolean
 }
 
-interface ObjectPoolOptions {
-  /** number of initialized objects */
-  size?: number
-}
-
-/** skeleton */
-declare type ToPosFn = ([name, pos]: [name: Joint, pos: THREE.Vector3Tuple]) => void
-
 interface VideoPlayerDistortion {
   scale: number
-  // width: number
-  // height: number
   flipX?: boolean
   flipY?: boolean
   transparent?: boolean
 }
 
-interface HTMLVideoElement {
-  isPlaying: boolean
-}
 
 declare type JointMesh = THREE.Mesh<THREE.SphereGeometry, THREE.MeshLambertMaterial>
+declare type VideoPlayerMesh = THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
 
-// declare type UpdateJointsFn = (poses: Pose[], distortion: PlayerDistortion) => void
-declare type UpdateJointsFn = (poses: any[], distortion: VideoPlayerDistortion) => void
+declare type UpdateJointsFn = (poses: /*Pose*/any[], distortion: VideoPlayerDistortion) => void
+declare type SetMeshFn = (video: HTMLVideoElement) => Proimise<void>

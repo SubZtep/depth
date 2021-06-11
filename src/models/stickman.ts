@@ -56,8 +56,8 @@ function getMatColor(score?: number) {
   return score !== undefined ? new THREE.Color().fromArray(f(score).rgb()) : new THREE.Color(0x8a0303)
 }
 
-// export function updateJoints([pose]: Pose[], { scale, width, height, flipX, flipY, transparent }: PlayerDistortion) {
 export function initJointUpdater(width: number, height: number) {
+  const halfWidth = width / 2
   return ([pose]: Pose[], { scale, flipX, flipY, transparent }: VideoPlayerDistortion) => {
     if (!pose) {
       console.warn("no pose for update joints", pose)
@@ -66,17 +66,21 @@ export function initJointUpdater(width: number, height: number) {
     }
 
     pose.keypoints
-      .filter(keypoint => keypoint.score || (0 > 0.9 && keypoint.name?.includes("eye")))
+      // .filter(keypoint => (keypoint.score || 0) > 0.9 && keypoint.name?.includes("eye"))
       .forEach(keypoint => {
         let x = keypoint.x * scale
         let y = keypoint.y * scale
+        const z = keypoint.z
 
         if (flipX) x = width - x
         if (flipY) y = height - y
 
         const joint = joints.get(keypoint.name as Joint)!
-        joint.position.setX(x)
+        joint.position.setX(x - halfWidth)
         joint.position.setY(y)
+        if (z) {
+          joint.position.setZ(z)
+        }
 
         const material = joint.material
         if (transparent) {
@@ -86,7 +90,6 @@ export function initJointUpdater(width: number, height: number) {
           if (material.transparent) material.transparent = false
           material.color = getMatColor(keypoint.score)
         }
-        // material.needsUpdate = true
       })
   }
 }

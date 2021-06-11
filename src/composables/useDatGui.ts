@@ -5,7 +5,6 @@ import { normalizeDeviceLabel } from "../misc/utils"
 
 class Singleton {
   private static instance: Singleton
-  //Assign "new Singleton()" here to avoid lazy initialisation
 
   constructor() {
     if (Singleton.instance) {
@@ -22,8 +21,7 @@ class Singleton {
   member: dat.GUI
 }
 
-// const instance = new Singleton()
-let gui: dat.GUI = Singleton.getInstance().member //new dat.GUI()
+let gui: dat.GUI = Singleton.getInstance().member
 Object.freeze(gui)
 
 export function useDatGui() {
@@ -33,14 +31,12 @@ export function useDatGui() {
     videoPreview: false,
   })
 
-  const videoGui: { source: "video" | "webcan" } = reactive({
+  const videoGui: { source: "video" | "webcam" } = reactive({
     source: "video",
-    // source: [{ webcam: "webcam" }, { video: "video" }],
     // flipX: false
   })
 
   onMounted(() => {
-    // gui = new dat.GUI()
     const sysFolder = gui.addFolder("🌕 turn me on")
     const deviceCtrl = sysFolder.add(togglers, "videoDeviceId", {}).name("video device")
 
@@ -74,11 +70,10 @@ export function useDatGui() {
     sysFolder.add(togglers, "videoPreview").name("show video tag")
     sysFolder.open()
 
-    // const videoFolder = gui.addFolder("🌕 video stream")
-    // // videoFolder.add(videoGui, "flipX")
+    const videoFolder = gui.addFolder("🔥 video stream")
+    // videoFolder.add(videoGui, "flipX")
     // videoFolder.add(videoGui, "source", ["webcam", "video"])
-    // // videoFolder.add(videoGui, "source", [{ webcam: "webcam" }, { video: "video" }],)
-    // videoFolder.open()
+    videoFolder.open()
 
     const lookFolder = gui.addFolder("🌕 look at me")
     const { toggle: toggleFullscreen } = useFullscreen()
@@ -89,15 +84,6 @@ export function useDatGui() {
     }
     lookFolder.add(looks, "toggleFullscreen").name("toggle fullscreen")
     lookFolder.open()
-
-    // lookFolder.add(
-    //   {
-    //     hello: () => {
-    //       console.log("aaa")
-    //     },
-    //   },
-    //   "hello"
-    // ).name("🌕 hello add 🔥")
   })
 
   return {

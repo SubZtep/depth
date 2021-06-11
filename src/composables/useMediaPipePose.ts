@@ -14,7 +14,9 @@ export function useMediaPipePose(videoRef: Ref<HTMLVideoElement | undefined>, op
     execute: estimatePoses,
   } = useAsyncState(
     async () => {
-      if (typeof detector === undefined) return Promise.reject("no detector")
+      if (detector === undefined) {
+        return Promise.reject("no detector")
+      }
       const video = get(videoRef)!
 
       if (video.readyState !== 4) {
@@ -34,15 +36,13 @@ export function useMediaPipePose(videoRef: Ref<HTMLVideoElement | undefined>, op
   )
 
   const initPoseDetector = async () => {
-    if (!!detector || get(isDetectorReady)) {
-      // console.log("MAR VAGYOK")
+    if (detector !== undefined) {
       return
     }
     detector = await createDetector(SupportedModels.BlazePose, {
       runtime: "mediapipe",
       solutionPath: "../node_modules/@mediapipe/pose",
     })
-    console.info("pose detector is ready")
   }
 
   return {
