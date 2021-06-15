@@ -1,9 +1,12 @@
-import { debouncedWatch, useWindowSize, createEventHook, get } from "@vueuse/core"
+import type { Fn } from "@vueuse/core"
+import { debouncedWatch, useWindowSize, createEventHook, useRafFn, get } from "@vueuse/core"
 import CameraControls from "camera-controls"
 import * as THREE from "three"
 import { floor } from "../models/floor"
 import { getLights } from "../models/light"
 import { loadSkybox } from "../models/skybox"
+
+type TickLoopFn = (params: { scene: THREE.Scene; cameraControls: CameraControls }) => void
 
 export function useThreeJs() {
   CameraControls.install({ THREE: THREE })
@@ -31,6 +34,23 @@ export function useThreeJs() {
 
   debouncedWatch([width, height], setRendererDimensions, { immediate: false, debounce: 250 })
 
+  // const tickLoop = (fn: () => void) => (scene, cameraControls) => {
+  let framecb: TickLoopFn | undefined
+  const tickLoop = (fn: TickLoopFn) => (framecb = fn)
+
+  const { pause, resume } = useRafFn(
+    () => {
+      const delta = clock.getDelta()
+      cameraControls.update(delta)
+      // videoRef.value!.isPlaying && get(isDetectorReady) && estimatePoses()
+      if (framecb) {
+        framecb({ scene, cameraControls })
+      }
+      renderer.render(scene, camera)
+    },
+    { immediate: false }
+  )
+
   const initThree = (canvas: HTMLCanvasElement) => {
     scene = new THREE.Scene()
     camera = new THREE.PerspectiveCamera(60, undefined, 0.1, 500)
@@ -45,10 +65,13 @@ export function useThreeJs() {
     scene.add(floor())
     loadSkybox(scene)
 
-    readyHook.trigger({ clock, cameraControls, renderer, scene, camera })
+    // readyHook.trigger({ clock, cameraControls, renderer, scene, camera })
+    // resume()
   }
 
   return {
+    resumeTickLoop: resume,
+    tickLoop,
     initThree,
     onThreeReady: readyHook.on,
   }
