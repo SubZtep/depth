@@ -2,7 +2,7 @@ import * as THREE from "three"
 
 const pool: KeypointMesh[] = []
 
-const poolSize = 66
+const poolSize = 0
 const geometry = new THREE.SphereGeometry(0.05, 6, 5)
 
 for (let i = 0; i < poolSize; i++) {

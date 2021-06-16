@@ -27,11 +27,10 @@ interface VideoPlayerDistortion {
   transparent?: boolean
 }
 
-
 declare type KeypointMesh = THREE.Mesh<THREE.SphereGeometry, THREE.MeshLambertMaterial>
 declare type VideoPlayerMesh = THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
 
-declare type UpdateJointsFn = (poses: /*Pose*/any[], distortion: VideoPlayerDistortion) => void
+declare type UpdateJointsFn = (poses: /*Pose*/ any[], distortion: VideoPlayerDistortion) => void
 declare type SetMeshFn = (video: HTMLVideoElement) => Proimise<void>
 
 interface CameraState {
@@ -39,13 +38,17 @@ interface CameraState {
   deviceId: string
 }
 
-type TFModels = Omit<import("@tensorflow-models/pose-detection").SupportedModels, "PoseNet">
+type TFModel = Omit<import("@tensorflow-models/pose-detection").SupportedModels, "PoseNet">
 
 interface VideoState {
   id: string
   src: string
-  visible: boolean
-  model: TFModels
+  visibleEl: boolean
+  visibleObj: boolean
+  model: TFModel
+  addX: number
+  addY: number
+  addZ: number
 }
 
 interface GlobalState {

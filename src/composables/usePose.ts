@@ -4,11 +4,10 @@ import { onMounted, ref } from "vue"
 import "@mediapipe/pose"
 import "@tensorflow/tfjs-backend-webgl"
 
-export const ready = ref(false)
-
 export function usePose(options: PoserOptions = {}) {
   const { modelConfig = { enableSmoothing: true, flipHorizontal: false } } = options
-  let detectors = new Map<TFModels, PoseDetector>()
+  let detectors = new Map<TFModel, PoseDetector>()
+  const ready = ref(false)
 
   onMounted(async () => {
     detectors.set(
@@ -28,7 +27,7 @@ export function usePose(options: PoserOptions = {}) {
     ready.value = true
   })
 
-  const estPoses = async (video: HTMLVideoElement, model: TFModels): Promise<Pose> => {
+  const estimatePoses = async (video: HTMLVideoElement, model: TFModel): Promise<Pose> => {
     return new Promise(async (resolve, reject) => {
       if (video.readyState !== 4) {
         return reject(new Error("no video input"))
@@ -44,6 +43,7 @@ export function usePose(options: PoserOptions = {}) {
   }
 
   return {
-    estPoses,
+    ready,
+    estimatePoses,
   }
 }

@@ -56,8 +56,8 @@ body {
   visibility: hidden;
   border-radius: 1px;
   box-shadow: 0 0 8px #000;
-  max-width: 25%;
-  max-height: 25%;
+  max-width: 40%;
+  max-height: 40%;
   border: 12px outset var(--blood);
   transition: var(--video-hide-transition);
   opacity: 0;

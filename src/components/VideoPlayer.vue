@@ -7,7 +7,7 @@ video(
   playsinline
   ref="videoRef"
   poster="no-video.png"
-  :class="{ visible: videoState.visible }")
+  :class="{ visible: videoState.visibleEl }")
 </template>
 
 <script lang="ts" setup>
@@ -21,8 +21,6 @@ const state = useGlobalState()
 const elId = useContext().attrs.id
 const videoState = state.videos.find(v => v.id === elId)!
 const src = computed(() => videoState.src)
-
-const camEnabled = computed(() => !get(src) && state.camera.on && get(visibility) === "visible")
 
 const { stream, enabled, start, stop } = useUserMedia({
   audioDeviceId: false,

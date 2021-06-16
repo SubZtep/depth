@@ -5,7 +5,7 @@ import { useGlobalState } from "../store"
 import { SupportedModels } from "@tensorflow-models/pose-detection"
 
 const playable = ["", "mask.webm", "happy.webm"]
-const models: TFModels[] = [SupportedModels.MoveNet, SupportedModels.BlazePose]
+const models: TFModel[] = [SupportedModels.MoveNet, SupportedModels.BlazePose]
 
 export default {
   install() {
@@ -19,8 +19,12 @@ export default {
     const videoFactory = (): VideoState => ({
       id: `v${videos.length + 1}`,
       src: "",
-      visible: false,
-      model: models[0], 
+      visibleEl: false,
+      visibleObj: true,
+      model: models[0],
+      addX: 0,
+      addY: 0,
+      addZ: 0,
     })
 
     const buttons = {
@@ -35,12 +39,17 @@ export default {
     }
 
     const addVideoGui = (parent: dat.GUI) => (v: VideoState) => {
-      const videoFolder = parent.addFolder(`Video #${v.id}`)
-      videoFolder.add(v, "src", playable)
-      videoFolder.add(v, "visible")
-      videoFolder.add(v, "model", models)
-      videoFolder.add({ delVideo: buttons.delVideo.bind(this, videoFolder, v) }, "delVideo").name("delete video")
-      videoFolder.open()
+      console.log(v)
+      const vidF = parent.addFolder(`Video #${v.id}`)
+      vidF.add(v, "src", playable)
+      vidF.add(v, "visibleEl").name("video html tag")
+      vidF.add(v, "visibleObj").name("video 3d object")
+      vidF.add(v, "model", models)
+      vidF.add({ delVideo: buttons.delVideo.bind(this, vidF, v) }, "delVideo").name("delete video")
+      vidF.add(v, "addX", -10, 10, 0.1)
+      vidF.add(v, "addY", -10, 10, 0.1)
+      vidF.add(v, "addZ", -10, 10, 0.1)
+      vidF.open()
     }
 
     const cameraFolder = gui.addFolder("web camera")
@@ -48,12 +57,12 @@ export default {
     const deviceCtrl = cameraFolder.add(camera, "deviceId")
     // cameraFolder.open()
 
-    const videosFolder = gui.addFolder("video inputs")
-    videosFolder.add(buttons, "addVideo").name("add video")
-    videosFolder.open()
+    const vidsF = gui.addFolder("video inputs")
+    vidsF.add(buttons, "addVideo").name("add video")
+    vidsF.open()
 
-    addVideoFolder = addVideoGui(videosFolder)
-    delVideoFolder = (folder: dat.GUI) => videosFolder.removeFolder(folder)
+    addVideoFolder = addVideoGui(vidsF)
+    delVideoFolder = (folder: dat.GUI) => vidsF.removeFolder(folder)
     videos.forEach(addVideoFolder)
 
     useDevicesList({

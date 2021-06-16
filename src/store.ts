@@ -8,8 +8,7 @@ const defaultState: GlobalState = {
     deviceId: "",
   },
   videos: [
-    { id: "v1", src: "", visible: false, model: SupportedModels.MoveNet },
-    // { id: "v2", src: "mask.webm", visible: false },
+    { id: "v1", src: "", visibleEl: false, visibleObj: true, model: SupportedModels.MoveNet, addX: 0, addY: 0, addZ: 0 },
   ]
 }
 
