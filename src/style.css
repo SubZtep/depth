@@ -45,9 +45,33 @@ body {
   height: inherit;
 }
 
+#app > .videoGrid {
+  position: fixed;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+#app > .videoGrid > video {
+  visibility: hidden;
+  border-radius: 1px;
+  box-shadow: 0 0 8px #000;
+  max-width: 25%;
+  max-height: 25%;
+  border: 12px outset var(--blood);
+  transition: var(--video-hide-transition);
+  opacity: 0;
+}
+
+#app > .videoGrid > video.visible {
+  transition: var(--video-hide-transition);
+  visibility: visible;
+  opacity: 1;
+}
+
 #app > video {
   top: 50%;
-  /* left: 50%; */
+  left: 50%;
   position: fixed;
   visibility: hidden;
   border-radius: 1px;
@@ -55,8 +79,8 @@ body {
   max-width: calc(100% - 15px);
   max-height: calc(100% - 15px);
   border: 12px outset var(--blood);
-  /* transform: translate(-50%, -50%); */
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
+  /* transform: translateX(-50%); */
   transition: var(--video-hide-transition);
   opacity: 0;
 }

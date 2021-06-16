@@ -1,14 +1,15 @@
 import { createGlobalState, useStorage } from "@vueuse/core"
 import { reactive } from "vue"
+import { SupportedModels } from "@tensorflow-models/pose-detection"
 
-const defaultState = {
+const defaultState: GlobalState = {
   camera: {
     on: true,
     deviceId: "",
   },
   videos: [
-    { id: "v1", src: "", visible: false },
-    { id: "v2", src: "mask.webm", visible: false },
+    { id: "v1", src: "", visible: false, model: SupportedModels.MoveNet },
+    // { id: "v2", src: "mask.webm", visible: false },
   ]
 }
 

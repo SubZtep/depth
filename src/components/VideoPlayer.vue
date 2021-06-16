@@ -2,8 +2,8 @@
 video(
   show
   muted
-  controls
   autoplay
+  controls
   playsinline
   ref="videoRef"
   poster="no-video.png"
@@ -22,7 +22,9 @@ const elId = useContext().attrs.id
 const videoState = state.videos.find(v => v.id === elId)!
 const src = computed(() => videoState.src)
 
-const { stream } = useUserMedia({
+const camEnabled = computed(() => !get(src) && state.camera.on && get(visibility) === "visible")
+
+const { stream, enabled, start, stop } = useUserMedia({
   audioDeviceId: false,
   videoDeviceId: state.camera.deviceId,
   enabled: computed(() => !get(src) && state.camera.on && get(visibility) === "visible"),
@@ -32,7 +34,7 @@ const emit = defineEmit(["playing", "pause"])
 const videoRef = ref<HTMLVideoElement>()
 
 onMounted(() => {
-  const video = get(videoRef)!
+  const video = get(videoRef)!  
 
   // video.addEventListener("canplay", () => {
   //   console.log("CAN PLAY")
@@ -43,13 +45,11 @@ onMounted(() => {
   })
 
   video.addEventListener("pause", () => {
-    // console.log("PAUSES")
     emit("pause", video)
   })
 
   watch(stream, newStream => {
     if (!newStream) {
-      // video.pause()
       emit("pause", video)
     }
     video.srcObject = newStream || null
@@ -59,13 +59,13 @@ onMounted(() => {
     video.src = newSrc
   }, { immediate: true })
 
-  watch(visibility, async newVisibility => {
-    if (newVisibility === "visible" && !video.isPlaying) {
-      await video.play()
-    }
-    if (newVisibility === "hidden" && video.isPlaying) {
-      video.pause()
-    }
-  })
+  // watch(visibility, async newVisibility => {
+  //   if (newVisibility === "visible" && !video.isPlaying) {
+  //     await video.play()
+  //   }
+  //   if (newVisibility === "hidden" && video.isPlaying) {
+  //     video.pause()
+  //   }
+  // })
 })
 </script>

@@ -1,67 +1,40 @@
 import type { Pose } from "@tensorflow-models/pose-detection"
+import { SupportedModels } from "@tensorflow-models/pose-detection"
+import * as kpc from "@tensorflow-models/pose-detection/dist/constants"
 import * as THREE from "three"
 import chroma from "chroma-js"
-import { pop } from "../misc/object-pool"
+import { pop, push } from "../misc/object-pool"
 import { videoMesh } from "./player"
 
-const jointNames: Joint[] = [
-  "nose",
-  "left_eye_inner",
-  "left_eye",
-  "left_eye_outer",
-  "right_eye_inner",
-  "right_eye",
-  "right_eye_outer",
-  "left_ear",
-  "right_ear",
-  "mouth_left",
-  "mouth_right",
-  "left_shoulder",
-  "right_shoulder",
-  "left_elbow",
-  "right_elbow",
-  "left_wrist",
-  "right_wrist",
-  "left_pinky",
-  "right_pinky",
-  "left_index",
-  "right_index",
-  "left_thumb",
-  "right_thumb",
-  "left_hip",
-  "right_hip",
-  "left_knee",
-  "right_knee",
-  "left_ankle",
-  "right_ankle",
-  "left_heel",
-  "right_heel",
-  "left_foot_index",
-  "right_foot_index",
-]
-
+const f = chroma.scale(["black", "white"])
+function getMatColor(score?: number) {
+  return score !== undefined ? new THREE.Color().fromArray(f(score).rgb()) : new THREE.Color(0x8a0303)
+}
 
 export class Stickman {
-  joints = new Map<Joint, JointMesh>()
+  joints = new Map<string, KeypointMesh>()
   scene: THREE.Scene
   scale = 1
   ratio = 1
-  getMatColor: any
 
-  constructor(scene: THREE.Scene, lightColor = "green") {
+  constructor(scene: THREE.Scene) {
     this.scene = scene
-    if (this.joints.size > 0) return
-    jointNames.forEach(name => {
-      const obj = pop()
-      scene.add(obj)
-      this.joints.set(name, obj)
-    })
+  }
 
-    const f = chroma.scale(["black", lightColor])
-    const getMatColor = (f: chroma.Scale<chroma.Color>) => (score?: number) => {
-      return score !== undefined ? new THREE.Color().fromArray(f(score).rgb()) : new THREE.Color(0x8a0303)
-    }
-    this.getMatColor = getMatColor(f)
+  setKeypoints(model: TFModels) {
+    const objs: THREE.Object3D[] = Array.from(this.joints).map(([, mesh]) => mesh)
+    objs.forEach(obj => {
+      this.scene.remove(obj)
+      push(obj as KeypointMesh)
+    })
+    this.joints.clear()
+
+    const keypointNames: string[] = kpc[`${model === SupportedModels.BlazePose ? "BLAZEPOSE" : "COCO"}_KEYPOINTS`]
+    keypointNames.forEach(name => {
+      const mesh = pop()
+      this.scene.add(mesh)
+      this.joints.set(name, mesh)
+    })
   }
 
   setVideo(videoEl: HTMLVideoElement) {
@@ -105,12 +78,17 @@ export class Stickman {
       .forEach(keypoint => {
         let x = keypoint.x * this.scale
         let y = keypoint.y * this.scale
-        const z = keypoint.z
+        const z = keypoint.z ?? -0.1
 
         if (flipX) x = width - x
         if (flipY) y = height - y
 
-        const joint = this.joints.get(keypoint.name as Joint)!
+        const joint = this.joints.get(keypoint.name!)
+
+        if (joint === undefined) {
+          throw new Error(`${keypoint.name} joint is missing`)
+        }
+
         joint.position.setX(x - halfWidth)
         joint.position.setY(y)
         if (z) {
@@ -123,7 +101,7 @@ export class Stickman {
           material.opacity = keypoint.score || 0
         } else {
           if (material.transparent) material.transparent = false
-          material.color = this.getMatColor(keypoint.score)
+          material.color = getMatColor(keypoint.score)
         }
       })
   }

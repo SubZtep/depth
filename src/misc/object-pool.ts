@@ -1,6 +1,6 @@
 import * as THREE from "three"
 
-const pool: JointMesh[] = []
+const pool: KeypointMesh[] = []
 
 const poolSize = 66
 const geometry = new THREE.SphereGeometry(0.05, 6, 5)
@@ -20,6 +20,6 @@ export function pop() {
 }
 
 /** return an object */
-export function push(obj: JointMesh) {
+export function push(obj: KeypointMesh) {
   pool.push(obj)
 }

@@ -1,24 +1,26 @@
 <template lang="pug">
 .loading(v-show="loading") Loading...
 
-VideoPlayer(
-  v-for="vs in state.videos"
-  :key="vs.id"
-  :id="vs.id"
-  @playing="onVideoPlaying"
-  @pause="onVideoPause")
+.videoGrid
+  VideoPlayer(
+    v-for="vs in state.videos"
+    :key="vs.id"
+    :id="vs.id"
+    @playing="onVideoPlaying"
+    @pause="onVideoPause")
+
 canvas(ref="canvasRef")
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
+import { ref, watch } from "vue"
 import { useThreeJs } from "./composables/useThreeJs"
-import { useMediaPipePose } from "./composables/useMediaPipePose"
+import { usePose, ready as detectorsReady } from "./composables/usePose"
 import { useGlobalState } from "./store"
 import { Stickman } from "./models/stickman"
+import { and, not, whenever, set, until } from "@vueuse/core"
 
 const stickmans = new Map<string, Stickman>()
-
 const videos = new Set<HTMLVideoElement>()
 
 function onVideoPlaying(el: HTMLVideoElement) {
@@ -30,24 +32,52 @@ function onVideoPause(el: HTMLVideoElement) {
   videos.delete(el)
 }
 
-const loading = ref(false)
 const canvasRef = ref<HTMLCanvasElement>()
 const state = useGlobalState()
-const { onThreeReady, tickLoop } = useThreeJs(canvasRef)
-const { estPoses } = useMediaPipePose()
+const { ready: threeReady, onThreeReady, tickLoop, pauseTickLoop, resumeTickLoop } = useThreeJs(canvasRef)
+const { estPoses } = usePose()
 
-tickLoop(() => {
-  videos.forEach(async video => {
-    const pose = await estPoses(video)
-    stickmans.get(video.id)!.update(pose)
-  })
+const stickmanReady = ref(false)
+const loading = not(and(detectorsReady, threeReady, stickmanReady))
+let scene: THREE.Scene | null = null
+
+tickLoop(async () => {
+  await Promise.all(
+    state.videos.map(async v => {
+      const el = document.querySelector<HTMLVideoElement>(`#${v.id}`)!
+      if (el.isPlaying) {
+        const pose = await estPoses(el!, v.model)
+        stickmans.get(v.id)!.update(pose)
+      }
+    })
+  )
 })
 
-onThreeReady(({ scene, resume }) => {
-  state.videos.forEach(({ id }, i) => {
-    stickmans.set(id, new Stickman(scene, i === 0 ? "yellow" : "blue"))
-  })
 
-  resume()
-})
+watch(
+  () => state.videos.map(v => v.model),
+  async () => {
+    set(stickmanReady, false)
+    pauseTickLoop()
+    await until(threeReady).toBeTruthy()
+
+    for (const { id, model } of state.videos) {
+      let stickman: Stickman
+      if (stickmans.has(id)) {
+        stickman = stickmans.get(id)!
+      } else {
+        stickman = new Stickman(scene!)
+        stickmans.set(id, stickman)
+      }
+      // stickman.setKeypoints(model as SupportedModels.MoveNet | SupportedModels.BlazePose)
+      stickman.setKeypoints(model)
+    }
+
+    set(stickmanReady, true)
+  },
+  { immediate: true }
+)
+
+onThreeReady(({ scene: sobj }) => (scene = sobj))
+whenever(and(detectorsReady, threeReady, stickmanReady), resumeTickLoop)
 </script>
