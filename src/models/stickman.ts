@@ -2,10 +2,7 @@ import type { Pose } from "@tensorflow-models/pose-detection"
 import * as THREE from "three"
 import chroma from "chroma-js"
 import { pop } from "../misc/object-pool"
-
-const joints = new Map<Joint, JointMesh>()
-
-const f = chroma.scale(["black", "white"])
+import { videoMesh } from "./player"
 
 const jointNames: Joint[] = [
   "nose",
@@ -43,39 +40,77 @@ const jointNames: Joint[] = [
   "right_foot_index",
 ]
 
-export function add33JointsToScene(scene: THREE.Scene) {
-  if (joints.size > 0) return
-  jointNames.forEach(name => {
-    const obj = pop()
-    scene.add(obj)
-    joints.set(name, obj)
-  })
-}
 
-function getMatColor(score?: number) {
-  return score !== undefined ? new THREE.Color().fromArray(f(score).rgb()) : new THREE.Color(0x8a0303)
-}
+export class Stickman {
+  joints = new Map<Joint, JointMesh>()
+  scene: THREE.Scene
+  scale = 1
+  ratio = 1
+  getMatColor: any
 
-export function initJointUpdater(width: number, height: number) {
-  const halfWidth = width / 2
-  return ([pose]: Pose[], { scale, flipX, flipY, transparent }: VideoPlayerDistortion) => {
+  constructor(scene: THREE.Scene, lightColor = "green") {
+    this.scene = scene
+    if (this.joints.size > 0) return
+    jointNames.forEach(name => {
+      const obj = pop()
+      scene.add(obj)
+      this.joints.set(name, obj)
+    })
+
+    const f = chroma.scale(["black", lightColor])
+    const getMatColor = (f: chroma.Scale<chroma.Color>) => (score?: number) => {
+      return score !== undefined ? new THREE.Color().fromArray(f(score).rgb()) : new THREE.Color(0x8a0303)
+    }
+    this.getMatColor = getMatColor(f)
+  }
+
+  setVideo(videoEl: HTMLVideoElement) {
+    let vp = this.scene.getObjectByName(videoEl.id) as VideoPlayerMesh
+    if (vp) {
+      vp.material.map!.needsUpdate = true
+    } else {
+      vp = videoMesh(videoEl)
+      this.scene.add(vp)
+    }
+
+    const { videoWidth, videoHeight } = videoEl
+    this.ratio = videoWidth / videoHeight
+
+    const width = 4
+    const height = width / this.ratio
+    this.scale = width / videoWidth
+
+    vp.scale.setX(width)
+    vp.scale.setY(height)
+    vp.position.setY(height / 2)
+  }
+
+  update(pose: Pose) {
     if (!pose) {
       console.warn("no pose for update joints", pose)
-      joints.forEach(j => void j.position.set(0, 0, 0))
+      this.joints.forEach(j => void j.position.set(0, 0, 0))
       return
     }
+
+    const flipX = false
+    const flipY = true
+    const transparent = true
+
+    const width = 4
+    const height = width / this.ratio
+    const halfWidth = width / 2
 
     pose.keypoints
       // .filter(keypoint => (keypoint.score || 0) > 0.9 && keypoint.name?.includes("eye"))
       .forEach(keypoint => {
-        let x = keypoint.x * scale
-        let y = keypoint.y * scale
+        let x = keypoint.x * this.scale
+        let y = keypoint.y * this.scale
         const z = keypoint.z
 
         if (flipX) x = width - x
         if (flipY) y = height - y
 
-        const joint = joints.get(keypoint.name as Joint)!
+        const joint = this.joints.get(keypoint.name as Joint)!
         joint.position.setX(x - halfWidth)
         joint.position.setY(y)
         if (z) {
@@ -88,7 +123,7 @@ export function initJointUpdater(width: number, height: number) {
           material.opacity = keypoint.score || 0
         } else {
           if (material.transparent) material.transparent = false
-          material.color = getMatColor(keypoint.score)
+          material.color = this.getMatColor(keypoint.score)
         }
       })
   }

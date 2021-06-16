@@ -2,7 +2,7 @@ import * as THREE from "three"
 
 const pool: JointMesh[] = []
 
-const poolSize = 33
+const poolSize = 66
 const geometry = new THREE.SphereGeometry(0.05, 6, 5)
 
 for (let i = 0; i < poolSize; i++) {

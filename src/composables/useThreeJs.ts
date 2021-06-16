@@ -1,14 +1,15 @@
-import type { Fn } from "@vueuse/core"
+import type { Ref } from "vue"
 import { debouncedWatch, useWindowSize, createEventHook, useRafFn, get } from "@vueuse/core"
 import CameraControls from "camera-controls"
 import * as THREE from "three"
+import { onMounted } from "vue"
 import { floor } from "../models/floor"
 import { getLights } from "../models/light"
 import { loadSkybox } from "../models/skybox"
 
 type TickLoopFn = (params: { scene: THREE.Scene; cameraControls: CameraControls }) => void
 
-export function useThreeJs() {
+export function useThreeJs(canvasRef: Ref<HTMLCanvasElement | undefined>) {
   CameraControls.install({ THREE: THREE })
 
   const readyHook = createEventHook<ThreeJsObjects>()
@@ -34,7 +35,6 @@ export function useThreeJs() {
 
   debouncedWatch([width, height], setRendererDimensions, { immediate: false, debounce: 250 })
 
-  // const tickLoop = (fn: () => void) => (scene, cameraControls) => {
   let framecb: TickLoopFn | undefined
   const tickLoop = (fn: TickLoopFn) => (framecb = fn)
 
@@ -42,7 +42,6 @@ export function useThreeJs() {
     () => {
       const delta = clock.getDelta()
       cameraControls.update(delta)
-      // videoRef.value!.isPlaying && get(isDetectorReady) && estimatePoses()
       if (framecb) {
         framecb({ scene, cameraControls })
       }
@@ -51,7 +50,9 @@ export function useThreeJs() {
     { immediate: false }
   )
 
-  const initThree = (canvas: HTMLCanvasElement) => {
+  onMounted(() => {
+    const canvas = get(canvasRef)!
+
     scene = new THREE.Scene()
     camera = new THREE.PerspectiveCamera(60, undefined, 0.1, 500)
     cameraControls = new CameraControls(camera, canvas)
@@ -65,14 +66,11 @@ export function useThreeJs() {
     scene.add(floor())
     loadSkybox(scene)
 
-    // readyHook.trigger({ clock, cameraControls, renderer, scene, camera })
-    // resume()
-  }
+    readyHook.trigger({ clock, cameraControls, renderer, scene, camera, resume })
+  })
 
   return {
-    resumeTickLoop: resume,
     tickLoop,
-    initThree,
     onThreeReady: readyHook.on,
   }
 }

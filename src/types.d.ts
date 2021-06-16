@@ -57,6 +57,7 @@ interface ThreeJsObjects {
   renderer: THREE.Renderer
   scene: THREE.Scene
   camera: THREE.PerspectiveCamera
+  resume: Fn
 }
 
 interface ComponentTogglers {

@@ -47,7 +47,7 @@ body {
 
 #app > video {
   top: 50%;
-  left: 50%;
+  /* left: 50%; */
   position: fixed;
   visibility: hidden;
   border-radius: 1px;
@@ -55,7 +55,8 @@ body {
   max-width: calc(100% - 15px);
   max-height: calc(100% - 15px);
   border: 12px outset var(--blood);
-  transform: translate(-50%, -50%);
+  /* transform: translate(-50%, -50%); */
+  transform: translateY(-50%);
   transition: var(--video-hide-transition);
   opacity: 0;
 }
@@ -64,6 +65,13 @@ body {
   transition: var(--video-hide-transition);
   visibility: visible;
   opacity: 1;
+}
+
+#app > video:first-of-type {
+  left: 0;
+}
+#app > video:last-of-type {
+  right: 0;
 }
 
 #app > .gui {
@@ -80,3 +88,12 @@ body {
   width: 250px;
   gap: 15px;
 }
+
+/* .dg {
+  font-size: 1.5rem;
+}
+
+.dg li:not(.folder) {
+  height: 2rem;
+  line-height: 2rem;
+} */

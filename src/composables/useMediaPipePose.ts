@@ -1,41 +1,13 @@
-import type { PoseDetector } from "@tensorflow-models/pose-detection"
-import type { Ref } from "vue"
+import type { Pose, PoseDetector } from "@tensorflow-models/pose-detection"
+import { onMounted } from "vue"
 import "@mediapipe/pose"
-import { useAsyncState, get } from "@vueuse/core"
 import { createDetector, SupportedModels } from "@tensorflow-models/pose-detection"
 
-export function useMediaPipePose(videoRef: Ref<HTMLVideoElement | undefined>, options: PoserOptions = {}) {
+let detector: PoseDetector
+export function useMediaPipePose(options: PoserOptions = {}) {
   const { modelConfig = { enableSmoothing: true, flipHorizontal: false } } = options
-  let detector: PoseDetector
 
-  const {
-    state: poses,
-    isReady: isDetectorReady,
-    execute: estimatePoses,
-  } = useAsyncState(
-    async () => {
-      if (detector === undefined) {
-        return Promise.reject("no detector")
-      }
-      const video = get(videoRef)!
-
-      if (video.readyState !== 4) {
-        return Promise.reject(new Error("no video input"))
-      }
-
-      return await detector.estimatePoses(video, modelConfig)
-    },
-    [],
-    {
-      immediate: false,
-      resetOnExecute: false,
-      onError: e => {
-        console.error("estimate poses error", e)
-      },
-    }
-  )
-
-  const initPoseDetector = async () => {
+  onMounted(async () => {
     if (detector !== undefined) {
       return
     }
@@ -43,12 +15,29 @@ export function useMediaPipePose(videoRef: Ref<HTMLVideoElement | undefined>, op
       runtime: "mediapipe",
       solutionPath: "../node_modules/@mediapipe/pose",
     })
+  })
+
+  const estPoses = async (video: HTMLVideoElement): Promise<Pose> => {
+    return new Promise(async (resolve, reject) => {
+      if (detector === undefined) {
+        return reject("no detector")
+      }
+  
+      if (video.readyState !== 4) {
+        return reject(new Error("no video input"))
+      }
+  
+      const poses = await detector.estimatePoses(video, modelConfig)
+      if (poses.length > 0) {
+        return resolve(poses[0])
+      } else {
+        reject("no poses")
+      }
+      // return detector.estimatePoses(video, modelConfig)
+    })
   }
 
   return {
-    poses,
-    estimatePoses,
-    isDetectorReady,
-    initPoseDetector,
+    estPoses,
   }
 }
