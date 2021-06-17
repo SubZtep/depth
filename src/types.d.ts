@@ -43,6 +43,7 @@ type TFModel = Omit<import("@tensorflow-models/pose-detection").SupportedModels,
 interface VideoState {
   id: string
   src: string
+  estimatePoses: boolean
   visibleEl: boolean
   visibleObj: boolean
   model: TFModel

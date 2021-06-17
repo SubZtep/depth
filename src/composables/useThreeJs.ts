@@ -8,14 +8,7 @@ import { getLights } from "../models/light"
 import { loadSkybox } from "../models/skybox"
 import Stats from "stats.js"
 
-// type TickLoopFn = (params: { scene: THREE.Scene; cameraControls: CameraControls, pause: Fn, resume: Fn }) => Promise<void>
 type TickLoopFn = (params: { scene: THREE.Scene; cameraControls: CameraControls }) => Promise<void>
-// export const ready = ref(false)
-
-// export let scene: THREE.Scene | null = null
-// export let pauseTickLoop: Fn
-// export let resumeTickLoop: Fn | null = null
-// export let resumeTickLoop: Fn
 
 export function useThreeJs(canvasRef: Ref<HTMLCanvasElement | undefined>) {
   CameraControls.install({ THREE: THREE })

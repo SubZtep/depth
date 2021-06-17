@@ -3,6 +3,7 @@ import * as dat from "dat.gui"
 import { useDevicesList } from "@vueuse/core"
 import { useGlobalState } from "../store"
 import { SupportedModels } from "@tensorflow-models/pose-detection"
+import { normalizeDeviceLabel } from "../misc/utils"
 
 const playable = ["", "mask.webm", "happy.webm"]
 const models: TFModel[] = [SupportedModels.MoveNet, SupportedModels.BlazePose]
@@ -10,7 +11,6 @@ const models: TFModel[] = [SupportedModels.MoveNet, SupportedModels.BlazePose]
 export default {
   install() {
     const { camera, videos } = useGlobalState()
-
     const gui = new dat.GUI()
 
     let addVideoFolder: (v: VideoState) => void
@@ -19,6 +19,7 @@ export default {
     const videoFactory = (): VideoState => ({
       id: `v${videos.length + 1}`,
       src: "",
+      estimatePoses: true,
       visibleEl: false,
       visibleObj: true,
       model: models[0],
@@ -39,23 +40,22 @@ export default {
     }
 
     const addVideoGui = (parent: dat.GUI) => (v: VideoState) => {
-      console.log(v)
       const vidF = parent.addFolder(`Video #${v.id}`)
       vidF.add(v, "src", playable)
+      vidF.add(v, "estimatePoses")
       vidF.add(v, "visibleEl").name("video html tag")
       vidF.add(v, "visibleObj").name("video 3d object")
       vidF.add(v, "model", models)
-      vidF.add({ delVideo: buttons.delVideo.bind(this, vidF, v) }, "delVideo").name("delete video")
       vidF.add(v, "addX", -10, 10, 0.1)
       vidF.add(v, "addY", -10, 10, 0.1)
       vidF.add(v, "addZ", -10, 10, 0.1)
+      vidF.add({ delVideo: buttons.delVideo.bind(this, vidF, v) }, "delVideo").name("delete video")
       vidF.open()
     }
 
-    const cameraFolder = gui.addFolder("web camera")
-    cameraFolder.add(camera, "on")
-    const deviceCtrl = cameraFolder.add(camera, "deviceId")
-    // cameraFolder.open()
+    const camF = gui.addFolder("web camera")
+    camF.add(camera, "on")
+    const deviceCtrl = camF.add(camera, "deviceId")
 
     const vidsF = gui.addFolder("video inputs")
     vidsF.add(buttons, "addVideo").name("add video")
@@ -68,7 +68,9 @@ export default {
     useDevicesList({
       requestPermissions: true,
       onUpdated: (devices: MediaDeviceInfo[]) => {
-        const videoEntries = devices.filter(v => v.kind === "videoinput").map(v => [v.label, v.deviceId])
+        const videoEntries = devices
+          .filter(v => v.kind === "videoinput")
+          .map(v => [normalizeDeviceLabel(v.label), v.deviceId])
         deviceCtrl.options(Object.fromEntries(videoEntries))
         camera.deviceId = videoEntries.length > 0 ? videoEntries[0][1] : ""
         gui.updateDisplay()

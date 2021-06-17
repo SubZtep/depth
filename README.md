@@ -1,6 +1,11 @@
 # depth-perception
 Eye detection with MoveNet via webcam
 
+### backend setup
+
+https://github.com/tensorflow/tfjs/tree/master/tfjs-backend-wasm
+https://github.com/tensorflow/tfjs-models/tree/master/pose-detection/src/blazepose_tfjs
+
 ```ts
 type KeypointName =
   | "nose"

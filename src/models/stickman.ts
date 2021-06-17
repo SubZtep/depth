@@ -1,14 +1,13 @@
-import { get } from "@vueuse/core"
 import type { Pose } from "@tensorflow-models/pose-detection"
 import { SupportedModels } from "@tensorflow-models/pose-detection"
 import * as kpc from "@tensorflow-models/pose-detection/dist/constants"
-import { watch } from "vue"
 import * as THREE from "three"
 import chroma from "chroma-js"
 import { sphereFactory, videoMeshFactory } from "./factories"
 import { useGlobalState } from "../store"
+import { difference } from "../misc/utils"
 
-const blazeExtraKeypoints = kpc.BLAZEPOSE_KEYPOINTS.filter(v => !kpc.COCO_KEYPOINTS.includes(v))
+const blazeExtraKeypoints = difference(kpc.BLAZEPOSE_KEYPOINTS, kpc.COCO_KEYPOINTS)
 
 const f = chroma.scale(["black", "white"])
 function getMatColor(score?: number) {
@@ -29,7 +28,6 @@ export class Stickman {
     this.scene = scene
     this.group = this.initGroup()
 
-
     const it = this.initJoints()
     let res: IteratorResult<KeypointMesh> = it.next()
     while (!res.done) {
@@ -38,14 +36,6 @@ export class Stickman {
       this.joints.set(value.name, value)
       res = it.next()
     }
-
-    // console.log(useGlobalState().videos.find(({ id }) => id === this.id))
-    // watch(
-    //   () => useGlobalState().videos.find(({ id }) => id === this.id),
-    //   () => {
-    //     console.log("BIIIII")
-    //   }
-    // )
   }
 
   initGroup() {
@@ -63,29 +53,24 @@ export class Stickman {
     }
   }
 
-  setKeypoints(model: TFModel) {
+  setModel(model: TFModel) {
     blazeExtraKeypoints.forEach(name => {
-      this.joints.get(name)!.visible = model === SupportedModels.BlazePose
+      const joint = this.joints.get(name)
+      const visible = model === SupportedModels.BlazePose
+      if (joint !== undefined && joint.visible !== visible) {
+        joint.visible = visible
+      }
     })
-
   }
 
   setVideo(videoEl: HTMLVideoElement) {
     if (this.videoPlayer) {
       this.videoPlayer.material.map!.needsUpdate = true
     } else {
-      console.log("SCWE", useGlobalState().videos.find(({ id }) => id === this.id)!.visibleObj)
       this.videoPlayer = videoMeshFactory(videoEl)
       this.group.add(this.videoPlayer)
       this.videoPlayer.visible = useGlobalState().videos.find(({ id }) => id === this.id)!.visibleObj
     }
-
-    // let vp = this.scene.getObjectByName(videoEl.id) as VideoPlayerMesh
-    // if (vp) {
-    //   vp.material.map!.needsUpdate = true
-    // } else {
-    //   this.scene.add(vp)
-    // }
 
     const { videoWidth, videoHeight } = videoEl
     this.ratio = videoWidth / videoHeight
@@ -114,9 +99,6 @@ export class Stickman {
     const height = width / this.ratio
     const halfWidth = width / 2
 
-    // const group = this.getGroup()
-
-    // group.children
     pose.keypoints
       // .filter(keypoint => (keypoint.score || 0) > 0.9 && keypoint.name?.includes("eye"))
       .forEach(keypoint => {
@@ -128,8 +110,6 @@ export class Stickman {
         if (flipY) y = height - y
 
         const joint = this.joints.get(keypoint.name!)
-        // const joint = this.group.children.find(obj => obj.name === keypoint.name) as KeypointMesh | undefined
-
         if (joint === undefined) {
           throw new Error(`${keypoint.name} joint is missing`)
         }

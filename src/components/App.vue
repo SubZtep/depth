@@ -1,12 +1,16 @@
 <template lang="pug">
-.loading(v-show="loading") Loading...
+.loading(v-show="loading")
+  | Loading...
+  //- div detector: {{detectorsReady}}
+  //- div three: {{threeReady}}
+  //- div stickman: {{stickmanReady}}
 
 .videoGrid
   VideoPlayer(
     v-for="vs in videos"
     :key="vs.id"
     :id="vs.id"
-    @playing="setStickmanVideo"
+    @playing="setVideo"
     @pause="")
 
 canvas(ref="canvasRef")
@@ -27,26 +31,26 @@ const { videos } = useGlobalState()
 
 const threeReady = ref(false)
 const scene = ref<THREE.Scene>()
-const { stickmanReady, setStickmanPose, setStickmanVideo } = useEstimations({ threeReady, scene })
+const { stickmanReady, setPose, setVideo } = useEstimations({ threeReady, scene })
 const loading = not(and(detectorsReady, threeReady, stickmanReady))
-
-tickLoop(async () => {
-  await Promise.all(
-    videos.map(async v => {
-      const el = document.querySelector<HTMLVideoElement>(`#${v.id}`)!
-      if (el.isPlaying) {
-        const pose = await estimatePoses(el!, v.model)
-        setStickmanPose(v.id, pose)
-      }
-    })
-  )
-})
 
 onThreeReady(({ scene: sobj }) => {
   set(scene, sobj)
   set(threeReady, true)
 })
 
-whenever(not(stickmanReady), pauseTickLoop)
-whenever(and(detectorsReady, threeReady, stickmanReady), resumeTickLoop)
+tickLoop(async () => {
+  await Promise.all(
+    videos.map(async v => {
+      const el = document.querySelector<HTMLVideoElement>(`#${v.id}`)!
+      if (el.isPlaying && v.estimatePoses) {
+        const pose = await estimatePoses(el, v.model)
+        setPose(v.id, pose)
+      }
+    })
+  )
+})
+
+whenever(loading, pauseTickLoop)
+whenever(not(loading), resumeTickLoop)
 </script>

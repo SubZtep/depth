@@ -8,8 +8,18 @@ const defaultState: GlobalState = {
     deviceId: "",
   },
   videos: [
-    { id: "v1", src: "", visibleEl: false, visibleObj: true, model: SupportedModels.MoveNet, addX: 0, addY: 0, addZ: 0 },
-  ]
+    {
+      id: "v1",
+      src: "",
+      estimatePoses: false,
+      visibleEl: false,
+      visibleObj: true,
+      model: SupportedModels.MoveNet,
+      addX: 0,
+      addY: 0,
+      addZ: 0,
+    },
+  ],
 }
 
 export const useGlobalState = createGlobalState(
