@@ -16,7 +16,7 @@
   "dependencies": {
     "@mediapipe/pose": "^0.3.1621277220",
     "@tensorflow-models/pose-detection": "^0.0.3",
-    "@tensorflow/tfjs": "^3.7.0",
+    "@tensorflow/tfjs-core": "^3.7.0",
     "@vueuse/core": "^5.0.3",
     "camera-controls": "^1.28.4",
     "chroma-js": "^2.1.2",

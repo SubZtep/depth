@@ -11,10 +11,10 @@ const defaultState: GlobalState = {
     {
       id: "v1",
       src: "",
-      estimatePoses: false,
+      estimatePoses: true,
       visibleEl: false,
       visibleObj: true,
-      model: SupportedModels.MoveNet,
+      model: SupportedModels.BlazePose,
       addX: 0,
       addY: 0,
       addZ: 0,
