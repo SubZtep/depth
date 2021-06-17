@@ -7,17 +7,20 @@ import { floor } from "../models/floor"
 import { getLights } from "../models/light"
 import { loadSkybox } from "../models/skybox"
 import Stats from "stats.js"
+import { useGlobalState } from "../store"
 
 type TickLoopFn = (params: { scene: THREE.Scene; cameraControls: CameraControls }) => Promise<void>
 
 export function useThreeJs(canvasRef: Ref<HTMLCanvasElement | undefined>) {
   CameraControls.install({ THREE: THREE })
+  const stats = new Stats()
+
+  const { options } = useGlobalState()
+  let setSkybox: (nr: number) => void
 
   const readyHook = createEventHook<ThreeJsObjects>()
   const { width, height } = useWindowSize()
   const clock = new THREE.Clock()
-  const stats = new Stats()
-
   const ready = ref(false)
 
   let scene: THREE.Scene
@@ -36,8 +39,6 @@ export function useThreeJs(canvasRef: Ref<HTMLCanvasElement | undefined>) {
       renderer.setSize(get(width), get(height))
     }
   }
-
-  debouncedWatch([width, height], setRendererDimensions, { immediate: false, debounce: 250 })
 
   let framecb: TickLoopFn | undefined
   const tickLoop = (fn: TickLoopFn) => (framecb = fn)
@@ -60,7 +61,7 @@ export function useThreeJs(canvasRef: Ref<HTMLCanvasElement | undefined>) {
   onMounted(() => {
     document.body.appendChild(stats.dom)
     const canvas = get(canvasRef)!
-    
+
     scene = new THREE.Scene()
     camera = new THREE.PerspectiveCamera(60, undefined, 0.1, 500)
     cameraControls = new CameraControls(camera, canvas)
@@ -74,9 +75,21 @@ export function useThreeJs(canvasRef: Ref<HTMLCanvasElement | undefined>) {
     scene.add(floor())
     loadSkybox(scene)
 
+    setSkybox = (nr: number) => {
+      loadSkybox(scene, nr)
+    }
+
     readyHook.trigger({ scene })
     ready.value = true
   })
+
+  debouncedWatch([width, height], setRendererDimensions, { immediate: false, debounce: 250 })
+
+  debouncedWatch(
+    () => options.skybox,
+    () => setSkybox && setSkybox(options.skybox),
+    { immediate: false, debounce: 250 }
+  )
 
   return {
     ready,

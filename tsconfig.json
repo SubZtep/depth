@@ -20,7 +20,7 @@
     ],*/
     "typeRoots": [
       "./node_modules/@types",
-      "./src/types.d.ts"
+      "src/types/types.d.ts"
     ]
   },
   "include": ["./src", "./__tests__"],

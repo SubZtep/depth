@@ -11,7 +11,7 @@ const defaultState: GlobalState = {
     {
       id: "v1",
       src: "",
-      estimatePoses: true,
+      estimatePoses: false, //true,
       visibleEl: false,
       visibleObj: true,
       model: SupportedModels.BlazePose,
@@ -20,9 +20,12 @@ const defaultState: GlobalState = {
       addZ: 0,
     },
   ],
+  options: {
+    skybox: 14,
+  },
 }
 
 export const useGlobalState = createGlobalState(
-  () => reactive(defaultState)
+  (): GlobalState => reactive(defaultState)
   // () => useStorage("depth-store", defaultState)
 )

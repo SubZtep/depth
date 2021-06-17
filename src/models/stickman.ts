@@ -1,11 +1,11 @@
-import type { Pose } from "@tensorflow-models/pose-detection"
-import { SupportedModels } from "@tensorflow-models/pose-detection"
+import type { Keypoint, Pose } from "@tensorflow-models/pose-detection"
+import { SupportedModels, util } from "@tensorflow-models/pose-detection"
 import * as kpc from "@tensorflow-models/pose-detection/dist/constants"
 import * as THREE from "three"
 import chroma from "chroma-js"
-import { sphereFactory, videoMeshFactory } from "./factories"
+import { lineFactory, sphereFactory, videoMeshFactory } from "./factories"
 import { useGlobalState } from "../store"
-import { difference } from "../misc/utils"
+import { difference, average } from "../misc/utils"
 
 const blazeExtraKeypoints = difference(kpc.BLAZEPOSE_KEYPOINTS, kpc.COCO_KEYPOINTS)
 
@@ -16,12 +16,14 @@ function getMatColor(score?: number) {
 
 export class Stickman {
   joints = new Map<string, KeypointMesh>()
+  lines = new Map<string, THREE.Line>()
   scene: THREE.Scene
   scale = 1
   ratio = 1
   id: string
   group: THREE.Group
   videoPlayer?: VideoPlayerMesh
+  getPairs!: () => number[][]
 
   constructor(id: string, scene: THREE.Scene) {
     this.id = id
@@ -53,7 +55,7 @@ export class Stickman {
     }
   }
 
-  setModel(model: TFModel) {
+  assortJoints(model: TFModel) {
     blazeExtraKeypoints.forEach(name => {
       const joint = this.joints.get(name)
       const visible = model === SupportedModels.BlazePose
@@ -61,6 +63,15 @@ export class Stickman {
         joint.visible = visible
       }
     })
+
+    this.lines.forEach(line => {
+      // TODO: test this and/or reuse
+      this.scene.remove(line)
+      line.geometry.dispose()
+      ;(line.material as THREE.LineBasicMaterial).dispose()
+      line.remove()
+    })
+    this.lines.clear()
   }
 
   setVideo(videoEl: HTMLVideoElement) {
@@ -99,26 +110,26 @@ export class Stickman {
     const height = width / this.ratio
     const halfWidth = width / 2
 
+    const scaleKeypoint = (keypoint: Keypoint): number[] => {
+      let x = keypoint.x * this.scale
+      let y = keypoint.y * this.scale
+      const z = keypoint.z ?? -0.1
+
+      if (flipX) x = width - x
+      if (flipY) y = height - y
+
+      return [x - halfWidth, y, z]
+    }
+
     pose.keypoints
       // .filter(keypoint => (keypoint.score || 0) > 0.9 && keypoint.name?.includes("eye"))
       .forEach(keypoint => {
-        let x = keypoint.x * this.scale
-        let y = keypoint.y * this.scale
-        const z = keypoint.z ?? -0.1
-
-        if (flipX) x = width - x
-        if (flipY) y = height - y
-
         const joint = this.joints.get(keypoint.name!)
         if (joint === undefined) {
           throw new Error(`${keypoint.name} joint is missing`)
         }
 
-        joint.position.setX(x - halfWidth)
-        joint.position.setY(y)
-        if (z) {
-          joint.position.setZ(z)
-        }
+        joint.position.fromArray(scaleKeypoint(keypoint))
 
         const material = joint.material
         if (transparent) {
@@ -128,6 +139,28 @@ export class Stickman {
           if (material.transparent) material.transparent = false
           material.color = getMatColor(keypoint.score)
         }
+      })
+
+    util
+      .getAdjacentPairs(useGlobalState().videos.find(({ id }) => id === this.id)!.model as SupportedModels)
+      .forEach(([i, j]) => {
+        const kp1 = pose.keypoints[i]
+        const kp2 = pose.keypoints[j]
+
+        const points = [new THREE.Vector3(...scaleKeypoint(kp1)), new THREE.Vector3(...scaleKeypoint(kp2))]
+
+        let line: THREE.Line
+        const key = `${i}-${j}`
+        if (this.lines.has(key)) {
+          line = this.lines.get(key)!
+        } else {
+          line = lineFactory()
+          this.scene.add(line)
+          this.lines.set(key, line)
+        }
+
+        ;(line.material as THREE.LineBasicMaterial).color = getMatColor(average(kp1.score || 0, kp2.score || 0))
+        line.geometry.setFromPoints(points)
       })
   }
 }

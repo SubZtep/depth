@@ -57,7 +57,8 @@ export function useEstimations({ threeReady, scene }: EstimationsProps) {
         if (pos.x !== v.addX || pos.y !== v.addY || pos.z !== v.addZ) {
           stickman.group.position.set(v.addX, v.addY, v.addZ)
         }
-        stickman.setModel(v.model)
+        
+        stickman.assortJoints(v.model)
       })
 
       set(stickmanReady, true)
