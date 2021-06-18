@@ -1,54 +1,53 @@
 <template lang="pug">
-.loading(v-show="loading")
-  | Loading...
-  //- div detector: {{detectorsReady}}
-  //- div three: {{threeReady}}
-  //- div stickman: {{stickmanReady}}
+.loading(v-show="loading") Loading...
 
 .videoGrid
   VideoPlayer(
-    v-for="vs in videos"
-    :key="vs.id"
-    :id="vs.id"
-    @playing="setVideo"
+    v-for="p in piles"
+    :key="p.id"
+    :pid="p.id"
     @pause="")
+    //- @playing="setVideo"
 
 canvas(ref="canvasRef")
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
-import { and, not, whenever, set } from "@vueuse/core"
-import { useEstimations } from "../composables/useEstimations"
-import { useThreeJs } from "../composables/useThreeJs"
-import { usePose } from "../composables/usePose"
+import { onMounted, ref } from "vue"
 import { useGlobalState } from "../store"
+import { and, not, whenever, set } from "@vueuse/core"
+import { useThreeJs } from "../composables/useThreeJs"
+// import { useEstimations } from "../composables/useEstimations"
+// import { usePose } from "../composables/usePose"
 
 const canvasRef = ref<HTMLCanvasElement>()
 const { onThreeReady, tickLoop, pauseTickLoop, resumeTickLoop } = useThreeJs(canvasRef)
-const { estimatePoses, ready: detectorsReady } = usePose()
-const { videos } = useGlobalState()
-
 const threeReady = ref(false)
-const scene = ref<THREE.Scene>()
-const { stickmanReady, setPose, setVideo } = useEstimations({ threeReady, scene })
-const loading = not(and(detectorsReady, threeReady, stickmanReady))
 
-onThreeReady(({ scene: sobj }) => {
-  set(scene, sobj)
+const loading =  not(and(threeReady)) // not(and(detectorsReady, threeReady, stickmanReady))
+// const { estimatePoses, ready: detectorsReady } = usePose()
+// const { videos } = useGlobalState()
+const { piles } = useGlobalState()
+
+// const scene = ref<THREE.Scene>()
+// const { stickmanReady, setPose, setVideo } = useEstimations({ threeReady, scene })
+
+onThreeReady(({ scene: _sobj }) => {
+  // set(scene, sobj)
   set(threeReady, true)
 })
 
 tickLoop(async () => {
-  await Promise.all(
-    videos.map(async v => {
-      const el = document.querySelector<HTMLVideoElement>(`#${v.id}`)!
-      if (el.isPlaying && v.estimatePoses) {
-        const pose = await estimatePoses(el, v.model)
-        setPose(v.id, pose)
-      }
-    })
-  )
+  // console.log(piles)
+  // await Promise.all(
+  //   videos.filter(v => v.estimatePoses).map(async v => {
+  //     const el = document.querySelector<HTMLVideoElement>(`#${v.id}`)!
+  //     if (el.isPlaying) {
+  //       const pose = await estimatePoses(el, v.model)
+  //       setPose(v.id, pose)
+  //     }
+  //   })
+  // )
 })
 
 whenever(loading, pauseTickLoop)

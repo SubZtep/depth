@@ -1,94 +1,136 @@
 import type { Plugin } from "vue"
 import * as dat from "dat.gui"
-import { useDevicesList } from "@vueuse/core"
-import { useGlobalState } from "../store"
-import { SupportedModels } from "@tensorflow-models/pose-detection"
+import { useDevicesList, createEventHook, useCssVar } from "@vueuse/core"
+import { useSingleton } from "../composables/useSingleton"
 import { normalizeDeviceLabel } from "../misc/utils"
+import { useGlobalState } from "../store"
+import { Pile } from "../models/pile"
 
-const playable = { webcam: "", "bad video": "mask.webm", "better video": "happy.webm" }
-const models: TFModel[] = [SupportedModels.MoveNet, SupportedModels.BlazePose]
-
-function addCamera(gui: dat.GUI, camera: CameraState) {
-  const camF = gui.addFolder("web camera")
-  camF.add(camera, "on")
-  const deviceCtrl = camF.add(camera, "deviceId")
+function addWebcam(gui: dat.GUI, camera: CameraState) {
+  const f = gui.addFolder("🪞web camera settings")
+  f.add(camera, "on").name("🤳on")
+  const deviceCtrl = f.add(camera, "deviceId").name("✯device")
 
   useDevicesList({
     requestPermissions: true,
-    onUpdated: (devices: MediaDeviceInfo[]) => {
-      const videoEntries = devices
-        .filter(v => v.kind === "videoinput")
-        .map(v => [normalizeDeviceLabel(v.label), v.deviceId])
-      deviceCtrl.options(Object.fromEntries(videoEntries))
-      camera.deviceId = videoEntries.length > 0 ? videoEntries[0][1] : ""
+    onUpdated: devices => {
+      const vids = devices.filter(v => v.kind === "videoinput").map(v => [normalizeDeviceLabel(v.label), v.deviceId])
+      deviceCtrl.options(Object.fromEntries(vids)).name("📡device")
+      camera.deviceId = vids.length > 0 ? vids[0][1] : ""
       gui.updateDisplay()
     },
   })
 }
 
-function addVideos(gui: dat.GUI, videos: VideoState[]) {
-  let addVideoFolder: (v: VideoState) => void
-  let delVideoFolder: (folder: dat.GUI) => void
-
-  const videoFactory = (): VideoState => ({
-    id: `v${videos.length + 1}`,
-    src: "",
-    estimatePoses: true,
-    visibleEl: false,
-    visibleObj: true,
-    model: models[0],
-    addX: 0,
-    addY: 0,
-    addZ: 0,
-  })
-
-  const buttons = {
-    addVideo: () => {
-      const len = videos.push(videoFactory())
-      addVideoFolder(videos[len - 1])
-    },
-    delVideo: (folder: dat.GUI, video: VideoState) => {
-      delVideoFolder(folder)
-      videos.splice(videos.indexOf(video), 1)
-    },
-  }
-
-  const addVideoGui = (parent: dat.GUI) => (v: VideoState) => {
-    const vidF = parent.addFolder(`Video #${v.id}`)
-    vidF.add(v, "estimatePoses").name("estimate poses")
-    vidF.add(v, "visibleEl").name("show html video tag")
-    vidF.add(v, "visibleObj").name("playback in 3d scene")
-    vidF.add(v, "src", playable).name("input source")
-    vidF.add(v, "model", models)
-    const vidPosF = vidF.addFolder("position")
-    vidPosF.add(v, "addX", -10, 10, 0.1).name("x")
-    vidPosF.add(v, "addY", -10, 10, 0.1).name("y")
-    vidPosF.add(v, "addZ", -10, 10, 0.1).name("z")
-    vidF.add({ delVideo: buttons.delVideo.bind(this, vidF, v) }, "delVideo").name("delete video")
-    vidF.open()
-  }
-
-  const vidsF = gui.addFolder("video inputs")
-  vidsF.add(buttons, "addVideo").name("add video")
-  vidsF.open()
-
-  addVideoFolder = addVideoGui(vidsF)
-  delVideoFolder = (folder: dat.GUI) => vidsF.removeFolder(folder)
-  videos.forEach(addVideoFolder)
+function addOptions(gui: dat.GUI, options: OptionsState) {
+  const guiScale = useCssVar("--gui-scale")
+  guiScale.value = String(options.guiScale)
+  const f = gui.addFolder("⚙various options")
+  f.add(options, "guiScale", 0.5, 3.5, 0.1)
+    .onFinishChange(v => (guiScale.value = String(v)))
+    .name("🦠this gui scale")
+  f.add(options, "skybox", 1, 15, 1).name("🌃sky time")
 }
 
-function addOptions(gui: dat.GUI, options: OptionsState) {
-  const optF = gui.addFolder("options")
-  optF.add(options, "skybox", 1, 15, 1)
+function addCameraControl(gui: dat.GUI) {
+  const cameraHook = createEventHook<CameraEvent>()
+  const btns = {
+    rotate: () => cameraHook.trigger({ command: "rotate" }),
+    shake: () => cameraHook.trigger({ command: "shake" }),
+  }
+  const f = gui.addFolder("🎥ingame camera control")
+  f.add(btns, "rotate").name("✯ rotate")
+  f.add(btns, "shake").name("✯ shake")
+  return cameraHook
+}
+
+function addPiles(gui: dat.GUI, state: PileState[], piles: FrozenPiles) {
+  const pileEvent = createEventHook<PileEvent>()
+
+  let addPileFolder: (v: PileState) => void
+  let delPileFolder: (folder: dat.GUI) => void
+
+  const btns = {
+    addPile: () => {
+      const pile = new Pile()
+      piles.set(pile.id, pile)
+      pileEvent.trigger({ event: "add", pile })
+
+      const pileState = pile.toState()
+      state.push(pileState)
+      addPileFolder(pileState)
+    },
+    delPile: (pf: dat.GUI, pileState: PileState) => {
+      const pile = piles.get(pileState.id)
+      pileEvent.trigger({ event: "delete", pile })
+
+      delPileFolder(pf)
+      state.splice(state.indexOf(pileState), 1)
+      piles.delete(pile.id)
+    },
+  }
+
+  const addPileGui = (parent: dat.GUI) => (pileState: PileState) => {
+    const pf = parent.addFolder(`⚔ #${pileState.id}`)
+
+    const posf = pf.addFolder("⛕position")
+    posf.add(pileState.position, "x", -10, 10, 0.1).name("♀ x")
+    posf.add(pileState.position, "y", -10, 10, 0.1).name("♂ y")
+    posf.add(pileState.position, "z", -10, 10, 0.1).name("☭ z")
+
+    const pile = piles.get(pileState.id) as Pile
+    const tvf = pf.addFolder("🛀video input")
+    tvf
+      .add(pileState.videoPlayer, "visibleEl")
+      .name("☢html video tag visible")
+      .onChange(v => {
+        pileState.videoPlayer.visibleEl = v
+        // pile.videoPlayer.visible = v
+        // console.log("XCCCCZXZC", v)
+      })
+    tvf
+      .add(pileState.videoPlayer, "visibleObj")
+      .name("☣scene video visible")
+      .onChange(v => {
+        // pile.videoPlayer.visibleEl = v
+        pileState.videoPlayer.visibleEl = v
+      })
+    tvf
+      .add(pileState.videoPlayer, "width", 1, 10, 0.1)
+      .name("🍺player width")
+      .onChange(v => {
+        pile.videoPlayer.scale.x = v
+      })
+
+    pf.add({ delPile: btns.delPile.bind(undefined, pf, pileState) }, "delPile").name("💀delete pile")
+    pf.open()
+  }
+
+  const f = gui.addFolder("👻piles of posers")
+  f.add(btns, "addPile").name("😳new ╳ pile")
+  f.open()
+
+  addPileFolder = addPileGui(f)
+  delPileFolder = (pf: dat.GUI) => f.removeFolder(pf)
+
+  state.forEach(addPileFolder) // TODO: test is with preloaded piles
+
+  return pileEvent
 }
 
 export default {
-  install() {
-    const state = useGlobalState()
+  install(app) {
     const gui = new dat.GUI()
+    const state = useGlobalState()
+    const { piles } = useSingleton()
 
-    addCamera(gui, state.camera)
-    addVideos(gui, state.videos)
+    const cameraHook = addCameraControl(gui)
+    app.provide("cameraHook", cameraHook)
+
+    addWebcam(gui, state.camera)
     addOptions(gui, state.options)
+
+    const pileHook = addPiles(gui, state.piles, piles)
+    app.provide("pileHook", pileHook)
   },
 } as Plugin

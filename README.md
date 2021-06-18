@@ -6,6 +6,10 @@ Eye detection with MoveNet via webcam
 https://github.com/tensorflow/tfjs/tree/master/tfjs-backend-wasm
 https://github.com/tensorflow/tfjs-models/tree/master/pose-detection/src/blazepose_tfjs
 
+### cam
+
+https://github.com/yomotsu/camera-controls
+
 ```ts
 type KeypointName =
   | "nose"

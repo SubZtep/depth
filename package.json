@@ -21,6 +21,7 @@
     "camera-controls": "^1.28.4",
     "chroma-js": "^2.1.2",
     "dat.gui": "^0.7.7",
+    "random-word-slugs": "^0.0.2",
     "stats.js": "^0.17.0",
     "three": "^0.129.0",
     "vue": "^3.0.11"
@@ -37,8 +38,8 @@
     "jest": "^27.0.4",
     "pug": "^3.0.2",
     "ts-jest": "^27.0.3",
-    "typescript": "^4.3.3",
+    "typescript": "^4.3.4",
     "vite": "^2.3.7",
-    "vite-plugin-components": "^0.11.1"
+    "vite-plugin-components": "^0.11.2"
   }
 }

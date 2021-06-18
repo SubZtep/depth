@@ -1,31 +1,27 @@
-import { createGlobalState, useStorage } from "@vueuse/core"
+import { createGlobalState } from "@vueuse/core"
+import * as THREE from "three"
 import { reactive } from "vue"
-import { SupportedModels } from "@tensorflow-models/pose-detection"
 
 const defaultState: GlobalState = {
   camera: {
     on: true,
     deviceId: "",
   },
-  videos: [
-    {
-      id: "v1",
-      src: "",
-      estimatePoses: false, //true,
-      visibleEl: false,
-      visibleObj: true,
-      model: SupportedModels.BlazePose,
-      addX: 0,
-      addY: 0,
-      addZ: 0,
-    },
+  piles: [
+    // {
+    //   id: "XXX",
+    //   position: new THREE.Vector3(1, 1, 1),
+    //   videoPlayer: {
+    //     visibleEl: true,
+    //     visibleObj: true,
+    //     width: 3,
+    //   },
+    // },
   ],
   options: {
     skybox: 14,
+    guiScale: 1.5,
   },
 }
 
-export const useGlobalState = createGlobalState(
-  (): GlobalState => reactive(defaultState)
-  // () => useStorage("depth-store", defaultState)
-)
+export const useGlobalState = createGlobalState((): GlobalState => reactive(defaultState))

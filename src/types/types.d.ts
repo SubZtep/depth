@@ -33,6 +33,19 @@ declare type VideoPlayerMesh = THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMa
 declare type UpdateJointsFn = (poses: /*Pose*/ any[], distortion: VideoPlayerDistortion) => void
 declare type SetMeshFn = (video: HTMLVideoElement) => Proimise<void>
 
-type TFModel = Omit<import("@tensorflow-models/pose-detection").SupportedModels, "PoseNet">
+type TickLoopFn = (params: {
+  scene: import("three").Scene
+  cameraControls: import("camera-controls").default
+}) => Promise<void>
 
-declare type Fn = import("@vueuse/core").Fn
+declare type PileToSingleton = (pile: Pile) => void
+declare type FrozenPiles = Map<string, Pile>
+
+interface CameraEvent {
+  command: "rotate" | "shake"
+}
+
+interface PileEvent {
+  event: "add" | "delete"
+  pile: Pile
+}

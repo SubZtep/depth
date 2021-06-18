@@ -3,24 +3,31 @@ interface CameraState {
   deviceId: string
 }
 
-interface VideoState {
+interface PileState {
   id: string
-  src: string
-  estimatePoses: boolean
-  visibleEl: boolean
-  visibleObj: boolean
-  model: TFModel
-  addX: number
-  addY: number
-  addZ: number
+  // estimatePoses: boolean
+  // visibleEl: boolean
+  // visibleObj: boolean
+  // objWidth: number
+  position: {
+    x: number
+    y: number
+    z: number
+  },
+  videoPlayer: {
+    visibleEl: boolean
+    visibleObj: boolean
+    width: number
+  }
 }
 
 interface OptionsState {
   skybox: number
+  guiScale: number
 }
 
 interface GlobalState {
   camera: CameraState
-  videos: VideoState[]
+  piles: PileState[]
   options: OptionsState
 }

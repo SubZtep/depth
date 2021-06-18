@@ -2,11 +2,11 @@
   --blood: #8a0303;
   --video-hide-duration: 150ms;
   --video-hide-transition: visibility var(--video-hide-duration) linear, opacity var(--video-hide-duration) linear;
+  --unicode-transition: opacity var(--video-hide-duration) linear;
 }
 
 * {
   box-sizing: border-box;
-  /* user-select: none; */
 }
 
 body {
@@ -50,6 +50,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
+  pointer-events: none;
 }
 
 #app > .videoGrid > video {
@@ -58,7 +59,7 @@ body {
   box-shadow: 0 0 8px #000;
   max-width: 40%;
   max-height: 40%;
-  border: 12px outset var(--blood);
+  border: 8px outset var(--blood);
   transition: var(--video-hide-transition);
   opacity: 0;
 }
@@ -69,55 +70,30 @@ body {
   opacity: 1;
 }
 
-#app > video {
-  top: 50%;
-  left: 50%;
-  position: fixed;
-  visibility: hidden;
-  border-radius: 1px;
-  box-shadow: 0 0 8px #000;
-  max-width: calc(100% - 15px);
-  max-height: calc(100% - 15px);
-  border: 12px outset var(--blood);
-  transform: translate(-50%, -50%);
-  /* transform: translateX(-50%); */
-  transition: var(--video-hide-transition);
-  opacity: 0;
+.dg.main {
+  transform-origin: right top;
+  transform: scale(var(--gui-scale, 1));  
 }
 
-#app > video.visible {
-  transition: var(--video-hide-transition);
-  visibility: visible;
+.dg .folder ul .title:first-of-type::first-letter {
+  font-size: 1.2rem;
+  margin-right: 8px;
   opacity: 1;
+  transition: var(--unicode-transition);
 }
 
-#app > video:first-of-type {
-  left: 0;
-}
-#app > video:last-of-type {
-  right: 0;
+.dg .folder ul.closed .title:first-of-type::first-letter {
+  opacity: 0.65;
+  transition: var(--unicode-transition);
 }
 
-#app > .gui {
-  top: 15px;
-  left: 15px;
-  padding: 15px;
-  position: absolute;
-  background: linear-gradient(to bottom, #b8860b, darkgreen);
-  border: 2px solid darkslategrey;
-  flex-direction: column;
-  border-radius: 6px;
-  display: flex;
-  color: yellow;
-  width: 250px;
-  gap: 15px;
+.dg .folder .property-name::first-letter {
+  margin-right: 6px;
+  opacity: 0.65;
+  transition: var(--unicode-transition);
 }
 
-/* .dg {
-  font-size: 1.5rem;
+.dg .folder .property-name:hover::first-letter {
+  opacity: 1;
+  transition: var(--unicode-transition);
 }
-
-.dg li:not(.folder) {
-  height: 2rem;
-  line-height: 2rem;
-} */

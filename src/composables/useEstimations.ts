@@ -53,12 +53,14 @@ export function useEstimations({ threeReady, scene }: EstimationsProps) {
         if (stickman.videoPlayer && stickman.videoPlayer.visible !== v.visibleObj) {
           stickman.videoPlayer.visible = v.visibleObj
         }
-        const pos = stickman.group.position
-        if (pos.x !== v.addX || pos.y !== v.addY || pos.z !== v.addZ) {
-          stickman.group.position.set(v.addX, v.addY, v.addZ)
+        const pos = stickman.rootGroup.position
+        if (pos.x !== v.objX || pos.y !== v.objY || pos.z !== v.objZ) {
+          stickman.rootGroup.position.set(v.objX, v.objY, v.objZ)
         }
         
-        stickman.assortJoints(v.model)
+        console.log("SCALE", stickman.videoPlayer?.scale)
+
+        stickman.assortJoints()
       })
 
       set(stickmanReady, true)

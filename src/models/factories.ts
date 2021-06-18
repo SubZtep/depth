@@ -1,5 +1,15 @@
-import { group } from "console"
 import * as THREE from "three"
+
+export function videoPlayerMeshFactory() {
+  const geometry = new THREE.PlaneBufferGeometry()
+  const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide })
+  // const texture = new THREE.VideoTexture(video)
+  // material.map = texture
+  // material.needsUpdate = true
+  const mesh = new THREE.Mesh(geometry, material)
+  // mesh.name = `video-player-${video.id}`
+  return mesh
+}
 
 export function videoMeshFactory(video: HTMLVideoElement) {
   const geometry = new THREE.PlaneBufferGeometry()
@@ -12,7 +22,8 @@ export function videoMeshFactory(video: HTMLVideoElement) {
   return mesh
 }
 
-const sphereGeometry = new THREE.SphereGeometry(0.05, 6, 5)
+// const sphereGeometry = new THREE.SphereGeometry(0.05, 6, 5)
+const sphereGeometry = new THREE.SphereGeometry(0.1, 6, 5)
 
 export function sphereFactory() {
   const material = new THREE.MeshLambertMaterial({ color: 0xffffff })

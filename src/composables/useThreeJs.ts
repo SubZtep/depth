@@ -1,98 +1,81 @@
-import { ref, Ref } from "vue"
-import { debouncedWatch, useWindowSize, createEventHook, useRafFn, get } from "@vueuse/core"
-import CameraControls from "camera-controls"
+import type { Ref, } from "vue"
+import type { EventHook } from "@vueuse/core"
+import { onMounted, inject } from "vue"
 import * as THREE from "three"
-import { onMounted } from "vue"
-import { floor } from "../models/floor"
-import { getLights } from "../models/light"
+import CameraControls from "camera-controls"
+import { debouncedWatch, useWindowSize, createEventHook, useRafFn, unrefElement } from "@vueuse/core"
+import { useCameraControls } from "./useCameraControls"
 import { loadSkybox } from "../models/skybox"
-import Stats from "stats.js"
-import { useGlobalState } from "../store"
-
-type TickLoopFn = (params: { scene: THREE.Scene; cameraControls: CameraControls }) => Promise<void>
+import { getLights } from "../models/light"
+import { floor } from "../models/floor"
 
 export function useThreeJs(canvasRef: Ref<HTMLCanvasElement | undefined>) {
-  CameraControls.install({ THREE: THREE })
-  const stats = new Stats()
-
-  const { options } = useGlobalState()
-  let setSkybox: (nr: number) => void
-
+  CameraControls.install({ THREE })
   const readyHook = createEventHook<ThreeJsObjects>()
   const { width, height } = useWindowSize()
   const clock = new THREE.Clock()
-  const ready = ref(false)
 
-  let scene: THREE.Scene
+  const scene = new THREE.Scene()
+  const camera = new THREE.PerspectiveCamera(60, undefined, 0.1, 500)
   let renderer: THREE.WebGLRenderer
-  let camera: THREE.PerspectiveCamera
   let cameraControls: CameraControls
 
-  const setRendererDimensions = (dimensions?: number[]) => {
-    if (dimensions !== undefined) {
-      const [w, h] = dimensions
-      camera.aspect = w / h
-      camera.updateProjectionMatrix()
-      renderer.setSize(w, h)
-    } else {
-      camera.aspect = get(width) / get(height)
-      renderer.setSize(get(width), get(height))
+  inject<EventHook<PileEvent>>("pileHook")?.on(({ event, pile }) => {
+    switch(event) {
+      case "add":
+        scene.add(pile.rootGroup)
+        break
+      case "delete":
+        scene.remove(pile.rootGroup)
+        break
     }
-  }
+  })
 
-  let framecb: TickLoopFn | undefined
-  const tickLoop = (fn: TickLoopFn) => (framecb = fn)
+  let tickLoopCb: TickLoopFn | undefined = undefined
+  const tickLoop = (fn: TickLoopFn) => (tickLoopCb = fn)
+  const stats = inject<Stats>("stats")
+  let delta: number
 
   const { pause: pauseTickLoop, resume: resumeTickLoop } = useRafFn(
     async () => {
-      if (scene === null) return
-      const delta = clock.getDelta()
-      stats.begin()
+      delta = clock.getDelta()
+      stats?.begin()
       cameraControls.update(delta)
-      if (framecb) {
-        await framecb({ scene, cameraControls })
+      if (typeof tickLoopCb === "function") {
+        await tickLoopCb({ scene, cameraControls })
       }
-      stats.end()
+      stats?.end()
       renderer.render(scene, camera)
     },
     { immediate: false }
   )
 
   onMounted(() => {
-    document.body.appendChild(stats.dom)
-    const canvas = get(canvasRef)!
-
-    scene = new THREE.Scene()
-    camera = new THREE.PerspectiveCamera(60, undefined, 0.1, 500)
-    cameraControls = new CameraControls(camera, canvas)
-    cameraControls.setPosition(0, 2, -20)
-
+    const canvas = unrefElement(canvasRef)
     renderer = new THREE.WebGLRenderer({ premultipliedAlpha: false, precision: "lowp", canvas })
     renderer.setPixelRatio(window.devicePixelRatio)
-    setRendererDimensions()
 
+    cameraControls = new CameraControls(camera, canvas)
+    cameraControls.setPosition(0, 2, 10)
+    useCameraControls(cameraControls)
+
+    loadSkybox(scene)
     scene.add(...getLights())
     scene.add(floor())
-    loadSkybox(scene)
-
-    setSkybox = (nr: number) => {
-      loadSkybox(scene, nr)
-    }
-
     readyHook.trigger({ scene })
-    ready.value = true
   })
 
-  debouncedWatch([width, height], setRendererDimensions, { immediate: false, debounce: 250 })
-
   debouncedWatch(
-    () => options.skybox,
-    () => setSkybox && setSkybox(options.skybox),
-    { immediate: false, debounce: 250 }
+    [width, height],
+    ([w, h]) => {
+      camera.aspect = w / h
+      camera.updateProjectionMatrix()
+      renderer.setSize(w, h)
+    },
+    { immediate: true, debounce: 250 }
   )
 
   return {
-    ready,
     tickLoop,
     pauseTickLoop,
     resumeTickLoop,

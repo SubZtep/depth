@@ -1,4 +1,6 @@
+import { debouncedWatch } from "@vueuse/core"
 import * as THREE from "three"
+import { useGlobalState } from "../store"
 
 export function loadSkybox(scene: THREE.Scene, skyboxNumber = 14) {
   if (skyboxNumber < 1 || skyboxNumber > 15) {
@@ -7,13 +9,24 @@ export function loadSkybox(scene: THREE.Scene, skyboxNumber = 14) {
   }
 
   const loader = new THREE.CubeTextureLoader()
-  const path = `/Classic Skybox/${String(skyboxNumber).padStart(2, "0")}/`
-  const urls = ["RT", "LF", "UP", "DN", "BK", "FR"].map(side => `sky${skyboxNumber}_${side}.jpg`)
   const onLoad = (texture: THREE.CubeTexture) => (scene.background = texture)
   const onProgress = (ev: ProgressEvent) => console.info("downloading skybox", ev)
   const onError = (err: ErrorEvent) => console.error(err)
 
-  loader.setPath(path).load(urls, onLoad, onProgress, onError)
+  const load = (nr: number) => {
+    const path = `/Classic Skybox/${String(nr).padStart(2, "0")}/`
+    const urls = ["RT", "LF", "UP", "DN", "BK", "FR"].map(side => `sky${nr}_${side}.jpg`)
+    loader.setPath(path).load(urls, onLoad, onProgress, onError)
+  }
+
+  load(skyboxNumber)
+  const { options } = useGlobalState()
+
+  debouncedWatch(
+    () => options.skybox,
+    sb => load(sb),
+    { immediate: false, debounce: 250 }
+  )
 }
 
 export function videoMesh(video: HTMLVideoElement) {
