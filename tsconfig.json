@@ -20,6 +20,7 @@
     ],*/
     "typeRoots": [
       "./node_modules/@types",
+      // "./node_modules/@vueuse/shared/index.d.ts",
       "src/types/types.d.ts"
     ]
   },

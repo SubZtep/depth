@@ -20,7 +20,7 @@ export function useThreeJs(canvasRef: Ref<HTMLCanvasElement | undefined>) {
   let renderer: THREE.WebGLRenderer
   let cameraControls: CameraControls
 
-  inject<EventHook<PileEvent>>("pileHook")?.on(({ event, pile }) => {
+  inject<EventHook<GUIEvent.Pile>>("pileHook")?.on(({ event, pile }) => {
     switch(event) {
       case "add":
         scene.add(pile.rootGroup)

@@ -1,7 +1,7 @@
 <template lang="pug">
 .loading(v-show="loading") Loading...
 
-.videoGrid
+.grid
   VideoPlayer(
     v-for="p in piles"
     :key="p.id"
@@ -27,7 +27,7 @@ const threeReady = ref(false)
 const loading =  not(and(threeReady)) // not(and(detectorsReady, threeReady, stickmanReady))
 // const { estimatePoses, ready: detectorsReady } = usePose()
 // const { videos } = useGlobalState()
-const { piles } = useGlobalState()
+// const { piles } = useGlobalState()
 
 // const scene = ref<THREE.Scene>()
 // const { stickmanReady, setPose, setVideo } = useEstimations({ threeReady, scene })

@@ -5,24 +5,30 @@ import { useGlobalState } from "../store"
 import { get } from "@vueuse/core";
 import { reactive, watch } from "vue";
 
-/** Hold video, stickmen and lot of static stuff */
+/** Hold video, stickmen and lot of static stuff, one pile is one video with skeleton */
 export class Pile {
   id: string
+
+  /** parent of all objects */
   rootGroup: THREE.Group
   
   // stickman: Stickman
+  
+  /** mirror camera stream to scene */
   videoPlayer: VideoPlayerMesh
 
   ratio = 2
 
   constructor() {
     this.id = generateSlug()
+    
     this.rootGroup = new THREE.Group()
     this.rootGroup.name = this.id
+
     this.videoPlayer = videoPlayerMeshFactory()
     this.rootGroup.add(this.videoPlayer)
-    // this.rootGroup.add(sphereFactory()) 
 
+    // this.rootGroup.add(sphereFactory()) 
     // const state = useGlobalState()
     // watch(state, newState => {
     //   console.log("STATE", state)

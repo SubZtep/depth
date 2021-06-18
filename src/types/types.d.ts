@@ -40,12 +40,3 @@ type TickLoopFn = (params: {
 
 declare type PileToSingleton = (pile: Pile) => void
 declare type FrozenPiles = Map<string, Pile>
-
-interface CameraEvent {
-  command: "rotate" | "shake"
-}
-
-interface PileEvent {
-  event: "add" | "delete"
-  pile: Pile
-}

@@ -45,7 +45,7 @@ body {
   height: inherit;
 }
 
-#app > .videoGrid {
+#app > .grid {
   position: fixed;
   display: flex;
   flex-wrap: wrap;
@@ -53,7 +53,7 @@ body {
   pointer-events: none;
 }
 
-#app > .videoGrid > video {
+#app > .grid > video {
   visibility: hidden;
   border-radius: 1px;
   box-shadow: 0 0 8px #000;
@@ -64,7 +64,7 @@ body {
   opacity: 0;
 }
 
-#app > .videoGrid > video.visible {
+#app > .grid > video.visible {
   transition: var(--video-hide-transition);
   visibility: visible;
   opacity: 1;
@@ -80,6 +80,9 @@ body {
   margin-right: 8px;
   opacity: 1;
   transition: var(--unicode-transition);
+}
+.dg .folder ul .title:first-of-type {
+  line-height: 20px;
 }
 
 .dg .folder ul.closed .title:first-of-type::first-letter {

@@ -132,8 +132,8 @@ export function useCameraControls(cameraControls: CameraControls) {
   ]
   let shaker = 0
 
-  inject<EventHook<CameraEvent>>("cameraHook").on(({ command }) => {
-    switch (command) {
+  inject<EventHook<GUIEvent.Camera>>("cameraHook").on(({ cmd }) => {
+    switch (cmd) {
       case "rotate":
         cameraControls.rotate(0, 20 * THREE.MathUtils.DEG2RAD, true)
         break

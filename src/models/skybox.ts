@@ -1,6 +1,6 @@
-import { debouncedWatch } from "@vueuse/core"
+import type { EventHook } from "@vueuse/core"
+import { inject } from "vue"
 import * as THREE from "three"
-import { useGlobalState } from "../store"
 
 export function loadSkybox(scene: THREE.Scene, skyboxNumber = 14) {
   if (skyboxNumber < 1 || skyboxNumber > 15) {
@@ -20,22 +20,5 @@ export function loadSkybox(scene: THREE.Scene, skyboxNumber = 14) {
   }
 
   load(skyboxNumber)
-  const { options } = useGlobalState()
-
-  debouncedWatch(
-    () => options.skybox,
-    sb => load(sb),
-    { immediate: false, debounce: 250 }
-  )
-}
-
-export function videoMesh(video: HTMLVideoElement) {
-  const geometry = new THREE.PlaneBufferGeometry()
-  const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide })
-  const texture = new THREE.VideoTexture(video)
-  material.map = texture
-  material.needsUpdate = true
-  const mesh = new THREE.Mesh(geometry, material)
-  mesh.name = "video-player"
-  return mesh
+  inject<EventHook<GUIEvent.Options>>("optionsHook")?.on(({ skybox }) => load(skybox))
 }

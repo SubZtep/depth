@@ -1,5 +1,4 @@
 import { createGlobalState } from "@vueuse/core"
-import * as THREE from "three"
 import { reactive } from "vue"
 
 const defaultState: GlobalState = {
@@ -18,10 +17,6 @@ const defaultState: GlobalState = {
     //   },
     // },
   ],
-  options: {
-    skybox: 14,
-    guiScale: 1.5,
-  },
 }
 
 export const useGlobalState = createGlobalState((): GlobalState => reactive(defaultState))

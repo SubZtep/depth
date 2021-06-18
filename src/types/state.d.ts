@@ -21,13 +21,7 @@ interface PileState {
   }
 }
 
-interface OptionsState {
-  skybox: number
-  guiScale: number
-}
-
 interface GlobalState {
   camera: CameraState
   piles: PileState[]
-  options: OptionsState
 }

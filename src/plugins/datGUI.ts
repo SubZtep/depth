@@ -1,10 +1,10 @@
-import type { Plugin } from "vue"
+import { Pile } from './../models/pile';
 import * as dat from "dat.gui"
-import { useDevicesList, createEventHook, useCssVar } from "@vueuse/core"
+import type { Plugin } from "vue"
+import { useDevicesList, createEventHook, useCssVar, useFullscreen, set } from "@vueuse/core"
 import { useSingleton } from "../composables/useSingleton"
 import { normalizeDeviceLabel } from "../misc/utils"
 import { useGlobalState } from "../store"
-import { Pile } from "../models/pile"
 
 function addWebcam(gui: dat.GUI, camera: CameraState) {
   const f = gui.addFolder("🪞web camera settings")
@@ -22,30 +22,48 @@ function addWebcam(gui: dat.GUI, camera: CameraState) {
   })
 }
 
-function addOptions(gui: dat.GUI, options: OptionsState) {
+function addOptions(gui: dat.GUI) {
+  const hook = createEventHook<GUIEvent.Options>()
   const guiScale = useCssVar("--gui-scale")
-  guiScale.value = String(options.guiScale)
+  const { toggle } = useFullscreen()
+  set(guiScale, "1.5")
+  const opts = {
+    guiScale: 1.5,
+    skybox: 14,
+    toggle,
+  }
+
   const f = gui.addFolder("⚙various options")
-  f.add(options, "guiScale", 0.5, 3.5, 0.1)
-    .onFinishChange(v => (guiScale.value = String(v)))
+
+  f.add(opts, "guiScale", 0.5, 3.5, 0.1)
+    .onFinishChange(scale => set(guiScale, String(scale)))
     .name("🦠this gui scale")
-  f.add(options, "skybox", 1, 15, 1).name("🌃sky time")
+
+  f.add(opts, "skybox", 1, 15, 1)
+    .onFinishChange(skybox => hook.trigger({ skybox }))
+    .name("🌃sky time")
+
+  f.add(opts, "toggle").name("✯ fullscreen")
+
+  return hook
 }
 
 function addCameraControl(gui: dat.GUI) {
-  const cameraHook = createEventHook<CameraEvent>()
+  const hook = createEventHook<GUIEvent.Camera>()
   const btns = {
-    rotate: () => cameraHook.trigger({ command: "rotate" }),
-    shake: () => cameraHook.trigger({ command: "shake" }),
+    rotate: () => hook.trigger({ cmd: "rotate" }),
+    shake: () => hook.trigger({ cmd: "shake" }),
   }
+
   const f = gui.addFolder("🎥ingame camera control")
   f.add(btns, "rotate").name("✯ rotate")
   f.add(btns, "shake").name("✯ shake")
-  return cameraHook
+
+  return hook
 }
 
 function addPiles(gui: dat.GUI, state: PileState[], piles: FrozenPiles) {
-  const pileEvent = createEventHook<PileEvent>()
+  const hook = createEventHook<GUIEvent.Pile>()
 
   let addPileFolder: (v: PileState) => void
   let delPileFolder: (folder: dat.GUI) => void
@@ -54,7 +72,7 @@ function addPiles(gui: dat.GUI, state: PileState[], piles: FrozenPiles) {
     addPile: () => {
       const pile = new Pile()
       piles.set(pile.id, pile)
-      pileEvent.trigger({ event: "add", pile })
+      hook.trigger({ event: "add", pile })
 
       const pileState = pile.toState()
       state.push(pileState)
@@ -62,7 +80,7 @@ function addPiles(gui: dat.GUI, state: PileState[], piles: FrozenPiles) {
     },
     delPile: (pf: dat.GUI, pileState: PileState) => {
       const pile = piles.get(pileState.id)
-      pileEvent.trigger({ event: "delete", pile })
+      hook.trigger({ event: "delete", pile })
 
       delPileFolder(pf)
       state.splice(state.indexOf(pileState), 1)
@@ -115,7 +133,7 @@ function addPiles(gui: dat.GUI, state: PileState[], piles: FrozenPiles) {
 
   state.forEach(addPileFolder) // TODO: test is with preloaded piles
 
-  return pileEvent
+  return hook
 }
 
 export default {
@@ -124,13 +142,9 @@ export default {
     const state = useGlobalState()
     const { piles } = useSingleton()
 
-    const cameraHook = addCameraControl(gui)
-    app.provide("cameraHook", cameraHook)
-
     addWebcam(gui, state.camera)
-    addOptions(gui, state.options)
-
-    const pileHook = addPiles(gui, state.piles, piles)
-    app.provide("pileHook", pileHook)
+    app.provide("cameraHook", addCameraControl(gui))
+    app.provide("optionsHook", addOptions(gui))
+    app.provide("pileHook", addPiles(gui, state.piles, piles))
   },
 } as Plugin
