@@ -1,10 +1,10 @@
-import { Pile } from './../models/pile';
+// import { Pile } from './../models/pile';
 import * as dat from "dat.gui"
 import type { Plugin } from "vue"
 import { useDevicesList, createEventHook, useCssVar, useFullscreen, set } from "@vueuse/core"
-import { useSingleton } from "../composables/useSingleton"
+// import { useSingleton } from "../composables/useSingleton"
 import { normalizeDeviceLabel } from "../misc/utils"
-import { useGlobalState } from "../store"
+// import { useGlobalState } from "../store"
 
 function addWebcam(gui: dat.GUI, camera: CameraState) {
   const f = gui.addFolder("🪞web camera settings")
@@ -23,7 +23,7 @@ function addWebcam(gui: dat.GUI, camera: CameraState) {
 }
 
 function addOptions(gui: dat.GUI) {
-  const hook = createEventHook<GUIEvent.Options>()
+  const hook = createEventHook<GUIEventold.Options>()
   const guiScale = useCssVar("--gui-scale")
   const { toggle } = useFullscreen()
   set(guiScale, "1.5")
@@ -49,7 +49,7 @@ function addOptions(gui: dat.GUI) {
 }
 
 function addCameraControl(gui: dat.GUI) {
-  const hook = createEventHook<GUIEvent.Camera>()
+  const hook = createEventHook<GUIEventold.Camera>()
   const btns = {
     rotate: () => hook.trigger({ cmd: "rotate" }),
     shake: () => hook.trigger({ cmd: "shake" }),
@@ -62,89 +62,91 @@ function addCameraControl(gui: dat.GUI) {
   return hook
 }
 
-function addPiles(gui: dat.GUI, state: PileState[], piles: FrozenPiles) {
-  const hook = createEventHook<GUIEvent.Pile>()
+// function addPiles(gui: dat.GUI, state: PileState[], piles: FrozenPiles) {
+//   const hook = createEventHook<GUIEventold.Pile>()
 
-  let addPileFolder: (v: PileState) => void
-  let delPileFolder: (folder: dat.GUI) => void
+//   let addPileFolder: (v: PileState) => void
+//   let delPileFolder: (folder: dat.GUI) => void
 
-  const btns = {
-    addPile: () => {
-      const pile = new Pile()
-      piles.set(pile.id, pile)
-      hook.trigger({ event: "add", pile })
+//   const btns = {
+//     addPile: () => {
+//       const pile = new Pile()
+//       piles.set(pile.id, pile)
+//       hook.trigger({ event: "add", pile })
 
-      const pileState = pile.toState()
-      state.push(pileState)
-      addPileFolder(pileState)
-    },
-    delPile: (pf: dat.GUI, pileState: PileState) => {
-      const pile = piles.get(pileState.id)
-      hook.trigger({ event: "delete", pile })
+//       const pileState = pile.toState()
+//       state.push(pileState)
+//       addPileFolder(pileState)
+//     },
+//     delPile: (pf: dat.GUI, pileState: PileState) => {
+//       const pile = piles.get(pileState.id)
+//       hook.trigger({ event: "delete", pile })
 
-      delPileFolder(pf)
-      state.splice(state.indexOf(pileState), 1)
-      piles.delete(pile.id)
-    },
-  }
+//       delPileFolder(pf)
+//       state.splice(state.indexOf(pileState), 1)
+//       piles.delete(pile.id)
+//     },
+//   }
 
-  const addPileGui = (parent: dat.GUI) => (pileState: PileState) => {
-    const pf = parent.addFolder(`⚔ #${pileState.id}`)
+//   const addPileGui = (parent: dat.GUI) => (pileState: PileState) => {
+//     const pf = parent.addFolder(`⚔ #${pileState.id}`)
 
-    const posf = pf.addFolder("⛕position")
-    posf.add(pileState.position, "x", -10, 10, 0.1).name("♀ x")
-    posf.add(pileState.position, "y", -10, 10, 0.1).name("♂ y")
-    posf.add(pileState.position, "z", -10, 10, 0.1).name("☭ z")
+//     const posf = pf.addFolder("⛕position")
+//     posf.add(pileState.position, "x", -10, 10, 0.1).name("♀ x")
+//     posf.add(pileState.position, "y", -10, 10, 0.1).name("♂ y")
+//     posf.add(pileState.position, "z", -10, 10, 0.1).name("☭ z")
 
-    const pile = piles.get(pileState.id) as Pile
-    const tvf = pf.addFolder("🛀video input")
-    tvf
-      .add(pileState.videoPlayer, "visibleEl")
-      .name("☢html video tag visible")
-      .onChange(v => {
-        pileState.videoPlayer.visibleEl = v
-        // pile.videoPlayer.visible = v
-        // console.log("XCCCCZXZC", v)
-      })
-    tvf
-      .add(pileState.videoPlayer, "visibleObj")
-      .name("☣scene video visible")
-      .onChange(v => {
-        // pile.videoPlayer.visibleEl = v
-        pileState.videoPlayer.visibleEl = v
-      })
-    tvf
-      .add(pileState.videoPlayer, "width", 1, 10, 0.1)
-      .name("🍺player width")
-      .onChange(v => {
-        pile.videoPlayer.scale.x = v
-      })
+//     const pile = piles.get(pileState.id) as Pile
+//     const tvf = pf.addFolder("🛀video input")
+//     tvf
+//       .add(pileState.videoPlayer, "visibleEl")
+//       .name("☢html video tag visible")
+//       .onChange(v => {
+//         pileState.videoPlayer.visibleEl = v
+//         // pile.videoPlayer.visible = v
+//         // console.log("XCCCCZXZC", v)
+//       })
+//     tvf
+//       .add(pileState.videoPlayer, "visibleObj")
+//       .name("☣scene video visible")
+//       .onChange(v => {
+//         // pile.videoPlayer.visibleEl = v
+//         pileState.videoPlayer.visibleEl = v
+//       })
+//     tvf
+//       .add(pileState.videoPlayer, "width", 1, 10, 0.1)
+//       .name("🍺player width")
+//       .onChange(v => {
+//         pile.videoPlayer.scale.x = v
+//       })
 
-    pf.add({ delPile: btns.delPile.bind(undefined, pf, pileState) }, "delPile").name("💀delete pile")
-    pf.open()
-  }
+//     pf.add({ delPile: btns.delPile.bind(undefined, pf, pileState) }, "delPile").name("💀delete pile")
+//     pf.open()
+//   }
 
-  const f = gui.addFolder("👻piles of posers")
-  f.add(btns, "addPile").name("😳new ╳ pile")
-  f.open()
+//   const f = gui.addFolder("👻piles of posers")
+//   f.add(btns, "addPile").name("😳new ╳ pile")
+//   f.open()
 
-  addPileFolder = addPileGui(f)
-  delPileFolder = (pf: dat.GUI) => f.removeFolder(pf)
+//   addPileFolder = addPileGui(f)
+//   delPileFolder = (pf: dat.GUI) => f.removeFolder(pf)
 
-  state.forEach(addPileFolder) // TODO: test is with preloaded piles
+//   state.forEach(addPileFolder) // TODO: test is with preloaded piles
 
-  return hook
-}
+//   return hook
+// }
 
 export default {
   install(app) {
     const gui = new dat.GUI()
-    const state = useGlobalState()
-    const { piles } = useSingleton()
+    app.provide("gui", gui)
 
-    addWebcam(gui, state.camera)
+    // const state = useGlobalState()
+    // const { piles } = useSingleton()
+
+    // addWebcam(gui, state.camera)
     app.provide("cameraHook", addCameraControl(gui))
     app.provide("optionsHook", addOptions(gui))
-    app.provide("pileHook", addPiles(gui, state.piles, piles))
+    // app.provide("pileHook", addPiles(gui, state.piles, piles))
   },
 } as Plugin

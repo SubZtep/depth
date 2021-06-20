@@ -4,6 +4,8 @@ import Stats from "stats.js"
 export default {
   install(app) {
     const stats = new Stats()
+    stats.showPanel(2)
+    stats.dom.classList.add("stats")
     document.body.appendChild(stats.dom)
     app.provide("stats", stats)
   }

@@ -1,16 +1,16 @@
 import type { Pose, PoseDetector } from "@tensorflow-models/pose-detection"
 import * as tf from "@tensorflow/tfjs-core"
-import { onMounted, ref } from "vue"
-import { set } from "@vueuse/core"
-import "@tensorflow/tfjs-backend-webgl"
+// import "@tensorflow/tfjs-backend-webgl"
 import "@mediapipe/pose"
 import * as tfjsWasm from "@tensorflow/tfjs-backend-wasm"
 tfjsWasm.setWasmPaths(`https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@${tfjsWasm.version_wasm}/dist/`)
-import { createDetector, SupportedModels, movenet } from "@tensorflow-models/pose-detection"
+import { createDetector, SupportedModels } from "@tensorflow-models/pose-detection"
+import { invoke, set } from "@vueuse/core"
+import { onBeforeUnmount, ref } from "vue"
 
 export function usePose() {
   let detector: PoseDetector | undefined = undefined
-  const ready = ref(true)
+  const detectorReady = ref(false)
 
   const resetBackend = async (name: "webgl" | "wasm") => {
     const engine = tf.engine()
@@ -25,26 +25,15 @@ export function usePose() {
     await tf.setBackend(name)
   }
 
-  onMounted(async () => {
-    set(ready, false)
-    await resetBackend("wasm")
-    set(ready, true)
-  })
-
   const initDetector = async (): Promise<PoseDetector> => {
-    set(ready, false)
-
     detector = await createDetector(SupportedModels.BlazePose, {
       runtime: "mediapipe",
       // runtime: "tfjs",
       solutionPath: "../node_modules/@mediapipe/pose",
     })
-
     if (detector === undefined) {
       throw new Error("unable to create pose detector")
     }
-
-    set(ready, true)
     return detector
   }
 
@@ -55,7 +44,8 @@ export function usePose() {
       }
 
       if (detector === undefined) {
-        detector = await initDetector()
+        // detector = await initDetector()
+        return reject(new Error("no detector"))
       }
 
       const poses = await detector.estimatePoses(video, {
@@ -65,13 +55,26 @@ export function usePose() {
       if (poses.length > 0) {
         return resolve(poses[0])
       } else {
-        reject("no poses")
+        reject(new Error("no pose detected"))
       }
     })
   }
 
+  invoke(async () => {
+    await resetBackend("wasm")
+    console.info("pose backend is wasm")
+    detector = await initDetector()
+    console.info("pose detector is ready")
+    set(detectorReady, true)
+  })
+
+  onBeforeUnmount(() => {
+    detector?.dispose()
+    console.log("detector disposed")
+  })
+
   return {
-    ready,
     estimatePoses,
+    detectorReady,
   }
 }

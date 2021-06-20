@@ -2,52 +2,52 @@
 .loading(v-show="loading") Loading...
 
 .grid
-  VideoPlayer(
-    v-for="p in piles"
-    :key="p.id"
-    :pid="p.id"
-    @pause="")
-    //- @playing="setVideo"
+  Pile(
+    v-for="id of piles"
+    :key="id"
+    :pid="id"
+    @addFn="fn => pileTickFn.add(fn)"
+    @delFn="fn => pileTickFn.delete(fn)")
 
 canvas(ref="canvasRef")
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue"
-import { useGlobalState } from "../store"
-import { and, not, whenever, set } from "@vueuse/core"
+import { ref, reactive } from "vue"
+import { generateSlug } from "random-word-slugs"
+import { useDatGui } from "../composables/useDatGui"
+import { not, whenever, set } from "@vueuse/core"
 import { useThreeJs } from "../composables/useThreeJs"
-// import { useEstimations } from "../composables/useEstimations"
-// import { usePose } from "../composables/usePose"
+
+const { guiEvent, addPileGroup } = useDatGui()
+
+const piles = reactive(new Set<string>())
+const pileTickFn = new Set<() => Promise<void>>()
+
+guiEvent.on(({ delPile }) => {
+  delPile && piles.delete(delPile)
+})
 
 const canvasRef = ref<HTMLCanvasElement>()
 const { onThreeReady, tickLoop, pauseTickLoop, resumeTickLoop } = useThreeJs(canvasRef)
 const threeReady = ref(false)
 
-const loading =  not(and(threeReady)) // not(and(detectorsReady, threeReady, stickmanReady))
-// const { estimatePoses, ready: detectorsReady } = usePose()
-// const { videos } = useGlobalState()
-// const { piles } = useGlobalState()
-
-// const scene = ref<THREE.Scene>()
-// const { stickmanReady, setPose, setVideo } = useEstimations({ threeReady, scene })
+// const loading =  not(and(threeReady)) // not(and(detectorsReady, threeReady, stickmanReady))
+const loading = not(threeReady)
 
 onThreeReady(({ scene: _sobj }) => {
+  addPileGroup(() => {
+    const id = generateSlug()
+    piles.add(id)
+  })
   // set(scene, sobj)
   set(threeReady, true)
 })
 
 tickLoop(async () => {
-  // console.log(piles)
-  // await Promise.all(
-  //   videos.filter(v => v.estimatePoses).map(async v => {
-  //     const el = document.querySelector<HTMLVideoElement>(`#${v.id}`)!
-  //     if (el.isPlaying) {
-  //       const pose = await estimatePoses(el, v.model)
-  //       setPose(v.id, pose)
-  //     }
-  //   })
-  // )
+  for (const fn of pileTickFn) {
+    await fn()
+  }
 })
 
 whenever(loading, pauseTickLoop)

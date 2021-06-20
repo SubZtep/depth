@@ -8,4 +8,7 @@
   "windicss.sortOnSave": true,
   "css.validate": false,
   "scss.validate": false,
+  "gitlens.codeLens.recentChange.enabled": false,
+  "gitlens.codeLens.authors.enabled": false,
+  "gitlens.codeLens.enabled": false,
 }

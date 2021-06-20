@@ -1,36 +1,32 @@
-import type { Ref, } from "vue"
-import type { EventHook } from "@vueuse/core"
+import type { Ref } from "vue"
 import { onMounted, inject } from "vue"
 import * as THREE from "three"
 import CameraControls from "camera-controls"
 import { debouncedWatch, useWindowSize, createEventHook, useRafFn, unrefElement } from "@vueuse/core"
-import { useCameraControls } from "./useCameraControls"
+import { useSceneCam } from "./useSceneCam"
 import { loadSkybox } from "../models/skybox"
 import { getLights } from "../models/light"
 import { floor } from "../models/floor"
 
-export function useThreeJs(canvasRef: Ref<HTMLCanvasElement | undefined>) {
+const scene = new THREE.Scene()
+
+export const tickFns = new Set<TickLoopFn>()
+
+export function useThreeJs(canvasRef?: Ref<HTMLCanvasElement | undefined>): typeof canvasRef extends undefined ? void : any {
+  if (canvasRef === undefined) {
+    return {
+      scene,
+    }
+  }
+
   CameraControls.install({ THREE })
   const readyHook = createEventHook<ThreeJsObjects>()
   const { width, height } = useWindowSize()
   const clock = new THREE.Clock()
 
-  const scene = new THREE.Scene()
   const camera = new THREE.PerspectiveCamera(60, undefined, 0.1, 500)
   let renderer: THREE.WebGLRenderer
   let cameraControls: CameraControls
-
-  inject<EventHook<GUIEvent.Pile>>("pileHook")?.on(({ event, pile }) => {
-    switch(event) {
-      case "add":
-        scene.add(pile.rootGroup)
-        break
-      case "delete":
-        scene.remove(pile.rootGroup)
-        break
-    }
-  })
-
   let tickLoopCb: TickLoopFn | undefined = undefined
   const tickLoop = (fn: TickLoopFn) => (tickLoopCb = fn)
   const stats = inject<Stats>("stats")
@@ -44,6 +40,7 @@ export function useThreeJs(canvasRef: Ref<HTMLCanvasElement | undefined>) {
       if (typeof tickLoopCb === "function") {
         await tickLoopCb({ scene, cameraControls })
       }
+
       stats?.end()
       renderer.render(scene, camera)
     },
@@ -57,7 +54,7 @@ export function useThreeJs(canvasRef: Ref<HTMLCanvasElement | undefined>) {
 
     cameraControls = new CameraControls(camera, canvas)
     cameraControls.setPosition(0, 2, 10)
-    useCameraControls(cameraControls)
+    useSceneCam(cameraControls)
 
     loadSkybox(scene)
     scene.add(...getLights())
@@ -76,6 +73,8 @@ export function useThreeJs(canvasRef: Ref<HTMLCanvasElement | undefined>) {
   )
 
   return {
+    scene,
+    tickFns,
     tickLoop,
     pauseTickLoop,
     resumeTickLoop,

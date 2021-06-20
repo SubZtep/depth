@@ -10,3 +10,12 @@ export function difference<T>(arr1: T[], arr2: T[]): T[] {
 export function average(...nums: number[]): number {
   return nums.reduce((p, c, i) => p + (c - p) / (i + 1), 0)
 }
+
+export function rescaler(oldWidth: number, oldHeight: number): RescaleFn {
+  const ratio = oldWidth / oldHeight
+  return (width: number) => {
+    const scale = width / oldWidth
+    const height = width / ratio
+    return { height, scale }
+  }
+}

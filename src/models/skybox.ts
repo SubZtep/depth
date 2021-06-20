@@ -20,5 +20,5 @@ export function loadSkybox(scene: THREE.Scene, skyboxNumber = 14) {
   }
 
   load(skyboxNumber)
-  inject<EventHook<GUIEvent.Options>>("optionsHook")?.on(({ skybox }) => load(skybox))
+  inject<EventHook<GUIEventold.Options>>("optionsHook")?.on(({ skybox }) => load(skybox))
 }

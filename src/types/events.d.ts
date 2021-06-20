@@ -1,4 +1,9 @@
-namespace GUIEvent {
+interface GUIEvent {
+  /** pile id to delete */
+  delPile?: string
+}
+
+namespace GUIEventold {
   interface Options {
     skybox: number
   }
@@ -6,20 +11,4 @@ namespace GUIEvent {
   interface Camera {
     cmd: "rotate" | "shake"
   }
-
-  interface Pile {
-    event: "add" | "delete"
-    pile: import("../models/pile").Pile
-  }
-
 }
-
-
-// // interface CameraEvent {
-// //   command: "rotate" | "shake"
-// // }
-
-// interface PileEvent {
-//   event: "add" | "delete"
-//   pile: Pile
-// }

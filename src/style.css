@@ -100,3 +100,8 @@ body {
   opacity: 1;
   transition: var(--unicode-transition);
 }
+
+.stats {
+  top: auto !important;
+  bottom: 0;
+}
