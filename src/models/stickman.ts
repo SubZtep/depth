@@ -1,43 +1,31 @@
 import type { Keypoint } from "@tensorflow-models/pose-detection"
-import { BLAZEPOSE_KEYPOINTS, BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS } from "@tensorflow-models/pose-detection/dist/constants"
 import * as THREE from "three"
-import chroma from "chroma-js"
+import type { Ref } from "vue"
+import { ref } from "vue"
+import { get } from "@vueuse/core"
+import {
+  BLAZEPOSE_KEYPOINTS,
+  BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS,
+} from "@tensorflow-models/pose-detection/dist/constants.js"
 import { lineFactory, keypointFactory, whiteMaterial, redMaterial } from "./factories"
-
-const f = chroma.scale(["black", "white"])
-function getMatColor(score?: number) {
-  return score !== undefined ? new THREE.Color().fromArray(f(score).rgb()) : new THREE.Color(0x8a0303)
-}
 
 export class Stickman {
   joints = new Map<string, KeypointMesh>()
   lines = new Map<string, THREE.Line>()
-  // scene: THREE.Scene
-  // ratio = 1
-  id: string
   parent: THREE.Object3D
-  videoPlayer?: VideoPlayerMesh
-  
-  videoWidth = 0
-  videoHeight = 0
-  scale = 0
 
-  // constructor(id: string, scene: THREE.Scene) {
-  constructor(id: string, parent: THREE.Object3D) {
-    this.id = id
-    // this.scene = scene
+  videoWidth: Ref<number>
+  videoHeight: Ref<number>
+  scale: Ref<number>
+  zMulti = ref(500)
+
+  constructor(parent: THREE.Object3D, videoWidth: Ref<number>, videoHeight: Ref<number>, scale: Ref<number>) {
+    this.videoWidth = videoWidth
+    this.videoHeight = videoHeight
+    this.scale = scale
     this.parent = parent
-
     this.initJoints()
     this.initLines()
-    // const it = this.initJoints()
-    // let res: IteratorResult<KeypointMesh> = it.next()
-    // while (!res.done) {
-    //   const { value } = res
-    //   this.parent.add(value)
-    //   this.joints.set(value.name, value)
-    //   res = it.next()
-    // }
   }
 
   initJoints() {
@@ -45,9 +33,8 @@ export class Stickman {
       const joint = keypointFactory()
       joint.name = name
       this.joints.set(name, joint)
-      this.parent.add(joint)
     }
-    // this.parent.add(this.joints.entries())
+    this.parent.add(...Array.from(this.joints.values()))
   }
 
   static lineKey(i: number, j: number) {
@@ -58,24 +45,24 @@ export class Stickman {
     for (const [i, j] of BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS) {
       const line = lineFactory()
       this.lines.set(Stickman.lineKey(i, j), line)
-      this.parent.add(line)
     }
+    this.parent.add(...Array.from(this.lines.values()))
   }
 
   isOnVideo(x: number, y: number) {
-    return x >= 0 && x < this.videoWidth && y >= 0 && y < this.videoHeight
+    return x >= 0 && x < get(this.videoWidth) && y >= 0 && y < get(this.videoHeight)
   }
 
-  scaleKeypoint(keypoint: Keypoint, zMulti = 500, flipX = false, flipY = true): THREE.Vector3Tuple {
+  scaleKeypoint(keypoint: Keypoint, flipX = false, flipY = true): THREE.Vector3Tuple {
     if (keypoint.z === undefined) {
       throw new Error("no z-axis")
     }
-    const mayFlippedX = flipX ? this.videoWidth - keypoint.x : keypoint.x
-    const mayFlippedY = flipY ? this.videoHeight - keypoint.y : keypoint.y
+    const mayFlippedX = flipX ? get(this.videoWidth) - keypoint.x : keypoint.x
+    const mayFlippedY = flipY ? get(this.videoHeight) - keypoint.y : keypoint.y
 
-    const x = mayFlippedX * this.scale
-    const y = mayFlippedY * this.scale
-    const z = keypoint.z * this.scale * zMulti
+    const x = mayFlippedX * get(this.scale)
+    const y = mayFlippedY * get(this.scale)
+    const z = keypoint.z * get(this.scale) * get(this.zMulti)
     return [x, y, z]
   }
 
@@ -96,5 +83,9 @@ export class Stickman {
       const line = this.lines.get(Stickman.lineKey(i, j))!
       line.geometry.setFromPoints(points)
     }
+  }
+
+  dispose() {
+    this.lines.forEach(line => line.geometry.dispose())
   }
 }

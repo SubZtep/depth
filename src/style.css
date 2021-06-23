@@ -15,9 +15,8 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background-color: pink;
-  /* background-image: linear-gradient(180deg, #009efd 0%, #2af598 69%); */
   touch-action: pan-x pan-y;
+  background-color: vat(--blood);
 }
 
 
@@ -50,17 +49,17 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  pointer-events: none;
+  /* pointer-events: none; */
 }
 
 #app > .grid > video {
-  visibility: hidden;
-  border-radius: 1px;
-  box-shadow: 0 0 8px #000;
   max-width: 40%;
   max-height: 40%;
+  border-radius: 1px;
+  box-shadow: 0 0 8px #000;
   border: 8px outset var(--blood);
   transition: var(--video-hide-transition);
+  visibility: hidden;
   opacity: 0;
 }
 
@@ -86,22 +85,22 @@ body {
 }
 
 .dg .folder ul.closed .title:first-of-type::first-letter {
-  opacity: 0.65;
   transition: var(--unicode-transition);
+  opacity: 0.65;
 }
 
 .dg .folder .property-name::first-letter {
+  transition: var(--unicode-transition);
   margin-right: 6px;
   opacity: 0.65;
-  transition: var(--unicode-transition);
 }
 
 .dg .folder .property-name:hover::first-letter {
-  opacity: 1;
   transition: var(--unicode-transition);
+  opacity: 1;
 }
 
 .stats {
-  top: auto !important;
   bottom: 0;
+  top: auto !important;
 }

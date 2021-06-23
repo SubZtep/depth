@@ -7,42 +7,41 @@ video(
   playsinline
   ref="videoRef"
   poster="no-video.png"
-  :class="{ visible: guiOpts.showEl }")
+  :class="{ visible: opts.showEl }")
 </template>
 
 <script lang="ts" setup>
-import type { Pose } from "@tensorflow-models/pose-detection"
 import * as THREE from "three"
-import { unrefElement, useEventListener, get, until } from "@vueuse/core"
-import { defineProps, defineEmit, onMounted, onBeforeUnmount, ref, toRaw, watch } from "vue"
+import type { PropType } from "vue"
+import type { Pose } from "@tensorflow-models/pose-detection"
+import { unrefElement, useEventListener, get, set, until, useUserMedia, invoke } from "@vueuse/core"
+import { defineProps, defineEmit, onMounted, onBeforeUnmount, ref, toRef, watchEffect } from "vue"
 import { useScenePlayer } from "../composables/useScenePlayer"
-import { useWebCam } from "../composables/useWebCam"
-import { useDatGui } from "../composables/useDatGui"
-import { useThreeJs } from "../composables/useThreeJs"
+import { scene, renderer } from "../composables/useThreeJs"
 import { usePose } from "../composables/usePose"
-import { rescaler } from "../misc/utils"
 import { Stickman } from "../models/stickman"
+import { div } from "../misc/utils"
 
 const emit = defineEmit(["addFn", "delFn"])
-const { pid } = defineProps({ pid: { type: String, required: true } })
-const { stream, stopWebcam, startWebcam, webcamEnabled } = useWebCam()
+const { opts } = defineProps({ opts: { type: Object as PropType<PileOpts>, required: true } })
+const media = useUserMedia({ audioDeviceId: false, enabled: false })
 const { estimatePoses, detectorReady } = usePose()
-const { scene } = useThreeJs()
-const root = new THREE.Group()
-const stickman = new Stickman(pid, root)
-const guiOpts = useDatGui().addPile(pid)
+const videoWidth = ref(640)
+const videoHeight = ref(480)
+const width = toRef(opts, "width")
+const scale = div(width, videoWidth)
+const ratio = div(videoWidth, videoHeight)
 const videoRef = ref<HTMLVideoElement>()
-useScenePlayer(videoRef, root, guiOpts)
-let rescale: RescaleFn | undefined = undefined
+const root = new THREE.Group()
+useScenePlayer(videoRef, root, opts, ratio)
+let stickman: Stickman
 
-
-const tick = async () => {
+const tick: PrFn = async () => {
   let pose: Pose
   try {
     pose = await estimatePoses(unrefElement(videoRef))
   } catch (e) {
-    // throw new Error(`#${pid} tick: ${e.message}`)
-    console.error(`#${pid} tick: ${e.message}`)
+    console.error(`tick: ${e.message}`)
     return
   }
   stickman.updateJoints(pose.keypoints)
@@ -50,57 +49,43 @@ const tick = async () => {
 }
 
 useEventListener<{ target: HTMLVideoElement }>(videoRef, "canplay", ({ target }) => {
-  const { videoWidth, videoHeight } = target
-  rescale = rescaler(videoWidth, videoHeight)
-  stickman.videoWidth = videoWidth
-  stickman.videoHeight = videoHeight
-  stickman.scale = rescale(1).scale
+  set(videoWidth, target.videoWidth)
+  set(videoHeight, target.videoWidth)
 })
-
-watch(stream, s => {
-  const video = get(videoRef)
-  if (video === undefined) return
-  video.srcObject = s ?? null
-})
-
-const handleGuiUpdate = () => {
-  const video: HTMLVideoElement = unrefElement(videoRef)
-  const opts: PileOpts = toRaw(guiOpts)
-
-  if (root.position.x !== opts.position.x || root.position.y !== opts.position.y || root.position.z !== opts.position.z) {
-    root.position.set(opts.position.x, opts.position.y, opts.position.z)
-  }
-
-  if (rescale !== undefined) {
-    stickman.scale = rescale(opts.width).scale
-  }
-
-  if (opts.input.webcam && !get(webcamEnabled)) {
-    startWebcam()
-  }
-
-  if (!opts.input.webcam && get(webcamEnabled)) {
-    stopWebcam()
-  }
-
-  if (video.src !== opts.input.videoSrc) {
-    video.src = opts.input.videoSrc
-  }
-}
-
-watch(guiOpts, handleGuiUpdate)
 
 onMounted(async () => {
   await until(detectorReady).toBeTruthy()
+  stickman = new Stickman(root, videoWidth, videoHeight, scale)
+  stickman.zMulti = toRef(opts, "zMulti")
   scene.add(root)
-  handleGuiUpdate()
+
+  watchEffect(async () => {
+    root.position.set(opts.position.x, opts.position.y, opts.position.z)
+    const video: HTMLVideoElement = unrefElement(videoRef)
+
+    if (opts.input.webcam) {
+      video.src = opts.input.videoSrc
+      await media.start()
+      invoke(async () => {
+        await until(media.stream).not.toBeUndefined()
+        video.srcObject = get(media.stream) ?? null
+      })
+    } else {
+      media.stop()
+      video.srcObject = null
+      video.src = opts.input.videoSrc
+    }
+  })
+
   emit("addFn", tick)
 })
 
 onBeforeUnmount(() => {
   emit("delFn", tick)
-  stopWebcam()
+  media.stop()
   scene.remove(root)
+  stickman.dispose()
+  renderer?.renderLists.dispose()
   // TODO: clean up all children
 })
 </script>

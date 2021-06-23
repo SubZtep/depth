@@ -1,56 +1,62 @@
-# depth-perception
-Eye detection with MoveNet via webcam
+# depth 🧘‍♀️
 
-### backend setup
+~~perception~~
 
-https://github.com/tensorflow/tfjs/tree/master/tfjs-backend-wasm
-https://github.com/tensorflow/tfjs-models/tree/master/pose-detection/src/blazepose_tfjs
+> Please use **Chrome™**
 
-### cam
+## 3rd party packages
 
-https://github.com/yomotsu/camera-controls
+- [Camera control for three.js, supports smooth transitions](https://github.com/yomotsu/camera-controls)
+- [Collection of essential Vue Composition Utilities](https://vueuse.org/)
+- [WebAssembly backend to TensorFlow.js](https://github.com/tensorflow/tfjs/tree/master/tfjs-backend-wasm)
+- [BlazePose TFJS (33 keypoints)](https://github.com/tensorflow/tfjs-models/tree/master/pose-detection/src/blazepose_tfjs)
+- chroma-js
+- stats.js
+- dat.gui
+- three
+- vue
+- ...
 
-```ts
-type KeypointName =
-  | "nose"
-  | "left_eye_inner"
-  | "left_eye"
-  | "left_eye_outer"
-  | "right_eye_inner"
-  | "right_eye"
-  | "right_eye_outer"
-  | "left_ear"
-  | "right_ear"
-  | "mouth_left"
-  | "mouth_right"
-  | "left_shoulder"
-  | "right_shoulder"
-  | "left_elbow"
-  | "right_elbow"
-  | "left_wrist"
-  | "right_wrist"
-  | "left_pinky"
-  | "right_pinky"
-  | "left_index"
-  | "right_index"
-  | "left_thumb"
-  | "right_thumb"
-  | "left_hip"
-  | "right_hip"
-  | "left_knee"
-  | "right_knee"
-  | "left_ankle"
-  | "right_ankle"
-  | "left_heel"
-  | "right_heel"
-  | "left_foot_index"
-  | "right_foot_index"
+```js
+                                                   ..
+                                                .-'  \
+                                              .':...::L
+                                            .':...::::|
+                                           /:::.:=:::::L
+                                         .':::...:./:::|
+                                        /:::..::::/.\:::L
+                                       /:::.:....':::L::|
+                                    .-'::::...:/d8888b::|
+                               ..dMP=:::::...:'d88888Nb.|
+                         ..odMMMP.:.'::=:...'d888888888::L
+                       .dMMMMMP..: .:':::.d888888888888I:|
+                     .dMMMMMM@b: ` ...:::d8888888888888::|
+                    dMMMMMMMMNM.. ..:::d88888888888888P|||
+                   dMMMMMMMMMMMboooodP" `?888888888P'``||
+                 .dMMMMMMMMMMMMMMMP'        `"""''  /  |`
+                 dMMMMMMMMMMMMMMP'                .'   |
+  .mggm..        MMMMMMMMMMMMMP'                .'     |
+.dMMMMMMMNNb,    ?MMMMMMMMMMMM|                 |:.. ` |
+.MMMMMMMMMMMMMb, .MMMMMMMMMMM(                  `-::   |
+.MMMMMMMMMMMMMMMMmdMMMMMMMMMMM.                   \::  |
+ ?MMMMMMMMMMMMMMMMMMMMMMMMMMMMb                    |:..|
+ `?MMMMMMMMMMMMMMMMMMMMMMMMMMMMbo.,               .MMMMb.
+  `MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMb,             dMMMMM:
+   ?MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMb           .MMMMMMb
+    ?MMMMMMb ?MMMMMMMMMMMMMMMMMMMMMMMMb          .MMMMMMM
+     ?MMMMMM  `?MMMMMMMMMMMMMMMMMMMMMMP          dMMMMMMM,
+     `?MMMMM     `?WMMMMMMMMMMMMMMMMMMbo,       .MMMMMMMM|
+      `MMMMM.         `?MMMMMMMMMMMMMMMMMbo,.   .MMMMMMMMb
+       ?MMMMb            `?MMMMMMMMMMMMMMMMMMb, dMMMMMMMMM
+       :::::|               `?MMMMMMMMMMMMMMMMMMNMMMMMMMMM
+       ::::.|                 `?MMMMMMMMMMMMMMMMMMMMMMMNMN.
+    .-:::::.\                    `?MMMMMMMMMMMMMMMMMMMMMHM`
+ _.:::::::   |                      `?MMMMMMMMMMMMMMMMMMMM
+(_.__________/                         `?MMMM#MMMMMMMMMMMP
+                                            `"?MMMMMMMMP'
+                                                 `?MMMP
 ```
 
-## Based On
-
-- https://github.com/tensorflow/tfjs-models/tree/master/pose-detection/demos/live_video
-
-## TODOish
-
-- [ ] [three-shaking three for camera control](https://github.com/yomotsu/camera-controls#important)
+---
+_superWIP_!noeta.\
+unlicense4temp-

@@ -70,7 +70,7 @@ export function usePose() {
 
   onBeforeUnmount(() => {
     detector?.dispose()
-    console.log("detector disposed")
+    console.info("detector disposed")
   })
 
   return {

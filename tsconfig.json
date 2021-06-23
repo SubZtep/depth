@@ -15,13 +15,13 @@
     "noUnusedParameters": true,
     "noImplicitReturns": false,
     "skipLibCheck": true,
-    /*"types": [
+    "types": [
       "vite/client",
-    ],*/
+      "jest",
+    ],
     "typeRoots": [
       "./node_modules/@types",
-      // "./node_modules/@vueuse/shared/index.d.ts",
-      "src/types/types.d.ts"
+      "./src/types"
     ]
   },
   "include": ["./src", "./__tests__"],

@@ -1,6 +1,5 @@
 interface GUIEvent {
-  /** pile id to delete */
-  delPile?: string
+  delPile?: PileOpts
 }
 
 namespace GUIEventold {

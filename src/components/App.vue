@@ -3,51 +3,46 @@
 
 .grid
   Pile(
-    v-for="id of piles"
-    :key="id"
-    :pid="id"
-    @addFn="fn => pileTickFn.add(fn)"
-    @delFn="fn => pileTickFn.delete(fn)")
+    v-for="o of piles"
+    :opts="o"
+    @addFn="fn => void tickFns.add(fn)"
+    @delFn="fn => void tickFns.delete(fn)")
 
 canvas(ref="canvasRef")
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from "vue"
-import { generateSlug } from "random-word-slugs"
-import { useDatGui } from "../composables/useDatGui"
-import { not, whenever, set } from "@vueuse/core"
-import { useThreeJs } from "../composables/useThreeJs"
+import { not, whenever, get, set, useDevicesList } from "@vueuse/core"
+import { useDatGui, playable, webcams } from "../composables/useDatGui"
+import { useThreeJs, tickFns } from "../composables/useThreeJs"
+import { normalizeDeviceLabel } from "../misc/utils"
 
-const { guiEvent, addPileGroup } = useDatGui()
+useDevicesList({
+  requestPermissions: true,
+  onUpdated: devices => {
+    webcams.clear()
+    devices.filter(d => d.kind === "videoinput").map(d => webcams.set(d.deviceId, normalizeDeviceLabel(d.label)))
+  },
+})
+get(playable).push("", "mask.webm", "happy.webm")
 
-const piles = reactive(new Set<string>())
-const pileTickFn = new Set<() => Promise<void>>()
+const piles = reactive(new Set<PileOpts>())
+const { guiEvent, addPileGroup, addPile } = useDatGui()
 
 guiEvent.on(({ delPile }) => {
   delPile && piles.delete(delPile)
 })
 
 const canvasRef = ref<HTMLCanvasElement>()
-const { onThreeReady, tickLoop, pauseTickLoop, resumeTickLoop } = useThreeJs(canvasRef)
-const threeReady = ref(false)
+const { onThreeReady, pauseTickLoop, resumeTickLoop } = useThreeJs(canvasRef)
+const loading = ref(true)
 
-// const loading =  not(and(threeReady)) // not(and(detectorsReady, threeReady, stickmanReady))
-const loading = not(threeReady)
-
-onThreeReady(({ scene: _sobj }) => {
+onThreeReady(() => {
   addPileGroup(() => {
-    const id = generateSlug()
-    piles.add(id)
+    piles.add(addPile())
   })
-  // set(scene, sobj)
-  set(threeReady, true)
-})
-
-tickLoop(async () => {
-  for (const fn of pileTickFn) {
-    await fn()
-  }
+  set(loading, false)
 })
 
 whenever(loading, pauseTickLoop)
