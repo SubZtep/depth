@@ -1,6 +1,4 @@
-type Fn = import("@vueuse/core").Fn
 type PrFn = () => Promise<void>
-type CameraControls = import("camera-controls").default
 
 interface HTMLVideoElement {
   isPlaying: boolean
@@ -9,14 +7,7 @@ interface HTMLVideoElement {
 type KeypointMesh = THREE.Mesh<THREE.SphereGeometry, THREE.Material>
 type VideoPlayerMesh = THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
 
-interface UseThreeJsReturn {
-  tickFns: Set<PrFs>
-  pauseTickLoop: Fn
-  resumeTickLoop: Fn
-  onThreeReady: EventHookOn<void>
-}
-
-interface InputGroup {
+abstract class InputGroup {
   id: string
   f: dat.GUI
   showEl: boolean
@@ -45,3 +36,5 @@ interface MediaInputGroup extends InputGroup {
 interface VideoInputGroup extends InputGroup {
   src: string
 }
+
+type SkyboxNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15

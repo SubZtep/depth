@@ -1,7 +1,5 @@
+import { MathUtils } from "three"
 import { inject } from "vue"
-import * as THREE from "three"
-import type { EventHook } from "@vueuse/core"
-import type CameraControls from "camera-controls"
 import { CameraShake } from "../models/camerashake"
 
 export function useSceneCam(cameraControls: CameraControls) {
@@ -12,10 +10,10 @@ export function useSceneCam(cameraControls: CameraControls) {
   ]
   let shaker = 0
 
-  inject<EventHook<GUIEventold.Camera>>("cameraHook")?.on(({ cmd }) => {
+  inject<EventHook<GUIEvent.Camera>>("cameraHook")?.on(({ cmd }) => {
     switch (cmd) {
       case "rotate":
-        cameraControls.rotate(0, 20 * THREE.MathUtils.DEG2RAD, true)
+        cameraControls.rotate(0, 20 * MathUtils.DEG2RAD, true)
         break
       case "shake":
         shakes[shaker++ % shakes.length].shake()

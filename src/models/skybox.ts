@@ -1,15 +1,14 @@
-import type { EventHook } from "@vueuse/core"
+import { CubeTextureLoader, CubeTexture } from "three"
 import { inject } from "vue"
-import * as THREE from "three"
 
-export function loadSkybox(scene: THREE.Scene, skyboxNumber = 14) {
+export function loadSkybox(scene: THREE.Scene, skyboxNumber: SkyboxNumber = 14) {
   if (skyboxNumber < 1 || skyboxNumber > 15) {
     console.warn("a valid skybox number is between 1 and 15")
     return
   }
 
-  const loader = new THREE.CubeTextureLoader()
-  const onLoad = (texture: THREE.CubeTexture) => (scene.background = texture)
+  const loader = new CubeTextureLoader()
+  const onLoad = (texture: CubeTexture) => (scene.background = texture)
   const onProgress = (ev: ProgressEvent) => console.info("downloading skybox", ev)
   const onError = (err: ErrorEvent) => console.error(err)
 
@@ -20,5 +19,5 @@ export function loadSkybox(scene: THREE.Scene, skyboxNumber = 14) {
   }
 
   load(skyboxNumber)
-  inject<EventHook<GUIEventold.Options>>("optionsHook")?.on(({ skybox }) => load(skybox))
+  inject<EventHook<GUIEvent.Preferences>>("preferencesHook")?.on(({ skybox }) => load(skybox))
 }

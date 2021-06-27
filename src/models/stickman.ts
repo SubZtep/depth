@@ -1,6 +1,4 @@
-import type { Keypoint } from "@tensorflow-models/pose-detection"
-import * as THREE from "three"
-import type { Ref } from "vue"
+import { Vector3 } from "three"
 import { ref } from "vue"
 import { get } from "@vueuse/core"
 import {
@@ -77,8 +75,8 @@ export class Stickman {
   updateLines(keypoints: Keypoint[]) {
     for (const [i, j] of BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS) {
       const points = [
-        new THREE.Vector3(...this.scaleKeypoint(keypoints[i])),
-        new THREE.Vector3(...this.scaleKeypoint(keypoints[j])),
+        new Vector3(...this.scaleKeypoint(keypoints[i])),
+        new Vector3(...this.scaleKeypoint(keypoints[j])),
       ]
       const line = this.lines.get(Stickman.lineKey(i, j))!
       line.geometry.setFromPoints(points)

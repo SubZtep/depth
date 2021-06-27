@@ -2,7 +2,9 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "lib": ["ESNext", "DOM"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable", "ScriptHost"],
+    "jsx": "preserve",
+    "importHelpers": true,
     "moduleResolution": "Node",
     "noEmit": true,
     "strict": true,
@@ -15,9 +17,11 @@
     "noUnusedParameters": true,
     "noImplicitReturns": false,
     "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
     "types": [
       "vite/client",
-      "jest",
+      "jest"
     ],
     "typeRoots": [
       "./node_modules/@types",

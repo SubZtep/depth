@@ -1,8 +1,7 @@
-import type { Pose, PoseDetector } from "@tensorflow-models/pose-detection"
-import { invoke, set } from "@vueuse/core"
 import { onBeforeUnmount, ref } from "vue"
-import "@mediapipe/pose"
+import { invoke, set } from "@vueuse/core"
 import { createDetector, SupportedModels } from "@tensorflow-models/pose-detection"
+import "@mediapipe/pose"
 
 export function usePose() {
   let detector: PoseDetector | undefined = undefined

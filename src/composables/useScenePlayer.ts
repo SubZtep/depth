@@ -1,5 +1,4 @@
-import * as THREE from "three"
-import type { Ref } from "vue"
+import { TextureLoader, MeshBasicMaterial, VideoTexture, PlaneBufferGeometry, Mesh, DoubleSide } from "three"
 import { onMounted, onBeforeUnmount, watchEffect, toRefs, ref, unref } from "vue"
 import { useEventListener, get, set } from "@vueuse/core"
 import { div } from "../misc/utils"
@@ -9,7 +8,7 @@ import { div } from "../misc/utils"
 
 //TODO: noVideoMaterial no mandatory also make reusable
 //TODO: noVideoMaterial reusable (singleton)
-const loader = new THREE.TextureLoader()
+const loader = new TextureLoader()
 
 export function useScenePlayer(
   videoRef: Ref<HTMLVideoElement | undefined>,
@@ -24,7 +23,7 @@ export function useScenePlayer(
   let videoMaterial: THREE.MeshBasicMaterial | undefined = undefined
   let player: VideoPlayerMesh | undefined = undefined
 
-  const playerGeometry = new THREE.PlaneBufferGeometry()
+  const playerGeometry = new PlaneBufferGeometry()
   const height = div(width, ratio)
 
   const playing = ref(false)
@@ -32,12 +31,12 @@ export function useScenePlayer(
   useEventListener(videoRef, "emptied", () => set(playing, false))
 
   onMounted(() => {
-    videoTexture = new THREE.VideoTexture(unref(videoRef)!)
-    videoMaterial = new THREE.MeshBasicMaterial({ map: videoTexture, side: THREE.DoubleSide })
+    videoTexture = new VideoTexture(unref(videoRef)!)
+    videoMaterial = new MeshBasicMaterial({ map: videoTexture, side: DoubleSide })
 
     loader.load("no-video.png", map => {
-      noVideoMaterial = new THREE.MeshBasicMaterial({ map, transparent: true, side: THREE.DoubleSide })
-      player = new THREE.Mesh(playerGeometry, noVideoMaterial)
+      noVideoMaterial = new MeshBasicMaterial({ map, transparent: true, side: DoubleSide })
+      player = new Mesh(playerGeometry, noVideoMaterial)
       parent.add(player)
 
       watchEffect(() => {
