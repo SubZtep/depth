@@ -2,12 +2,12 @@
 video(
   loop
   muted
-  autoplay
   controls
   playsinline
   ref="videoRef"
   poster="no-video.png"
   :class="{ visible: opts.showEl }")
+  source(:src="opts.src" type="video/webm")
 </template>
 
 <script lang="ts" setup>
@@ -23,8 +23,7 @@ import { Stickman } from "../models/stickman"
 import { div } from "../misc/utils"
 
 const emit = defineEmit(["addFn", "delFn"])
-const { opts } = defineProps({ opts: { type: Object as PropType<Pile>, required: true } })
-const media = useUserMedia({ audioDeviceId: false, enabled: false })
+const { opts } = defineProps({ opts: { type: Object as PropType<InputGroup>, required: true } })
 const { estimatePoses, detectorReady } = usePose()
 const videoWidth = ref(640)
 const videoHeight = ref(480)
@@ -55,26 +54,16 @@ useEventListener<{ target: HTMLVideoElement }>(videoRef, "canplay", ({ target })
 
 onMounted(async () => {
   await until(detectorReady).toBeTruthy()
+  opts.f.open()
+  const video: HTMLVideoElement = unrefElement(videoRef)
+  video.play()
+
   stickman = new Stickman(root, videoWidth, videoHeight, scale)
   stickman.zMulti = toRef(opts, "zMulti")
   scene.add(root)
-  const video: HTMLVideoElement = unrefElement(videoRef)
 
   watchEffect(async () => {
     root.position.set(opts.position.x, opts.position.y, opts.position.z)
-
-    if (opts.input.webcam) {
-      video.src = opts.input.videoSrc
-      await media.start()
-      invoke(async () => {
-        await until(media.stream).not.toBeUndefined()
-        video.srcObject = get(media.stream) ?? null
-      })
-    } else {
-      media.stop()
-      video.srcObject = null
-      video.src = opts.input.videoSrc
-    }
   })
 
   emit("addFn", tick)
@@ -82,7 +71,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   emit("delFn", tick)
-  media.stop()
+  // media.stop()
   scene.remove(root)
   stickman.dispose()
   renderer?.renderLists.dispose()

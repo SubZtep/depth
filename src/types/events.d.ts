@@ -1,5 +1,7 @@
 interface GUIEvent {
-  delPile?: PileOpts
+  delPile?: InputGroup
+  add?: InputGroup
+  del?: InputGroup
 }
 
 namespace GUIEventold {

@@ -23,7 +23,7 @@ import { Stickman } from "../models/stickman"
 import { div } from "../misc/utils"
 
 const emit = defineEmit(["addFn", "delFn"])
-const { opts } = defineProps({ opts: { type: Object as PropType<Pile>, required: true } })
+const { opts } = defineProps({ opts: { type: Object as PropType<MediaInputGroup>, required: true } })
 const media = useUserMedia({ audioDeviceId: false, enabled: false })
 const { estimatePoses, detectorReady } = usePose()
 const videoWidth = ref(640)
@@ -55,6 +55,7 @@ useEventListener<{ target: HTMLVideoElement }>(videoRef, "canplay", ({ target })
 
 onMounted(async () => {
   await until(detectorReady).toBeTruthy()
+  opts.f.open()
   stickman = new Stickman(root, videoWidth, videoHeight, scale)
   stickman.zMulti = toRef(opts, "zMulti")
   scene.add(root)
@@ -63,18 +64,11 @@ onMounted(async () => {
   watchEffect(async () => {
     root.position.set(opts.position.x, opts.position.y, opts.position.z)
 
-    if (opts.input.webcam) {
-      video.src = opts.input.videoSrc
-      await media.start()
-      invoke(async () => {
-        await until(media.stream).not.toBeUndefined()
-        video.srcObject = get(media.stream) ?? null
-      })
-    } else {
-      media.stop()
-      video.srcObject = null
-      video.src = opts.input.videoSrc
-    }
+    await media.start()
+    invoke(async () => {
+      await until(media.stream).not.toBeUndefined()
+      video.srcObject = get(media.stream) ?? null
+    })
   })
 
   emit("addFn", tick)

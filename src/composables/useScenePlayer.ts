@@ -14,7 +14,7 @@ const loader = new THREE.TextureLoader()
 export function useScenePlayer(
   videoRef: Ref<HTMLVideoElement | undefined>,
   parent: THREE.Object3D,
-  opts: PileOpts,
+  opts: InputGroup,
   ratio: Ref<number>
 ) {
   const { width, showObj } = toRefs(opts)

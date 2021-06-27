@@ -16,19 +16,32 @@ interface UseThreeJsReturn {
   onThreeReady: EventHookOn<void>
 }
 
-interface PileOpts {
+interface InputGroup {
+  id: string
+  f: dat.GUI
   showEl: boolean
   showObj: boolean
   width: number
   zMulti: number
-  input: {
-    webcam: boolean
-    deviceId: string
-    videoSrc: string
-  }
   position: {
     x: number
     y: number
     z: number
   }
+}
+
+interface Pile extends InputGroup {
+  input: {
+    webcam: boolean
+    deviceId: string
+    videoSrc: string
+  }
+}
+
+interface MediaInputGroup extends InputGroup {
+  deviceId: string
+}
+
+interface VideoInputGroup extends InputGroup {
+  src: string
 }

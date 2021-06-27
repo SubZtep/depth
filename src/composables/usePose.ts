@@ -1,35 +1,18 @@
 import type { Pose, PoseDetector } from "@tensorflow-models/pose-detection"
-import * as tf from "@tensorflow/tfjs-core"
-// import "@tensorflow/tfjs-backend-webgl"
-import "@mediapipe/pose"
-import * as tfjsWasm from "@tensorflow/tfjs-backend-wasm"
-tfjsWasm.setWasmPaths(`https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@${tfjsWasm.version_wasm}/dist/`)
-import { createDetector, SupportedModels } from "@tensorflow-models/pose-detection"
 import { invoke, set } from "@vueuse/core"
 import { onBeforeUnmount, ref } from "vue"
+import "@mediapipe/pose"
+import { createDetector, SupportedModels } from "@tensorflow-models/pose-detection"
 
 export function usePose() {
   let detector: PoseDetector | undefined = undefined
   const detectorReady = ref(false)
 
-  const resetBackend = async (name: "webgl" | "wasm") => {
-    const engine = tf.engine()
-    if (!(name in engine.registryFactory)) {
-      throw new Error(`backend ${name} is not registered`)
-    }
-    if (name in engine.registry) {
-      const bf = tf.findBackendFactory(name)
-      tf.removeBackend(name)
-      tf.registerBackend(name, bf)
-    }
-    await tf.setBackend(name)
-  }
-
   const initDetector = async (): Promise<PoseDetector> => {
     detector = await createDetector(SupportedModels.BlazePose, {
-      runtime: "mediapipe",
-      // runtime: "tfjs",
       solutionPath: "../node_modules/@mediapipe/pose",
+      runtime: "mediapipe",
+      modelType: "heavy"
     })
     if (detector === undefined) {
       throw new Error("unable to create pose detector")
@@ -44,7 +27,6 @@ export function usePose() {
       }
 
       if (detector === undefined) {
-        // detector = await initDetector()
         return reject(new Error("no detector"))
       }
 
@@ -61,8 +43,6 @@ export function usePose() {
   }
 
   invoke(async () => {
-    await resetBackend("wasm")
-    console.info("pose backend is wasm")
     detector = await initDetector()
     console.info("pose detector is ready")
     set(detectorReady, true)
