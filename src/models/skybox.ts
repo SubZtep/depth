@@ -1,23 +1,27 @@
 import { CubeTextureLoader, CubeTexture } from "three"
 import { inject } from "vue"
 
-export function loadSkybox(scene: THREE.Scene, skyboxNumber: SkyboxNumber = 14) {
-  if (skyboxNumber < 1 || skyboxNumber > 15) {
-    console.warn("a valid skybox number is between 1 and 15")
-    return
-  }
+export function loadSkybox(scene: THREE.Scene, skyboxNumber: SkyboxNumber = 14): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (skyboxNumber < 1 || skyboxNumber > 15) {
+      return reject("a valid skybox number is between 1 and 15")
+    }
 
-  const loader = new CubeTextureLoader()
-  const onLoad = (texture: CubeTexture) => (scene.background = texture)
-  const onProgress = (ev: ProgressEvent) => console.info("downloading skybox", ev)
-  const onError = (err: ErrorEvent) => console.error(err)
+    const loader = new CubeTextureLoader()
+    const onError = (err: ErrorEvent) => reject(err)
+    const onProgress = (ev: ProgressEvent) => console.info("downloading skybox", ev)
+    const onLoad = (texture: CubeTexture) => {
+      scene.background = texture
+      return resolve()
+    }
 
-  const load = (nr: number) => {
-    const path = `/Classic Skybox/${String(nr).padStart(2, "0")}/`
-    const urls = ["RT", "LF", "UP", "DN", "BK", "FR"].map(side => `sky${nr}_${side}.jpg`)
-    loader.setPath(path).load(urls, onLoad, onProgress, onError)
-  }
+    const load = (nr: SkyboxNumber) => {
+      const path = `/Classic Skybox/${String(nr).padStart(2, "0")}/`
+      const urls = ["RT", "LF", "UP", "DN", "BK", "FR"].map(side => `sky${nr}_${side}.jpg`)
+      loader.setPath(path).load(urls, onLoad, onProgress, onError)
+    }
 
-  load(skyboxNumber)
-  inject<EventHook<GUIEvent.Preferences>>("preferencesHook")?.on(({ skybox }) => load(skybox))
+    load(skyboxNumber)
+    inject<EventHook<GUIEvent.Preferences>>("preferencesHook")?.on(({ skybox }) => load(skybox))
+  })
 }

@@ -5,7 +5,7 @@ const { pose } = defineProps({
   pose: { type: Object as PropType<Pose>, required: true }
 })
 
-watch(pose, newPose => {
-  console.log("NEW POSE", newPose)
+watch(pose, ({ keypoints }) => {
+  console.log("KP 💀", keypoints)
 })
 </script>

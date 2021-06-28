@@ -5,9 +5,10 @@
 import type { BlazePoseMediaPipeModelConfig } from "@tensorflow-models/pose-detection"
 import "@mediapipe/pose"
 import * as poseDetection from "@tensorflow-models/pose-detection"
-import { useNProgress } from "@vueuse/integrations/useNProgress"
+// import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { onMounted, inject, defineProps, onBeforeUnmount } from "vue"
 import { tickFns } from "../composables/useThreeJs"
+import { set } from "@vueuse/core"
 
 const playerState = inject<PlayerState>("playerState")!
 const threeCtrlHook = inject<EventHook<ThreeCtrlEvent>>("threeCtrlHook")!
@@ -16,6 +17,8 @@ const { pose } = defineProps({
   pose: { type: Object as PropType<Pose>, required: true }
 })
 
+// const { progress, done } = useNProgress()
+// set(progress, 0.5)
 let detector: PoseDetector
 
 const estimatePose = async (): Promise<void> => {
@@ -51,8 +54,6 @@ const estimatePose = async (): Promise<void> => {
 }
 
 onMounted(async () => {
-  const { done } = useNProgress(0.3)
-  threeCtrlHook.trigger({ cmd: "pause" })
   detector = await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
     solutionPath: "../node_modules/@mediapipe/pose",
     runtime: "mediapipe",
@@ -60,9 +61,8 @@ onMounted(async () => {
   } as BlazePoseMediaPipeModelConfig)
   tickFns.add(estimatePose)
   threeCtrlHook.trigger({ cmd: "resume" })
-  done()
+  // done()
 })
-
 
 onBeforeUnmount(() => {
   tickFns.delete(estimatePose)

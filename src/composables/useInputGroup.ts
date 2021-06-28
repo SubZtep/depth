@@ -1,7 +1,7 @@
 import { Group } from "three"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { onMounted, ref, onBeforeUnmount, toRef, watchEffect } from "vue"
-import { unrefElement, useEventListener, get, set, until, tryOnMounted, or, not } from "@vueuse/core"
+import { unrefElement, useEventListener, get, set, until, or, not } from "@vueuse/core"
 import { scene, renderer, tickFns } from "../composables/useThreeJs"
 import { useScenePlayer } from "../composables/useScenePlayer"
 import { usePose } from "../composables/usePose"

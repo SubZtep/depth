@@ -5,34 +5,40 @@ video(
   playsinline
   ref="videoRef"
   controls="true"
-  autoplay="false"
   poster="no-video.png"
   :class="{ visible: opts.showEl }")
-  slot
+
+  VideoPlayer3D
+  BlazePose(:pose="pose")
+  Skeleton(:pose="pose")
 </template>
 
 <script lang="ts" setup>
 import dat from "dat.gui"
 import { Group } from "three"
 import { defineProps, provide, inject, readonly, ref, reactive, toRef } from "vue"
-import { useEventListener, useCssVar, useMediaControls, get, set } from "@vueuse/core"
+import { useEventListener, useCssVar, useMediaControls, set } from "@vueuse/core"
+import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { scene } from "../composables/useThreeJs"
 import { randomTitle, div } from "../misc/utils"
+
+const pose: Pose = reactive({})
 
 const props = defineProps({
   src: { type: String, required: false },
   srcObject: { type: Object as PropType<MediaStream>, required: false },
 })
 
+const { done } = useNProgress()
 const name = randomTitle()
 const opts = reactive({
-  tickLoopRunning: true,
+  gameLoopRunning: false,
   showEl: true,
 })
 
 const gui = new dat.GUI({ name, closeOnTop: true })
 const threeCtrlHook = inject<EventHook<ThreeCtrlEvent>>("threeCtrlHook")!
-gui.add(opts, "tickLoopRunning").onChange(run => threeCtrlHook.trigger({ cmd: run ? "resume" : "pause" }))
+gui.add(opts, "gameLoopRunning").onChange(run => threeCtrlHook.trigger({ cmd: run ? "resume" : "pause" }))
 gui.add(opts, "showEl")
 
 const root = new Group()
@@ -60,4 +66,13 @@ useEventListener<{ target: HTMLVideoElement }>(videoRef, "canplay", ({ target })
 const ratio = div(playerState.videoWidth, playerState.videoHeight)
 const cssRatio = useCssVar("--ratio", videoRef)
 set(cssRatio, String(ratio))
+
+const listenBlazeAndKickOff = () => {
+  playerState.playing = true
+  opts.gameLoopRunning = true
+  gui.updateDisplay()
+  threeCtrlHook.off(listenBlazeAndKickOff)
+  done()
+}
+threeCtrlHook.on(listenBlazeAndKickOff)
 </script>

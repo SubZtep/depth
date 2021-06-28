@@ -13,7 +13,7 @@ export const scene = new Scene()
 export const renderer = new WebGLRenderer({ antialias: true, premultipliedAlpha: false })
 let cameraControls: CameraControls
 
-export function useThreeJs(threeHook: EventHook<ThreeCtrlEvent>, initFn: () => {[name: string]: any} | void) {
+export function useThreeJs(threeHook: EventHook<ThreeCtrlEvent>, initFn: Fn) {
   CameraControls.install({ THREE: THREE }) // TODO: tree shaking
   const { width, height } = useWindowSize()
   const clock = new Clock()
@@ -22,35 +22,31 @@ export function useThreeJs(threeHook: EventHook<ThreeCtrlEvent>, initFn: () => {
   const stats = inject<Stats>("stats")
   let delta: number
 
-  // const objs = initFn()
-  initFn()
+  const gameLoop = async () => {
+    delta = clock.getDelta()
+    cameraControls.update(delta)
 
-  // const { pause: pauseTickLoop, resume: resumeTickLoop } = useRafFn(
-  const { pause, resume } = useRafFn(
-    async () => {
-      delta = clock.getDelta()
-      cameraControls.update(delta)
+    tickFns.forEach(async fn => await fn())
 
-      tickFns.forEach(async fn => await fn())
+    renderer.render(scene, camera)
+    stats?.update()
+  }
 
-      renderer.render(scene, camera)
-      stats?.update()
-    },
-    { immediate: false }
-  )
+  const { pause, resume } = useRafFn(gameLoop, { immediate: false })
 
-  onMounted(() => {
+  onMounted(async () => {
     renderer.setPixelRatio(window.devicePixelRatio)
     document.querySelector("#app")!.parentElement!.prepend(renderer.domElement)
     cameraControls = new CameraControls(camera, renderer.domElement)
     cameraControls.setPosition(0, 2, 10)
     useSceneCam(cameraControls)
 
-    loadSkybox(scene)
+    await loadSkybox(scene)
     scene.add(...getLights())
     scene.add(floor())
 
-    // resumeTickLoop()
+    await gameLoop()
+    initFn()
   })
 
   debouncedWatch(
@@ -74,10 +70,5 @@ export function useThreeJs(threeHook: EventHook<ThreeCtrlEvent>, initFn: () => {
     }
   })
 
-  return {
-    pause,
-    resume,
-    // pauseTickLoop,
-    // resumeTickLoop,
-  }
+  return { pause, resume }
 }

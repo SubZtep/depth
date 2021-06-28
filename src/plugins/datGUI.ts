@@ -4,7 +4,7 @@ import * as dat from "dat.gui"
 import { createEventHook, useCssVar, useFullscreen, set } from "@vueuse/core"
 import { useGlobalState } from "../store"
 
-const gui = new dat.GUI()
+const gui = new dat.GUI({ closed: true })
 // gui.remember({})
 const state = useGlobalState()
 // const visibility = useDocumentVisibility()
