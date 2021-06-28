@@ -1,24 +1,25 @@
 import type { Plugin } from "vue"
 import * as dat from "dat.gui"
-import { watch } from "vue"
-import { createEventHook, useCssVar, useFullscreen, useDocumentVisibility, get, set } from "@vueuse/core"
+// import { watch } from "vue"
+import { createEventHook, useCssVar, useFullscreen, set } from "@vueuse/core"
 import { useGlobalState } from "../store"
 
 const gui = new dat.GUI()
 // gui.remember({})
 const state = useGlobalState()
-const visibility = useDocumentVisibility()
+// const visibility = useDocumentVisibility()
 
-watch(visibility, (current, previous) => {
-  if (current === "hidden" && previous === "visible") {
-    console.log("bye for now", gui.__folders)
-  }
-})
+// watch(visibility, (current, previous) => {
+//   if (current === "hidden" && previous === "visible") {
+//     console.log("bye for now", gui.__folders)
+//   }
+// })
 
 function addPreferences(gui: dat.GUI) {
   const hook = createEventHook<GUIEvent.Preferences>()
   const { toggle } = useFullscreen()
   const pref = {
+    poseDetection: true,
     guiScale: 1.5,
     skybox: 14,
     toggle,
@@ -26,6 +27,8 @@ function addPreferences(gui: dat.GUI) {
   const guiScaleCss = useCssVar("--gui-scale")
   set(guiScaleCss, String(pref.guiScale))
   const f = gui.addFolder("Preferences")
+  // f.add(pref, "poseDetection").onChange(v => set(state, "poseDetection", v))
+  f.add(pref, "poseDetection").onChange(v => state.value.poseDetection = v)
   f.add(pref, "guiScale", 0.5, 3.5, 0.1).onFinishChange(scale => set(guiScaleCss, String(scale))).name("GUI Scale Size")
   f.add(pref, "skybox", 1, 15, 1)
     .onFinishChange(skybox => hook.trigger({ skybox }))

@@ -12,3 +12,7 @@ namespace GUIEvent {
     skybox: SkyboxNumber
   }
 }
+
+interface ThreeCtrlEvent {
+  cmd: "pause" | "resume"
+}

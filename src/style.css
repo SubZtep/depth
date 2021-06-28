@@ -23,6 +23,8 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  pointer-events: none;
+  /* touch-action: none; */
   overflow: hidden;
   color: #2c3e50;
 }
@@ -42,15 +44,21 @@ body {
   align-items: flex-start;
 }
 
-#app > .grid > video {
-  max-width: 40%;
-  max-height: 40%;
-  border: 8px outset #aaa;
-  visibility: hidden;
-  opacity: 0;
+#app video {
+  pointer-events: auto;
 }
 
-#app > .grid > video.visible {
+#app /*> .grid >*/ video {
+  max-width: 40%;
+  max-height: 40%;
+  aspect-ratio: var(--ratio, 1);
+  border: 8px outset #666;
+  visibility: hidden;
+  opacity: 0;
+  resize: both;
+}
+
+#app /*> .grid >*/ video.visible {
   visibility: visible;
   opacity: 1;
 }
@@ -81,7 +89,8 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 25px;
+  /* height: 25px; */
+  height: 25%;
   z-index: 1031;
   position: fixed;
   border-top-right-radius: 15px;

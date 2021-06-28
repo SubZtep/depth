@@ -1,41 +1,34 @@
 <template lang="pug">
-.grid
-  //- template(v-for="opts of Array.from(inputs)")
+//- h3 qq {{inputs}}
+//- .grid
   template(v-for="opts of inputs" :key="opts.id")
-    h3 x {{opts}}
-    VideoInput(v-if="opts['src']" :opts="opts")
-    //- MediaInput(v-else :opts="opts")
+    VideoInput(v-if="'src' in opts" :opts="opts")
+    MediaInput(v-else :opts="opts")
+
+VideoPlayer2D(src="happy.webm")
+  //- :position="[0, 0, 0]")
+  VideoPlayer3D
+  BlazePose(:pose="pose")
+  Skeleton(:pose="pose")
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue"
-import { not, whenever, get } from "@vueuse/core"
+import { reactive, provide } from "vue"
+import { get, createEventHook} from "@vueuse/core"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
-import { useDatGui } from "../composables/useDatGui"
 import { useThreeJs } from "../composables/useThreeJs"
+import { useDatGui } from "../composables/useDatGui"
+
+const pose: Pose = reactive({})
+const threeCtrlHook = createEventHook<ThreeCtrlEvent>()
+provide("threeCtrlHook", threeCtrlHook)
 
 const { guiEvent } = useDatGui()
-// const inputs = reactive(new Set<InputGroupBase>())
-const inputs = ref(new Set<InputGroup>())
-// guiEvent.on(({ cmd, group }) => void get(inputs)[cmd](group))
-guiEvent.on(({ cmd, group }) => {
-  // void get(inputs)[cmd](group)
-  // console.log({ cmd, group })
-  if (cmd === "add") {
-    get(inputs).add(group)
-  } else if (cmd === "delete") {
-    get(inputs).delete(group)
-  }
+const inputs = reactive(new Set<InputGroup>())
+guiEvent.on(({ cmd, group }) => void get(inputs)[cmd](group))
+const { done } = useNProgress(0.1)
+
+useThreeJs(threeCtrlHook, () => {
+  done()
 })
-
-const { done, isLoading } = useNProgress(0.3)
-
-const { pauseTickLoop, resumeTickLoop } = useThreeJs(
-  () => {
-    done()
-  }
-)
-
-whenever(isLoading, pauseTickLoop)
-whenever(not(isLoading.value), resumeTickLoop)
 </script>

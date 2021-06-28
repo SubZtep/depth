@@ -11,5 +11,3 @@ const tfpd = import("@tensorflow-models/pose-detection/dist/types.d")
 type Pose = tfpd.Pose
 type Keypoint = tfpd.Keypoint
 type PoseDetector = tfpd.PoseDetector
-
-// type Scene = import("three").Scene

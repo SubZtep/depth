@@ -10,15 +10,14 @@ import { floor } from "../models/floor"
 
 export const tickFns = new Set<PrFn>()
 export const scene = new Scene()
-export let renderer: THREE.WebGLRenderer
+export const renderer = new WebGLRenderer({ antialias: true, premultipliedAlpha: false })
 let cameraControls: CameraControls
 
-export function useThreeJs(initFn: () => {[name: string]: any} | void) {
+export function useThreeJs(threeHook: EventHook<ThreeCtrlEvent>, initFn: () => {[name: string]: any} | void) {
   CameraControls.install({ THREE: THREE }) // TODO: tree shaking
   const { width, height } = useWindowSize()
   const clock = new Clock()
 
-  renderer = new WebGLRenderer({ antialias: true, premultipliedAlpha: false })
   const camera = new PerspectiveCamera(60, undefined, 0.1, 500)
   const stats = inject<Stats>("stats")
   let delta: number
@@ -26,14 +25,15 @@ export function useThreeJs(initFn: () => {[name: string]: any} | void) {
   // const objs = initFn()
   initFn()
 
-  const { pause: pauseTickLoop, resume: resumeTickLoop } = useRafFn(
+  // const { pause: pauseTickLoop, resume: resumeTickLoop } = useRafFn(
+  const { pause, resume } = useRafFn(
     async () => {
       delta = clock.getDelta()
       cameraControls.update(delta)
 
       tickFns.forEach(async fn => await fn())
 
-      renderer?.render(scene, camera)
+      renderer.render(scene, camera)
       stats?.update()
     },
     { immediate: false }
@@ -50,7 +50,7 @@ export function useThreeJs(initFn: () => {[name: string]: any} | void) {
     scene.add(...getLights())
     scene.add(floor())
 
-    resumeTickLoop()
+    // resumeTickLoop()
   })
 
   debouncedWatch(
@@ -63,82 +63,21 @@ export function useThreeJs(initFn: () => {[name: string]: any} | void) {
     { immediate: true, debounce: 250 }
   )
 
-  return {
-    pauseTickLoop,
-    resumeTickLoop,
-  }
-}
-
-/*
-import type { Ref } from "vue"
-import * as THREE from "three"
-import { onMounted, inject } from "vue"
-import CameraControls from "camera-controls"
-import { debouncedWatch, useWindowSize, createEventHook, useRafFn, unrefElement } from "@vueuse/core"
-import { useSceneCam } from "./useSceneCam"
-import { loadSkybox } from "../models/skybox"
-import { getLights } from "../models/light"
-import { floor } from "../models/floor"
-
-export const tickFns = new Set<PrFn>()
-export const scene = new THREE.Scene()
-export let renderer: THREE.WebGLRenderer
-let cameraControls: CameraControls
-
-export function useThreeJs(canvasRef: Ref<HTMLCanvasElement | undefined>): UseThreeJsReturn {
-  CameraControls.install({ THREE })
-  const readyHook = createEventHook<void>()
-  const { width, height } = useWindowSize()
-  const clock = new THREE.Clock()
-  const camera = new THREE.PerspectiveCamera(60, undefined, 0.1, 500)
-  const stats = inject<Stats>("stats")
-  let delta: number
-
-  const { pause: pauseTickLoop, resume: resumeTickLoop } = useRafFn(
-    async () => {
-      delta = clock.getDelta()
-      stats?.begin()
-      cameraControls.update(delta)
-
-      tickFns.forEach(async fn => await fn())
-
-      stats?.end()
-      renderer?.render(scene, camera)
-    },
-    { immediate: false }
-  )
-
-  onMounted(() => {
-    const canvas = unrefElement(canvasRef)
-    renderer = new THREE.WebGLRenderer({ premultipliedAlpha: false, precision: "lowp", canvas })
-    renderer.setPixelRatio(window.devicePixelRatio)
-
-    cameraControls = new CameraControls(camera, canvas)
-    cameraControls.setPosition(0, 2, 10)
-    useSceneCam(cameraControls)
-
-    loadSkybox(scene)
-    scene.add(...getLights())
-    scene.add(floor())
-    readyHook.trigger()
+  threeHook.on(({ cmd }) => {
+    switch (cmd) {
+      case "pause":
+        pause()
+        break
+      case "resume":
+        resume()
+        break
+    }
   })
 
-  debouncedWatch(
-    [width, height],
-    ([w, h]) => {
-      camera.aspect = w / h
-      camera.updateProjectionMatrix()
-      renderer?.setSize(w, h)
-    },
-    { immediate: true, debounce: 250 }
-  )
-
   return {
-    tickFns,
-    pauseTickLoop,
-    resumeTickLoop,
-    onThreeReady: readyHook.on,
+    pause,
+    resume,
+    // pauseTickLoop,
+    // resumeTickLoop,
   }
 }
-
-*/

@@ -9,8 +9,7 @@ type VideoPlayerMesh = THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
 
 abstract class InputGroupBase {
   id: string
-  // f: dat.GUI
-  // open: Fn
+  open: Fn
   showEl: boolean
   showObj: boolean
   width: number

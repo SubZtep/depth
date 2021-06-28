@@ -1,6 +1,6 @@
 import { TextureLoader, MeshBasicMaterial, VideoTexture, PlaneBufferGeometry, Mesh, DoubleSide } from "three"
-import { onMounted, onBeforeUnmount, watchEffect, toRefs, ref, unref } from "vue"
-import { useEventListener, get, set } from "@vueuse/core"
+import { onBeforeUnmount, watchEffect, toRefs, ref, unref } from "vue"
+import { useEventListener, get, set, tryOnMounted } from "@vueuse/core"
 import { div } from "../misc/utils"
 
 // FIXME: requestVideoFrameCallback might not working(?)
@@ -30,7 +30,7 @@ export function useScenePlayer(
   useEventListener(videoRef, "play", () => set(playing, true))
   useEventListener(videoRef, "emptied", () => set(playing, false))
 
-  onMounted(() => {
+  tryOnMounted(() => {
     videoTexture = new VideoTexture(unref(videoRef)!)
     videoMaterial = new MeshBasicMaterial({ map: videoTexture, side: DoubleSide })
 
