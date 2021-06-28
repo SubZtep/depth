@@ -7,9 +7,10 @@ interface HTMLVideoElement {
 type KeypointMesh = THREE.Mesh<THREE.SphereGeometry, THREE.Material>
 type VideoPlayerMesh = THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
 
-abstract class InputGroup {
+abstract class InputGroupBase {
   id: string
-  f: dat.GUI
+  // f: dat.GUI
+  // open: Fn
   showEl: boolean
   showObj: boolean
   width: number
@@ -21,7 +22,7 @@ abstract class InputGroup {
   }
 }
 
-interface Pile extends InputGroup {
+interface Pile extends InputGroupBase {
   input: {
     webcam: boolean
     deviceId: string
@@ -29,12 +30,13 @@ interface Pile extends InputGroup {
   }
 }
 
-interface MediaInputGroup extends InputGroup {
+interface MediaInputGroup extends InputGroupBase {
   deviceId: string
 }
 
-interface VideoInputGroup extends InputGroup {
+interface VideoInputGroup extends InputGroupBase {
   src: string
 }
 
+type InputGroup = MediaInputGroup | VideoInputGroup
 type SkyboxNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15

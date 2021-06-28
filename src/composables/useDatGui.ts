@@ -11,10 +11,12 @@ const medias = computed<Record<string, string>>(() =>
   get(videoInputs).reduce((obj, d) => Object.assign(obj, { [normalizeDeviceLabel(d.label)]: d.deviceId }), {})
 )
 
-function inputGroupBase(id: string, f: dat.GUI) {
+// function inputGroupBase(id: string, f: dat.GUI) {
+function inputGroupBase(id: string) {
   return {
     id,
-    f,
+    // open: () => f.open(),
+    // f,
     showEl: true,
     showObj: true,
     width: 2,
@@ -50,12 +52,12 @@ export function useDatGui() {
     const id = randomTitle()
     const f = igf.addFolder(id)
     const group = {
-      ...inputGroupBase(id, f),
+      ...inputGroupBase(id),
       ...Object.entries(extraOpts).reduce(
         (obj, [k, v]) => Object.assign(obj, { [k]: typeof v === "string" ? v : Object.values(v)[0] }),
         {}
       ),
-    }
+    } as InputGroup
 
     inputGroupBaseGui(group, f)
     Object.entries(extraOpts).forEach(([k, v]) => {

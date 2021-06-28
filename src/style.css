@@ -16,35 +16,23 @@ body {
   height: 100vh;
   overflow: hidden;
   touch-action: pan-x pan-y;
-  background-color: vat(--blood);
+  background-color: var(--blood);
 }
-
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* overflow: hidden; */
+  overflow: hidden;
   color: #2c3e50;
-  /* width: 100vw;
-  height: 100vh; */
-}
-
-.loading {
-  color: #aaa;
-  position: fixed;
-  font-size: 6rem;
-  line-height: 6rem;
-  background-color: #333;
-  text-shadow: 2px 2px yellow;
 }
 
 #app, canvas {
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   position: absolute;
-  top: 0;
-  left: 0;
 }
 
 #app > .grid {
@@ -52,7 +40,6 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  /* pointer-events: none; */
 }
 
 #app > .grid > video {
@@ -70,7 +57,7 @@ body {
 
 .dg.main {
   transform-origin: right top;
-  transform: scale(var(--gui-scale, 1));  
+  transform: scale(var(--gui-scale, 1));
 }
 
 .dg .cr.function .property-name {
@@ -84,4 +71,42 @@ body {
 .stats {
   top: auto !important;
   bottom: 48px;
+}
+
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25px;
+  z-index: 1031;
+  position: fixed;
+  border-top-right-radius: 15px;
+  background-image: linear-gradient(to bottom, #ff6a 0%, #67d391 20%, #67d391 80%, #67d39133 100%);
+}
+
+#nprogress .peg {
+  width: 4px;
+  right: -2px;
+  height: 100%;
+  display: block;
+  position: absolute;
+  box-shadow: 0 0 10px #67d391, 0 0 5px #67d391;
+  transform: rotate(3deg) translate(0px, -4px);
+}
+
+#nprogress .peg:after {
+  display: inline-block;
+  margin-left: -10px;
+  margin-top: 5px;
+  content: "💾";
+  animation: nprogress-floppy 1.3s .69s both ease-in-out;
+}
+
+@keyframes nprogress-floppy {
+    0% { transform: rotate3d(0, 0, 0, 0); }
+  100% { transform: rotate3d(1, 1, 0, 360deg); }
 }

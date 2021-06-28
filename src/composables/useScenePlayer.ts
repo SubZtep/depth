@@ -11,9 +11,9 @@ import { div } from "../misc/utils"
 const loader = new TextureLoader()
 
 export function useScenePlayer(
-  videoRef: Ref<HTMLVideoElement | undefined>,
+  videoRef: Ref<HTMLVideoElement>,
   parent: THREE.Object3D,
-  opts: InputGroup,
+  opts: InputGroupBase,
   ratio: Ref<number>
 ) {
   const { width, showObj } = toRefs(opts)

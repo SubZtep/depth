@@ -6,9 +6,10 @@ export function normalizeDeviceLabel(label: string) {
 }
 
 export function randomTitle() {
-  return Array.from(Date.now().toString(16).matchAll(/.{4}/g))
-    .map(n => String.fromCodePoint(parseInt(String(n), 16)))
-    .join("")
+  // return Array.from(Date.now().toString(16).matchAll(/.{4}/g))
+  //   .map(n => String.fromCodePoint(parseInt(String(n), 16)))
+  //   .join("")
+  return Math.random().toString(36).substring(7)
 }
 
 /** reactive division */

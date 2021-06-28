@@ -1,29 +1,41 @@
 <template lang="pug">
-.loading(v-show="loading") Loading...
-
 .grid
-  template(v-for="o of inputs" :key="o.id")
-    VideoInput(v-if="'src' in o" :opts="o")
-    MediaInput(v-else :opts="o")
+  //- template(v-for="opts of Array.from(inputs)")
+  template(v-for="opts of inputs" :key="opts.id")
+    h3 x {{opts}}
+    VideoInput(v-if="opts['src']" :opts="opts")
+    //- MediaInput(v-else :opts="opts")
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from "vue"
-import { not, whenever, set } from "@vueuse/core"
+import { reactive, ref } from "vue"
+import { not, whenever, get } from "@vueuse/core"
+import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { useDatGui } from "../composables/useDatGui"
 import { useThreeJs } from "../composables/useThreeJs"
 
 const { guiEvent } = useDatGui()
-const inputs = reactive(new Set<InputGroup>())
-guiEvent.on(({ cmd, group }) => void inputs[cmd](group))
+// const inputs = reactive(new Set<InputGroupBase>())
+const inputs = ref(new Set<InputGroup>())
+// guiEvent.on(({ cmd, group }) => void get(inputs)[cmd](group))
+guiEvent.on(({ cmd, group }) => {
+  // void get(inputs)[cmd](group)
+  // console.log({ cmd, group })
+  if (cmd === "add") {
+    get(inputs).add(group)
+  } else if (cmd === "delete") {
+    get(inputs).delete(group)
+  }
+})
 
-const loading = ref(true)
+const { done, isLoading } = useNProgress(0.3)
+
 const { pauseTickLoop, resumeTickLoop } = useThreeJs(
   () => {
-    set(loading, false)
+    done()
   }
 )
 
-whenever(loading, pauseTickLoop)
-whenever(not(loading), resumeTickLoop)
+whenever(isLoading, pauseTickLoop)
+whenever(not(isLoading.value), resumeTickLoop)
 </script>

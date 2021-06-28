@@ -2,6 +2,11 @@ import { onBeforeUnmount, ref } from "vue"
 import { invoke, set } from "@vueuse/core"
 import { createDetector, SupportedModels } from "@tensorflow-models/pose-detection"
 import "@mediapipe/pose"
+// import * as tf from "@tensorflow/tfjs-core"
+// import "@tensorflow/tfjs-backend-webgl"
+// import * as tfjsWasm from "@tensorflow/tfjs-backend-wasm"
+// tfjsWasm.setWasmPaths(`https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@${tfjsWasm.version_wasm}/dist/`)
+// tf.setBackend("wasm")
 
 export function usePose() {
   let detector: PoseDetector | undefined = undefined
@@ -10,8 +15,9 @@ export function usePose() {
   const initDetector = async (): Promise<PoseDetector> => {
     detector = await createDetector(SupportedModels.BlazePose, {
       solutionPath: "../node_modules/@mediapipe/pose",
+      // runtime: "tfjs",
       runtime: "mediapipe",
-      modelType: "heavy"
+      // modelType: "heavy"
     })
     if (detector === undefined) {
       throw new Error("unable to create pose detector")
@@ -43,7 +49,6 @@ export function usePose() {
 
   invoke(async () => {
     detector = await initDetector()
-    console.info("pose detector is ready")
     set(detectorReady, true)
   })
 

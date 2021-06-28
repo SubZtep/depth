@@ -5,7 +5,7 @@ import { createEventHook, useCssVar, useFullscreen, useDocumentVisibility, get, 
 import { useGlobalState } from "../store"
 
 const gui = new dat.GUI()
-gui.remember({})
+// gui.remember({})
 const state = useGlobalState()
 const visibility = useDocumentVisibility()
 
@@ -18,25 +18,19 @@ watch(visibility, (current, previous) => {
 function addPreferences(gui: dat.GUI) {
   const hook = createEventHook<GUIEvent.Preferences>()
   const { toggle } = useFullscreen()
-  const opts = {
+  const pref = {
     guiScale: 1.5,
     skybox: 14,
     toggle,
   }
   const guiScaleCss = useCssVar("--gui-scale")
-  set(guiScaleCss, String(opts.guiScale))
-
+  set(guiScaleCss, String(pref.guiScale))
   const f = gui.addFolder("Preferences")
-
-  f.add(opts, "guiScale", 0.5, 3.5, 0.1)
-    .onFinishChange(scale => set(guiScaleCss, String(scale)))
-    .name("GUI Scale Size")
-
-  f.add(opts, "skybox", 1, 15, 1)
+  f.add(pref, "guiScale", 0.5, 3.5, 0.1).onFinishChange(scale => set(guiScaleCss, String(scale))).name("GUI Scale Size")
+  f.add(pref, "skybox", 1, 15, 1)
     .onFinishChange(skybox => hook.trigger({ skybox }))
     .name("Sky Time")
-
-  f.add(opts, "toggle").name("Toggle Fullscreen")
+  f.add(pref, "toggle").name("Toggle Fullscreen")
   return hook
 }
 
@@ -47,10 +41,10 @@ function addCameraControl(gui: dat.GUI) {
     shake: () => hook.trigger({ cmd: "shake" }),
   }
 
-  const f = gui.addFolder("🎥ingame camera control")
-  f.add(btns, "rotate").name("✯ rotate")
-  f.add(btns, "shake").name("✯ shake")
-  f.add(get(state), "cameraZoomToPile").name("✯ zoom to pile")
+  const f = gui.addFolder("InGame Camera Control")
+  f.add(btns, "rotate").name("Rotate")
+  f.add(btns, "shake").name("Shake")
+  // f.add(get(state), "cameraZoomToPile").name("✯ zoom to pile")
   return hook
 }
 
