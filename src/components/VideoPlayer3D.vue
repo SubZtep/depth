@@ -1,4 +1,5 @@
-<template></template>
+<template>
+</template>
 
 <script lang="ts" setup>
 import { TextureLoader, MeshBasicMaterial, VideoTexture, PlaneBufferGeometry, Mesh, DoubleSide, Group } from "three"

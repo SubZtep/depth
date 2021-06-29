@@ -6,7 +6,8 @@ export default {
     const stats = new Stats()
     stats.showPanel(2)
     stats.dom.classList.add("stats")
-    document.body.appendChild(stats.dom)
+    ;(document.querySelector("#gui") ?? document.body).appendChild(stats.dom)
+    // document.body.appendChild(stats.dom)
     app.provide("stats", stats)
   }
 } as Plugin

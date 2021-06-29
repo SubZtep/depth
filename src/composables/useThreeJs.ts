@@ -13,7 +13,7 @@ export const scene = new Scene()
 export const renderer = new WebGLRenderer({ antialias: true, premultipliedAlpha: false })
 let cameraControls: CameraControls
 
-export function useThreeJs(threeHook: EventHook<ThreeCtrlEvent>, initFn: Fn) {
+export function useThreeJs(threeHook: EventHook<ThreeCtrlEvent>) {
   CameraControls.install({ THREE: THREE }) // TODO: tree shaking
   const { width, height } = useWindowSize()
   const clock = new Clock()
@@ -45,8 +45,8 @@ export function useThreeJs(threeHook: EventHook<ThreeCtrlEvent>, initFn: Fn) {
     scene.add(...getLights())
     scene.add(floor())
 
-    await gameLoop()
-    initFn()
+    // await gameLoop()
+    // initFn()
   })
 
   debouncedWatch(

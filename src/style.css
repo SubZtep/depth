@@ -3,6 +3,7 @@
   --video-hide-duration: 150ms;
   --video-hide-transition: visibility var(--video-hide-duration) linear, opacity var(--video-hide-duration) linear;
   --unicode-transition: opacity var(--video-hide-duration) linear;
+  font-size: calc(1vw + 1vh + .5vmin);
 }
 
 * {
@@ -16,25 +17,62 @@ body {
   height: 100vh;
   overflow: hidden;
   touch-action: pan-x pan-y;
-  background-color: var(--blood);
-}
 
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font: 1rem/1.6 sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  pointer-events: none;
-  /* touch-action: none; */
-  overflow: hidden;
-  color: #2c3e50;
+  font-size: 100%;
+  line-height: 150%;
 }
 
-#app, canvas {
+#app, #gui, .loadingScreen {
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   position: absolute;
+}
+
+.loadingScreen {
+  background: linear-gradient(to bottom, #00b09b, #96c93d);
+  padding: 25px;
+  text-align: right;
+  font: bold 2.5rem Merriweather;
+  text-shadow: 1px 1px 1px #fff;
+  letter-spacing: 0.3rem;
+  line-break: anywhere;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  cursor: none;
+  &::after {
+    opacity: 0.9;
+    content: "loading stuff + waking ai";
+  }
+  &:active {
+    &::after {
+      content: "loadig stuff + wanking ai";
+    }
+  }
+}
+*/
+
+#app {
+  pointer-events: none;
+}
+
+#gui > .stats {
+  top: auto !important;
+  transform-origin: left bottom;
+  bottom: 0;
+  &:hover {
+    transform: scale(1.5);
+  }
+}
+
+#gui > canvas {
+  width: inherit;
+  height: inherit;
 }
 
 #app > .grid {
@@ -48,7 +86,7 @@ body {
   pointer-events: auto;
 }
 
-#app /*> .grid >*/ video {
+#app video {
   max-width: 40%;
   max-height: 40%;
   aspect-ratio: var(--ratio, 1);
@@ -58,9 +96,14 @@ body {
   resize: both;
 }
 
-#app /*> .grid >*/ video.visible {
+#app video.visible {
   visibility: visible;
   opacity: 1;
+}
+
+.dg {
+  font-family: Merriweather;
+  background: linear-gradient(to bottom, #000000, #0f9b0f);
 }
 
 .dg.main {
@@ -74,11 +117,6 @@ body {
 
 .dg .cr.function .c {
   display: none;
-}
-
-.stats {
-  top: auto !important;
-  bottom: 48px;
 }
 
 #nprogress {
@@ -106,7 +144,7 @@ body {
   transform: rotate(3deg) translate(0px, -4px);
 }
 
-#nprogress .peg:after {
+#nprogress .peg::after {
   display: inline-block;
   margin-left: -10px;
   margin-top: 5px;
@@ -116,5 +154,5 @@ body {
 
 @keyframes nprogress-floppy {
     0% { transform: rotate3d(0, 0, 0, 0); }
-  100% { transform: rotate3d(1, 1, 0, 360deg); }
+  100% { transform: rotate3d(1, 1, 0, 45deg); }
 }
