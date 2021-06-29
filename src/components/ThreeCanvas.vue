@@ -1,20 +1,24 @@
 <template lang="pug">
-Teleport(to="#gui")
-  canvas
+Teleport(to="#world")
+  canvas(ref="wc")
+
+VideoPlayer2D(src="happy.webm")
 </template>
 
 <script lang="ts" setup>
+import { scene, useThreeJs } from "../composables/useThreeJs";
 import { useLoader } from "../composables/useLoader";
+import { templateRef } from "@vueuse/core";
 const { loadSkybox } = useLoader()
+
+const { setCanvas } = useThreeJs()
+setCanvas(templateRef("wc"))
 
 function asyncSetTimeout(timeout: number) {
   return new Promise(resolve => setTimeout(resolve, timeout))
 }
 
-const text = await loadSkybox(10)
-console.log(text)
-
-
-await asyncSetTimeout(34000)
+scene.background = await loadSkybox(10)
+await asyncSetTimeout(1000)
 
 </script>

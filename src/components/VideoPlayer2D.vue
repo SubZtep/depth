@@ -9,8 +9,8 @@ video(
   :class="{ visible: opts.showEl }")
 
   VideoPlayer3D
-  BlazePose(:pose="pose")
-  Skeleton(:pose="pose")
+  //- BlazePose(:pose="pose")
+  //- Skeleton(:pose="pose")
 </template>
 
 <script lang="ts" setup>
@@ -21,23 +21,24 @@ import { useEventListener, useCssVar, useMediaControls, set } from "@vueuse/core
 import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { scene } from "../composables/useThreeJs"
 import { randomTitle, div } from "../misc/utils"
+const { done } = useNProgress()
 
-const pose: Pose = reactive({})
+// const pose: Pose = reactive({})
 
 const props = defineProps({
   src: { type: String, required: false },
   srcObject: { type: Object as PropType<MediaStream>, required: false },
 })
 
-const { done } = useNProgress()
 const name = randomTitle()
 const opts = reactive({
   gameLoopRunning: false,
   showEl: true,
 })
 
-const gui = new dat.GUI({ name, closeOnTop: true })
 const threeCtrlHook = inject<EventHook<ThreeCtrlEvent>>("threeCtrlHook")!
+
+const gui = new dat.GUI({ name, closeOnTop: true })
 gui.add(opts, "gameLoopRunning").onChange(run => threeCtrlHook.trigger({ cmd: run ? "resume" : "pause" }))
 gui.add(opts, "showEl")
 
@@ -67,12 +68,14 @@ const ratio = div(playerState.videoWidth, playerState.videoHeight)
 const cssRatio = useCssVar("--ratio", videoRef)
 set(cssRatio, String(ratio))
 
-const listenBlazeAndKickOff = () => {
+// const listenBlazeAndKickOff = () => {
   playerState.playing = true
-  opts.gameLoopRunning = true
-  gui.updateDisplay()
-  threeCtrlHook.off(listenBlazeAndKickOff)
+  // opts.gameLoopRunning = true
+  // gui.updateDisplay()
+  threeCtrlHook.trigger({ cmd: "resume" })
   done()
-}
-threeCtrlHook.on(listenBlazeAndKickOff)
+//   threeCtrlHook.off(listenBlazeAndKickOff)
+//   done()
+// }
+// threeCtrlHook.on(listenBlazeAndKickOff)
 </script>

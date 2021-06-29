@@ -30,6 +30,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
+  /* position: fixed; */
   position: absolute;
 }
 
@@ -55,13 +56,13 @@ body {
     }
   }
 }
-*/
+//S*/
 
 #app {
   pointer-events: none;
 }
 
-#gui > .stats {
+.stats {
   top: auto !important;
   transform-origin: left bottom;
   bottom: 0;
@@ -84,9 +85,6 @@ body {
 
 #app video {
   pointer-events: auto;
-}
-
-#app video {
   max-width: 40%;
   max-height: 40%;
   aspect-ratio: var(--ratio, 1);
@@ -94,16 +92,27 @@ body {
   visibility: hidden;
   opacity: 0;
   resize: both;
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
-#app video.visible {
-  visibility: visible;
-  opacity: 1;
-}
+/*
+** dat.GUI
+*/
 
 .dg {
+  font-size: 0.5rem;
+  color: #dedede;
+  letter-spacing: 1px;
   font-family: Merriweather;
   background: linear-gradient(to bottom, #000000, #0f9b0f);
+  text-shadow: none;
+  &:hover {
+    text-shadow: 0px -4px 0px #aaa, 0 0 0 #000, 0px 4px var(--blood);
+    transition: text-shadow 150ms ease-in-out 3s;
+  }
 }
 
 .dg.main {
@@ -118,6 +127,10 @@ body {
 .dg .cr.function .c {
   display: none;
 }
+
+/*
+** NProgress
+*/
 
 #nprogress {
   pointer-events: none;

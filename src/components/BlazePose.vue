@@ -11,7 +11,7 @@ import { tickFns } from "../composables/useThreeJs"
 import { set } from "@vueuse/core"
 
 const playerState = inject<PlayerState>("playerState")!
-const threeCtrlHook = inject<EventHook<ThreeCtrlEvent>>("threeCtrlHook")!
+// const threeCtrlHook = inject<EventHook<ThreeCtrlEvent>>("threeCtrlHook")!
 
 const { pose } = defineProps({
   pose: { type: Object as PropType<Pose>, required: true }
@@ -60,7 +60,7 @@ onMounted(async () => {
     modelType: "lite",
   } as BlazePoseMediaPipeModelConfig)
   tickFns.add(estimatePose)
-  threeCtrlHook.trigger({ cmd: "resume" })
+  // threeCtrlHook.trigger({ cmd: "resume" })
   // done()
 })
 

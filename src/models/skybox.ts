@@ -1,5 +1,4 @@
 import { CubeTextureLoader, CubeTexture } from "three"
-import { inject } from "vue"
 
 export function loadSkybox(scene: THREE.Scene, skyboxNumber: SkyboxNumber = 14): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -22,6 +21,5 @@ export function loadSkybox(scene: THREE.Scene, skyboxNumber: SkyboxNumber = 14):
     }
 
     load(skyboxNumber)
-    inject<EventHook<GUIEvent.Preferences>>("preferencesHook")?.on(({ skybox }) => load(skybox))
   })
 }

@@ -1,9 +1,5 @@
 type PrFn = () => Promise<void>
 
-interface HTMLVideoElement {
-  isPlaying: boolean
-}
-
 type KeypointMesh = THREE.Mesh<THREE.SphereGeometry, THREE.Material>
 type VideoPlayerMesh = THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
 

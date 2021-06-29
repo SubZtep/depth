@@ -1,24 +1,31 @@
 import * as THREE from "three"
 import { Clock, Scene, WebGLRenderer, PerspectiveCamera } from "three"
 import { onMounted, inject } from "vue"
+import { unrefElement } from '@vueuse/core'
 import CameraControls from "camera-controls"
-import { debouncedWatch, useWindowSize, useRafFn } from "@vueuse/core"
-import { useSceneCam } from "./useSceneCam"
+import { debouncedWatch, useWindowSize, useRafFn, MaybeRef } from "@vueuse/core"
+// import { useSceneCam } from "./useSceneCam"
 import { loadSkybox } from "../models/skybox"
 import { getLights } from "../models/light"
 import { floor } from "../models/floor"
 
 export const tickFns = new Set<PrFn>()
 export const scene = new Scene()
-export const renderer = new WebGLRenderer({ antialias: true, premultipliedAlpha: false })
+// export const renderer = new WebGLRenderer({ antialias: true, premultipliedAlpha: false })
+let renderer: THREE.WebGLRenderer
 let cameraControls: CameraControls
 
-export function useThreeJs(threeHook: EventHook<ThreeCtrlEvent>) {
+export function useThreeJs(threeHook?: EventHook<ThreeCtrlEvent>) {
   CameraControls.install({ THREE: THREE }) // TODO: tree shaking
   const { width, height } = useWindowSize()
   const clock = new Clock()
+  let canvas: MaybeRef<HTMLCanvasElement>
 
   const camera = new PerspectiveCamera(60, undefined, 0.1, 500)
+
+
+
+
   const stats = inject<Stats>("stats")
   let delta: number
 
@@ -34,14 +41,19 @@ export function useThreeJs(threeHook: EventHook<ThreeCtrlEvent>) {
 
   const { pause, resume } = useRafFn(gameLoop, { immediate: false })
 
+
+
+
+
   onMounted(async () => {
+    renderer = new WebGLRenderer({ antialias: true, premultipliedAlpha: false, canvas: unrefElement(canvas) })
     renderer.setPixelRatio(window.devicePixelRatio)
-    document.querySelector("#app")!.parentElement!.prepend(renderer.domElement)
+    // document.querySelector("#app")!.parentElement!.prepend(renderer.domElement)
     cameraControls = new CameraControls(camera, renderer.domElement)
     cameraControls.setPosition(0, 2, 10)
-    useSceneCam(cameraControls)
+    // useSceneCam(cameraControls)
 
-    await loadSkybox(scene)
+    // await loadSkybox(scene)
     scene.add(...getLights())
     scene.add(floor())
 
@@ -59,7 +71,7 @@ export function useThreeJs(threeHook: EventHook<ThreeCtrlEvent>) {
     { immediate: true, debounce: 250 }
   )
 
-  threeHook.on(({ cmd }) => {
+  threeHook?.on(({ cmd }) => {
     switch (cmd) {
       case "pause":
         pause()
@@ -70,5 +82,10 @@ export function useThreeJs(threeHook: EventHook<ThreeCtrlEvent>) {
     }
   })
 
-  return { pause, resume }
+  return {
+    pause,
+    resume,
+    // setRenderer: (r: THREE.WebGLRenderer) => renderer = r,
+    setCanvas: (c: MaybeRef<HTMLCanvasElement>) => canvas = c,
+  }
 }

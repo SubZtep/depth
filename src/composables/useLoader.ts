@@ -1,4 +1,4 @@
-import { loadSkybox } from "src/models/skybox";
+import { loadSkybox } from "../models/skybox";
 import { CubeTextureLoader, CubeTexture } from "three";
 import { scene } from "./useThreeJs";
 

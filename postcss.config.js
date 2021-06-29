@@ -1,18 +1,24 @@
 const postcssPresetEnv = require("postcss-preset-env")
-const postcsseasings = require("postcss-easings")
+// const postcsseasings = require("postcss-easings")
 
 module.exports = {
   plugins: [
-    postcsseasings(),
     postcssPresetEnv({
-      stage: 0,
+      stage: 3,
       features: {
-        "logical-properties-and-values": false,
-        "prefers-color-scheme-query": false,
-        "gap-properties": false,
-        "custom-properties": false,
-        "place-properties": false,
+        "nesting-rules": true,
       },
     }),
+    // postcsseasings(),
+    // postcssPresetEnv({
+    //   stage: 0,
+    //   features: {
+    //     "logical-properties-and-values": false,
+    //     "prefers-color-scheme-query": false,
+    //     "gap-properties": false,
+    //     "custom-properties": false,
+    //     "place-properties": false,
+    //   },
+    // }),
   ],
 }
