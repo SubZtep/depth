@@ -2,6 +2,7 @@
 video(
   loop
   muted
+  autoplay
   playsinline
   ref="videoRef"
   controls="true"
@@ -23,16 +24,20 @@ import { scene } from "../composables/useThreeJs"
 import { randomTitle, div } from "../misc/utils"
 const { done } = useNProgress()
 
-// const pose: Pose = reactive({})
-
 const props = defineProps({
   src: { type: String, required: false },
   srcObject: { type: Object as PropType<MediaStream>, required: false },
 })
 
+const root = new Group()
+scene.add(root)
+provide<Group>("root", root)
+
+// const pose: Pose = reactive({})
+
 const name = randomTitle()
 const opts = reactive({
-  gameLoopRunning: false,
+  gameLoopRunning: true,
   showEl: true,
 })
 
@@ -41,10 +46,6 @@ const threeCtrlHook = inject<EventHook<ThreeCtrlEvent>>("threeCtrlHook")!
 const gui = new dat.GUI({ name, closeOnTop: true })
 gui.add(opts, "gameLoopRunning").onChange(run => threeCtrlHook.trigger({ cmd: run ? "resume" : "pause" }))
 gui.add(opts, "showEl")
-
-const root = new Group()
-scene.add(root)
-provide<Group>("root", root)
 
 const playerState = reactive<PlayerState>({
   name,
@@ -69,7 +70,7 @@ const cssRatio = useCssVar("--ratio", videoRef)
 set(cssRatio, String(ratio))
 
 // const listenBlazeAndKickOff = () => {
-  playerState.playing = true
+  // playerState.playing = true
   // opts.gameLoopRunning = true
   // gui.updateDisplay()
   threeCtrlHook.trigger({ cmd: "resume" })

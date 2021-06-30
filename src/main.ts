@@ -9,11 +9,11 @@ import "./style.css"
 
 createApp(App)
   .use(Toast, {
-    position: "bottom-right",
     timeout: 3000,
+    position: "bottom-right",
     showCloseButtonOnHover: true,
   })
-  .use(StatsPlugin)
+  // .use(StatsPlugin)
   // .use(GuiPlugin)
   .directive("visible", VisibleDirective)
   .mount("#app")

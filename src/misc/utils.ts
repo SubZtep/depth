@@ -15,3 +15,8 @@ export function randomTitle(mayContainUnicode = true) {
 
 /** reactive division */
 export const div = reactify((dividend: number, divisor: number) => dividend / divisor)
+
+
+export function delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}

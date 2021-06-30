@@ -9,7 +9,6 @@ Suspense
 <script lang="ts" setup>
 import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { onErrorCaptured, provide } from "vue"
-import ThreeCanvas from "./ThreeCanvas.vue"
 import { useToast } from "vue-toastification"
 import { createEventHook } from "@vueuse/core"
 import { useThreeJs } from "../composables/useThreeJs"
@@ -19,7 +18,6 @@ start()
 const threeCtrlHook = createEventHook<ThreeCtrlEvent>()
 useThreeJs(threeCtrlHook)
 provide("threeCtrlHook", threeCtrlHook)
-
 
 onErrorCaptured(e => {
   const toast = useToast()

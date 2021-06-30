@@ -1,17 +1,16 @@
+import type { MaybeRef } from "@vueuse/core"
+import CameraControls from "camera-controls"
+import Stats from "stats.js"
 import * as THREE from "three"
 import { Clock, Scene, WebGLRenderer, PerspectiveCamera } from "three"
-import { onMounted, inject } from "vue"
+import { onMounted, watch } from "vue"
 import { unrefElement } from '@vueuse/core'
-import CameraControls from "camera-controls"
-import { debouncedWatch, useWindowSize, useRafFn, MaybeRef } from "@vueuse/core"
-// import { useSceneCam } from "./useSceneCam"
-import { loadSkybox } from "../models/skybox"
+import { debouncedWatch, useWindowSize, useToggle, get, set, useCssVar } from "@vueuse/core"
 import { getLights } from "../models/light"
 import { floor } from "../models/floor"
 
 export const tickFns = new Set<PrFn>()
 export const scene = new Scene()
-// export const renderer = new WebGLRenderer({ antialias: true, premultipliedAlpha: false })
 let renderer: THREE.WebGLRenderer
 let cameraControls: CameraControls
 
@@ -21,12 +20,33 @@ export function useThreeJs(threeHook?: EventHook<ThreeCtrlEvent>) {
   const clock = new Clock()
   let canvas: MaybeRef<HTMLCanvasElement>
 
-  const camera = new PerspectiveCamera(60, undefined, 0.1, 500)
+  const initRenderer = () => {
+    renderer = new WebGLRenderer({
+      canvas: unrefElement(canvas),
+      premultipliedAlpha: false,
+      antialias: true,
+    })
+    renderer.setPixelRatio(window.devicePixelRatio)
+  }
+  const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 500)
+
+  const [isRunning, toggleRun] = useToggle()
+
+  const stats = new Stats()
+  // stats.showPanel(2)
+  stats.dom.classList.add("stats")
+  document.body.appendChild(stats.dom)
+
+  // @ts-ignore
+  // threeHook?.on(({ cmd }: ThreeCtrlEvent) => this[cmd]())
+  
+  // threeHook?.on(({ cmd }: ThreeCtrlEvent) => {
+  //   isLoop = cmd === "resume"
+  //   //this[cmd]()
+  // })
 
 
-
-
-  const stats = inject<Stats>("stats")
+  // const stats = inject<Stats>("stats")
   let delta: number
 
   const gameLoop = async () => {
@@ -36,56 +56,58 @@ export function useThreeJs(threeHook?: EventHook<ThreeCtrlEvent>) {
     tickFns.forEach(async fn => await fn())
 
     renderer.render(scene, camera)
-    stats?.update()
+    stats.update()
+
+    if (get(isRunning)) {
+      requestAnimationFrame(gameLoop)
+    }
   }
 
-  const { pause, resume } = useRafFn(gameLoop, { immediate: false })
-
-
-
-
-
-  onMounted(async () => {
-    renderer = new WebGLRenderer({ antialias: true, premultipliedAlpha: false, canvas: unrefElement(canvas) })
-    renderer.setPixelRatio(window.devicePixelRatio)
-    // document.querySelector("#app")!.parentElement!.prepend(renderer.domElement)
-    cameraControls = new CameraControls(camera, renderer.domElement)
-    cameraControls.setPosition(0, 2, 10)
-    // useSceneCam(cameraControls)
-
-    // await loadSkybox(scene)
-    scene.add(...getLights())
-    scene.add(floor())
-
-    // await gameLoop()
-    // initFn()
-  })
-
-  debouncedWatch(
-    [width, height],
-    ([w, h]) => {
-      camera.aspect = w / h
-      camera.updateProjectionMatrix()
-      renderer?.setSize(w, h)
-    },
-    { immediate: true, debounce: 250 }
-  )
-
-  threeHook?.on(({ cmd }) => {
-    switch (cmd) {
-      case "pause":
-        pause()
-        break
-      case "resume":
-        resume()
-        break
+  const runOp = useCssVar("--runop")
+  watch(isRunning, (will, was) => {
+    if (will && !was) {
+      set(runOp, "1")
+      requestAnimationFrame(gameLoop)
+    } else {
+      set(runOp, "0.5")
     }
   })
 
+  // const { pause, resume } = useRafFn(gameLoop, { immediate: false })
+  // const loopCtrl = useRafFn(gameLoop, { immediate: false })
+  // const loopCtrl = useRafFn(await () => gameLoop())
+
+  // const { pause, resume } = useRafFn(async () => {
+  //   await gameLoop()
+  // }, { immediate: false })
+
+  onMounted(async () => {
+    initRenderer()
+    cameraControls = new CameraControls(camera, renderer.domElement)
+    cameraControls.setPosition(0, 2, 10)
+    // useSceneCam(cameraControls)
+    // await loadSkybox(scene)
+    scene.add(...getLights())
+    scene.add(floor())
+    // await gameLoop()
+    // initFn()
+    debouncedWatch(
+      [width, height],
+      ([w, h]) => {
+        camera.aspect = w / h
+        camera.updateProjectionMatrix()
+        renderer.setSize(w, h)
+      },
+      { immediate: true, debounce: 250 }
+    )
+  })
+
+  // @ts-ignore
+  // threeHook?.on(({ cmd }: ThreeCtrlEvent) => this[cmd]())
+
   return {
-    pause,
-    resume,
-    // setRenderer: (r: THREE.WebGLRenderer) => renderer = r,
     setCanvas: (c: MaybeRef<HTMLCanvasElement>) => canvas = c,
+    isRunning,
+    toggleRun,
   }
 }

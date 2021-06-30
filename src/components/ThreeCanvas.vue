@@ -2,23 +2,25 @@
 Teleport(to="#world")
   canvas(ref="wc")
 
-VideoPlayer2D(src="happy.webm")
+br
+button(@click="toggleRun") X {{isRunning}}
+//- VideoPlayer2D(src="happy.webm")
 </template>
 
 <script lang="ts" setup>
 import { scene, useThreeJs } from "../composables/useThreeJs";
 import { useLoader } from "../composables/useLoader";
 import { templateRef } from "@vueuse/core";
-const { loadSkybox } = useLoader()
+import { delay } from "../misc/utils";
 
-const { setCanvas } = useThreeJs()
+const { loadSkybox } = useLoader()
+// useThreeJs().setCanvas(templateRef("wc"))
+const { setCanvas, isRunning, toggleRun } = useThreeJs()
+
 setCanvas(templateRef("wc"))
 
-function asyncSetTimeout(timeout: number) {
-  return new Promise(resolve => setTimeout(resolve, timeout))
-}
+// const toggleRunning = () => running.value = !running.value
 
-scene.background = await loadSkybox(10)
-await asyncSetTimeout(1000)
-
+scene.background = await loadSkybox(14)
+await delay(1000)
 </script>

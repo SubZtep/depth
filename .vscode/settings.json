@@ -11,7 +11,7 @@
   "gitlens.codeLens.recentChange.enabled": false,
   "gitlens.codeLens.authors.enabled": false,
   "gitlens.codeLens.enabled": false,
-  "workbench.colorTheme": "Plastic - deprioritised punctuation",
+  "workbench.colorTheme": "Tokyo City Darker",
   "workbench.iconTheme": "vscode-great-icons",
   "intelephense.telemetry.enabled": true,
 }
