@@ -1,17 +1,18 @@
 <template lang="pug">
 video(
+  autoplay
   loop
   muted
-  autoplay
   playsinline
   ref="videoRef"
   controls="true"
   poster="no-video.png"
   :class="{ visible: opts.showEl }")
+  //- :visible="opts.showEl")
 
   VideoPlayer3D
-  //- BlazePose(:pose="pose")
-  //- Skeleton(:pose="pose")
+  BlazePose(:pose="pose")
+  Skeleton(:pose="pose")
 </template>
 
 <script lang="ts" setup>
@@ -33,7 +34,7 @@ const root = new Group()
 scene.add(root)
 provide<Group>("root", root)
 
-// const pose: Pose = reactive({})
+const pose: Pose = reactive({})
 
 const name = randomTitle()
 const opts = reactive({

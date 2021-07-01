@@ -20,7 +20,7 @@ const playerGeometry = new PlaneBufferGeometry()
 const loader = new TextureLoader()
 
 const ratio = div(playerState.videoWidth, playerState.videoHeight)
-const width = ref(2)
+const width = ref(4)
 const height = div(width, ratio)
 
 onMounted(() => {

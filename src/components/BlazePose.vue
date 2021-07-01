@@ -5,13 +5,13 @@
 import type { BlazePoseMediaPipeModelConfig } from "@tensorflow-models/pose-detection"
 import "@mediapipe/pose"
 import * as poseDetection from "@tensorflow-models/pose-detection"
-// import { useNProgress } from "@vueuse/integrations/useNProgress"
+import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { onMounted, inject, defineProps, onBeforeUnmount } from "vue"
 import { tickFns } from "../composables/useThreeJs"
 import { set } from "@vueuse/core"
 
 const playerState = inject<PlayerState>("playerState")!
-// const threeCtrlHook = inject<EventHook<ThreeCtrlEvent>>("threeCtrlHook")!
+const threeCtrlHook = inject<EventHook<ThreeCtrlEvent>>("threeCtrlHook")!
 
 const { pose } = defineProps({
   pose: { type: Object as PropType<Pose>, required: true }

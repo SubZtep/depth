@@ -1,13 +1,13 @@
 import type { MaybeRef } from "@vueuse/core"
 import CameraControls from "camera-controls"
-import Stats from "stats.js"
 import * as THREE from "three"
-import { Clock, Scene, WebGLRenderer, PerspectiveCamera } from "three"
+import { Clock, Scene, WebGLRenderer, PerspectiveCamera, Box3 , Vector3} from "three"
 import { onMounted, watch } from "vue"
 import { unrefElement } from '@vueuse/core'
 import { debouncedWatch, useWindowSize, useToggle, get, set, useCssVar } from "@vueuse/core"
 import { getLights } from "../models/light"
 import { floor } from "../models/floor"
+import { useSceneCam } from "./useSceneCam"
 
 export const tickFns = new Set<PrFn>()
 export const scene = new Scene()
@@ -32,21 +32,16 @@ export function useThreeJs(threeHook?: EventHook<ThreeCtrlEvent>) {
 
   const [isRunning, toggleRun] = useToggle()
 
-  const stats = new Stats()
-  // stats.showPanel(2)
-  stats.dom.classList.add("stats")
-  document.body.appendChild(stats.dom)
-
   // @ts-ignore
   // threeHook?.on(({ cmd }: ThreeCtrlEvent) => this[cmd]())
-  
+
   // threeHook?.on(({ cmd }: ThreeCtrlEvent) => {
   //   isLoop = cmd === "resume"
   //   //this[cmd]()
   // })
 
 
-  // const stats = inject<Stats>("stats")
+  const stats: Stats = inject("stats")
   let delta: number
 
   const gameLoop = async () => {
@@ -73,19 +68,13 @@ export function useThreeJs(threeHook?: EventHook<ThreeCtrlEvent>) {
     }
   })
 
-  // const { pause, resume } = useRafFn(gameLoop, { immediate: false })
-  // const loopCtrl = useRafFn(gameLoop, { immediate: false })
-  // const loopCtrl = useRafFn(await () => gameLoop())
-
-  // const { pause, resume } = useRafFn(async () => {
-  //   await gameLoop()
-  // }, { immediate: false })
-
   onMounted(async () => {
     initRenderer()
     cameraControls = new CameraControls(camera, renderer.domElement)
     cameraControls.setPosition(0, 2, 10)
-    // useSceneCam(cameraControls)
+    // cameraControls.tra
+    // cameraControls.fitToBox(new Box3(new Vector3(0, 0), new Vector3(2, 2)))
+    useSceneCam(cameraControls)
     // await loadSkybox(scene)
     scene.add(...getLights())
     scene.add(floor())

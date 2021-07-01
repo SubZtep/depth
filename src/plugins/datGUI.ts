@@ -24,16 +24,16 @@ function addPreferences(gui: dat.GUI) {
     skybox: 14,
     toggle,
   }
-  const guiScaleCss = useCssVar("--gui-scale")
-  set(guiScaleCss, String(pref.guiScale))
+  // const guiScaleCss = useCssVar("--gui-scale")
+  // set(guiScaleCss, String(pref.guiScale))
   const f = gui.addFolder("Preferences")
   // f.add(pref, "poseDetection").onChange(v => set(state, "poseDetection", v))
-  f.add(pref, "poseDetection").onChange(v => state.value.poseDetection = v)
-  f.add(pref, "guiScale", 0.5, 3.5, 0.1).onFinishChange(scale => set(guiScaleCss, String(scale))).name("GUI Scale Size")
-  f.add(pref, "skybox", 1, 15, 1)
-    .onFinishChange(skybox => hook.trigger({ skybox }))
-    .name("Sky Time")
-  f.add(pref, "toggle").name("Toggle Fullscreen")
+  // f.add(pref, "poseDetection").onChange(v => state.value.poseDetection = v)
+  // f.add(pref, "guiScale", 0.5, 3.5, 0.1).onFinishChange(scale => set(guiScaleCss, String(scale))).name("GUI Scale Size")
+  // f.add(pref, "skybox", 1, 15, 1)
+  //   .onFinishChange(skybox => hook.trigger({ skybox }))
+  //   .name("Sky Time")
+  // f.add(pref, "toggle").name("Toggle Fullscreen")
   return hook
 }
 
@@ -55,6 +55,6 @@ export default {
   install(app) {
     app.provide("gui", gui)
     app.provide("cameraHook", addCameraControl(gui))
-    app.provide("preferencesHook", addPreferences(gui))
+    // app.provide("preferencesHook", addPreferences(gui))
   },
 } as Plugin

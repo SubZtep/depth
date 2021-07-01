@@ -63,13 +63,13 @@ body {
 #app * {
   pointer-events: auto;
 }
-  
+
 .stats {
   top: auto !important;
   transform-origin: left bottom;
   bottom: 0;
   &:hover {
-    transform: scale(1.5);
+    transform: scale(4);
   }
 }
 
