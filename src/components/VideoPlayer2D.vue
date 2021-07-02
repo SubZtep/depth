@@ -10,9 +10,6 @@ video(
   :class="{ visible: opts.showEl }")
   //- :visible="opts.showEl")
 
-  VideoPlayer3D
-  BlazePose(:pose="pose")
-  Skeleton(:pose="pose")
 </template>
 
 <script lang="ts" setup>
@@ -34,7 +31,6 @@ const root = new Group()
 scene.add(root)
 provide<Group>("root", root)
 
-const pose: Pose = reactive({})
 
 const name = randomTitle()
 const opts = reactive({

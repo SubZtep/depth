@@ -3,9 +3,11 @@
 
 <script lang="ts" setup>
 import { TextureLoader, MeshBasicMaterial, VideoTexture, PlaneBufferGeometry, Mesh, DoubleSide, Group } from "three"
-import { inject, onBeforeUnmount, ref, unref, watchEffect, toRef, onMounted } from "vue"
+import { inject, onBeforeUnmount, ref, unref, watchEffect, toRef, onMounted, defineProps } from "vue"
 import { get } from "@vueuse/core"
 import { div } from "../misc/utils"
+
+const { opts } = defineProps({ opts: { type: Object as PropType<VideoInputGroup>, required: true } })
 
 const playerState = inject<PlayerState>("playerState")!
 const parent = inject<Group>("root")!

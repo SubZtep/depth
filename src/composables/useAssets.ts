@@ -1,8 +1,8 @@
-import { loadSkybox } from "../models/skybox";
-import { CubeTextureLoader, CubeTexture } from "three";
-import { scene } from "./useThreeJs";
+import { CubeTextureLoader, CubeTexture, TextureLoader, MeshBasicMaterial, DoubleSide } from "three"
 
-export function useLoader() {
+export let noVideoMaterial: THREE.MeshBasicMaterial
+
+export function useAssets() {
 
   const loadSkybox = (nr: SkyboxNumber): Promise<CubeTexture> => {
     return new Promise((resolve, reject) => {
@@ -21,5 +21,19 @@ export function useLoader() {
     })
   }
 
-  return { loadSkybox }
+  const loadNoVideoMaterial = (): Promise<void> => {
+    return new Promise((resolve, _reject) => {
+      const loader = new TextureLoader()
+
+      loader.load("no-video.png", map => {
+        noVideoMaterial = new MeshBasicMaterial({ map, transparent: true, side: DoubleSide })
+        resolve()
+      })
+    })
+  }
+
+  return {
+    loadSkybox,
+    loadNoVideoMaterial,
+  }
 }

@@ -1,3 +1,9 @@
+namespace dat {
+  interface GUI {
+    addReactiveSelect: (target: Object, propName: string, options: Ref<Record<string, string>>) => GUIController
+  }
+}
+
 type PrFn = () => Promise<void>
 
 type KeypointMesh = THREE.Mesh<THREE.SphereGeometry, THREE.Material>

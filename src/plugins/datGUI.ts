@@ -1,10 +1,23 @@
-import type { Plugin } from "vue"
-import * as dat from "dat.gui"
-// import { watch } from "vue"
+import type { Plugin, Ref } from "vue"
+import dat from "dat.gui"
+import { watch } from "vue"
 import { createEventHook, useCssVar, useFullscreen, set } from "@vueuse/core"
 import { useGlobalState } from "../store"
 
-const gui = new dat.GUI({ closed: true })
+function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, string>, selected: string) {
+  let html = `<option value="">--- empty ---</option>`
+  html += Object.entries(list).map(([key, val]) => `<option value="${val}"${val === selected && " selected"}>${key}</option>`)
+  targetCtrl.domElement.children[0].innerHTML = html
+  if (!html.includes(" selected")) targetCtrl.setValue("")
+}
+
+dat.GUI.prototype.addReactiveSelect = function (target: Object, propName: string, options: Ref<Record<string, string>>) {
+  const ctrl = this.add(target, propName, options.value)
+  watch(options, newList => updateDropdown(ctrl, newList, target[propName]))
+  return ctrl
+}
+
+const gui = new dat.GUI({ closed: false, width: 300 })
 // gui.remember({})
 const state = useGlobalState()
 // const visibility = useDocumentVisibility()
@@ -48,6 +61,7 @@ function addCameraControl(gui: dat.GUI) {
   f.add(btns, "rotate").name("Rotate")
   f.add(btns, "shake").name("Shake")
   // f.add(get(state), "cameraZoomToPile").name("✯ zoom to pile")
+  f.close()
   return hook
 }
 

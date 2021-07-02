@@ -1,32 +1,28 @@
 <template lang="pug">
 video(
-  loop
-  muted
-  controls
-  playsinline
+  autoplay="true"
+  loop="true"
+  muted="true"
+  controls="true"
+  playsinline="true"
   ref="videoRef"
   poster="no-video.png")
 </template>
 
 <script lang="ts" setup>
-import { unrefElement, get, until, useUserMedia, invoke } from "@vueuse/core"
-import { defineProps, onMounted, onBeforeUnmount, ref, watchEffect } from "vue"
-import { useInputGroup } from "../composables/useInputGroup"
+import type { Ref } from "vue"
+import { unrefElement, useUserMedia } from "@vueuse/core"
+import { defineProps, onMounted, onBeforeUnmount, ref, watch, toRefs } from "vue"
 
-const { opts } = defineProps({ opts: { type: Object as PropType<MediaInputGroup>, required: true } })
 const videoRef = ref<HTMLVideoElement>() as Ref<HTMLVideoElement>
-useInputGroup<MediaInputGroup>(opts, videoRef)
+const props = defineProps({ videoDeviceId: { type: String, required: true } })
+const videoDeviceId = toRefs(props).videoDeviceId
+const media = useUserMedia({ videoDeviceId, audioDeviceId: false, autoSwitch: true, enabled: true })
 
-const media = useUserMedia({ videoDeviceId: opts.deviceId, audioDeviceId: false, enabled: false })
-
-onMounted(async () => {
-  watchEffect(async () => {
-    await media.start()
-    invoke(async () => {
-      await until(media.stream).not.toBeUndefined()
-      unrefElement(videoRef).srcObject = get(media.stream)
-    })
-  })
+onMounted(() => {
+  watch(media.stream, stream => {
+    unrefElement(videoRef).srcObject = stream || null
+  }, { immediate: true })
 })
 
 onBeforeUnmount(() => {

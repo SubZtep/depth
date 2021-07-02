@@ -1,4 +1,6 @@
-import { reactify } from "@vueuse/core"
+import type { Ref } from "vue"
+import { computed } from "vue"
+import { reactify, get } from "@vueuse/core"
 
 export function normalizeDeviceLabel(label: string) {
   const res = label.match(/^(.*)\s\([a-z0-9]{4}\:[a-z0-9]{4}\)$/)
@@ -16,7 +18,16 @@ export function randomTitle(mayContainUnicode = true) {
 /** reactive division */
 export const div = reactify((dividend: number, divisor: number) => dividend / divisor)
 
-
 export function delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+export function selectableMedias(inputs: Ref<MediaDeviceInfo[]>) {
+  return computed<Record<string, string>>(() =>
+    get(inputs).reduce(
+      (obj: Record<string, string>, d: MediaDeviceInfo) =>
+        Object.assign(obj, { [normalizeDeviceLabel(d.label)]: d.deviceId }),
+      {}
+    )
+  )
 }
