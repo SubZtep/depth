@@ -12,7 +12,7 @@ video(
 <script lang="ts" setup>
 import type { Ref } from "vue"
 import { unrefElement, useUserMedia } from "@vueuse/core"
-import { defineProps, onMounted, onBeforeUnmount, ref, watch, toRefs } from "vue"
+import { onMounted, onBeforeUnmount, ref, watch, toRefs } from "vue"
 
 const videoRef = ref<HTMLVideoElement>() as Ref<HTMLVideoElement>
 const props = defineProps({ videoDeviceId: { type: String, required: true } })

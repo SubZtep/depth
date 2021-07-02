@@ -17,7 +17,7 @@ dat.GUI.prototype.addReactiveSelect = function (target: Object, propName: string
   return ctrl
 }
 
-const gui = new dat.GUI({ closed: false, width: 300 })
+const gui = new dat.GUI({ closed: false, width: 350 })
 // gui.remember({})
 const state = useGlobalState()
 // const visibility = useDocumentVisibility()

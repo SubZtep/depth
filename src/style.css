@@ -30,7 +30,6 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  /* position: fixed; */
   position: absolute;
 }
 
@@ -94,13 +93,6 @@ body {
   max-height: 40%;
   aspect-ratio: var(--ratio, 1);
   border: 8px outset #666;
-  /*visibility: hidden;
-  opacity: 0;*/
-  /* resize: both; */
-  /*&.visible {
-    visibility: visible;
-    opacity: 1;
-  }*/
 }
 
 /*

@@ -6,16 +6,17 @@ MainScene
 </template>
 
 <script lang="ts" setup>
-import { scene, useThreeJs } from "../composables/useThreeJs"
-import { useAssets } from "../composables/useAssets"
+import { scene, useThreeJs } from "../../composables/useThreeJs"
+import { useAssets } from "../../composables/useAssets"
 import { templateRef, get } from "@vueuse/core"
-import { delay } from "../misc/utils"
+import { delay } from "../../misc/utils"
 
-const { loadSkybox } = useAssets()
+const assets = useAssets()
 const { setCanvas, isRunning, toggleRun } = useThreeJs()
 
 setCanvas(templateRef("wc"))
-scene.background = await loadSkybox(14)
+scene.background = await assets.loadSkybox(14)
+await assets.loadNoVideoMaterial()
 await delay(500)
 
 if (!get(isRunning)) toggleRun()

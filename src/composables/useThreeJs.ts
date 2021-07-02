@@ -47,7 +47,12 @@ export function useThreeJs(_threeHook?: EventHook<ThreeCtrlEvent>) {
   })
 
   onMounted(async () => {
-    renderer = new WebGLRenderer({ canvas: unrefElement(canvas), premultipliedAlpha: false, antialias: true })
+    renderer = new WebGLRenderer({
+      canvas: unrefElement(canvas),
+      premultipliedAlpha: false,
+      antialias: true,
+      powerPreference: "high-performance",
+    })
     renderer.setPixelRatio(window.devicePixelRatio)
 
     camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 500)

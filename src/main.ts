@@ -1,5 +1,5 @@
 import { createApp } from "vue"
-import App from "./components/App.vue"
+import App from "./components/scene/App.vue"
 import Toast from "vue-toastification"
 import StatsPlugin from "./plugins/stats"
 import GuiPlugin from "./plugins/datGUI"

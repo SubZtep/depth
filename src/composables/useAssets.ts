@@ -1,6 +1,8 @@
+import { logLoaded } from "../misc/console"
 import { CubeTextureLoader, CubeTexture, TextureLoader, MeshBasicMaterial, DoubleSide } from "three"
 
-export let noVideoMaterial: THREE.MeshBasicMaterial
+// export let noVideoMaterial: THREE.MeshBasicMaterial
+const assets = new Map<string, unknown>()
 
 export function useAssets() {
 
@@ -26,7 +28,9 @@ export function useAssets() {
       const loader = new TextureLoader()
 
       loader.load("no-video.png", map => {
-        noVideoMaterial = new MeshBasicMaterial({ map, transparent: true, side: DoubleSide })
+        const noVideoMaterial = new MeshBasicMaterial({ map, transparent: true, side: DoubleSide })
+        assets.set("noVideoMaterial", noVideoMaterial)
+        logLoaded("noVideoMaterial")
         resolve()
       })
     })
@@ -35,5 +39,6 @@ export function useAssets() {
   return {
     loadSkybox,
     loadNoVideoMaterial,
+    assets,
   }
 }

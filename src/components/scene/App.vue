@@ -11,7 +11,7 @@ import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { onErrorCaptured, provide } from "vue"
 import { useToast } from "vue-toastification"
 import { createEventHook } from "@vueuse/core"
-import { useThreeJs } from "../composables/useThreeJs"
+import { useThreeJs } from "../../composables/useThreeJs"
 useNProgress().start()
 
 const threeCtrlHook = createEventHook<ThreeCtrlEvent>()
