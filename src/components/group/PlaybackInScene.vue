@@ -1,21 +1,21 @@
 <template></template>
 
 <script lang="ts" setup>
-import type { PropType, Ref } from "vue"
+import type { PropType } from "vue"
 import { MeshBasicMaterial, VideoTexture, PlaneBufferGeometry, Mesh, DoubleSide, Group } from "three"
 import { inject, ref, toRef, watch, onBeforeUnmount } from "vue"
 import { useAssets } from "../../composables/useAssets"
 
-const props = defineProps({ el: { type: Object as PropType<HTMLVideoElement>, required: false } })
+const props = defineProps({ el: { type: Object as PropType<HTMLVideoElement | undefined>, required: false } })
 const el = toRef(props, "el")
 
 const { assets } = useAssets()
 const root = inject<Group>("root")!
 
-const playerGeometry = new PlaneBufferGeometry()
 const noVideoMaterial = assets.get("noVideoMaterial") as THREE.MeshBasicMaterial
 let videoTexture: VideoTexture | undefined = undefined
 const videoMaterial = new MeshBasicMaterial({ side: DoubleSide })
+const playerGeometry = new PlaneBufferGeometry()
 const player = new Mesh(playerGeometry, noVideoMaterial)
 root.add(player)
 

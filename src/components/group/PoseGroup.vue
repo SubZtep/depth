@@ -1,18 +1,22 @@
 <template lang="pug">
 MediaInput(v-if="opts.videoDeviceId" :videoDeviceId="opts.videoDeviceId" v-visible="opts.showDevice" @updated="setPlayback")
 VideoFileInput(v-if="opts.src" :src="opts.src" v-visible="opts.showSrc" @updated="setPlayback")
-
 PlaybackInScene(:el="playbackRef")
+
+PoseDetector(:el="playbackRef" :pose="pose")
+Stickman(:pose="pose")
 </template>
 
 <script lang="ts" setup>
-import * as dat from "dat.gui"
 import type { Ref } from "vue"
+import type { Pose } from "@tensorflow-models/pose-detection"
 import { reactive, onMounted, inject, provide, ref } from "vue"
-import { scene } from "../../composables/useThreeJs"
+import { useDevicesList, set } from "@vueuse/core"
 import { Group } from "three"
-import { useDevicesList, get, set, unrefElement } from "@vueuse/core"
+import { scene } from "../../composables/useThreeJs"
 import { selectableMedias } from "../../misc/utils"
+
+const pose: Pose = reactive({ keypoints: [] })
 
 const opts = reactive({
   videoDeviceId: "",
