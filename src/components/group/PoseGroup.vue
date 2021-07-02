@@ -1,5 +1,5 @@
 <template lang="pug">
-MediaInput(v-if="opts.videoDeviceId" :videoDeviceId="opts.videoDeviceId" v-visible="opts.showDevice")
+MediaInput(v-if="opts.videoDeviceId" :videoDeviceId="opts.videoDeviceId" v-visible="opts.showDevice" @updated="setPlayback")
 VideoFileInput(v-if="opts.src" :src="opts.src" v-visible="opts.showSrc" @updated="setPlayback")
 
 PlaybackInScene(:el="playbackRef")
@@ -17,7 +17,7 @@ import { selectableMedias } from "../../misc/utils"
 const opts = reactive({
   videoDeviceId: "",
   showDevice: true,
-  src: "happy.webm",
+  src: "",
   showSrc: true,
 })
 
@@ -33,10 +33,8 @@ const root = new Group()
 scene.add(root)
 provide("root", root)
 
-type PlaybackRef = Ref<HTMLVideoElement | undefined>
-
-const playbackRef: PlaybackRef = ref()
-const setPlayback = (ref: PlaybackRef) => set(playbackRef, ref.value)
+const playbackRef: Ref<HTMLVideoElement | undefined> = ref()
+const setPlayback = (ref: Ref<HTMLVideoElement | undefined>) => set(playbackRef, ref.value)
 
 onMounted(() => {
   folder.open()
