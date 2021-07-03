@@ -4,6 +4,7 @@
   --video-hide-transition: visibility var(--video-hide-duration) linear, opacity var(--video-hide-duration) linear;
   --unicode-transition: opacity var(--video-hide-duration) linear;
   font-size: calc(1vw + 1vh + .5vmin);
+  --world-opacity: 0;
 }
 
 * {
@@ -34,7 +35,6 @@ body {
 }
 
 .loadingScreen {
-  /* background: linear-gradient(to bottom, #00b09b, #96c93d); */
   padding: 25px;
   text-align: right;
   font: bold 2.5rem Merriweather;
@@ -59,6 +59,7 @@ body {
 #app {
   pointer-events: none;
 }
+
 #app * {
   pointer-events: auto;
 }
@@ -72,23 +73,14 @@ body {
   }
 }
 
-#world {
-  opacity: var(--world-opacity, 1);
-  &> canvas {
-    width: inherit;
-    height: inherit;
-  }
-}
-
-#app > .grid {
-  position: fixed;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
+#world > canvas {
+  opacity: var(--world-opacity);
+  transition: opacity 0.5s ease-in;
+  width: inherit;
+  height: inherit;
 }
 
 #app video {
-  pointer-events: auto;
   max-width: 40%;
   max-height: 40%;
   aspect-ratio: var(--ratio, 1);
@@ -99,22 +91,18 @@ body {
 ** dat.GUI
 */
 
-.dg {
+.dg.main {
   font-size: 0.5rem;
   color: #dedede;
   letter-spacing: 1px;
   font-family: Merriweather;
-  background-image: linear-gradient(to bottom, #000000, #0f9b0f);
   text-shadow: none;
   &:hover {
     text-shadow: 0px -4px 0px #aaa, 0 0 0 #000, 0px 4px var(--blood);
     transition: text-shadow 150ms ease-in-out 10s;
   }
-}
-
-.dg.main {
   transform-origin: right top;
-  transform: scale(var(--gui-scale, 1));
+  transform: scale(var(--gui-scale, 0));
 }
 
 .dg .cr.function .property-name {

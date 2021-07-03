@@ -3,8 +3,8 @@ MediaInput(
   v-if="opts.videoDeviceId"
   :videoDeviceId="opts.videoDeviceId"
   v-visible="opts.showHtmlPlayer"
-   @dimensions="setDimensions"
-   @updated="setPlayback")
+  @dimensions="setDimensions"
+  @updated="setPlayback")
 
 VideoFileInput(
   v-if="opts.src"

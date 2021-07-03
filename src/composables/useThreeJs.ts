@@ -10,6 +10,7 @@ import { floor } from "../models/floor"
 
 export const tickFns = new Set<PrFn>()
 export const scene = new Scene()
+export let toggleRun: () => boolean
 let renderer: THREE.WebGLRenderer
 let camera: THREE.PerspectiveCamera
 let cameraControls: CameraControls
@@ -25,7 +26,11 @@ export function useThreeJs(params: Params) {
   CameraControls.install({ THREE: THREE }) // TODO: tree shaking
   const { width, height } = useWindowSize()
   let canvas: MaybeRef<HTMLCanvasElement>
-  const [isRunning, toggleRun] = useToggle()
+  // const [isRunning, toggleRun] = useToggle()
+  const tr = useToggle()
+  const isRunning = tr[0]
+  toggleRun = tr[1]
+
   const stats = inject<Stats>("stats")!
   const clock = new Clock()
 
@@ -57,7 +62,7 @@ export function useThreeJs(params: Params) {
       set(worldOpacity, "1")
       requestAnimationFrame(gameLoop)
     } else {
-      set(worldOpacity, "0.5")
+      set(worldOpacity, "0")
     }
   })
 
@@ -92,7 +97,5 @@ export function useThreeJs(params: Params) {
 
   return {
     setCanvas: (c: MaybeRef<HTMLCanvasElement>) => (canvas = c),
-    isRunning,
-    toggleRun,
   }
 }

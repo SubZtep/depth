@@ -21,12 +21,9 @@ const errorHandler = (e: Error) => {
   }
 }
 
-const { setCanvas, isRunning, toggleRun } = useThreeJs({ errorHandler })
+useThreeJs({ errorHandler }).setCanvas(templateRef("wc"))
 
-setCanvas(templateRef("wc"))
 scene.background = await assets.loadSkybox(14)
 await assets.loadNoVideoMaterial()
 await delay(500)
-
-if (!get(isRunning)) toggleRun()
 </script>
