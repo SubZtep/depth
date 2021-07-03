@@ -11,10 +11,10 @@ video(
 
 <script lang="ts" setup>
 import type { Ref, WatchStopHandle } from "vue"
-import { unrefElement, useUserMedia } from "@vueuse/core"
+import { unrefElement, useUserMedia, useEventListener } from "@vueuse/core"
 import { onMounted, onBeforeUnmount, ref, watch, toRef } from "vue"
 
-const emit = defineEmits(["updated"])
+const emit = defineEmits(["updated", "dimensions"])
 const props = defineProps({ videoDeviceId: { type: String, required: true } })
 const videoDeviceId = toRef(props, "videoDeviceId")
 
@@ -24,6 +24,11 @@ const emptyRef = ref<HTMLVideoElement>()
 const { stream, stop } = useUserMedia({ videoDeviceId, audioDeviceId: false, autoSwitch: true, enabled: true })
 
 let stopWatch: WatchStopHandle | undefined = undefined
+
+useEventListener<{ target: HTMLVideoElement }>(videoRef, "canplay", ({ target }) => {
+  const { videoWidth, videoHeight } = target
+  emit("dimensions", { videoWidth, videoHeight })
+})
 
 onMounted(() => {
   stopWatch = watch(

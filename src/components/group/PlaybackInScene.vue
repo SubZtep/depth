@@ -3,11 +3,18 @@
 <script lang="ts" setup>
 import type { PropType } from "vue"
 import { MeshBasicMaterial, VideoTexture, PlaneBufferGeometry, Mesh, DoubleSide, Group } from "three"
-import { inject, ref, toRef, watch, onBeforeUnmount } from "vue"
+import { inject, toRefs, watch, onBeforeUnmount, watchEffect } from "vue"
+import { get } from "@vueuse/core"
+import { div } from "../../misc/utils"
 import { useAssets } from "../../composables/useAssets"
 
-const props = defineProps({ el: { type: Object as PropType<HTMLVideoElement | undefined>, required: false } })
-const el = toRef(props, "el")
+const props = defineProps({
+  el: { type: Object as PropType<HTMLVideoElement | undefined>, required: false },
+  videoWidth: { type: Number, required: true },
+  videoHeight: { type: Number, required: true },
+  width: { type: Number, required: true },
+})
+const { el, videoWidth, videoHeight, width } = toRefs(props)
 
 const { assets } = useAssets()
 const root = inject<Group>("root")!
@@ -20,7 +27,7 @@ const player = new Mesh(playerGeometry, noVideoMaterial)
 root.add(player)
 
 const stopWatch = watch(
-  el,
+  el!,
   videoEl => {
     if (videoTexture !== undefined) {
       videoTexture.dispose()
@@ -38,10 +45,13 @@ const stopWatch = watch(
   { immediate: true }
 )
 
-const width = ref(4)
-const height = ref(2)
+const ratio = div(videoWidth, videoHeight)
+const height = div(width, ratio)
 
-playerGeometry.scale(width.value, height.value, 0)
+watchEffect(() => {
+  player.scale.set(get(width), get(height), 0)
+  player.position.set(get(width) / 2, get(height) / 2, 0)
+})
 
 onBeforeUnmount(() => {
   stopWatch()

@@ -15,7 +15,15 @@ let renderer: THREE.WebGLRenderer
 let camera: THREE.PerspectiveCamera
 let cameraControls: CameraControls
 
-export function useThreeJs(_threeHook?: EventHook<ThreeCtrlEvent>) {
+interface Params {
+  errorHandler?: ErrorHandler
+}
+
+// export function useThreeJs(_threeHook?: EventHook<ThreeCtrlEvent>) {
+export function useThreeJs(params: Params) {
+
+  const errorHandler: ErrorHandler = params.errorHandler ?? console.error
+
   CameraControls.install({ THREE: THREE }) // TODO: tree shaking
   const { width, height } = useWindowSize()
   let canvas: MaybeRef<HTMLCanvasElement>
@@ -26,7 +34,19 @@ export function useThreeJs(_threeHook?: EventHook<ThreeCtrlEvent>) {
   const gameLoop = async () => {
     cameraControls.update(clock.getDelta())
 
-    tickFns.forEach(async fn => await fn())
+    tickFns.forEach(async fn => {
+      try {
+        await fn()
+      } catch (e) {
+        errorHandler(e)
+        // console.log("EEEEE", e.message)
+      }
+    })
+    // try {
+    //   tickFns.forEach(async fn => await fn())
+    // } catch (e) {
+    //   console.log("BUUUUUU", e.message)
+    // }
 
     renderer.render(scene, camera)
     stats.update()
@@ -58,7 +78,6 @@ export function useThreeJs(_threeHook?: EventHook<ThreeCtrlEvent>) {
     camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 500)
     cameraControls = new CameraControls(camera, renderer.domElement)
     cameraControls.setPosition(0, 2, 10)
-    // cameraControls.tra
     // cameraControls.fitToBox(new Box3(new Vector3(0, 0), new Vector3(2, 2)))
     useSceneCam(cameraControls)
 

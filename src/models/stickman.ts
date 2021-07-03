@@ -1,5 +1,6 @@
 import { Vector3 } from "three"
-import { ref } from "vue"
+import type { Ref } from "vue"
+import type { Keypoint } from "@tensorflow-models/pose-detection"
 import { get } from "@vueuse/core"
 import {
   BLAZEPOSE_KEYPOINTS,
@@ -15,13 +16,14 @@ export class Stickman {
   videoWidth: Ref<number>
   videoHeight: Ref<number>
   scale: Ref<number>
-  zMulti = ref(500)
+  zMulti: Ref<number>
 
-  constructor(parent: THREE.Object3D, videoWidth: Ref<number>, videoHeight: Ref<number>, scale: Ref<number>) {
+  constructor(parent: THREE.Object3D, videoWidth: Ref<number>, videoHeight: Ref<number>, scale: Ref<number>, zMulti: Ref<number>) {
     this.videoWidth = videoWidth
     this.videoHeight = videoHeight
     this.scale = scale
     this.parent = parent
+    this.zMulti = zMulti
     this.initJoints()
     this.initLines()
   }

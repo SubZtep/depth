@@ -15,12 +15,15 @@ import { useThreeJs } from "../../composables/useThreeJs"
 useNProgress().start()
 
 const threeCtrlHook = createEventHook<ThreeCtrlEvent>()
+
 useThreeJs(threeCtrlHook)
+
 provide("threeCtrlHook", threeCtrlHook)
 
+const toast = useToast()
 onErrorCaptured(e => {
-  const toast = useToast()
+  console.log("EEE", e.message)
   toast.error(e.message)
-  return true
+  return false
 })
 </script>

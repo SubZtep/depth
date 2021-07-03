@@ -10,7 +10,7 @@ video(
 </template>
 
 <script lang="ts" setup>
-import { useMediaControls } from "@vueuse/core"
+import { useMediaControls, useEventListener } from "@vueuse/core"
 import { onMounted, onBeforeUnmount, ref, toRef, watch } from "vue"
 
 const videoRef = ref<HTMLVideoElement>()
@@ -19,7 +19,12 @@ const props = defineProps({ src: { type: String, required: true } })
 const src = toRef(props, "src")
 
 const { playing } = useMediaControls(videoRef, { src })
-const emit = defineEmits(["updated"])
+const emit = defineEmits(["updated", "dimensions"])
+
+useEventListener<{ target: HTMLVideoElement }>(videoRef, "canplay", ({ target }) => {
+  const { videoWidth, videoHeight } = target
+  emit("dimensions", { videoWidth, videoHeight })
+})
 
 onMounted(() => {
   watch(playing, isPlaying => emit("updated", isPlaying ? videoRef : emptyRef), { immediate: true })

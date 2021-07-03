@@ -41,3 +41,10 @@ interface VideoInputGroup extends InputGroupBase {
 
 type InputGroup = MediaInputGroup | VideoInputGroup
 type SkyboxNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15
+
+type InputDimensions = {
+  videoWidth: number
+  videoHeight: number
+}
+
+type ErrorHandler = (e: Error) => void
