@@ -1,3 +1,4 @@
+import type { Keypoint } from "@tensorflow-models/pose-detection"
 import type { Ref } from "vue"
 import { computed } from "vue"
 import { reactify, get } from "@vueuse/core"
@@ -30,4 +31,19 @@ export function selectableMedias(inputs: Ref<MediaDeviceInfo[]>) {
       {}
     )
   )
+}
+
+export function isInRect(width: number, height: number, x: number, y: number) {
+  // TODO: reactify
+  return x >= 0 && x < width && y >= 0 && y < height
+}
+
+export function scaleKeypoint(width: number, height: number, scale: number, zMulti: number, keypoint: Keypoint, flipX = false, flipY = true): THREE.Vector3Tuple {
+  // TODO: reactify
+  const mayFlippedX = flipX ? width - keypoint.x : keypoint.x
+  const mayFlippedY = flipY ? height - keypoint.y : keypoint.y
+  const x = mayFlippedX * scale
+  const y = mayFlippedY * scale
+  const z = keypoint.z! * scale * zMulti
+  return [x, y, z]
 }

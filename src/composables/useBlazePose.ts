@@ -3,14 +3,15 @@ import type { Pose, PoseDetector, BlazePoseMediaPipeModelConfig } from "@tensorf
 import "@mediapipe/pose"
 import * as poseDetection from "@tensorflow-models/pose-detection"
 import { invoke, get, set, useTimeoutFn } from "@vueuse/core"
-import { reactive, watch, ref } from "vue"
+import { reactive, watch, ref, toRef } from "vue"
 import { tickFns } from "./useThreeJs"
 
 interface Params {
   el: Ref<HTMLVideoElement | undefined>
 }
 
-export function useBlazePose({ el }: Params) {
+export function useBlazePose(params: Params) {
+  const el = toRef(params, "el")
   const ready = ref(false)
   let detector: PoseDetector
   const pose: Pose = reactive({ keypoints: [] })

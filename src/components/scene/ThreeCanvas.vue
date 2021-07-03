@@ -25,5 +25,5 @@ useThreeJs({ errorHandler }).setCanvas(templateRef("wc"))
 
 scene.background = await assets.loadSkybox(14)
 await assets.loadNoVideoMaterial()
-await delay(500)
+await delay(69)
 </script>
