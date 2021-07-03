@@ -2,11 +2,11 @@
 
 <script lang="ts" setup>
 import type { PropType } from "vue"
+import { get } from "@vueuse/core"
 import { MeshBasicMaterial, VideoTexture, PlaneBufferGeometry, Mesh, DoubleSide, Group } from "three"
 import { inject, toRefs, watch, onBeforeUnmount, watchEffect } from "vue"
-import { get } from "@vueuse/core"
-import { div } from "../../misc/utils"
 import { useAssets } from "../../composables/useAssets"
+import { div } from "../../misc/utils"
 
 const props = defineProps({
   el: { type: Object as PropType<HTMLVideoElement | undefined>, required: false },

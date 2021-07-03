@@ -1,13 +1,12 @@
 import type { MaybeRef } from "@vueuse/core"
 import CameraControls from "camera-controls"
-import * as THREE from "three"
-import { Clock, Scene, WebGLRenderer, PerspectiveCamera, Box3, Vector3 } from "three"
 import { onMounted, watch, inject } from "vue"
-import { unrefElement } from "@vueuse/core"
-import { debouncedWatch, useWindowSize, useToggle, get, set, useCssVar } from "@vueuse/core"
+import * as THREE from "three"
+import { Clock, Scene, WebGLRenderer, PerspectiveCamera } from "three"
+import { debouncedWatch, useWindowSize, useToggle, get, set, useCssVar, unrefElement } from "@vueuse/core"
+import { useSceneCam } from "./useSceneCam"
 import { getLights } from "../models/light"
 import { floor } from "../models/floor"
-import { useSceneCam } from "./useSceneCam"
 
 export const tickFns = new Set<PrFn>()
 export const scene = new Scene()
@@ -19,7 +18,6 @@ interface Params {
   errorHandler?: ErrorHandler
 }
 
-// export function useThreeJs(_threeHook?: EventHook<ThreeCtrlEvent>) {
 export function useThreeJs(params: Params) {
 
   const errorHandler: ErrorHandler = params.errorHandler ?? console.error
@@ -32,23 +30,20 @@ export function useThreeJs(params: Params) {
   const clock = new Clock()
 
   const gameLoop = async () => {
-    cameraControls.update(clock.getDelta())
+    let needRender = cameraControls.update(clock.getDelta())
 
     tickFns.forEach(async fn => {
       try {
         await fn()
       } catch (e) {
         errorHandler(e)
-        // console.log("EEEEE", e.message)
       }
     })
-    // try {
-    //   tickFns.forEach(async fn => await fn())
-    // } catch (e) {
-    //   console.log("BUUUUUU", e.message)
-    // }
 
-    renderer.render(scene, camera)
+    needRender = true
+    if (needRender) {
+      renderer.render(scene, camera)
+    }
     stats.update()
 
     if (get(isRunning)) {

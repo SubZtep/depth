@@ -5,10 +5,9 @@ import type { PropType } from "vue"
 import type { Pose, PoseDetector, BlazePoseMediaPipeModelConfig } from "@tensorflow-models/pose-detection"
 import "@mediapipe/pose"
 import * as poseDetection from "@tensorflow-models/pose-detection"
-import { onMounted, onBeforeUnmount, toRef, watch, onErrorCaptured } from "vue"
+import { onMounted, onBeforeUnmount, toRef, watch } from "vue"
 import { tickFns } from "../../composables/useThreeJs"
 import { get } from "@vueuse/core"
-import { useToast } from "vue-toastification"
 
 const props = defineProps({
   el: { type: Object as PropType<HTMLVideoElement | undefined>, required: false },
@@ -87,13 +86,5 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   tickFns.delete(estimatePose)
   detector.dispose()
-})
-
-
-const toast = useToast()
-onErrorCaptured(e => {
-  console.log("EEE", e.message)
-  toast.error(e.message)
-  return false
 })
 </script>

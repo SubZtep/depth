@@ -43,9 +43,7 @@ onMounted(() => {
         emit("updated", emptyRef)
       }
     },
-    {
-      immediate: true,
-    }
+    { immediate: true }
   )
 })
 

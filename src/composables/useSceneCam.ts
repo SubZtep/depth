@@ -1,3 +1,5 @@
+import type CameraControls from "camera-controls"
+import type { EventHook } from "@vueuse/core"
 import { MathUtils } from "three"
 import { inject } from "vue"
 import { CameraShake } from "../models/camerashake"

@@ -1,16 +1,42 @@
 <template lang="pug">
-MediaInput(v-if="opts.videoDeviceId" :videoDeviceId="opts.videoDeviceId" v-visible="opts.showDevice" @dimensions="setDimensions" @updated="setPlayback")
-VideoFileInput(v-if="opts.src" :src="opts.src" v-visible="opts.showSrc" @dimensions="setDimensions" @updated="setPlayback")
-PlaybackInScene(:el="playbackRef" :videoWidth="videoWidth" :videoHeight="videoHeight" :width="opts.width")
+MediaInput(
+  v-if="opts.videoDeviceId"
+  :videoDeviceId="opts.videoDeviceId"
+  v-visible="opts.showDevice"
+   @dimensions="setDimensions"
+   @updated="setPlayback")
 
-PoseDetector(v-if="opts.poseDetector" :el="playbackRef" :pose="pose" :immediate="false")
-Stickman(:pose="pose" :videoWidth="videoWidth" :videoHeight="videoHeight" :scale="scale" :zMulti="opts.zMulti")
+VideoFileInput(
+  v-if="opts.src"
+  :src="opts.src"
+  v-visible="opts.showSrc"
+  @dimensions="setDimensions"
+  @updated="setPlayback")
+
+PlaybackInScene(
+  :el="playbackRef"
+  :videoWidth="videoWidth"
+  :videoHeight="videoHeight"
+  :width="opts.width")
+
+PoseDetector(
+  v-if="opts.poseDetector"
+  :el="playbackRef"
+  :pose="pose"
+  :immediate="false")
+
+Stickman(
+  :pose="pose"
+  :videoWidth="videoWidth"
+  :videoHeight="videoHeight"
+  :scale="scale"
+  :zMulti="opts.zMulti")
 </template>
 
 <script lang="ts" setup>
 import type { Ref } from "vue"
 import type { Pose } from "@tensorflow-models/pose-detection"
-import { reactive, onMounted, inject, provide, ref, onErrorCaptured } from "vue"
+import { reactive, onMounted, inject, provide, ref, toRef } from "vue"
 import { useDevicesList, set } from "@vueuse/core"
 import { Group } from "three"
 import { scene } from "../../composables/useThreeJs"
@@ -23,7 +49,7 @@ const opts = reactive({
   showDevice: true,
   src: "",
   showSrc: true,
-  poseDetector: false,
+  poseDetector: true,
   width: 1,
   zMulti: 500,
 })
@@ -45,7 +71,7 @@ provide("root", root)
 
 const videoWidth = ref(640)
 const videoHeight = ref(480)
-const scale = div(opts.width, videoWidth)
+const scale = div(toRef(opts, "width"), videoWidth)
 
 const playbackRef: Ref<HTMLVideoElement | undefined> = ref()
 const setPlayback = (ref: Ref<HTMLVideoElement | undefined>) => set(playbackRef, ref.value)
@@ -58,11 +84,4 @@ const setDimensions = (v: InputDimensions) => {
 onMounted(() => {
   folder.open()
 })
-
-
-// onErrorCaptured(e => {
-//   console.log("EEE", e.message)
-//   toast.error(e.message)
-//   return false
-// })
 </script>

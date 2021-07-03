@@ -2,10 +2,9 @@ import type { Plugin, Ref } from "vue"
 import dat from "dat.gui"
 import { watch } from "vue"
 import { createEventHook, useCssVar, useFullscreen, set } from "@vueuse/core"
-import { useGlobalState } from "../store"
 
 function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, string>, selected: string) {
-  let html = `<option value="">--- empty ---</option>`
+  let html = `<option value=""></option>`
   html += Object.entries(list).map(([key, val]) => `<option value="${val}"${val === selected && " selected"}>${key}</option>`)
   targetCtrl.domElement.children[0].innerHTML = html
   if (!html.includes(" selected")) targetCtrl.setValue("")
@@ -17,37 +16,20 @@ dat.GUI.prototype.addReactiveSelect = function (target: Object, propName: string
   return ctrl
 }
 
-const gui = new dat.GUI({ closed: false, width: 350 })
+const gui = new dat.GUI({ closed: false, width: 380 })
 // gui.remember({})
-const state = useGlobalState()
-// const visibility = useDocumentVisibility()
-
-// watch(visibility, (current, previous) => {
-//   if (current === "hidden" && previous === "visible") {
-//     console.log("bye for now", gui.__folders)
-//   }
-// })
 
 function addPreferences(gui: dat.GUI) {
-  const hook = createEventHook<GUIEvent.Preferences>()
   const { toggle } = useFullscreen()
   const pref = {
-    poseDetection: true,
-    guiScale: 1.5,
-    skybox: 14,
+    guiScale: 1.2,
     toggle,
   }
-  // const guiScaleCss = useCssVar("--gui-scale")
-  // set(guiScaleCss, String(pref.guiScale))
+  const guiScaleCss = useCssVar("--gui-scale")
+  set(guiScaleCss, String(pref.guiScale))
   const f = gui.addFolder("Preferences")
-  // f.add(pref, "poseDetection").onChange(v => set(state, "poseDetection", v))
-  // f.add(pref, "poseDetection").onChange(v => state.value.poseDetection = v)
-  // f.add(pref, "guiScale", 0.5, 3.5, 0.1).onFinishChange(scale => set(guiScaleCss, String(scale))).name("GUI Scale Size")
-  // f.add(pref, "skybox", 1, 15, 1)
-  //   .onFinishChange(skybox => hook.trigger({ skybox }))
-  //   .name("Sky Time")
-  // f.add(pref, "toggle").name("Toggle Fullscreen")
-  return hook
+  f.add(pref, "guiScale", 0.5, 3.5, 0.1).onFinishChange(scale => set(guiScaleCss, String(scale))).name("GUI Scale Size")
+  f.add(pref, "toggle").name("Toggle Fullscreen")
 }
 
 function addCameraControl(gui: dat.GUI) {
@@ -60,7 +42,6 @@ function addCameraControl(gui: dat.GUI) {
   const f = gui.addFolder("InGame Camera Control")
   f.add(btns, "rotate").name("Rotate")
   f.add(btns, "shake").name("Shake")
-  // f.add(get(state), "cameraZoomToPile").name("✯ zoom to pile")
   f.close()
   return hook
 }
@@ -69,6 +50,6 @@ export default {
   install(app) {
     app.provide("gui", gui)
     app.provide("cameraHook", addCameraControl(gui))
-    // app.provide("preferencesHook", addPreferences(gui))
+    app.provide("preferencesHook", addPreferences(gui))
   },
 } as Plugin

@@ -1,7 +1,6 @@
 import { logLoaded } from "../misc/console"
 import { CubeTextureLoader, CubeTexture, TextureLoader, MeshBasicMaterial, DoubleSide } from "three"
 
-// export let noVideoMaterial: THREE.MeshBasicMaterial
 const assets = new Map<string, unknown>()
 
 export function useAssets() {
