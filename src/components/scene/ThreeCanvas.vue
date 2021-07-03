@@ -16,7 +16,9 @@ const assets = useAssets()
 
 const toast = useToast()
 const errorHandler = (e: Error) => {
-  toast.error(e.message)
+  if (e instanceof Error) {
+    toast.error(e.message)
+  }
 }
 
 const { setCanvas, isRunning, toggleRun } = useThreeJs({ errorHandler })

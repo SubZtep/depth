@@ -1,12 +1,15 @@
 <template lang="pug">
-PoseGroup
+PoseGroup(@loaded="loaded")
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from "vue"
+import { inject } from "vue"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
 
-onMounted(() => {
+const gui = inject<dat.GUI>("gui")!
+
+const loaded = () => {
   useNProgress().done()
-})
+  gui.show()
+}
 </script>

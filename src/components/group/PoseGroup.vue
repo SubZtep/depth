@@ -2,28 +2,23 @@
 MediaInput(
   v-if="opts.videoDeviceId"
   :videoDeviceId="opts.videoDeviceId"
-  v-visible="opts.showDevice"
+  v-visible="opts.showHtmlPlayer"
    @dimensions="setDimensions"
    @updated="setPlayback")
 
 VideoFileInput(
   v-if="opts.src"
   :src="opts.src"
-  v-visible="opts.showSrc"
+  v-visible="opts.showHtmlPlayer"
   @dimensions="setDimensions"
   @updated="setPlayback")
 
 PlaybackInScene(
+  v-if="opts.showScenePlayer"
   :el="playbackRef"
   :videoWidth="videoWidth"
   :videoHeight="videoHeight"
   :width="opts.width")
-
-PoseDetector(
-  v-if="opts.poseDetector"
-  :el="playbackRef"
-  :pose="pose"
-  :immediate="false")
 
 Stickman(
   :pose="pose"
@@ -35,35 +30,36 @@ Stickman(
 
 <script lang="ts" setup>
 import type { Ref } from "vue"
-import type { Pose } from "@tensorflow-models/pose-detection"
-import { reactive, onMounted, inject, provide, ref, toRef } from "vue"
-import { useDevicesList, set } from "@vueuse/core"
+import { reactive, inject, provide, ref, toRef } from "vue"
+import { useDevicesList, set, invoke, until } from "@vueuse/core"
 import { Group } from "three"
 import { scene } from "../../composables/useThreeJs"
+import { useBlazePose } from "../../composables/useBlazePose"
 import { div, selectableMedias } from "../../misc/utils"
 
-const pose: Pose = reactive({ keypoints: [] })
+const emit = defineEmits(["loaded"])
+const playbackRef: Ref<HTMLVideoElement | undefined> = ref()
+const setPlayback = (ref: Ref<HTMLVideoElement | undefined>) => set(playbackRef, ref.value)
+const { videoInputs } = useDevicesList({ requestPermissions: true })
+const { pose, ready } = useBlazePose({ el: playbackRef })
 
 const opts = reactive({
   videoDeviceId: "",
-  showDevice: true,
   src: "",
-  showSrc: true,
-  poseDetector: true,
+  showHtmlPlayer: true,
+  showScenePlayer: true,
   width: 1,
   zMulti: 500,
 })
 
-const { videoInputs } = useDevicesList({ requestPermissions: true })
-
 const folder = inject<dat.GUI>("gui")!.addFolder("Pose Group")
-folder.addReactiveSelect(opts, "videoDeviceId", selectableMedias(videoInputs)).name("Video Device")
-folder.add(opts, "showDevice").name("Show Device Input")
-folder.add(opts, "src", ["", "happy.webm", "mask.webm"]).name("Video Device")
-folder.add(opts, "showSrc").name("Show File Input")
-folder.add(opts, "poseDetector").name("Pose Detector Active")
-folder.add(opts, "width", 0.1, 10, 0.1).name("Scene Player Width")
+folder.addReactiveSelect(opts, "videoDeviceId", selectableMedias(videoInputs)).name("Device Input")
+folder.add(opts, "src", ["", "happy.webm", "mask.webm"]).name("File Input")
+folder.add(opts, "showHtmlPlayer").name("Show HTML Player")
+folder.add(opts, "showScenePlayer").name("Show Scene Player")
+folder.add(opts, "width", 0.1, 10, 0.1).name("Width (metre)")
 folder.add(opts, "zMulti", 1, 1000, 1).name("Z-Axis Multiplier")
+folder.open()
 
 const root = new Group()
 scene.add(root)
@@ -73,15 +69,13 @@ const videoWidth = ref(640)
 const videoHeight = ref(480)
 const scale = div(toRef(opts, "width"), videoWidth)
 
-const playbackRef: Ref<HTMLVideoElement | undefined> = ref()
-const setPlayback = (ref: Ref<HTMLVideoElement | undefined>) => set(playbackRef, ref.value)
-
 const setDimensions = (v: InputDimensions) => {
   set(videoWidth, v.videoWidth)
   set(videoHeight, v.videoHeight)
 }
 
-onMounted(() => {
-  folder.open()
+invoke(async () => {
+  await until(ready).toBeTruthy()
+  emit("loaded")
 })
 </script>

@@ -17,6 +17,7 @@ dat.GUI.prototype.addReactiveSelect = function (target: Object, propName: string
 }
 
 const gui = new dat.GUI({ closed: false, width: 380 })
+gui.hide()
 // gui.remember({})
 
 function addPreferences(gui: dat.GUI) {
