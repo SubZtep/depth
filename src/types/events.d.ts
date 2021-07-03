@@ -1,5 +1,6 @@
 namespace GUIEvent {
   interface Camera {
-    cmd: "rotate" | "shake"
+    cmd?: "rotate" | "shake"
+    go?: "group" | "record"
   }
 }

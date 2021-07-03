@@ -68,7 +68,7 @@ export function useBlazePose(params: Params) {
         done()
         firstPose = false
       } else {
-        dstat?.update(t1 - t0, 240)
+        dstat?.update(t1 - t0, 120)
       }
 
       if (poses === undefined) {

@@ -95,7 +95,7 @@ body {
 
 .dg {
   font-family: var(--font-sans);
-  font-size: 0.69rem;
+  font-size: 18px;
   color: #e0e0e0;
   text-shadow: -1px -2px 0 #00690069;
   letter-spacing: 1px;
