@@ -4,7 +4,7 @@
 import type { PropType } from "vue"
 import type { Pose, Keypoint } from "@tensorflow-models/pose-detection"
 import { watch, toRefs, inject, onBeforeUnmount, onMounted } from "vue"
-import { Vector3 } from "three"
+import { Vector3, Group } from "three"
 import {
   BLAZEPOSE_KEYPOINTS,
   BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS,
@@ -22,6 +22,7 @@ import { get } from "@vueuse/core"
 
 const props = defineProps({
   pose: { type: Object as PropType<Pose>, required: true },
+  keypointLimit: { type: Number, default: 33 },
   videoWidth: { type: Number, required: true },
   videoHeight: { type: Number, required: true },
   scale: { type: Number, required: true },
@@ -29,16 +30,26 @@ const props = defineProps({
 })
 
 const pose = props.pose
-const { videoWidth, videoHeight, scale, zMulti } = toRefs(props)
+const { videoWidth, videoHeight, scale, zMulti, keypointLimit } = toRefs(props)
 
-const root = inject<THREE.Group>("root")!
+const root = inject<Group>("root")!
+const stickmanGroup = new Group()
 const joints = new Map<string, KeypointMesh>()
 const lines = new Map<string, THREE.Line>()
 
+const keypointToTuple = (kp: Keypoint): THREE.Vector3Tuple =>
+  scaleKeypoint(get(videoWidth), get(videoHeight), get(scale), get(zMulti), kp)
+
+const isKeypointApperaing = (kp: Keypoint): boolean => isInRect(get(videoWidth), get(videoHeight), kp.x, kp.y)
+
+const lineKey = (i: number, j: number) => `${i}-${j}`
+
+const isVisible = (i: number, j?: number) => i < get(keypointLimit) && (j === undefined || j < get(keypointLimit))
+
 const initJoints = () => {
-  root.add(
-    ...BLAZEPOSE_KEYPOINTS.map(name => {
-      const joint = keypointFactory(name)
+  stickmanGroup.add(
+    ...BLAZEPOSE_KEYPOINTS.map((name, i) => {
+      const joint = keypointFactory(name, isVisible(i))
       joints.set(name, joint)
       return joint
     })
@@ -46,10 +57,10 @@ const initJoints = () => {
 }
 
 const initLines = () => {
-  root.add(
+  stickmanGroup.add(
     ...BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS.map(([i, j]) => {
-      const key = `${i}-${j}`
-      const line = lineFactory(key)
+      const key = lineKey(i, j)
+      const line = lineFactory(key, isVisible(i, j))
       lines.set(key, line)
       return line
     })
@@ -59,29 +70,36 @@ const initLines = () => {
 const updateJoints = (keypoints: Keypoint[]) => {
   keypoints.forEach(kp => {
     const joint = joints.get(kp.name!)!
-    joint.material = isInRect(get(videoWidth), get(videoHeight), kp.x, kp.y) ? whiteMaterial : redMaterial
-    joint.position.fromArray(scaleKeypoint(get(videoWidth), get(videoHeight), get(scale), get(zMulti), kp))
+    joint.visible = isVisible(BLAZEPOSE_KEYPOINTS.indexOf(kp.name!))
+    if (joint.visible) {
+      joint.material = isKeypointApperaing(kp) ? whiteMaterial : redMaterial
+      joint.position.fromArray(keypointToTuple(kp))
+    }
   })
 }
 
 const updateLines = (keypoints: Keypoint[]) => {
   const points = new Array(2)
-  const scaleKp = (kp: Keypoint) => scaleKeypoint(get(videoWidth), get(videoHeight), get(scale), get(zMulti), kp)
-  const inRect = (x: number, y: number) => isInRect(get(videoWidth), get(videoHeight), x, y)
   BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS.forEach(([i, j]) => {
-    points[0] = new Vector3(...scaleKp(keypoints[i]))
-    points[1] = new Vector3(...scaleKp(keypoints[j]))
-    const line = lines.get(`${i}-${j}`)!
-    line.geometry.setFromPoints(points)
-    line.material =
-      inRect(keypoints[i].x, keypoints[i].y) && inRect(keypoints[j].x, keypoints[j].y) ? boneMaterial : badBoneMaterial
-    lines.get(`${i}-${j}`)!.geometry.setFromPoints(points)
+    const line = lines.get(lineKey(i, j))!
+    line.visible = isVisible(i, j)
+    if (line.visible) {
+      points[0] = new Vector3(...keypointToTuple(keypoints[i]))
+      points[1] = new Vector3(...keypointToTuple(keypoints[j]))
+      line.geometry.setFromPoints(points)
+      line.material =
+        isKeypointApperaing(keypoints[i]) && isKeypointApperaing(keypoints[j])
+          ? boneMaterial
+          : badBoneMaterial
+      line.geometry.setFromPoints(points)
+    }
   })
 }
 
 onMounted(() => {
   initJoints()
   initLines()
+  root.add(stickmanGroup)
 
   watch(pose, ({ keypoints }) => {
     // console.log("KP 💀", keypoints)
@@ -91,6 +109,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  root.remove(stickmanGroup)
   lines.forEach(line => line.geometry.dispose())
 })
 </script>

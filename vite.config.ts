@@ -2,6 +2,7 @@ import { defineConfig } from "vite"
 import Vue from "@vitejs/plugin-vue"
 import ViteComponents from "vite-plugin-components"
 import ViteFonts from "vite-plugin-fonts"
+import ViteRestart from "vite-plugin-restart"
 
 export default defineConfig({
   plugins: [
@@ -15,6 +16,10 @@ export default defineConfig({
       google: {
         families: ["Merriweather"],
       },
+    }),
+    ViteRestart({
+      reload: "**/src/**/*.*",
+      restart: "**/src/**/*.*",
     }),
   ],
   server: {

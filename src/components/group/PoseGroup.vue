@@ -14,13 +14,23 @@ VideoFileInput(
   @updated="setPlayback")
 
 PlaybackInScene(
-  v-if="opts.showScenePlayer"
+  v-if="opts.scenePlayerOpacity > 0"
   :el="playbackRef"
   :videoWidth="videoWidth"
   :videoHeight="videoHeight"
-  :width="opts.width")
+  :width="opts.width"
+  :opacity="opts.scenePlayerOpacity")
 
 Stickman(
+  v-if="opts.keypointLimit && (opts.videoDeviceId || opts.src)"
+  :pose="pose"
+  :videoWidth="videoWidth"
+  :videoHeight="videoHeight"
+  :scale="scale"
+  :zMulti="opts.zMulti"
+  :keypointLimit="opts.keypointLimit")
+
+//- Skeleton(
   :pose="pose"
   :videoWidth="videoWidth"
   :videoHeight="videoHeight"
@@ -31,7 +41,7 @@ Stickman(
 <script lang="ts" setup>
 import type { Ref } from "vue"
 import { reactive, inject, provide, ref, toRef } from "vue"
-import { useDevicesList, set, invoke, until } from "@vueuse/core"
+import { useDevicesList, set, invoke, until, get } from "@vueuse/core"
 import { Group } from "three"
 import { scene } from "../../composables/useThreeJs"
 import { useBlazePose } from "../../composables/useBlazePose"
@@ -44,21 +54,23 @@ const { videoInputs } = useDevicesList({ requestPermissions: true })
 const { pose, ready } = useBlazePose({ el: playbackRef })
 
 const opts = reactive({
-  videoDeviceId: "",
+  videoDeviceId: get<MediaDeviceInfo[]>(videoInputs)[0]?.deviceId ?? "",
   src: "",
-  showHtmlPlayer: true,
-  showScenePlayer: true,
-  width: 1,
+  showHtmlPlayer: false,
+  scenePlayerOpacity: 1,
+  width: 4,
   zMulti: 500,
+  keypointLimit: 33,
 })
 
-const folder = inject<dat.GUI>("gui")!.addFolder("Pose Group")
-folder.addReactiveSelect(opts, "videoDeviceId", selectableMedias(videoInputs)).name("Device Input")
-folder.add(opts, "src", ["", "happy.webm", "mask.webm"]).name("File Input")
-folder.add(opts, "showHtmlPlayer").name("Show HTML Player")
-folder.add(opts, "showScenePlayer").name("Show Scene Player")
+const folder = inject<dat.GUI>("gui")!.addFolder("Pose group")
+folder.addReactiveSelect(opts, "videoDeviceId", selectableMedias(videoInputs)).name("Device input")
+folder.add(opts, "src", ["", "happy.webm", "mask.webm", "yoga1.webm", "yoga2.webm"]).name("File input")
+folder.add(opts, "showHtmlPlayer").name("Show HTML player")
+folder.add(opts, "scenePlayerOpacity", 0, 1, 0.01).name("Scene player opacity")
 folder.add(opts, "width", 0.1, 10, 0.1).name("Width (metre)")
-folder.add(opts, "zMulti", 1, 1000, 1).name("Z-Axis Multiplier")
+folder.add(opts, "zMulti", 1, 1000, 1).name("Z-Axis multiplier")
+folder.add(opts, "keypointLimit", 0, 33, 1).name("Visible keypoints")
 folder.open()
 
 const root = new Group()

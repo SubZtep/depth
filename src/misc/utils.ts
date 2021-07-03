@@ -38,7 +38,15 @@ export function isInRect(width: number, height: number, x: number, y: number) {
   return x >= 0 && x < width && y >= 0 && y < height
 }
 
-export function scaleKeypoint(width: number, height: number, scale: number, zMulti: number, keypoint: Keypoint, flipX = false, flipY = true): THREE.Vector3Tuple {
+export function scaleKeypoint(
+  width: number,
+  height: number,
+  scale: number,
+  zMulti: number,
+  keypoint: Keypoint,
+  flipX = false,
+  flipY = true
+): THREE.Vector3Tuple {
   // TODO: reactify
   const mayFlippedX = flipX ? width - keypoint.x : keypoint.x
   const mayFlippedY = flipY ? height - keypoint.y : keypoint.y

@@ -13,15 +13,16 @@ const props = defineProps({
   videoWidth: { type: Number, required: true },
   videoHeight: { type: Number, required: true },
   width: { type: Number, required: true },
+  opacity: { type: Number, default: 1 },
 })
-const { el, videoWidth, videoHeight, width } = toRefs(props)
+const { el, videoWidth, videoHeight, width, opacity } = toRefs(props)
 
 const { assets } = useAssets()
 const root = inject<Group>("root")!
 
 const noVideoMaterial = assets.get("noVideoMaterial") as THREE.MeshBasicMaterial
 let videoTexture: VideoTexture | undefined = undefined
-const videoMaterial = new MeshBasicMaterial({ side: DoubleSide })
+const videoMaterial = new MeshBasicMaterial({ side: DoubleSide, transparent: true, opacity: get(opacity) })
 const playerGeometry = new PlaneBufferGeometry()
 const player = new Mesh(playerGeometry, noVideoMaterial)
 root.add(player)
@@ -51,7 +52,9 @@ const height = div(width, ratio)
 watchEffect(() => {
   player.scale.set(get(width), get(height), 0)
   player.position.set(get(width) / 2, get(height) / 2, 0)
+  videoMaterial.opacity = get(opacity)
 })
+
 
 onBeforeUnmount(() => {
   stopWatch()

@@ -69,9 +69,8 @@ export function useThreeJs(params: Params) {
   onMounted(async () => {
     renderer = new WebGLRenderer({
       canvas: unrefElement(canvas),
-      premultipliedAlpha: false,
-      antialias: true,
       powerPreference: "high-performance",
+      antialias: true,
     })
     renderer.setPixelRatio(window.devicePixelRatio)
 

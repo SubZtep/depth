@@ -1,8 +1,8 @@
-import type { Ref } from "vue"
+import { Ref } from "vue"
 import type { Pose, PoseDetector, BlazePoseMediaPipeModelConfig } from "@tensorflow-models/pose-detection"
 import "@mediapipe/pose"
 import * as poseDetection from "@tensorflow-models/pose-detection"
-import { invoke, get, set, useTimeoutFn } from "@vueuse/core"
+import { invoke, get, set, useTimeoutFn, tryOnUnmounted } from "@vueuse/core"
 import { reactive, watch, ref, toRef } from "vue"
 import { tickFns } from "./useThreeJs"
 
@@ -63,7 +63,7 @@ export function useBlazePose(params: Params) {
     detector = await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
       solutionPath: "../node_modules/@mediapipe/pose",
       runtime: "mediapipe",
-      modelType: "lite",
+      modelType: "heavy",
     } as BlazePoseMediaPipeModelConfig)
     set(ready, true)
 
@@ -78,6 +78,10 @@ export function useBlazePose(params: Params) {
       },
       { immediate: true }
     )
+  })
+
+  tryOnUnmounted(() => {
+    detector?.dispose()
   })
 
   return { pose, ready }
