@@ -10,7 +10,7 @@ import { useToast } from "vue-toastification"
 import { scene, useThreeJs } from "../../composables/useThreeJs"
 import { useAssets } from "../../composables/useAssets"
 import { templateRef, get } from "@vueuse/core"
-import { delay } from "../../misc/utils"
+import { delay, rand } from "../../misc/utils"
 
 const assets = useAssets()
 
@@ -23,7 +23,7 @@ const errorHandler = (e: Error) => {
 
 useThreeJs({ errorHandler }).setCanvas(templateRef("wc"))
 
-scene.background = await assets.loadSkybox(14)
+scene.background = await assets.loadSkybox(rand(15))
 await assets.loadNoVideoMaterial()
 await delay(69)
 </script>

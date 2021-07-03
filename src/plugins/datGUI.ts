@@ -16,7 +16,7 @@ dat.GUI.prototype.addReactiveSelect = function (target: Object, propName: string
   return ctrl
 }
 
-const gui = new dat.GUI({ closed: false, width: 380 })
+const gui = new dat.GUI({ closed: false, width: 420 })
 gui.hide()
 // gui.remember({})
 
@@ -40,7 +40,7 @@ function addCameraControl(gui: dat.GUI) {
     shake: () => hook.trigger({ cmd: "shake" }),
   }
 
-  const f = gui.addFolder("InGame Camera Control")
+  const f = gui.addFolder("Go places")
   f.add(btns, "rotate").name("Rotate")
   f.add(btns, "shake").name("Shake")
   f.close()

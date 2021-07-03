@@ -54,7 +54,7 @@ const { videoInputs } = useDevicesList({ requestPermissions: true })
 const { pose, ready } = useBlazePose({ el: playbackRef })
 
 const opts = reactive({
-  videoDeviceId: get<MediaDeviceInfo[]>(videoInputs)[0]?.deviceId ?? "",
+  videoDeviceId: "", //get<MediaDeviceInfo[]>(videoInputs)[0]?.deviceId ?? "",
   src: "",
   showHtmlPlayer: false,
   scenePlayerOpacity: 1,
@@ -66,7 +66,7 @@ const opts = reactive({
 const folder = inject<dat.GUI>("gui")!.addFolder("Pose group")
 folder.addReactiveSelect(opts, "videoDeviceId", selectableMedias(videoInputs)).name("Device input")
 folder.add(opts, "src", ["", "happy.webm", "mask.webm", "yoga1.webm", "yoga2.webm"]).name("File input")
-folder.add(opts, "showHtmlPlayer").name("Show HTML player")
+folder.add(opts, "showHtmlPlayer").name("Show ⍃video⍄")
 folder.add(opts, "scenePlayerOpacity", 0, 1, 0.01).name("Scene player opacity")
 folder.add(opts, "width", 0.1, 10, 0.1).name("Width (metre)")
 folder.add(opts, "zMulti", 1, 1000, 1).name("Z-Axis multiplier")

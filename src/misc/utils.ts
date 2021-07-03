@@ -55,3 +55,18 @@ export function scaleKeypoint(
   const z = keypoint.z! * scale * zMulti
   return [x, y, z]
 }
+
+// type PrependNextNum<A extends Array<unknown>> = A['length'] extends infer T ? ((t: T, ...a: A) => void) extends ((...x: infer X) => void) ? X : never : never;
+// type EnumerateInternal<A extends Array<unknown>, N extends number> = { 0: A, 1: EnumerateInternal<PrependNextNum<A>, N> }[N extends A['length'] ? 0 : 1];
+// export type Enumerate<N extends number> = EnumerateInternal<[], N> extends (infer E)[] ? E : never;
+// export type Range<FROM extends number, TO extends number> = Exclude<Enumerate<TO>, Enumerate<FROM>>;
+
+export function rand<T = number>(max: number, min: number = 1): T {
+  return Math.floor(Math.random() * (max - min + 1) + min) as unknown as T
+}
+
+export const partial = (fn, ...args) => fn.bind(null, ...args)
+
+const _pipe = (f, g) => (...args) => g(f(...args))
+
+export const pipe = (...fns) => fns.reduce(_pipe)

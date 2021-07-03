@@ -14,7 +14,7 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@mediapipe/pose": "^0.4.1624666670",
+    "@mediapipe/pose": "^0.3.1621277220",
     "@tensorflow-models/pose-detection": "^0.0.3",
     "@vueuse/core": "^5.0.3",
     "@vueuse/integrations": "^5.0.3",

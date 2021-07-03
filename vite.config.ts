@@ -14,7 +14,7 @@ export default defineConfig({
     }),
     ViteFonts({
       google: {
-        families: ["Merriweather"],
+        families: ["Merriweather", "Text Me One"],
       },
     }),
     ViteRestart({
