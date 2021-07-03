@@ -22,6 +22,7 @@ export function lineFactory(name?: string, visible = true, points?: THREE.Vector
     geometry.setFromPoints(points)
   }
   const line = new Line(geometry, boneMaterial)
+  line.frustumCulled = false
   if (name !== undefined) {
     line.name = name
   }

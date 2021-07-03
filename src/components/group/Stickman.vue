@@ -92,6 +92,7 @@ const updateLines = (keypoints: Keypoint[]) => {
           ? boneMaterial
           : badBoneMaterial
       line.geometry.setFromPoints(points)
+      // line.geometry.computeBoundingSphere()
     }
   })
 }

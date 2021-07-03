@@ -12,7 +12,7 @@ export function useSceneCam(cameraControls: CameraControls) {
   ]
   let shaker = 0
 
-  inject<EventHook<GUIEvent.Camera>>("cameraHook")?.on(({ cmd }) => {
+  inject<EventHook<GUIEvent.Camera>>("cameraHook")?.on(({ cmd, go }) => {
     switch (cmd) {
       case "rotate":
         cameraControls.rotate(0, 20 * MathUtils.DEG2RAD, true)
@@ -20,6 +20,20 @@ export function useSceneCam(cameraControls: CameraControls) {
       case "shake":
         shakes[shaker++ % shakes.length].shake()
         break
+    }
+    switch(go) {
+      case "group":
+        cameraControls.setLookAt(2, 1.5, 4, 2, 1.5, 0, true)
+        break
+      case "record":
+        cameraControls.setLookAt(10, 1.5, 20, 0, 1.5, 20, true)
+        const shk = () => {
+          new CameraShake(cameraControls, 500, 10, 0.5).shake()
+          cameraControls.removeEventListener("sleep", shk)
+        }
+        cameraControls.addEventListener("sleep", shk)
+        break
+  
     }
   })
 }

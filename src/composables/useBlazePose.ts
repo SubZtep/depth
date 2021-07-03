@@ -7,13 +7,13 @@ import { reactive, watch, ref, toRef, inject } from "vue"
 import { tickFns } from "./useThreeJs"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
 import Stats from "stats.js"
+import { delay } from "../misc/utils"
 
 interface Params {
   el: Ref<HTMLVideoElement | undefined>
 }
 
 let dstat: Stats.Panel | undefined = undefined
-let done: Fn
 
 export function useBlazePose(params: Params) {
   const el = toRef(params, "el")
@@ -55,21 +55,32 @@ export function useBlazePose(params: Params) {
 
       const t0 = performance.now()
       if (firstPose) {
-        done = useNProgress(50).done
+        // set(ready, false)
+        const {done} = useNProgress(0.5)
+        setTimeout(async () => {
+          await delay(69)
+          await detector.estimatePoses(elem, {
+            flipHorizontal: false,
+            maxPoses: 1,
+          })
+          firstPose = false
+          done()
+        }, 0)
       }
 
       const poses = await detector.estimatePoses(elem, {
         flipHorizontal: false,
         maxPoses: 1,
       })
-
+      
       const t1 = performance.now()
-      if (firstPose) {
-        done()
-        firstPose = false
-      } else {
-        dstat?.update(t1 - t0, 120)
-      }
+      dstat?.update(t1 - t0, 120)
+      // if (firstPose) {
+      //   done()
+      //   firstPose = false
+      // } else {
+      //   dstat?.update(t1 - t0, 120)
+      // }
 
       if (poses === undefined) {
         return rejectReason("poses are undefined")

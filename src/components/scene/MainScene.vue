@@ -1,4 +1,5 @@
 <template lang="pug">
+//- Help()
 PoseGroup(@loaded="loaded")
 </template>
 

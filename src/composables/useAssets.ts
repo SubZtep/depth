@@ -14,7 +14,10 @@ export function useAssets() {
       const loader = new CubeTextureLoader()
       const onError = (err: ErrorEvent) => reject(err)
       const onProgress = (ev: ProgressEvent) => console.info("downloading skybox", ev)
-      const onLoad = (texture: CubeTexture) => resolve(texture)
+      const onLoad = (texture: CubeTexture) => {
+        logLoaded(`Skybox #${nr}`)
+        resolve(texture)
+      }
 
       const path = `/Classic Skybox/${String(nr).padStart(2, "0")}/`
       const urls = ["RT", "LF", "UP", "DN", "BK", "FR"].map(side => `sky${nr}_${side}.jpg`)

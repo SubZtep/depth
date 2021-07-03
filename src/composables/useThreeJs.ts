@@ -74,9 +74,9 @@ export function useThreeJs(params: Params) {
     })
     renderer.setPixelRatio(window.devicePixelRatio)
 
-    camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 500)
+    camera = new PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 500)
     cameraControls = new CameraControls(camera, renderer.domElement)
-    cameraControls.setPosition(0, 2, 10)
+    // cameraControls.setPosition(0, 2, 10)
     // cameraControls.fitToBox(new Box3(new Vector3(0, 0), new Vector3(2, 2)))
     useSceneCam(cameraControls)
 

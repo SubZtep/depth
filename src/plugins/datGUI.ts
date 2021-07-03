@@ -38,7 +38,7 @@ function addCameraControl(gui: dat.GUI) {
   const btns = {
     rotate: () => hook.trigger({ cmd: "rotate" }),
     shake: () => hook.trigger({ cmd: "shake" }),
-    group: () => hook.trigger({ go: "group" }),
+    group: () => hook.trigger({ go: "group" /*, cmd: "shake" */}),
     record: () => hook.trigger({ go: "record" }),
   }
 
