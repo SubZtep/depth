@@ -3,12 +3,17 @@ import type { Pose, PoseDetector, BlazePoseMediaPipeModelConfig } from "@tensorf
 import "@mediapipe/pose"
 import * as poseDetection from "@tensorflow-models/pose-detection"
 import { invoke, get, set, useTimeoutFn, tryOnUnmounted } from "@vueuse/core"
-import { reactive, watch, ref, toRef } from "vue"
+import { reactive, watch, ref, toRef, inject } from "vue"
 import { tickFns } from "./useThreeJs"
+import { useNProgress } from "@vueuse/integrations/useNProgress"
+import Stats from "stats.js"
 
 interface Params {
   el: Ref<HTMLVideoElement | undefined>
 }
+
+let dstat: Stats.Panel | undefined = undefined
+let done: Fn
 
 export function useBlazePose(params: Params) {
   const el = toRef(params, "el")
@@ -16,6 +21,13 @@ export function useBlazePose(params: Params) {
   let detector: PoseDetector
   const pose: Pose = reactive({ keypoints: [] })
   const errors = new Set<string>()
+  let firstPose = true
+
+  if (dstat === undefined) {
+    const stats = inject<Stats>("stats")!
+    dstat = stats.addPanel(new Stats.Panel("ms/pose", "#f9d71c", "#191970"))
+    stats.showPanel(3)
+  }
 
   const singleErrors = (cb: (reason?: any) => void) => (reason: string) => {
     if (errors.has(reason)) return cb()
@@ -41,10 +53,23 @@ export function useBlazePose(params: Params) {
         return rejectReason("no pose detector")
       }
 
+      const t0 = performance.now()
+      if (firstPose) {
+        done = useNProgress(50).done
+      }
+
       const poses = await detector.estimatePoses(elem, {
         flipHorizontal: false,
         maxPoses: 1,
       })
+
+      const t1 = performance.now()
+      if (firstPose) {
+        done()
+        firstPose = false
+      } else {
+        dstat?.update(t1 - t0, 240)
+      }
 
       if (poses === undefined) {
         return rejectReason("poses are undefined")
@@ -65,6 +90,9 @@ export function useBlazePose(params: Params) {
       runtime: "mediapipe",
       modelType: "heavy",
     } as BlazePoseMediaPipeModelConfig)
+    // const fakeImage = new Image(640, 480)
+    // fakeImage.src = "no-video.png"
+    // detector.estimatePoses(fakeImage) // first pose is very slow
     set(ready, true)
 
     watch(

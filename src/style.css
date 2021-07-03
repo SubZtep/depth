@@ -71,6 +71,7 @@ body {
   bottom: 0;
   &:hover {
     transform: scale(4);
+    transition-duration: 250ms;
   }
 }
 
@@ -98,6 +99,7 @@ body {
   color: #e0e0e0;
   text-shadow: -1px -2px 0 #00690069;
   letter-spacing: 1px;
+  user-select: none;
 }
 .dg.main {
   /* font-family: Merriweather; */
@@ -163,4 +165,13 @@ body {
 @keyframes nprogress-floppy {
     0% { transform: rotate3d(0, 0, 0, 0); }
   100% { transform: rotate3d(1, 1, 0, 45deg); }
+}
+
+/*
+** Toast
+*/
+
+.Vue-Toastification__progress-bar {
+  /* background-color: rgba(255, 255, 255, 0.7); */
+  background-color: var(--blood);
 }

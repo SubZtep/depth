@@ -1,3 +1,4 @@
+type Fn = () => void
 type PrFn = () => Promise<void>
 
 type KeypointMesh = THREE.Mesh<THREE.SphereGeometry, THREE.Material>

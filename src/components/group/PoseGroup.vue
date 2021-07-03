@@ -59,7 +59,7 @@ const opts = reactive({
   showHtmlPlayer: false,
   scenePlayerOpacity: 1,
   width: 4,
-  zMulti: 500,
+  zMulti: 250,
   keypointLimit: 33,
 })
 

@@ -29,8 +29,8 @@ function addPreferences(gui: dat.GUI) {
   const guiScaleCss = useCssVar("--gui-scale")
   set(guiScaleCss, String(pref.guiScale))
   const f = gui.addFolder("Preferences")
-  f.add(pref, "guiScale", 0.5, 3.5, 0.1).onFinishChange(scale => set(guiScaleCss, String(scale))).name("GUI Scale Size")
-  f.add(pref, "toggle").name("Toggle Fullscreen")
+  f.add(pref, "guiScale", 0.5, 3.5, 0.1).onFinishChange(scale => set(guiScaleCss, String(scale))).name("GUI scale pc.")
+  f.add(pref, "toggle").name("Toggle fullscreen")
 }
 
 function addCameraControl(gui: dat.GUI) {
