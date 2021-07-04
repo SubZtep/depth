@@ -11,6 +11,7 @@ export function useSceneCam(cameraControls: CameraControls) {
     new CameraShake(cameraControls, 5000, 2, 0.5),
   ]
   let shaker = 0
+  let happened = false
 
   inject<EventHook<GUIEvent.Camera>>("cameraHook")?.on(({ cmd, go }) => {
     switch (cmd) {
@@ -23,17 +24,18 @@ export function useSceneCam(cameraControls: CameraControls) {
     }
     switch(go) {
       case "group":
-        cameraControls.setLookAt(2, 1.5, 4, 2, 1.5, 0, true)
+        cameraControls.setLookAt(2, 1, -4, 2, 2, 0, true)
         break
       case "record":
-        cameraControls.setLookAt(10, 1.5, 20, 0, 1.5, 20, true)
+        cameraControls.setLookAt(10, 2, 20, 0, 2, 20, true)
         const shk = () => {
           new CameraShake(cameraControls, 500, 10, 0.5).shake()
           cameraControls.removeEventListener("sleep", shk)
+          happened = true
         }
-        cameraControls.addEventListener("sleep", shk)
+        if (!happened) cameraControls.addEventListener("sleep", shk)
         break
-  
+
     }
   })
 }

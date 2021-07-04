@@ -1,10 +1,18 @@
 import { logLoaded } from "../misc/console"
-import { CubeTextureLoader, CubeTexture, TextureLoader, MeshBasicMaterial, DoubleSide } from "three"
+import {
+  CubeTexture,
+  DoubleSide,
+  LinearFilter,
+  TextureLoader,
+  MeshBasicMaterial,
+  CubeTextureLoader,
+  CubeReflectionMapping,
+} from "three"
+import { DDSLoader } from "three/examples/jsm/loaders/DDSLoader"
 
 const assets = new Map<string, unknown>()
 
 export function useAssets() {
-
   const loadSkybox = (nr: SkyboxNumber): Promise<CubeTexture> => {
     return new Promise((resolve, reject) => {
       if (nr < 1 || nr > 15) {
@@ -38,9 +46,31 @@ export function useAssets() {
     })
   }
 
+  const loadLeafMaterial = (): Promise<MeshBasicMaterial> => {
+    return new Promise((resolve, _reject) => {
+      const loader = new DDSLoader()
+      loader.load("textures/hepatica_dxt3_mip.dds", texture => {
+        texture.anisotropy = 2
+        texture.magFilter = LinearFilter
+        texture.minFilter = LinearFilter
+        texture.mapping = CubeReflectionMapping
+        const material = new MeshBasicMaterial({
+          map: texture,
+          color: 0x696969,
+          alphaTest: 0.5,
+          side: DoubleSide,
+        })
+        assets.set("leafMaterial", material)
+        logLoaded("leafMaterial")
+        resolve(material)
+      })
+    })
+  }
+
   return {
     loadSkybox,
     loadNoVideoMaterial,
+    loadLeafMaterial,
     assets,
   }
 }

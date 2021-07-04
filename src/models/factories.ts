@@ -1,11 +1,13 @@
-import { SphereGeometry, MeshBasicMaterial, Mesh, BufferGeometry, LineBasicMaterial, Line } from "three"
+import { SphereGeometry, MeshPhongMaterial, Mesh, BufferGeometry, LineBasicMaterial, Line } from "three"
 
-const sphereGeometry = new SphereGeometry(0.05, 6, 5)
-export const whiteMaterial = new MeshBasicMaterial({ color: 0xffffff })
-export const redMaterial = new MeshBasicMaterial({ color: 0xff0000 })
+const sphereGeometry = new SphereGeometry(0.06, 8, 6)
+export const whiteMaterial = new MeshPhongMaterial({ color: 0x69ffff, flatShading: true })
+export const redMaterial = new MeshPhongMaterial({ color: 0xff0000, flatShading: true })
 
 export function keypointFactory(name?: string, visible = true): KeypointMesh {
   const mesh = new Mesh(sphereGeometry, whiteMaterial)
+  mesh.castShadow = true
+  mesh.receiveShadow = true
   if (name !== undefined) {
     mesh.name = name
   }

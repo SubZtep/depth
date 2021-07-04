@@ -1,13 +1,12 @@
-import { Ref } from "vue"
+import { nextTick, Ref } from "vue"
 import type { Pose, PoseDetector, BlazePoseMediaPipeModelConfig } from "@tensorflow-models/pose-detection"
 import "@mediapipe/pose"
 import * as poseDetection from "@tensorflow-models/pose-detection"
 import { invoke, get, set, useTimeoutFn, tryOnUnmounted } from "@vueuse/core"
+import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { reactive, watch, ref, toRef, inject } from "vue"
 import { tickFns } from "./useThreeJs"
-import { useNProgress } from "@vueuse/integrations/useNProgress"
 import Stats from "stats.js"
-import { delay } from "../misc/utils"
 
 interface Params {
   el: Ref<HTMLVideoElement | undefined>
@@ -53,34 +52,28 @@ export function useBlazePose(params: Params) {
         return rejectReason("no pose detector")
       }
 
-      const t0 = performance.now()
       if (firstPose) {
-        // set(ready, false)
-        const {done} = useNProgress(0.5)
-        setTimeout(async () => {
-          await delay(69)
-          await detector.estimatePoses(elem, {
-            flipHorizontal: false,
-            maxPoses: 1,
-          })
-          firstPose = false
-          done()
-        }, 0)
+        const { done } = useNProgress(0.5)
+        nextTick(() => {
+          detector
+            .estimatePoses(elem, {
+              flipHorizontal: false,
+              maxPoses: 1,
+            })
+            .then(() => {
+              firstPose = false
+              done()
+            })
+        })
       }
 
+      const t0 = performance.now()
       const poses = await detector.estimatePoses(elem, {
         flipHorizontal: false,
         maxPoses: 1,
       })
-      
       const t1 = performance.now()
       dstat?.update(t1 - t0, 120)
-      // if (firstPose) {
-      //   done()
-      //   firstPose = false
-      // } else {
-      //   dstat?.update(t1 - t0, 120)
-      // }
 
       if (poses === undefined) {
         return rejectReason("poses are undefined")
@@ -101,9 +94,6 @@ export function useBlazePose(params: Params) {
       runtime: "mediapipe",
       modelType: "heavy",
     } as BlazePoseMediaPipeModelConfig)
-    // const fakeImage = new Image(640, 480)
-    // fakeImage.src = "no-video.png"
-    // detector.estimatePoses(fakeImage) // first pose is very slow
     set(ready, true)
 
     watch(

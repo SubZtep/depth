@@ -43,11 +43,11 @@ function addCameraControl(gui: dat.GUI) {
   }
 
   const f = gui.addFolder("Go places")
-  f.add(btns, "group").name("To group(ped)")
+  f.add(btns, "group").name("To group💀ped")
   f.add(btns, "record").name("To record")
-  f.add(btns, "rotate").name("Rotate")
-  f.add(btns, "shake").name("Shake")
-  f.close()
+  // f.add(btns, "rotate").name("Rotate")
+  // f.add(btns, "shake").name("Shake")
+  f.open()
   return hook
 }
 

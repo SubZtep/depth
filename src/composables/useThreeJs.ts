@@ -2,53 +2,45 @@ import type { MaybeRef } from "@vueuse/core"
 import CameraControls from "camera-controls"
 import { onMounted, watch, inject } from "vue"
 import * as THREE from "three"
-import { Clock, Scene, WebGLRenderer, PerspectiveCamera } from "three"
+import { Clock, Scene, WebGLRenderer, PerspectiveCamera, Object3D } from "three"
 import { debouncedWatch, useWindowSize, useToggle, get, set, useCssVar, unrefElement } from "@vueuse/core"
 import { useSceneCam } from "./useSceneCam"
-import { getLights } from "../models/light"
-import { floor } from "../models/floor"
 
-export const tickFns = new Set<PrFn>()
+export const tickFns = new Set<TickFn>()
 export const scene = new Scene()
-export let toggleRun: () => boolean
+// export let toggleRun: () => boolean
 let renderer: THREE.WebGLRenderer
 let camera: THREE.PerspectiveCamera
 let cameraControls: CameraControls
 
 interface Params {
+  canvas: MaybeRef<HTMLCanvasElement>
   errorHandler?: ErrorHandler
 }
 
-export function useThreeJs(params: Params) {
-
-  const errorHandler: ErrorHandler = params.errorHandler ?? console.error
+export function useThreeJs(initFn: InitFn | undefined, params: Params) {
+  const { canvas, errorHandler = console.error } = params
 
   CameraControls.install({ THREE: THREE }) // TODO: tree shaking
   const { width, height } = useWindowSize()
-  let canvas: MaybeRef<HTMLCanvasElement>
-  // const [isRunning, toggleRun] = useToggle()
-  const tr = useToggle()
-  const isRunning = tr[0]
-  toggleRun = tr[1]
-
+  const [isRunning, toggleRun] = useToggle()
   const stats = inject<Stats>("stats")!
   const clock = new Clock()
 
-  const gameLoop = async () => {
-    let needRender = cameraControls.update(clock.getDelta())
-
-    tickFns.forEach(async fn => {
-      try {
-        await fn()
-      } catch (e) {
-        errorHandler(e)
-      }
-    })
-
-    needRender = true
-    if (needRender) {
-      renderer.render(scene, camera)
+  const tickRunner: TickRunner = async fn => {
+    try {
+      await fn({ scene, cameraControls, isRunning, toggleRun, ...objs } as TickFnProps)
+    } catch (e) {
+      errorHandler(e)
     }
+  }
+
+  const objs = initFn && initFn(scene) || {}
+
+  const gameLoop = async () => {
+    cameraControls.update(clock.getDelta())
+    tickFns.forEach(tickRunner)
+    renderer.render(scene, camera)
     stats.update()
 
     if (get(isRunning)) {
@@ -73,15 +65,11 @@ export function useThreeJs(params: Params) {
       antialias: true,
     })
     renderer.setPixelRatio(window.devicePixelRatio)
+    renderer.shadowMap.enabled = true
 
-    camera = new PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 500)
+    camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.01, 500)
     cameraControls = new CameraControls(camera, renderer.domElement)
-    // cameraControls.setPosition(0, 2, 10)
-    // cameraControls.fitToBox(new Box3(new Vector3(0, 0), new Vector3(2, 2)))
     useSceneCam(cameraControls)
-
-    scene.add(...getLights())
-    scene.add(floor())
 
     debouncedWatch(
       [width, height],
@@ -95,6 +83,8 @@ export function useThreeJs(params: Params) {
   })
 
   return {
-    setCanvas: (c: MaybeRef<HTMLCanvasElement>) => (canvas = c),
+    isRunning,
+    toggleRun,
+    tickFns,
   }
 }
