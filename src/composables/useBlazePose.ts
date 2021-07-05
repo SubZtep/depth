@@ -1,27 +1,23 @@
-import { nextTick, Ref } from "vue"
-import type { MaybeRef } from "@vueuse/core"
+import type { Ref } from "vue"
 import type { Pose, PoseDetector, BlazePoseMediaPipeModelConfig } from "@tensorflow-models/pose-detection"
 import "@mediapipe/pose"
 import * as poseDetection from "@tensorflow-models/pose-detection"
 import { invoke, get, set, useTimeoutFn, tryOnUnmounted, unrefElement } from "@vueuse/core"
-import { useNProgress } from "@vueuse/integrations/useNProgress"
-import { reactive, watch, ref, toRef, inject } from "vue"
-// import { tickFns } from "./useThreeJs"
+import { reactive, ref, inject } from "vue"
 import Stats from "stats.js"
 
 interface Params {
-  el: MaybeRef<HTMLVideoElement>
+  el: Ref<HTMLVideoElement | undefined>
 }
 
 let dstat: Stats.Panel | undefined = undefined
 
 export function useBlazePose(params: Params) {
-  // const el = toRef(params, "el")
   const ready = ref(false)
   let detector: PoseDetector
   const pose: Pose = reactive({ keypoints: [] })
   const errors = new Set<string>()
-  let firstPose = true
+  // let firstPose = true
 
   if (dstat === undefined) {
     const stats = inject<Stats>("stats")!
@@ -39,7 +35,6 @@ export function useBlazePose(params: Params) {
   const estimatePose = async (): Promise<void> => {
     return new Promise(async (resolve, reject) => {
       const rejectReason = singleErrors(reject)
-      // const elem = get(el)
       const elem = unrefElement(params.el)
 
       if (elem === undefined) {
@@ -54,20 +49,20 @@ export function useBlazePose(params: Params) {
         return rejectReason("no pose detector")
       }
 
-      if (firstPose) {
-        const { done } = useNProgress(0.5)
-        nextTick(() => {
-          detector
-            .estimatePoses(elem, {
-              flipHorizontal: false,
-              maxPoses: 1,
-            })
-            .then(() => {
-              firstPose = false
-              done()
-            })
-        })
-      }
+      // if (firstPose) {
+      //   const { done } = useNProgress(0.5)
+      //   nextTick(() => {
+      //     detector
+      //       .estimatePoses(elem, {
+      //         flipHorizontal: false,
+      //         maxPoses: 1,
+      //       })
+      //       .then(() => {
+      //         firstPose = false
+      //         done()
+      //       })
+      //   })
+      // }
 
       const t0 = performance.now()
       const poses = await detector.estimatePoses(elem, {
@@ -97,18 +92,6 @@ export function useBlazePose(params: Params) {
       modelType: "heavy",
     } as BlazePoseMediaPipeModelConfig)
     set(ready, true)
-
-    // watch(
-    //   el,
-    //   elem => {
-    //     if (elem === undefined) {
-    //       tickFns.delete(estimatePose)
-    //     } else {
-    //       tickFns.add(estimatePose)
-    //     }
-    //   },
-    //   { immediate: true }
-    // )
   })
 
   tryOnUnmounted(() => {

@@ -38,7 +38,7 @@ const leaf = await assets.loadLeafMaterial()
 const skybox = await assets.loadSkybox(rand(15))
 const wc = ref() as Ref<HTMLCanvasElement>
 
-const { toggleRun, tickFns } = useThreeJs(
+const { toggleRun, tickFns, scene } = useThreeJs(
   scene => {
     const hemiLight = new HemisphereLight(0xb1e1ff, 0x080820, 2)
     scene.add(hemiLight)
@@ -87,6 +87,7 @@ tickFns.add(({ cameraControls, light }) => {
   return Promise.resolve()
 })
 
+provide("scene", scene)
 provide("tickFns", tickFns)
 provide("toggleRun", toggleRun)
 

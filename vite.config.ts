@@ -22,6 +22,23 @@ export default defineConfig({
       restart: "**/src/**/*.*",
     }),
   ],
+  build: {
+    minify: false,
+    rollupOptions: {
+      // external: ["@mediapipe/pose", "@tensorflow-models/pose-detection"],
+      // preserveEntrySignatures: false,
+      // treeshake: true,
+      output: {
+        // manualChunks: {
+        //   pose: ["@mediapipe/pose", "@tensorflow-models/pose-detection"],
+        //   // tfjs: ["@tensorflow-models/pose-detection"],
+        //   // three: ["three"],
+        //   three: ["three", "camera-controls"]
+        // },
+        // preserveModules: true,
+      },
+    },
+  },
   server: {
     // https: true,
   },

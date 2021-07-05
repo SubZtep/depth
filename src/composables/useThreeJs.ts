@@ -7,13 +7,6 @@ import { Clock, Scene, WebGLRenderer, PerspectiveCamera, Object3D } from "three"
 import { debouncedWatch, useWindowSize, useToggle, get, set, useCssVar, unrefElement } from "@vueuse/core"
 import { useSceneCam } from "./useSceneCam"
 
-export const tickFns = new Set<TickFn>()
-export const scene = new Scene()
-// export let toggleRun: () => boolean
-let renderer: THREE.WebGLRenderer
-let camera: THREE.PerspectiveCamera
-let cameraControls: CameraControls
-
 interface Params {
   canvas: MaybeRef<HTMLCanvasElement>
   errorHandler?: ErrorHandler
@@ -23,10 +16,18 @@ export function useThreeJs(initFn: InitFn | undefined, params: Params) {
   const { canvas, errorHandler = console.error } = params
 
   CameraControls.install({ THREE: THREE }) // TODO: tree shaking
+
   const { width, height } = useWindowSize()
   const [isRunning, toggleRun] = useToggle()
   const stats = inject<Stats>("stats")!
   const clock = new Clock()
+
+  const tickFns = new Set<TickFn>()
+  const scene = new Scene()
+  let renderer: THREE.WebGLRenderer
+  let camera: THREE.PerspectiveCamera
+  let cameraControls: CameraControls
+
 
   const tickRunner: TickRunner = async fn => {
     try {
@@ -87,5 +88,6 @@ export function useThreeJs(initFn: InitFn | undefined, params: Params) {
     isRunning,
     toggleRun,
     tickFns,
+    scene,
   }
 }

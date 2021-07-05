@@ -21,7 +21,7 @@ PlaybackInScene(
   :width="opts.width"
   :opacity="opts.scenePlayerOpacity")
 
-//- Stickman(
+Stickman(
   v-if="opts.keypointLimit && (opts.videoDeviceId || opts.src)"
   :pose="pose"
   :videoWidth="videoWidth"
@@ -33,10 +33,9 @@ PlaybackInScene(
 
 <script lang="ts" setup>
 import type { Ref } from "vue"
-import { reactive, inject, provide, ref, toRef } from "vue"
-import { useDevicesList, set, invoke, until, get } from "@vueuse/core"
 import { Group } from "three"
-import { scene } from "../../composables/useThreeJs"
+import { reactive, inject, provide, ref, toRef, watch } from "vue"
+import { useDevicesList, set, invoke, until, get } from "@vueuse/core"
 import { useBlazePose } from "../../composables/useBlazePose"
 import { div, selectableMedias } from "../../misc/utils"
 
@@ -44,7 +43,7 @@ const emit = defineEmits(["loaded"])
 const playbackRef: Ref<HTMLVideoElement | undefined> = ref()
 const setPlayback = (ref: Ref<HTMLVideoElement | undefined>) => set(playbackRef, ref.value)
 const { videoInputs } = useDevicesList({ requestPermissions: true })
-// const { pose, ready, estimatePose } = useBlazePose({ el: playbackRef })
+const { pose, ready, estimatePose } = useBlazePose({ el: playbackRef })
 const videos = [
   "",
   "videos/happy.webm",
@@ -55,6 +54,7 @@ const videos = [
 ]
 
 const gui = inject<dat.GUI>("gui")!
+const scene = inject<THREE.Scene>("scene")!
 const tickFns = inject<Set<TickFn>>("tickFns")!
 
 const opts = reactive({
@@ -103,8 +103,20 @@ const setDimensions = (v: InputDimensions) => {
 }
 
 invoke(async () => {
-  // await until(ready).toBeTruthy()
-  // tickFns.add(estimatePose)
+  await until(ready).toBeTruthy()
+
+  watch(
+    playbackRef,
+    elem => {
+      if (elem === undefined) {
+        tickFns.delete(estimatePose)
+      } else {
+        tickFns.add(estimatePose)
+      }
+    },
+    { immediate: true }
+  )
+
   emit("loaded")
 })
 </script>
