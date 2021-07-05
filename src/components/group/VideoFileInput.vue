@@ -6,7 +6,7 @@ video(
   autoplay="true"
   controls="true"
   playsinline="true"
-  poster="no-video.png")
+  poster="/textures/no-video.png")
 </template>
 
 <script lang="ts" setup>

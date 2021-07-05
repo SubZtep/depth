@@ -1,21 +1,22 @@
 import { nextTick, Ref } from "vue"
+import type { MaybeRef } from "@vueuse/core"
 import type { Pose, PoseDetector, BlazePoseMediaPipeModelConfig } from "@tensorflow-models/pose-detection"
 import "@mediapipe/pose"
 import * as poseDetection from "@tensorflow-models/pose-detection"
-import { invoke, get, set, useTimeoutFn, tryOnUnmounted } from "@vueuse/core"
+import { invoke, get, set, useTimeoutFn, tryOnUnmounted, unrefElement } from "@vueuse/core"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { reactive, watch, ref, toRef, inject } from "vue"
-import { tickFns } from "./useThreeJs"
+// import { tickFns } from "./useThreeJs"
 import Stats from "stats.js"
 
 interface Params {
-  el: Ref<HTMLVideoElement | undefined>
+  el: MaybeRef<HTMLVideoElement>
 }
 
 let dstat: Stats.Panel | undefined = undefined
 
 export function useBlazePose(params: Params) {
-  const el = toRef(params, "el")
+  // const el = toRef(params, "el")
   const ready = ref(false)
   let detector: PoseDetector
   const pose: Pose = reactive({ keypoints: [] })
@@ -38,7 +39,8 @@ export function useBlazePose(params: Params) {
   const estimatePose = async (): Promise<void> => {
     return new Promise(async (resolve, reject) => {
       const rejectReason = singleErrors(reject)
-      const elem = get(el)
+      // const elem = get(el)
+      const elem = unrefElement(params.el)
 
       if (elem === undefined) {
         return rejectReason("no video input")
@@ -96,22 +98,22 @@ export function useBlazePose(params: Params) {
     } as BlazePoseMediaPipeModelConfig)
     set(ready, true)
 
-    watch(
-      el,
-      elem => {
-        if (elem === undefined) {
-          tickFns.delete(estimatePose)
-        } else {
-          tickFns.add(estimatePose)
-        }
-      },
-      { immediate: true }
-    )
+    // watch(
+    //   el,
+    //   elem => {
+    //     if (elem === undefined) {
+    //       tickFns.delete(estimatePose)
+    //     } else {
+    //       tickFns.add(estimatePose)
+    //     }
+    //   },
+    //   { immediate: true }
+    // )
   })
 
   tryOnUnmounted(() => {
     detector?.dispose()
   })
 
-  return { pose, ready }
+  return { pose, ready, estimatePose }
 }

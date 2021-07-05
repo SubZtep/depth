@@ -21,7 +21,7 @@ PlaybackInScene(
   :width="opts.width"
   :opacity="opts.scenePlayerOpacity")
 
-Stickman(
+//- Stickman(
   v-if="opts.keypointLimit && (opts.videoDeviceId || opts.src)"
   :pose="pose"
   :videoWidth="videoWidth"
@@ -29,13 +29,6 @@ Stickman(
   :scale="scale"
   :zMulti="opts.zMulti"
   :keypointLimit="opts.keypointLimit")
-
-//- Skeleton(
-  :pose="pose"
-  :videoWidth="videoWidth"
-  :videoHeight="videoHeight"
-  :scale="scale"
-  :zMulti="opts.zMulti")
 </template>
 
 <script lang="ts" setup>
@@ -51,25 +44,48 @@ const emit = defineEmits(["loaded"])
 const playbackRef: Ref<HTMLVideoElement | undefined> = ref()
 const setPlayback = (ref: Ref<HTMLVideoElement | undefined>) => set(playbackRef, ref.value)
 const { videoInputs } = useDevicesList({ requestPermissions: true })
-const { pose, ready } = useBlazePose({ el: playbackRef })
+// const { pose, ready, estimatePose } = useBlazePose({ el: playbackRef })
+const videos = [
+  "",
+  "videos/happy.webm",
+  "videos/mask.webm",
+  "videos/yoga1.webm",
+  "videos/yoga2.webm",
+  "videos/26958781a.webm",
+]
+
+const gui = inject<dat.GUI>("gui")!
+const tickFns = inject<Set<TickFn>>("tickFns")!
 
 const opts = reactive({
-  videoDeviceId: "", //get<MediaDeviceInfo[]>(videoInputs)[0]?.deviceId ?? "",
+  videoDeviceId: "",
   src: "",
   showHtmlPlayer: false,
-  scenePlayerOpacity: .69,
+  scenePlayerOpacity: 0.69,
   width: 4,
   zMulti: 250,
   keypointLimit: 33,
 })
 
-const folder = inject<dat.GUI>("gui")!.addFolder("Pose group")
-folder.addReactiveSelect(opts, "videoDeviceId", selectableMedias(videoInputs)).name("Device input")
-folder.add(opts, "src", ["", "happy.webm", "mask.webm", "yoga1.webm", "yoga2.webm", "ph/26958781a.webm"]).name("File input")
+const folder = gui.addFolder("Pose group")
+folder
+  .addReactiveSelect(opts, "videoDeviceId", selectableMedias(videoInputs))
+  .name("Device input")
+  .onChange(() => {
+    opts.src = ""
+    folder.updateDisplay()
+  })
+folder
+  .add(opts, "src", videos)
+  .name("File input")
+  .onChange(() => {
+    opts.videoDeviceId = ""
+    folder.updateDisplay()
+  })
 folder.add(opts, "showHtmlPlayer").name("Show ⍃video⍄")
 folder.add(opts, "scenePlayerOpacity", 0, 1, 0.01).name("Scene player opacity")
 folder.add(opts, "width", 0.1, 10, 0.1).name("Width (metre)")
-folder.add(opts, "zMulti", 1, 1000, 1).name("Z-Axis multiplier")
+folder.add(opts, "zMulti", 1, 1000, 1).name("Z-axis multiplier")
 folder.add(opts, "keypointLimit", 0, 33, 1).name("Visible keypoints")
 folder.open()
 
@@ -87,7 +103,8 @@ const setDimensions = (v: InputDimensions) => {
 }
 
 invoke(async () => {
-  await until(ready).toBeTruthy()
+  // await until(ready).toBeTruthy()
+  // tickFns.add(estimatePose)
   emit("loaded")
 })
 </script>

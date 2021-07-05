@@ -1,3 +1,4 @@
+import type Stats from "stats.js"
 import type { MaybeRef } from "@vueuse/core"
 import CameraControls from "camera-controls"
 import { onMounted, watch, inject } from "vue"
@@ -54,7 +55,7 @@ export function useThreeJs(initFn: InitFn | undefined, params: Params) {
       set(worldOpacity, "1")
       requestAnimationFrame(gameLoop)
     } else {
-      set(worldOpacity, "0")
+      set(worldOpacity, "0.3")
     }
   })
 

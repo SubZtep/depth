@@ -70,8 +70,8 @@ body {
   transform-origin: left bottom;
   bottom: 0;
   &:hover {
-    transform: scale(4);
-    transition-duration: 250ms;
+    transform: scale(2.5);
+    transition-duration: 150ms;
   }
 }
 

@@ -17,11 +17,12 @@ import {
   MeshPhongMaterial,
   DoubleSide,
 } from "three"
-import { templateRef } from "@vueuse/core"
+import type { Ref } from "vue"
 import { useToast } from "vue-toastification"
 import { useAssets } from "../../composables/useAssets"
 import { useThreeJs } from "../../composables/useThreeJs"
 import { delay, rand } from "../../misc/utils"
+import { ref, provide } from "vue"
 
 const assets = useAssets()
 
@@ -35,6 +36,7 @@ const errorHandler = (e: Error) => {
 await assets.loadNoVideoMaterial()
 const leaf = await assets.loadLeafMaterial()
 const skybox = await assets.loadSkybox(rand(15))
+const wc = ref() as Ref<HTMLCanvasElement>
 
 const { toggleRun, tickFns } = useThreeJs(
   scene => {
@@ -65,7 +67,7 @@ const { toggleRun, tickFns } = useThreeJs(
 
     const leafPlane = new Mesh(new PlaneGeometry(4, 4), leaf)
     leafPlane.rotateX(-Math.PI / 2)
-    leafPlane.position.set(-1, -0.2, 0.7)
+    leafPlane.position.set(-1, -0.05, 0.7)
     leafPlane.receiveShadow = true
     scene.add(leafPlane)
 
@@ -73,7 +75,7 @@ const { toggleRun, tickFns } = useThreeJs(
     return { light }
   },
   {
-    canvas: templateRef("wc"),
+    canvas: wc,
     errorHandler,
   }
 )
@@ -85,6 +87,9 @@ tickFns.add(({ cameraControls, light }) => {
   return Promise.resolve()
 })
 
+provide("tickFns", tickFns)
+provide("toggleRun", toggleRun)
+
 await delay(69)
-toggleRun()
+// toggleRun()
 </script>

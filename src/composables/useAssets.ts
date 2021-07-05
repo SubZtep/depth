@@ -37,7 +37,7 @@ export function useAssets() {
     return new Promise((resolve, _reject) => {
       const loader = new TextureLoader()
 
-      loader.load("no-video.png", map => {
+      loader.load("textures/no-video.png", map => {
         const noVideoMaterial = new MeshBasicMaterial({ map, transparent: true, side: DoubleSide })
         assets.set("noVideoMaterial", noVideoMaterial)
         logLoaded("noVideoMaterial")
