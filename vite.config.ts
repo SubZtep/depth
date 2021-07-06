@@ -3,6 +3,8 @@ import Vue from "@vitejs/plugin-vue"
 import ViteComponents from "vite-plugin-components"
 import ViteFonts from "vite-plugin-fonts"
 import ViteRestart from "vite-plugin-restart"
+import resolve from "rollup-plugin-node-resolve"
+import commonJS from "rollup-plugin-commonjs"
 
 export default defineConfig({
   plugins: [
@@ -28,7 +30,21 @@ export default defineConfig({
       // external: ["@mediapipe/pose", "@tensorflow-models/pose-detection"],
       // preserveEntrySignatures: false,
       // treeshake: true,
+      plugins: [
+        resolve({
+
+          browser: true,
+        }),
+        commonJS({
+
+          // requireReturnsDefault: "auto",
+          // include: "node_modules/**",
+        }),
+      ],
       output: {
+        // esModule: true,
+        // exports: "default",
+        esModule: true,
         // manualChunks: {
         //   pose: ["@mediapipe/pose", "@tensorflow-models/pose-detection"],
         //   // tfjs: ["@tensorflow-models/pose-detection"],
