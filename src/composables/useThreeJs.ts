@@ -3,7 +3,7 @@ import type { MaybeRef } from "@vueuse/core"
 import CameraControls from "camera-controls"
 import { onMounted, watch, inject } from "vue"
 import * as THREE from "three"
-import { Clock, Scene, WebGLRenderer, PerspectiveCamera, Object3D } from "three"
+import { Clock, Scene, WebGLRenderer, PerspectiveCamera } from "three"
 import { debouncedWatch, useWindowSize, useToggle, get, set, useCssVar, unrefElement } from "@vueuse/core"
 import { useSceneCam } from "./useSceneCam"
 

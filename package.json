@@ -15,8 +15,8 @@
   "license": "Unlicense",
   "dependencies": {
     "@mediapipe/pose": "^0.4.1624666670",
-    "@vueuse/core": "^5.1.0",
-    "@vueuse/integrations": "^5.1.0",
+    "@vueuse/core": "^5.1.2",
+    "@vueuse/integrations": "^5.1.2",
     "camera-controls": "^1.28.4",
     "canvas-confetti": "^1.4.0",
     "chroma-js": "^2.1.2",
@@ -31,7 +31,7 @@
     "@rollup/plugin-commonjs": "^19.0.0",
     "@types/chroma-js": "^2.1.3",
     "@types/dat.gui": "^0.7.6",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^26.0.24",
     "@types/node": "^16.0.0",
     "@types/stats.js": "^0.17.0",
     "@types/three": "^0.130.0",
@@ -44,8 +44,8 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.5",
-    "vite": "^2.4.0",
-    "vite-plugin-components": "^0.12.0",
+    "vite": "^2.4.1",
+    "vite-plugin-components": "^0.12.1",
     "vite-plugin-fonts": "^0.2.2",
     "vite-plugin-restart": "^0.0.2"
   }
