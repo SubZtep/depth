@@ -15,10 +15,7 @@ createApp(App)
     position: "bottom-right",
     showCloseButtonOnHover: true,
   })
-  .use(Router, {
-    routes,
-    // enableTransition: false,
-  } as RouterOptions)
+  .use(Router, { routes })
   .use(Stats)
   .use(Gui)
   .directive("visible", Visible)

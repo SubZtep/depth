@@ -1,8 +1,11 @@
-interface Route {
-  path: string
-  component: string
+interface BaseRoute {
+  component: import("@vue/runtime-core").Component
   position: THREE.Vector3Tuple
   lookAt: THREE.Vector3Tuple
+}
+
+interface Route extends BaseRoute {
+  path: string
 }
 
 interface RouterOptions {
@@ -10,9 +13,6 @@ interface RouterOptions {
   enableTransition?: boolean
 }
 
-interface RouterEvent {
-  component: string
-  position: THREE.Vector3Tuple
-  lookAt: THREE.Vector3Tuple
+interface RouterEvent extends BaseRoute {
   enableTransition: boolean
 }

@@ -38,9 +38,9 @@ function addCameraControl(gui: dat.GUI) {
   const btns = {
     rotate: () => hook.trigger({ cmd: "rotate" }),
     shake: () => hook.trigger({ cmd: "shake" }),
-    group: () => window.location.hash = "/", //hook.trigger({ go: "group" /*, cmd: "shake" */}),
-    frames: () => window.location.hash = "/frames", //hook.trigger({ go: "frames" }),
-    record: () => window.location.hash = "/record", //hook.trigger({ go: "record" }),
+    group: () => window.location.hash = "/group",
+    frames: () => window.location.hash = "/frames",
+    record: () => window.location.hash = "/record",
   }
 
   const f = gui.addFolder("Go places")
