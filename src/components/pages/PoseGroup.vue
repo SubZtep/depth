@@ -25,18 +25,16 @@ Stickman(
   :width="opts.width"
   :zMulti="opts.zMulti"
   :keypointLimit="opts.keypointLimit")
-
 </template>
 
 <script lang="ts" setup>
 import type { Ref } from "vue"
 import { Group } from "three"
-import { reactive, inject, provide, ref, watch } from "vue"
+import { onBeforeUnmount, reactive, inject, provide, ref, watch } from "vue"
 import { useDevicesList, set, invoke, until, get } from "@vueuse/core"
 import { useBlazePose } from "../../composables/useBlazePose"
 import { selectableMedias } from "../../misc/utils"
-
-const emit = defineEmits(["loaded"])
+import { VIDEOS } from "../../misc/constants"
 
 let playbackRef: Ref<HTMLVideoElement | undefined> = ref()
 let playing = ref(false)
@@ -48,15 +46,6 @@ const setPlaybackRef = (ref: Ref<HTMLVideoElement>) => {
 
 const { videoInputs } = useDevicesList({ requestPermissions: true })
 const { results, ready, estimatePose } = useBlazePose(playbackRef)
-
-const videos = [
-  "",
-  "videos/happy.webm",
-  "videos/mask.webm",
-  "videos/yoga1.webm",
-  "videos/yoga2.webm",
-  "videos/26958781a.webm",
-]
 
 const gui = inject<dat.GUI>("gui")!
 const scene = inject<THREE.Scene>("scene")!
@@ -81,7 +70,7 @@ folder
     folder.updateDisplay()
   })
 folder
-  .add(opts, "src", videos)
+  .add(opts, "src", ["", ...VIDEOS])
   .name("File input")
   .onChange(() => {
     opts.videoDeviceId = ""
@@ -112,7 +101,10 @@ invoke(async () => {
     },
     { immediate: true }
   )
+})
 
-  emit("loaded")
+onBeforeUnmount(() => {
+  tickFns.delete(estimatePose)
+  gui.removeFolder(folder)
 })
 </script>

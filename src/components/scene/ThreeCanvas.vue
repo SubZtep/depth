@@ -21,7 +21,7 @@ import type { Ref } from "vue"
 import { useToast } from "vue-toastification"
 import { useAssets } from "../../composables/useAssets"
 import { useThreeJs } from "../../composables/useThreeJs"
-import { delay, rand } from "../../misc/utils"
+import { sleep, rand } from "../../misc/utils"
 import { ref, provide } from "vue"
 import { transformables } from "../../composables/useTransformControls"
 
@@ -94,6 +94,6 @@ provide("scene", scene)
 provide("tickFns", tickFns)
 provide("toggleRun", toggleRun)
 
-await delay(69)
+await sleep(69)
 // toggleRun()
 </script>

@@ -1,20 +1,19 @@
+import type CameraControls from "camera-controls"
 import { watchEffect } from "vue"
 import { TransformControls } from "three/examples/jsm/controls/TransformControls"
-import type CameraControls from "camera-controls"
 import { useMagicKeys, get } from "@vueuse/core"
 
 interface Props {
-  camera: THREE.Camera
   domElement: HTMLElement
   scene: THREE.Scene
-  cameraControls?: CameraControls
+  cameraControls: CameraControls
 }
 
 export const transformables: string[] = []
 let i = 0;
 
-export function useTransformControls({ camera, cameraControls, domElement, scene }: Props) {
-  const control = new TransformControls(camera, domElement)
+export function useTransformControls({ cameraControls, domElement, scene }: Props) {
+  const control = new TransformControls(cameraControls.camera, domElement)
   scene.add(control)
   if (cameraControls !== undefined) {
     control.addEventListener("mouseDown", () => (cameraControls.enabled = false))

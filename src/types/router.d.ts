@@ -1,16 +1,18 @@
 interface Route {
-  path: string,
-  position: THREE.Vector3Tuple,
-  lookAt: THREE.Vector3Tuple,
+  path: string
+  component: string
+  position: THREE.Vector3Tuple
+  lookAt: THREE.Vector3Tuple
 }
 
 interface RouterOptions {
-  routes: Route[],
+  routes: Route[]
   enableTransition?: boolean
 }
 
 interface RouterEvent {
-  position: THREE.Vector3Tuple,
-  lookAt: THREE.Vector3Tuple,
+  component: string
+  position: THREE.Vector3Tuple
+  lookAt: THREE.Vector3Tuple
   enableTransition: boolean
 }

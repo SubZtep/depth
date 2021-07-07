@@ -75,7 +75,7 @@ export function useThreeJs(initFn: InitFn | undefined, params: Params) {
     camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.01, 500)
     cameraControls = new CameraControls(camera, renderer.domElement)
     useCameraControls(cameraControls)
-    useTransformControls({ camera, cameraControls, domElement: renderer.domElement, scene })
+    useTransformControls({ cameraControls, domElement: renderer.domElement, scene })
 
     debouncedWatch(
       [width, height],
