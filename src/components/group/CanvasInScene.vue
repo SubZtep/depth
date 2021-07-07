@@ -7,6 +7,7 @@ import { get, until } from "@vueuse/core"
 import { Texture, MeshBasicMaterial, PlaneBufferGeometry, Mesh, DoubleSide, Group } from "three"
 import { inject, toRef, toRefs, watch, onBeforeUnmount } from "vue"
 import { useAssets } from "../../composables/useAssets"
+import { transformables } from "../../composables/useTransformControls"
 
 const props = defineProps({
   results: { type: Object as PropType<Results>, required: true },
@@ -31,7 +32,9 @@ const noVideoMaterial = assets.get("noVideoMaterial") as THREE.MeshBasicMaterial
 
 const playerGeometry = new PlaneBufferGeometry()
 const player = new Mesh(playerGeometry, noVideoMaterial)
+player.name = "canvasInScene"
 root.add(player)
+transformables.push(player.name)
 
 let canvasTexture: Texture | undefined
 

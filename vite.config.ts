@@ -32,11 +32,9 @@ export default defineConfig({
       // treeshake: true,
       plugins: [
         resolve({
-
           browser: true,
         }),
         commonJS({
-
           // requireReturnsDefault: "auto",
           // include: "node_modules/**",
         }),

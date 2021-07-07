@@ -23,6 +23,7 @@ import { useAssets } from "../../composables/useAssets"
 import { useThreeJs } from "../../composables/useThreeJs"
 import { delay, rand } from "../../misc/utils"
 import { ref, provide } from "vue"
+import { transformables } from "../../composables/useTransformControls"
 
 const assets = useAssets()
 
@@ -69,7 +70,9 @@ const { toggleRun, tickFns, scene } = useThreeJs(
     leafPlane.rotateX(-Math.PI / 2)
     leafPlane.position.set(-1, -0.05, 0.7)
     leafPlane.receiveShadow = true
+    leafPlane.name = "leafPlane"
     scene.add(leafPlane)
+    transformables.push(leafPlane.name)
 
     scene.background = skybox
     return { light }

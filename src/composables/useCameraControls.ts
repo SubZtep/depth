@@ -4,7 +4,7 @@ import { MathUtils } from "three"
 import { inject } from "vue"
 import { CameraShake } from "../models/camerashake"
 
-export function useSceneCam(cameraControls: CameraControls) {
+export function useCameraControls(cameraControls: CameraControls) {
   const shakes = [
     new CameraShake(cameraControls, 500, 10, 0.5),
     new CameraShake(cameraControls, 1000, 10, 1),

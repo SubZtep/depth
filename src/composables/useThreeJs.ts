@@ -5,12 +5,15 @@ import { onMounted, watch, inject } from "vue"
 import * as THREE from "three"
 import { Clock, Scene, WebGLRenderer, PerspectiveCamera } from "three"
 import { debouncedWatch, useWindowSize, useToggle, get, set, useCssVar, unrefElement } from "@vueuse/core"
-import { useSceneCam } from "./useSceneCam"
+import { useCameraControls } from "./useCameraControls"
+import { useTransformControls } from "./useTransformControls"
 
 interface Params {
   canvas: MaybeRef<HTMLCanvasElement>
   errorHandler?: ErrorHandler
 }
+
+export const transformables = new Set()
 
 export function useThreeJs(initFn: InitFn | undefined, params: Params) {
   const { canvas, errorHandler = console.error } = params
@@ -71,7 +74,8 @@ export function useThreeJs(initFn: InitFn | undefined, params: Params) {
 
     camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.01, 500)
     cameraControls = new CameraControls(camera, renderer.domElement)
-    useSceneCam(cameraControls)
+    useCameraControls(cameraControls)
+    useTransformControls({ camera, cameraControls, domElement: renderer.domElement, scene })
 
     debouncedWatch(
       [width, height],

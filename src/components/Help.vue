@@ -1,19 +1,45 @@
 <template lang="pug">
-.modalContainer(v-if="show")
-  .helpModal
-    h3 Keycodes
-    table(border="1")
-      tr
-        th code
-        th event
-      tr
-        td
-          pre space
-        td toggle this help
-      tr
-        td
-          pre h
-        td toggle dat.gui
+.helpModal(v-if="show")
+  h3 Keycodes
+  table(border="1")
+    tr
+      th code
+      th event
+    tr
+      td
+        pre f1
+      td toggle this help
+    tr
+      td
+        pre h
+      td toggle dat.gui
+
+  h3 Transform constrols
+  table(border="1")
+    tr
+      th code
+      th event
+    tr
+      td
+        pre space
+      td  control deatach / attach next element
+    tr
+      td
+        pre q
+      td toggle local/world space
+    tr
+      td
+        pre w
+      td translate mode
+    tr
+      td
+        pre e
+      td rotate mode
+    tr
+      td
+        pre r
+      td scale mode
+
 </template>
 
 <script lang="ts" setup>
@@ -21,41 +47,52 @@ import { useMagicKeys, useToggle, get } from '@vueuse/core'
 import { watchEffect } from "vue"
 
 const [show, toggle] = useToggle()
-const { space } = useMagicKeys()
+const { f1 } = useMagicKeys({
+  passive: false,
+  onEventFired: e => {
+    if (get(f1)) {
+      e.preventDefault()
+    }
+  }
+})
 
 watchEffect(() => {
-  if (get(space)) {
+  if (get(f1)) {
     toggle()
   }
 })
 </script>
 
 <style scoped>
-.modalContainer {
-  position: absolute;
+.helpModal {
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.helpModal {
-  width: 640px;
-  padding: 15px;
-  border: 8px solid yellow;
+  width: 320px;
+  padding: 8px;
+  border: 4px solid yellow;
+  border-top-width: 0;
+  border-left-width: 0;
+  border-bottom-right-radius: 4px;
   background: saddlebrown;
   color: darkseagreen;
-  text-shadow: 0 0 4px darkgreen;
+  font-size: 0.65rem;
 }
 table {
   width: 100%;
+  border-collapse: collapse;
 }
-table th {
+th {
   text-align: left;
 }
+td, th {
+  line-height: 0.9rem;
+  padding: 0 4px;
+}
 h3 {
-  margin-top: 0;
+  margin: 4px 0;
+}
+pre {
+  margin: 0;
 }
 </style>
