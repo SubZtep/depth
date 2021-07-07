@@ -3,6 +3,7 @@ import { set, useTimeoutFn, tryOnUnmounted, unrefElement, tryOnMounted } from "@
 import { reactive, ref, watch } from "vue"
 import type { Pose, PoseConfig, ResultsListener, Results } from "../../public/pose/index.d"
 import { useStats } from "../plugins/stats"
+import Stats from "stats.js"
 import "../../public/pose"
 
 let dstat: Stats.Panel | undefined = undefined

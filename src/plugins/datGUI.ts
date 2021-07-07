@@ -66,10 +66,7 @@ export default {
 } as Plugin
 
 export function useGui() {
-  // return inject<dat.GUI>(guiKey)!
-  const g = inject<dat.GUI>(guiKey)!
-  console.log("GGG", g)
-  return g
+  return inject<dat.GUI>(guiKey)!
 }
 
 export function useOnCameraEvent(cb: (params: GUIEvent.Camera) => void) {
