@@ -1,7 +1,11 @@
 import type { Plugin, Ref } from "vue"
+import type { EventHook } from "@vueuse/core"
 import dat from "dat.gui"
-import { watch } from "vue"
+import { watch, inject } from "vue"
 import { createEventHook, useCssVar, useFullscreen, set } from "@vueuse/core"
+
+const guiKey = Symbol("dat.gui")
+const cameraHookKey = Symbol("camera hook")
 
 function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, string>, selected: string) {
   let html = `<option value=""></option>`
@@ -55,8 +59,19 @@ function addCameraControl(gui: dat.GUI) {
 
 export default {
   install(app) {
-    app.provide("gui", gui)
-    app.provide("cameraHook", addCameraControl(gui))
-    app.provide("preferencesHook", addPreferences(gui))
+    app.provide(guiKey, gui)
+    app.provide(cameraHookKey, addCameraControl(gui))
+    addPreferences(gui)
   },
 } as Plugin
+
+export function useGui() {
+  // return inject<dat.GUI>(guiKey)!
+  const g = inject<dat.GUI>(guiKey)!
+  console.log("GGG", g)
+  return g
+}
+
+export function useOnCameraEvent(cb: (params: GUIEvent.Camera) => void) {
+  inject<EventHook<GUIEvent.Camera>>(cameraHookKey)!.on(cb)
+}

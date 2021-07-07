@@ -10,9 +10,9 @@ interface Route extends BaseRoute {
 
 interface RouterOptions {
   routes: Route[]
-  enableTransition?: boolean
+  transition?: boolean
 }
 
 interface RouterEvent extends BaseRoute {
-  enableTransition: boolean
+  transition: boolean
 }

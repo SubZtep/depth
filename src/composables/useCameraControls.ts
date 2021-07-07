@@ -1,8 +1,8 @@
 import type CameraControls from "camera-controls"
-import type { EventHook } from "@vueuse/core"
 import { MathUtils } from "three"
-import { inject } from "vue"
 import { CameraShake } from "../models/camerashake"
+import { useOnRouterEvent } from "../plugins/router"
+import { useOnCameraEvent } from "../plugins/datGUI"
 
 export function useCameraControls(cameraControls: CameraControls) {
   let shaker = 0
@@ -12,11 +12,11 @@ export function useCameraControls(cameraControls: CameraControls) {
     new CameraShake(cameraControls, 5000, 2, 0.5),
   ]
 
-  inject<EventHook<RouterEvent>>("routerHook")?.on(({ position, lookAt, enableTransition }) => {
-    cameraControls.setLookAt(...position, ...lookAt, enableTransition)
+  useOnRouterEvent(({ position, lookAt, transition }) => {
+    cameraControls.setLookAt(...position, ...lookAt, transition)
   })
 
-  inject<EventHook<GUIEvent.Camera>>("cameraHook")?.on(({ cmd, go }) => {
+  useOnCameraEvent(({ cmd, go }) => {
     switch (cmd) {
       case "rotate":
         cameraControls.rotate(0, 20 * MathUtils.DEG2RAD, true)

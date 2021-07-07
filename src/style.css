@@ -108,7 +108,7 @@ body {
     transition: text-shadow 150ms ease-in-out 10s;
   }
   transform-origin: right top;
-  transform: scale(var(--gui-scale, 0));
+  transform: scale(var(--gui-scale, 1));
 }
 
 .dg .folder .title {

@@ -1,23 +1,40 @@
 import type { Plugin } from "vue"
-import { createEventHook } from "@vueuse/core"
+import type { EventHook } from "@vueuse/core"
+import { inject, shallowRef } from "vue"
+import { createEventHook, set } from "@vueuse/core"
+
+function banglessHash() {
+  return window.location.hash.replace(/^(#)/, "")
+}
+
+function routeByPath(routes: Route[]) {
+  return (windowPath = "/") => {
+    const route = routes.find(({ path }) => path === windowPath)
+    if (route === undefined) {
+      throw new Error(`unknown route ${windowPath}`)
+    }
+    return route
+  }
+}
+
+const eventHookKey = Symbol("router event hook")
+const eventHook = createEventHook<RouterEvent>()
 
 export default {
   install(app, options: RouterOptions) {
-    const { routes, enableTransition = true } = options
-
-    const routeByPath = (routerPath = "/") => {
-      const route = routes.find(({ path }) => path === routerPath)
-      if (route === undefined) {
-        throw new Error(`unknown route ${location.hash}`)
-      }
-      return route
-    }
-
-    const hook = createEventHook<RouterEvent>()
-    app.provide("routerHook", hook)
-
-    window.addEventListener("hashchange", () => {
-      hook.trigger({ ...routeByPath(location.hash.replace(/^(#)/, "")), enableTransition })
-    })
+    const { routes, transition = true } = options
+    const getRoute = routeByPath(routes)
+    app.provide(eventHookKey, eventHook)
+    window.addEventListener("hashchange", () => eventHook.trigger({ ...getRoute(banglessHash()), transition }))
   },
 } as Plugin
+
+export function useOnRouterEvent(fn: (params: RouterEvent) => void) {
+  return inject<EventHook<RouterEvent>>(eventHookKey)!.on(fn)
+}
+
+export function useRoutedComponent() {
+  const pageComponent = shallowRef<Route["component"]>()
+  inject<EventHook<RouterEvent>>(eventHookKey)!.on(({ component }) => set(pageComponent, component))
+  return pageComponent
+}

@@ -1,12 +1,19 @@
 import type { Plugin } from "vue"
+import { inject } from "vue"
 import Stats from "stats.js"
+
+const statsKey = Symbol("stats panel")
+const stats = new Stats()
+stats.showPanel(2)
+stats.dom.classList.add("stats")
+document.body.appendChild(stats.dom)
 
 export default {
   install(app) {
-    const stats = new Stats()
-    stats.showPanel(2)
-    stats.dom.classList.add("stats")
-    document.body.appendChild(stats.dom)
-    app.provide("stats", stats)
+    app.provide(statsKey, stats)
   }
 } as Plugin
+
+export function useStats() {
+  return inject<Stats>(statsKey)!
+}

@@ -1,20 +1,17 @@
 <template lang="pug">
 Help
-component(:is="pageComponent")
+component(:is="page")
 </template>
 
 <script lang="ts" setup>
-import type { EventHook } from "@vueuse/core"
-import { inject, onMounted, ref} from "vue"
+import { inject, onMounted } from "vue"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
-import { set } from "@vueuse/core"
+import { useRoutedComponent } from "../../plugins/router"
+import { useGui } from "../../plugins/datGUI"
 
-const gui = inject<dat.GUI>("gui")!
+const gui = useGui()
 const toggleRun = inject<() => boolean>("toggleRun")!
-const routerHook = inject<EventHook<RouterEvent>>("routerHook")!
-
-const pageComponent = ref()
-routerHook.on(({ component }) => set(pageComponent, component))
+const page = useRoutedComponent()
 
 onMounted(() => {
   useNProgress().done()

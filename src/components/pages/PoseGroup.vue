@@ -35,6 +35,7 @@ import { useDevicesList, set, invoke, until, get } from "@vueuse/core"
 import { useBlazePose } from "../../composables/useBlazePose"
 import { selectableMedias } from "../../misc/utils"
 import { VIDEOS } from "../../misc/constants"
+import { useGui } from "../../plugins/datGUI"
 
 let playbackRef: Ref<HTMLVideoElement | undefined> = ref()
 let playing = ref(false)
@@ -47,7 +48,7 @@ const setPlaybackRef = (ref: Ref<HTMLVideoElement>) => {
 const { videoInputs } = useDevicesList({ requestPermissions: true })
 const { results, ready, estimatePose } = useBlazePose(playbackRef)
 
-const gui = inject<dat.GUI>("gui")!
+const gui = useGui()
 const scene = inject<THREE.Scene>("scene")!
 const tickFns = inject<Set<TickFn>>("tickFns")!
 

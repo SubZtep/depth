@@ -1,12 +1,12 @@
-import type Stats from "stats.js"
 import type { MaybeRef } from "@vueuse/core"
 import CameraControls from "camera-controls"
-import { onMounted, watch, inject } from "vue"
+import { onMounted, watch } from "vue"
 import * as THREE from "three"
 import { Clock, Scene, WebGLRenderer, PerspectiveCamera } from "three"
 import { debouncedWatch, useWindowSize, useToggle, get, set, useCssVar, unrefElement } from "@vueuse/core"
 import { useCameraControls } from "./useCameraControls"
 import { useTransformControls } from "./useTransformControls"
+import { useStats } from "../plugins/stats"
 
 interface Params {
   canvas: MaybeRef<HTMLCanvasElement>
@@ -22,7 +22,7 @@ export function useThreeJs(initFn: InitFn | undefined, params: Params) {
 
   const { width, height } = useWindowSize()
   const [isRunning, toggleRun] = useToggle()
-  const stats = inject<Stats>("stats")!
+  const stats = useStats()
   const clock = new Clock()
 
   const tickFns = new Set<TickFn>()
