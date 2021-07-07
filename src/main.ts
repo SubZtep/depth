@@ -1,11 +1,13 @@
 import { createApp } from "vue"
 import App from "./components/scene/App.vue"
 import Toast from "vue-toastification"
-import StatsPlugin from "./plugins/stats"
-import GuiPlugin from "./plugins/datGUI"
-import VisibleDirective from "./directives/visible"
+import Router from "./plugins/router"
+import Stats from "./plugins/stats"
+import Gui from "./plugins/datGUI"
+import Visible from "./directives/visible"
 import "vue-toastification/dist/index.css"
 import "./style.css"
+import routes from "./routes"
 
 createApp(App)
   .use(Toast, {
@@ -13,7 +15,11 @@ createApp(App)
     position: "bottom-right",
     showCloseButtonOnHover: true,
   })
-  .use(StatsPlugin)
-  .use(GuiPlugin)
-  .directive("visible", VisibleDirective)
+  .use(Router, {
+    routes,
+    // enableTransition: false,
+  } as RouterOptions)
+  .use(Stats)
+  .use(Gui)
+  .directive("visible", Visible)
   .mount("#app")

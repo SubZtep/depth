@@ -38,12 +38,14 @@ function addCameraControl(gui: dat.GUI) {
   const btns = {
     rotate: () => hook.trigger({ cmd: "rotate" }),
     shake: () => hook.trigger({ cmd: "shake" }),
-    group: () => hook.trigger({ go: "group" /*, cmd: "shake" */}),
-    record: () => hook.trigger({ go: "record" }),
+    group: () => window.location.hash = "/", //hook.trigger({ go: "group" /*, cmd: "shake" */}),
+    frames: () => window.location.hash = "/frames", //hook.trigger({ go: "frames" }),
+    record: () => window.location.hash = "/record", //hook.trigger({ go: "record" }),
   }
 
   const f = gui.addFolder("Go places")
   f.add(btns, "group").name("To group💀ped")
+  f.add(btns, "frames").name("To extract frames")
   f.add(btns, "record").name("To record")
   // f.add(btns, "rotate").name("Rotate")
   // f.add(btns, "shake").name("Shake")

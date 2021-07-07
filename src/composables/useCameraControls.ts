@@ -13,6 +13,10 @@ export function useCameraControls(cameraControls: CameraControls) {
   let shaker = 0
   let happened = false
 
+  inject<EventHook<RouterEvent>>("routerHook")?.on(({ position, lookAt, enableTransition }) => {
+    cameraControls.setLookAt(...position, ...lookAt, enableTransition)
+  })
+
   inject<EventHook<GUIEvent.Camera>>("cameraHook")?.on(({ cmd, go }) => {
     switch (cmd) {
       case "rotate":
@@ -24,10 +28,16 @@ export function useCameraControls(cameraControls: CameraControls) {
     }
     switch(go) {
       case "group":
-        cameraControls.setLookAt(2, 1, -4, 2, 2, 0, true)
+          // window.history.pushState({}, "", "")
+          cameraControls.setLookAt(2, 1, -4, 2, 2, 0, true)
         break
-      case "record":
-        cameraControls.setLookAt(10, 2, 20, 0, 2, 20, true)
+        case "frames":
+          // window.history.pushState({}, "", "frames")
+          cameraControls.setLookAt(10, 2, -20, -30, 2, -20, true)
+          break
+          case "record":
+            // window.history.pushState({}, "", "record")
+            cameraControls.setLookAt(10, 2, 20, 0, 2, 20, true)
         const shk = () => {
           new CameraShake(cameraControls, 500, 10, 0.5).shake()
           cameraControls.removeEventListener("sleep", shk)

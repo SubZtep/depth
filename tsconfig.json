@@ -14,7 +14,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "noUnusedLocals": false,
-    "noUnusedParameters": true,
+    "noUnusedParameters": false,
     "noImplicitReturns": false,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,

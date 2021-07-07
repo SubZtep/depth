@@ -15,6 +15,7 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.10.1",
     "@mediapipe/pose": "^0.4.1624666670",
     "@vueuse/core": "^5.1.2",
     "@vueuse/integrations": "^5.1.2",

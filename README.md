@@ -4,6 +4,24 @@
 
 > Please use **Chrome™**
 
+## ffmpeg
+
+https://www.ffmpeg.org/ffmpeg-all.html
+
+ffmpeg -skip_frame nokey -i yoga2.webm -vsync 0 -frame_pts true out%09d.png
+
+ffmpeg -copyts -skip_frame nokey -i yoga2.webm -vsync 0 -r 1000 -f image2 -frame_pts 1 keyframe-%09d.jpeg
+
+ffmpeg -copyts -skip_frame nokey -i yoga2.webm -vsync 0 -r 1000 -frame_pts 1 out%09d.png
+
+this one is in milisecs:
+ffmpeg -skip_frame nokey -i yoga2.webm -vsync 0 -r 1000 -frame_pts 1 %09d.png
+
+
+(add pts column to keyframes?)
+
+
+
 ## 3rd party packages
 
 - [Camera control for three.js, supports smooth transitions](https://github.com/yomotsu/camera-controls)
