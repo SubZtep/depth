@@ -15,23 +15,12 @@ import { not, set, get, whenever, useMediaControls, useCssVar, useEventListener 
 import { onBeforeUnmount, ref, toRef, watch } from "vue"
 
 const emit = defineEmits(["play", "pause"])
+const videoRef = ref<HTMLVideoElement>() as Ref<HTMLVideoElement>
 const props = defineProps({ src: { type: String, required: true } })
 const src = toRef(props, "src")
-const videoRef = ref<HTMLVideoElement>() as Ref<HTMLVideoElement>
+
 const { playing } = useMediaControls(videoRef, { src })
-const ratio = useCssVar("--ratio", videoRef)
-
-useEventListener<{ target: HTMLVideoElement }>(videoRef, "resize", ({ target }) => {
-  set(ratio, String(target.videoWidth / target.videoHeight))
-})
-
-watch(playing, isPlaying => {
-  if (isPlaying) {
-    emit("play", videoRef)
-  } else {
-    emit("pause")
-  }
-})
+watch(playing, isPlaying => emit(isPlaying ? "play" : "pause", isPlaying && videoRef))
 
 whenever(not(src), () => {
   set(playing, false)
@@ -41,8 +30,12 @@ whenever(not(src), () => {
   video.load()
 })
 
+const ratio = useCssVar("--ratio", videoRef)
+useEventListener<{ target: HTMLVideoElement }>(videoRef, "resize", ({ target }) => {
+  set(ratio, String(target.videoWidth / target.videoHeight))
+})
+
 onBeforeUnmount(() => {
-  set(playing, false)
   emit("pause")
 })
 </script>

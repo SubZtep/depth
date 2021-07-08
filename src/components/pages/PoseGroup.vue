@@ -55,11 +55,11 @@ const tickFns = inject<Set<TickFn>>("tickFns")!
 const opts = reactive({
   videoDeviceId: "",
   src: "",
-  showHtmlPlayer: false,
-  scenePlayerOpacity: 0.69,
   width: 4,
   zMulti: 250,
   keypointLimit: 33,
+  showHtmlPlayer: false,
+  scenePlayerOpacity: 0.69,
 })
 
 const folder = gui.addFolder("Pose group")
@@ -93,13 +93,7 @@ invoke(async () => {
 
   watch(
     playing,
-    isPlaying => {
-      if (isPlaying) {
-        tickFns.add(estimatePose)
-      } else {
-        tickFns.delete(estimatePose)
-      }
-    },
+    isPlaying => tickFns[isPlaying ? "add" : "delete"](estimatePose),
     { immediate: true }
   )
 })

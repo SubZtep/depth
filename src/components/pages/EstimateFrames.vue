@@ -1,4 +1,6 @@
 <template lang="pug">
+h1 Save keypoints frame-by-frame
+
 VideoFileInput(
   v-if="opts.src"
   :src="opts.src"
@@ -23,9 +25,11 @@ const setPlaybackRef = (ref: Ref<HTMLVideoElement>) => {
 }
 
 const opts = reactive({
-  src: "",
   showHtmlPlayer: true,
+  src: "",
 })
+
+const btns = {}
 
 const gui = useGui()
 const folder = gui.addFolder("Estimate frame by frame")

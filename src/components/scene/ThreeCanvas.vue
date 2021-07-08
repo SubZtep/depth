@@ -1,8 +1,9 @@
 <template lang="pug">
 Teleport(to="#world")
   canvas(ref="wc")
+//- canvas(ref="wc")
 
-MainScene
+//- MainScene
 </template>
 
 <script lang="ts" setup>
@@ -19,19 +20,20 @@ import {
 } from "three"
 import type { Ref } from "vue"
 import { ref, provide } from "vue"
-import { useToast } from "vue-toastification"
+// import { useToast } from "vue-toastification"
+// import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { sleep, rand } from "../../misc/utils"
 import { useAssets } from "../../composables/useAssets"
 import { useThreeJs } from "../../composables/useThreeJs"
-import { transformables } from "../../composables/useTransformControls"
+// import { transformables } from "../../composables/useTransformControls"
 
 const assets = useAssets()
-const toast = useToast()
-const errorHandler = (e: Error) => {
-  if (e instanceof Error) {
-    toast.error(e.message)
-  }
-}
+// const toast = useToast()
+// const errorHandler = (e: Error) => {
+//   if (e instanceof Error) {
+//     toast.error(e.message)
+//   }
+// }
 
 await assets.loadNoVideoMaterial()
 const leaf = await assets.loadLeafMaterial()
@@ -71,27 +73,31 @@ const { toggleRun, tickFns, scene } = useThreeJs(
     leafPlane.receiveShadow = true
     leafPlane.name = "leafPlane"
     scene.add(leafPlane)
-    transformables.push(leafPlane.name)
+    // transformables.push(leafPlane.name)
 
     scene.background = skybox
-    return { light }
+    return {
+      // light
+    }
   },
   {
     canvas: wc,
-    errorHandler,
+    // errorHandler,
   }
 )
 
-tickFns.add(({ cameraControls, light }) => {
-  let pos = new Vector3()
-  cameraControls.getPosition(pos)
-  light.position.set(...pos.toArray())
-  return Promise.resolve()
-})
+// tickFns.add(({ cameraControls, light }) => {
+//   let pos = new Vector3()
+//   cameraControls.getPosition(pos)
+//   light.position.set(...pos.toArray())
+//   return Promise.resolve()
+// })
 
-provide("scene", scene)
-provide("tickFns", tickFns)
-provide("toggleRun", toggleRun)
+// provide("scene", scene)
+// provide("tickFns", tickFns)
+// provide("toggleRun", toggleRun)
 
-await sleep(69)
+// await sleep(69)
+// useNProgress().done()
+toggleRun()
 </script>
