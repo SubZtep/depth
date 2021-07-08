@@ -6,12 +6,12 @@ component(:is="page")
 <script lang="ts" setup>
 import { inject, onMounted } from "vue"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
-import { useRoutedComponent } from "../../plugins/router"
+import { useActiveRoute } from "../../plugins/router"
 import { useGui } from "../../plugins/datGUI"
 
 const gui = useGui()
-const toggleRun = inject<() => boolean>("toggleRun")!
-const page = useRoutedComponent()
+const toggleRun = inject<IsFn>("toggleRun")!
+const page = useActiveRoute()
 
 onMounted(() => {
   useNProgress().done()

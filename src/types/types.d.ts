@@ -1,5 +1,6 @@
 type Fn = () => void
 type PrFn = () => Promise<void>
+type IsFn = () => boolean
 
 type KeypointMesh = THREE.Mesh<THREE.SphereGeometry, THREE.Material>
 
@@ -20,8 +21,7 @@ interface TickFnProps {
   scene: Scene
   cameraControls: import("camera-controls").default
   isRunning: Ref<boolean>
-  toggleRun: () => boolean
-  // [string in RetVal(InitFn)]?: THREE.Object3D
+  toggleRun: IsFn
   light: THREE.SpotLight
 }
 type TickFn = (props: TickFnProps) => Promise<void>

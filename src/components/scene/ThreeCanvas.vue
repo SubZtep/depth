@@ -18,15 +18,14 @@ import {
   DoubleSide,
 } from "three"
 import type { Ref } from "vue"
+import { ref, provide } from "vue"
 import { useToast } from "vue-toastification"
+import { sleep, rand } from "../../misc/utils"
 import { useAssets } from "../../composables/useAssets"
 import { useThreeJs } from "../../composables/useThreeJs"
-import { sleep, rand } from "../../misc/utils"
-import { ref, provide } from "vue"
 import { transformables } from "../../composables/useTransformControls"
 
 const assets = useAssets()
-
 const toast = useToast()
 const errorHandler = (e: Error) => {
   if (e instanceof Error) {
@@ -95,5 +94,4 @@ provide("tickFns", tickFns)
 provide("toggleRun", toggleRun)
 
 await sleep(69)
-// toggleRun()
 </script>

@@ -16,3 +16,7 @@ interface RouterOptions {
 interface RouterEvent extends BaseRoute {
   transition: boolean
 }
+
+type PathToRouteFn = (path: string) => Route | undefined
+type OnRouterEventFn = (params: RouterEvent) => void
+type PageComponent = Ref<Route["component"] | undefined>

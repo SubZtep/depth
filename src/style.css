@@ -59,6 +59,7 @@ body {
 
 #app {
   pointer-events: none;
+  display: flex;
 }
 
 #app * {
@@ -87,6 +88,8 @@ body {
   max-height: 40%;
   aspect-ratio: var(--ratio, 1);
   border: 8px outset #666;
+  align-self: center;
+  margin-left: 8px;
 }
 
 /*

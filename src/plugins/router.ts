@@ -8,33 +8,33 @@ function banglessHash() {
 }
 
 function routeByPath(routes: Route[]) {
-  return (windowPath = "/") => {
-    const route = routes.find(({ path }) => path === windowPath)
-    if (route === undefined) {
-      throw new Error(`unknown route ${windowPath}`)
-    }
-    return route
-  }
+  return (windowPath = "/") => routes.find(({ path }) => path === windowPath)
 }
 
 const eventHookKey = Symbol("router event hook")
 const eventHook = createEventHook<RouterEvent>()
+let getRoute: PathToRouteFn
 
 export default {
   install(app, options: RouterOptions) {
     const { routes, transition = true } = options
-    const getRoute = routeByPath(routes)
+
+    getRoute = routeByPath(routes)
     app.provide(eventHookKey, eventHook)
-    window.addEventListener("hashchange", () => eventHook.trigger({ ...getRoute(banglessHash()), transition }))
+
+    window.addEventListener("hashchange", () => {
+      const route = getRoute(banglessHash())
+      route && eventHook.trigger({ ...route, transition })
+    })
   },
 } as Plugin
 
-export function useOnRouterEvent(fn: (params: RouterEvent) => void) {
+export function useOnRouterEvent(fn: OnRouterEventFn) {
   return inject<EventHook<RouterEvent>>(eventHookKey)!.on(fn)
 }
 
-export function useRoutedComponent() {
-  const pageComponent = shallowRef<Route["component"]>()
+export function useActiveRoute(): PageComponent {
+  const pageComponent = shallowRef(getRoute(banglessHash())?.component)
   inject<EventHook<RouterEvent>>(eventHookKey)!.on(({ component }) => set(pageComponent, component))
   return pageComponent
 }
