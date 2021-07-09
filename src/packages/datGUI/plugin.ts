@@ -3,22 +3,10 @@ import type { EventHook } from "@vueuse/core"
 import dat from "dat.gui"
 import { watch, inject } from "vue"
 import { createEventHook, useCssVar, useFullscreen, set } from "@vueuse/core"
+import "./extend"
 
 const guiKey = Symbol("dat.gui")
 const cameraHookKey = Symbol("camera hook")
-
-function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, string>, selected: string) {
-  let html = `<option value=""></option>`
-  html += Object.entries(list).map(([key, val]) => `<option value="${val}"${val === selected && " selected"}>${key}</option>`)
-  targetCtrl.domElement.children[0].innerHTML = html
-  if (!html.includes(" selected")) targetCtrl.setValue("")
-}
-
-dat.GUI.prototype.addReactiveSelect = function (target: Object, propName: string, options: Ref<Record<string, string>>) {
-  const ctrl = this.add(target, propName, options.value)
-  watch(options, newList => updateDropdown(ctrl, newList, target[propName]))
-  return ctrl
-}
 
 const gui = new dat.GUI({ closed: false, width: 420 })
 gui.hide()

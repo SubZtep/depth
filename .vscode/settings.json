@@ -11,6 +11,6 @@
   "gitlens.codeLens.recentChange.enabled": false,
   "gitlens.codeLens.authors.enabled": false,
   "gitlens.codeLens.enabled": false,
-  "workbench.colorTheme": "Tokyo Night",
+  "workbench.colorTheme": "Tokyo City No Italic",
   "workbench.iconTheme": "vscode-great-icons",
 }

@@ -1,0 +1,29 @@
+<template lang="pug">
+transition(name="fade")
+  h1(v-if="showTitle")
+    slot
+</template>
+
+<script lang="ts" setup>
+import { set } from "@vueuse/core"
+import { onMounted, ref } from "vue"
+
+const showTitle = ref(true)
+onMounted(() => set(showTitle, false))
+</script>
+
+<style>
+h1 {
+  margin: 4px 8px;
+  font-size: 1.6rem;
+  text-shadow: -4px 0 var(--blood), 1px 0 #fffa, 1px 1px 2px #0063;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1.5s ease;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+</style>

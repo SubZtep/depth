@@ -1,9 +1,8 @@
 <template lang="pug">
 Teleport(to="#world")
   canvas(ref="wc")
-//- canvas(ref="wc")
 
-//- MainScene
+MainScene
 </template>
 
 <script lang="ts" setup>
@@ -20,27 +19,27 @@ import {
 } from "three"
 import type { Ref } from "vue"
 import { ref, provide } from "vue"
-// import { useToast } from "vue-toastification"
-// import { useNProgress } from "@vueuse/integrations/useNProgress"
+import { useToast } from "vue-toastification"
 import { sleep, rand } from "../../misc/utils"
-import { useAssets } from "../../composables/useAssets"
-import { useThreeJs } from "../../composables/useThreeJs"
-// import { transformables } from "../../composables/useTransformControls"
+import { useAssets } from "../../packages/ThreeJS/useAssets"
+import { useThreeJs } from "../../packages/ThreeJS/useThreeJS"
+import { useNProgress } from "@vueuse/integrations/useNProgress"
+import { transformables } from "../../packages/ThreeJS/useTransformControls"
 
 const assets = useAssets()
-// const toast = useToast()
-// const errorHandler = (e: Error) => {
-//   if (e instanceof Error) {
-//     toast.error(e.message)
-//   }
-// }
+const toast  = useToast()
+const errorHandler: ErrorHandler = e => {
+  if (e instanceof Error) {
+    toast.error(e.message)
+  }
+}
 
 await assets.loadNoVideoMaterial()
-const leaf = await assets.loadLeafMaterial()
+const leaf   = await assets.loadLeafMaterial()
 const skybox = await assets.loadSkybox(rand(15))
 const wc = ref() as Ref<HTMLCanvasElement>
 
-const { toggleRun, tickFns, scene } = useThreeJs(
+useThreeJs(
   scene => {
     const hemiLight = new HemisphereLight(0xb1e1ff, 0x080820, 2)
     scene.add(hemiLight)
@@ -73,7 +72,7 @@ const { toggleRun, tickFns, scene } = useThreeJs(
     leafPlane.receiveShadow = true
     leafPlane.name = "leafPlane"
     scene.add(leafPlane)
-    // transformables.push(leafPlane.name)
+    transformables.push(leafPlane.name)
 
     scene.background = skybox
     return {
@@ -82,9 +81,11 @@ const { toggleRun, tickFns, scene } = useThreeJs(
   },
   {
     canvas: wc,
-    // errorHandler,
+    errorHandler,
   }
 )
+
+useNProgress().done()
 
 // tickFns.add(({ cameraControls, light }) => {
 //   let pos = new Vector3()
@@ -99,5 +100,5 @@ const { toggleRun, tickFns, scene } = useThreeJs(
 
 // await sleep(69)
 // useNProgress().done()
-toggleRun()
+// toggleRun()
 </script>

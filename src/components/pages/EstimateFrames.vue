@@ -1,5 +1,5 @@
 <template lang="pug">
-h1 Save keypoints frame-by-frame
+Title Save keypoints frame-by-frame
 
 VideoFileInput(
   v-if="opts.src"
@@ -12,7 +12,7 @@ VideoFileInput(
 <script lang="ts" setup>
 import type { Ref } from "vue"
 import { onBeforeUnmount, reactive, ref } from "vue"
-import { useGui } from "../../plugins/datGUI"
+import { useGui } from "../../packages/datGUI/plugin"
 import { VIDEOS } from "../../misc/constants"
 import { set, get } from "@vueuse/core"
 

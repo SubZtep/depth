@@ -1,15 +1,14 @@
 <template lang="pug">
-transition(name="fade")
-  h1(v-if="showTitle")  Record video
+Title Record video
 </template>
 
-<script lang="ts" setup>import { set } from "@vueuse/core";
-import { onMounted, ref } from "vue";
-
-const showTitle = ref(true)
-
+<script lang="ts" setup>
+import { set } from "@vueuse/core"
+import { onMounted, ref } from "vue"
 
 onMounted(() => {
-  set(showTitle, false)
 })
 </script>
+
+<style>
+</style>

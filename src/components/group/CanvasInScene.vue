@@ -6,9 +6,11 @@ import type { PropType, Ref } from "vue"
 import { get, until } from "@vueuse/core"
 import { Texture, MeshBasicMaterial, PlaneBufferGeometry, Mesh, DoubleSide, Group } from "three"
 import { inject, toRef, toRefs, watch, onBeforeUnmount } from "vue"
-import { useAssets } from "../../composables/useAssets"
-import { transformables } from "../../composables/useTransformControls"
+import { useAssets } from "../../packages/ThreeJS/useAssets"
+import { transformables } from "../../packages/ThreeJS/useTransformControls"
+import { useThreeJSAlterEventHook } from "../../packages/threeJs/plugin"
 
+const threeJsHook = useThreeJSAlterEventHook()
 const props = defineProps({
   results: { type: Object as PropType<Results>, required: true },
   playing: { type: Boolean, required: true },
@@ -20,7 +22,7 @@ const results = props.results
 const image = toRef(results, "image") as Ref<HTMLCanvasElement>
 const { playing, opacity } = toRefs(props)
 const { assets } = useAssets()
-const root = inject<Group>("root")!
+// const root = inject<Group>("root")!
 
 const videoMaterial = new MeshBasicMaterial({
   side: DoubleSide,
@@ -32,8 +34,10 @@ const noVideoMaterial = assets.get("noVideoMaterial") as THREE.MeshBasicMaterial
 
 const playerGeometry = new PlaneBufferGeometry()
 const player = new Mesh(playerGeometry, noVideoMaterial)
-player.name = "canvasInScene"
-root.add(player)
+console.log({ player })
+// player.name = "canvasInScene"
+// root.add(player)
+threeJsHook.trigger({ cmd: "addToScene", payload: player })
 transformables.push(player.name)
 
 let canvasTexture: Texture | undefined
@@ -45,7 +49,7 @@ const updateTexture: TickFn = () => {
   return Promise.resolve()
 }
 
-const tickFns = inject<Set<TickFn>>("tickFns")!
+// const tickFns = inject<Set<TickFn>>("tickFns")!
 
 watch(playing, async isPlaying => {
   if (isPlaying) {
@@ -53,7 +57,11 @@ watch(playing, async isPlaying => {
     canvasTexture = new Texture(get(image))
     videoMaterial.map = canvasTexture
     player.material = videoMaterial
+
+    threeJsHook.trigger({ cmd: "addToScene" })
     tickFns.add(updateTexture)
+
+    threeJsHook.trigger({ cmd: "addToTickFn", payload: updateTexture })
   } else {
     tickFns.delete(updateTexture)
     canvasTexture?.dispose()

@@ -1,4 +1,4 @@
-import { logLoaded } from "../misc/console"
+import { logLoaded } from "../../misc/console"
 import {
   CubeTexture,
   DoubleSide,

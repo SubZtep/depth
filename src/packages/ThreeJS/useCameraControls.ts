@@ -1,7 +1,7 @@
 import type CameraControls from "camera-controls"
 import { MathUtils } from "three"
 import { useIdle, whenever } from "@vueuse/core"
-import { CameraShake } from "../models/camerashake"
+import { CameraShake } from "../../models/camerashake"
 // import { useOnRouterEvent } from "../plugins/router"
 
 

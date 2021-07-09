@@ -1,4 +1,5 @@
 <template lang="pug">
+Title Pose group
 MediaInput(
   v-if="opts.videoDeviceId"
   :videoDeviceId="opts.videoDeviceId"
@@ -32,10 +33,11 @@ import type { Ref } from "vue"
 import { Group } from "three"
 import { onBeforeUnmount, reactive, inject, provide, ref, watch } from "vue"
 import { useDevicesList, set, invoke, until, get } from "@vueuse/core"
-import { useBlazePose } from "../../composables/useBlazePose"
+import { useBlazePose } from "../../packages/PoseAI/useBlazePose"
 import { selectableMedias } from "../../misc/utils"
 import { VIDEOS } from "../../misc/constants"
-import { useGui } from "../../plugins/datGUI"
+import { useGui } from "../../packages/datGUI/plugin"
+import { useThreeJSAlterEventHook } from "../../packages/threeJs/plugin"
 
 let playbackRef: Ref<HTMLVideoElement | undefined> = ref()
 let playing = ref(false)
@@ -47,10 +49,11 @@ const setPlaybackRef = (ref: Ref<HTMLVideoElement>) => {
 
 const { videoInputs } = useDevicesList({ requestPermissions: true })
 const { results, ready, estimatePose } = useBlazePose(playbackRef)
+const threeJsHook = useThreeJSAlterEventHook()
 
 const gui = useGui()
-const scene = inject<THREE.Scene>("scene")!
-const tickFns = inject<Set<TickFn>>("tickFns")!
+// const scene = inject<THREE.Scene>("scene")!
+// const tickFns = inject<Set<TickFn>>("tickFns")!
 
 const opts = reactive({
   videoDeviceId: "",
@@ -85,7 +88,10 @@ folder.add(opts, "keypointLimit", 0, 33, 1).name("Visible keypoints")
 folder.open()
 
 const root = new Group()
-scene.add(root)
+// scene.add(root)
+
+threeJsHook.trigger({ cmd: "addToScene", payload: root })
+
 provide("root", root)
 
 invoke(async () => {
@@ -93,13 +99,15 @@ invoke(async () => {
 
   watch(
     playing,
-    isPlaying => tickFns[isPlaying ? "add" : "delete"](estimatePose),
+    isPlaying => threeJsHook.trigger({ cmd: isPlaying ? "addToTickFn" : "deleteFromTickFn", payload: estimatePose }),
     { immediate: true }
   )
 })
 
 onBeforeUnmount(() => {
-  tickFns.delete(estimatePose)
+  // tickFns.delete(estimatePose)
+  threeJsHook.trigger({ cmd: "deleteFromTickFn", payload: estimatePose })
+  threeJsHook.trigger({ cmd: "deleteFromScene", payload: root })
   gui.removeFolder(folder)
 })
 </script>

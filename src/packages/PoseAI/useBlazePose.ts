@@ -1,10 +1,10 @@
 import type { Ref } from "vue"
 import { set, useTimeoutFn, tryOnUnmounted, unrefElement, tryOnMounted } from "@vueuse/core"
 import { reactive, ref, watch } from "vue"
-import type { Pose, PoseConfig, ResultsListener, Results } from "../../public/pose/index.d"
-import { useStats } from "../plugins/stats"
-import Stats from "stats.js"
-import "../../public/pose"
+import type { Pose, PoseConfig, ResultsListener, Results } from "../../../public/pose"
+// import { useStats } from "../plugins/stats"
+// import Stats from "stats.js"
+import "../../../public/pose"
 
 let dstat: Stats.Panel | undefined = undefined
 
@@ -25,11 +25,11 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
 
   let solution: Pose
 
-  if (dstat === undefined) {
-    const stats = useStats()
-    dstat = stats.addPanel(new Stats.Panel("ms/pose", "#f9d71c", "#191970"))
-    stats.showPanel(3)
-  }
+  // if (dstat === undefined) {
+  //   const stats = useStats()
+  //   dstat = stats.addPanel(new Stats.Panel("ms/pose", "#f9d71c", "#191970"))
+  //   stats.showPanel(3)
+  // }
 
   watch(el, (_newEl, oldEl) => {
     if (oldEl !== undefined && solution) {

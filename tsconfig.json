@@ -27,6 +27,7 @@
     ],
     "typeRoots": [
       "./node_modules/@types",
+      "./src/packages/*/types.d.ts",
       "./src/types"
     ]
   },
