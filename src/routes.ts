@@ -8,7 +8,6 @@ export default [
     component: PoseGroup,
     position: [2, 1, -4],
     lookAt: [2, 2, 0],
-
   },
   {
     path: "/frames",

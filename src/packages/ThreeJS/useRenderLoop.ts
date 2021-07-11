@@ -6,33 +6,35 @@ interface Props {
   renderer: WebGLRenderer
   cameraControls: CameraControls
   scene: Scene
-  tickFns: Set<TickFn>
 }
 
-export function useRenderLoop({ renderer, cameraControls, scene, tickFns }: Props) {
+export const loopFns = new Set<LoopFn>()
+export const singleFns = new Set<LoopFn>()
+
+export function useRenderLoop({ renderer, cameraControls, scene }: Props) {
   const [isRunning, toggleRun] = useToggle()
   const clock = new Clock()
   const { camera } = cameraControls
   let delta: number
 
-
-  const tickRunner: TickFnRunner = async fn => {
+  const loopFnRunner: LoopFnRunner = async fn => {
     try {
-      // await fn({ scene, cameraControls, isRunning, toggleRun, ...objs } as TickFnProps)
-      await fn({ scene, cameraControls, isRunning, toggleRun } as TickFnProps)
+      await fn({ scene, cameraControls, isRunning, toggleRun } as LoopFnProps)
     } catch (e) {
-      console.error(e)
-      // errorHandler(e)
+      console.error("ThreeJS", e.message)
     }
   }
 
-
-  cameraControls.setLookAt(2, 1, -4, 2, 2, 0, true)
-
   const gameLoop = () => {
     delta = clock.getDelta()
+    // console.log("loop", delta)
     cameraControls.update(delta)
-    tickFns.forEach(fn => tickRunner(fn))
+
+    singleFns.forEach(fn => fn({ scene, cameraControls, isRunning, toggleRun }))
+    singleFns.clear()
+
+    loopFns.forEach(async fn => await loopFnRunner(fn))
+
     renderer.render(scene, camera)
     get(isRunning) && requestAnimationFrame(gameLoop)
   }

@@ -1,9 +1,7 @@
 import type CameraControls from "camera-controls"
-import { MathUtils } from "three"
 import { useIdle, whenever } from "@vueuse/core"
 import { CameraShake } from "../../models/camerashake"
-// import { useOnRouterEvent } from "../plugins/router"
-
+import { useOnRouterEvent } from "../router/plugin"
 
 export function useCameraControls(cameraControls: CameraControls) {
   let shaker = 0
@@ -16,9 +14,9 @@ export function useCameraControls(cameraControls: CameraControls) {
   const { idle } = useIdle()
   whenever(idle, () => shakes[shaker++ % shakes.length].shake())
 
-  // useOnRouterEvent(({ position, lookAt, transition }) => {
-  //   cameraControls.setLookAt(...position, ...lookAt, transition)
-  // })
+  useOnRouterEvent(({ position, lookAt, transition }) => {
+    cameraControls.setLookAt(...position, ...lookAt, transition)
+  })
 
   // useOnCameraEvent(({ cmd, go }) => {
   //   switch (cmd) {

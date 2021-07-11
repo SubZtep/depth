@@ -4,7 +4,7 @@ import App from "./components/scene/App.vue"
 import Visible from "./directives/visible"
 import ThreeJs from "./packages/ThreeJS/plugin"
 import Router from "./packages/router/plugin"
-import Stats from "./packages/stats/plugin"
+import Stats from "./packages/Stats/plugin"
 import Gui from "./packages/datGUI/plugin"
 import routes from "./routes"
 

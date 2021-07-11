@@ -5,12 +5,13 @@ import type { Results } from "../../../public/pose/index.d"
 import type { PropType, Ref } from "vue"
 import { get, until } from "@vueuse/core"
 import { Texture, MeshBasicMaterial, PlaneBufferGeometry, Mesh, DoubleSide, Group } from "three"
-import { inject, toRef, toRefs, watch, onBeforeUnmount } from "vue"
+import { toRef, toRefs, onBeforeUnmount } from "vue"
 import { useAssets } from "../../packages/ThreeJS/useAssets"
 import { transformables } from "../../packages/ThreeJS/useTransformControls"
-import { useThreeJSAlterEventHook } from "../../packages/threeJs/plugin"
+import { useThreeJSEventHook } from "../../packages/ThreeJS/plugin"
+import { loopFns } from "../../packages/ThreeJS/useRenderLoop"
 
-const threeJsHook = useThreeJSAlterEventHook()
+const threeJsHook = useThreeJSEventHook()
 const props = defineProps({
   results: { type: Object as PropType<Results>, required: true },
   playing: { type: Boolean, required: true },
@@ -34,7 +35,7 @@ const noVideoMaterial = assets.get("noVideoMaterial") as THREE.MeshBasicMaterial
 
 const playerGeometry = new PlaneBufferGeometry()
 const player = new Mesh(playerGeometry, noVideoMaterial)
-console.log({ player })
+// console.log({ player })
 // player.name = "canvasInScene"
 // root.add(player)
 threeJsHook.trigger({ cmd: "addToScene", payload: player })
@@ -42,7 +43,7 @@ transformables.push(player.name)
 
 let canvasTexture: Texture | undefined
 
-const updateTexture: TickFn = () => {
+const updateTexture: LoopFn = () => {
   if (canvasTexture) {
     canvasTexture.needsUpdate = true
   }
@@ -58,12 +59,11 @@ watch(playing, async isPlaying => {
     videoMaterial.map = canvasTexture
     player.material = videoMaterial
 
-    threeJsHook.trigger({ cmd: "addToScene" })
-    tickFns.add(updateTexture)
+    threeJsHook.trigger({ cmd: "addToScene", payload: player })
+    loopFns.add(updateTexture)
 
-    threeJsHook.trigger({ cmd: "addToTickFn", payload: updateTexture })
   } else {
-    tickFns.delete(updateTexture)
+    loopFns.delete(updateTexture)
     canvasTexture?.dispose()
     player.material = noVideoMaterial
     player.material.needsUpdate = true
@@ -71,8 +71,8 @@ watch(playing, async isPlaying => {
 })
 
 onBeforeUnmount(() => {
-  tickFns.delete(updateTexture)
-  root.remove(player)
+  loopFns.delete(updateTexture)
+  threeJsHook.trigger({ cmd: "deleteFromScene", payload: player })
   canvasTexture?.dispose()
   videoMaterial.dispose()
   playerGeometry.dispose()

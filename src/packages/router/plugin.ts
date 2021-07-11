@@ -19,6 +19,7 @@ export default {
     const { routes, transition = true } = options
 
     getRoute = routeByPath(routes)
+    console.log("ROUTER")
     app.provide(eventHookKey, eventHook)
 
     window.addEventListener("hashchange", () => {

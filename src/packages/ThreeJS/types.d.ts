@@ -1,17 +1,14 @@
-type AlterInit   = { cmd: "initScene", payload: THREE.Scene }
+// type SingleRun   = { cmd: "singleRun", payload: LoopFn }
 type AlterScene  = { cmd: "addToScene"    | "deleteFromScene",  payload: THREE.Object3D }
+// type AlterLoop   = { cmd: "addToLoopFn"   | "deleteFromLoopFn", payload: LoopFn }
+// type AlterLoopPr = { cmd: "addToLoopFn"   | "deleteFromLoopFn", payload: LoopFnPr }
 
-/** add/remove synchronus tick functyion */
-type AlterTick   = { cmd: "addToTickFn"   | "deleteFromTickFn", payload: TickFn }
-
-type AlterTickPr = { cmd: "addToTickFn"   | "deleteFromTickFn", payload: TickFnPr }
-
-type AlterEvent  = AlterScene | AlterTick | AlterTickPr | AlterInit
+// type ThreeJSEvent = AlterScene | AlterLoop | AlterLoopPr | SingleRun
+type ThreeJSEvent = AlterScene
 
 type InitFn = (scene: THREE.Scene) => void
-type ErrorHandler = (e: Error) => void
 
-interface TickFnProps {
+interface LoopFnProps {
   toggleRun: FnIs
   isRunning: Ref<boolean>
   cameraControls: import("camera-controls").default
@@ -19,6 +16,6 @@ interface TickFnProps {
   // light: THREE.SpotLight
 }
 
-type TickFn       = (props: TickFnProps)           => void
-type TickFnPr     = (props: TickFnProps)           => Promise<void>
-type TickFnRunner = (...fn: (TickFn | TickFnPr)[]) => unknown
+type LoopFn       = (props: LoopFnProps)           => void
+type LoopFnPr     = (props: LoopFnProps)           => Promise<void>
+type LoopFnRunner = (...fn: (LoopFn | LoopFnPr)[]) => unknown
