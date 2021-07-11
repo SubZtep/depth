@@ -1,7 +1,11 @@
 type AlterInit   = { cmd: "initScene", payload: THREE.Scene }
 type AlterScene  = { cmd: "addToScene"    | "deleteFromScene",  payload: THREE.Object3D }
+
+/** add/remove synchronus tick functyion */
 type AlterTick   = { cmd: "addToTickFn"   | "deleteFromTickFn", payload: TickFn }
+
 type AlterTickPr = { cmd: "addToTickFn"   | "deleteFromTickFn", payload: TickFnPr }
+
 type AlterEvent  = AlterScene | AlterTick | AlterTickPr | AlterInit
 
 type InitFn = (scene: THREE.Scene) => void

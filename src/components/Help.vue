@@ -44,7 +44,6 @@
 
 <script lang="ts" setup>
 import { useMagicKeys, useToggle, get } from '@vueuse/core'
-import { watchEffect } from "vue"
 
 const [show, toggle] = useToggle()
 const { f1 } = useMagicKeys({

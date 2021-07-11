@@ -1,6 +1,6 @@
 import type { Plugin } from "vue"
-import { inject } from "vue"
 import Stats from "stats.js"
+import "./stats.css"
 
 const statsKey = Symbol("stats panel")
 const stats = new Stats()

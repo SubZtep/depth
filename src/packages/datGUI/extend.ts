@@ -1,6 +1,5 @@
 import type { Ref } from "vue"
 import dat from "dat.gui"
-import { watch } from "vue"
 
 function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, string>, selected: string) {
   let html = `<option value=""></option>`

@@ -1,0 +1,10 @@
+
+.stats {
+  top: auto !important;
+  transform-origin: left bottom;
+  bottom: 0;
+  &:hover {
+    transform: scale(2.5);
+    transition-duration: 150ms;
+  }
+}

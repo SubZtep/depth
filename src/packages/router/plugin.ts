@@ -1,6 +1,5 @@
 import type { Plugin } from "vue"
 import type { EventHook } from "@vueuse/core"
-import { inject, shallowRef } from "vue"
 import { createEventHook, set } from "@vueuse/core"
 
 function banglessHash() {
