@@ -39,7 +39,9 @@ import { selectableMedias } from "../../misc/utils"
 import { VIDEOS } from "../../misc/constants"
 import { useGui } from "../../packages/datGUI/plugin"
 import { loopFnPrs, singleFns } from "../../packages/ThreeJS/useRenderLoop"
+import { useThreeJSEventHook } from "../../packages/ThreeJS/plugin"
 
+const threeJsHook = useThreeJSEventHook()
 let playbackRef: Ref<HTMLVideoElement | undefined> = ref()
 let playing = ref(false)
 
@@ -91,7 +93,9 @@ singleFns.add(({ scene }) => scene.add(root))
 provide("root", root)
 
 invoke(async () => {
+  threeJsHook.trigger({ cmd: "pauseLoop" })
   await until(ready).toBeTruthy()
+  threeJsHook.trigger({ cmd: "resumeLoop" })
 
   watch(
     playing,

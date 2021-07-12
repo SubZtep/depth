@@ -8,10 +8,8 @@ import { Texture, MeshBasicMaterial, PlaneBufferGeometry, Mesh, DoubleSide, Grou
 import { toRef, toRefs, onBeforeUnmount } from "vue"
 import { useAssets } from "../../packages/ThreeJS/useAssets"
 import { transformables } from "../../packages/ThreeJS/useTransformControls"
-import { useThreeJSEventHook } from "../../packages/ThreeJS/plugin"
 import { singleFns, loopFns } from "../../packages/ThreeJS/useRenderLoop"
 
-const threeJsHook = useThreeJSEventHook()
 const props = defineProps({
   results: { type: Object as PropType<Results>, required: true },
   playing: { type: Boolean, required: true },
@@ -24,7 +22,6 @@ const results = props.results
 const image = toRef(results, "image") as Ref<HTMLCanvasElement>
 const { playing, opacity } = toRefs(props)
 const { assets } = useAssets()
-// const root = inject<Group>("root")!
 
 const videoMaterial = new MeshBasicMaterial({
   side: DoubleSide,
@@ -39,7 +36,6 @@ const player = new Mesh(playerGeometry, noVideoMaterial)
 // console.log({ player })
 // player.name = "canvasInScene"
 // root.add(player)
-// threeJsHook.trigger({ cmd: "addToScene", payload: player })
 
 if (props.parent !== undefined) {
   props.parent.add(player)

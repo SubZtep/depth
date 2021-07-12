@@ -6,15 +6,15 @@ export const singleFnPrs = new Set<LoopFnPr>()
 export const loopFns = new Set<LoopFn>()
 export const loopFnPrs = new Set<LoopFnPr>()
 
-export function useRenderLoop({ renderer, cameraControls, scene }: RenderLoopProps) {
-  const [isRunning, toggleRun] = useToggle()
+export function useRenderLoop({ renderer, cameraControls, scene, isRunning, toggleRun }: RenderLoopProps) {
+  // const [isRunning, toggleRun] = useToggle()
   const clock = new Clock()
   const { camera } = cameraControls
   let delta: number
 
   const loopFnRunner: LoopFnRunner = fn => {
     try {
-      return fn({ scene, cameraControls, isRunning, toggleRun } as LoopFnProps)
+      return fn({ scene, cameraControls } as LoopFnProps)
     } catch (e) {
       console.error("ThreeJS loop", e)
     }
@@ -22,7 +22,7 @@ export function useRenderLoop({ renderer, cameraControls, scene }: RenderLoopPro
 
   const loopFnPrRunner: LoopFnPrRunner = async fn => {
     try {
-      return await fn({ scene, cameraControls, isRunning, toggleRun } as LoopFnProps)
+      return await fn({ scene, cameraControls } as LoopFnProps)
     } catch (e) {
       console.error("ThreeJS loop promise", e)
     }
@@ -32,9 +32,9 @@ export function useRenderLoop({ renderer, cameraControls, scene }: RenderLoopPro
     delta = clock.getDelta()
     cameraControls.update(delta)
 
-    singleFns.forEach(fn => fn({ scene, cameraControls, isRunning, toggleRun }))
+    singleFns.forEach(fn => fn({ scene, cameraControls }))
     singleFns.clear()
-    singleFnPrs.forEach(async fn => await fn({ scene, cameraControls, isRunning, toggleRun }))
+    singleFnPrs.forEach(async fn => await fn({ scene, cameraControls }))
     singleFnPrs.clear()
 
     loopFns.forEach(fn => loopFnRunner(fn))
