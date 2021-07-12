@@ -21,12 +21,15 @@ export function useCanvas(canvas: MaybeRef<HTMLCanvasElement>) {
   const scene = new Scene()
 
   useThreeJSEventHook().on(params => {
+    const world = document.querySelector("#world")!
     switch (params.cmd) {
       case "pauseLoop":
         toggleRun(false)
+        world.classList.add("paused")
         break
-      case "resumeLoop":
-        toggleRun(true)
+        case "resumeLoop":
+          world.classList.remove("paused")
+          toggleRun(true)
         break
     }
   })

@@ -1,7 +1,7 @@
-import type { Plugin, Ref } from "vue"
+import type { Plugin } from "vue"
 import type { EventHook } from "@vueuse/core"
 import dat from "dat.gui"
-import { watch, inject } from "vue"
+import { inject } from "vue"
 import { createEventHook, useCssVar, useFullscreen, set } from "@vueuse/core"
 import "./extend"
 
@@ -31,13 +31,15 @@ function addCameraControl(gui: dat.GUI) {
     rotate: () => hook.trigger({ cmd: "rotate" }),
     shake: () => hook.trigger({ cmd: "shake" }),
     group: () => window.location.hash = "/group",
+    images: () => window.location.hash = "/images",
     frames: () => window.location.hash = "/frames",
     record: () => window.location.hash = "/record",
   }
 
   const f = gui.addFolder("Go places")
   f.add(btns, "group").name("⚓ To group💀ped")
-  f.add(btns, "frames").name("⚓ To extract frames")
+  f.add(btns, "images").name("⚓ video to images")
+  f.add(btns, "frames").name("⚓ Save a pose / frame of a video")
   f.add(btns, "record").name("⚓ To record")
   // f.add(btns, "rotate").name("Rotate")
   // f.add(btns, "shake").name("Shake")

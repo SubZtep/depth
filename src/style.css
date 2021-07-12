@@ -40,17 +40,24 @@ body {
   display: flex;
 }
 
+#world.paused {
+  mask-image: radial-gradient(#000, #0006);
+}
+
 #world > canvas {
   width: inherit;
   height: inherit;
 }
 
-#app video {
+#app > video, #app > img, #app > canvas {
   max-width: 40%;
   max-height: 40%;
-  aspect-ratio: var(--ratio, 1);
   border: 8px outset #964B00;
   box-shadow: -10px 0 8px #000;
   align-self: center;
   margin-left: 8px;
+}
+
+#app > video {
+  aspect-ratio: var(--ratio, 1);
 }

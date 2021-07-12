@@ -1,4 +1,5 @@
-import EstimateFrames from "./components/pages/EstimateFrames.vue"
+import PosePerFrame from "./components/pages/PosePerFrame.vue"
+import VideoToImages from "./components/pages/VideoToImages.vue"
 import PoseGroup from "./components/pages/PoseGroup.vue"
 import RecordVideo from "./components/pages/RecordVideo.vue"
 
@@ -10,8 +11,14 @@ export default [
     lookAt: [2, 2, 0],
   },
   {
+    path: "/images",
+    component: VideoToImages,
+    position: [-20, 2, 10],
+    lookAt: [30, 2, -20],
+  },
+  {
     path: "/frames",
-    component: EstimateFrames,
+    component: PosePerFrame,
     position: [10, 2, -20],
     lookAt: [-30, 2, -20],
   },

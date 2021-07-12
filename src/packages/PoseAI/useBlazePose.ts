@@ -1,4 +1,5 @@
 import type { Ref } from "vue"
+import type { InputImage } from "@mediapipe/pose"
 import { set, useTimeoutFn, tryOnUnmounted, unrefElement, tryOnMounted } from "@vueuse/core"
 import { reactive, ref, watch } from "vue"
 import type { Pose, PoseConfig, ResultsListener, Results } from "../../../public/pose"
@@ -11,7 +12,7 @@ let dstat: Stats.Panel | undefined = undefined
 // @ts-ignore
 const Poser = window.Pose
 
-export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
+export function useBlazePose(el?: Ref<InputImage | undefined>) {
   const ready = ref(false)
   const errors = new Set<string>()
   // let firstPose = true
@@ -23,7 +24,7 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
   // })
   const results: Partial<Results> = reactive({})
 
-  let solution: Pose
+  let solution: Pose | undefined
 
   // if (dstat === undefined) {
   //   const stats = useStats()
@@ -31,39 +32,44 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
   //   stats.showPanel(3)
   // }
 
-  watch(el, (_newEl, oldEl) => {
-    if (oldEl !== undefined && solution) {
-      solution.reset()
-    }
-  })
+  if (el !== undefined) {
+    watch(el, (_newEl, oldEl) => {
+      if (oldEl !== undefined && solution) {
+        solution.reset()
+      }
+    })
+  }
 
   const poseResult: ResultsListener = res => {
-    // console.log("RES", res)
+    console.log("RES", res)
     Object.assign(results, res)
   }
 
-  const singleErrors = (cb: (reason?: any) => void) => (reason: string) => {
-    if (errors.has(reason)) return cb()
-    errors.add(reason)
-    useTimeoutFn(() => void errors.delete(reason), 1000)
-    return cb(new Error(reason))
-  }
+  // const singleErrors = (cb: (reason?: any) => void) => (reason: string) => {
+  //   if (errors.has(reason)) return cb()
+  //   errors.add(reason)
+  //   useTimeoutFn(() => void errors.delete(reason), 1000)
+  //   return cb(new Error(reason))
+  // }
 
-  const estimatePose = async (): Promise<void> => {
+  const estimatePose = async (img?: InputImage): Promise<void> => {
     return new Promise(async (resolve, reject) => {
-      const rejectReason = singleErrors(reject)
-      const elem = unrefElement(el)
+      // const rejectReason = singleErrors(reject)
+      const elem = img ?? unrefElement(el)
 
       if (elem === undefined) {
-        return rejectReason("no video input")
+        throw new Error("no input image")
+        // return rejectReason("no video input")
       }
 
       if (elem.readyState !== elem.HAVE_ENOUGH_DATA) {
-        return rejectReason("not enough data")
+        throw new Error("not enough data")
+        // return rejectReason("not enough data")
       }
 
       if (solution === undefined) {
-        return rejectReason("no pose detector")
+        throw new Error("no pose detector")
+        // return rejectReason("no pose detector")
       }
 
       // // if (firstPose) {
@@ -83,7 +89,9 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
 
       const t0 = performance.now()
       // console.log("T1", performance.now())
+
       await solution.send({ image: elem })
+
       // console.log("T2", performance.now())
 
       // const poses = await detector.estimatePoses(elem, {
@@ -109,11 +117,13 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
   }
 
   tryOnMounted(async () => {
-    solution = new Poser({ locateFile: fn => `/pose/${fn}` } as PoseConfig)
+    solution = new Poser({ locateFile: fn => `/pose/${fn}` } as PoseConfig) as Pose
     solution.setOptions({
       modelComplexity: 1,
-      smoothLandmarks: true,
-      selfieMode: false,
+      // smoothLandmarks: el !== undefined,
+      smoothLandmarks: false,
+      // smoothLandmarks: true,
+      // selfieMode: false,
     })
     // solution.onResults(params.results)
     solution.onResults(poseResult)
@@ -129,6 +139,7 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
   return {
     results,
     ready,
+    solution,
     estimatePose,
   }
 }

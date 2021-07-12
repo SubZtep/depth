@@ -101,9 +101,9 @@ invoke(async () => {
     playing,
     isPlaying => {
       if (isPlaying) {
-        loopFnPrs.add(estimatePose)
+        loopFnPrs.add(estimatePose.call)
       } else {
-        loopFnPrs.delete(estimatePose)
+        loopFnPrs.delete(estimatePose.call)
       }
     },
     { immediate: true }
@@ -111,7 +111,7 @@ invoke(async () => {
 })
 
 onBeforeUnmount(() => {
-  loopFnPrs.delete(estimatePose)
+  loopFnPrs.delete(estimatePose.call)
   singleFns.add(({ scene }) => scene.remove(root))
   gui.removeFolder(folder)
 })

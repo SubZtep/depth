@@ -7,7 +7,6 @@ export const loopFns = new Set<LoopFn>()
 export const loopFnPrs = new Set<LoopFnPr>()
 
 export function useRenderLoop({ renderer, cameraControls, scene, isRunning, toggleRun }: RenderLoopProps) {
-  // const [isRunning, toggleRun] = useToggle()
   const clock = new Clock()
   const { camera } = cameraControls
   let delta: number
@@ -45,5 +44,4 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, togg
   }
 
   whenever(isRunning, () => requestAnimationFrame(gameLoop))
-  return { toggleRun }
 }

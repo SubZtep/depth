@@ -54,6 +54,9 @@ export default defineConfig({
     },
   },
   server: {
+    fs: {
+      allow: [".."]
+    }
     // https: true,
   },
 })
