@@ -1,39 +1,44 @@
 import { get, useToggle, whenever } from "@vueuse/core"
-import CameraControls from "camera-controls"
-import { Clock, Scene, WebGLRenderer } from "three"
+import { Clock } from "three"
 
-interface Props {
-  renderer: WebGLRenderer
-  cameraControls: CameraControls
-  scene: Scene
-}
-
-export const loopFns = new Set<LoopFn>()
 export const singleFns = new Set<LoopFn>()
+export const singleFnPrs = new Set<LoopFnPr>()
+export const loopFns = new Set<LoopFn>()
+export const loopFnPrs = new Set<LoopFnPr>()
 
-export function useRenderLoop({ renderer, cameraControls, scene }: Props) {
+export function useRenderLoop({ renderer, cameraControls, scene }: RenderLoopProps) {
   const [isRunning, toggleRun] = useToggle()
   const clock = new Clock()
   const { camera } = cameraControls
   let delta: number
 
-  const loopFnRunner: LoopFnRunner = async fn => {
+  const loopFnRunner: LoopFnRunner = fn => {
     try {
-      await fn({ scene, cameraControls, isRunning, toggleRun } as LoopFnProps)
+      return fn({ scene, cameraControls, isRunning, toggleRun } as LoopFnProps)
     } catch (e) {
-      console.error("ThreeJS", e.message)
+      console.error("ThreeJS loop", e)
+    }
+  }
+
+  const loopFnPrRunner: LoopFnPrRunner = async fn => {
+    try {
+      return await fn({ scene, cameraControls, isRunning, toggleRun } as LoopFnProps)
+    } catch (e) {
+      console.error("ThreeJS loop promise", e)
     }
   }
 
   const gameLoop = () => {
     delta = clock.getDelta()
-    // console.log("loop", delta)
     cameraControls.update(delta)
 
     singleFns.forEach(fn => fn({ scene, cameraControls, isRunning, toggleRun }))
     singleFns.clear()
+    singleFnPrs.forEach(async fn => await fn({ scene, cameraControls, isRunning, toggleRun }))
+    singleFnPrs.clear()
 
-    loopFns.forEach(async fn => await loopFnRunner(fn))
+    loopFns.forEach(fn => loopFnRunner(fn))
+    loopFnPrs.forEach(async fn => await loopFnPrRunner(fn))
 
     renderer.render(scene, camera)
     get(isRunning) && requestAnimationFrame(gameLoop)

@@ -24,20 +24,20 @@ import { useAssets } from "../../packages/ThreeJS/useAssets"
 import { useCanvas } from "../../packages/ThreeJS/useThreeJS"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { transformables } from "../../packages/ThreeJS/useTransformControls"
-import { singleFns } from "../../packages/ThreeJS/useRenderLoop"
+import { singleFns, loopFns } from "../../packages/ThreeJS/useRenderLoop"
+import { useStats } from "../../packages/Stats/plugin"
+import { useGui } from "../../packages/datGUI/plugin"
 
 const assets = useAssets()
-// const toast  = useToast()
-// const errorHandler: ErrorHandler = e => {
-//   if (e instanceof Error) {
-//     toast.error(e.message)
-//   }
-// }
 
 await assets.loadNoVideoMaterial()
 const leaf = await assets.loadLeafMaterial()
 const skybox = await assets.loadSkybox(rand(15))
 const wc = ref() as Ref<HTMLCanvasElement>
+
+const stats = useStats()
+loopFns.add(() => stats.update())
+useGui().show()
 
 await sleep(69)
 useCanvas(wc)

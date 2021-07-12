@@ -16,7 +16,8 @@ VideoFileInput(
 
 CanvasInScene(
   :playing="playing"
-  :results="results")
+  :results="results"
+  :parent="root")
 
 Stickman(
   v-if="opts.keypointLimit && (opts.videoDeviceId || opts.src)"
@@ -37,7 +38,7 @@ import { useBlazePose } from "../../packages/PoseAI/useBlazePose"
 import { selectableMedias } from "../../misc/utils"
 import { VIDEOS } from "../../misc/constants"
 import { useGui } from "../../packages/datGUI/plugin"
-import { useThreeJSEventHook } from "../../packages/ThreeJS/plugin"
+import { loopFnPrs, singleFns } from "../../packages/ThreeJS/useRenderLoop"
 
 let playbackRef: Ref<HTMLVideoElement | undefined> = ref()
 let playing = ref(false)
@@ -49,11 +50,6 @@ const setPlaybackRef = (ref: Ref<HTMLVideoElement>) => {
 
 const { videoInputs } = useDevicesList({ requestPermissions: true })
 const { results, ready, estimatePose } = useBlazePose(playbackRef)
-const threeJsHook = useThreeJSEventHook()
-
-const gui = useGui()
-// const scene = inject<THREE.Scene>("scene")!
-// const tickFns = inject<Set<TickFn>>("tickFns")!
 
 const opts = reactive({
   videoDeviceId: "",
@@ -65,6 +61,7 @@ const opts = reactive({
   scenePlayerOpacity: 0.69,
 })
 
+const gui = useGui()
 const folder = gui.addFolder("Pose group")
 folder
   .addReactiveSelect(opts, "videoDeviceId", selectableMedias(videoInputs))
@@ -88,9 +85,8 @@ folder.add(opts, "keypointLimit", 0, 33, 1).name("Visible keypoints")
 folder.open()
 
 const root = new Group()
-// scene.add(root)
 
-threeJsHook.trigger({ cmd: "addToScene", payload: root })
+singleFns.add(({ scene }) => scene.add(root))
 
 provide("root", root)
 
@@ -99,15 +95,20 @@ invoke(async () => {
 
   watch(
     playing,
-    isPlaying => threeJsHook.trigger({ cmd: isPlaying ? "addToLoopFn" : "deleteFromLoopFn", payload: estimatePose }),
+    isPlaying => {
+      if (isPlaying) {
+        loopFnPrs.add(estimatePose)
+      } else {
+        loopFnPrs.delete(estimatePose)
+      }
+    },
     { immediate: true }
   )
 })
 
 onBeforeUnmount(() => {
-  // tickFns.delete(estimatePose)
-  threeJsHook.trigger({ cmd: "deleteFromLoopFn", payload: estimatePose })
-  threeJsHook.trigger({ cmd: "deleteFromScene", payload: root })
+  loopFnPrs.delete(estimatePose)
+  singleFns.add(({ scene }) => scene.remove(root))
   gui.removeFolder(folder)
 })
 </script>

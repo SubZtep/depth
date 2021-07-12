@@ -1,3 +1,10 @@
+interface RenderLoopProps {
+  renderer: WebGLRenderer
+  cameraControls: CameraControls
+  scene: Scene
+}
+
+
 // type SingleRun   = { cmd: "singleRun", payload: LoopFn }
 type AlterScene  = { cmd: "addToScene"    | "deleteFromScene",  payload: THREE.Object3D }
 // type AlterLoop   = { cmd: "addToLoopFn"   | "deleteFromLoopFn", payload: LoopFn }
@@ -17,5 +24,6 @@ interface LoopFnProps {
 }
 
 type LoopFn       = (props: LoopFnProps)           => void
+type LoopFnRunner = (...fn: LoopFn[]) => unknown
 type LoopFnPr     = (props: LoopFnProps)           => Promise<void>
-type LoopFnRunner = (...fn: (LoopFn | LoopFnPr)[]) => unknown
+type LoopFnPrRunner = (...fn: LoopFnPr[]) => Promise<void>
