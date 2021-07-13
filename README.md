@@ -4,7 +4,7 @@
 
 > Please use **Chrome™**
 
-## ffmpeg
+## FFmpeg commands
 
 https://www.ffmpeg.org/ffmpeg-all.html
 
@@ -17,9 +17,11 @@ ffmpeg -copyts -skip_frame nokey -i yoga2.webm -vsync 0 -r 1000 -frame_pts 1 out
 this one is in milisecs:
 ffmpeg -skip_frame nokey -i yoga2.webm -vsync 0 -r 1000 -frame_pts 1 %09d.png
 
-
 (add pts column to keyframes?)
 
+## Camera settings
+
+https://github.com/yomotsu/camera-controls
 
 
 ## 3rd party packages

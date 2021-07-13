@@ -45,8 +45,9 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, togg
       await loopFnPrRunner(fn)
     }
 
-    renderer.render(scene, camera)
     get(isRunning) && requestAnimationFrame(gameLoop)
+
+    renderer.render(scene, camera)
   }
 
   whenever(isRunning, () => requestAnimationFrame(gameLoop))

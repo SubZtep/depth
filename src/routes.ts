@@ -14,14 +14,14 @@ export default [
   },
   {
     path: "/images",
-    label: "video to images",
+    label: "video to images 🔥",
     component: VideoToImages,
     position: [-20, 2, 10],
     lookAt: [30, 2, -20],
   },
   {
     path: "/frames",
-    label: "Save a pose / frame of a video",
+    label: "Save pose estimation of a video",
     component: PosePerFrame,
     position: [10, 2, -20],
     lookAt: [-30, 2, -20],

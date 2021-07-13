@@ -50,16 +50,16 @@ await sleep(69)
 useCanvas(wc)
 
 singleFns.add(({ scene }) => {
-  const hemiLight = new HemisphereLight(0xb1e1ff, 0x080820, 2)
-  scene.add(hemiLight)
+  // const hemiLight = new HemisphereLight(0xb1e1ff, 0x080820, 2)
+  // scene.add(hemiLight)
 
-  const light = new SpotLight(0xffa95c, 4)
-  light.position.set(-50, 50, 50)
-  light.castShadow = true
-  light.shadow.bias = -0.0001
-  light.shadow.mapSize.width = 1024 * 4
-  light.shadow.mapSize.height = 1024 * 4
-  scene.add(light)
+  // const light = new SpotLight(0xffa95c, 4)
+  // light.position.set(-50, 50, 50)
+  // light.castShadow = true
+  // light.shadow.bias = -0.0001
+  // light.shadow.mapSize.width = 1024 * 4
+  // light.shadow.mapSize.height = 1024 * 4
+  // scene.add(light)
 
   const grid = new GridHelper(20, 20, Color.NAMES.yellow, Color.NAMES.green)
   grid.receiveShadow = true

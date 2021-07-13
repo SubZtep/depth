@@ -44,6 +44,24 @@ export function useCanvas(canvas: MaybeRef<HTMLCanvasElement>) {
 
     const camera = new PerspectiveCamera(60, get(width) / get(height), 0.01, 1000)
     const cameraControls = new CameraControls(camera, instance.appContext.app._container)
+
+    cameraControls.minPolarAngle = Math.PI / 6
+    cameraControls.maxPolarAngle = Math.PI / 1.95
+    cameraControls.minDistance = 1
+    cameraControls.maxDistance = 200
+    cameraControls.dollySpeed = 0.5
+    cameraControls.polarRotateSpeed = 0.6
+    cameraControls.azimuthRotateSpeed = 0.8
+
+    cameraControls.setBoundary(
+      new THREE.Box3(
+        new THREE.Vector3( -100, 2, -100 ),
+        new THREE.Vector3( 100, 2, 100 )
+      )
+    )
+
+    // cameraControls.setBoundary()
+
     cameraControls.setLookAt(2, 1, -4, 2, 2, 0, true)
     useCameraControls(cameraControls)
 

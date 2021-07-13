@@ -8,7 +8,6 @@ import Stats from "./packages/Stats/plugin"
 import Gui from "./packages/datGUI/plugin"
 import routes from "./routes"
 
-
 import "vue-global-api"
 
 import "vue-toastification/dist/index.css"

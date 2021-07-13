@@ -13,3 +13,20 @@ dat.GUI.prototype.addReactiveSelect = function (target: Object, propName: string
   watch(options, newList => updateDropdown(ctrl, newList, target[propName]))
   return ctrl
 }
+
+export class ColorGUIHelper {
+  constructor(object, prop) {
+    // @ts-ignore
+    this.object = object;
+    // @ts-ignore
+    this.prop = prop;
+  }
+  get value() {
+    // @ts-ignore
+    return `#${this.object[this.prop].getHexString()}`;
+  }
+  set value(hexString) {
+    // @ts-ignore
+    this.object[this.prop].set(hexString);
+  }
+}
