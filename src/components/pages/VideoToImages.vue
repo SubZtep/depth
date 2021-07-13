@@ -2,7 +2,7 @@
 Title Video Keyframes
 
 div(:class="$style.grid" ref="gridRef")
-  img(v-for="src in images" :src="src")
+  BlobImage(v-for="filename of imageFilenames" :key="filename" :filename="filename" :FS="ffmpeg.FS")
 
 VideoFileInput(
   v-if="opts.src"
@@ -14,14 +14,17 @@ VideoFileInput(
 
 <script lang="ts" setup>
 import type { Ref } from "vue"
-import { onBeforeUnmount, reactive, ref } from "vue"
-import { useGui } from "../../packages/datGUI/plugin"
-import { VIDEOS } from "../../misc/constants"
 import { useToast } from "vue-toastification"
-import { set, get, whenever, useCssVar, invoke } from "@vueuse/core"
+import { onBeforeUnmount, reactive, ref } from "vue"
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
+import { set, get, useCssVar, invoke } from "@vueuse/core"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { useThreeJSEventHook } from "../../packages/ThreeJS/plugin"
+import { useStats } from "../../packages/Stats/plugin"
+import { useGui } from "../../packages/datGUI/plugin"
+import { VIDEOS } from "../../misc/constants"
+
+useStats().showPanel(2)
 
 const { progress } = useNProgress()
 const threeJsEvent = useThreeJSEventHook()
@@ -59,25 +62,18 @@ folder
   .onChange(v => set(columns, String(v)))
 folder.open()
 
-const ffmpeg = createFFmpeg()
+const ffmpeg = createFFmpeg({ log: true })
 ffmpeg.setProgress(({ ratio }) => set(progress, ratio))
 await ffmpeg.load()
 if (ffmpeg.isLoaded()) {
   toast.info("FFmpeg loaded")
 }
 
-const images = ref<string[]>([])
+const imageFilenames = ref<Set<string>>(new Set)
 
-whenever(src, () => {
-  let img = get(images).pop()
-  while (img) {
-    URL.revokeObjectURL(img)
-    img = get(images).pop()
-  }
-  get(images).length = 0
-
-  // imgs.forEach(v => URL.revokeObjectURL(v))
-  // imgs.s
+watch(src, videoSrc => {
+  get(imageFilenames).clear()
+  if (videoSrc === "") return
 
   invoke(async () => {
     threeJsEvent.trigger({ cmd: "pauseLoop" })
@@ -88,17 +84,16 @@ whenever(src, () => {
       return
     }
 
-    ffmpeg.FS("writeFile", "test.webm", await fetchFile(get(src)))
-    toast.success(`Video ${get(src)} loaded`)
+    ffmpeg.FS("writeFile", "test.webm", await fetchFile(videoSrc))
+    toast.success(`Video ${videoSrc} loaded`)
 
     await ffmpeg.run(..."-skip_frame nokey -i test.webm -vsync 0 -r 1000 -frame_pts 1 %09d.png".split(" "))
     toast.success(`Video keyframes exported`)
 
-    // @ts-ignores
-    const files: string[] = ffmpeg.FS<"readdir">("readdir", ".")
+    // @ts-ignore
+    const files: string[] = ffmpeg.FS<"readdir">("readdir", "/")
     for (const filename of files.filter(filename => filename.endsWith(".png"))) {
-      const data = ffmpeg.FS("readFile", filename)
-      get(images).push(URL.createObjectURL(new Blob([data.buffer], { type: "image/png" })))
+      get(imageFilenames).add(filename)
     }
 
     threeJsEvent.trigger({ cmd: "resumeLoop" })
@@ -106,15 +101,14 @@ whenever(src, () => {
 })
 
 onBeforeUnmount(() => {
+  get(imageFilenames).clear()
   gui.removeFolder(folder)
-  ffmpeg.isLoaded() && ffmpeg.exit()
 
-  let img = get(images).pop()
-  while (img) {
-    URL.revokeObjectURL(img)
-    img = get(images).pop()
+  try {
+    ffmpeg.exit()
+  } catch (e) {
+    console.log("FFmpeg exit", e)
   }
-  get(images).length = 0
 })
 </script>
 
@@ -122,7 +116,8 @@ onBeforeUnmount(() => {
 .grid {
   top: 0;
   left: 0;
-  width: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
   display: grid;
   overflow: auto;
   position: absolute;
