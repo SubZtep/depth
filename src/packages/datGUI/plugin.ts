@@ -13,7 +13,7 @@ const gui = new dat.GUI({ closed: false, width: 420 })
 gui.hide()
 // gui.remember({})
 
-function addPreferences(gui: dat.GUI) {
+function addPreferences(gui: dat.GUI, options?: GuiOptions) {
   const { toggle } = useFullscreen()
   const pref = {
     guiScale: 1.2,
@@ -26,32 +26,30 @@ function addPreferences(gui: dat.GUI) {
   f.add(pref, "toggle").name("Toggle fullscreen")
 }
 
-function addCameraControl(gui: dat.GUI) {
-  const hook = createEventHook<GUIEvent.Camera>()
+function addCameraControl(gui: dat.GUI, routes?: Route[]) {
+  const hook = createEventHook<GUIEvent.Camera>() // TODO: what's this hook for?
   const btns = {
     rotate: () => hook.trigger({ cmd: "rotate" }),
     shake: () => hook.trigger({ cmd: "shake" }),
-    group: () => window.location.hash = "/group",
-    images: () => window.location.hash = "/images",
-    frames: () => window.location.hash = "/frames",
-    record: () => window.location.hash = "/record",
   }
 
-  const f = gui.addFolder("Go places")
-  f.add(btns, "group").name("⚓ To group💀ped")
-  f.add(btns, "images").name("⚓ video to images")
-  f.add(btns, "frames").name("⚓ Save a pose / frame of a video")
-  f.add(btns, "record").name("⚓ To record")
-  // f.add(btns, "rotate").name("Rotate")
-  // f.add(btns, "shake").name("Shake")
-  f.open()
+  if (routes) {
+    const f = gui.addFolder("Navigation")
+    routes.forEach(({ path, label }) => {
+      const name = path.substring(1)
+      btns[name] = () => window.location.hash = path
+      f.add(btns, name).name(`⚓ ${label}`)
+    })
+    // f.open()
+  }
+
   return hook
 }
 
 export default {
-  install(app) {
+  install(app, options?: GuiOptions) {
     app.provide(guiKey, gui)
-    app.provide(cameraHookKey, addCameraControl(gui))
+    app.provide(cameraHookKey, addCameraControl(gui, options?.routes))
     addPreferences(gui)
   },
 } as Plugin

@@ -9,6 +9,7 @@ document.body.appendChild(stats.dom)
 
 export default {
   install(app, options?: StatsOptions) {
+    // TODO: mosaic view
     if (options?.showPanel !== undefined) {
       stats.showPanel(options.showPanel)
     }

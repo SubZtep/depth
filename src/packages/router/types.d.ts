@@ -6,6 +6,7 @@ interface BaseRoute {
 
 interface Route extends BaseRoute {
   path: string
+  label: string
 }
 
 interface RouterOptions {

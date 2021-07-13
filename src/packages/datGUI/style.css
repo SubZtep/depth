@@ -1,6 +1,6 @@
 .dg {
   font-family: var(--font-sans);
-  font-size: 18px;
+  font-size: 17px;
   color: #e0e0e0;
   text-shadow: -1px -2px 0 #00690069;
   letter-spacing: 1px;
@@ -17,12 +17,33 @@
   transform: scale(var(--gui-scale, 1));
 }
 
+
 .dg .folder .title {
+  font-size: 18px;
   text-shadow: -1px -1px 0 darkolivegreen;
+}
+
+.dg .cr.function {
+  --btn-border-width: 1px;
+  --btn-border-color: #2c2c2c;
+  border-style: outset;
+  border-top-width: var(--btn-border-width);
+  border-right-width: var(--btn-border-width);
+  border-bottom-width: var(--btn-border-width);
+  border-top-color: var(--btn-border-color);
+  border-right-color: var(--btn-border-color);
+  border-bottom-color: var(--btn-border-color);
+  &:active {
+    border-style: inset;
+    & .property-name {
+      transform: translate(1px, 1px);
+    }
+  }
 }
 
 .dg .cr.function .property-name {
   width: 100%;
+  line-height: 26px;
 }
 
 .dg .cr.function .c {

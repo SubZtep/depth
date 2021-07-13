@@ -11,11 +11,12 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, togg
   const { camera } = cameraControls
   let delta: number
 
+  // TODO: what's these runners for?
   const loopFnRunner: LoopFnRunner = fn => {
     try {
       return fn({ scene, cameraControls } as LoopFnProps)
     } catch (e) {
-      console.error("ThreeJS loop", e)
+      console.error("ThreeJS loop", [e, fn])
     }
   }
 
@@ -27,17 +28,22 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, togg
     }
   }
 
-  const gameLoop = () => {
+  const gameLoop = async () => {
     delta = clock.getDelta()
     cameraControls.update(delta)
 
     singleFns.forEach(fn => fn({ scene, cameraControls }))
+    for (const fn of singleFnPrs) {
+      await fn({ scene, cameraControls })
+    }
     singleFns.clear()
-    singleFnPrs.forEach(async fn => await fn({ scene, cameraControls }))
     singleFnPrs.clear()
 
+    // TODO: test with promise.all
     loopFns.forEach(fn => loopFnRunner(fn))
-    loopFnPrs.forEach(async fn => await loopFnPrRunner(fn))
+    for (const fn of loopFnPrs) {
+      await loopFnPrRunner(fn)
+    }
 
     renderer.render(scene, camera)
     get(isRunning) && requestAnimationFrame(gameLoop)

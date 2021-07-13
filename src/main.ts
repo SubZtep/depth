@@ -8,6 +8,7 @@ import Stats from "./packages/Stats/plugin"
 import Gui from "./packages/datGUI/plugin"
 import routes from "./routes"
 
+
 import "vue-global-api"
 
 import "vue-toastification/dist/index.css"
@@ -23,6 +24,6 @@ createApp(App)
   .use(Router, { routes })
   .use(ThreeJs)
   .use(Stats, { showPanel: 1 })
-  .use(Gui)
+  .use(Gui, { routes })
   .directive("visible", Visible)
   .mount("#app")

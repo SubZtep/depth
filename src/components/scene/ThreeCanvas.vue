@@ -15,7 +15,11 @@ import {
   PlaneGeometry,
   HemisphereLight,
   MeshPhongMaterial,
+  MeshBasicMaterial,
+  MeshLambertMaterial,
   DoubleSide,
+  BackSide,
+  FrontSide,
 } from "three"
 import type { Ref } from "vue"
 import { useToast } from "vue-toastification"
@@ -28,6 +32,8 @@ import { singleFns, loopFns } from "../../packages/ThreeJS/useRenderLoop"
 import { useStats } from "../../packages/Stats/plugin"
 import { useGui } from "../../packages/datGUI/plugin"
 
+import * as THREE from "three"
+
 const assets = useAssets()
 
 await assets.loadNoVideoMaterial()
@@ -37,6 +43,7 @@ const wc = ref() as Ref<HTMLCanvasElement>
 
 const stats = useStats()
 loopFns.add(() => stats.update())
+// loopFns.add(() => stats.update())
 useGui().show()
 
 await sleep(69)
@@ -75,6 +82,35 @@ singleFns.add(({ scene }) => {
   leafPlane.name = "leafPlane"
   scene.add(leafPlane)
   transformables.push(leafPlane.name)
+
+  const material = new MeshPhongMaterial({
+    color: 0x001001,
+    specular: 0x010000,
+    // shininess: 69,
+    side: FrontSide,
+  })
+
+  // @ts-ignore
+  const terrainScene = Terrain(
+    {
+      // @ts-ignore
+      easing: THREE.Linear,
+      frequency: 2.5,
+      // @ts-ignore
+      heightmap: THREE.DiamondSquare,
+      material,
+      maxHeight: -1,
+      minHeight: -35,
+      steps: 1,
+      xSegments: 64,
+      xSize: 128,
+      ySegments: 64,
+      ySize: 128,
+    },
+    THREE
+  )
+
+  scene.add(terrainScene)
 
   scene.background = skybox
 })
