@@ -1,14 +1,14 @@
 import type { Plugin } from "vue"
 import Stats from "stats.js"
-import "./stats.css"
+import "./style.css"
 
 const statsKey = Symbol("stats panel")
 const stats = new Stats()
-stats.dom.classList.add("stats")
+stats.dom.classList.add("Stats")
 document.body.appendChild(stats.dom)
 
 export default {
-  install(app, options: StatsOptions) {
+  install(app, options?: StatsOptions) {
     if (options?.showPanel !== undefined) {
       stats.showPanel(options.showPanel)
     }

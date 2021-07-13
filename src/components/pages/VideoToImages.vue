@@ -69,7 +69,7 @@ if (ffmpeg.isLoaded()) {
   toast.info("FFmpeg loaded")
 }
 
-const imageFilenames = ref<Set<string>>(new Set)
+const imageFilenames = ref<Set<string>>(new Set())
 
 watch(src, videoSrc => {
   get(imageFilenames).clear()

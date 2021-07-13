@@ -4,6 +4,7 @@ import dat from "dat.gui"
 import { inject } from "vue"
 import { createEventHook, useCssVar, useFullscreen, set } from "@vueuse/core"
 import "./extend"
+import "./style.css"
 
 const guiKey = Symbol("dat.gui")
 const cameraHookKey = Symbol("camera hook")

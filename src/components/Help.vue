@@ -1,5 +1,5 @@
 <template lang="pug">
-.helpModal(v-if="show")
+div(:class="$style.helpModal" v-if="show")
   h3 Keycodes
   table(border="1")
     tr
@@ -39,7 +39,6 @@
       td
         pre r
       td scale mode
-
 </template>
 
 <script lang="ts" setup>
@@ -62,7 +61,7 @@ watchEffect(() => {
 })
 </script>
 
-<style scoped>
+<style lang="postcss" module>
 .helpModal {
   position: fixed;
   top: 0;
@@ -76,22 +75,23 @@ watchEffect(() => {
   background: saddlebrown;
   color: darkseagreen;
   font-size: 0.65rem;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-th {
-  text-align: left;
-}
-td, th {
-  line-height: 0.9rem;
-  padding: 0 4px;
-}
-h3 {
-  margin: 4px 0;
-}
-pre {
-  margin: 0;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th {
+    text-align: left;
+  }
+  td, th {
+    line-height: 0.9rem;
+    padding: 0 4px;
+  }
+  h3 {
+    margin: 4px 0;
+  }
+  pre {
+    margin: 0;
+  }
 }
 </style>
