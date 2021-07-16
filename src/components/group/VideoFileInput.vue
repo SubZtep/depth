@@ -4,7 +4,7 @@ video(
   loop="true"
   muted="true"
   autoplay="true"
-  controls="true"
+  controls="false"
   playsinline="true"
   poster="/textures/no-video.png")
 </template>

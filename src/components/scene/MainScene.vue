@@ -4,7 +4,7 @@ component(:is="page")
 </template>
 
 <script lang="ts" setup>
-import { useActiveRoute } from "../../packages/router/plugin"
+import { useActiveRouteComponent } from "../../packages/router/plugin"
 
-const page = useActiveRoute()
+const page = useActiveRouteComponent()
 </script>

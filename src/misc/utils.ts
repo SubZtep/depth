@@ -2,6 +2,7 @@
 import type { Ref } from "vue"
 import { computed } from "vue"
 import { reactify, get } from "@vueuse/core"
+import { VIDEOS } from "./constants"
 
 export function normalizeDeviceLabel(label: string) {
   const res = label.match(/^(.*)\s\([a-z0-9]{4}:[a-z0-9]{4}\)$/)
@@ -31,6 +32,10 @@ export function selectableMedias(inputs: Ref<MediaDeviceInfo[]>) {
       {}
     )
   )
+}
+
+export function selectableVideos() {
+  return ["", ...VIDEOS]
 }
 
 export function isInRect(width: number, height: number, x: number, y: number) {

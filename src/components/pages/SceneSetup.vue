@@ -1,4 +1,5 @@
 <template lang="pug">
+Title Scene setup
 //-h1 {{opts.skyboxNr}}
 </template>
 

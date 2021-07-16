@@ -1,4 +1,5 @@
 <template lang="pug">
+Title Preferences
 pre STATE {{state}}
 </template>
 

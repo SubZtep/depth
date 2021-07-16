@@ -38,11 +38,6 @@ module.exports = {
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/ban-ts-comment": "warn",
     "vue/require-default-prop": "off",
-    // "vue/no-unused-vars": "off",
-    // "typescript/unused": "off",
-    // "no-unused-vars": ["warn", { varsIgnorePattern: "^_" }],
-    // "@typescript-eslint/no-unused-vars": ["warn", { varsIgnorePattern: "^_" }],
-    // "no-unused-vars": "off",
-    // "@typescript-eslint/no-unused-vars": "off",
+    indent: ["warn", 2, { "SwitchCase": 1 }],
   },
 }

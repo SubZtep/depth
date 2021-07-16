@@ -6,7 +6,6 @@ import type { Results } from "../../../public/pose/index.d"
 import type { PropType, Ref } from "vue"
 import { get, until } from "@vueuse/core"
 import { Texture, MeshBasicMaterial, PlaneBufferGeometry, Mesh, DoubleSide, Group, Object3D } from "three"
-import { toRef, toRefs, onBeforeUnmount } from "vue"
 import { useAssets } from "../../packages/ThreeJS/useAssets"
 import { transformables } from "../../packages/ThreeJS/useTransformControls"
 import { singleFns, loopFns } from "../../packages/ThreeJS/useRenderLoop"
@@ -35,9 +34,6 @@ const noVideoMaterial = assets.get("noVideoMaterial") as THREE.MeshBasicMaterial
 
 const playerGeometry = new PlaneBufferGeometry()
 const player = new Mesh(playerGeometry, noVideoMaterial)
-// console.log({ player })
-// player.name = "canvasInScene"
-// root.add(player)
 
 if (props.parent !== undefined) {
   props.parent.add(player)

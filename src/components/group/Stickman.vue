@@ -9,6 +9,7 @@ import { Vector3, Group } from "three"
 import { get } from "@vueuse/core"
 import { lineFactory, keypointFactory, boneMaterial } from "../../models/factories"
 import { BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS, BLAZEPOSE_KEYPOINTS } from "../../misc/constants"
+import { disposeObjectTree } from "../../packages/ThreeJS/utils"
 
 const props = defineProps({
   results: { type: Object as PropType<Results>, required: true },
@@ -26,6 +27,7 @@ const { playing, width, zMulti, keypointLimit } = toRefs(props)
 const isVisible = (i: number, j?: number) => i < get(keypointLimit) && (j === undefined || j < get(keypointLimit))
 
 const root = inject<Group>("root")!
+
 const stickmanGroup = new Group()
 stickmanGroup.position.fromArray(props.position)
 
@@ -66,12 +68,10 @@ const updateLines = (points: LandmarkList) => {
   })
 }
 
-let stopWatch: WatchStopHandle
-
 onMounted(() => {
   root.add(stickmanGroup)
 
-  stopWatch = watch(
+  watch(
     () => results.poseWorldLandmarks,
     marks => {
       if (marks !== undefined) {
@@ -83,7 +83,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  stopWatch()
+  // disposeObjectTree(stickmanGroup)
   root.remove(stickmanGroup)
   lines.forEach(line => line.geometry.dispose())
 })

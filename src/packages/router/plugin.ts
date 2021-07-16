@@ -22,7 +22,9 @@ export default {
     app.provide(eventHookKey, eventHook)
 
     window.addEventListener("hashchange", () => {
-      const route = getRoute(banglessHash())
+      // console.log("BOO")
+      // const route = getRoute(banglessHash())
+      const route = useActiveRoute()
       route && eventHook.trigger({ ...route, transition })
     })
   },
@@ -32,8 +34,12 @@ export function useOnRouterEvent(fn: OnRouterEventFn) {
   return inject<EventHook<RouterEvent>>(eventHookKey)!.on(fn)
 }
 
-export function useActiveRoute(): Component {
-  const pageComponent = shallowRef(getRoute(banglessHash())?.component)
+export function useActiveRoute(): Route | undefined {
+  return getRoute(banglessHash())
+}
+
+export function useActiveRouteComponent(): Component {
+  const pageComponent = shallowRef(useActiveRoute()?.component)
   inject<EventHook<RouterEvent>>(eventHookKey)!.on(({ component }) => set(pageComponent, component))
   return pageComponent
 }

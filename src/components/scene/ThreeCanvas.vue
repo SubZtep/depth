@@ -37,7 +37,6 @@ import { objs } from "../../packages/ThreeJS/useSceneObjects"
 import { useThreeJSEventHook } from "../../packages/ThreeJS/plugin"
 import { pauseLoop, resumeLoop } from "../../packages/ThreeJS/constants"
 import * as sdef from "../../models/sceneDefaults"
-
 import * as THREE from "three"
 
 const assets = useAssets()
@@ -47,11 +46,7 @@ const leaf = await assets.loadLeafMaterial()
 const skybox = await assets.loadSkybox(rand(15))
 const wc = ref() as Ref<HTMLCanvasElement>
 
-// const stats = useStats()
-// loopFns.add(() => stats.update())
-
 useGui().show()
-
 await sleep(69)
 
 const ambLight = new AmbientLight()
@@ -70,6 +65,5 @@ transformables.push(leafPlane.name)
 
 useNProgress().done()
 
-const threeJs = useThreeJSEventHook()
-threeJs.trigger(resumeLoop)
+useThreeJSEventHook().trigger(resumeLoop)
 </script>

@@ -11,7 +11,7 @@ let dstat: Stats.Panel | undefined
 const Poser = window.Pose
 
 export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
-  const ready = ref(false)
+  const detectorReady = ref(false)
   const results: Partial<Results> = reactive({})
   let solution: Pose
 
@@ -65,7 +65,7 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
     solution.onResults(poseResult)
     await solution.initialize()
 
-    set(ready, true)
+    set(detectorReady, true)
   })
 
   tryOnUnmounted(() => {
@@ -74,7 +74,7 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
 
   return {
     results,
-    ready,
+    detectorReady,
     estimatePose,
   }
 }

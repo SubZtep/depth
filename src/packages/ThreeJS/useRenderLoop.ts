@@ -25,8 +25,8 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRe
       loopFns.forEach(fn => fn({ scene, cameraControls }))
 
       if (parallelLoopFns) {
-        await Promise.allSettled([singleFnPrs, loopFnPrs])
-        singleFnPrs.clear()
+        // await Promise.allSettled([singleFnPrs, loopFnPrs])
+        // singleFnPrs.clear()
       } else {
         for (const fn of singleFnPrs) {
           await fn({ scene, cameraControls })

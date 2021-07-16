@@ -7,28 +7,28 @@ import Preferences from "./components/pages/Preferences.vue"
 const route: Route[] = [
   {
     path: "/group",
-    label: "To group💀ped",
+    label: "💀 Poser group-pe-d",
     component: PoseGroup,
     position: [2, 1, -4],
     lookAt: [2, 2, 0],
   },
   {
     path: "/images",
-    label: "video to images 🔥",
+    label: "🔥 Video to images",
     component: VideoToImages,
     position: [-20, 2, 10],
     lookAt: [30, 2, -20],
   },
   {
     path: "/record",
-    label: "To record",
+    label: "🎬 Record media",
     component: RecordVideo,
     position: [10, 2, 20],
     lookAt: [0, 2, 20],
   },
   {
     path: "/scene",
-    label: "Scene setup",
+    label: "⚒ Scene setup",
     component: SceneSetup,
     position: [0, 2, -100],
     lookAt: [0, 0, 0],
