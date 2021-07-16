@@ -1,6 +1,5 @@
-import { createGlobalState, useStorage } from '@vueuse/core'
+import { createGlobalState, useStorage } from "@vueuse/core"
 
-export const useGlobalState = createGlobalState(
-  () => useStorage<GlobalState>('vue-use-locale-storage', {
-  })
+export const useGlobalState = createGlobalState(() =>
+  useStorage<GlobalState>("vue-use-locale-storage", { guiScale: 1.2 })
 )

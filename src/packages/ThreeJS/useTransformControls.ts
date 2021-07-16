@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const transformables: string[] = []
-let i = 0;
+let i = 0
 
 export function useTransformControls({ cameraControls, domElement, scene }: Props) {
   const control = new TransformControls(cameraControls.camera, domElement)

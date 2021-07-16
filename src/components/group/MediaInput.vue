@@ -32,11 +32,7 @@ watch(stream, async v => {
   }
 })
 
-watch(
-  videoDeviceId,
-  id => id !== "" ? start() : stop(),
-  { immediate: true }
-)
+watch(videoDeviceId, id => (id !== "" ? start() : stop()), { immediate: true })
 
 onBeforeUnmount(() => {
   stop()

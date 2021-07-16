@@ -19,7 +19,9 @@ body {
   height: 100vh;
   overflow: hidden;
   touch-action: pan-x pan-y;
-  background: linear-gradient(to bottom, #00b09b, #96c93d);
+  /* background: linear-gradient(to bottom, #00b09b, #96c93d); */
+  background-image: repeating-conic-gradient(from 0deg, transparent 0deg 90deg, #d3d4d6 90deg 180deg);
+  background-size: 1rem 1rem;
   font: 1rem/1.6 var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -40,7 +42,7 @@ body {
 }
 
 #world.paused {
-  mask-image: radial-gradient(#000, #0003);
+  mask-image: radial-gradient(#000, #0006);
 }
 
 #world > canvas {

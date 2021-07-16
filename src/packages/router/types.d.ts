@@ -1,7 +1,7 @@
 interface BaseRoute {
   component: import("@vue/runtime-core").Component
-  position: THREE.Vector3Tuple
-  lookAt: THREE.Vector3Tuple
+  position?: THREE.Vector3Tuple
+  lookAt?: THREE.Vector3Tuple
 }
 
 interface Route extends BaseRoute {
@@ -20,4 +20,3 @@ interface RouterEvent extends BaseRoute {
 
 type PathToRouteFn = (path: string) => Route | undefined
 type OnRouterEventFn = (params: RouterEvent) => void
-type PageComponent = Ref<Route["component"] | undefined>

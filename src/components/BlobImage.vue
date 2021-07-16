@@ -9,6 +9,7 @@ import type { FFmpeg } from "@ffmpeg/ffmpeg"
 
 const props = defineProps({
   filename: { type: String, required: true },
+  // eslint-disable-next-line
   FS: { type: Function as PropType<FFmpeg["FS"]>, required: true },
 })
 

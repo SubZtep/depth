@@ -13,4 +13,5 @@
   "gitlens.codeLens.enabled": false,
   "workbench.colorTheme": "Tokyo City No Italic",
   "workbench.iconTheme": "vscode-great-icons",
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
 }

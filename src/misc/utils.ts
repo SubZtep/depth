@@ -4,17 +4,17 @@ import { computed } from "vue"
 import { reactify, get } from "@vueuse/core"
 
 export function normalizeDeviceLabel(label: string) {
-  const res = label.match(/^(.*)\s\([a-z0-9]{4}\:[a-z0-9]{4}\)$/)
+  const res = label.match(/^(.*)\s\([a-z0-9]{4}:[a-z0-9]{4}\)$/)
   return res !== null ? res.pop()! : label
 }
 
-export function randomTitle(mayContainUnicode = true) {
-  return mayContainUnicode
-    ? Array.from(Date.now().toString(16).matchAll(/.{4}/g))
-        .map(n => String.fromCodePoint(parseInt(String(n), 16)))
-        .join("")
-    : Math.random().toString(36).substring(7)
-}
+// export function randomTitle(mayContainUnicode = true) {
+//   return mayContainUnicode
+//     ? Array.from(Date.now().toString(16).matchAll(/.{4}/g))
+//         .map(n => String.fromCodePoint(parseInt(String(n), 16)))
+//         .join("")
+//     : Math.random().toString(36).substring(7)
+// }
 
 /** reactive division */
 export const div = reactify((dividend: number, divisor: number) => dividend / divisor)
@@ -43,7 +43,7 @@ export function scaleKeypoint(
   height: number,
   scale: number,
   zMulti: number,
-  keypoint: any,
+  keypoint: THREE.Vector3,
   // keypoint: Keypoint,
   flipX = false,
   flipY = true
@@ -62,12 +62,15 @@ export function scaleKeypoint(
 // export type Enumerate<N extends number> = EnumerateInternal<[], N> extends (infer E)[] ? E : never;
 // export type Range<FROM extends number, TO extends number> = Exclude<Enumerate<TO>, Enumerate<FROM>>;
 
-export function rand<T = number>(max: number, min: number = 1): T {
+export function rand<T = number>(max: number, min = 1): T {
   return Math.floor(Math.random() * (max - min + 1) + min) as unknown as T
 }
 
-export const partial = (fn, ...args) => fn.bind(null, ...args)
+// export const partial = (fn, ...args) => fn.bind(null, ...args)
 
-const _pipe = (f, g) => (...args) => g(f(...args))
+// const _pipe =
+//   (f, g) =>
+//   (...args) =>
+//     g(f(...args))
 
-export const pipe = (...fns) => fns.reduce(_pipe)
+// export const pipe = (...fns) => fns.reduce(_pipe)

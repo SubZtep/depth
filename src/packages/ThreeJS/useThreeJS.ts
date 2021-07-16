@@ -1,15 +1,16 @@
+/* eslint-disable indent */
 import type { MaybeRef } from "@vueuse/core"
 import CameraControls from "camera-controls"
 import * as THREE from "three"
 import { Scene, WebGLRenderer, PerspectiveCamera } from "three"
-import { debouncedWatch, useWindowSize, get, set, tryOnMounted, useToggle } from "@vueuse/core"
+import { debouncedWatch, useWindowSize, get, tryOnMounted, useToggle } from "@vueuse/core"
 import { useRenderLoop } from "./useRenderLoop"
 import { useThreeJSEventHook } from "./plugin"
 import { useCameraControls } from "./useCameraControls"
 
 export const transformables = new Set()
 
-export function useCanvas(canvas: MaybeRef<HTMLCanvasElement>) {
+export function useCanvas(canvas: MaybeRef<HTMLCanvasElement>): Scene {
   const instance = getCurrentInstance()
   if (instance === null) {
     throw new Error("Use threeJs inside a component")
@@ -17,7 +18,8 @@ export function useCanvas(canvas: MaybeRef<HTMLCanvasElement>) {
 
   CameraControls.install({ THREE: THREE }) // TODO: tree shaking
   const { width, height } = useWindowSize()
-  const [isRunning, toggleRun] = useToggle()
+  const [isRunning, toggleRun] = useToggle(false)
+  const [isRenderAllFrames, toggleRenderAllFrames] = useToggle(false)
   const scene = new Scene()
 
   useThreeJSEventHook().on(params => {
@@ -27,9 +29,15 @@ export function useCanvas(canvas: MaybeRef<HTMLCanvasElement>) {
         toggleRun(false)
         world.classList.add("paused")
         break
-        case "resumeLoop":
-          world.classList.remove("paused")
-          toggleRun(true)
+      case "resumeLoop":
+        world.classList.remove("paused")
+        toggleRun(true)
+        break
+      case "doRenderAllFrames":
+        toggleRenderAllFrames(true)
+        break
+      case "dontRenderAllFrames":
+        toggleRenderAllFrames(false)
         break
     }
   })
@@ -53,20 +61,15 @@ export function useCanvas(canvas: MaybeRef<HTMLCanvasElement>) {
     cameraControls.polarRotateSpeed = 0.6
     cameraControls.azimuthRotateSpeed = 0.8
 
-    cameraControls.setBoundary(
-      new THREE.Box3(
-        new THREE.Vector3( -100, 2, -100 ),
-        new THREE.Vector3( 100, 2, 100 )
-      )
-    )
+    cameraControls.setBoundary(new THREE.Box3(new THREE.Vector3(-100, 2, -100), new THREE.Vector3(100, 2, 100)))
 
     // cameraControls.setBoundary()
 
     cameraControls.setLookAt(2, 1, -4, 2, 2, 0, true)
     useCameraControls(cameraControls)
 
-    useRenderLoop({ renderer, cameraControls, scene, isRunning, toggleRun })
-    toggleRun(true)
+    useRenderLoop({ renderer, cameraControls, scene, isRunning, isRenderAllFrames })
+    // toggleRun(true)
 
     debouncedWatch(
       [width, height],
@@ -81,4 +84,6 @@ export function useCanvas(canvas: MaybeRef<HTMLCanvasElement>) {
       { immediate: true, debounce: 250 }
     )
   })
+
+  return scene
 }

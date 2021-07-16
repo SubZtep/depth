@@ -42,7 +42,7 @@ div(:class="$style.helpModal" v-if="show")
 </template>
 
 <script lang="ts" setup>
-import { useMagicKeys, useToggle, get } from '@vueuse/core'
+import { useMagicKeys, useToggle, get } from "@vueuse/core"
 
 const [show, toggle] = useToggle()
 const { f1 } = useMagicKeys({
@@ -51,7 +51,7 @@ const { f1 } = useMagicKeys({
     if (get(f1)) {
       e.preventDefault()
     }
-  }
+  },
 })
 
 watchEffect(() => {
@@ -83,7 +83,8 @@ watchEffect(() => {
   th {
     text-align: left;
   }
-  td, th {
+  td,
+  th {
     line-height: 0.9rem;
     padding: 0 4px;
   }

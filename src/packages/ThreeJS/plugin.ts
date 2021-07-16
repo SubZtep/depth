@@ -13,7 +13,7 @@ export default {
     //     //
     //   }
     // })
-  }
+  },
 } as Plugin
 
 export function useThreeJSEventHook() {

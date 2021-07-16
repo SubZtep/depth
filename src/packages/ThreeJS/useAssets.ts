@@ -34,36 +34,46 @@ export function useAssets() {
   }
 
   const loadNoVideoMaterial = (): Promise<void> => {
-    return new Promise((resolve, _reject) => {
+    return new Promise((resolve, reject) => {
       const loader = new TextureLoader()
 
-      loader.load("textures/no-video.png", map => {
-        const noVideoMaterial = new MeshBasicMaterial({ map, transparent: true, side: DoubleSide })
-        assets.set("noVideoMaterial", noVideoMaterial)
-        logLoaded("noVideoMaterial")
-        resolve()
-      })
+      loader.load(
+        "textures/no-video.png",
+        map => {
+          const noVideoMaterial = new MeshBasicMaterial({ map, transparent: true, side: DoubleSide })
+          assets.set("noVideoMaterial", noVideoMaterial)
+          logLoaded("noVideoMaterial")
+          resolve()
+        },
+        undefined,
+        reject
+      )
     })
   }
 
   const loadLeafMaterial = (): Promise<MeshBasicMaterial> => {
-    return new Promise((resolve, _reject) => {
+    return new Promise((resolve, reject) => {
       const loader = new DDSLoader()
-      loader.load("textures/hepatica_dxt3_mip.dds", texture => {
-        texture.anisotropy = 2
-        texture.magFilter = LinearFilter
-        texture.minFilter = LinearFilter
-        texture.mapping = CubeReflectionMapping
-        const material = new MeshBasicMaterial({
-          map: texture,
-          color: 0x696969,
-          alphaTest: 0.5,
-          side: DoubleSide,
-        })
-        assets.set("leafMaterial", material)
-        logLoaded("leafMaterial")
-        resolve(material)
-      })
+      loader.load(
+        "textures/hepatica_dxt3_mip.dds",
+        texture => {
+          texture.anisotropy = 2
+          texture.magFilter = LinearFilter
+          texture.minFilter = LinearFilter
+          texture.mapping = CubeReflectionMapping
+          const material = new MeshBasicMaterial({
+            map: texture,
+            color: 0x696969,
+            alphaTest: 0.5,
+            side: DoubleSide,
+          })
+          assets.set("leafMaterial", material)
+          logLoaded("leafMaterial")
+          resolve(material)
+        },
+        undefined,
+        reject
+      )
     })
   }
 

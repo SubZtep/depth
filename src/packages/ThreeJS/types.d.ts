@@ -1,12 +1,12 @@
 interface RenderLoopProps {
-  renderer: WebGLRenderer
-  cameraControls: CameraControls
-  scene: Scene
-  toggleRun: FnIs
-  isRunning: Ref<boolean>
+  renderer: THREE.WebGLRenderer
+  cameraControls: import("camera-controls").default
+  scene: THREE.Scene
+  isRunning: import("vue").Ref<boolean>
+  isRenderAllFrames: import("vue").Ref<boolean>
 }
 
-type ThreeJSEvent = { cmd: "pauseLoop" | "resumeLoop" }
+type ThreeJSEvent = { cmd: "pauseLoop" | "resumeLoop" | "doRenderAllFrames" | "dontRenderAllFrames" }
 
 type InitFn = (scene: THREE.Scene) => void
 
@@ -16,6 +16,4 @@ interface LoopFnProps {
 }
 
 type LoopFn = (props: LoopFnProps) => void
-type LoopFnRunner = (...fn: LoopFn[]) => unknown
 type LoopFnPr = (props: LoopFnProps) => Promise<void>
-type LoopFnPrRunner = (...fn: LoopFnPr[]) => Promise<void>

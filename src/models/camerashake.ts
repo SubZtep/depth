@@ -1,4 +1,3 @@
-// @ts-nocheck
 import type CameraControls from "camera-controls"
 import * as THREE from "three"
 
@@ -7,11 +6,21 @@ const FPS = 60
 const _vec3b = new THREE.Vector3()
 
 export class CameraShake {
-  // frequency: cycle par second
+  _cameraControls: CameraControls
+  _duration: number
+  _strength: number
+  _noiseX: number[]
+  _noiseY: number[]
+  _noiseZ: number[]
+  _lastOffsetX: number
+  _lastOffsetY: number
+  _lastOffsetZ: number
+
+  /**@param frequency cycle per second */
   constructor(cameraControls: CameraControls, duration = ONE_SECOND, frequency = 10, strength = 1) {
     this._cameraControls = cameraControls
     this._duration = duration
-    this.strength = strength
+    this._strength = strength
     this._noiseX = makePNoise1D((duration / ONE_SECOND) * frequency, (duration / ONE_SECOND) * FPS)
     this._noiseY = makePNoise1D((duration / ONE_SECOND) * frequency, (duration / ONE_SECOND) * FPS)
     this._noiseZ = makePNoise1D((duration / ONE_SECOND) * frequency, (duration / ONE_SECOND) * FPS)
@@ -56,9 +65,9 @@ export class CameraShake {
       // this._cameraControls.getPosition( _vec3a );
       this._cameraControls.getTarget(_vec3b)
 
-      const offsetX = this._noiseX[frameNumber] * this.strength * ease
-      const offsetY = this._noiseY[frameNumber] * this.strength * ease
-      const offsetZ = this._noiseZ[frameNumber] * this.strength * ease
+      const offsetX = this._noiseX[frameNumber] * this._strength * ease
+      const offsetY = this._noiseY[frameNumber] * this._strength * ease
+      const offsetZ = this._noiseZ[frameNumber] * this._strength * ease
 
       // this._cameraControls.setPosition(
       // 	_vec3a.x + offsetX - this._lastOffsetX,
@@ -83,9 +92,9 @@ export class CameraShake {
   }
 }
 
-function makePNoise1D(length /* : int */, step /* : int */) {
-  const noise = []
-  const gradients = []
+function makePNoise1D(length: number, step: number) {
+  const noise: number[] = []
+  const gradients: number[] = []
 
   for (let i = 0; i < length; i++) {
     gradients[i] = Math.random() * 2 - 1
@@ -112,12 +121,12 @@ function makePNoise1D(length /* : int */, step /* : int */) {
   return noise
 }
 
-function fade(t) {
+function fade(t: number) {
   return t * t * t * (t * (6 * t - 15) + 10)
 }
 
 const HALF_PI = Math.PI * 0.5
 
-function sineOut(t) {
+function sineOut(t: number) {
   return Math.sin(t * HALF_PI)
 }

@@ -18,11 +18,13 @@ h1 {
   text-shadow: -4px 0 var(--blood), 1px 0 #fffa, 1px 1px 2px #0063;
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 1.5s ease;
 }
 
-.fade-enter-from, .fade-leave-to {
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 </style>

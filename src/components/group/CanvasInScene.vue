@@ -1,4 +1,5 @@
-<template></template>
+<template lang="pug">
+</template>
 
 <script lang="ts" setup>
 import type { Results } from "../../../public/pose/index.d"
@@ -18,6 +19,7 @@ const props = defineProps({
   parent: { type: Object as PropType<Object3D>, required: false },
 })
 
+// eslint-disable-next-line vue/no-setup-props-destructure
 const results = props.results
 const image = toRef(results, "image") as Ref<HTMLCanvasElement>
 const { playing, opacity } = toRefs(props)

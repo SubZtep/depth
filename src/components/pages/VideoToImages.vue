@@ -20,16 +20,15 @@ import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
 import { set, get, useCssVar, invoke } from "@vueuse/core"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { useThreeJSEventHook } from "../../packages/ThreeJS/plugin"
-import { useStats } from "../../packages/Stats/plugin"
 import { useGui } from "../../packages/datGUI/plugin"
 import { VIDEOS } from "../../misc/constants"
-
-useStats().showPanel(2)
+import { pauseLoop, resumeLoop } from "../../packages/ThreeJS/constants"
 
 const { progress } = useNProgress()
-const threeJsEvent = useThreeJSEventHook()
-
+const threeJs = useThreeJSEventHook()
 const toast = useToast()
+
+threeJs.trigger(pauseLoop)
 toast.warning("This page eats your memory!")
 
 let playbackRef: Ref<HTMLVideoElement | undefined> = ref()
@@ -64,10 +63,6 @@ folder.open()
 
 const ffmpeg = createFFmpeg({ log: true })
 ffmpeg.setProgress(({ ratio }) => set(progress, ratio))
-await ffmpeg.load()
-if (ffmpeg.isLoaded()) {
-  toast.info("FFmpeg loaded")
-}
 
 const imageFilenames = ref<Set<string>>(new Set())
 
@@ -76,11 +71,8 @@ watch(src, videoSrc => {
   if (videoSrc === "") return
 
   invoke(async () => {
-    threeJsEvent.trigger({ cmd: "pauseLoop" })
-
     if (!ffmpeg.isLoaded()) {
       toast.error("FFmpeg load fail")
-      threeJsEvent.trigger({ cmd: "resumeLoop" })
       return
     }
 
@@ -88,15 +80,13 @@ watch(src, videoSrc => {
     toast.success(`Video ${videoSrc} loaded`)
 
     await ffmpeg.run(..."-skip_frame nokey -i test.webm -vsync 0 -r 1000 -frame_pts 1 %09d.png".split(" "))
-    toast.success(`Video keyframes exported`)
+    toast.success("Video keyframes exported")
 
     // @ts-ignore
     const files: string[] = ffmpeg.FS<"readdir">("readdir", "/")
     for (const filename of files.filter(filename => filename.endsWith(".png"))) {
       get(imageFilenames).add(filename)
     }
-
-    threeJsEvent.trigger({ cmd: "resumeLoop" })
   })
 })
 
@@ -109,7 +99,14 @@ onBeforeUnmount(() => {
   } catch (e) {
     console.log("FFmpeg exit", e)
   }
+
+  threeJs.trigger(resumeLoop)
 })
+
+await ffmpeg.load()
+if (ffmpeg.isLoaded()) {
+  toast.info("FFmpeg loaded")
+}
 </script>
 
 <style module>

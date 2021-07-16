@@ -1,10 +1,10 @@
-import PosePerFrame from "./components/pages/PosePerFrame.vue"
 import VideoToImages from "./components/pages/VideoToImages.vue"
 import PoseGroup from "./components/pages/PoseGroup.vue"
 import RecordVideo from "./components/pages/RecordVideo.vue"
 import SceneSetup from "./components/pages/SceneSetup.vue"
+import Preferences from "./components/pages/Preferences.vue"
 
-export default [
+const route: Route[] = [
   {
     path: "/group",
     label: "To group💀ped",
@@ -20,13 +20,6 @@ export default [
     lookAt: [30, 2, -20],
   },
   {
-    path: "/frames",
-    label: "Save pose estimation of a video",
-    component: PosePerFrame,
-    position: [10, 2, -20],
-    lookAt: [-30, 2, -20],
-  },
-  {
     path: "/record",
     label: "To record",
     component: RecordVideo,
@@ -40,4 +33,11 @@ export default [
     position: [0, 2, -100],
     lookAt: [0, 0, 0],
   },
-] as Route[]
+  {
+    path: "/preferences",
+    label: "⚙ Preferences",
+    component: Preferences,
+  },
+]
+
+export default route

@@ -1,4 +1,4 @@
-import { get, useToggle, whenever } from "@vueuse/core"
+import { get, whenever } from "@vueuse/core"
 import { Clock } from "three"
 
 export const singleFns = new Set<LoopFn>()
@@ -6,49 +6,42 @@ export const singleFnPrs = new Set<LoopFnPr>()
 export const loopFns = new Set<LoopFn>()
 export const loopFnPrs = new Set<LoopFnPr>()
 
-export function useRenderLoop({ renderer, cameraControls, scene, isRunning, toggleRun }: RenderLoopProps) {
+const parallelLoopFns = false //FIXME: make a working version (probably queue based)
+
+export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRenderAllFrames }: RenderLoopProps) {
   const clock = new Clock()
   const { camera } = cameraControls
   let delta: number
 
-  // TODO: what's these runners for?
-  const loopFnRunner: LoopFnRunner = fn => {
-    try {
-      return fn({ scene, cameraControls } as LoopFnProps)
-    } catch (e) {
-      console.error("ThreeJS loop", [e, fn])
-    }
-  }
-
-  const loopFnPrRunner: LoopFnPrRunner = async fn => {
-    try {
-      return await fn({ scene, cameraControls } as LoopFnProps)
-    } catch (e) {
-      console.error("ThreeJS loop promise", e)
-    }
-  }
-
   const gameLoop = async () => {
     delta = clock.getDelta()
-    cameraControls.update(delta)
+    const camUpdated = cameraControls.update(delta)
 
-    singleFns.forEach(fn => fn({ scene, cameraControls }))
-    for (const fn of singleFnPrs) {
-      await fn({ scene, cameraControls })
+    try {
+      singleFns.forEach(fn => fn({ scene, cameraControls }))
+      loopFns.forEach(fn => fn({ scene, cameraControls }))
+
+      if (parallelLoopFns) {
+        await Promise.allSettled([singleFnPrs, loopFnPrs])
+      } else {
+        for (const fn of singleFnPrs) {
+          await fn({ scene, cameraControls })
+        }
+        for (const fn of loopFnPrs) {
+          await fn({ scene, cameraControls })
+        }
+      }
+    } catch (e) {
+      console.error("ThreeJS Render Loop", e)
     }
+
     singleFns.clear()
     singleFnPrs.clear()
 
-    // TODO: test with promise.all
-    loopFns.forEach(fn => loopFnRunner(fn))
-    for (const fn of loopFnPrs) {
-      await loopFnPrRunner(fn)
-    }
-
     get(isRunning) && requestAnimationFrame(gameLoop)
 
-    renderer.render(scene, camera)
+    if (get(isRenderAllFrames) || camUpdated) renderer.render(scene, camera)
   }
 
-  whenever(isRunning, () => requestAnimationFrame(gameLoop))
+  whenever(isRunning, () => requestAnimationFrame(gameLoop), { immediate: true })
 }

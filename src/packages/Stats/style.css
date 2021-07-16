@@ -2,8 +2,20 @@
   top: auto !important;
   transform-origin: left bottom;
   bottom: 0;
+  transition-duration: 100ms;
   &:hover {
-    transform: scale(2.5);
+    transform: scale(2);
     transition-duration: 150ms;
   }
+}
+
+.Stats.mosaic {
+  width: 160px;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  cursor: cell !important;
+}
+
+.Stats.mosaic > canvas {
+  display: block !important;
 }

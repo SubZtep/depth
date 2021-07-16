@@ -1,19 +1,18 @@
 import type { Ref } from "vue"
-import { set, useTimeoutFn, tryOnUnmounted, unrefElement, tryOnMounted } from "@vueuse/core"
+import { set, tryOnUnmounted, unrefElement, tryOnMounted } from "@vueuse/core"
 import { reactive, ref, watch } from "vue"
 import type { Pose, PoseConfig, ResultsListener, Results } from "../../../public/pose"
 // import { useStats } from "../plugins/stats"
 // import Stats from "stats.js"
 import "../../../public/pose"
 
-let dstat: Stats.Panel | undefined = undefined
+const dstat: Stats.Panel | undefined = undefined
 
-// @ts-ignore
 const Poser = window.Pose
 
 export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
   const ready = ref(false)
-  const errors = new Set<string>()
+  // const errors = new Set<string>()
   // let firstPose = true
 
   // const results: Results = reactive({
@@ -42,73 +41,99 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
     Object.assign(results, res)
   }
 
-  const singleErrors = (cb: (reason?: any) => void) => (reason: string) => {
-    if (errors.has(reason)) return cb()
-    errors.add(reason)
-    useTimeoutFn(() => void errors.delete(reason), 1000)
-    return cb(new Error(reason))
-  }
+  // const singleErrors = (cb: (reason?: any) => void) => (reason: string) => {
+  //   if (errors.has(reason)) return cb()
+  //   errors.add(reason)
+  //   useTimeoutFn(() => void errors.delete(reason), 1000)
+  //   return cb(new Error(reason))
+  // }
 
   const estimatePose = async (): Promise<void> => {
-    return new Promise(async (resolve, reject) => {
-      const rejectReason = singleErrors(reject)
-      const elem = unrefElement(el)
+    const elem = unrefElement(el)
 
-      if (elem === undefined) {
-        return rejectReason("no video input")
-      }
+    if (elem === undefined) {
+      console.error("no video input")
+      return
+    }
 
-      if (elem.readyState !== elem.HAVE_ENOUGH_DATA) {
-        return rejectReason("not enough data")
-      }
+    if (elem.readyState !== elem.HAVE_ENOUGH_DATA) {
+      console.warn("not enough data")
+      return
+    }
 
-      if (solution === undefined) {
-        return rejectReason("no pose detector")
-      }
+    if (solution === undefined) {
+      console.error("no pose detector")
+      return
+    }
 
-      // // if (firstPose) {
-      // //   const { done } = useNProgress(0.5)
-      // //   nextTick(() => {
-      // //     detector
-      // //       .estimatePoses(elem, {
-      // //         flipHorizontal: false,
-      // //         maxPoses: 1,
-      // //       })
-      // //       .then(() => {
-      // //         firstPose = false
-      // //         done()
-      // //       })
-      // //   })
-      // // }
+    const t0 = performance.now()
+    await solution.send({ image: elem })
+    const t1 = performance.now()
 
-      const t0 = performance.now()
-      // console.log("T1", performance.now())
-      await solution.send({ image: elem })
-      // console.log("T2", performance.now())
-
-      // const poses = await detector.estimatePoses(elem, {
-      //   flipHorizontal: false,
-      //   maxPoses: 1,
-      // })
-      const t1 = performance.now()
-      dstat?.update(t1 - t0, 120)
-      return resolve()
-
-      // if (poses === undefined) {
-      //   return rejectReason("poses are undefined")
-      // }
-
-      // if (poses.length > 0) {
-      //   Object.assign(pose, poses[0])
-      //   return resolve()
-      // } else {
-      //   return rejectReason("no pose detected")
-      // }
-      // return reject("test")
-    })
+    dstat?.update(t1 - t0, 120)
   }
 
+  // const estimatePose = async (): Promise<void> => {
+  //   return new Promise(async (resolve, reject) => {
+  //     const rejectReason = singleErrors(reject)
+  //     const elem = unrefElement(el)
+
+  //     if (elem === undefined) {
+  //       return rejectReason("no video input")
+  //     }
+
+  //     if (elem.readyState !== elem.HAVE_ENOUGH_DATA) {
+  //       return rejectReason("not enough data")
+  //     }
+
+  //     if (solution === undefined) {
+  //       return rejectReason("no pose detector")
+  //     }
+
+  //     // // if (firstPose) {
+  //     // //   const { done } = useNProgress(0.5)
+  //     // //   nextTick(() => {
+  //     // //     detector
+  //     // //       .estimatePoses(elem, {
+  //     // //         flipHorizontal: false,
+  //     // //         maxPoses: 1,
+  //     // //       })
+  //     // //       .then(() => {
+  //     // //         firstPose = false
+  //     // //         done()
+  //     // //       })
+  //     // //   })
+  //     // // }
+
+  //     const t0 = performance.now()
+  //     // console.log("T1", performance.now())
+  //     await solution.send({ image: elem })
+  //     // console.log("T2", performance.now())
+
+  //     // const poses = await detector.estimatePoses(elem, {
+  //     //   flipHorizontal: false,
+  //     //   maxPoses: 1,
+  //     // })
+  //     const t1 = performance.now()
+  //     dstat?.update(t1 - t0, 120)
+  //     return resolve()
+
+  //     // if (poses === undefined) {
+  //     //   return rejectReason("poses are undefined")
+  //     // }
+
+  //     // if (poses.length > 0) {
+  //     //   Object.assign(pose, poses[0])
+  //     //   return resolve()
+  //     // } else {
+  //     //   return rejectReason("no pose detected")
+  //     // }
+  //     // return reject("test")
+  //   })
+  // }
+
   tryOnMounted(async () => {
+    // @ts-ignore
     solution = new Poser({ locateFile: fn => `/pose/${fn}` } as PoseConfig)
     solution.setOptions({
       modelComplexity: 1,

@@ -1,5 +1,8 @@
 <template lang="pug">
 Title Pose group
+
+pre OPTS {{opts}}
+
 MediaInput(
   v-if="opts.videoDeviceId"
   :videoDeviceId="opts.videoDeviceId"
@@ -40,8 +43,9 @@ import { VIDEOS } from "../../misc/constants"
 import { useGui } from "../../packages/datGUI/plugin"
 import { loopFnPrs, singleFns } from "../../packages/ThreeJS/useRenderLoop"
 import { useThreeJSEventHook } from "../../packages/ThreeJS/plugin"
+import { pauseLoop, resumeLoop } from "../../packages/ThreeJS/constants"
 
-const threeJsHook = useThreeJSEventHook()
+const threeJs = useThreeJSEventHook()
 let playbackRef: Ref<HTMLVideoElement | undefined> = ref()
 let playing = ref(false)
 
@@ -92,26 +96,34 @@ singleFns.add(({ scene }) => scene.add(root))
 
 provide("root", root)
 
+const estimateFn = async () => estimatePose()
+
 invoke(async () => {
-  threeJsHook.trigger({ cmd: "pauseLoop" })
+  threeJs.trigger(pauseLoop)
   await until(ready).toBeTruthy()
-  threeJsHook.trigger({ cmd: "resumeLoop" })
+  threeJs.trigger(resumeLoop)
 
   watch(
     playing,
     isPlaying => {
       if (isPlaying) {
-        loopFnPrs.add(estimatePose.call)
+        loopFnPrs.add(estimateFn)
       } else {
-        loopFnPrs.delete(estimatePose.call)
+        loopFnPrs.delete(estimateFn)
       }
+      // if (isPlaying) {
+      //   loopFnPrs.add(estimatePose.call)
+      // } else {
+      //   loopFnPrs.delete(estimatePose.call)
+      // }
     },
     { immediate: true }
   )
 })
 
 onBeforeUnmount(() => {
-  loopFnPrs.delete(estimatePose.call)
+  // loopFnPrs.delete(estimatePose.call)
+  loopFnPrs.delete(estimateFn)
   singleFns.add(({ scene }) => scene.remove(root))
   gui.removeFolder(folder)
 })

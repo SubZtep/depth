@@ -4,7 +4,7 @@ import ViteComponents from "vite-plugin-components"
 import ViteFonts from "vite-plugin-fonts"
 import ViteRestart from "vite-plugin-restart"
 import resolve from "rollup-plugin-node-resolve"
-import commonJS from "rollup-plugin-commonjs"
+// import commonJS from "rollup-plugin-commonjs"
 
 export default defineConfig({
   plugins: [
@@ -34,10 +34,10 @@ export default defineConfig({
         resolve({
           browser: true,
         }),
-        commonJS({
-          // requireReturnsDefault: "auto",
-          // include: "node_modules/**",
-        }),
+        // commonJS({
+        //   // requireReturnsDefault: "auto",
+        //   // include: "node_modules/**",
+        // }),
       ],
       output: {
         // esModule: true,

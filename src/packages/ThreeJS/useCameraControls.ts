@@ -11,11 +11,19 @@ export function useCameraControls(cameraControls: CameraControls) {
     new CameraShake(cameraControls, 5000, 2, 0.5),
   ]
 
+  const shakeIt = () => {
+    shakes[shaker++ % shakes.length].shake()
+  }
+
   const { idle } = useIdle()
-  whenever(idle, () => shakes[shaker++ % shakes.length].shake())
+  whenever(idle, () => shakeIt())
 
   useOnRouterEvent(({ position, lookAt, transition }) => {
-    cameraControls.setLookAt(...position, ...lookAt, transition)
+    if (position && lookAt) {
+      cameraControls.setLookAt(...position, ...lookAt, transition)
+    } else {
+      shakeIt()
+    }
   })
 
   // useOnCameraEvent(({ cmd, go }) => {

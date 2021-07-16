@@ -1,4 +1,4 @@
-import type { Plugin } from "vue"
+import type { Plugin, Component } from "vue"
 import type { EventHook } from "@vueuse/core"
 import { createEventHook, set } from "@vueuse/core"
 
@@ -19,7 +19,6 @@ export default {
     const { routes, transition = true } = options
 
     getRoute = routeByPath(routes)
-    console.log("ROUTER")
     app.provide(eventHookKey, eventHook)
 
     window.addEventListener("hashchange", () => {
@@ -33,7 +32,7 @@ export function useOnRouterEvent(fn: OnRouterEventFn) {
   return inject<EventHook<RouterEvent>>(eventHookKey)!.on(fn)
 }
 
-export function useActiveRoute(): PageComponent {
+export function useActiveRoute(): Component {
   const pageComponent = shallowRef(getRoute(banglessHash())?.component)
   inject<EventHook<RouterEvent>>(eventHookKey)!.on(({ component }) => set(pageComponent, component))
   return pageComponent

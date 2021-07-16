@@ -1,4 +1,5 @@
-<template></template>
+<template lang="pug">
+</template>
 
 <script lang="ts" setup>
 import type { Results, LandmarkList } from "../../../public/pose/index.d"
@@ -11,13 +12,15 @@ import { BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS, BLAZEPOSE_KEYPOINTS } from "../../
 
 const props = defineProps({
   results: { type: Object as PropType<Results>, required: true },
-  position: { type: Object as PropType<THREE.Vector3Tuple>, default: [0, 0, 0] },
+  position: { type: Object as PropType<THREE.Vector3Tuple>, required: true },
+  // position: { type: Object as PropType<THREE.Vector3Tuple>, default: () => [0, 0, 0] },
   keypointLimit: { type: Number, default: 33 },
   width: { type: Number, required: true },
   zMulti: { type: Number, required: true },
   playing: { type: Boolean, required: true },
 })
 
+// eslint-disable-next-line vue/no-setup-props-destructure
 const results = props.results
 const { playing, width, zMulti, keypointLimit } = toRefs(props)
 const isVisible = (i: number, j?: number) => i < get(keypointLimit) && (j === undefined || j < get(keypointLimit))
@@ -68,12 +71,15 @@ let stopWatch: WatchStopHandle
 onMounted(() => {
   root.add(stickmanGroup)
 
-  stopWatch = watch(() => results.poseWorldLandmarks, marks => {
-    if (marks !== undefined) {
-      updateJoints(marks)
-      updateLines(marks)
+  stopWatch = watch(
+    () => results.poseWorldLandmarks,
+    marks => {
+      if (marks !== undefined) {
+        updateJoints(marks)
+        updateLines(marks)
+      }
     }
-  })
+  )
 })
 
 onBeforeUnmount(() => {
