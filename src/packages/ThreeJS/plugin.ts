@@ -8,11 +8,6 @@ const eventHook = createEventHook<ThreeJSEvent>()
 export default {
   install(app) {
     app.provide(eventHookKey, eventHook)
-    // app.mixin({
-    //   created() {
-    //     //
-    //   }
-    // })
   },
 } as Plugin
 

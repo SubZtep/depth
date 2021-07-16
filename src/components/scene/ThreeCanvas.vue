@@ -47,8 +47,8 @@ const leaf = await assets.loadLeafMaterial()
 const skybox = await assets.loadSkybox(rand(15))
 const wc = ref() as Ref<HTMLCanvasElement>
 
-const stats = useStats()
-loopFns.add(() => stats.update())
+// const stats = useStats()
+// loopFns.add(() => stats.update())
 
 useGui().show()
 

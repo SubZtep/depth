@@ -1,4 +1,5 @@
 import { get, whenever } from "@vueuse/core"
+import { useStats } from "../Stats/plugin"
 import { Clock } from "three"
 
 export const singleFns = new Set<LoopFn>()
@@ -9,6 +10,7 @@ export const loopFnPrs = new Set<LoopFnPr>()
 const parallelLoopFns = false //FIXME: make a working version (probably queue based)
 
 export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRenderAllFrames }: RenderLoopProps) {
+  const stats = useStats()
   const clock = new Clock()
   const { camera } = cameraControls
   let delta: number
@@ -19,14 +21,17 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRe
 
     try {
       singleFns.forEach(fn => fn({ scene, cameraControls }))
+      singleFns.clear()
       loopFns.forEach(fn => fn({ scene, cameraControls }))
 
       if (parallelLoopFns) {
         await Promise.allSettled([singleFnPrs, loopFnPrs])
+        singleFnPrs.clear()
       } else {
         for (const fn of singleFnPrs) {
           await fn({ scene, cameraControls })
         }
+        singleFnPrs.clear()
         for (const fn of loopFnPrs) {
           await fn({ scene, cameraControls })
         }
@@ -35,12 +40,9 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRe
       console.error("ThreeJS Render Loop", e)
     }
 
-    singleFns.clear()
-    singleFnPrs.clear()
-
     get(isRunning) && requestAnimationFrame(gameLoop)
-
     if (get(isRenderAllFrames) || camUpdated) renderer.render(scene, camera)
+    stats.update()
   }
 
   whenever(isRunning, () => requestAnimationFrame(gameLoop), { immediate: true })

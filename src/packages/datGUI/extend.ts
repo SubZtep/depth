@@ -2,8 +2,8 @@ import type { Ref } from "vue"
 import dat from "dat.gui"
 
 function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, string>, selected: string) {
-  // prettier-ignore
-  let html = "<option value=\"\"></option>"
+  // eslint-disable-next-line quotes
+  let html = `<option value=""></option>`
   html += Object.entries(list).map(
     ([key, val]) => `<option value="${val}"${val === selected && " selected"}>${key}</option>`
   )
@@ -18,23 +18,24 @@ dat.GUI.prototype.addReactiveSelect = function (
 ) {
   const ctrl = this.add(target, propName, options.value)
   watch(options, newList => updateDropdown(ctrl, newList, String(target[propName])))
-  // watch(options, newList => updateDropdown(ctrl, newList, target[propName]))
   return ctrl
 }
 
 // https://threejsfundamentals.org/threejs/lessons/threejs-lights.html
 
 export class ColorGUIHelper {
-  object: Record<"color", THREE.Color>
+  object: THREE.Light
   prop: string
 
-  constructor(object: Record<string, THREE.Color>, prop: string) {
+  constructor(object: THREE.Light, prop: string) {
     this.object = object
     this.prop = prop
   }
+
   get value() {
     return `#${this.object[this.prop].getHexString()}`
   }
+
   set value(hexString) {
     this.object[this.prop].set(hexString)
   }

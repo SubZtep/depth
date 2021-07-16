@@ -43,7 +43,7 @@ import { VIDEOS } from "../../misc/constants"
 import { useGui } from "../../packages/datGUI/plugin"
 import { loopFnPrs, singleFns } from "../../packages/ThreeJS/useRenderLoop"
 import { useThreeJSEventHook } from "../../packages/ThreeJS/plugin"
-import { pauseLoop, resumeLoop } from "../../packages/ThreeJS/constants"
+import { pauseLoop, resumeLoop, doRenderAllFrames, dontRenderAllFrames } from "../../packages/ThreeJS/constants"
 
 const threeJs = useThreeJSEventHook()
 let playbackRef: Ref<HTMLVideoElement | undefined> = ref()
@@ -108,21 +108,17 @@ invoke(async () => {
     isPlaying => {
       if (isPlaying) {
         loopFnPrs.add(estimateFn)
+        threeJs.trigger(doRenderAllFrames)
       } else {
+        threeJs.trigger(dontRenderAllFrames)
         loopFnPrs.delete(estimateFn)
       }
-      // if (isPlaying) {
-      //   loopFnPrs.add(estimatePose.call)
-      // } else {
-      //   loopFnPrs.delete(estimatePose.call)
-      // }
     },
     { immediate: true }
   )
 })
 
 onBeforeUnmount(() => {
-  // loopFnPrs.delete(estimatePose.call)
   loopFnPrs.delete(estimateFn)
   singleFns.add(({ scene }) => scene.remove(root))
   gui.removeFolder(folder)
