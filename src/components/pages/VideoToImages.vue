@@ -59,7 +59,7 @@ folder
   .add(opts, "columns", 1, 100, 1)
   .name("Columns")
   .onChange(v => set(columns, String(v)))
-folder.open()
+// folder.open()
 
 const ffmpeg = createFFmpeg({ log: true })
 ffmpeg.setProgress(({ ratio }) => set(progress, ratio))

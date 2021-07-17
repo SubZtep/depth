@@ -1,4 +1,5 @@
 import VideoToImages from "./components/pages/VideoToImages.vue"
+import VideoPose from "./components/pages/VideoPose.vue"
 import PoseGroup from "./components/pages/PoseGroup.vue"
 import RecordVideo from "./components/pages/RecordVideo.vue"
 import SceneSetup from "./components/pages/SceneSetup.vue"
@@ -11,6 +12,13 @@ const route: Route[] = [
     component: PoseGroup,
     position: [2, 1, -4],
     lookAt: [2, 2, 0],
+  },
+  {
+    path: "/videopose",
+    label: "🥶 Video pose",
+    component: VideoPose,
+    position: [12, 1, -4],
+    lookAt: [12, 2, 0],
   },
   {
     path: "/images",

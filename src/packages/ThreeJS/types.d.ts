@@ -13,6 +13,7 @@ type InitFn = (scene: THREE.Scene) => void
 interface LoopFnProps {
   cameraControls: import("camera-controls").default
   scene: THREE.Scene
+  clock: THREE.Clock
 }
 
 type LoopFn = (props: LoopFnProps) => void

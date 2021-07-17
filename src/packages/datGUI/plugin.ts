@@ -24,29 +24,36 @@ gui.hide()
 function addCameraControl(gui: dat.GUI, routes?: Route[]) {
   const hook = createEventHook<GUIEvent.Camera>() // TODO: what's this hook for?
   const btns = {
-    rotate: () => hook.trigger({ cmd: "rotate" }),
-    shake: () => hook.trigger({ cmd: "shake" }),
+    // rotate: () => hook.trigger({ cmd: "rotate" }),
+    // shake: () => hook.trigger({ cmd: "shake" }),
   }
 
   if (routes) {
     const f = gui.addFolder("⚓ Navigation")
+    f.domElement.addEventListener("mouseover", () => f.open())
+    f.domElement.addEventListener("mouseout", () => f.close())
+
     routes.forEach(({ path, label }) => {
       const name = path.substring(1)
-      btns[name] = () => (window.location.hash = path)
+      btns[name] = () => {
+        window.location.hash = path
+        f.close()
+      }
       f.add(btns, name).name(label)
     })
-    f.open()
   }
 
   return hook
 }
 
-export default {
+const plugin: Plugin = {
   install(app, options?: GuiOptions) {
     app.provide(guiKey, gui)
     app.provide(cameraHookKey, addCameraControl(gui, options?.routes))
   },
-} as Plugin
+}
+
+export default plugin
 
 export function useGui() {
   return inject<dat.GUI>(guiKey)!

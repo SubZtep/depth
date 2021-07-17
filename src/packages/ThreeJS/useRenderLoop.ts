@@ -20,20 +20,20 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRe
     const camUpdated = cameraControls.update(delta)
 
     try {
-      singleFns.forEach(fn => fn({ scene, cameraControls }))
+      singleFns.forEach(fn => fn({ scene, cameraControls, clock }))
       singleFns.clear()
-      loopFns.forEach(fn => fn({ scene, cameraControls }))
+      loopFns.forEach(fn => fn({ scene, cameraControls, clock }))
 
       if (parallelLoopFns) {
         // await Promise.allSettled([singleFnPrs, loopFnPrs])
         // singleFnPrs.clear()
       } else {
         for (const fn of singleFnPrs) {
-          await fn({ scene, cameraControls })
+          await fn({ scene, cameraControls, clock })
         }
         singleFnPrs.clear()
         for (const fn of loopFnPrs) {
-          await fn({ scene, cameraControls })
+          await fn({ scene, cameraControls, clock })
         }
       }
     } catch (e) {

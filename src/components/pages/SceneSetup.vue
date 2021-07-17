@@ -19,7 +19,7 @@ const threeJs = useThreeJSEventHook()
 
 const gui = useGui()
 const folder = gui.addFolder("Scene setup")
-folder.open()
+// folder.open()
 
 const assets = useAssets()
 let skybox: CubeTexture
@@ -51,6 +51,7 @@ const ambLight = objs.get("ambLight") as AmbientLight
 const ambLightFolder = folder.addFolder("Ambient light")
 ambLightFolder.addColor(new ColorGUIHelper(ambLight, "color"), "value").name("Color")
 ambLightFolder.add(ambLight, "intensity", 0, 2, 0.01)
+ambLightFolder.open()
 
 const dirLight = objs.get("dirLight") as DirectionalLight
 const dirLightHelper = new DirectionalLightHelper(dirLight, 5)

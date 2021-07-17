@@ -3,6 +3,7 @@ import { useIdle, whenever } from "@vueuse/core"
 import { CameraShake } from "../../models/camerashake"
 import { useActiveRoute, useOnRouterEvent } from "../router/plugin"
 import { Box3, Vector3 } from "three"
+// import { useGui } from "../datGUI/plugin"
 
 function setupBoundaries(cameraControls: CameraControls) {
   cameraControls.minPolarAngle = Math.PI / 6
@@ -12,6 +13,7 @@ function setupBoundaries(cameraControls: CameraControls) {
   cameraControls.dollySpeed = 0.5
   cameraControls.polarRotateSpeed = 0.6
   cameraControls.azimuthRotateSpeed = 0.8
+  cameraControls.dampingFactor = 0.35
   cameraControls.setBoundary(new Box3(new Vector3(-100, 2, -100), new Vector3(100, 2, 100)))
 }
 
@@ -26,8 +28,8 @@ function initShakes(cameraControls: CameraControls) {
   )
 }
 
-function shakeIt() {
-  shakes[shaker++ % shakes.length].shake()
+function shakeIt(nr?: number) {
+  shakes[nr ?? shaker++ % shakes.length].shake()
 }
 
 function startPosition(cameraControls: CameraControls) {
@@ -47,10 +49,23 @@ export function useCameraControls(cameraControls: CameraControls) {
   const { idle } = useIdle()
   whenever(idle, shakeIt)
 
+  // const gui = useGui()
+
+  const arrived = () => {
+    {
+      cameraControls.removeEventListener("sleep", arrived)
+      // cameraControls.enabled = true
+      // gui.show()
+    }
+  }
+
   useOnRouterEvent(({ position, lookAt, transition }) => {
     if (position && lookAt) {
+      // gui.hide()
+      // cameraControls.enabled = false
       cameraControls.setLookAt(...position, ...lookAt, transition)
-    }
+      cameraControls.addEventListener("sleep", arrived)
+ }
   })
 
   shakeIt() // FIXME: shouldn't be necessary for able to move camera in the beginning

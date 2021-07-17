@@ -47,7 +47,6 @@ const skybox = await assets.loadSkybox(rand(15))
 const wc = ref() as Ref<HTMLCanvasElement>
 
 useGui().show()
-await sleep(69)
 
 const ambLight = new AmbientLight()
 const dirLight = new DirectionalLight(0xffffff, 0.5)
@@ -61,8 +60,9 @@ const terrainScene = sdef.terrainScene()
 
 useCanvas(wc).add(ambLight, dirLight, grid, plane, leafPlane, terrainScene).background = skybox
 
-transformables.push(leafPlane.name)
+// transformables.push(leafPlane.name)
 
+await sleep(69)
 useNProgress().done()
 
 useThreeJSEventHook().trigger(resumeLoop)

@@ -25,7 +25,7 @@ folder
   .name("GUI scale pc.")
   .onFinishChange(v => set(guiScale, v))
 folder.add(pref, "toggle").name("Toggle fullscreen")
-folder.open()
+// folder.open()
 
 onBeforeUnmount(() => {
   gui.removeFolder(folder)

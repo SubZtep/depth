@@ -42,7 +42,7 @@ body {
 }
 
 #world.paused {
-  mask-image: radial-gradient(#000, #0006);
+  mask-image: radial-gradient(#000a, #000 69%);
 }
 
 #world > canvas {
