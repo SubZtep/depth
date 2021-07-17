@@ -39,5 +39,7 @@ module.exports = {
     "@typescript-eslint/ban-ts-comment": "warn",
     "vue/require-default-prop": "off",
     indent: ["warn", 2, { "SwitchCase": 1 }],
+    "max-len": ["warn", { code: 420, tabWidth: 2 }],
+
   },
 }

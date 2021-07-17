@@ -49,11 +49,13 @@ export function useFFmpeg(options: FFmpegOptions) {
   }, { immediate: true })
 
   whenever(and(fetched, pts), async () => {
+    const ptses: number[] = []
     ffmpeg.setLogger(({ message }) => {
       const found = message.match(/^.*pts_time:((([1-9][0-9]*)|(0))(?:\.[0-9]+))\s.*$/)
-      found !== null && pts!.push(+found[1])
+      found !== null && ptses.push(+found[1])
     })
     await ffmpeg.run(...`-i ${memfsFilename} -vf showinfo -vsync 0 -start_number 0 -f null /dev/null`.split(" "))
+    pts!.push(...ptses)
   })
 
   tryOnUnmounted(() => {

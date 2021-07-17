@@ -19,13 +19,14 @@ const threeJs = useThreeJSEventHook()
 
 const gui = useGui()
 const folder = gui.addFolder("Scene setup")
-// folder.open()
+folder.open()
 
 const assets = useAssets()
 let skybox: CubeTexture
 
 const opts = reactive({
   skyboxNr: 1,
+  skyboxRotZ: 0,
   timeLapse: false,
 })
 const { counter, pause, resume } = useInterval(3000, { controls: true, immediate: false })

@@ -47,3 +47,7 @@
 .Vue-Toastification__progress-bar {
   background-color: var(--blood);
 }
+
+.Vue-Toastification__info-toast {
+  background-color: 33660069;
+}
