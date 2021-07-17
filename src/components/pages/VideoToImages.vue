@@ -13,7 +13,6 @@ VideoFileInput(
 </template>
 
 <script lang="ts" setup>
-import type { Ref } from "vue"
 import { useToast } from "vue-toastification"
 import { onBeforeUnmount, reactive, ref } from "vue"
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"

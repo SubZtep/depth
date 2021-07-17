@@ -1,3 +1,4 @@
+type Ref<T = any> = import("@vue/reactivity").Ref<T>
 type Fn = () => void
 type FnPr = <T = void>() => Promise<T>
 type FnIs = () => boolean

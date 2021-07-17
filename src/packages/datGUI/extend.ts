@@ -1,4 +1,4 @@
-import type { Ref } from "vue"
+
 import dat from "dat.gui"
 
 function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, string>, selected: string) {

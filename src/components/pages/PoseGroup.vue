@@ -33,7 +33,6 @@ Stickman(
 </template>
 
 <script lang="ts" setup>
-import type { Ref } from "vue"
 import { Group } from "three"
 import { useDevicesList, set, invoke, until, get } from "@vueuse/core"
 import { useBlazePose } from "../../packages/PoseAI/useBlazePose"

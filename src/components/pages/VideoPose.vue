@@ -5,8 +5,7 @@ video(ref="video" :src="opts.src")
 </template>
 
 <script lang="ts" setup>
-import type { Ref } from "vue"
-import { useDevicesList, set, invoke, until, get, useMediaControls } from "@vueuse/core"
+import { useDevicesList, set, invoke, until, get, useMediaControls, useEventListener } from "@vueuse/core"
 import { useBlazePose } from "../../packages/PoseAI/useBlazePose"
 import { selectableMedias, selectableVideos, sleep } from "../../misc/utils"
 import { useGui } from "../../packages/datGUI/plugin"
@@ -30,91 +29,115 @@ import { VIDEOS } from "../../misc/constants"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
 import { useToast } from "vue-toastification"
+import { opening } from "../../packages/router/plugin"
+import { useFFmpeg } from "../../packages/FFmpeg/useFFmpeg"
 
 const threeJs = useThreeJSEventHook()
 const toast = useToast()
 const gui = useGui()
 
-singleFns.add(({ clock }) => {
-  clock.getElapsedTime() < 1 && folder.open()
-  threeJs.trigger(pauseLoop)
-})
 
 const video = ref()
 const opts = reactive({ src: VIDEOS[0], delay: 1000 })
-const ctrl = useMediaControls(video, { src: opts.src })
+// const ctrl = useMediaControls(video, { src: opts.src })
+
+// const pts = ref<number[]>([])
+const pts = reactive<number[]>([])
 
 const { results, detectorReady, estimatePose } = await useBlazePose(video)
 
 invoke(async () => {
+  threeJs.trigger(pauseLoop)
   await until(detectorReady).toBe(true)
   toast.info("Pose detector ready")
   threeJs.trigger(resumeLoop)
 })
+
+const { progress } = useNProgress()
 
 const btns = {
   async record() {
     gui.hide()
     threeJs.trigger(pauseLoop)
 
-    const timeStamps: number[] = []
 
-    const { progress, done } = useNProgress()
-    const ffmpeg = createFFmpeg({
-      log: false,
-      logger: ({ message }) => {
-        const parts = message.split("pts_time:")
-        if (parts.length > 1) timeStamps.push(+parts[1].split(" ")[0])
-      },
-      progress: ({ ratio }) => set(progress, ratio),
+
+    useFFmpeg({
+      pts,
+      src: toRef(opts, "src"),
+      progress: ({ ratio }) => set(progress, ratio)
     })
 
-    await ffmpeg.load()
-    if (!ffmpeg.isLoaded()) {
-      toast.error("FFmpeg load error")
-      return
-    }
+    // useNProgress()
+    // const pc = 100 / timeStamps.length / 100
+    // let prog = 0
+    // set(progress, prog)
 
-    ffmpeg.FS("writeFile", "test.webm", await fetchFile(opts.src))
-    toast.info(`${opts.src} fetched`)
-    await ffmpeg.run(..."-i test.webm -vf showinfo -vsync 0 -start_number 0 -f null /dev/null".split(" "))
-    toast.info(`${opts.src} parsed for pts data`)
-    try {
-      ffmpeg.exit()
-    } catch (e) {
-      console.error("FFmpeg exit", e)
-    }
+    // for (const t of timeStamps) {
+    //   set(ctrl.currentTime, t)
+    //   await sleep(opts.delay)
+    //   await estimatePose()
+    //   await sleep(opts.delay)
+    //   if (results.poseLandmarks) {
+    //     // TODO: save
+    //   }
+    //   prog += pc
+    //   set(progress, prog)
+    // }
 
-    useNProgress()
-    const pc = 100 / timeStamps.length / 100
-    let prog = 0
-    set(progress, prog)
-
-    for (const t of timeStamps) {
-      set(ctrl.currentTime, t)
-      await sleep(opts.delay)
-      await estimatePose()
-      await sleep(opts.delay)
-      if (results.poseLandmarks) {
-        // TODO: save
-      }
-      prog += pc
-      set(progress, prog)
-    }
-
-    done()
-    toast.info("save to db")
-    toast.success("estimated done")
-    gui.show()
-    threeJs.trigger(resumeLoop)
-    console.log(timeStamps)
+    // done()
+    // toast.info("save to db")
+    // toast.success("estimated done")
+    // gui.show()
+    // threeJs.trigger(resumeLoop)
+    // console.log(timeStamps)
   },
 }
+
+let estimating = false
+
+const times: number[] = []
+
+useEventListener<{ target: HTMLVideoElement }>(video, "timeupdate", async ({ target }) => {
+
+  // set(estimating, true)
+  // console.log(target. results)
+
+  console.log("estimating", target.currentTime)
+  await estimatePose()
+  await until(results).changed()
+  console.log("YEEE", results)
+
+  if (times.length > 0) {
+    get(video).currentTime = times.shift()!
+  } else {
+    estimating = false
+    if (get(progress) === 1) {
+      console.log("DONE")
+    }
+  }
+})
+
+
+watch(pts, async v => {
+  const ts = v.slice(-1).pop()!
+  console.log("TESA", [ts, times])
+
+  // FIXME: rx?
+  if (!estimating) {
+    estimating = true
+    get(video).currentTime = ts
+  } else {
+    times.push(ts)
+  }
+})
+
 
 const folder = gui.addFolder("🧼☭ Video pose")
 folder.add(opts, "src", selectableVideos()).name("File input")
 folder.add(opts, "delay", 0, 2000, 100).name("Delay between frames (ms)")
 folder.add(btns, "record").name("💾 Estimates")
+get(opening) && folder.open()
 
 onBeforeUnmount(() => {
   gui.removeFolder(folder)

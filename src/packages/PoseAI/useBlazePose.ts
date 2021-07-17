@@ -1,4 +1,3 @@
-import type { Ref } from "vue"
 import { set, tryOnUnmounted, unrefElement, tryOnMounted } from "@vueuse/core"
 import type { Pose, PoseConfig, ResultsListener, Results } from "../../../public/pose"
 import { reactive, ref, watch } from "vue"

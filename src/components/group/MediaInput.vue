@@ -10,7 +10,6 @@ video(
 </template>
 
 <script lang="ts" setup>
-import type { Ref } from "vue"
 import { unrefElement, useUserMedia, until } from "@vueuse/core"
 import { onBeforeUnmount, ref, watch, toRef } from "vue"
 

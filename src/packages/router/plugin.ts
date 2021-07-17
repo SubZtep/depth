@@ -1,5 +1,6 @@
 import type { Plugin, Component } from "vue"
 import type { EventHook } from "@vueuse/core"
+import { ref } from "vue"
 import { createEventHook, set } from "@vueuse/core"
 
 function banglessHash() {
@@ -14,6 +15,9 @@ const eventHookKey = Symbol("router event hook")
 const eventHook = createEventHook<RouterEvent>()
 let getRoute: PathToRouteFn
 
+/** is this the first visited page */
+export const opening = ref(true)
+
 export default {
   install(app, options: RouterOptions) {
     const { routes, transition = true } = options
@@ -22,10 +26,9 @@ export default {
     app.provide(eventHookKey, eventHook)
 
     window.addEventListener("hashchange", () => {
-      // console.log("BOO")
-      // const route = getRoute(banglessHash())
       const route = useActiveRoute()
       route && eventHook.trigger({ ...route, transition })
+      set(opening, false)
     })
   },
 } as Plugin

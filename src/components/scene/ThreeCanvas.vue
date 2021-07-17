@@ -23,7 +23,6 @@ import {
   AmbientLight,
   DirectionalLight,
 } from "three"
-import type { Ref } from "vue"
 import { useToast } from "vue-toastification"
 import { sleep, rand } from "../../misc/utils"
 import { useAssets } from "../../packages/ThreeJS/useAssets"

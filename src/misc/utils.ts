@@ -1,5 +1,4 @@
 // import type { Keypoint } from "@tensorflow-models/pose-detection"
-import type { Ref } from "vue"
 import { computed } from "vue"
 import { reactify, get } from "@vueuse/core"
 import { VIDEOS } from "./constants"
