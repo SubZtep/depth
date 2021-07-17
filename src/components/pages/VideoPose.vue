@@ -29,49 +29,39 @@ import { VIDEOS } from "../../misc/constants"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
 import { useToast } from "vue-toastification"
-import { opening as openingPage } from "../../packages/router/plugin"
+import { opening } from "../../packages/router/plugin"
 import { useFFmpeg } from "../../packages/FFmpeg/useFFmpeg"
 
-/* INIT DEPENDENCIES
-*/
 const threeJs = useThreeJSEventHook()
 const toast = useToast()
 const gui = useGui()
 
-/* CREATE HUD GUI
-*/
-const folder = gui.addFolder("🧼☭ Video pose")
-get(openingPage) && folder.open()
-folder
-  .add(reactive({ src: VIDEOS[0] }), "src", selectableVideos())
-  .name("Video file for FFmpeg input")
-
-folder
-  .add(btns, "record").name("💾 Estimates")
-
 const video = ref()
-
+const opts = reactive({ src: VIDEOS[0], delay: 1000 })
 const pts = reactive<number[]>([])
 
 const { results, detectorReady, estimatePose } = await useBlazePose(video)
 
 invoke(async () => {
   threeJs.trigger(pauseLoop)
-
-  await until(detectorReady).toBe(true); toast.info("Pose detector ready")
+  await until(detectorReady).toBe(true)
+  toast.info("Pose detector ready")
   threeJs.trigger(resumeLoop)
 })
 
-const { progress: Nprogress } = useNProgress()
+const { progress } = useNProgress()
 
 const btns = {
   async record() {
     gui.hide()
     threeJs.trigger(pauseLoop)
+
+
+
     useFFmpeg({
       pts,
       src: toRef(opts, "src"),
-      progress: ({ ratio }) => set(Nprogress, ratio)
+      progress: ({ ratio }) => set(progress, ratio)
     })
 
     // useNProgress()
@@ -100,15 +90,40 @@ const btns = {
   },
 }
 
+let estimating = ref(false)
+
+const times: number[] = []
+
+useEventListener<{ target: HTMLVideoElement }>(video, "timeupdate", async ({ target }) => {
+  Object.assign(results, {})
+  await estimatePose()
+  await until(results).changed()
+  console.log("YEEE", results)
+
+  if (pts.length > 0) {
+    get(video).currentTime = pts.shift()
+  }
+  console.log("DONE")
+  // set(estimating, false)
+})
 
 
-async function onEstimatePoseFromNewFrame(): Promise<void> {
-  useEventListener<{ target: HTMLVideoElement }>(video, "timeupdate", async ({ target }) => {
-    await estimatePose()
-  })
-}
+// const hook = createEventHook<"seek" | "estimate">()
 
-watch(pts, async keyframeTimestamps => {
+// hook.on(param => {
+//   switch(param) {
+//     case "seek":
+//       break
+//   }
+// })
+
+watch(pts, async val => {
+  // for (const v of val) {
+  //   set(estimating, true)
+  //   get(video).currentTime = v
+  //   await until(estimating).toBe(false)
+  // }
+
   get(video).currentTime = pts.shift()
 
   console.log("BLOOOOOO")
@@ -128,6 +143,11 @@ watch(pts, async keyframeTimestamps => {
 })
 
 
+const folder = gui.addFolder("🧼☭ Video pose")
+folder.add(opts, "src", selectableVideos()).name("File input")
+folder.add(opts, "delay", 0, 2000, 100).name("Delay between frames (ms)")
+folder.add(btns, "record").name("💾 Estimates")
+get(opening) && folder.open()
 
 onBeforeUnmount(() => {
   gui.removeFolder(folder)
