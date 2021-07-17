@@ -22,7 +22,7 @@ CanvasInScene(
   :results="results"
   :parent="root")
 
-//- Stickman(
+Stickman(
   v-if="opts.keypointLimit && (opts.videoDeviceId || opts.src)"
   :results="results"
   :playing="playing"
@@ -99,19 +99,19 @@ invoke(async () => {
   await until(detectorReady).toBe(true)
   threeJs.trigger(resumeLoop)
 
-  // watch(
-  //   playing,
-  //   isPlaying => {
-  //     if (isPlaying) {
-  //       loopFnPrs.add(estimatePose)
-  //       threeJs.trigger(doRenderAllFrames)
-  //     } else {
-  //       threeJs.trigger(dontRenderAllFrames)
-  //       loopFnPrs.delete(estimatePose)
-  //     }
-  //   },
-  //   { immediate: true }
-  // )
+  watch(
+    playing,
+    isPlaying => {
+      if (isPlaying) {
+        loopFnPrs.add(estimatePose)
+        threeJs.trigger(doRenderAllFrames)
+      } else {
+        threeJs.trigger(dontRenderAllFrames)
+        loopFnPrs.delete(estimatePose)
+      }
+    },
+    { immediate: true }
+  )
 })
 
 onBeforeUnmount(() => {

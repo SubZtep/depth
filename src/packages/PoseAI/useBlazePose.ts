@@ -16,7 +16,8 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
   let solution: Pose
 
   if (dstat === undefined) {
-    dstat = useStats().addPanel(new Stats.Panel("ms/pose", "#f9d71c", "#191970"))
+    const stats = useStats()
+    dstat = stats.addPanel(new Stats.Panel("ms/pose", "#f9d71c", "#191970"))
   }
 
   watch(el, (_newEl, oldEl) => {

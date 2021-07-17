@@ -14,38 +14,67 @@ import { loopFnPrs, singleFns } from "../../packages/ThreeJS/useRenderLoop"
 import { useThreeJSEventHook } from "../../packages/ThreeJS/plugin"
 import { useLocalGroup } from "../../packages/ThreeJS/useLocalGroup"
 import { pauseLoop, resumeLoop, doRenderAllFrames, dontRenderAllFrames } from "../../packages/ThreeJS/constants"
-import { Texture, VideoTexture, PlaneBufferGeometry, Mesh, DoubleSide, Group, Object3D, Clock, MeshBasicMaterial } from "three"
+import {
+  Texture,
+  VideoTexture,
+  PlaneBufferGeometry,
+  Mesh,
+  DoubleSide,
+  Group,
+  Object3D,
+  Clock,
+  MeshBasicMaterial,
+} from "three"
 import { useAssets } from "../../packages/ThreeJS/useAssets"
 import { VIDEOS } from "../../misc/constants"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
 import { useToast } from "vue-toastification"
 
-const opts = reactive({ src: VIDEOS[0], delay: 1000 })
-const video = ref()
-const ctrl = useMediaControls(video, { src: opts.src })
+const threeJs = useThreeJSEventHook()
+const toast = useToast()
 const gui = useGui()
+
+singleFns.add(({ clock }) => {
+  clock.getElapsedTime() < 1 && folder.open()
+  threeJs.trigger(pauseLoop)
+})
+
+const video = ref()
+const opts = reactive({ src: VIDEOS[0], delay: 1000 })
+const ctrl = useMediaControls(video, { src: opts.src })
+
+const { results, detectorReady, estimatePose } = await useBlazePose(video)
+
+invoke(async () => {
+  await until(detectorReady).toBe(true)
+  toast.info("Pose detector ready")
+  threeJs.trigger(resumeLoop)
+})
 
 const btns = {
   async record() {
+    gui.hide()
+    threeJs.trigger(pauseLoop)
 
-    const toast = useToast()
-    const { progress } = useNProgress()
-    const times: number[] = []
-    const logger = ({ message }) => {
-      const parts = message.split("pts_time:")
-      if (parts.length > 1) {
-        times.push(+parts[1].split(" ")[0])
-      }
-      return undefined
-    }
+    const timeStamps: number[] = []
 
-    const ffmpeg = createFFmpeg({ log: false, logger, progress: ({ ratio }) => set(progress, ratio) })
+    const { progress, done } = useNProgress()
+    const ffmpeg = createFFmpeg({
+      log: false,
+      logger: ({ message }) => {
+        const parts = message.split("pts_time:")
+        if (parts.length > 1) timeStamps.push(+parts[1].split(" ")[0])
+      },
+      progress: ({ ratio }) => set(progress, ratio),
+    })
+
     await ffmpeg.load()
     if (!ffmpeg.isLoaded()) {
       toast.error("FFmpeg load error")
       return
     }
+
     ffmpeg.FS("writeFile", "test.webm", await fetchFile(opts.src))
     toast.info(`${opts.src} fetched`)
     await ffmpeg.run(..."-i test.webm -vf showinfo -vsync 0 -start_number 0 -f null /dev/null".split(" "))
@@ -56,18 +85,29 @@ const btns = {
       console.error("FFmpeg exit", e)
     }
 
-    const { results, detectorReady, estimatePose } = await useBlazePose(video)
-    await until(detectorReady).toBe(true)
-    toast.info("pose detector ready")
+    useNProgress()
+    const pc = 100 / timeStamps.length / 100
+    let prog = 0
+    set(progress, prog)
 
-    console.log(times)
-
-    for (const t of times) {
+    for (const t of timeStamps) {
       set(ctrl.currentTime, t)
       await sleep(opts.delay)
       await estimatePose()
-      console.log(String(t), results)
+      await sleep(opts.delay)
+      if (results.poseLandmarks) {
+        // TODO: save
+      }
+      prog += pc
+      set(progress, prog)
     }
+
+    done()
+    toast.info("save to db")
+    toast.success("estimated done")
+    gui.show()
+    threeJs.trigger(resumeLoop)
+    console.log(timeStamps)
   },
 }
 
@@ -76,14 +116,12 @@ folder.add(opts, "src", selectableVideos()).name("File input")
 folder.add(opts, "delay", 0, 2000, 100).name("Delay between frames (ms)")
 folder.add(btns, "record").name("💾 Estimates")
 
-onMounted(() => {
-  singleFns.add(({ clock }) => clock.getElapsedTime() < 1 && folder.open())
+onBeforeUnmount(() => {
+  gui.removeFolder(folder)
+  threeJs.trigger(resumeLoop)
 })
 
-
-
-onBeforeUnmount(() => {
-  // loopFnPrs.delete(estimatePose)
-  gui.removeFolder(folder)
+onErrorCaptured(error => {
+  toast.error(error.message)
 })
 </script>

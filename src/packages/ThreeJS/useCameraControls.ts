@@ -65,7 +65,7 @@ export function useCameraControls(cameraControls: CameraControls) {
       // cameraControls.enabled = false
       cameraControls.setLookAt(...position, ...lookAt, transition)
       cameraControls.addEventListener("sleep", arrived)
- }
+    }
   })
 
   shakeIt() // FIXME: shouldn't be necessary for able to move camera in the beginning
