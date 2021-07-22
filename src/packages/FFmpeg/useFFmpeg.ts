@@ -11,22 +11,37 @@ interface FFmpegOptions {
   memfsFilename?: string
 
   /** Video frame positions in ms. */
-  pts?: number[]
+  // pts?: number[]
+
+  onTimestamp: (pts: number) => void
+
+  onDone?: Fn
 
   /** process progress */
   progress?: ProgressCallback
+
+  logger?: {
+    info: (message: string) => void
+    error: (message: string) => void
+  }
+
+  log?: boolean
 }
 
 export function useFFmpeg(options: FFmpegOptions) {
   const {
     src,
     memfsFilename = "test.webm",
-    pts,
-    progress
+    // pts,
+    onTimestamp,
+    onDone,
+    progress,
+    logger = console,
+    log = false
   } = options
 
   const ffmpeg = createFFmpeg({
-    log: false,
+    log,
     progress,
   })
 
@@ -34,29 +49,44 @@ export function useFFmpeg(options: FFmpegOptions) {
   const fetched = ref(false)
 
   invoke(async () => {
-    await ffmpeg.load()
+    try {
+      await ffmpeg.load()
+    } catch (e) {
+      logger.error(e.message)
+    }
     if (!ffmpeg.isLoaded()) {
-      throw new Error("FFmpeg is not loaded")
+      logger.error("FFmpeg is not loaded")
     }
     set(loaded, true)
   })
 
-
   whenever(and(loaded, src), async () => {
     set(fetched, false)
     ffmpeg.FS("writeFile", memfsFilename, await fetchFile(get(src)))
+    logger.info(`File ${memfsFilename} fetched`)
     set(fetched, true)
   }, { immediate: true })
 
-  whenever(and(fetched, pts), async () => {
-    const ptses: number[] = []
+  whenever(fetched, async () => {
     ffmpeg.setLogger(({ message }) => {
       const found = message.match(/^.*pts_time:((([1-9][0-9]*)|(0))(?:\.[0-9]+))\s.*$/)
-      found !== null && ptses.push(+found[1])
+      if (found !== null) {
+        onTimestamp.call(null, parseFloat(found[1]))
+      }
     })
     await ffmpeg.run(...`-i ${memfsFilename} -vf showinfo -vsync 0 -start_number 0 -f null /dev/null`.split(" "))
-    pts!.push(...ptses)
+    onDone?.call(null)
   })
+
+  // whenever(and(fetched, pts), async () => {
+  //   const ptses: number[] = []
+  //   ffmpeg.setLogger(({ message }) => {
+  //     const found = message.match(/^.*pts_time:((([1-9][0-9]*)|(0))(?:\.[0-9]+))\s.*$/)
+  //     found !== null && ptses.push(+found[1])
+  //   })
+  //   await ffmpeg.run(...`-i ${memfsFilename} -vf showinfo -vsync 0 -start_number 0 -f null /dev/null`.split(" "))
+  //   pts!.push(...ptses)
+  // })
 
   tryOnUnmounted(() => {
     try {

@@ -9,7 +9,7 @@ let dstat: Stats.Panel | undefined
 
 const Poser = window.Pose
 
-export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
+export function useBlazePose(el: Ref<HTMLVideoElement | undefined>, cb?: ResultsListener) {
   const detectorReady = ref(false)
   const results: Partial<Results> = reactive({})
   let solution: Pose
@@ -29,29 +29,32 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
     Object.assign(results, res)
   }
 
-  const estimatePose = async (): Promise<void> => {
+  const estimatePose = async (): Promise<Results> => {
     const elem = unrefElement(el)
 
-    if (elem === undefined) {
-      console.error("no video input")
-      return
-    }
+    return new Promise(async (resolve, reject) => {
+      solution.onResults(results => {
+        return resolve(results)
+      })
 
-    if (elem.readyState !== elem.HAVE_ENOUGH_DATA) {
-      console.warn("not enough data")
-      return
-    }
+      if (elem === undefined) {
+        return reject("no video input")
+      }
 
-    if (solution === undefined) {
-      console.error("no pose detector")
-      return
-    }
+      if (elem.readyState !== elem.HAVE_ENOUGH_DATA) {
+        return reject("not enough data")
+      }
 
-    const t0 = performance.now()
-    await solution.send({ image: elem })
-    const t1 = performance.now()
+      if (solution === undefined) {
+        return reject("no pose detector")
+      }
 
-    dstat?.update(t1 - t0, 120)
+      const t0 = performance.now()
+      await solution.send({ image: elem })
+      const t1 = performance.now()
+
+      dstat?.update(t1 - t0, 120)
+    })
   }
 
   tryOnMounted(async () => {
@@ -62,7 +65,9 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>) {
       smoothLandmarks: true,
       selfieMode: false,
     })
-    solution.onResults(poseResult)
+
+    solution.onResults(cb ? cb : poseResult)
+
     await solution.initialize()
 
     set(detectorReady, true)

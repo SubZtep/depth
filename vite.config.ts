@@ -23,7 +23,18 @@ export default defineConfig({
       reload: "**/src/**/*.*",
       restart: "**/src/**/*.*",
     }),
+    {
+      name: "SharedArrayBuffer",
+      configureServer(server) {
+        server.middlewares.use((_req, res, next) => {
+          res.setHeader("Cross-Origin-Embedder-Policy", "require-corp")
+          res.setHeader("Cross-Origin-Opener-Policy", "same-origin")
+          next()
+        })
+      }
+    }
   ],
+
   build: {
     minify: false,
     rollupOptions: {
@@ -54,9 +65,19 @@ export default defineConfig({
     },
   },
   server: {
+    // cors: true,
     fs: {
       allow: [".."]
-    }
+    },
+
+    // cors: {
+    //   allowedHeaders: [
+    //     "Cross-Origin-Resource-Policy: cross-origin",
+    //     "Cross-Origin-Resource-Policy: same-site"
+    //   ]
+    // }
+
+    //Cross-Origin-Resource-Policy: cross-origin header. On same-site resources, set Cross-Origin-Resource-Policy: same-site header.
     // https: true,
   },
 })
