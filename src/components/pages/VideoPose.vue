@@ -15,8 +15,10 @@ import { VIDEOS } from "../../misc/constants"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { useToast } from "vue-toastification"
 import { useFFmpeg } from "../../packages/FFmpeg/useFFmpeg"
+import { useSupabase } from "../../packages/Supabase/plugin"
 
 const threeJs = useThreeJSEventHook()
+const supabase = useSupabase()
 const toast = useToast()
 const gui = useGui()
 
@@ -28,6 +30,8 @@ const { detectorReady, estimatePose } = useBlazePose(video)
 
 const processingDone = ref(true)
 const queue: number[] = []
+
+let videoId: number
 
 threeJs.trigger(pauseLoop)
 toast.info("ThreeJS paused")
@@ -48,7 +52,29 @@ async function processFrame() {
 
   await setVideoTime(pts)
   const pose = await estimatePose()
-  console.log("SAVE", pose)
+
+  const { data, error } = await supabase.from<Supabase.Pose>("pose").upsert({ video_id: videoId, time: pts })
+  if (error) {
+    console.error("Superbase", error)
+    return
+  }
+  const poseId = data![0].id!
+
+  const { error: e } = await supabase.from<Supabase.Keypoint>("keypoint").upsert(
+    pose.poseLandmarks.map(({ x, y, z, visibility }, index) => ({
+      pose_id: poseId,
+      index,
+      x,
+      y,
+      z,
+      visibility,
+    })),
+    { returning: "minimal" }
+  )
+  if (e) {
+    console.error("Superbase", e)
+    return
+  }
 
   set(processingDone, true)
 }
@@ -56,6 +82,13 @@ async function processFrame() {
 const btns = {
   async record() {
     // gui.hide()
+
+    const { data, error } = await supabase.from<Supabase.Video>("video").upsert({ filename: "xy", length: 0, width: 0, height: 0 })
+    if (error) {
+      console.error("Superbase", error)
+      return
+    }
+    videoId = data![0].id!
 
     useFFmpeg({
       src: toRef(opts, "src"),
@@ -67,7 +100,7 @@ const btns = {
           processFrame()
         }
       },
-      onDone: () => toast.success("FFmpeg Done")
+      onDone: () => toast.success("FFmpeg Done"),
     })
 
     whenever(processingDone, processFrame)

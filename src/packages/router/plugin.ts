@@ -16,7 +16,7 @@ const eventHook = createEventHook<RouterEvent>()
 let getRoute: PathToRouteFn
 
 /** is this the first visited page */
-export const opening = ref(true)
+export const opening = ref(true) //TODO: deleteme
 
 export default {
   install(app, options: RouterOptions) {

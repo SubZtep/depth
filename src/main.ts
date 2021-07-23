@@ -2,6 +2,7 @@ import { createApp } from "vue"
 import Toast from "vue-toastification"
 import App from "./components/scene/App.vue"
 import Visible from "./directives/visible"
+import Supabase from "./packages/Supabase/plugin"
 import ThreeJs from "./packages/ThreeJS/plugin"
 import Router from "./packages/router/plugin"
 import Stats from "./packages/Stats/plugin"
@@ -19,6 +20,10 @@ createApp(App)
     timeout: 3000,
     position: "bottom-right",
     showCloseButtonOnHover: true,
+  })
+  .use(Supabase, {
+    url: import.meta.env.VITE_SUPABASE_URL as string,
+    key: import.meta.env.VITE_SUPABASE_KEY as string,
   })
   .use(Router, { routes })
   .use(ThreeJs)

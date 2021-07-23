@@ -33,9 +33,11 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>, cb?: Results
     const elem = unrefElement(el)
 
     return new Promise(async (resolve, reject) => {
-      solution.onResults(results => {
-        return resolve(results)
-      })
+      if (cb === undefined) {
+        solution.onResults(results => {
+          return resolve(results)
+        })
+      }
 
       if (elem === undefined) {
         return reject("no video input")
@@ -66,7 +68,7 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>, cb?: Results
       selfieMode: false,
     })
 
-    solution.onResults(cb ? cb : poseResult)
+    solution.onResults(cb ?? poseResult)
 
     await solution.initialize()
 

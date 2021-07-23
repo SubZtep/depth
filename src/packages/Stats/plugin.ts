@@ -1,8 +1,8 @@
-import type { Plugin } from "vue"
+import type { Plugin, InjectionKey } from "vue"
 import Stats from "stats.js"
 import "./style.css"
 
-const statsKey = Symbol("stats panel")
+const statsKey: InjectionKey<Stats> = Symbol("stats panel")
 const stats = new Stats()
 stats.dom.classList.add("Stats")
 stats.dom.addEventListener("dblclick", () => stats.dom.classList.toggle("mosaic"))
