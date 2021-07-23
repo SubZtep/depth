@@ -17,9 +17,9 @@ import { useToast } from "vue-toastification"
 import { useFFmpeg } from "../../packages/FFmpeg/useFFmpeg"
 import { useSupabase } from "../../packages/Supabase/plugin"
 
-const threeJs = useThreeJSEventHook()
-const supabase = useSupabase()
 const toast = useToast()
+const threeJs = useThreeJSEventHook()
+const { supabase, db } = useSupabase({ logger: toast })
 const gui = useGui()
 
 const video = ref()
@@ -55,7 +55,7 @@ async function processFrame() {
 
   const { data, error } = await supabase.from<Supabase.Pose>("pose").upsert({ video_id: videoId, time: pts })
   if (error) {
-    console.error("Superbase", error)
+    toast.error(error.message)
     return
   }
   const poseId = data![0].id!
@@ -72,7 +72,7 @@ async function processFrame() {
     { returning: "minimal" }
   )
   if (e) {
-    console.error("Superbase", e)
+    toast.error(e.message)
     return
   }
 
@@ -82,13 +82,18 @@ async function processFrame() {
 const btns = {
   async record() {
     // gui.hide()
+    if (await db.hasVideo(opts.src)) return
 
-    const { data, error } = await supabase.from<Supabase.Video>("video").upsert({ filename: "xy", length: 0, width: 0, height: 0 })
-    if (error) {
-      console.error("Superbase", error)
+    const vel = get(video)
+    if (vel.readyState === vel.HAVE_NOTHING) {
+      toast.warning("The video is not ready")
       return
     }
-    videoId = data![0].id!
+
+    const { videoWidth: width, videoHeight: height } = vel
+    const id = await db.addVideo({ filename: opts.src, length: 0, width, height })
+    if (id === undefined) return
+    videoId = id
 
     useFFmpeg({
       src: toRef(opts, "src"),

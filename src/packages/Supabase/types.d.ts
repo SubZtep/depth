@@ -1,4 +1,4 @@
-interface SupabaseOptions {
+interface SupabasePluginOptions {
   url: string
   key: string
   options?: import("@supabase/supabase-js").SupabaseClientOptions
@@ -17,6 +17,11 @@ namespace Supabase {
     readonly inserted_at?: string
   }
 
+  enum PoseType {
+    Raw = 0,
+    Normalized = 1
+  }
+
   interface Video extends SerialId, TriggerInserted, TriggerUpdated {
     filename: string
     length: number
@@ -27,6 +32,7 @@ namespace Supabase {
   interface Pose extends SerialId, TriggerInserted, TriggerUpdated {
     video_id: number
     time: number
+    type: PoseType
   }
 
   interface Keypoint {

@@ -1,11 +1,11 @@
+import type { MaybeRef } from "@vueuse/core"
 import type { ProgressCallback } from "@ffmpeg/ffmpeg"
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
-import { and, tryOnUnmounted } from "@vueuse/core"
-import { get, invoke, set, whenever } from "@vueuse/core"
+import { get, invoke, set, whenever, and, tryOnUnmounted } from "@vueuse/core"
 
 interface FFmpegOptions {
   /** Video input file */
-  src: Ref<string>
+  src: MaybeRef<string>
 
   /** Temporary name for Fetch file */
   memfsFilename?: string
@@ -20,10 +20,7 @@ interface FFmpegOptions {
   /** process progress */
   progress?: ProgressCallback
 
-  logger?: {
-    info: (message: string) => void
-    error: (message: string) => void
-  }
+  logger?: Logger
 
   log?: boolean
 }

@@ -9,7 +9,7 @@ CREATE TABLE video (
   height int2 NOT NULL
 );
 
-INSERT INTO video (filename, length, width, height) VALUES ('yoga2.webm', 16000, 480, 480);
+-- INSERT INTO video (filename, length, width, height) VALUES ('yoga2.webm', 16000, 480, 480);
 
 CREATE TABLE pose (
   id SERIAL PRIMARY KEY,
@@ -17,6 +17,7 @@ CREATE TABLE pose (
   updated_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
   video_id SERIAL,
   time float4 NOT NULL,
+  type int2 NOT NULL,
   CONSTRAINT fk_video FOREIGN KEY(video_id) REFERENCES video(id)
 );
 
