@@ -1,13 +1,5 @@
 import { logLoaded } from "../../misc/console"
-import {
-  CubeTexture,
-  DoubleSide,
-  LinearFilter,
-  TextureLoader,
-  MeshBasicMaterial,
-  CubeTextureLoader,
-  CubeReflectionMapping,
-} from "three"
+import { CubeTexture, DoubleSide, LinearFilter, TextureLoader, MeshBasicMaterial, CubeTextureLoader, CubeReflectionMapping } from "three"
 import { DDSLoader } from "three/examples/jsm/loaders/DDSLoader"
 
 const assets = new Map<string, unknown>()

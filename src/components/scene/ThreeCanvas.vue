@@ -6,23 +6,7 @@ MainScene
 </template>
 
 <script lang="ts" setup>
-import {
-  Mesh,
-  Color,
-  Vector3,
-  SpotLight,
-  GridHelper,
-  PlaneGeometry,
-  HemisphereLight,
-  MeshPhongMaterial,
-  MeshBasicMaterial,
-  MeshLambertMaterial,
-  DoubleSide,
-  BackSide,
-  FrontSide,
-  AmbientLight,
-  DirectionalLight,
-} from "three"
+import { Mesh, Color, Vector3, SpotLight, GridHelper, PlaneGeometry, HemisphereLight, MeshPhongMaterial, MeshBasicMaterial, MeshLambertMaterial, DoubleSide, BackSide, FrontSide, AmbientLight, DirectionalLight } from "three"
 import { useToast } from "vue-toastification"
 import { sleep, rand } from "../../misc/utils"
 import { useAssets } from "../../packages/ThreeJS/useAssets"

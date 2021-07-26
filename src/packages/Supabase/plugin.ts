@@ -7,7 +7,7 @@ const supabaseKey: InjectionKey<SupabaseClient> = Symbol("supabase")
 
 export default {
   install(app, options: SupabasePluginOptions) {
-    const supabase = createClient(options.url, options.key, options.options ?? {})
+    const supabase = createClient(options.url!, options.key!, options.options ?? {})
     app.provide(supabaseKey, supabase)
   },
 } as Plugin

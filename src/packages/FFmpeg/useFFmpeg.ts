@@ -34,7 +34,7 @@ export function useFFmpeg(options: FFmpegOptions) {
     onDone,
     progress,
     logger = console,
-    log = false
+    log = false,
   } = options
 
   const ffmpeg = createFFmpeg({
@@ -57,12 +57,16 @@ export function useFFmpeg(options: FFmpegOptions) {
     set(loaded, true)
   })
 
-  whenever(and(loaded, src), async () => {
-    set(fetched, false)
-    ffmpeg.FS("writeFile", memfsFilename, await fetchFile(get(src)))
-    logger.info(`File ${memfsFilename} fetched`)
-    set(fetched, true)
-  }, { immediate: true })
+  whenever(
+    and(loaded, src),
+    async () => {
+      set(fetched, false)
+      ffmpeg.FS("writeFile", memfsFilename, await fetchFile(get(src)))
+      logger.info(`File ${memfsFilename} fetched`)
+      set(fetched, true)
+    },
+    { immediate: true }
+  )
 
   whenever(fetched, async () => {
     ffmpeg.setLogger(({ message }) => {

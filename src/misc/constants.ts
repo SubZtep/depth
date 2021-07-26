@@ -1,10 +1,4 @@
-export const VIDEOS = [
-  "videos/happy.webm",
-  "videos/mask.webm",
-  "videos/yoga1.webm",
-  "videos/yoga2.webm",
-  "videos/26958781a.webm",
-]
+export const VIDEOS = ["videos/happy.webm", "videos/mask.webm", "videos/yoga1.webm", "videos/yoga2.webm", "videos/26958781a.webm"]
 
 export const BLAZEPOSE_KEYPOINTS = [
   "nose",

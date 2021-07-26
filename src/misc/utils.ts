@@ -24,13 +24,7 @@ export function sleep(ms: number) {
 }
 
 export function selectableMedias(inputs: Ref<MediaDeviceInfo[]>) {
-  return computed<Record<string, string>>(() =>
-    get(inputs).reduce(
-      (obj: Record<string, string>, d: MediaDeviceInfo) =>
-        Object.assign(obj, { [normalizeDeviceLabel(d.label)]: d.deviceId }),
-      {}
-    )
-  )
+  return computed<Record<string, string>>(() => get(inputs).reduce((obj: Record<string, string>, d: MediaDeviceInfo) => Object.assign(obj, { [normalizeDeviceLabel(d.label)]: d.deviceId }), {}))
 }
 
 export function selectableVideos() {

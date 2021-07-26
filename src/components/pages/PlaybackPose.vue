@@ -13,13 +13,33 @@ const gui = useGui()
 const toast = useToast()
 const { supabase } = useSupabase()
 
-const { data, error } = await supabase.from<Supabase.Video>("video").select("id, filename")
+const { data, error } = await supabase.from<Video>("video").select(`
+  width,
+  height,
+  Pose(
+    time,
+    Keypoint(
+      index,
+      x,
+      y,
+      z
+    )
+  )
+`)
 if (error) toast.error(error.message)
+console.log("x", data)
 
 const opts = reactive({ src: "" })
 const folder = gui.addFolder("🧼☭ Video pose")
 folder.add(opts, "src", data?.map(v => v.filename) ?? []).name("File input")
 folder.open()
+
+watch(
+  () => opts.src,
+  src => {
+    toast.info(src)
+  }
+)
 
 onBeforeUnmount(() => {
   gui.removeFolder(folder)

@@ -21,11 +21,7 @@ let shaker = 0
 const shakes: CameraShake[] = []
 
 function initShakes(cameraControls: CameraControls) {
-  shakes.push(
-    new CameraShake(cameraControls, 500, 10, 0.5),
-    new CameraShake(cameraControls, 1000, 10, 1),
-    new CameraShake(cameraControls, 5000, 2, 0.5)
-  )
+  shakes.push(new CameraShake(cameraControls, 500, 10, 0.5), new CameraShake(cameraControls, 1000, 10, 1), new CameraShake(cameraControls, 5000, 2, 0.5))
 }
 
 function shakeIt(nr?: number) {

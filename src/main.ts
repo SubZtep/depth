@@ -22,8 +22,8 @@ createApp(App)
     showCloseButtonOnHover: true,
   })
   .use(Supabase, {
-    url: import.meta.env.VITE_SUPABASE_URL as string,
-    key: import.meta.env.VITE_SUPABASE_KEY as string,
+    url: import.meta.env.VITE_SUPABASE_URL,
+    key: import.meta.env.VITE_SUPABASE_KEY,
   })
   .use(Router, { routes })
   .use(ThreeJs)

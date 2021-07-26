@@ -16,11 +16,13 @@ import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { useToast } from "vue-toastification"
 import { useFFmpeg } from "../../packages/FFmpeg/useFFmpeg"
 import { useSupabase } from "../../packages/Supabase/plugin"
+import { toRef } from "vue"
 
+const gui = useGui()
 const toast = useToast()
 const threeJs = useThreeJSEventHook()
-const { supabase, db } = useSupabase({ logger: toast })
-const gui = useGui()
+// const { db } = useSupabase({ logger: toast })
+const { db } = useSupabase()
 
 const video = ref()
 const opts = reactive({ src: VIDEOS[3] })
@@ -53,28 +55,11 @@ async function processFrame() {
   await setVideoTime(pts)
   const pose = await estimatePose()
 
-  const { data, error } = await supabase.from<Supabase.Pose>("pose").upsert({ video_id: videoId, time: pts })
-  if (error) {
-    toast.error(error.message)
-    return
-  }
-  const poseId = data![0].id!
+  // const pose_id = await db.addPose({ video_id: videoId, time: pts, type: PoseType.Raw })
+  const pose_id = await db.addPose({ video_id: videoId, time: pts, type: 0 })
+  if (pose_id === undefined) return
 
-  const { error: e } = await supabase.from<Supabase.Keypoint>("keypoint").upsert(
-    pose.poseLandmarks.map(({ x, y, z, visibility }, index) => ({
-      pose_id: poseId,
-      index,
-      x,
-      y,
-      z,
-      visibility,
-    })),
-    { returning: "minimal" }
-  )
-  if (e) {
-    toast.error(e.message)
-    return
-  }
+  db.addKeypoints(pose.poseLandmarks.map((kp, index) => ({ pose_id, index, ...kp })))
 
   set(processingDone, true)
 }

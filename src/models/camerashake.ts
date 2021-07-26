@@ -47,12 +47,7 @@ export class CameraShake {
         // 	false
         // );
 
-        this._cameraControls.setTarget(
-          _vec3b.x - this._lastOffsetX,
-          _vec3b.y - this._lastOffsetY,
-          _vec3b.z - this._lastOffsetZ,
-          false
-        )
+        this._cameraControls.setTarget(_vec3b.x - this._lastOffsetX, _vec3b.y - this._lastOffsetY, _vec3b.z - this._lastOffsetZ, false)
 
         this._lastOffsetX = 0
         this._lastOffsetY = 0
@@ -76,12 +71,7 @@ export class CameraShake {
       // 	false
       // );
 
-      this._cameraControls.setTarget(
-        _vec3b.x + offsetX - this._lastOffsetX,
-        _vec3b.y + offsetY - this._lastOffsetY,
-        _vec3b.z + offsetZ - this._lastOffsetZ,
-        false
-      )
+      this._cameraControls.setTarget(_vec3b.x + offsetX - this._lastOffsetX, _vec3b.y + offsetY - this._lastOffsetY, _vec3b.z + offsetZ - this._lastOffsetZ, false)
 
       this._lastOffsetX = offsetX
       this._lastOffsetY = offsetY
