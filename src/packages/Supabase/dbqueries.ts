@@ -1,50 +1,74 @@
 import type { SupabaseClient } from "@supabase/supabase-js"
 
+export enum PoseType {
+  Raw = 0,
+  Normalized = 1,
+}
+
 export default class DbQueries {
   #client: SupabaseClient
-  #logger: Logger
+  #logger?: Logger
 
-  constructor(client: SupabaseClient, logger: Logger) {
+  constructor(client: SupabaseClient, logger?: Logger) {
     this.#client = client
     this.#logger = logger
   }
 
-  async hasVideo(filename: string): Promise<boolean> {
+  async hasVideo(filename: string): Promise<number | undefined> {
     const { data, error } = await this.#client.from<Video>("video").select("id").eq("filename", filename).limit(1)
     if (error) {
-      this.#logger.error(error.message)
-      return true
+      this.#logger?.error(error.message)
+      return Promise.reject(error.message)
     }
-    this.#logger.info(`File exists in db ${filename}`)
-    return data !== null && data.length > 0
+
+    if (data == null || data.length === 0) {
+      // this.#logger.info(`File doesn't exists in db ${filename}`)
+      return undefined
+    }
+
+    // this.#logger.info(`File exists in db ${filename}`)
+    return data[0].id
   }
 
-  async addVideo(obj: Video): Promise<number | undefined> {
+  async addVideo(obj: Video): Promise<number> {
     const { data, error } = await this.#client.from<Video>("video").upsert(obj)
     if (error) {
-      this.#logger.error(error.message)
-      return
+      this.#logger?.error(error.message)
+      return Promise.reject(error.message)
     }
-    this.#logger.info(`File added ${obj.filename}`)
-    return data !== null && data[0] !== null ? data[0].id : undefined
+
+    if (data == null || data.length === 0) {
+      const msg = `Unable to add video to db ${obj.filename}`
+      this.#logger?.error(msg)
+      return Promise.reject(msg)
+    }
+
+    // this.#logger.info(`File added ${obj.filename}`)
+    return data[0].id!
   }
 
-  async addPose(obj: Pose): Promise<number | undefined> {
+  async addPose(obj: Pose): Promise<number> {
     const { data, error } = await this.#client.from<Pose>("pose").upsert(obj)
     if (error) {
-      this.#logger.error(error.message)
-      return
+      this.#logger?.error(error.message)
+      return Promise.reject(error.message)
     }
-    this.#logger.info(`Pose added - ${obj.type}`)
-    return data !== null && data[0] !== null ? data[0].id : undefined
+
+    if (data == null || data.length === 0) {
+      const msg = `Unable to add pose to db ${obj.time}`
+      this.#logger?.error(msg)
+      return Promise.reject(msg)
+    }
+
+    return data[0].id!
   }
 
   async addKeypoints(obj: Keypoint[]): Promise<void> {
     const { error } = await this.#client.from<Keypoint>("keypoint").upsert(obj, { returning: "minimal" })
     if (error) {
-      this.#logger.error(error.message)
-      return
+      // this.#logger.error(error.message)
+      return Promise.reject(error.message)
     }
-    this.#logger.info(`${obj.length} Keypoints added`)
+    // this.#logger.info(`${obj.length} Keypoints added`)
   }
 }

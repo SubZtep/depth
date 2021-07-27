@@ -2,6 +2,7 @@ import { createApp } from "vue"
 import Toast from "vue-toastification"
 import App from "./components/scene/App.vue"
 import Visible from "./directives/visible"
+import DBVideo from "./directives/dbvideo"
 import Supabase from "./packages/Supabase/plugin"
 import ThreeJs from "./packages/ThreeJS/plugin"
 import Router from "./packages/router/plugin"
@@ -26,8 +27,9 @@ createApp(App)
     key: import.meta.env.VITE_SUPABASE_KEY,
   })
   .use(Router, { routes })
-  .use(ThreeJs)
+  .use(ThreeJs, { toastEvents: true })
   .use(Stats, { mosaic: true })
   .use(Gui, { routes })
   .directive("visible", Visible)
+  .directive("dbvideo", DBVideo)
   .mount("#app")

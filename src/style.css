@@ -62,3 +62,12 @@ body {
 #app > video {
   aspect-ratio: var(--ratio, 1);
 }
+
+.debug {
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-family: monospace;
+  white-space: pre;
+  color: #fff;
+}

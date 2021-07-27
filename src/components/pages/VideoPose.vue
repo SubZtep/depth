@@ -1,11 +1,16 @@
 <template lang="pug">
 Title Video pose
 
-video(ref="video" :src="opts.src")
+.debug {{state}}
+
+video(
+  ref="video"
+  :src="state.src"
+  v-dbvideo="id => state.videoId = id")
 </template>
 
 <script lang="ts" setup>
-import { set, invoke, until, get, whenever, unrefElement } from "@vueuse/core"
+import { set, get, whenever, unrefElement } from "@vueuse/core"
 import { useBlazePose } from "../../packages/PoseAI/useBlazePose"
 import { selectableVideos } from "../../misc/utils"
 import { useGui } from "../../packages/datGUI/plugin"
@@ -17,79 +22,81 @@ import { useToast } from "vue-toastification"
 import { useFFmpeg } from "../../packages/FFmpeg/useFFmpeg"
 import { useSupabase } from "../../packages/Supabase/plugin"
 import { toRef } from "vue"
+import { PoseType } from "../../packages/Supabase/dbqueries"
+
+const toast = useToast()
+const { progress } = useNProgress()
+const { db } = useSupabase({ logger: toast })
+const threeJs = useThreeJSEventHook()
+threeJs.trigger(pauseLoop)
+
+interface State {
+  /** Selected video file source path */
+  src: string
+
+  /** Selected video id in database */
+  videoId?: number
+}
+
+const state = reactive<State>({
+  src: VIDEOS[3],
+  videoId: undefined,
+})
 
 const gui = useGui()
-const toast = useToast()
-const threeJs = useThreeJSEventHook()
-// const { db } = useSupabase({ logger: toast })
-const { db } = useSupabase()
+const folder = gui.addFolder("🧼☭ Video pose")
+folder.add(state, "src", selectableVideos()).name("File input")
 
 const video = ref()
-const opts = reactive({ src: VIDEOS[3] })
+const { estimatePose } = useBlazePose({
+  video,
+  onDetectorReady: () => {
+    folder.add(btns, "record").name("💾 Estimates")
+    folder.open()
+  }
+})
 
-const { progress } = useNProgress()
-const { detectorReady, estimatePose } = useBlazePose(video)
-
-const processingDone = ref(true)
-const queue: number[] = []
-
-let videoId: number
-
-threeJs.trigger(pauseLoop)
-toast.info("ThreeJS paused")
-
-async function setVideoTime(sec: number): Promise<void> {
+async function updateVideoTime(seekToSec: number): Promise<void> {
   const vel: HTMLVideoElement = unrefElement(video)
-  vel.currentTime = sec
+  vel.currentTime = seekToSec
   return new Promise(resolve => {
     vel.addEventListener("timeupdate", () => resolve(), { once: true })
   })
 }
 
+const processingDone = ref(false)
+const queue: number[] = []
+
 async function processFrame() {
   if (!get(processingDone)) return
+
   const pts = queue.shift()
   if (pts === undefined) return
   set(processingDone, false)
 
-  await setVideoTime(pts)
+  await updateVideoTime(pts)
   const pose = await estimatePose()
 
-  // const pose_id = await db.addPose({ video_id: videoId, time: pts, type: PoseType.Raw })
-  const pose_id = await db.addPose({ video_id: videoId, time: pts, type: 0 })
-  if (pose_id === undefined) return
+  const rawPoseId = await db.addPose({ video_id: state.videoId!, time: pts, type: PoseType.Raw })
+  db.addKeypoints(pose.poseWorldLandmarks.map((kp, index) => ({ pose_id: rawPoseId, index, ...kp })))
 
-  db.addKeypoints(pose.poseLandmarks.map((kp, index) => ({ pose_id, index, ...kp })))
+  const normPoseId = await db.addPose({ video_id: state.videoId!, time: pts, type: PoseType.Normalized })
+  db.addKeypoints(pose.poseLandmarks.map((kp, index) => ({ pose_id: normPoseId, index, ...kp })))
 
   set(processingDone, true)
 }
 
 const btns = {
   async record() {
-    // gui.hide()
-    if (await db.hasVideo(opts.src)) return
-
-    const vel = get(video)
-    if (vel.readyState === vel.HAVE_NOTHING) {
-      toast.warning("The video is not ready")
-      return
-    }
-
-    const { videoWidth: width, videoHeight: height } = vel
-    const id = await db.addVideo({ filename: opts.src, length: 0, width, height })
-    if (id === undefined) return
-    videoId = id
+    if (!state.src) return toast.error("No video selected")
+    if (!state.videoId) return toast.error("Active video is not in db")
 
     useFFmpeg({
-      src: toRef(opts, "src"),
+      src: toRef(state, "src"),
       progress: ({ ratio }) => set(progress, ratio),
       logger: toast,
-      onTimestamp: ts => {
-        queue.push(ts)
-        if (get(processingDone)) {
-          processFrame()
-        }
-      },
+      onTimestamp: ts => queue.push(ts),
+      onStarted: () => set(processingDone, true),
       onDone: () => toast.success("FFmpeg Done"),
     })
 
@@ -97,22 +104,12 @@ const btns = {
   },
 }
 
-const folder = gui.addFolder("🧼☭ Video pose")
-folder.add(opts, "src", selectableVideos()).name("File input")
-
-invoke(async () => {
-  await until(detectorReady).toBe(true)
-  toast.info("Pose detector ready")
-  folder.add(btns, "record").name("💾 Estimates")
-  folder.open()
-})
-
 onBeforeUnmount(() => {
   gui.removeFolder(folder)
   threeJs.trigger(resumeLoop)
 })
 
 onErrorCaptured(error => {
-  toast.error(error.message)
+  toast.error(`Captured: ${error.message}`)
 })
 </script>

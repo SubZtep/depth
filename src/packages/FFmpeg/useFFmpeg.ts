@@ -15,6 +15,8 @@ interface FFmpegOptions {
 
   onTimestamp: (pts: number) => void
 
+  onStart?: Fn
+  onStarted?: Fn
   onDone?: Fn
 
   /** process progress */
@@ -31,6 +33,7 @@ export function useFFmpeg(options: FFmpegOptions) {
     memfsFilename = "test.webm",
     // pts,
     onTimestamp,
+    onStart,
     onDone,
     progress,
     logger = console,
@@ -62,7 +65,7 @@ export function useFFmpeg(options: FFmpegOptions) {
     async () => {
       set(fetched, false)
       ffmpeg.FS("writeFile", memfsFilename, await fetchFile(get(src)))
-      logger.info(`File ${memfsFilename} fetched`)
+      logger.info(`File ${memfsFilename} loaded into FFmpeg`)
       set(fetched, true)
     },
     { immediate: true }
@@ -73,21 +76,17 @@ export function useFFmpeg(options: FFmpegOptions) {
       const found = message.match(/^.*pts_time:((([1-9][0-9]*)|(0))(?:\.[0-9]+))\s.*$/)
       if (found !== null) {
         onTimestamp.call(null, parseFloat(found[1]))
+
+        if (options.onStarted) {
+          options.onStarted.call(null)
+          options.onStarted = undefined
+        }
       }
     })
+    onStart?.call(null)
     await ffmpeg.run(...`-i ${memfsFilename} -vf showinfo -vsync 0 -start_number 0 -f null /dev/null`.split(" "))
     onDone?.call(null)
   })
-
-  // whenever(and(fetched, pts), async () => {
-  //   const ptses: number[] = []
-  //   ffmpeg.setLogger(({ message }) => {
-  //     const found = message.match(/^.*pts_time:((([1-9][0-9]*)|(0))(?:\.[0-9]+))\s.*$/)
-  //     found !== null && ptses.push(+found[1])
-  //   })
-  //   await ffmpeg.run(...`-i ${memfsFilename} -vf showinfo -vsync 0 -start_number 0 -f null /dev/null`.split(" "))
-  //   pts!.push(...ptses)
-  // })
 
   tryOnUnmounted(() => {
     try {

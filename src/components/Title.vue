@@ -13,9 +13,11 @@ onMounted(() => set(showTitle, false))
 
 <style>
 h1 {
-  margin: 4px 8px;
   font-size: 1.6rem;
   text-shadow: -4px 0 var(--blood), 1px 0 #fffa, 1px 1px 2px #0063;
+  position: fixed;
+  top: 4px;
+  left: 8px;
 }
 
 .fade-enter-active,

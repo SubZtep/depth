@@ -1,7 +1,7 @@
 interface SupabasePluginOptions {
   url?: string
   key?: string
-  // options?: import("@supabase/supabase-js").SupabaseClientOptions
+  options?: import("@supabase/supabase-js").SupabaseClientOptions
 }
 
 // export namespace Supabase {
@@ -17,14 +17,9 @@ abstract interface TriggerUpdated {
   readonly inserted_at?: string
 }
 
-declare enum PoseType {
-  Raw = 0,
-  Normalized = 1,
-}
-
 interface Video extends SerialId, TriggerInserted, TriggerUpdated {
   filename: string
-  length: number
+  length?: number
   width: number
   height: number
 }

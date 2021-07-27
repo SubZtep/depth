@@ -1,3 +1,4 @@
+import type { MaybeRef } from "@vueuse/core"
 import { set, tryOnUnmounted, unrefElement, tryOnMounted } from "@vueuse/core"
 import type { Pose, PoseConfig, ResultsListener, Results } from "../../../public/pose"
 import { reactive, ref, watch } from "vue"
@@ -5,11 +6,27 @@ import Stats from "stats.js"
 import { useStats } from "../Stats/plugin"
 import "../../../public/pose"
 
-let dstat: Stats.Panel | undefined
+interface BlazePoseOptions {
+  /** Video element */
+  video: MaybeRef<HTMLVideoElement>
 
+  /** If true (default), pose estimation fn return, otherwise `results` updated */
+  estimateReturns?: boolean
+
+  /** Callback when detector is ready */
+  onDetectorReady?: Fn
+}
+
+let dstat: Stats.Panel | undefined
 const Poser = window.Pose
 
-export function useBlazePose(el: Ref<HTMLVideoElement | undefined>, cb?: ResultsListener) {
+export function useBlazePose(options: BlazePoseOptions) {
+  const {
+    video,
+    estimateReturns = true,
+    onDetectorReady,
+  } = options
+
   const detectorReady = ref(false)
   const results: Partial<Results> = reactive({})
   let solution: Pose
@@ -19,7 +36,7 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>, cb?: Results
     dstat = stats.addPanel(new Stats.Panel("ms/pose", "#f9d71c", "#191970"))
   }
 
-  watch(el, (_newEl, oldEl) => {
+  watch(video, (_newEl, oldEl) => { //FIXME: test this
     if (oldEl !== undefined && solution) {
       solution.reset()
     }
@@ -30,25 +47,25 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>, cb?: Results
   }
 
   const estimatePose = async (): Promise<Results> => {
-    const elem = unrefElement(el)
+    const elem = unrefElement(video)
 
-    return new Promise(async (resolve, reject) => {
-      if (cb === undefined) {
+    if (elem === undefined) {
+      return Promise.reject("no video input")
+    }
+
+    if (elem.readyState !== elem.HAVE_ENOUGH_DATA) {
+      return Promise.reject("not enough data")
+    }
+
+    if (solution === undefined) {
+      return Promise.reject("no pose detector")
+    }
+
+    return new Promise(async resolve => {
+      if (estimateReturns) {
         solution.onResults(results => {
           return resolve(results)
         })
-      }
-
-      if (elem === undefined) {
-        return reject("no video input")
-      }
-
-      if (elem.readyState !== elem.HAVE_ENOUGH_DATA) {
-        return reject("not enough data")
-      }
-
-      if (solution === undefined) {
-        return reject("no pose detector")
       }
 
       const t0 = performance.now()
@@ -68,11 +85,14 @@ export function useBlazePose(el: Ref<HTMLVideoElement | undefined>, cb?: Results
       selfieMode: false,
     })
 
-    solution.onResults(cb ?? poseResult)
+    solution.onResults(poseResult)
+    // solution.onResults(cb ?? poseResult)
 
     await solution.initialize()
 
     set(detectorReady, true)
+    onDetectorReady?.call(null)
+    console.info("Pose detector ready")
   })
 
   tryOnUnmounted(() => {
