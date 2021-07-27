@@ -44,6 +44,12 @@
 ** Toast
 */
 
+.Vue-Toastification__toast {
+  padding: 12px;
+  min-height: 0;
+  max-height: none;
+}
+
 .Vue-Toastification__progress-bar {
   background-color: var(--blood);
 }
