@@ -2,7 +2,7 @@
 Title Playback pose
 
 div(style="margin: 4rem 1rem 1rem; width: 100%;")
-  Timeline(:length="180")
+  Timeline(:length="180" @time="t => toast.info(`selected: ${t}`)")
 
 //- video(ref="video" :src="opts.src")
 </template>

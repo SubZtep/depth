@@ -1,13 +1,14 @@
 <template lang="pug">
-h1 {{isSwiping}}
 div(ref="wrapper" :class="{ [$style.timeline]: true, [$style.swiping]: isSwiping }")
   canvas(ref="notches" height="50")
   div(ref="cursor" :class="$style.cursor" v-show="isInside")
-  //- div(ref="cursor" :class="$style.cursor" v-show="isInside" :style="`left: ${cursorLeft}px;`")
 </template>
 
 <script lang="ts" setup>
-import { get, useElementSize, throttledWatch, useMouseInElement, usePointerSwipe, not } from "@vueuse/core"
+import type { MaybeRef } from "@vueuse/core"
+import { get, set, not, throttledWatch, useEventListener, useMouseInElement, useMousePressed, usePointerSwipe, whenever } from "@vueuse/core"
+
+const emit = defineEmits(["time"])
 
 const props = defineProps({
   /** length in seconds */
@@ -15,44 +16,73 @@ const props = defineProps({
 })
 const { length } = toRefs(props)
 
+const gapSec = ref(10)
+
 const wrapper = ref<HTMLDivElement>()
 const notches = ref<HTMLCanvasElement>()
 const cursor = ref<HTMLDivElement>()
 
-// const { width, height } = useElementSize(wrapper)
-
 const { elementX, isOutside } = useMouseInElement(wrapper)
 const isInside = not(isOutside)
 
+useEventListener(wrapper, "wheel", ({ deltaY }: WheelEvent) => {
+  const directon = Math.sign(deltaY)
+  if (isGapMutable(gapSec, directon)) {
+    set(gapSec, get(gapSec) + directon)
+  }
+}, { passive: true })
+
 const { distanceX, isSwiping } = usePointerSwipe(wrapper, {
   onSwipe(e: PointerEvent) {
-    const speed = get(wrapper)!.clientWidth / get(notches)!.width
-    get(wrapper)!.scrollLeft -= distanceX.value * speed / 100
+    // @ts-ignore
+    if (e.target.nodeName !== "CANVAS") {
+      const speed = get(wrapper)!.clientWidth / get(notches)!.width
+      get(wrapper)!.scrollLeft -= distanceX.value * speed / 100
+    }
   }
 })
 
-const gapSec = ref(10)
+const { pressed } = useMousePressed({ target: notches })
+whenever(pressed, () => {
+  const time = (get(elementX) + get(wrapper)!.scrollLeft) / get(gapSec)
+  emit("time", time)
+})
 
-const formatToTimeline = (secs: number) => {
-  const mins = Math.floor(secs / 60)
-  const s = secs - mins * 60
-  return `${String(mins).padStart(2, "0")}:${String(s).padStart(2, "0")}`
+onMounted(() => {
+  const ctx = get(notches)!.getContext("2d")!
+  ctx.lineWidth = 1
+  ctx.font = "52pt Tahoma"
+  const draw = drawer(ctx)
+
+  watchEffect(() => {
+    get(cursor)!.style.left = `${get(elementX) + (get(wrapper)!.scrollLeft)}px`
+  })
+
+  throttledWatch([length, gapSec], () => {
+    ctx.canvas.width = get(length) * get(gapSec)
+    draw(props.length, get(gapSec))
+  }, { immediate: true, throttle: 50 })
+})
+</script>
+
+<script lang="ts">
+const isGapMutable = (gapSec: MaybeRef<number>, direction: number) => {
+  const newGap = get(gapSec) + direction
+  return newGap > 2 && newGap < 20
 }
 
-const drawer = (ctx: CanvasRenderingContext2D) => () => {
+const drawer = (ctx: CanvasRenderingContext2D) => (secs: number, gapSec: number) => {
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
   ctx.beginPath()
-
-  for (let i = 0; i < props.length; i++) {
-    const x = i * get(gapSec)
+  for (let i = 0; i < secs; i++) {
+    const x = i * gapSec
     const isTensec = i % 10 === 0
     const isMin = i % 60 === 0
 
     let height = 20
     if (isTensec) height += 10
     if (isMin) height += 10
-
 
     ctx.moveTo(x, 0)
     ctx.lineTo(x, height)
@@ -65,36 +95,11 @@ const drawer = (ctx: CanvasRenderingContext2D) => () => {
   ctx.stroke()
 }
 
-onMounted(() => {
-  const ctx = get(notches)!.getContext("2d")!
-  ctx.lineWidth = 2
-  ctx.font = "52pt Tahoma"
-  const draw = drawer(ctx)
-
-  watchEffect(() => {
-    get(cursor)!.style.left = `${get(elementX) + (get(wrapper)?.scrollLeft ?? 0)}px`
-  })
-
-
-  throttledWatch([length, gapSec], () => {
-    ctx.canvas.width = get(length) * get(gapSec)
-    draw()
-  }, { immediate: true, throttle: 250 })
-
-
-  // throttledWatch([width, height], ([w, h]) => {
-  //   const canvas = get(notches)!
-  //   canvas.width = w
-  //   canvas.height = h
-  //   draw()
-  // },
-  // {
-  //   immediate: true,
-  //   throttle: 250
-  // })
-
-})
-
+const formatToTimeline = (secs: number) => {
+  const mins = Math.floor(secs / 60)
+  const s = secs - mins * 60
+  return `${String(mins).padStart(2, "0")}:${String(s).padStart(2, "0")}`
+}
 </script>
 
 <style module>
@@ -129,7 +134,7 @@ onMounted(() => {
 
 .timeline canvas {
   position: absolute;
-  cursor: inherit;
+  cursor: crosshair;
 }
 
 .cursor {
