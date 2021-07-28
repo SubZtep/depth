@@ -9,7 +9,7 @@ CREATE TABLE video (
   inserted_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
   updated_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
   filename varchar NOT NULL,
-  length int4,
+  duration float4 NOT NULL,
   width int2 NOT NULL,
   height int2 NOT NULL
 );

@@ -1,6 +1,7 @@
 // import type { Keypoint } from "@tensorflow-models/pose-detection"
 import { computed } from "vue"
-import { reactify, get } from "@vueuse/core"
+import type { MaybeRef } from "@vueuse/core"
+import { reactify, get, unrefElement } from "@vueuse/core"
 import { VIDEOS } from "./constants"
 
 export function normalizeDeviceLabel(label: string) {
@@ -72,3 +73,11 @@ export function rand<T = number>(max: number, min = 1): T {
 //     g(f(...args))
 
 // export const pipe = (...fns) => fns.reduce(_pipe)
+
+export async function updateVideoTime(video: MaybeRef<HTMLVideoElement>, seekToSec: number): Promise<void> {
+  const el: HTMLVideoElement = unrefElement(video)
+  el.currentTime = seekToSec
+  return new Promise(resolve => {
+    el.addEventListener("timeupdate", () => resolve(), { once: true })
+  })
+}

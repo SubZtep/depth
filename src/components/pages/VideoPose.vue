@@ -10,19 +10,17 @@ video(
 </template>
 
 <script lang="ts" setup>
+import type { Results } from "../../packages/PoseAI"
 import { set, get, whenever, unrefElement } from "@vueuse/core"
-import { useBlazePose } from "../../packages/PoseAI/useBlazePose"
-import { selectableVideos } from "../../misc/utils"
-import { useGui } from "../../packages/datGUI/plugin"
-import { useThreeJSEventHook } from "../../packages/ThreeJS/plugin"
-import { pauseLoop, resumeLoop } from "../../packages/ThreeJS/constants"
-import { VIDEOS } from "../../misc/constants"
-import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { useToast } from "vue-toastification"
-import { useFFmpeg } from "../../packages/FFmpeg/useFFmpeg"
-import { useSupabase } from "../../packages/Supabase/plugin"
-import { toRef } from "vue"
-import { PoseType } from "../../packages/Supabase/dbqueries"
+import { useNProgress } from "@vueuse/integrations/useNProgress"
+import { useThreeJSEventHook, pauseLoop, resumeLoop } from "../../packages/ThreeJS"
+import { useSupabase, PoseType } from "../../packages/Supabase"
+import { useBlazePose } from "../../packages/PoseAI"
+import { useFFmpeg } from "../../packages/FFmpeg"
+import { useGui } from "../../packages/datGUI"
+import { selectableVideos, updateVideoTime } from "../../misc/utils"
+import { VIDEOS } from "../../misc/constants"
 
 const toast = useToast()
 const { progress } = useNProgress()
@@ -53,29 +51,43 @@ const { estimatePose } = useBlazePose({
   onDetectorReady: () => {
     folder.add(btns, "record").name("💾 Estimates")
     folder.open()
-  }
+  },
+  options: {
+    modelComplexity: 2,
+  },
 })
 
-async function updateVideoTime(seekToSec: number): Promise<void> {
-  const vel: HTMLVideoElement = unrefElement(video)
-  vel.currentTime = seekToSec
-  return new Promise(resolve => {
-    vel.addEventListener("timeupdate", () => resolve(), { once: true })
-  })
-}
+// async function updateVideoTime(seekToSec: number): Promise<void> {
+//   const el: HTMLVideoElement = unrefElement(video)
+//   el.currentTime = seekToSec
+//   return new Promise(resolve => {
+//     el.addEventListener("timeupdate", () => resolve(), { once: true })
+//   })
+// }
 
 const processingDone = ref(false)
-const queue: number[] = []
+const frameTimesQueue: number[] = []
 
 async function processFrame() {
   if (!get(processingDone)) return
 
-  const pts = queue.shift()
-  if (pts === undefined) return
+  const pts = frameTimesQueue.shift()
+  if (pts === undefined) {
+    toast.success("All done, poses are in db")
+    return
+  }
   set(processingDone, false)
 
-  await updateVideoTime(pts)
-  const pose = await estimatePose()
+  await updateVideoTime(video, pts)
+
+  let pose: Results
+  try {
+    pose = await estimatePose()
+  } catch (e) {
+    toast.error(e.message)
+    set(processingDone, true)
+    return
+  }
 
   const rawPoseId = await db.addPose({ video_id: state.videoId!, time: pts, type: PoseType.Raw })
   db.addKeypoints(pose.poseWorldLandmarks.map((kp, index) => ({ pose_id: rawPoseId, index, ...kp })))
@@ -95,7 +107,7 @@ const btns = {
       src: toRef(state, "src"),
       progress: ({ ratio }) => set(progress, ratio),
       logger: toast,
-      onTimestamp: ts => queue.push(ts),
+      onTimestamp: ts => frameTimesQueue.push(ts),
       onStarted: () => set(processingDone, true),
       onDone: () => toast.success("FFmpeg Done"),
     })

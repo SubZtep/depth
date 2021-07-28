@@ -1,6 +1,6 @@
 <template lang="pug">
 transition(name="fade")
-  h1(v-if="showTitle")
+  h1.title(v-if="showTitle")
     slot
 </template>
 
@@ -12,7 +12,7 @@ onMounted(() => set(showTitle, false))
 </script>
 
 <style>
-h1 {
+h1.title {
   font-size: 1.6rem;
   text-shadow: -4px 0 var(--blood), 1px 0 #fffa, 1px 1px 2px #0063;
   position: fixed;

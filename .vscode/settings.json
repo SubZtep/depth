@@ -7,7 +7,7 @@
   "windicss.includeLanguages": {},
   "windicss.sortOnSave": true,
   "css.validate": false,
-  "scss.validate": false,
+  "css.lint.emptyRules": "ignore",
   "gitlens.codeLens.recentChange.enabled": false,
   "gitlens.codeLens.authors.enabled": false,
   "gitlens.codeLens.enabled": false,

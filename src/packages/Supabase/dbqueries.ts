@@ -71,4 +71,31 @@ export default class DbQueries {
     }
     // this.#logger.info(`${obj.length} Keypoints added`)
   }
+
+  // async getVideos(): Promise<Video[]> {
+  async getVideos() {
+    const { data, error } = await this.#client
+      .from<Required<Pick<Video, "id" | "filename" | "width" | "height" | "duration">>>("video")
+      .select("id, filename, width, height, duration")
+
+      if (error || data == null) {
+      return Promise.reject(error?.message ?? "no data")
+    }
+    return data
+  }
+
+  async getPoses(videoId: number, poseType: PoseType): Promise<Required<Pick<Pose, "id" | "time">>[]> {
+    const { data, error } = await this.#client
+      .from<Required<Pick<Pose, "id" | "time">>>("pose")
+      .select("id, time")
+      // @ts-ignore
+      .eq("video_id", videoId)
+      // @ts-ignore
+      .eq("type", poseType)
+
+    if (error || data == null) {
+      return Promise.reject(error?.message ?? "no data")
+    }
+    return data
+  }
 }

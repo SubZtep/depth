@@ -12,6 +12,7 @@ module.exports = {
         "no-unused-vars": "off",
         "no-undef": "off",
         "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-empty-interface": "off",
       },
     },
   ],
@@ -40,6 +41,6 @@ module.exports = {
     "vue/require-default-prop": "off",
     indent: ["warn", 2, { "SwitchCase": 1 }],
     "max-len": ["warn", { code: 420, tabWidth: 2 }],
-
+    "css/": "off",
   },
 }

@@ -1,6 +1,6 @@
 import type { MaybeRef } from "@vueuse/core"
 import { set, tryOnUnmounted, unrefElement, tryOnMounted } from "@vueuse/core"
-import type { Pose, PoseConfig, ResultsListener, Results } from "../../../public/pose"
+import type { Pose, PoseConfig, ResultsListener, Results, Options } from "../../../public/pose"
 import { reactive, ref, watch } from "vue"
 import Stats from "stats.js"
 import { useStats } from "../Stats/plugin"
@@ -10,11 +10,14 @@ interface BlazePoseOptions {
   /** Video element */
   video: MaybeRef<HTMLVideoElement>
 
-  /** If true (default), pose estimation fn return, otherwise `results` updated */
+  // /** If true (default), pose estimation fn return, otherwise `results` updated */
   estimateReturns?: boolean
 
-  /** Callback when detector is ready */
+  // /** Callback when detector is ready */
   onDetectorReady?: Fn
+
+  /** blaze pose options */
+  options?: Options
 }
 
 let dstat: Stats.Panel | undefined
@@ -50,15 +53,15 @@ export function useBlazePose(options: BlazePoseOptions) {
     const elem = unrefElement(video)
 
     if (elem === undefined) {
-      return Promise.reject("no video input")
+      return Promise.reject(new Error("no video input"))
     }
 
     if (elem.readyState !== elem.HAVE_ENOUGH_DATA) {
-      return Promise.reject("not enough data")
+      return Promise.reject(new Error("not enough data"))
     }
 
     if (solution === undefined) {
-      return Promise.reject("no pose detector")
+      return Promise.reject(new Error("no pose detector"))
     }
 
     return new Promise(async resolve => {
@@ -83,16 +86,13 @@ export function useBlazePose(options: BlazePoseOptions) {
       modelComplexity: 1,
       smoothLandmarks: true,
       selfieMode: false,
+      ...options.options,
     })
-
     solution.onResults(poseResult)
-    // solution.onResults(cb ?? poseResult)
 
     await solution.initialize()
-
     set(detectorReady, true)
     onDetectorReady?.call(null)
-    console.info("Pose detector ready")
   })
 
   tryOnUnmounted(() => {

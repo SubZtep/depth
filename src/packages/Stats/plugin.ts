@@ -20,6 +20,10 @@ export default {
   },
 } as Plugin
 
-export function useStats() {
-  return inject<Stats>(statsKey)!
+export function useStats(opt?: { mosaic?: boolean }) {
+  const s = inject<Stats>(statsKey)!
+  if (opt?.mosaic !== undefined) {
+    s.dom.classList[opt.mosaic ? "add" : "remove"]("mosaic")
+  }
+  return s
 }

@@ -4,7 +4,6 @@ interface SupabasePluginOptions {
   options?: import("@supabase/supabase-js").SupabaseClientOptions
 }
 
-// export namespace Supabase {
 abstract interface SerialId {
   readonly id?: number
 }
@@ -19,7 +18,7 @@ abstract interface TriggerUpdated {
 
 interface Video extends SerialId, TriggerInserted, TriggerUpdated {
   filename: string
-  length?: number
+  duration: number
   width: number
   height: number
 }
@@ -38,4 +37,3 @@ interface Keypoint {
   z: number
   visibility?: number
 }
-// }
