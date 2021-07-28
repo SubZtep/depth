@@ -1,13 +1,12 @@
 <template lang="pug">
 .slotHeader
-  div(v-if="props.poseType === 0") Raw
-  div(v-else-if="props.poseType === 1") Normalized
+  div {{poseTypeName(props.poseType)}}
   .big {{props.poses.length}} poses
 </template>
 
 <script lang="ts" setup>
 import type { PropType } from "vue"
-import { PoseType } from "../packages/Supabase"
+import { PoseType, poseTypeName } from "../packages/PoseAI"
 
 const props = defineProps({
   poses: { type: Array as PropType<SBPose[]>, required: true },

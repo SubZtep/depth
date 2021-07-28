@@ -4,7 +4,7 @@
 
 <script lang="ts" setup>
 import type { PropType } from "vue"
-import { PoseType } from "../packages/Supabase"
+import { PoseType } from "../packages/PoseAI"
 
 const props = defineProps({
   poses: { type: Array as PropType<SBPose[]>, required: true },

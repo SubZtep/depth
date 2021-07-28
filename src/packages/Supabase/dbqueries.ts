@@ -1,9 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js"
-
-export enum PoseType {
-  Raw = 0,
-  Normalized = 1,
-}
+import { PoseType } from "../PoseAI"
 
 export default class DbQueries {
   #client: SupabaseClient
@@ -98,15 +94,27 @@ export default class DbQueries {
     return data
   }
 
-  // async getKeypoints(poseId: number) {
-  //   const { data, error } = await this.#client
-  //     .from<Required<Pick<Keypoint, "id" | "x" | "y" | "z" | "r" | "g" | "b" | "pose_id">>>("keypoint")
-  //     .select("id, x, y, z, r, g, b, pose_id")
-  //     .eq("pose_id", poseId)
+  async getKeypoints(poseId: number): Promise<Keypoint[]> {
+    const { data, error } = await this.#client
+      .from<Keypoint>("keypoint")
+      .select("index, x, y, z, visibility")
+      .eq("pose_id", poseId)
 
-  //   if (error || data == null) {
-  //     return Promise.reject(error?.message ?? "no data")
-  //   }
-  //   return data
-  // }
+    if (error || data == null) {
+      return Promise.reject(error?.message ?? "no data")
+    }
+    return data
+  }
+
+  async getAllPoseKeypoints(poseIds: number[]): Promise<Keypoint[]> {
+    const { data, error } = await this.#client
+      .from<Keypoint>("keypoint")
+      .select("pose_id, index, x, y, z, visibility")
+      .in("pose_id", poseIds)
+
+    if (error || data == null) {
+      return Promise.reject(error?.message ?? "no data")
+    }
+    return data
+  }
 }

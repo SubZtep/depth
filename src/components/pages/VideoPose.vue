@@ -11,12 +11,12 @@ video(
 
 <script lang="ts" setup>
 import type { Results } from "../../packages/PoseAI"
-import { set, get, whenever, unrefElement } from "@vueuse/core"
+import { set, get, whenever } from "@vueuse/core"
 import { useToast } from "vue-toastification"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { useThreeJSEventHook, pauseLoop, resumeLoop } from "../../packages/ThreeJS"
-import { useSupabase, PoseType } from "../../packages/Supabase"
-import { useBlazePose } from "../../packages/PoseAI"
+import { useSupabase } from "../../packages/Supabase"
+import { useBlazePose, PoseType } from "../../packages/PoseAI"
 import { useFFmpeg } from "../../packages/FFmpeg"
 import { useGui } from "../../packages/datGUI"
 import { selectableVideos, updateVideoTime } from "../../misc/utils"

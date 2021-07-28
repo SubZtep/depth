@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import type { MaybeRef } from "@vueuse/core"
-import { get, set, not, throttledWatch, useEventListener, useMouseInElement, useMousePressed, usePointerSwipe, whenever } from "@vueuse/core"
+import { get, set, and, not, throttledWatch, useEventListener, useMouseInElement, useMousePressed, usePointerSwipe, whenever } from "@vueuse/core"
 
 const emit = defineEmits(["time"])
 const props = defineProps({
@@ -25,26 +25,33 @@ const isInside = not(isOutside)
 useEventListener(
   wrapper,
   "wheel",
-  ({ deltaY }: WheelEvent) => set(gapSecPx, nextGapSize(gapSecPx, deltaY)),
+  (e: WheelEvent) => {
+    e.stopPropagation()
+    set(gapSecPx, nextGapSize(gapSecPx, e.deltaY))
+  },
   { passive: true }
 )
 
 const { distanceX, isSwiping } = usePointerSwipe(wrapper, {
-  onSwipe(_e: PointerEvent) {
+  onSwipeStart(e: PointerEvent) {
+    e.stopPropagation()
+  },
+  onSwipe(e: PointerEvent) {
     const speed = get(wrapper)!.clientWidth / get(notches)!.width
-    get(wrapper)!.scrollLeft -= (distanceX.value * speed) / 100
+    get(wrapper)!.scrollLeft -= (distanceX.value * speed) / (200 * e.pressure)
   },
 })
 
 const { pressed } = useMousePressed({ target: notches })
-whenever(pressed, () => {
+whenever(and(pressed, not(isSwiping)), () => {
+  // FIXME: check swiping better to prevent unvanted time updates
   const time = (get(elementX) + get(wrapper)!.scrollLeft) / get(gapSecPx)
   emit("time", +time.toFixed(3))
 })
 
 onMounted(() => {
   const ctx = get(notches)!.getContext("2d")!
-  const draw = drawer(ctx)
+  const redraw = drawer(ctx)
 
   set(gapSecPx, get(wrapper)!.clientWidth / props.duration)
 
@@ -54,10 +61,7 @@ onMounted(() => {
 
   throttledWatch(
     [() => props.duration, gapSecPx],
-    () => {
-      ctx.canvas.width = props.duration * get(gapSecPx)
-      draw(props.duration, get(gapSecPx))
-    },
+    () => redraw(props.duration, get(gapSecPx)),
     { immediate: true, throttle: 50 }
   )
 })
@@ -71,6 +75,7 @@ const nextGapSize = (gapSec: MaybeRef<number>, direction: number) => {
 }
 
 const drawer = (ctx: CanvasRenderingContext2D) => (secs: number, gapSec: number) => {
+  ctx.canvas.width = secs * gapSec
   const height = ctx.canvas.height
   ctx.fillStyle = "#3a3b3b"
   ctx.fillRect(0, 0, ctx.canvas.width, height)
