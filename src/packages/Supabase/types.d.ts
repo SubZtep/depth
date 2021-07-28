@@ -37,3 +37,6 @@ interface Keypoint {
   z: number
   visibility?: number
 }
+
+type SBVideo = Required<Pick<Video, "id" | "filename" | "width" | "height" | "duration">>
+type SBPose = Required<Pick<Pose, "id" | "time">>

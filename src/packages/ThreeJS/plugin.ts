@@ -12,12 +12,12 @@ export default {
       toastEvents = false
     } = options
 
-    if (toastEvents) {
-      const toast = useToast()
-      eventHook.on(({ cmd }) => {
-        toast.info(`3JS ${cmd}`)
-      })
-    }
+    // if (toastEvents) {
+    //   const toast = useToast()
+    //   eventHook.on(({ cmd }) => {
+    //     toast.info(`3JS ${cmd}`)
+    //   })
+    // }
 
     app.provide(eventHookKey, eventHook)
   },

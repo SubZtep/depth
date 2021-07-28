@@ -1,9 +1,19 @@
 <template lang="pug">
-.miniScrollbar(ref="wrapper" :class="$style.timeline")
-  canvas(ref="notches" :class="$style.canvas" height="27")
-  div(:class="{ [$style.stuff]: true, [$style.swiping]: isSwiping }")
-    slot
-  div(ref="cursor" :class="$style.cursor" v-show="isInside")
+.timelineGrid.miniScrollbar(ref="wrapper")
+  .time TIME
+  .timeline TIMELINE
+  //- canvas.notches(ref="notches" height="27")
+
+  //- .slots(:class="{ cursorGrabbing: isSwiping }")
+  .slotHeader SHEAD
+  .slot SLOT
+  .slotHeader SHEAD
+  .slot SLOT
+  .slotHeader SHEAD
+  .slot SLOT
+    //- slot
+
+  //- .cursor(ref="cursor" v-show="isInside")
 </template>
 
 <script lang="ts" setup>
@@ -11,58 +21,57 @@ import type { MaybeRef } from "@vueuse/core"
 import { get, set, not, throttledWatch, useEventListener, useMouseInElement, useMousePressed, usePointerSwipe, whenever } from "@vueuse/core"
 
 const emit = defineEmits(["time"])
-
 const props = defineProps({
-  /** length in seconds */
-  length: { type: Number, required: true },
+  /** video length in seconds */
+  duration: { type: Number, required: true },
 })
-const { length } = toRefs(props)
 
-const gapSec = ref(10)
+// const gapSecPx = ref(10)
+const gapSecPx = ref(60)
 
 const wrapper = ref<HTMLDivElement>()
 const notches = ref<HTMLCanvasElement>()
 const cursor = ref<HTMLDivElement>()
 
-const { elementX, isOutside } = useMouseInElement(wrapper)
-const isInside = not(isOutside)
+// const { elementX, isOutside } = useMouseInElement(wrapper)
+// const isInside = not(isOutside)
 
-useEventListener(wrapper, "wheel", ({ deltaY }: WheelEvent) => set(gapSec, nextGapSize(gapSec, deltaY)), { passive: true })
+// useEventListener(wrapper, "wheel", ({ deltaY }: WheelEvent) => set(gapSecPx, nextGapSize(gapSecPx, deltaY)), { passive: true })
 
-const { distanceX, isSwiping } = usePointerSwipe(wrapper, {
-  onSwipe(e: PointerEvent) {
-    // @ts-ignore
-    if (e.target.nodeName !== "CANVAS") {
-      const speed = get(wrapper)!.clientWidth / get(notches)!.width
-      get(wrapper)!.scrollLeft -= (distanceX.value * speed) / 100
-    }
-  },
-})
+// const { distanceX, isSwiping } = usePointerSwipe(wrapper, {
+//   onSwipe(e: PointerEvent) {
+//     // @ts-ignore
+//     if (e.target.nodeName !== "CANVAS") {
+//       const speed = get(wrapper)!.clientWidth / get(notches)!.width
+//       get(wrapper)!.scrollLeft -= (distanceX.value * speed) / 100
+//     }
+//   },
+// })
 
-const { pressed } = useMousePressed({ target: notches })
-whenever(pressed, () => {
-  const time = (get(elementX) + get(wrapper)!.scrollLeft) / get(gapSec)
-  emit("time", time)
-})
+// const { pressed } = useMousePressed({ target: notches })
+// whenever(pressed, () => {
+//   const time = (get(elementX) + get(wrapper)!.scrollLeft) / get(gapSecPx)
+//   emit("time", time)
+// })
 
 onMounted(() => {
-  const ctx = get(notches)!.getContext("2d")!
-  const draw = drawer(ctx)
+  // const ctx = get(notches)!.getContext("2d")!
+  // const draw = drawer(ctx)
 
-  set(gapSec, get(wrapper)!.clientWidth / get(length))
+  // set(gapSecPx, get(wrapper)!.clientWidth / props.duration)
 
-  watchEffect(() => {
-    get(cursor)!.style.left = `${get(elementX) + get(wrapper)!.scrollLeft}px`
-  })
+  // watchEffect(() => {
+  //   get(cursor)!.style.left = `${get(elementX) + get(wrapper)!.scrollLeft}px`
+  // })
 
-  throttledWatch(
-    [length, gapSec],
-    () => {
-      ctx.canvas.width = get(length) * get(gapSec)
-      draw(props.length, get(gapSec))
-    },
-    { immediate: true, throttle: 50 }
-  )
+  // throttledWatch(
+  //   [() => props.duration, gapSecPx],
+  //   () => {
+  //     ctx.canvas.width = props.duration * get(gapSecPx)
+  //     draw(props.duration, get(gapSecPx))
+  //   },
+  //   { immediate: true, throttle: 50 }
+  // )
 })
 </script>
 
@@ -111,36 +120,52 @@ const formatToTimeline = (secs: number) => {
 }
 </script>
 
-<style module>
-.timeline {
-  display: flex;
-  flex-direction: column;
+<style scoped>
+.timelineGrid {
+  color: #ff0;
   height: 100%;
-  position: relative;
-  overflow-y: hidden;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 100px 1fr;
+  grid-template-rows: 27px auto;
+  grid-auto-flow: row;
 }
 
-.swiping {
+.timelineGrid > * {
+  background-color: #3f31;
+}
+
+.timeline {
+  background-color: red;
+}
+
+.cursorGrabbing {
   cursor: grabbing;
 }
 
-.canvas {
-  position: absolute;
+.notches {
+  /* position: absolute; */
   cursor: crosshair;
 }
 
-.stuff {
-  flex-grow: 1;
-  cursor: grab;
-  overflow: auto;
+.slotHeader {
+  min-height: 100px;
 }
 
-.cursor {
+.slots {
+  /* flex-grow: 1; */
+  cursor: grab;
+  /* overflow: auto; */
+  /* background: #ff0; */
+  background-color: #fff;
+}
+
+/* .cursor {
   pointer-events: none;
   position: absolute;
   width: 1px;
   background-color: #ff0;
   top: 0;
   bottom: 0;
-}
+} */
 </style>

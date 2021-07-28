@@ -17,6 +17,14 @@
   transform: scale(var(--gui-scale, 1));
 }
 
+.dg .property-name, .dg .c {
+  width: 50%;
+}
+
+.dg li:not(.folder) {
+  height: 32px;
+  line-height: 32px;
+}
 
 .dg .folder .title {
   font-size: 18px;
@@ -58,4 +66,8 @@
 
 .dg .cr.string select {
   width: 100%;
+}
+
+.close-button {
+  color: #666;
 }

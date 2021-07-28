@@ -72,10 +72,9 @@ export default class DbQueries {
     // this.#logger.info(`${obj.length} Keypoints added`)
   }
 
-  // async getVideos(): Promise<Video[]> {
-  async getVideos() {
+  async getVideos(): Promise<SBVideo[]> {
     const { data, error } = await this.#client
-      .from<Required<Pick<Video, "id" | "filename" | "width" | "height" | "duration">>>("video")
+      .from<SBVideo>("video")
       .select("id, filename, width, height, duration")
 
       if (error || data == null) {
@@ -84,9 +83,9 @@ export default class DbQueries {
     return data
   }
 
-  async getPoses(videoId: number, poseType: PoseType): Promise<Required<Pick<Pose, "id" | "time">>[]> {
+  async getPoses(videoId: number, poseType: PoseType): Promise<SBPose[]> {
     const { data, error } = await this.#client
-      .from<Required<Pick<Pose, "id" | "time">>>("pose")
+      .from<SBPose>("pose")
       .select("id, time")
       // @ts-ignore
       .eq("video_id", videoId)
@@ -98,4 +97,16 @@ export default class DbQueries {
     }
     return data
   }
+
+  // async getKeypoints(poseId: number) {
+  //   const { data, error } = await this.#client
+  //     .from<Required<Pick<Keypoint, "id" | "x" | "y" | "z" | "r" | "g" | "b" | "pose_id">>>("keypoint")
+  //     .select("id, x, y, z, r, g, b, pose_id")
+  //     .eq("pose_id", poseId)
+
+  //   if (error || data == null) {
+  //     return Promise.reject(error?.message ?? "no data")
+  //   }
+  //   return data
+  // }
 }

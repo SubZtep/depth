@@ -27,6 +27,7 @@ const { progress } = useNProgress()
 const { db } = useSupabase({ logger: toast })
 const threeJs = useThreeJSEventHook()
 threeJs.trigger(pauseLoop)
+toast.info("3D background paused due to heavy calculations on this page")
 
 interface State {
   /** Selected video file source path */
@@ -119,6 +120,7 @@ const btns = {
 onBeforeUnmount(() => {
   gui.removeFolder(folder)
   threeJs.trigger(resumeLoop)
+  toast.info("3D background resumed")
 })
 
 onErrorCaptured(error => {

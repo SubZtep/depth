@@ -18,7 +18,7 @@ import "./style.css"
 
 createApp(App)
   .use(Toast, {
-    timeout: 3569,
+    timeout: 4569,
     maxToasts: 13,
     position: "bottom-right",
     showCloseButtonOnHover: true,

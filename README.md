@@ -80,3 +80,8 @@ https://github.com/yomotsu/camera-controls
 ---
 _superWIP_!noeta.\
 unlicense4temp-
+
+
+#### vue qustions
+1. using watchEffect worst than watch regarding to performance?
+2. does it make sense to create an other script tag next to `script setup` to prefent too many shared objects to the template?

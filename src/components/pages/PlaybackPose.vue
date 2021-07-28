@@ -1,22 +1,22 @@
 <template lang="pug">
 Title Playback pose
 
-.debug.miniScrollbar(v-if="opts.showDebug")
+.debug.miniScrollbar(v-if="state.showDebug")
   div Video: {{state.video}}
   div Normalized poses: {{state.poses.get(PoseType.Normalized)}}
 
-div(:class="$style.grid")
-  video(
+.guiGrid
+  video.player(
     ref="video"
-    :src="opts.src"
-    :class="$style.player")
+    height="100"
+    :src="state.src"
+    controls)
 
-  Timeline(
+  Timeline.tracks(
     v-if="state.video"
-    :class="$style.timeline"
-    :length="state.video.duration"
+    :duration="state.video.duration"
     @time="t => updateVideoTime(video, t)")
-    Poseline(
+    //- Poseline(
       v-if="state.poses.has(PoseType.Normalized)"
       :poses="state.poses.get(PoseType.Normalized)")
 
@@ -31,51 +31,53 @@ import { useThreeJSEventHook, pauseLoop, resumeLoop } from "../../packages/Three
 import { updateVideoTime } from "../../misc/utils"
 import { PoseType } from "../../packages/Supabase"
 
+const toast = useToast()
+const { db } = useSupabase({ logger: toast })
+useStats({ mosaic: false }).showPanel(2)
+const threeJs = useThreeJSEventHook()
+threeJs.trigger(pauseLoop)
+// toast.info("3D background paused due to heavy calculations on this page")
+const videos = await db.getVideos()
+
 interface State {
-  video?: Required<Pick<Video, "id" | "filename" | "width" | "height" | "duration">>
-  poses: Map<PoseType, Required<Pick<Pose, "id" | "time">[]>>
+  /** loaded video url or empty string */
+  src: string
+
+  showDebug: boolean
+
+  video?: SBVideo
+
+  poses: Map<PoseType, SBPose[]>
 }
 
 const state = reactive<State>({
-  poses: new Map()
+  src: videos[0].filename,
+  showDebug: false,
+  poses: new Map(),
 })
-
-const threeJs = useThreeJSEventHook()
-threeJs.trigger(pauseLoop)
-
-useStats({ mosaic: false }).showPanel(2)
-
-const toast = useToast()
-const { db } = useSupabase({ logger: toast })
-
-const videos = await db.getVideos()
-const opts = reactive({
-  src: "",
-  showDebug: true,
-})
-
-const gui = useGui()
-const folder = gui.addFolder("🧼☭ Video pose")
-folder.add(opts, "src", ["", ...videos.map(v => v.filename)]).name("File input")
-folder.add(opts, "showDebug").name("Show state debug")
-folder.open()
-
 
 const video = ref()
 
-onMounted(() => {
-  opts.src = videos[0].filename
-  gui.updateDisplay()
-})
+const gui = useGui()
+gui.close()
+const folder = gui.addFolder("Playback recorded poses of video")
+folder.add(state, "src", ["", ...videos.map(v => v.filename)]).name("Select video to load")
+folder.add(state, "showDebug").name("Show raw state values")
+folder.open()
+
+const loadPosesFromDb = async (src: string) => {
+  state.video = videos.find(v => v.filename === src)
+  if (state.video === undefined) return
+  state.poses.set(PoseType.Normalized, await db.getPoses(state.video.id, PoseType.Normalized))
+  state.poses.set(PoseType.Raw, await db.getPoses(state.video.id, PoseType.Raw))
+  if (state.poses.get(PoseType.Normalized)?.length || 0 > 0 || state.poses.get(PoseType.Raw)?.length || 0 > 0) {
+    // toast.success("Video poses loaded")
+  }
+}
 
 watch(
-  () => opts.src,
-  async src => {
-    state.video = videos.find(v => v.filename === src)
-    if (state.video) {
-      state.poses.set(PoseType.Normalized, await db.getPoses(state.video.id, PoseType.Normalized))
-    }
-  },
+  () => state.src,
+  async src => await loadPosesFromDb(src),
   { immediate: true }
 )
 
@@ -85,26 +87,24 @@ onBeforeUnmount(() => {
 })
 </script>
 
-<style module>
-.grid {
+<style scoped>
+.guiGrid {
   position: fixed;
   inset: 2rem 1.5rem;
-  border: 3px double #6913;
   display: grid;
-  grid-template-rows: 1fr 130px;
+  gap: 4px;
   grid-template-areas:
     "player"
     "timeline";
 }
 
 .player {
-  grid-area: player;
-  align-self: center;
-  justify-self: center;
+  place-self: center;
 }
 
-.timeline {
+.tracks {
   grid-area: timeline;
   align-self: end;
 }
 </style>
+.

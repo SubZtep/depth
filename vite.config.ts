@@ -5,6 +5,7 @@ import ViteFonts from "vite-plugin-fonts"
 import ViteRestart from "vite-plugin-restart"
 import resolve from "@rollup/plugin-node-resolve"
 import commonJS from "@rollup/plugin-commonjs"
+import { EnableSharedArrayBuffer } from "./src/packages/VitePlugins"
 
 export default defineConfig({
   plugins: [
@@ -23,16 +24,8 @@ export default defineConfig({
       reload: "**/src/**/*.*",
       restart: "**/src/**/*.*",
     }),
-    {
-      name: "SharedArrayBuffer",
-      configureServer(server) {
-        server.middlewares.use((_req, res, next) => {
-          res.setHeader("Cross-Origin-Embedder-Policy", "require-corp")
-          res.setHeader("Cross-Origin-Opener-Policy", "same-origin")
-          next()
-        })
-      }
-    }
+    EnableSharedArrayBuffer(),
+    // TODO: scoped styles to modules
   ],
 
   build: {
@@ -67,7 +60,7 @@ export default defineConfig({
   server: {
     // cors: true,
     fs: {
-      allow: [".."]
+      allow: [".."],
     },
 
     // cors: {
