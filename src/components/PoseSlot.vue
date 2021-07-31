@@ -1,5 +1,5 @@
 <template lang="pug">
-.slot Timestamps: {{props.poses.map(v => v.time).join(', ')}}
+.slot Timestamps: {{props.poses?.map(v => v.time).join(', ') ?? "-"}}
 </template>
 
 <script lang="ts" setup>
@@ -7,7 +7,7 @@ import type { PropType } from "vue"
 import { PoseType } from "../packages/PoseAI"
 
 const props = defineProps({
-  poses: { type: Array as PropType<SBPose[]>, required: true },
+  poses: { type: Array as PropType<SBPose[]>, required: false },
   poseType: { type: Number as PropType<PoseType>, required: true },
 })
 </script>

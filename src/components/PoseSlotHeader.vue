@@ -1,7 +1,7 @@
 <template lang="pug">
 .slotHeader
   div {{poseTypeName(props.poseType)}}
-  .big {{props.poses.length}} poses
+  .big {{props.poses?.length ?? "no"}} poses
 </template>
 
 <script lang="ts" setup>
@@ -9,7 +9,7 @@ import type { PropType } from "vue"
 import { PoseType, poseTypeName } from "../packages/PoseAI"
 
 const props = defineProps({
-  poses: { type: Array as PropType<SBPose[]>, required: true },
+  poses: { type: Array as PropType<SBPose[]>, required: false },
   poseType: { type: Number as PropType<PoseType>, required: true },
 })
 

@@ -20,7 +20,7 @@ import { useBlazePose, PoseType } from "../../packages/PoseAI"
 import { useFFmpeg } from "../../packages/FFmpeg"
 import { useGui } from "../../packages/datGUI"
 import { selectableVideos, updateVideoTime } from "../../misc/utils"
-import { VIDEOS } from "../../misc/constants"
+import VIDEOS from "../../misc/videos"
 
 const toast = useToast()
 const { progress } = useNProgress()

@@ -2,16 +2,15 @@
 Title Playback pose
 
 //- .debug(v-if="state.keypoints") {{state.keypoints}}
-
 StickmanSimple(:keypoints="state.keypoints" :width="5")
 
 .grid
-  video.player(ref="videoRef" :src="videos[0].filename" preload="auto" controls v-visible="state.showHtmlVideo")
+  video.player(ref="videoRef" :src="localFilename(state.src)" preload="auto" controls v-visible="state.showHtmlVideo")
 
   .time ⌚ {{state.currentTime}}s
   Timeline(
     @time="t => state.currentTime = t"
-    :duration="video?.duration || 0")
+    :duration="state.video?.duration || 0")
 
   PoseSlotHeader(:poses="state.poses" :poseType="state.poseType")
   PoseSlot(:poses="state.poses" :poseType="state.poseType")
@@ -31,22 +30,24 @@ const { db } = useSupabase({ logger: toast })
 const { dlStats } = useStats()
 const threeJs = useThreeJSEventHook()
 threeJs.trigger(doRenderAllFrames)
+
+const localFilename = (src: string) => src ? `/videos/${src}` : ""
 const videos = await db.getVideos()
-const video = videos.find(v => v.filename === videos[0].filename)
 
 interface State {
-  poses: SBPose[]
+  src: string
+  poseType: PoseType
+  video?: SBVideo
+  poses?: SBPose[]
   keypoints?: Keypoint[]
   currentTime: number
-  poseType: PoseType
   showHtmlVideo: boolean
 }
 
 const state = reactive<State>({
-  // src: videos[0].filename,
-  poses: await db.getPoses(video?.id, PoseType.Normalized),
-  currentTime: 0,
+  src: videos[0].filename,
   poseType: PoseType.Normalized,
+  currentTime: 0,
   showHtmlVideo: true,
 })
 
@@ -54,16 +55,30 @@ const videoRef = ref()
 const { currentTime } = useMediaControls(videoRef)
 biSyncRef(currentTime, toRef(state, "currentTime"))
 
-const gui = useGui({ close: true })
+const gui = useGui({ close: false })
 const folder = gui.addFolder("Playback recorded poses of video")
-// folder.add(state, "src", ["", ...videos.map(v => v.filename)]).name("Select video to load")
+folder.add(state, "src", ["", ...videos.map(v => v.filename)]).name("Select video to load")
 folder.add(state, "poseType", poseTypeOptions).name("Active pose type")
 folder.add(state, "showHtmlVideo").name("Show HTML video")
 folder.open()
 
+watchEffect(async () => {
+  state.video = undefined
+  state.poses = undefined
+  state.keypoints = undefined
+  if (state.src !== "") {
+    state.currentTime = -1
+    state.video = videos.find(v => v.filename === state.src)!
+    state.poses = await db.getPoses(state.video.id, state.poseType)
+    state.currentTime = 0
+  }
+})
+
 watch(
   () => state.currentTime,
   async t => {
+    if (state.poses === undefined) return
+
     const pose = closestPoseInTime(state.poses, t)
     try {
       await dlStats(async () => {
@@ -72,7 +87,6 @@ watch(
     } catch (e) {
       state.keypoints = undefined
       toast.error(e.message)
-      // console.error(e)
     }
   }
 )

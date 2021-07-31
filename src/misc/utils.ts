@@ -2,7 +2,7 @@
 import { computed } from "vue"
 import type { MaybeRef } from "@vueuse/core"
 import { reactify, get, unrefElement } from "@vueuse/core"
-import { VIDEOS } from "./constants"
+import VIDEOS from "./videos"
 
 export function normalizeDeviceLabel(label: string) {
   const res = label.match(/^(.*)\s\([a-z0-9]{4}:[a-z0-9]{4}\)$/)
@@ -80,4 +80,8 @@ export async function updateVideoTime(video: MaybeRef<HTMLVideoElement>, seekToS
   return new Promise(resolve => {
     el.addEventListener("timeupdate", () => resolve(), { once: true })
   })
+}
+
+export function arrayToObject<T>(arr: T[], key: string): Record<string, T> {
+  return arr.reduce((a, b) => ({ ...a, [b[key]]: b }), {})
 }

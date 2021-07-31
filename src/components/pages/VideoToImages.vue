@@ -20,7 +20,7 @@ import { set, get, useCssVar, invoke } from "@vueuse/core"
 import { useNProgress } from "@vueuse/integrations/useNProgress"
 import { useThreeJSEventHook } from "../../packages/ThreeJS/plugin"
 import { useGui } from "../../packages/datGUI/plugin"
-import { VIDEOS } from "../../misc/constants"
+import VIDEOS from "../../misc/videos"
 import { pauseLoop, resumeLoop } from "../../packages/ThreeJS/constants"
 
 const { progress } = useNProgress()

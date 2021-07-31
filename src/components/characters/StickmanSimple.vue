@@ -68,6 +68,8 @@ onMounted(() => {
       if (marks !== undefined) {
         updateJoints(marks)
         updateLines(marks)
+      } else {
+        console.warn("Stickman is hidden booo")
       }
     }
   )
