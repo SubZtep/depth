@@ -79,7 +79,7 @@ export default class DbQueries {
     return data
   }
 
-  async getPoses(videoId: number, poseType: PoseType): Promise<SBPose[]> {
+  async getPoses(videoId?: number, poseType: PoseType = PoseType.Normalized): Promise<SBPose[]> {
     const { data, error } = await this.#client
       .from<SBPose>("pose")
       .select("id, time")
@@ -88,9 +88,7 @@ export default class DbQueries {
       // @ts-ignore
       .eq("type", poseType)
 
-    if (error || data == null) {
-      return Promise.reject(error?.message ?? "no data")
-    }
+    if (error || data == null) return Promise.reject(error?.message ?? "no data")
     return data
   }
 
