@@ -47,14 +47,13 @@ const updateJoints = (points: LandmarkList) => {
   })
 }
 
+const lineEnds = [new Vector3(), new Vector3()]
 const updateLines = (points: LandmarkList) => {
-  const lineEnds = new Array(2)
   BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS.forEach(([i, j]) => {
+    lineEnds[0].set(points[i].x * props.width, points[i].y * props.width, points[i].z * props.width * props.zMulti)
+    lineEnds[1].set(points[j].x * props.width, points[j].y * props.width, points[j].z * props.width * props.zMulti)
+
     const line = lines.get(lineKey(i, j))!
-
-    lineEnds[1] = new Vector3(points[j].x * props.width, points[j].y * props.width, points[j].z * props.width * props.zMulti)
-    lineEnds[0] = new Vector3(points[i].x * props.width, points[i].y * props.width, points[i].z * props.width * props.zMulti)
-
     line.geometry.setFromPoints(lineEnds)
     line.material = boneMaterial
   })

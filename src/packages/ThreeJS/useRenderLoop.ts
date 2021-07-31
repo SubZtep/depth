@@ -10,7 +10,7 @@ export const loopFnPrs = new Set<LoopFnPr>()
 const parallelLoopFns = false //FIXME: make a working version (probably queue based)
 
 export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRenderAllFrames }: RenderLoopProps) {
-  const stats = useStats()
+  const { stats } = useStats()
   const clock = new Clock()
   const { camera } = cameraControls
   let delta: number

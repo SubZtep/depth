@@ -55,8 +55,12 @@ const plugin: Plugin = {
 
 export default plugin
 
-export function useGui() {
-  return inject<dat.GUI>(guiKey)!
+export function useGui(options?: { close?: boolean }) {
+  const g = inject<dat.GUI>(guiKey)!
+  if (options?.close) {
+    g.close()
+  }
+  return g
 }
 
 export function useOnCameraEvent(cb: (params: GUIEvent.Camera) => void) {

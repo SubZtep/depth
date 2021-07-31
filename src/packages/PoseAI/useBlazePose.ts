@@ -35,7 +35,7 @@ export function useBlazePose(options: BlazePoseOptions) {
   let solution: Pose
 
   if (dstat === undefined) {
-    const stats = useStats()
+    const { stats } = useStats()
     dstat = stats.addPanel(new Stats.Panel("ms/pose", "#f9d71c", "#191970"))
   }
 

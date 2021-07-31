@@ -8,6 +8,15 @@ stats.dom.classList.add("Stats")
 stats.dom.addEventListener("dblclick", () => stats.dom.classList.toggle("mosaic"))
 document.body.appendChild(stats.dom)
 
+// FIXME: extend nicer
+const dlstat = stats.addPanel(new Stats.Panel("MS/DL", "#ffffff", "#0000ff"))
+async function dlStats(cb: FnPr, thisArg = globalThis) {
+  const t0 = performance.now()
+  await cb.call(thisArg)
+  const t1 = performance.now()
+  dlstat.update(t1 - t0, 33.33) // for 30fps
+}
+
 export default {
   install(app, options?: StatsOptions) {
     if (options?.showPanel !== undefined) {
@@ -20,10 +29,13 @@ export default {
   },
 } as Plugin
 
-export function useStats(opt?: { mosaic?: boolean }) {
+export function useStats(options?: { mosaic?: boolean }) {
   const s = inject<Stats>(statsKey)!
-  if (opt?.mosaic !== undefined) {
-    s.dom.classList[opt.mosaic ? "add" : "remove"]("mosaic")
+  if (options?.mosaic !== undefined) {
+    s.dom.classList[options.mosaic ? "add" : "remove"]("mosaic")
   }
-  return s
+  return {
+    stats: s,
+    dlStats,
+  }
 }
