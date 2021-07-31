@@ -9,7 +9,7 @@ export default function (): Plugin {
       server.middlewares.use((_req, res, next) => {
         res.setHeader("Cross-Origin-Embedder-Policy", "require-corp")
         res.setHeader("Cross-Origin-Opener-Policy", "same-origin")
-        server.config.logger.info(chalk`{redBright Enabled for Chrome:} {cyan SharedArrayBuffer}`)
+        server.config.logger.info(chalk`{redBright Enabled:} {cyan SharedArrayBuffer}`)
         next()
       })
     },

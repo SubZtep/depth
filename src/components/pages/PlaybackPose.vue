@@ -3,6 +3,8 @@ Title Playback pose
 
 .debug(v-if="state.keypoints") {{state.keypoints}}
 
+StickmanSimple(:keypoints="state.keypoints" :width="5")
+
 .grid
   video.player(ref="videoRef" :src="videos[0].filename" preload="auto" controls)
 
@@ -18,7 +20,7 @@ Title Playback pose
 <script lang="ts" setup>
 import { useToast } from "vue-toastification"
 import { useMediaControls, biSyncRef } from "@vueuse/core"
-import { useThreeJSEventHook } from "../../packages/ThreeJS"
+import { useThreeJSEventHook, doRenderAllFrames } from "../../packages/ThreeJS"
 import { useSupabase } from "../../packages/Supabase"
 import { PoseType, poseTypeName } from "../../packages/PoseAI"
 import { useStats } from "../../packages/Stats"
@@ -31,6 +33,7 @@ const { db } = useSupabase({ logger: toast })
 const stats = useStats()
 const dlstat = stats.addPanel(new Stats.Panel("ms/posedl", "#ffffff", "#0000ff"))
 const threeJs = useThreeJSEventHook()
+threeJs.trigger(doRenderAllFrames)
 const videos = await db.getVideos()
 const video = videos.find(v => v.filename === videos[0].filename)
 
