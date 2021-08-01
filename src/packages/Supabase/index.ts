@@ -1,1 +1,1 @@
-export { useSupabase } from "./plugin"
+export { default, useSupabase } from "./plugin"

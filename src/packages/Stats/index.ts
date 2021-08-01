@@ -1,1 +1,1 @@
-export { useStats } from "./plugin"
+export { default, useStats } from "./plugin"

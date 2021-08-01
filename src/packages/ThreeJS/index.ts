@@ -1,2 +1,2 @@
 export * from "./constants"
-export { useThreeJSEventHook } from "./plugin"
+export { default, useThreeJSEventHook } from "./plugin"

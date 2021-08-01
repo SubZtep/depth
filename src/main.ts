@@ -4,11 +4,12 @@ import Toast from "vue-toastification"
 import App from "./components/scene/App.vue"
 import Visible from "./directives/visible"
 import DBVideo from "./directives/dbvideo"
-import Supabase from "./packages/Supabase/plugin"
-import ThreeJs from "./packages/ThreeJS/plugin"
-import Router from "./packages/router/plugin"
-import Stats from "./packages/Stats/plugin"
-import Gui from "./packages/datGUI/plugin"
+import AspectRatio from "./directives/aspect-ratio"
+import Supabase from "./packages/Supabase"
+import ThreeJs from "./packages/ThreeJS"
+import Router from "./packages/router"
+import Stats from "./packages/Stats"
+import Gui from "./packages/datGUI"
 import routes from "./routes"
 import "./icons"
 import "vue-global-api"
@@ -35,4 +36,5 @@ createApp(App)
   .use(Gui, { routes })
   .directive("visible", Visible)
   .directive("dbvideo", DBVideo)
+  .directive("aspect-ratio", AspectRatio)
   .mount("#app")

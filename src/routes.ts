@@ -5,7 +5,7 @@ import PoseGroup from "./components/pages/PoseGroup.vue"
 import RecordVideo from "./components/pages/RecordVideo.vue"
 import SceneSetup from "./components/pages/SceneSetup.vue"
 import Preferences from "./components/pages/Preferences.vue"
-import DepthRotate from "./components/pages/DepthRotate.vue"
+import DepthHead from "./components/pages/DepthHead.vue"
 
 const route: Route[] = [
   {
@@ -57,8 +57,8 @@ const route: Route[] = [
   },
   {
     path: "/depth",
-    label: "Depth rotate",
-    component: DepthRotate,
+    label: "Depth head",
+    component: DepthHead,
     position: [-20, 2, 10],
     lookAt: [30, 2, -20],
   },

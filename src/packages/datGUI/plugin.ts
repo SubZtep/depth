@@ -19,7 +19,7 @@ const guiKey = Symbol("dat.gui")
 const cameraHookKey = Symbol("camera hook")
 
 // const gui = new dat.GUI({ autoPlace: false, closed: false, width: 280, closeOnTop: false })
-const gui = new dat.GUI({ autoPlace: false, width: 250, closeOnTop: true })
+const gui = new dat.GUI({ autoPlace: false, width: 275, closeOnTop: false })
 // gui.domElement.removeAttribute("style")
 document.querySelector("#hud")!.appendChild(gui.domElement)
 //gui.hide()
