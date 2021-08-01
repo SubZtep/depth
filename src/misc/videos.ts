@@ -8,3 +8,9 @@ export default [
   "yoga1.webm",
   "yoga2.webm",
 ]
+
+export function localFilename(src: string) {
+  if (!src) return ""
+  return `/videos/${src}`
+}
+

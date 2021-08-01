@@ -116,6 +116,7 @@ const formatToTimeline = (secs: number) => {
 .timeline {
   overflow-y: hidden;
   position: relative;
+  background-color: #47784469;
   cursor: grab;
 }
 

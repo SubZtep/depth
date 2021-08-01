@@ -10,15 +10,6 @@ interface FFmpegOptions {
   /** Temporary name for Fetch file */
   memfsFilename?: string
 
-  /** Video frame positions in ms. */
-  // pts?: number[]
-
-  onTimestamp: (pts: number) => void
-
-  onStart?: Fn
-  onStarted?: Fn
-  onDone?: Fn
-
   /** process progress */
   progress?: ProgressCallback
 
@@ -27,14 +18,16 @@ interface FFmpegOptions {
   log?: boolean
 }
 
+interface PtsOptions {
+  onTimestamp: (pts: number) => void
+  onStarted?: Fn
+  onDone?: Fn
+}
+
 export function useFFmpeg(options: FFmpegOptions) {
   const {
     src,
     memfsFilename = "test.webm",
-    // pts,
-    onTimestamp,
-    onStart,
-    onDone,
     progress,
     logger = console,
     log = false,
@@ -71,23 +64,6 @@ export function useFFmpeg(options: FFmpegOptions) {
     { immediate: true }
   )
 
-  whenever(fetched, async () => {
-    ffmpeg.setLogger(({ message }) => {
-      const found = message.match(/^.*pts_time:((([1-9][0-9]*)|(0))(?:\.[0-9]+))\s.*$/)
-      if (found !== null) {
-        onTimestamp.call(null, parseFloat(found[1]))
-
-        if (options.onStarted) {
-          options.onStarted.call(null)
-          options.onStarted = undefined
-        }
-      }
-    })
-    onStart?.call(null)
-    await ffmpeg.run(...`-i ${memfsFilename} -vf showinfo -vsync 0 -start_number 0 -f null /dev/null`.split(" "))
-    onDone?.call(null)
-  })
-
   tryOnUnmounted(() => {
     try {
       ffmpeg.exit()
@@ -95,4 +71,36 @@ export function useFFmpeg(options: FFmpegOptions) {
       console.error("FFmpeg exit", e)
     }
   })
+
+  const presentationTimestamps = ({ onTimestamp, onStarted, onDone }: PtsOptions) => {
+    ffmpeg.setLogger(({ message }) => {
+      const found = message.match(/^.*pts_time:((([1-9][0-9]*)|(0))(?:\.[0-9]+))\s.*$/)
+      if (found != null) {
+        onTimestamp.call(null, parseFloat(found[1]))
+        if (onStarted !== undefined) {
+          onStarted.call(null)
+          onStarted = undefined
+        }
+      }
+    })
+    whenever(fetched, async () => {
+      await ffmpeg.run(...`-i ${memfsFilename} -vf showinfo -vsync 0 -start_number 0 -f null /dev/null`.split(" "))
+      onDone?.call(null)
+    })
+  }
+
+  const keyframeImages = () => {
+    const files = reactive<string[]>([])
+    whenever(fetched, async () => {
+      await ffmpeg.run(..."-skip_frame nokey -i test.webm -vsync 0 -r 1000 -frame_pts 1 %09d.png".split(" "))
+      // @ts-ignore
+      Object.assign(files, ffmpeg.FS<"readdir">("readdir", "/"))
+    })
+    return { files }
+  }
+
+  return {
+    presentationTimestamps,
+    keyframeImages,
+  }
 }

@@ -5,7 +5,7 @@ Title Video pose
 
 video(
   ref="video"
-  :src="state.src"
+  :src="localFilename(state.src)"
   v-dbvideo="id => state.videoId = id")
 </template>
 
@@ -19,8 +19,8 @@ import { useSupabase } from "../../packages/Supabase"
 import { useBlazePose, PoseType } from "../../packages/PoseAI"
 import { useFFmpeg } from "../../packages/FFmpeg"
 import { useGui } from "../../packages/datGUI"
-import { selectableVideos, updateVideoTime } from "../../misc/utils"
-import VIDEOS from "../../misc/videos"
+import { updateVideoTime } from "../../misc/utils"
+import VIDEOS, { localFilename } from "../../misc/videos"
 
 const toast = useToast()
 const { progress } = useNProgress()
@@ -38,13 +38,13 @@ interface State {
 }
 
 const state = reactive<State>({
-  src: VIDEOS[3],
+  src: "",
   videoId: undefined,
 })
 
 const gui = useGui()
 const folder = gui.addFolder("🧼☭ Video pose")
-folder.add(state, "src", selectableVideos()).name("File input")
+folder.add(state, "src", ["", ...VIDEOS]).name("File input")
 
 const video = ref()
 const { estimatePose } = useBlazePose({
@@ -57,14 +57,6 @@ const { estimatePose } = useBlazePose({
     modelComplexity: 2,
   },
 })
-
-// async function updateVideoTime(seekToSec: number): Promise<void> {
-//   const el: HTMLVideoElement = unrefElement(video)
-//   el.currentTime = seekToSec
-//   return new Promise(resolve => {
-//     el.addEventListener("timeupdate", () => resolve(), { once: true })
-//   })
-// }
 
 const processingDone = ref(false)
 const frameTimesQueue: number[] = []
@@ -104,10 +96,14 @@ const btns = {
     if (!state.src) return toast.error("No video selected")
     if (!state.videoId) return toast.error("Active video is not in db")
 
-    useFFmpeg({
-      src: toRef(state, "src"),
+    const { presentationTimestamps } = useFFmpeg({
+      src: localFilename(state.src),
       progress: ({ ratio }) => set(progress, ratio),
       logger: toast,
+      log: true,
+    })
+
+    presentationTimestamps({
       onTimestamp: ts => frameTimesQueue.push(ts),
       onStarted: () => set(processingDone, true),
       onDone: () => toast.success("FFmpeg Done"),

@@ -23,6 +23,14 @@ ffmpeg -skip_frame nokey -i yoga2.webm -vsync 0 -r 1000 -frame_pts 1 %09d.png
 
 https://github.com/yomotsu/camera-controls
 
+## Scripts
+
+Install [runner](https://github.com/google/zx):
+
+```sh
+$ npm i -g zx
+```
+
 
 ## 3rd party packages
 

@@ -8,64 +8,46 @@ import DbQueries from "../packages/Supabase/dbqueries"
 type DBVideoBinding = DirectiveBinding<(id?: number) => void>
 
 let db: DbQueries
-const cachedSrcVideoIds = new Map<string, number>()
 
-function addVideo(el: HTMLVideoElement, src: string, binding: DBVideoBinding) {
-  db.addVideo({
-    filename: src,
-    width: el.videoWidth,
-    height: el.videoHeight,
-    duration: el.duration,
-  }).then(id => {
-    cachedSrcVideoIds.set(src, id)
-    if (el.src === src) {
-      binding.value.call(null, id)
-    }
-  })
-}
-
-function videoId(el: HTMLVideoElement, binding: DBVideoBinding): Promise<void> {
-  const src = el.src
-
-  return new Promise(resolve => {
-    db.hasVideo(src).then(id => {
-      if (id) {
-        cachedSrcVideoIds.set(src, id)
-        if (el.src === src) {
-          binding.value.call(null, id)
-        }
-        return resolve()
-      } else {
-        if (el.readyState > el.HAVE_NOTHING) {
-          addVideo(el, src, binding)
-        } else {
-          el.addEventListener("loadedmetadata", () => addVideo(el, src, binding), { once: true })
-        }
-      }
+async function addVideo(el: HTMLVideoElement, filename: string, binding: DBVideoBinding) {
+  let id: number
+  try {
+    id = await db.addVideo({
+      filename,
+      width: el.videoWidth,
+      height: el.videoHeight,
+      duration: el.duration,
     })
-  })
+  } catch (e) {
+    console.error(e)
+    return
+  }
+  binding.value.call(null, id)
 }
 
-function hasVideoFilled(el: HTMLVideoElement) {
-  // FIXME: check it better
-  return el.src.indexOf(".") !== -1
+async function videoId(el: HTMLVideoElement, filename: string, binding: DBVideoBinding): Promise<void> {
+  const id = await db.hasVideo(filename)
+  if (id) {
+    binding.value.call(null, id)
+    return
+  }
+
+  if (el.readyState > el.HAVE_NOTHING) {
+    addVideo(el, filename, binding)
+  } else {
+    el.addEventListener("loadedmetadata", () => addVideo(el, filename, binding), { once: true })
+  }
 }
+
 
 export default (async (el, binding: DBVideoBinding) => {
   if (!db) db = new DbQueries(globalThis.supabase)
 
-  if (!hasVideoFilled(el)) {
+  const src = el.src.split("/").pop()!
+  if (!src) {
     binding.value.call(null, undefined)
     return
   }
 
-  if (!cachedSrcVideoIds.has(el.src)) {
-    binding.value.call(null, undefined)
-    await videoId(el, binding)
-    return
-  }
-
-  if (cachedSrcVideoIds.has(el.src)) {
-    binding.value.call(null, cachedSrcVideoIds.get(el.src))
-  }
+  await videoId(el, src, binding)
 }) as Directive

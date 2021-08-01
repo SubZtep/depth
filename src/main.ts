@@ -1,4 +1,5 @@
 import { createApp } from "vue"
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import Toast from "vue-toastification"
 import App from "./components/scene/App.vue"
 import Visible from "./directives/visible"
@@ -9,7 +10,7 @@ import Router from "./packages/router/plugin"
 import Stats from "./packages/Stats/plugin"
 import Gui from "./packages/datGUI/plugin"
 import routes from "./routes"
-
+import "./icons"
 import "vue-global-api"
 
 import "vue-toastification/dist/index.css"
@@ -17,6 +18,7 @@ import "./vendors.css"
 import "./style.css"
 
 createApp(App)
+  .component("font-awesome-icon", FontAwesomeIcon)
   .use(Toast, {
     timeout: 4569,
     maxToasts: 13,

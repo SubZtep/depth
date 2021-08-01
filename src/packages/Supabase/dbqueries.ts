@@ -88,7 +88,9 @@ export default class DbQueries {
       // @ts-ignore
       .eq("type", poseType)
 
-    if (error || data == null) return Promise.reject(error?.message ?? "no data")
+    if (error || data == null || data.length === 0) {
+      return Promise.reject(new Error(error?.message ?? "No poses found for this video"))
+    }
     return data
   }
 
@@ -99,7 +101,7 @@ export default class DbQueries {
       .eq("pose_id", poseId)
 
     if (error || data == null) {
-      return Promise.reject(error?.message ?? "no data")
+      return Promise.reject(new Error(error?.message ?? "no data"))
     }
     return data
   }
