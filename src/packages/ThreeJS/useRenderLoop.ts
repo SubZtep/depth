@@ -41,7 +41,7 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRe
     }
 
     get(isRunning) && requestAnimationFrame(gameLoop)
-    if (get(isRenderAllFrames) || camUpdated) renderer.render(scene, camera)
+    if (true || get(isRenderAllFrames) || camUpdated) renderer.render(scene, camera)
     stats.update()
   }
 

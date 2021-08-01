@@ -26,7 +26,7 @@ const assets = useAssets()
 
 await assets.loadNoVideoMaterial()
 const leaf = await assets.loadLeafMaterial()
-const skybox = await assets.loadSkybox(rand(15))
+const skybox = await assets.loadSkybox(1 || rand(15))
 const wc = ref() as Ref<HTMLCanvasElement>
 
 useGui().show()

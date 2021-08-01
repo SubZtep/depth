@@ -30,7 +30,7 @@ body {
   line-height: 150%;
 }
 
-#app, #world, .loadingScreen {
+#app, #world, #hud, .loadingScreen {
   top: 0;
   left: 0;
   width: 100vw;
@@ -62,6 +62,19 @@ body {
 
 #app > video {
   aspect-ratio: var(--ratio, 1);
+}
+
+#hud {
+  display: grid;
+  align-items: end;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: "dat video stats";
+  pointer-events: none;
+}
+
+#hud > div {
+  pointer-events: auto;
+  box-shadow: 0 0 4px #000;
 }
 
 .debug {

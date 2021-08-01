@@ -4,17 +4,18 @@ import "./style.css"
 
 const statsKey: InjectionKey<Stats> = Symbol("stats panel")
 const stats = new Stats()
+stats.dom.removeAttribute("style")
 stats.dom.classList.add("Stats")
 stats.dom.addEventListener("dblclick", () => stats.dom.classList.toggle("mosaic"))
-document.body.appendChild(stats.dom)
+document.querySelector("#hud")!.appendChild(stats.dom)
 
 // FIXME: extend nicer
-const dlstat = stats.addPanel(new Stats.Panel("MS/DL", "#ffffff", "#0000ff"))
+// const dlstat = stats.addPanel(new Stats.Panel("MS/DL", "#ffffff", "#0000ff"))
 async function dlStats(cb: FnPr, thisArg = globalThis) {
   const t0 = performance.now()
   await cb.call(thisArg)
   const t1 = performance.now()
-  dlstat.update(t1 - t0, 33.33) // for 30fps
+  // dlstat.update(t1 - t0, 33.33) // for 30fps
 }
 
 export default {

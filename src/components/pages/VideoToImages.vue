@@ -109,7 +109,7 @@ if (ffmpeg.isLoaded()) {
 </script>
 
 <style module>
-.grid {
+/* .grid {
   top: 0;
   left: 0;
   max-width: 100vw;
@@ -121,5 +121,5 @@ if (ffmpeg.isLoaded()) {
 }
 .grid img {
   width: 100%;
-}
+} */
 </style>

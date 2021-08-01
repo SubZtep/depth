@@ -8,12 +8,15 @@
 }
 
 .dg.main {
+
+  grid-area: dat;
+  justify-self: start;
   text-shadow: none;
   &:hover {
     text-shadow: 0px -4px 0px #aaa, 0 0 0 #000, 0px 4px var(--blood);
     transition: text-shadow 150ms ease-in-out 10s;
   }
-  transform-origin: right top;
+  transform-origin: left bottom;
   transform: scale(var(--gui-scale, 1));
 }
 
@@ -68,6 +71,17 @@
   width: 100%;
 }
 
-.close-button {
+/* .dg.main .close-button {
   color: #666;
-}
+  position: relative !important;
+} */
+
+/* .dg.main .closed + .close-button {
+  width: 64px !important;
+  height: 64px;
+  background-image: radial-gradient(#fff, var(--blood), #000, #0f0);
+} */
+/*
+.dg.a {
+  float: none;
+} */

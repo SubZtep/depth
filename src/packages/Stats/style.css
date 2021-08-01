@@ -1,18 +1,20 @@
 .Stats {
-  top: auto !important;
-  transform-origin: left top;
-  transition-duration: 100ms;
+  grid-area: stats;
+  justify-self: end;
+  transform-origin: right bottom;
+  transition-duration: 80ms;
+  /* z-index: 1000; */
+
   &:hover {
-    transform: scale(2);
-    transition-duration: 150ms;
+    transition-duration: 220ms;
+    transform: scale(1.6);
   }
 }
 
 .Stats.mosaic {
-  width: 160px;
   display: flex;
-  flex-wrap: wrap;
-  cursor: cell !important;
+  flex-direction: column;
+  cursor: cell;
 }
 
 .Stats.mosaic > canvas {

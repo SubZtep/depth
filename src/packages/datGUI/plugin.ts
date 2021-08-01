@@ -18,8 +18,11 @@ syncRef(
 const guiKey = Symbol("dat.gui")
 const cameraHookKey = Symbol("camera hook")
 
-const gui = new dat.GUI({ closed: false, width: 420 })
-gui.hide()
+// const gui = new dat.GUI({ autoPlace: false, closed: false, width: 280, closeOnTop: false })
+const gui = new dat.GUI({ autoPlace: false, width: 250, closeOnTop: true })
+// gui.domElement.removeAttribute("style")
+document.querySelector("#hud")!.appendChild(gui.domElement)
+//gui.hide()
 
 function addCameraControl(gui: dat.GUI, routes?: Route[]) {
   const hook = createEventHook<GUIEvent.Camera>() // TODO: what's this hook for?
@@ -30,14 +33,15 @@ function addCameraControl(gui: dat.GUI, routes?: Route[]) {
 
   if (routes) {
     const f = gui.addFolder("⚓ Navigation")
-    f.domElement.addEventListener("mouseover", () => f.open())
-    f.domElement.addEventListener("mouseout", () => f.close())
+    f.open()
+    // f.domElement.addEventListener("mouseover", () => f.open())
+    // f.domElement.addEventListener("mouseout", () => f.close())
 
     routes.forEach(({ path, label }) => {
       const name = path.substring(1)
       btns[name] = () => {
         window.location.hash = path
-        f.close()
+        // f.close()
       }
       f.add(btns, name).name(label)
     })
@@ -57,8 +61,8 @@ export default plugin
 
 export function useGui(options?: { close?: boolean }) {
   const g = inject<dat.GUI>(guiKey)!
-  if (options?.close) {
-    g.close()
+  if (options?.close !== undefined) {
+    g[options.close ? "close" : "open"]()
   }
   return g
 }
