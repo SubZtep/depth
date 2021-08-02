@@ -4,7 +4,7 @@ type FnPr = () => Promise<void>
 // type FnPr = <T = void>() => Promise<T>
 type FnIs = () => boolean
 
-type KeypointMesh = THREE.Mesh<THREE.SphereGeometry, THREE.Material>
+type KeypointMesh = THREE.Mesh<THREE.SphereGeometry | THREE.ConeGeometry, THREE.Material>
 
 type SkyboxNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15
 

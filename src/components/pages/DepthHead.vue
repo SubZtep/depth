@@ -36,11 +36,10 @@ const keypoints = ref<LandmarkList>([])
 
 const { pause, resume } = useIntervalFn(
   async () => {
-    console.log("TIME", Date.now())
-    // const res = await estimatePose()
-    // if (res.poseLandmarks) {
-    //   set(keypoints, headOnly(res.poseLandmarks).map(flipHorizontal))
-    // }
+    const res = await estimatePose()
+    if (res.poseLandmarks) {
+      set(keypoints, headOnly(res.poseLandmarks).map(flipHorizontal))
+    }
   },
   Math.round(1000 / state.detectionFps),
   { immediate: false }

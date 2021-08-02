@@ -1,5 +1,5 @@
 import type { MaybeRef } from "@vueuse/core"
-import type { LandmarkList, NormalizedLandmark } from "../../public/pose"
+import type { Landmark, LandmarkList, NormalizedLandmark } from "../../public/pose"
 import { reactify, get, unrefElement } from "@vueuse/core"
 import { HEAD_AREA } from "./constants"
 import VIDEOS from "./videos"
@@ -96,4 +96,12 @@ export function headOnly(pose: LandmarkList): LandmarkList {
 
 export function flipHorizontal(keypoint: NormalizedLandmark): NormalizedLandmark {
   return { ...keypoint, y: 1 - keypoint.y }
+}
+
+export function normaliseKeypointToDisplay(point: Landmark, scale: number, zMulti: number): [number, number, number] {
+  return [
+    point.x * scale,
+    point.y * scale,
+    point.z * scale * zMulti,
+  ]
 }
