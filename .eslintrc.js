@@ -38,6 +38,7 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/no-empty-function": "warn",
     "vue/require-default-prop": "off",
     indent: ["warn", 2, { "SwitchCase": 1 }],
     "max-len": ["warn", { code: 420, tabWidth: 2 }],

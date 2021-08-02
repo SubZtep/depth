@@ -1,3 +1,5 @@
+import { isInRange } from "./utils"
+
 export const BLAZEPOSE_KEYPOINTS = [
   "nose",
   "left_eye_inner",
@@ -34,7 +36,7 @@ export const BLAZEPOSE_KEYPOINTS = [
   "right_foot_index",
 ]
 
-export const BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS = [
+export const BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS: [number, number][] = [
   [0, 1],
   [0, 4],
   [1, 2],
@@ -72,3 +74,13 @@ export const BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS = [
   [29, 31],
   [30, 32],
 ]
+
+export const HEAD_AREA: [number, number] = [
+  BLAZEPOSE_KEYPOINTS.indexOf("nose"),
+  BLAZEPOSE_KEYPOINTS.indexOf("mouth_right")]
+
+export const BLAZEPOSE_HEAD_KEYPOINTS = BLAZEPOSE_KEYPOINTS.slice(HEAD_AREA[0], HEAD_AREA[1] + 1)
+export const BLAZEPOSE_HEAD_CONNECTED_KEYPOINTS_PAIRS = BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS.filter(isInRange(...HEAD_AREA))
+
+export const FRAME_MS_60_FPS = 1000 / 60 // 16.6 // (1 / 60) * 1000
+export const FRAME_MS_30_FPS = 1000 / 30 // 33.3

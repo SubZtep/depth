@@ -1,7 +1,7 @@
-// import type { Keypoint } from "@tensorflow-models/pose-detection"
-import { computed } from "vue"
 import type { MaybeRef } from "@vueuse/core"
+import type { LandmarkList, NormalizedLandmark } from "../../public/pose"
 import { reactify, get, unrefElement } from "@vueuse/core"
+import { HEAD_AREA } from "./constants"
 import VIDEOS from "./videos"
 
 export function normalizeDeviceLabel(label: string) {
@@ -84,4 +84,16 @@ export async function updateVideoTime(video: MaybeRef<HTMLVideoElement>, seekToS
 
 export function arrayToObject<T>(arr: T[], key: string): Record<string, T> {
   return arr.reduce((a, b) => ({ ...a, [b[key]]: b }), {})
+}
+
+export function isInRange(min: number, max: number) {
+  return (arr: number[]) => arr.every(n => n >= min && n <= max)
+}
+
+export function headOnly(pose: LandmarkList): LandmarkList {
+  return pose.slice(HEAD_AREA[0], HEAD_AREA[1] + 1)
+}
+
+export function flipHorizontal(keypoint: NormalizedLandmark): NormalizedLandmark {
+  return { ...keypoint, y: 1 - keypoint.y }
 }
