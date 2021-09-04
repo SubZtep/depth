@@ -59,11 +59,7 @@ onMounted(() => {
     get(cursor)!.style.left = `${get(elementX) + get(wrapper)!.scrollLeft}px`
   })
 
-  throttledWatch(
-    [() => props.duration, gapSecPx],
-    () => redraw(props.duration, get(gapSecPx)),
-    { immediate: true, throttle: 50 }
-  )
+  throttledWatch([() => props.duration, gapSecPx], () => redraw(props.duration, get(gapSecPx)), { immediate: true, throttle: 50 })
 })
 </script>
 

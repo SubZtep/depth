@@ -60,7 +60,6 @@ folder.add(state, "zMulti", 0, 5, 0.01).name("Z multiplier")
 folder.add(state, "rotationY", 0, 2 * Math.PI, 0.01).name("Y rotation")
 folder.add(state, "detectionFps", 0, 60, 1).name("Detection FPS")
 
-
 onMounted(async () => {
   await until(video).not.toBeNull()
   watchEffect(() => (get(video).srcObject = media.stream.value || null))

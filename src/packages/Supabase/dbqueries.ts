@@ -69,11 +69,9 @@ export default class DbQueries {
   }
 
   async getVideos(): Promise<SBVideo[]> {
-    const { data, error } = await this.#client
-      .from<SBVideo>("video")
-      .select("id, filename, width, height, duration")
+    const { data, error } = await this.#client.from<SBVideo>("video").select("id, filename, width, height, duration")
 
-      if (error || data == null) {
+    if (error || data == null) {
       return Promise.reject(error?.message ?? "no data")
     }
     return data
@@ -95,10 +93,7 @@ export default class DbQueries {
   }
 
   async getKeypoints(poseId: number): Promise<Keypoint[]> {
-    const { data, error } = await this.#client
-      .from<Keypoint>("keypoint")
-      .select("index, x, y, z, visibility")
-      .eq("pose_id", poseId)
+    const { data, error } = await this.#client.from<Keypoint>("keypoint").select("index, x, y, z, visibility").eq("pose_id", poseId)
 
     if (error || data == null) {
       return Promise.reject(new Error(error?.message ?? "no data"))
@@ -107,10 +102,7 @@ export default class DbQueries {
   }
 
   async getAllPoseKeypoints(poseIds: number[]): Promise<Keypoint[]> {
-    const { data, error } = await this.#client
-      .from<Keypoint>("keypoint")
-      .select("pose_id, index, x, y, z, visibility")
-      .in("pose_id", poseIds)
+    const { data, error } = await this.#client.from<Keypoint>("keypoint").select("pose_id, index, x, y, z, visibility").in("pose_id", poseIds)
 
     if (error || data == null) {
       return Promise.reject(error?.message ?? "no data")

@@ -24,11 +24,7 @@ let dstat: Stats.Panel | undefined
 const Poser = window.Pose
 
 export function useBlazePose(options: BlazePoseOptions) {
-  const {
-    video,
-    estimateReturns = true,
-    onDetectorReady,
-  } = options
+  const { video, estimateReturns = true, onDetectorReady } = options
 
   const detectorReady = ref(false)
   const results: Partial<Results> = reactive({})
@@ -39,7 +35,8 @@ export function useBlazePose(options: BlazePoseOptions) {
     dstat = stats.addPanel(new Stats.Panel("ms/pose", "#f9d71c", "#191970"))
   }
 
-  watch(video, (_newEl, oldEl) => { //FIXME: test this
+  watch(video, (_newEl, oldEl) => {
+    //FIXME: test this
     if (oldEl !== undefined && solution) {
       solution.reset()
     }

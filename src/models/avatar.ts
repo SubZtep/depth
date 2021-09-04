@@ -1,6 +1,6 @@
 /**
-** Basic objects for a humanoid-like character.
-**/
+ ** Basic objects for a humanoid-like character.
+ **/
 import { BLAZEPOSE_HEAD_KEYPOINTS } from "../misc/constants"
 import { Mesh, MeshPhongMaterial, SphereGeometry, ConeGeometry, CylinderGeometry, DoubleSide } from "three"
 

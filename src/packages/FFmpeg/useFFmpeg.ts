@@ -25,13 +25,7 @@ interface PtsOptions {
 }
 
 export function useFFmpeg(options: FFmpegOptions) {
-  const {
-    src,
-    memfsFilename = "test.webm",
-    progress,
-    logger = console,
-    log = false,
-  } = options
+  const { src, memfsFilename = "test.webm", progress, logger = console, log = false } = options
 
   const ffmpeg = createFFmpeg({
     log,

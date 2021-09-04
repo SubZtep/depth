@@ -1,1 +1,1 @@
-export { default as EnableSharedArrayBuffer} from "./EnableSharedArrayBuffer"
+export { default as EnableSharedArrayBuffer } from "./EnableSharedArrayBuffer"

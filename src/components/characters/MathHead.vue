@@ -36,19 +36,17 @@ const lines = new Map<string, THREE.Line>()
 const lineEnds = [new Vector3(), new Vector3()]
 
 root.add(
-  ...BLAZEPOSE_HEAD_KEYPOINTS
-    .map((v, i) => {
-      const joint = headPart(v)
-      joints.set(i, joint)
-      return joint
-    }),
-  ...BLAZEPOSE_HEAD_CONNECTED_KEYPOINTS_PAIRS
-    .map(([i, j]) => {
-      const key = lineKey(i, j)
-      const line = lineFactory(key)
-      lines.set(key, line)
-      return line
-    }),
+  ...BLAZEPOSE_HEAD_KEYPOINTS.map((v, i) => {
+    const joint = headPart(v)
+    joints.set(i, joint)
+    return joint
+  }),
+  ...BLAZEPOSE_HEAD_CONNECTED_KEYPOINTS_PAIRS.map(([i, j]) => {
+    const key = lineKey(i, j)
+    const line = lineFactory(key)
+    lines.set(key, line)
+    return line
+  })
 )
 
 const hat = headPart("hat")
@@ -57,8 +55,7 @@ hat.position.set(0, 1.3, 2)
 hat.rotateX(Math.PI * 1.5)
 
 const updateJointsPositions = (points: LandmarkList) => {
-  points.forEach(
-    (point, index) => joints.get(index)?.position.set(...normaliseKeypointToDisplay(point, props.scale, props.zMulti)))
+  points.forEach((point, index) => joints.get(index)?.position.set(...normaliseKeypointToDisplay(point, props.scale, props.zMulti)))
 }
 
 const updateLines = (points: LandmarkList) => {

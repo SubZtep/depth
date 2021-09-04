@@ -1,6 +1,6 @@
 interface ThreeJSOptions {
   /** Display toast for triggered events */
-  toastEvents?  : boolean
+  toastEvents?: boolean
 }
 
 interface RenderLoopProps {

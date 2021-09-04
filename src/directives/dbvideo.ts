@@ -39,7 +39,6 @@ async function videoId(el: HTMLVideoElement, filename: string, binding: DBVideoB
   }
 }
 
-
 export default (async (el, binding: DBVideoBinding) => {
   if (!db) db = new DbQueries(globalThis.supabase)
 

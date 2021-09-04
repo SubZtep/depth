@@ -8,9 +8,7 @@ const eventHook = createEventHook<ThreeJSEvent>()
 
 export default {
   install(app, options: ThreeJSOptions = {}) {
-    const {
-      toastEvents = false
-    } = options
+    const { toastEvents = false } = options
 
     // if (toastEvents) {
     //   const toast = useToast()

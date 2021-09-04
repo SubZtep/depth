@@ -12,7 +12,6 @@ const props = defineProps({
   poses: { type: Array as PropType<SBPose[]>, required: false },
   poseType: { type: Number as PropType<PoseType>, required: true },
 })
-
 </script>
 
 <style scoped>

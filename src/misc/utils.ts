@@ -99,9 +99,5 @@ export function flipHorizontal(keypoint: NormalizedLandmark): NormalizedLandmark
 }
 
 export function normaliseKeypointToDisplay(point: Landmark, scale: number, zMulti: number): [number, number, number] {
-  return [
-    point.x * scale,
-    point.y * scale,
-    point.z * scale * zMulti,
-  ]
+  return [point.x * scale, point.y * scale, point.z * scale * zMulti]
 }
