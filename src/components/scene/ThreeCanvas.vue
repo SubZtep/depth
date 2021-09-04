@@ -25,7 +25,7 @@ import * as THREE from "three"
 const assets = useAssets()
 
 await assets.loadNoVideoMaterial()
-const leaf = await assets.loadLeafMaterial()
+// const leaf = await assets.loadLeafMaterial()
 const skybox = await assets.loadSkybox(rand(15))
 const wc = ref() as Ref<HTMLCanvasElement>
 
@@ -39,9 +39,8 @@ objs.set("dirLight", dirLight)
 const grid = sdef.grid()
 const plane = sdef.plane()
 const leafPlane = sdef.leafPlane()
-const terrainScene = sdef.terrainScene()
 
-useCanvas(wc).add(ambLight, dirLight, grid, plane, leafPlane, terrainScene).background = skybox
+useCanvas(wc).add(ambLight, dirLight, grid, plane, leafPlane).background = skybox
 
 // transformables.push(leafPlane.name)
 

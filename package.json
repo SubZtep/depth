@@ -31,9 +31,7 @@
     "run": "^1.4.0",
     "stats.js": "^0.17.0",
     "three": "^0.132.2",
-    "three.terrain.js": "^2.0.0",
     "vue": "^3.1.2",
-    "vue-global-api": "^0.4.1",
     "vue-toastification": "^2.0.0-rc.1"
   },
   "devDependencies": {
@@ -61,6 +59,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "ts-jest": "^27.0.5",
     "typescript": "^4.4.2",
+    "unplugin-auto-import": "^0.4.1",
     "vite": "^2.5.3",
     "vite-plugin-components": "^0.13.3",
     "vite-plugin-fonts": "^0.2.2",

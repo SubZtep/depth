@@ -83,6 +83,7 @@ watchEffect(async () => {
       try {
         state.poses = await db.getPoses(state.video.id, state.poseType)
       } catch (e) {
+        // @ts-ignore
         toast.warning(e.message)
         return
       }
@@ -104,6 +105,7 @@ watch(
       })
     } catch (e) {
       state.keypoints = undefined
+      // @ts-ignore
       toast.error(e.message)
     }
   }

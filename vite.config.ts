@@ -5,6 +5,7 @@ import ViteFonts from "vite-plugin-fonts"
 import ViteRestart from "vite-plugin-restart"
 import resolve from "@rollup/plugin-node-resolve"
 import commonJS from "@rollup/plugin-commonjs"
+import AutoImport from "unplugin-auto-import/vite"
 import { EnableSharedArrayBuffer } from "./src/packages/VitePlugins"
 
 export default defineConfig({
@@ -14,6 +15,11 @@ export default defineConfig({
     }),
     ViteComponents({
       extensions: ["vue"],
+    }),
+    AutoImport({
+      include: [/\.ts$/, /\.vue\??/],
+      imports: ["vue", { "@vueuse/core": ["get", "set", "until"] }],
+      dts: "./src/types/auto-imports.d.ts"
     }),
     ViteFonts({
       google: {

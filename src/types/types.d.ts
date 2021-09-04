@@ -1,3 +1,8 @@
+PropType
+
+type PropType<T> = import("@vue/runtime-core").PropType<T>
+type WatchStopHandle = import("@vue/runtime-core").WatchStopHandle
+
 type Ref<T = any> = import("@vue/reactivity").Ref<T>
 type Fn = () => void
 type FnPr = () => Promise<void>

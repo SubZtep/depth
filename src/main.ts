@@ -12,7 +12,7 @@ import Stats from "./packages/Stats"
 import Gui from "./packages/datGUI"
 import routes from "./routes"
 import "./icons"
-import "vue-global-api"
+// import "vue-global-api"
 
 import "vue-toastification/dist/index.css"
 import "./vendors.css"

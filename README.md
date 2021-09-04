@@ -31,6 +31,10 @@ Install [runner](https://github.com/google/zx):
 $ npm i -g zx
 ```
 
+## Tutorial Pages
+
+1. [Empty Template](src/components/pages/EmptyTemplate.vue)
+1. [Video Display Locals](src/components/pages/VideoDisplayLocals.vue)
 
 ## 3rd party packages
 

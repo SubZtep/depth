@@ -7,6 +7,7 @@
     autoplay="true"
     controls="true"
     playsinline="true"
+    crossorigin="anonymous"
     v-aspect-ratio="v => ratio = v"
     poster="/textures/no-video.png")
 </template>

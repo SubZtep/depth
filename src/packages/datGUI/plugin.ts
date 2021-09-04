@@ -67,6 +67,19 @@ export function useGui(options?: { close?: boolean }) {
   return g
 }
 
+export function useGuiFolder(name: string, init?: (folder: dat.GUI) => void) {
+  const g = inject<dat.GUI>(guiKey)!
+  const folder = g.addFolder(name)
+
+  onBeforeUnmount(() => {
+    gui.removeFolder(folder)
+  })
+
+  if (init) init(folder)
+  folder.open()
+  return folder
+}
+
 export function useOnCameraEvent(cb: (params: GUIEvent.Camera) => void) {
   inject<EventHook<GUIEvent.Camera>>(cameraHookKey)!.on(cb)
 }

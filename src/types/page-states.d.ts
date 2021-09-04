@@ -6,3 +6,12 @@ interface DepthHeadState {
   rotationY: number
   detectionFps: number
 }
+
+interface EmptyTemplateState {
+  test: number
+}
+
+
+interface VideoDisplayLocalsState {
+  src: string
+}

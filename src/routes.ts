@@ -6,6 +6,8 @@ import RecordVideo from "./components/pages/RecordVideo.vue"
 import SceneSetup from "./components/pages/SceneSetup.vue"
 import Preferences from "./components/pages/Preferences.vue"
 import DepthHead from "./components/pages/DepthHead.vue"
+import EmptyTemplate from "./components/pages/EmptyTemplate.vue"
+import VideoDisplayLocals from "./components/pages/VideoDisplayLocals.vue"
 
 const route: Route[] = [
   {
@@ -60,6 +62,20 @@ const route: Route[] = [
     label: "Depth head",
     component: DepthHead,
     position: [-20, 2, 10],
+    lookAt: [30, 2, -20],
+  },
+  {
+    path: "/empty-template",
+    label: "Empty Template",
+    component: EmptyTemplate,
+    position: [-30, 2, -10],
+    lookAt: [30, 2, -20],
+  },
+  {
+    path: "/video-display-locals",
+    label: "Video Display Locals",
+    component: VideoDisplayLocals,
+    position: [-30, 2, -10],
     lookAt: [30, 2, -20],
   },
 ]

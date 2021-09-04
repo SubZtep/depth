@@ -29,34 +29,3 @@ export function leafPlane() {
   leafPlane.name = "leafPlane"
   return leafPlane
 }
-
-export function terrainScene() {
-  const material = new MeshPhongMaterial({
-    color: 0x001001,
-    specular: 0x010000,
-    // shininess: 69,
-    side: FrontSide,
-  })
-
-  // @ts-ignore
-  const terrainScene = Terrain(
-    {
-      // @ts-ignore
-      easing: THREE.Linear,
-      frequency: 2.5,
-      // @ts-ignore
-      heightmap: THREE.DiamondSquare,
-      material,
-      maxHeight: -1,
-      minHeight: -35,
-      steps: 1,
-      xSegments: 64,
-      xSize: 128,
-      ySegments: 64,
-      ySize: 128,
-    },
-    THREE
-  )
-
-  return terrainScene
-}
