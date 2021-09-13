@@ -4,6 +4,7 @@
 
 > Please use **Chrome™**
 
+
 ## FFmpeg commands
 
 https://www.ffmpeg.org/ffmpeg-all.html
@@ -38,16 +39,18 @@ $ npm i -g zx
 
 ## 3rd party packages
 
-- [Camera control for three.js, supports smooth transitions](https://github.com/yomotsu/camera-controls)
-- [Collection of essential Vue Composition Utilities](https://vueuse.org/)
-- [WebAssembly backend to TensorFlow.js](https://github.com/tensorflow/tfjs/tree/master/tfjs-backend-wasm)
-- [BlazePose TFJS (33 keypoints)](https://github.com/tensorflow/tfjs-models/tree/master/pose-detection/src/blazepose_tfjs)
-- chroma-js
-- stats.js
-- dat.gui
-- three
-- vue
-- ...
+- [ ] https://github.com/postcss/postcss-scss
+
+- [x] [Camera control for three.js, supports smooth transitions](https://github.com/yomotsu/camera-controls)
+- [x] [Collection of essential Vue Composition Utilities](https://vueuse.org/)
+- [x] [WebAssembly backend to TensorFlow.js](https://github.com/tensorflow/tfjs/tree/master/tfjs-backend-wasm)
+- [x] [BlazePose TFJS (33 keypoints)](https://github.com/tensorflow/tfjs-models/tree/master/pose-detection/src/blazepose_tfjs)
+- [x] chroma-js
+- [x] stats.js
+- [x] dat.gui
+- [x] three
+- [x] vue
+- [ ] ...
 
 ```js
                                                    ..

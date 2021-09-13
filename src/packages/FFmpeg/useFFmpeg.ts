@@ -1,7 +1,5 @@
-import type { MaybeRef } from "@vueuse/core"
 import type { ProgressCallback } from "@ffmpeg/ffmpeg"
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
-import { get, invoke, set, whenever, and, tryOnUnmounted } from "@vueuse/core"
 
 interface FFmpegOptions {
   /** Video input file */
@@ -16,6 +14,8 @@ interface FFmpegOptions {
   logger?: Logger
 
   log?: boolean
+
+  processFrame?: (pts: number) => void
 }
 
 interface PtsOptions {
@@ -38,7 +38,7 @@ export function useFFmpeg(options: FFmpegOptions) {
   invoke(async () => {
     try {
       await ffmpeg.load()
-    } catch (e) {
+    } catch (e: any) {
       logger.error(e.message)
     }
     if (!ffmpeg.isLoaded()) {
@@ -52,7 +52,7 @@ export function useFFmpeg(options: FFmpegOptions) {
     async () => {
       set(fetched, false)
       ffmpeg.FS("writeFile", memfsFilename, await fetchFile(get(src)))
-      logger.info(`File ${memfsFilename} loaded into FFmpeg`)
+      logger.info(`File ${get(src)} loaded into FFmpeg`)
       set(fetched, true)
     },
     { immediate: true }

@@ -3,6 +3,11 @@
  */
 
 /**
+ * Version number of this package.
+ */
+export const VERSION: string;
+
+/**
  * Represents pairs of (start,end) indexes so that we can connect landmarks
  * with lines to provide a skeleton when we draw the points.
  */
@@ -99,27 +104,6 @@ export declare const POSE_LANDMARKS_NEUTRAL: {
 };
 
 /**
- * Represents a read-only vector.
- */
-export declare interface ReadOnlySimpleVector<T> {
-  get(index: number): T;
-  size(): number;
-}
-
-/**
- * Represents a normalized rectangle. Has an ID that should be consistent
- * across calls.
- */
-export declare interface NormalizedRect {
-  xCenter: number;
-  yCenter: number;
-  height: number;
-  width: number;
-  rotation: number;
-  rectId: number;
-}
-
-/**
  * Represents a single normalized landmark.
  */
 export declare interface NormalizedLandmark {
@@ -167,6 +151,7 @@ type GpuBuffer = HTMLCanvasElement|HTMLImageElement|ImageBitmap;
 export interface Results {
   poseLandmarks: NormalizedLandmarkList;
   poseWorldLandmarks: LandmarkList;
+  segmentationMask: GpuBuffer;
   image: GpuBuffer;
 }
 
@@ -177,6 +162,8 @@ export interface Options {
   selfieMode?: boolean;
   modelComplexity?: 0|1|2;
   smoothLandmarks?: boolean;
+  enableSegmentation?: boolean;
+  smoothSegmentation?: boolean;
   minDetectionConfidence?: number;
   minTrackingConfidence?: number;
 }

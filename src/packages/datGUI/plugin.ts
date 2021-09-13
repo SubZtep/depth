@@ -7,6 +7,8 @@ import { useGlobalState } from "../../store"
 import "./extend"
 import "./style.css"
 
+type FolderInit = (folder: dat.GUI) => void
+
 const state = useGlobalState()
 const { guiScale } = toRefs(state)
 const guiScaleCss = useCssVar("--gui-scale")
@@ -33,7 +35,7 @@ function addCameraControl(gui: dat.GUI, routes?: Route[]) {
 
   if (routes) {
     const f = gui.addFolder("⚓ Navigation")
-    f.open()
+    // f.open()
     // f.domElement.addEventListener("mouseover", () => f.open())
     // f.domElement.addEventListener("mouseout", () => f.close())
 
@@ -67,17 +69,16 @@ export function useGui(options?: { close?: boolean }) {
   return g
 }
 
-export function useGuiFolder(name: string, init?: (folder: dat.GUI) => void) {
+export function useGuiFolder(init?: FolderInit) {
   const g = inject<dat.GUI>(guiKey)!
-  const folder = g.addFolder(name)
+  const folder = g.addFolder("Page GUI")
 
   onBeforeUnmount(() => {
     gui.removeFolder(folder)
   })
 
-  if (init) init(folder)
+  init && init(folder)
   folder.open()
-  return folder
 }
 
 export function useOnCameraEvent(cb: (params: GUIEvent.Camera) => void) {

@@ -12,9 +12,9 @@ onMounted(() => set(showTitle, false))
 </script>
 
 <style>
-h1.title {
+.title {
   z-index: 100;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   text-shadow: -4px 0 var(--blood), 1px 0 #fffa, 1px 1px 2px #0063;
   position: fixed;
   transform-origin: top left;

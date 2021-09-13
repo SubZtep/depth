@@ -8,14 +8,12 @@
   (function() {
    var loadPackage = function(metadata) {
   
-      var PACKAGE_PATH;
+      var PACKAGE_PATH = '';
       if (typeof window === 'object') {
         PACKAGE_PATH = window['encodeURIComponent'](window.location.pathname.toString().substring(0, window.location.pathname.toString().lastIndexOf('/')) + '/');
-      } else if (typeof location !== 'undefined') {
-        // worker
+      } else if (typeof process === 'undefined' && typeof location !== 'undefined') {
+        // web worker
         PACKAGE_PATH = encodeURIComponent(location.pathname.toString().substring(0, location.pathname.toString().lastIndexOf('/')) + '/');
-      } else {
-        throw 'using preloaded data can only be done on a web page or in a web worker';
       }
       var PACKAGE_NAME = 'blaze-out/k8-opt/genfiles/third_party/mediapipe/web/solutions/pose/pose_solution_packed_assets.data';
       var REMOTE_PACKAGE_BASE = 'pose_solution_packed_assets.data';
@@ -29,6 +27,22 @@
       var PACKAGE_UUID = metadata['package_uuid'];
     
       function fetchRemotePackage(packageName, packageSize, callback, errback) {
+        
+        const isNodeJs = () => (typeof process !== 'undefined') &&
+          (typeof process.versions !== 'undefined') &&
+          (typeof process.versions.node !== 'undefined');
+
+        if (isNodeJs()) {
+          require('fs').readFile(packageName, function(err, contents) {
+            if (err) {
+              errback(err);
+            } else {
+              callback(contents.buffer);
+            }
+          });
+          return;
+        }
+      
         var xhr = new XMLHttpRequest();
         xhr.open('GET', packageName, true);
         xhr.responseType = 'arraybuffer';
@@ -180,7 +194,7 @@ Module['FS_createPath']("/third_party/mediapipe/modules", "pose_detection", true
     }
   
    }
-   loadPackage({"files": [{"filename": "/third_party/mediapipe/modules/pose_detection/pose_detection.tflite", "start": 0, "end": 2961104, "audio": 0}], "remote_package_size": 2961104, "package_uuid": "f981b496-bdf0-4855-8993-eabd008f33dc"});
+   loadPackage({"files": [{"filename": "/third_party/mediapipe/modules/pose_detection/pose_detection.tflite", "start": 0, "end": 2961104, "audio": 0}], "remote_package_size": 2961104, "package_uuid": "ce6b1404-d3a5-4e7f-9208-6d378e105f11"});
   
   })();
   

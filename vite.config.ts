@@ -18,8 +18,13 @@ export default defineConfig({
     }),
     AutoImport({
       include: [/\.ts$/, /\.vue\??/],
-      imports: ["vue", { "@vueuse/core": ["get", "set", "until"] }],
-      dts: "./src/types/auto-imports.d.ts"
+      imports: [
+        "vue",
+        { "@vueuse/core": ["get", "set", "and", "until", "whenever", "invoke", "tryOnMounted", "tryOnUnmounted"] },
+        { "@vueuse/integrations": ["useNProgress"] },
+        { "vue-toastification": ["useToast"] },
+      ],
+      dts: "./src/types/auto-imports.d.ts",
     }),
     ViteFonts({
       google: {

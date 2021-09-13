@@ -2,6 +2,12 @@
 .cameraInput
   video(
     ref="video"
+    muted="true"
+    playsinline="true"
+    crossorigin="anonymous"
+    poster="/textures/no-video.png")
+  //- video(
+    ref="video"
     loop="true"
     muted="true"
     autoplay="true"

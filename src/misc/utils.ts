@@ -74,6 +74,7 @@ export function rand<T = number>(max: number, min = 1): T {
 
 // export const pipe = (...fns) => fns.reduce(_pipe)
 
+/** Forward video to the given timestamp */
 export async function updateVideoTime(video: MaybeRef<HTMLVideoElement>, seekToSec: number): Promise<void> {
   const el: HTMLVideoElement = unrefElement(video)
   el.currentTime = seekToSec

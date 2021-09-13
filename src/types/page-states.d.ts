@@ -15,3 +15,7 @@ interface EmptyTemplateState {
 interface VideoDisplayLocalsState {
   src: string
 }
+
+interface VideoDisplayPoseState {
+  src: string
+}

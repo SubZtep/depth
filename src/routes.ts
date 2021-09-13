@@ -8,6 +8,7 @@ import Preferences from "./components/pages/Preferences.vue"
 import DepthHead from "./components/pages/DepthHead.vue"
 import EmptyTemplate from "./components/pages/EmptyTemplate.vue"
 import VideoDisplayLocals from "./components/pages/VideoDisplayLocals.vue"
+import VideoDisplayPose from "./components/pages/VideoDisplayPose.vue"
 
 const route: Route[] = [
   {
@@ -75,6 +76,13 @@ const route: Route[] = [
     path: "/video-display-locals",
     label: "Video Display Locals",
     component: VideoDisplayLocals,
+    position: [-30, 2, -10],
+    lookAt: [30, 2, -20],
+  },
+  {
+    path: "/video-display-pose",
+    label: "Video Display Pose",
+    component: VideoDisplayPose,
     position: [-30, 2, -10],
     lookAt: [30, 2, -20],
   },

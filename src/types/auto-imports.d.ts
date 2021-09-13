@@ -42,6 +42,13 @@ declare global {
   const onRenderTriggered: typeof import('vue')['onRenderTriggered']
   const get: typeof import('@vueuse/core')['get']
   const set: typeof import('@vueuse/core')['set']
+  const and: typeof import('@vueuse/core')['and']
   const until: typeof import('@vueuse/core')['until']
+  const whenever: typeof import('@vueuse/core')['whenever']
+  const invoke: typeof import('@vueuse/core')['invoke']
+  const tryOnMounted: typeof import('@vueuse/core')['tryOnMounted']
+  const tryOnUnmounted: typeof import('@vueuse/core')['tryOnUnmounted']
+  const useNProgress: typeof import('@vueuse/integrations')['useNProgress']
+  const useToast: typeof import('vue-toastification')['useToast']
 }
 export {}
