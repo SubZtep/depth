@@ -25,6 +25,7 @@ function initShakes(cameraControls: CameraControls) {
 }
 
 function shakeIt(nr?: number) {
+  // console.log("SHAKE IT", shakes)
   shakes[nr ?? shaker++ % shakes.length].shake()
 }
 

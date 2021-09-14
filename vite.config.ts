@@ -20,7 +20,7 @@ export default defineConfig({
       include: [/\.ts$/, /\.vue\??/],
       imports: [
         "vue",
-        { "@vueuse/core": ["get", "set", "and", "until", "whenever", "invoke", "tryOnMounted", "tryOnUnmounted"] },
+        { "@vueuse/core": ["get", "set", "and", "not", "until", "whenever", "invoke", "tryOnMounted", "tryOnUnmounted", "useEventListener", "throttledWatch"] },
         { "@vueuse/integrations": ["useNProgress"] },
         { "vue-toastification": ["useToast"] },
       ],

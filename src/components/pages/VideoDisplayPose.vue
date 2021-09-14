@@ -1,6 +1,10 @@
 <template lang="pug">
 Title Video Display Pose
 .debug {{ff.video}}
+
+VideoTimeline(
+  v-if="ff.video.frameTimes"
+  :frame-times="ff.video.frameTimes")
 </template>
 
 <script lang="ts" setup>
@@ -9,6 +13,7 @@ import { useFFmpeg } from "../../packages/FFmpeg/useFFmpg"
 import { useVideoDisplay } from "../../composables/useVideoDisplay"
 import { useVideoFiles } from "../../composables/useVideoFiles"
 import { updateVideoTime } from "../../misc/utils"
+import VideoTimeline from "../timeline/VideoTimeline.vue"
 
 const toast = useToast()
 const { progress } = useNProgress()
@@ -29,7 +34,7 @@ useVideoDisplay({ video, src })
 toast.info("Booting up FFmpeg")
 const ff = useFFmpeg({
   progress: ({ ratio }) => set(progress, ratio),
-  log: true,
+  // log: true,
 })
 
 watch(src, async newSrc => {

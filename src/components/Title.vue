@@ -11,7 +11,7 @@ const showTitle = ref(true)
 onMounted(() => set(showTitle, false))
 </script>
 
-<style>
+<style scoped>
 .title {
   z-index: 100;
   font-size: 1.5rem;

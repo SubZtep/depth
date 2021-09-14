@@ -102,3 +102,9 @@ export function flipHorizontal(keypoint: NormalizedLandmark): NormalizedLandmark
 export function normaliseKeypointToDisplay(point: Landmark, scale: number, zMulti: number): [number, number, number] {
   return [point.x * scale, point.y * scale, point.z * scale * zMulti]
 }
+
+export function formatToTimeline(secs: number) {
+  const mins = Math.floor(secs / 60)
+  const s = secs - mins * 60
+  return `${String(mins).padStart(2, "0")}:${String(s).padStart(2, "0")}`
+}
