@@ -1,6 +1,9 @@
 <template lang="pug">
 Title Video Display Pose
-.debug.miniScrollbar {{ff.video}}
+Debug
+  p {{videoStore.$state}}
+  hr
+  p {{ff.video}}
 
 VideoTimeline(
   v-if="ff.video.frameTimes"
@@ -9,27 +12,25 @@ VideoTimeline(
 </template>
 
 <script lang="ts" setup>
-import { useGuiFolder } from "../../packages/datGUI"
-import { useFFmpeg } from "../../packages/FFmpeg/useFFmpg"
-import { useVideoDisplay } from "../../composables/useVideoDisplay"
-import { useVideoFiles } from "../../composables/useVideoFiles"
-import { updateVideoTime } from "../../misc/utils"
-import VideoTimeline from "../timeline/VideoTimeline.vue"
+import { storeToRefs } from "pinia"
+import { useGuiFolder } from "~/packages/datGUI"
+import { useFFmpeg } from "~/packages/FFmpeg/useFFmpg"
+import { useVideoDisplay } from "~/composables/useVideoDisplay"
+import { useVideoFiles } from "~/composables/useVideoFiles"
+import { updateVideoTime } from "~/misc/utils"
+import VideoTimeline from "~/components/timeline/VideoTimeline.vue"
+import { useVideoStore } from "~/stores/video"
 
 const toast = useToast()
 const { progress } = useNProgress()
+const videoStore = useVideoStore()
 
 const props = defineProps({
   video: { type: Object as PropType<Ref<HTMLVideoElement>>, required: true },
 })
 
-const state = reactive<VideoDisplayPoseState>({
-  // src: "",
-  src: "/videos/happy.webm",
-})
-
 const video = toRef(props, "video")
-const src = toRef(state, "src")
+const src = storeToRefs(videoStore).src
 
 useVideoDisplay({ video, src })
 
@@ -39,22 +40,23 @@ const ff = useFFmpeg({
   // log: true,
 })
 
-watch(src, async newSrc => {
+videoStore.$subscribe(async ({ events }) => {
+  if (!Array.isArray(events)) events = [events]
+
+  const evs = events.filter(({ key }) => key === "src")
+  if (evs.length === 0) return
+
   if (ff.video.memfsFilename) {
     toast.info(`Delete ${ff.video.memfsFilename} from MEMFS`)
     ff.memfs.delVideo()
   }
+
+  const newSrc = evs.at(-1)!.newValue
   if (newSrc) {
     toast.info(`Write ${newSrc} to MEMFS`)
     await ff.memfs.writeVideo(newSrc)
   }
-
-  // await processFrameByFrame(newSrc, async pts => {
-  //   await updateVideoTime(video, pts)
-  // })
-  // toast.success("Video frames processed")
 })
-
 
 const buttons = {
   async pts() {
@@ -75,7 +77,7 @@ const buttons = {
 
 useGuiFolder(folder => {
   folder.name = "Video Display"
-  folder.add(state, "src", useVideoFiles().selectList()).name("Video file")
+  folder.add(videoStore, "src", useVideoFiles().selectList()).name("Video file")
   folder.add(buttons, "pts").name("Get frame timestamps")
   folder.add(buttons, "images").name("Get frame images")
   folder.add(buttons, "delImages").name("Omit frames images")

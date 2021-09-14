@@ -29,8 +29,10 @@
       "./node_modules/@types",
       "./src/packages/*/types.d.ts",
       "./src/types"
-    ]
+    ],
+    "paths": {
+      "~/*": ["src/*"]
+    }
   },
-  "include": ["./src", "./__tests__"],
-  "exclude": ["./node_modules"]
+  "exclude": ["dist", "node_modules"]
 }

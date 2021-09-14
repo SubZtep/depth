@@ -32,6 +32,7 @@
     "canvas-confetti": "^1.4.0",
     "chroma-js": "^2.1.2",
     "dat.gui": "^0.7.7",
+    "pinia": "^2.0.0-rc.9",
     "run": "^1.4.0",
     "stats.js": "^0.17.0",
     "three": "^0.132.2",

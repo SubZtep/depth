@@ -1,3 +1,4 @@
+import path from "path"
 import { defineConfig } from "vite"
 import Vue from "@vitejs/plugin-vue"
 import ViteComponents from "vite-plugin-components"
@@ -9,6 +10,11 @@ import AutoImport from "unplugin-auto-import/vite"
 import { EnableSharedArrayBuffer } from "./src/packages/VitePlugins"
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      "~/": `${path.resolve(__dirname, "src")}/`,
+    },
+  },
   plugins: [
     Vue({
       include: [/\.vue$/],
@@ -18,12 +24,7 @@ export default defineConfig({
     }),
     AutoImport({
       include: [/\.ts$/, /\.vue\??/],
-      imports: [
-        "vue",
-        { "@vueuse/core": ["get", "set", "and", "not", "until", "whenever", "invoke", "tryOnMounted", "tryOnUnmounted", "useEventListener", "throttledWatch"] },
-        { "@vueuse/integrations": ["useNProgress"] },
-        { "vue-toastification": ["useToast"] },
-      ],
+      imports: ["vue", { "@vueuse/core": ["get", "set", "and", "not", "until", "whenever", "invoke", "tryOnMounted", "tryOnUnmounted", "useEventListener", "throttledWatch"] }, { "@vueuse/integrations": ["useNProgress"] }, { "vue-toastification": ["useToast"] }],
       dts: "./src/types/auto-imports.d.ts",
     }),
     ViteFonts({

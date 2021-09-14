@@ -1,6 +1,5 @@
-// eslint-disable-next-line no-undef
 module.exports = {
-  // root: true,
+  root: true,
   overrides: [
     {
       files: ["*.vue"],

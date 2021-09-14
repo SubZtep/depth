@@ -28,6 +28,9 @@ let canvas: HTMLCanvasElement
 const zoomLevel = ref(0)
 provide("zoomLevel", zoomLevel)
 
+
+
+
 onMounted(() => {
   nextTick(() => {
     canvas = get(timeline)!.querySelector("canvas")!

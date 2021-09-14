@@ -80,7 +80,7 @@ body {
   box-shadow: 0 0 8px #000;
 }
 
-.debug {
+/* .debug {
   background-color: #0102;
   font-size: 0.6rem;
   line-height: 0.8rem;
@@ -94,7 +94,7 @@ body {
   max-height: 100vh;
   opacity: 0.4;
   transform: translateX(-69%);
-  transition: all 0.1s ease-in;
+  transition: all 0.1s ease-in 1.5s;
   &:hover {
     opacity: 1;
     transform: translateX(0);
@@ -117,4 +117,4 @@ body {
 
 .miniScrollbar::-webkit-scrollbar-thumb {
   background-image: radial-gradient(#eefeee 0%, #0000 69%);
-}
+} */

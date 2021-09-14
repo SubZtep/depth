@@ -16,6 +16,6 @@ interface VideoDisplayLocalsState {
   src: string
 }
 
-interface VideoDisplayPoseState {
-  src: string
-}
+// interface VideoDisplayPoseState {
+//   src: string
+// }

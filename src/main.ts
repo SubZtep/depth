@@ -1,4 +1,5 @@
 import { createApp } from "vue"
+import { createPinia } from "pinia"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import Toast from "vue-toastification"
 import App from "./components/scene/App.vue"
@@ -12,7 +13,6 @@ import Stats from "./packages/Stats"
 import Gui from "./packages/datGUI"
 import routes from "./routes"
 import "./icons"
-// import "vue-global-api"
 
 import "vue-toastification/dist/index.css"
 import "./vendors.css"
@@ -20,6 +20,7 @@ import "./style.css"
 
 createApp(App)
   .component("fa", FontAwesomeIcon)
+  .use(createPinia())
   .use(Toast, {
     timeout: 4569,
     maxToasts: 13,
