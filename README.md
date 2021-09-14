@@ -1,38 +1,44 @@
-# depth 🧘‍♀️
+# depth 🧘‍♀️ ~~perception~~
 
-~~perception~~
+Just another _code sandbox_. If this term exists at all — there is too much code in it to call a _boilerplate_, the _playground_ is more appropriate. So what?
 
-> Please use **Chrome™**
+Back in the day, I was amazed by browser based machine learning solutions, especially the one that was able to tell the coordinate points of human joints from videos. Even though it was 2D only, calculating the rotations and trying out on rigged 3D models made some fun moments, certainly without the hoped-for precise Z-axis positions. There are glitches in the Matrix but if Skynet would use that for motion capturing nobody would eat that reality.
+
+When I heard about the new deeply learned [TensorFlow](https://blog.tensorflow.org/2021/05/high-fidelity-pose-tracking-with-mediapipe-blazepose-and-tfjs.html) models I surely tried out. Faster, smoother, and finally not having to combine vectors like an animal, my phone can make many more attempts to accomplish the goal - whatever is that - the only thing I need to do is let it do it.
+
+Connecting webcam with the API, cache it, normalise it, visualise it, etcetera. All these tasks are quite simple to make in a browser with JavaScript. Controlling a **Three.js** canvas and smooth out the data flow with open source packages is feasible thanks to the community. Hard to imagine a better workflow than **Vue.js** with its recent updates and reactive composables. All I want here is to make it very comfortable and quick to use. I don't even bother Babel, if my sessionless **Chrome™ Canary** can run it it's just good enough, yolo.
+
+## What's this?
+
+Long story short I try to organise packages without intentionally following standardised patterns and avoid _spaghetti_. Just keep moving files, rewriting definitions, recursive redundant.
+
+# 3D
+
+# 2D
+
+## Packages
+
+While this is not a _monorepo_ it is great to keep packages separated. There are mostly extensions for already existing 3rd-party modules. Not perfectly decopuled but getting there.
+
+| path   | description |
+| ------ | ----------- |
+| [datGUI](./dat.GUI) | dat.GUI |
+| [FFmpeg](./FFmpeg) | FFmeg |
+| [PoseAI](./PoseAI) | MediaPipe BlazePose |
+| [router](./router) | custom router |
+| [Stats](./Stats) | Stats.JS |
+| [ThreeJS](./ThreeJS) | Three.JS |
 
 
-## FFmpeg commands
+## Shell Scripts
 
-https://www.ffmpeg.org/ffmpeg-all.html
-
-ffmpeg -skip_frame nokey -i yoga2.webm -vsync 0 -frame_pts true out%09d.png
-
-ffmpeg -copyts -skip_frame nokey -i yoga2.webm -vsync 0 -r 1000 -f image2 -frame_pts 1 keyframe-%09d.jpeg
-
-ffmpeg -copyts -skip_frame nokey -i yoga2.webm -vsync 0 -r 1000 -frame_pts 1 out%09d.png
-
-this one is in milisecs:
-ffmpeg -skip_frame nokey -i yoga2.webm -vsync 0 -r 1000 -frame_pts 1 %09d.png
-
-(add pts column to keyframes?)
-
-## Camera settings
-
-https://github.com/yomotsu/camera-controls
-
-## Scripts
-
-Install [runner](https://github.com/google/zx):
+To execute a local script install the excellent bash wrapper [zx](https://github.com/google/zx) package globally:
 
 ```sh
 $ npm i -g zx
 ```
 
-## Tutorial Pages
+## Simple Examples
 
 1. [Empty Template](src/components/pages/EmptyTemplate.vue)
 1. [Video Display Locals](src/components/pages/VideoDisplayLocals.vue)
@@ -41,10 +47,10 @@ $ npm i -g zx
 
 - [ ] https://github.com/postcss/postcss-scss
 
-- [x] [Camera control for three.js, supports smooth transitions](https://github.com/yomotsu/camera-controls)
-- [x] [Collection of essential Vue Composition Utilities](https://vueuse.org/)
-- [x] [WebAssembly backend to TensorFlow.js](https://github.com/tensorflow/tfjs/tree/master/tfjs-backend-wasm)
-- [x] [BlazePose TFJS (33 keypoints)](https://github.com/tensorflow/tfjs-models/tree/master/pose-detection/src/blazepose_tfjs)
+- [x] [**Camera Controls** for Three.js — smooth transitions](https://github.com/yomotsu/camera-controls)
+- [x] [**VueUse** — reactive composition utilities](https://vueuse.org/)
+- [x] [**MediaPipe** pose detection](https://google.github.io/mediapipe/solutions/pose.html)
+- [x] [**Font Awesome** _pro_ icons](https://fontawesome.com/v6.0/icons)
 - [x] chroma-js
 - [x] stats.js
 - [x] dat.gui
@@ -95,8 +101,3 @@ $ npm i -g zx
 ---
 _superWIP_!noeta.\
 unlicense4temp-
-
-
-#### vue qustions
-1. using watchEffect worst than watch regarding to performance?
-2. does it make sense to create an other script tag next to `script setup` to prefent too many shared objects to the template?
