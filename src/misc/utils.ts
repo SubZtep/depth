@@ -108,3 +108,7 @@ export function formatToTimeline(secs: number) {
   const s = secs - mins * 60
   return `${String(mins).padStart(2, "0")}:${String(s).padStart(2, "0")}`
 }
+
+export function pngOnly(filename: string) {
+  return filename.endsWith(".png")
+}

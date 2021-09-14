@@ -19,7 +19,7 @@ import "./vendors.css"
 import "./style.css"
 
 createApp(App)
-  .component("font-awesome-icon", FontAwesomeIcon)
+  .component("fa", FontAwesomeIcon)
   .use(Toast, {
     timeout: 4569,
     maxToasts: 13,

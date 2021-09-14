@@ -68,7 +68,10 @@ body {
   display: grid;
   align-items: end;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-areas: "dat video stats";
+  grid-template-areas:
+    "timeline timeline timeline"
+    ". . ."
+    "dat video stats";
   pointer-events: none;
 }
 
@@ -78,7 +81,8 @@ body {
 }
 
 .debug {
-  font-size: 0.5rem;
+  background-color: #0102;
+  font-size: 0.6rem;
   line-height: 0.8rem;
   position: fixed;
   top: 0;
@@ -88,6 +92,14 @@ body {
   color: var(--terminal);
   overflow: auto;
   max-height: 100vh;
+  opacity: 0.4;
+  transform: translateX(-69%);
+  transition: all 0.1s ease-in;
+  &:hover {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 0.2s ease-out;
+  }
 }
 
 .miniScrollbar {
@@ -97,8 +109,9 @@ body {
 }
 
 .miniScrollbar::-webkit-scrollbar {
-  background-color: #000;
+  background-color: #1234;
   height: 12px;
+  width: 12px;
   cursor: pointer;
 }
 

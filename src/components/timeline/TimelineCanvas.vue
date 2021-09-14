@@ -72,9 +72,9 @@ throttledWatch([duration, gapSecPx], drawTimeSequence, { throttle: 50 })
 </script>
 
 <style scoped>
-canvas {
+/* canvas {
   top: 0;
   left: 0;
   position: absolute;
-}
+} */
 </style>

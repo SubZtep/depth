@@ -15,7 +15,7 @@ StickmanSimple(:keypoints="state.keypoints" :width="5")
 
   //- .time ⌚ {{state.currentTime}}s
   .time
-    font-awesome-icon(:icon="['fat', 'timer']")
+    fa(:icon="['fat', 'timer']")
     | {{state.currentTime}}s
   Timeline(
     @time="t => state.currentTime = t"

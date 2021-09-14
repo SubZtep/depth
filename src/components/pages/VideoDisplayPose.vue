@@ -1,9 +1,10 @@
 <template lang="pug">
 Title Video Display Pose
-.debug {{ff.video}}
+.debug.miniScrollbar {{ff.video}}
 
 VideoTimeline(
   v-if="ff.video.frameTimes"
+  :video="video"
   :frame-times="ff.video.frameTimes")
 </template>
 
@@ -23,7 +24,8 @@ const props = defineProps({
 })
 
 const state = reactive<VideoDisplayPoseState>({
-  src: "",
+  // src: "",
+  src: "/videos/happy.webm",
 })
 
 const video = toRef(props, "video")
@@ -73,9 +75,9 @@ const buttons = {
 
 useGuiFolder(folder => {
   folder.name = "Video Display"
-  folder.add(state, "src", useVideoFiles().selectList()).name("Video source")
+  folder.add(state, "src", useVideoFiles().selectList()).name("Video file")
   folder.add(buttons, "pts").name("Get frame timestamps")
-  folder.add(buttons, "images").name("Get frames as images")
-  folder.add(buttons, "delImages").name("Delete frames images")
+  folder.add(buttons, "images").name("Get frame images")
+  folder.add(buttons, "delImages").name("Omit frames images")
 })
 </script>
