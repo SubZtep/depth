@@ -11,15 +11,16 @@
 
 <style lang="postcss">
 .timelineToolbar {
-  padding: 0.4rem 0.6rem;
+  padding: 0.2rem;
   display: flex;
-  gap: 0.5rem;
+  gap: 0.42em;
 }
 
 .timelineToolbar button {
   aspect-ratio: 1;
   background-color: transparent;
   font-size: 1.2rem;
+  padding: 1px;
   border-width: 1px;
   border-color: #6669;
   border-style: outset;

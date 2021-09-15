@@ -40,7 +40,7 @@ function startPosition(cameraControls: CameraControls) {
 
 export function useCameraControls(cameraControls: CameraControls) {
   initShakes(cameraControls)
-  setupBoundaries(cameraControls)
+  // setupBoundaries(cameraControls)
   startPosition(cameraControls)
 
   const { idle } = useIdle()

@@ -32,7 +32,7 @@ While this is not a _monorepo_ it is great to keep packages separated. There are
 
 ## Shell Scripts
 
-To execute a local script install the excellent bash wrapper [zx](https://github.com/google/zx) package globally:
+To execute a local script install the excellent bash wrapper [zx](https://github.com/google/zx) package, why not globally:
 
 ```sh
 $ npm i -g zx

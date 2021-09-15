@@ -22,14 +22,11 @@ const props = defineProps({
   video: { type: Object as PropType<Ref<HTMLVideoElement>>, required: true },
 })
 
-const timeline = ref<HTMLDivElement | null>(null)
+const timeline = ref<HTMLDivElement>()
 let canvas: HTMLCanvasElement
 
 const zoomLevel = ref(0)
 provide("zoomLevel", zoomLevel)
-
-
-
 
 onMounted(() => {
   nextTick(() => {
@@ -59,17 +56,15 @@ const handleCursorClick = async (x: number) => {
 <style lang="postcss">
 .videoTimeline {
   grid-area: timeline;
-  margin: 0 auto;
   cursor: grab;
   position: relative;
   overflow-y: hidden;
   background-color: #dededecc;
-  border: 3px solid #000;
+  border: 3px inset #000;
   border-radius: 4px;
   border-top-width: 1px;
-  width: 50rem;
-  max-height: 10rem;
-  /* box-sizing: content-box; */
+  width: 66vw;
+  max-height: 12rem;
   &.grabbing {
     cursor: grabbing;
   }

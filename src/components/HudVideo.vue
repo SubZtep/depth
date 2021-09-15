@@ -1,11 +1,11 @@
 <template lang="pug">
-.cameraInput
+.hudVideo
   video(
     ref="video"
     muted="true"
+    controls="true"
     playsinline="true"
-    crossorigin="anonymous"
-    poster="/textures/no-video.png")
+    crossorigin="anonymous")
   //- video(
     ref="video"
     loop="true"
@@ -19,25 +19,26 @@
 </template>
 
 <script lang="ts" setup>
-import { useCssVar } from "@vueuse/core"
+// import { useCssVar } from "@vueuse/core"
 
 const emit = defineEmits(["onRef"])
 const video = ref()
-const ratio = useCssVar("--video-display-ratio", video)
+// const ratio = useCssVar("--video-display-ratio", video)
 
 onMounted(() => emit("onRef", video))
 </script>
 
 <style>
-.cameraInput {
+.hudVideo {
   grid-area: video;
-  justify-self: center;
+  background-color: #0003;
+  border: 3px double #669;
   line-height: 0;
 }
 
-.cameraInput video {
-  display: inline-block;
-  aspect-ratio: var(--video-display-ratio, 1);
+.hudVideo video {
+  /* display: inline-block; */
+  /* aspect-ratio: var(--video-display-ratio, 1); */
   max-height: 250px;
 }
 </style>

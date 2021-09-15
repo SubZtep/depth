@@ -83,8 +83,8 @@ const route: Route[] = [
     path: "/video-display-pose",
     label: "Video Display Pose",
     component: VideoDisplayPose,
-    position: [-30, 2, -10],
-    lookAt: [30, 2, -20],
+    position: [-12, 2, 4],
+    lookAt: [30, 10, -20],
   },
 ]
 

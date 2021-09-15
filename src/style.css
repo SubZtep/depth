@@ -30,6 +30,22 @@ body {
   line-height: 150%;
 }
 
+#hud {
+  display: grid;
+  align-items: end;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 0.5fr 1.5fr 1fr;
+  grid-template-areas:
+    "timeline timeline video"
+    ". . ."
+    "dat . stats";
+  pointer-events: none;
+}
+
+#hud > div {
+  pointer-events: auto;
+}
+
 #app, #world, #hud, .loadingScreen {
   top: 0;
   left: 0;
@@ -60,61 +76,6 @@ body {
   margin-left: 8px;
 }
 
-#app > video {
+/* #app > video {
   aspect-ratio: var(--ratio, 1);
-}
-
-#hud {
-  display: grid;
-  align-items: end;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-areas:
-    "timeline timeline timeline"
-    ". . ."
-    "dat video stats";
-  pointer-events: none;
-}
-
-#hud > div {
-  pointer-events: auto;
-  box-shadow: 0 0 8px #000;
-}
-
-/* .debug {
-  background-color: #0102;
-  font-size: 0.6rem;
-  line-height: 0.8rem;
-  position: fixed;
-  top: 0;
-  left: 0;
-  font-family: monospace;
-  white-space: pre;
-  color: var(--terminal);
-  overflow: auto;
-  max-height: 100vh;
-  opacity: 0.4;
-  transform: translateX(-69%);
-  transition: all 0.1s ease-in 1.5s;
-  &:hover {
-    opacity: 1;
-    transform: translateX(0);
-    transition: all 0.2s ease-out;
-  }
-}
-
-.miniScrollbar {
-  overflow: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #efe #000;
-}
-
-.miniScrollbar::-webkit-scrollbar {
-  background-color: #1234;
-  height: 12px;
-  width: 12px;
-  cursor: pointer;
-}
-
-.miniScrollbar::-webkit-scrollbar-thumb {
-  background-image: radial-gradient(#eefeee 0%, #0000 69%);
 } */

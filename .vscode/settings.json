@@ -14,5 +14,7 @@
   "workbench.colorTheme": "merko's green theme",
   "workbench.iconTheme": "vscode-great-icons",
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "scss.lint.emptyRules": "ignore",
+  "less.lint.emptyRules": "ignore",
   // "vite.autoStart": true
 }

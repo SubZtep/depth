@@ -29,34 +29,24 @@ const props = defineProps({
   video: { type: Object as PropType<Ref<HTMLVideoElement>>, required: true },
 })
 
-const video = toRef(props, "video")
-const src = storeToRefs(videoStore).src
-
-useVideoDisplay({ video, src })
+useVideoDisplay({ video: props.video, src: storeToRefs(videoStore).src })
 
 toast.info("Booting up FFmpeg")
-const ff = useFFmpeg({
-  progress: ({ ratio }) => set(progress, ratio),
-  // log: true,
-})
+const ff = useFFmpeg({ progress: ({ ratio }) => set(progress, ratio) })
 
-videoStore.$subscribe(async ({ events }) => {
-  if (!Array.isArray(events)) events = [events]
-
-  const evs = events.filter(({ key }) => key === "src")
-  if (evs.length === 0) return
-
+const deleteVideoFromMEMFS = () => {
   if (ff.video.memfsFilename) {
     toast.info(`Delete ${ff.video.memfsFilename} from MEMFS`)
     ff.memfs.delVideo()
   }
+}
 
-  const newSrc = evs.at(-1)!.newValue
-  if (newSrc) {
-    toast.info(`Write ${newSrc} to MEMFS`)
-    await ff.memfs.writeVideo(newSrc)
+const writeVideoToMEMFS = async (src: string) => {
+  if (src) {
+    toast.info(`Write ${src} to MEMFS`)
+    await ff.memfs.writeVideo(src)
   }
-})
+}
 
 const buttons = {
   async pts() {
@@ -77,7 +67,10 @@ const buttons = {
 
 useGuiFolder(folder => {
   folder.name = "Video Display"
-  folder.add(videoStore, "src", useVideoFiles().selectList()).name("Video file")
+  folder.add(videoStore, "src", useVideoFiles().selectList()).name("Video file").onChange(newSrc => {
+    deleteVideoFromMEMFS()
+    writeVideoToMEMFS(newSrc)
+  })
   folder.add(buttons, "pts").name("Get frame timestamps")
   folder.add(buttons, "images").name("Get frame images")
   folder.add(buttons, "delImages").name("Omit frames images")
