@@ -5,7 +5,7 @@
 
     TimelineCanvas(
       :wrapper="timeline"
-      :frame-times="props.frameTimes")
+      :frame-times="props.ff.video.frameTimes")
 
     TimelineCursor(
       :wrapper="timeline"
@@ -16,10 +16,12 @@
 import { usePointerSwipe } from "@vueuse/core"
 import { updateVideoTime } from "../../misc/utils"
 import TimelineToolbar from "./TimelineToolbar.vue"
+import { useFFmpeg } from "~/packages/FFmpeg/useFFmpg"
 
 const props = defineProps({
-  frameTimes: { type: Array as PropType<number[]>, required: true },
+  // frameTimes: { type: Array as PropType<number[]>, required: true },
   video: { type: Object as PropType<Ref<HTMLVideoElement>>, required: true },
+  ff: { type: Object as PropType<ReturnType<typeof useFFmpeg>>, required: true }
 })
 
 const timeline = ref<HTMLDivElement>()
@@ -45,7 +47,8 @@ const { distanceX, isSwiping } = usePointerSwipe(timeline, {
 })
 
 const handleCursorClick = async (x: number) => {
-  const duration = props.frameTimes.at(-1) || 0
+  // const duration = props.frameTimes.at(-1) || 0
+  const duration = props.ff.video.frameTimes?.at(-1) || 0
   const gapSecPx = Math.round(get(timeline)!.clientWidth / duration) + get(zoomLevel)
   const time = (x + get(timeline)!.scrollLeft) / get(gapSecPx)
   console.log("PRESS", time)
@@ -55,16 +58,18 @@ const handleCursorClick = async (x: number) => {
 
 <style lang="postcss">
 .videoTimeline {
+  /* @apply relative; */
   grid-area: timeline;
   cursor: grab;
-  position: relative;
+  /* position: relative; */
+  @apply h-full w-full;
   overflow-y: hidden;
-  background-color: #dededecc;
+  background-color: #dedede88;
   border: 3px inset #000;
   border-radius: 4px;
   border-top-width: 1px;
-  width: 66vw;
-  max-height: 12rem;
+  /* width: 66vw;
+  max-height: 12rem; */
   &.grabbing {
     cursor: grabbing;
   }

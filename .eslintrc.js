@@ -43,5 +43,6 @@ module.exports = {
     indent: ["warn", 2, { "SwitchCase": 1 }],
     "max-len": ["warn", { code: 420, tabWidth: 2 }],
     "css/": "off",
+    "prefer-const": "warn",
   },
 }

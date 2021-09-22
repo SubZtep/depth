@@ -9,6 +9,7 @@ import DepthHead from "./components/pages/DepthHead.vue"
 import EmptyTemplate from "./components/pages/EmptyTemplate.vue"
 import VideoDisplayLocals from "./components/pages/VideoDisplayLocals.vue"
 import VideoDisplayPose from "./components/pages/VideoDisplayPose.vue"
+import IconGallery from "./components/pages/IconGallery.vue"
 
 const route: Route[] = [
   {
@@ -78,6 +79,13 @@ const route: Route[] = [
     component: VideoDisplayLocals,
     position: [-30, 2, -10],
     lookAt: [30, 2, -20],
+  },
+  {
+    path: "/icon-gallery",
+    label: "Icon Gallery",
+    component: IconGallery,
+    position: [-12, 2, 4],
+    lookAt: [30, 10, -20],
   },
   {
     path: "/video-display-pose",

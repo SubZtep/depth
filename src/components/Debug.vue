@@ -11,26 +11,31 @@ const exists = ref(true)
 
 <style lang="postcss" scoped>
 .debug {
+  grid-area: debug;
+
+  @apply h-full w-full;
+
   cursor: help;
   background-color: #0102;
   font-size: 0.6rem;
   line-height: 0.8rem;
-  position: fixed;
+  /* position: fixed;
   top: 0;
-  left: 0;
+  left: 0; */
+
   font-family: monospace;
   white-space: pre;
   color: var(--terminal);
   overflow: auto;
-  max-height: 100vh;
-  opacity: 0.4;
+  /* max-height: 100vh; */
+  /* opacity: 0.4;
   transform: translateX(-69%);
   transition: all 0.1s ease-in 1.5s;
   &:hover {
     opacity: 1;
     transform: translateX(0);
     transition: all 0.2s ease-out;
-  }
+  } */
 }
 
 .miniScrollbar {

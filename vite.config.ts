@@ -7,6 +7,7 @@ import ViteRestart from "vite-plugin-restart"
 import resolve from "@rollup/plugin-node-resolve"
 import commonJS from "@rollup/plugin-commonjs"
 import AutoImport from "unplugin-auto-import/vite"
+import WindiCSS from "vite-plugin-windicss"
 import { EnableSharedArrayBuffer } from "./src/packages/VitePlugins"
 
 export default defineConfig({
@@ -32,6 +33,7 @@ export default defineConfig({
         families: ["Merriweather", "Text Me One", "Hind Siliguri"],
       },
     }),
+    WindiCSS(),
     ViteRestart({
       reload: "**/src/**/*.*",
       restart: "**/src/**/*.*",

@@ -19,7 +19,7 @@ import * as sdef from "../../models/sceneDefaults"
 const assets = useAssets()
 
 await assets.loadNoVideoMaterial()
-// const leaf = await assets.loadLeafMaterial()
+await assets.loadLeafMaterial()
 const skybox = await assets.loadSkybox(rand(15))
 const wc = ref() as Ref<HTMLCanvasElement>
 

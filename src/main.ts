@@ -14,6 +14,7 @@ import Gui from "./packages/datGUI"
 import routes from "./routes"
 import "./icons"
 
+import "virtual:windi.css"
 import "vue-toastification/dist/index.css"
 import "./vendors.css"
 import "./style.css"

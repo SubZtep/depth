@@ -1,44 +1,44 @@
 <template lang="pug">
 .hudVideo
+  fa.absolute.top-0.right-0.text-white(:icon="['far', 'tv']" size="2x")
+
   video(
     ref="video"
     muted="true"
-    controls="true"
     playsinline="true"
+    :controls="showControls"
     crossorigin="anonymous")
-  //- video(
-    ref="video"
-    loop="true"
-    muted="true"
-    autoplay="true"
-    controls="true"
-    playsinline="true"
-    crossorigin="anonymous"
-    v-aspect-ratio="v => ratio = v"
-    poster="/textures/no-video.png")
+
+  label
+    input(type="checkbox" v-model="showControls")
+    | Show Video Player Controls
 </template>
 
 <script lang="ts" setup>
-// import { useCssVar } from "@vueuse/core"
-
 const emit = defineEmits(["onRef"])
 const video = ref()
-// const ratio = useCssVar("--video-display-ratio", video)
+const showControls = ref(false)
 
 onMounted(() => emit("onRef", video))
 </script>
 
-<style>
+<style scoped>
 .hudVideo {
   grid-area: video;
-  background-color: #0003;
-  border: 3px double #669;
-  line-height: 0;
+  @apply h-64 relative;
+  background-color: #f003;
+  /*border: 3px double #669;
+  text-align: center;
+  line-height: 0; */
 }
 
 .hudVideo video {
   /* display: inline-block; */
   /* aspect-ratio: var(--video-display-ratio, 1); */
-  max-height: 250px;
+  /* max-height: 350px; */
+}
+
+.hudVideo input {
+  accent-color: yellow;
 }
 </style>

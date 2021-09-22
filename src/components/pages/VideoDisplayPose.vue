@@ -1,14 +1,21 @@
 <template lang="pug">
 Title Video Display Pose
-Debug
-  p {{videoStore.$state}}
-  hr
-  p {{ff.video}}
 
-VideoTimeline(
-  v-if="ff.video.frameTimes"
-  :video="video"
-  :frame-times="ff.video.frameTimes")
+
+
+teleport(to="#hud")
+  Debug
+    p {{videoStore.$state}}
+    hr
+    p {{ff.video}}
+
+  VideoTimeline(
+    :video="video"
+    :ff="ff")
+  //- v-if="ff.video.frameTimes"
+  //- :frame-times="ff.video.frameTimes")
+
+  MemfsCommander(:FS="ff.ffmpeg?.FS")
 </template>
 
 <script lang="ts" setup>
@@ -18,12 +25,15 @@ import { useFFmpeg } from "~/packages/FFmpeg/useFFmpg"
 import { useVideoDisplay } from "~/composables/useVideoDisplay"
 import { useVideoFiles } from "~/composables/useVideoFiles"
 import { updateVideoTime } from "~/misc/utils"
-import VideoTimeline from "~/components/timeline/VideoTimeline.vue"
+import VideoTimeline from "~/components/video-timeline/VideoTimeline.vue"
 import { useVideoStore } from "~/stores/video"
+import MemfsCommander from "~/components/memfs-commander/MemfsCommander.vue"
 
 const toast = useToast()
 const { progress } = useNProgress()
 const videoStore = useVideoStore()
+
+const FS = ref()
 
 const props = defineProps({
   video: { type: Object as PropType<Ref<HTMLVideoElement>>, required: true },
@@ -32,7 +42,13 @@ const props = defineProps({
 useVideoDisplay({ video: props.video, src: storeToRefs(videoStore).src })
 
 toast.info("Booting up FFmpeg")
-const ff = useFFmpeg({ progress: ({ ratio }) => set(progress, ratio) })
+const ff = useFFmpeg({
+  progress: ({ ratio }) => set(progress, ratio),
+  log: true,
+  onUpdated: ffmpeg => {
+
+  },
+})
 
 const deleteVideoFromMEMFS = () => {
   if (ff.video.memfsFilename) {
@@ -66,13 +82,13 @@ const buttons = {
 }
 
 useGuiFolder(folder => {
-  folder.name = "Video Display"
-  folder.add(videoStore, "src", useVideoFiles().selectList()).name("Video file").onChange(newSrc => {
+  folder.name = "📼 FFmpeg"
+  folder.add(videoStore, "src", useVideoFiles().selectList()).name("Load Video").onChange(newSrc => {
     deleteVideoFromMEMFS()
     writeVideoToMEMFS(newSrc)
   })
-  folder.add(buttons, "pts").name("Get frame timestamps")
-  folder.add(buttons, "images").name("Get frame images")
-  folder.add(buttons, "delImages").name("Omit frames images")
+  folder.add(buttons, "pts").name("Get Keyframes Timestamps")
+  folder.add(buttons, "images").name("Get Keyframes Images")
+  folder.add(buttons, "delImages").name("Omit Keyframes Images")
 })
 </script>

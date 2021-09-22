@@ -37,9 +37,10 @@ body {
   grid-template-rows: 0.5fr 1.5fr 1fr;
   grid-template-areas:
     "timeline timeline video"
-    ". . ."
+    "debug . commander"
     "dat . stats";
   pointer-events: none;
+  @apply gap-2;
 }
 
 #hud > div {
