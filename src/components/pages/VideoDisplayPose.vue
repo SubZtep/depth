@@ -1,8 +1,6 @@
 <template lang="pug">
 Title Video Display Pose
 
-
-
 teleport(to="#hud")
   Debug
     p {{videoStore.$state}}
@@ -41,12 +39,10 @@ const props = defineProps({
 
 useVideoDisplay({ video: props.video, src: storeToRefs(videoStore).src })
 
-toast.info("Booting up FFmpeg")
 const ff = useFFmpeg({
-  progress: ({ ratio }) => set(progress, ratio),
-  log: true,
-  onUpdated: ffmpeg => {
-
+  ffOpts: {
+    progress: ({ ratio }) => set(progress, ratio),
+    log: true,
   },
 })
 

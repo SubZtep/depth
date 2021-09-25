@@ -112,3 +112,7 @@ export function formatToTimeline(secs: number) {
 export function pngOnly(filename: string) {
   return filename.endsWith(".png")
 }
+
+export function basename(src: string, ext = "webm") {
+  return `${src.split("/").pop()}.${ext}`
+}

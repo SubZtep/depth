@@ -1,32 +1,24 @@
-import type { FFmpeg, ProgressCallback } from "@ffmpeg/ffmpeg"
+import type { FFmpeg, CreateFFmpegOptions } from "@ffmpeg/ffmpeg"
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
 import { VIDEO_KEYFRAME_TIMESTAMPS, VIDEO_KEYFRAME_IMAGES } from "./commands"
-import { pngOnly } from "../../misc/utils"
+import { pngOnly, basename } from "~/misc/utils"
 
 interface FFmpegOptions {
-  progress?: ProgressCallback
-  log?: boolean
-  onUpdated?: (ffmpeg: FFmpeg) => void
+  src: string
+  ffOpts: CreateFFmpegOptions
+  // onUpdated?: (ffmpeg: FFmpeg) => void
 }
 
-interface FFVideo {
-  src?: string
-  /** Video filename in MEMFS */
-  memfsFilename?: string
-  frameTimes?: number[]
-  imageMemfsFilenames?: string[]
-}
-
-interface FFattrs {
+interface FFreturns {
   ffmpeg?: FFmpeg
   video: FFVideo
-  memfs: {
-    writeVideo: (src: string, ext?: string) => void,
-    delVideo: () => void,
-    delImages: () => void,
-  },
-  frameTimestamps: () => Promise<void>,
-  frameImages: () => Promise<void>,
+  // memfs: {
+  //   writeVideo: (src: string, ext?: string) => void,
+  //   delVideo: () => void,
+  //   delImages: () => void,
+  // },
+  // frameTimestamps: () => Promise<void>,
+  // frameImages: () => Promise<void>,
 }
 
 /** find pts (presentation time stamp) in ffmpeg output */
@@ -37,51 +29,37 @@ function findPtsInLogRow(frameTimes: number[]) {
   }
 }
 
-export function useFFmpeg(options: FFmpegOptions): FFattrs {
-  const { progress, log = false } = options
-  // let ffmpeg: FFmpeg = createFFmpeg({ log, progress })
-  let ffmpeg: FFmpeg | undefined = undefined
+export function useFFmpeg(options: FFmpegOptions): FFreturns {
+  const { ffOpts, src } = options
+  const ffmpeg = createFFmpeg(ffOpts)
 
-  /** Video in MEMFS */
-  const video = reactive<FFVideo>({})
+  const files = ref<string[]>([])
 
-  tryOnMounted(async () => {
-    ffmpeg = createFFmpeg({ log, progress })
+  invoke(async () => {
     try {
       await ffmpeg.load()
-    } catch (e: any) {
+    } catch (e) {
       throw new Error(e.message)
     }
-    if (!ffmpeg.isLoaded()) {
-      throw new Error("FFmpeg is not loaded")
-    }
+  })
+
+  invoke(async () => {
+    const fn = basename(src, "webm")
+    ffmpeg.FS("writeFile", fn, await fetchFile(src))
+    await ffmpeg.run(...VIDEO_KEYFRAME_IMAGES(fn))
+    // @ts-ignore
+    files.value = ffmpeg.FS<"readdir">("readdir", "/")
+
+
   })
 
   tryOnUnmounted(() => {
     try {
-      ffmpeg!.exit()
+      ffmpeg.exit()
     } catch (e) {
       console.error("FFmpeg exit", e)
     }
   })
-
-  /** Upload file on given source to MEMFS */
-  const writeToMemfs = async (src: string, ext = "webm") => {
-    const fn = `${src.split("/").pop()}.${ext}`
-    ffmpeg!.FS<"writeFile">("writeFile", fn, await fetchFile(src))
-    video.src = src
-    video.memfsFilename = fn
-  }
-
-  /** Unlink file from MEMFS */
-  const delFromMemfs = () => {
-    if (video.memfsFilename) {
-      ffmpeg!.FS<"unlink">("unlink", video.memfsFilename)
-      delete video.memfsFilename
-      delete video.src
-      delete video.frameTimes
-    }
-  }
 
   /** Get each frame's timestamp */
   const frameTimestamps = async () => {
@@ -95,6 +73,10 @@ export function useFFmpeg(options: FFmpegOptions): FFattrs {
     frameTimes.length > 0 && (video.frameTimes = frameTimes)
   }
 
+  const grabKeyframeImages = async (memfsFilename: string) => {
+    await ffmpeg!.run(...VIDEO_KEYFRAME_IMAGES(memfsFilename))
+  }
+
   const frameImages = async () => {
     if (!video.memfsFilename) throw new Error("No file in MEMFS")
 
@@ -102,14 +84,6 @@ export function useFFmpeg(options: FFmpegOptions): FFattrs {
     // @ts-ignore
     const pngs = ffmpeg.FS<"readdir">("readdir", "/").filter(pngOnly)
     pngs.length > 0 && (video.imageMemfsFilenames = pngs)
-  }
-
-  const delImagesFromMemfs = () => {
-    if (!video.imageMemfsFilenames) throw new Error("No images in MEMFS")
-    for (const fn of video.imageMemfsFilenames) {
-      ffmpeg!.FS<"unlink">("unlink", fn)
-    }
-    delete video.imageMemfsFilenames
   }
 
   return {
