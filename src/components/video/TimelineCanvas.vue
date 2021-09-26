@@ -4,6 +4,8 @@ canvas(ref="canvas" height="28")
 
 <script lang="ts" setup>
 import { formatToTimeline } from "~/misc/utils"
+import { Howl } from "howler"
+
 const toast = useToast()
 
 const props = defineProps({
@@ -19,11 +21,18 @@ const zoomLevel = inject<Ref<number>>("zoomLevel")!
 // const duration = computed(() => props.frameTimes.at(-1) || 0)
 const gapSecPx = computed(() => Math.round(get(props.wrapper).clientWidth / get(props.duration)) + get(zoomLevel))
 
+let howl: Howl
+
 const handleZoomScroll = (e: WheelEvent) => {
   e.stopPropagation()
   const newZoomLevel = get(zoomLevel) + Math.sign(e.deltaY)
   if (newZoomLevel < 0 || newZoomLevel > 200) {
-    toast.warning("Zoom level is out of range", { timeout: 1500 })
+    // toast.warning("Zoom level is out of range", { timeout: 1500 })
+    if (!howl) {
+      howl = new Howl({ src: ["/sounds/249300__suntemple__access-denied.wav"] })
+      howl.volume(0.3)
+    }
+    howl.play()
     return
   }
   set(zoomLevel, newZoomLevel)

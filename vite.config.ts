@@ -27,6 +27,7 @@ export default defineConfig({
         "vue",
         "@vueuse/core",
         { "@vueuse/core": ["get", "set", "and", "not", "invoke"] },
+        // { "@vueuse/sound": ["useSound"] },
         { "@vueuse/integrations": ["useNProgress"] },
         { "vue-toastification": ["useToast"] }
       ],

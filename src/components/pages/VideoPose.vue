@@ -13,17 +13,10 @@ video(
   controls
   muted)
 
-VideoTimeline(:video="video" :ff="ff" :controls="controls")
-  template(#toolbar)
-    .flex.gap-1
-      button.btn-icon
-        fa(:icon="['far', 'magnifying-glass-minus']")
-      button.btn-icon
-        fa(:icon="['far', 'magnifying-glass-plus']")
-    div
-      label
-        input(type="checkbox" v-model="state.estimatePose")
-        span.ml-2 Estimate pose
+VideoTimeline(
+  v-model:estimatePose="state.estimatePose"
+  :controls="controls"
+  :ff="ff")
 
 StickmanLandmarks(v-if="pose" :pose="pose")
 </template>
