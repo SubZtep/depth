@@ -35,7 +35,7 @@ export function useGui(options?: { close?: boolean }) {
 
 let cx = 0
 
-export function useGuiFolder(init?: FolderInit) {
+export function useGuiFolder(init: FolderInit) {
   const g = inject<dat.GUI>(guiKey)!
   const folderName = `f${++cx}`
   let folder: dat.GUI
@@ -46,8 +46,8 @@ export function useGuiFolder(init?: FolderInit) {
   }
 
   onMounted(() => {
-    init && init(folder)
     folder.open()
+    init(folder)
   })
 
   onBeforeUnmount(() => {

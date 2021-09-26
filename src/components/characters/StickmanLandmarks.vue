@@ -1,37 +1,38 @@
 <template lang="pug">
 StickmanSimple(
   v-if="state.showLandmarks"
-  :keypoints="pose?.poseLandmarks"
+  :keypoints="pose.poseLandmarks"
   :z-multi="state.zMulti"
   :color="0xffffff"
   :scale="state.scale")
 
 StickmanSimple(
   v-if="state.showWorldLandmarks"
-  :keypoints="pose?.poseWorldLandmarks"
+  :keypoints="pose.poseWorldLandmarks"
   :z-multi="state.zMulti"
   :color="0x8888ff"
   :scale="state.scale")
 
 CanvasInScene(
-  v-if="state.showImage"
+  v-if="state.videoOpacity > 0"
   :image="props.pose.image"
-  :scale="state.scale")
+  :scale="state.scale"
+  :opacity="state.videoOpacity")
 </template>
 
 <script lang="ts" setup>
 import type { Results } from "public/pose"
 import { useGuiFolder } from "~/packages/datGUI"
-import CanvasInScene from "../CanvasInScene.vue"
+import CanvasInScene from "~/components/video/CanvasInScene.vue"
 
 const props = defineProps({
   pose: { type: Object as PropType<Results>, required: true },
 })
 
 const state = reactive({
-  showLandmarks: false,
+  showLandmarks: true,
   showWorldLandmarks: false,
-  showImage: false,
+  videoOpacity: 0.5,
   scale: 1,
   zMulti: 0.5,
 })
@@ -42,6 +43,6 @@ useGuiFolder(folder => {
   folder.add(state, "showWorldLandmarks").name("World landmarks")
   folder.add(state, "scale", 0.1, 5, 0.1).name("Scale objects")
   folder.add(state, "zMulti", 0.1, 2, 0.1).name("Z multiplier")
-  folder.add(state, "showImage").name("Show image")
+  folder.add(state, "videoOpacity", 0, 1, 0.1).name("Video opacity")
 })
 </script>

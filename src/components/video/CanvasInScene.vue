@@ -20,7 +20,7 @@ const videoMaterial = new MeshBasicMaterial({
   map: canvasTexture,
 })
 
-const playerGeometry = new PlaneBufferGeometry()
+const playerGeometry = new PlaneBufferGeometry(1, 1)
 const player = new Mesh(playerGeometry, videoMaterial)
 const aspectRatio = useCssVar("--video-aspect-ratio")
 
@@ -33,8 +33,14 @@ const updateTexture: LoopFn = () => {
 loopFns.add(updateTexture)
 
 watch(() => props.scale, scale => {
-  player.scale.set(scale * +get(aspectRatio), scale, 1)
+  const width = scale * +get(aspectRatio)
+  player.scale.set(width, scale, 1)
+  player.position.set(width / 2, scale / 2, 0)
 }, { immediate: true })
+
+watch(() => props.opacity, opacity => {
+  videoMaterial.opacity = opacity
+})
 
 onBeforeUnmount(() => {
   loopFns.delete(updateTexture)

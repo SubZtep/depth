@@ -16,6 +16,7 @@ const props = defineProps({
   scale: { type: Number, default: 1 },
   zMulti: { type: Number, default: 0.5 },
   color: { type: Number, default: 0xffffff },
+  flipVertical: { type: Boolean, default: true },
 })
 
 const root = new Group()
@@ -42,17 +43,21 @@ stickmanGroup.add(
   })
 )
 
+const mayFlipVertical = (y: number) => {
+  return props.flipVertical ? props.scale - y : y
+}
+
 const updateJoints = (points: LandmarkList) => {
   points.forEach((point, index) => {
-    joints.get(index)!.position.set(point.x * props.scale, point.y * props.scale, point.z * props.scale * props.zMulti)
+    joints.get(index)!.position.set(point.x * props.scale, mayFlipVertical(point.y * props.scale), point.z * props.scale * props.zMulti)
   })
 }
 
 const lineEnds = [new Vector3(), new Vector3()]
 const updateLines = (points: LandmarkList) => {
   BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS.forEach(([i, j]) => {
-    lineEnds[0].set(points[i].x * props.scale, points[i].y * props.scale, points[i].z * props.scale * props.zMulti)
-    lineEnds[1].set(points[j].x * props.scale, points[j].y * props.scale, points[j].z * props.scale * props.zMulti)
+    lineEnds[0].set(points[i].x * props.scale, mayFlipVertical(points[i].y * props.scale), points[i].z * props.scale * props.zMulti)
+    lineEnds[1].set(points[j].x * props.scale, mayFlipVertical(points[j].y * props.scale), points[j].z * props.scale * props.zMulti)
 
     const line = lines.get(lineKey(i, j))!
     line.geometry.setFromPoints(lineEnds)
