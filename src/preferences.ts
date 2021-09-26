@@ -9,7 +9,7 @@ export function preferencesGui(gui: dat.GUI) {
   const { loadSkybox } = useAssets()
 
   const f = gui.addFolder("⚙ Preferences")
-  f.add(preferences, "guiScale", 0.5, 2, 0.1)
+  f.add(preferences, "guiScale", 0.5, 3, 0.1)
     .name("GUI scale")
     .onFinishChange(scale => set(guiScaleCss, String(scale)))
   f.add(preferences, "skybox", 1, 15, 1)

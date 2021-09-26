@@ -13,6 +13,10 @@
   box-sizing: border-box;
 }
 
+textarea:focus, input:focus, button:focus{
+  outline: none;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -30,34 +34,13 @@ body {
   line-height: 150%;
 }
 
-/* #hud {
-  display: grid;
-  align-items: end;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 0.5fr 1.5fr 1fr;
-  grid-template-areas:
-    "timeline timeline video"
-    "debug . commander"
-    "dat . stats";
-  pointer-events: none;
-  @apply gap-2;
-}
-
-#hud > div {
-  pointer-events: auto;
-} */
-
-#app, #world, /*#hud,*/ .loadingScreen {
+#app, #world, .loadingScreen {
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   position: absolute;
 }
-
-/* #app {
-  display: flex;
-} */
 
 #world.paused {
   mask-image: radial-gradient(#000a, #000 69%);
@@ -67,16 +50,3 @@ body {
   width: inherit;
   height: inherit;
 }
-
-/* #app > video, #app > img, #app > canvas {
-  max-width: 40%;
-  max-height: 40%;
-  border: 8px outset #964B00;
-  box-shadow: -10px 0 8px #000;
-  align-self: center;
-  margin-left: 8px;
-} */
-
-/* #app > video {
-  aspect-ratio: var(--ratio, 1);
-} */

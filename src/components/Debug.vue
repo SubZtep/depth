@@ -15,12 +15,13 @@ const exists = ref(true)
   /* @apply h-full w-full; */
 
   position: fixed;
-  left: 0;
-  bottom: 150px;
-  height: 300px;
+  left: 260px;
+  bottom: 0;
+  max-height: 300px;
 
   cursor: help;
-  background-color: #0102;
+  background-color: #0104;
+  padding: 4px;
   font-size: 0.6rem;
   line-height: 0.8rem;
   /* position: fixed;

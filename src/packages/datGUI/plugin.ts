@@ -11,7 +11,6 @@ const gui = new dat.GUI({
   closeOnTop: false,
 })
 
-gui.domElement.id = "gui"
 document.body.appendChild(gui.domElement)
 const guiKey = Symbol("dat.gui")
 

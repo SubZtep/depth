@@ -1,9 +1,12 @@
 <template lang="pug">
 Title Video Display Pose
 
+Debug {{state}}
+
 video(
   ref="video"
   :src="state.src"
+  :class="$style.videoTag"
   v-visible="state.showVideoTag"
   v-css-aspect-ratio="`--video-aspect-ratio`"
   crossorigin="anonymous"
@@ -11,6 +14,16 @@ video(
   muted)
 
 VideoTimeline(:video="video" :ff="ff" :controls="controls")
+  template(#toolbar)
+    .flex.gap-1
+      button.btn-icon
+        fa(:icon="['far', 'magnifying-glass-minus']")
+      button.btn-icon
+        fa(:icon="['far', 'magnifying-glass-plus']")
+    div
+      label
+        input(type="checkbox" v-model="state.estimatePose")
+        span.ml-2 Estimate pose
 
 StickmanLandmarks(v-if="pose" :pose="pose")
 </template>
@@ -37,6 +50,7 @@ const { db } = useSupabase()
 const state = reactive({
   src: "",
   showVideoTag: false,
+  estimatePose: false,
 })
 
 const ff = useFFmpeg({
@@ -48,22 +62,28 @@ const ff = useFFmpeg({
 const { estimatePose } = useMediapipePose({
   video,
   options: { modelComplexity: 2 },
-  onDetectorReady: () => void toast.info("Pose detector ready")
+  onDetectorReady: () => void toast.info("Pose detector ready"),
 })
 
 const pose = ref<Results>()
 
-watch(controls.currentTime, async () => {
-  if (get(pose) === undefined) {
-    threeJs.trigger(pauseLoop)
-    setTimeout(async () => {
+watchWithFilter(
+  controls.currentTime,
+  async () => {
+    if (get(pose) === undefined) {
+      toast.warning("First frame estimation can be quite slow")
+      threeJs.trigger(pauseLoop)
+      //FIXME: this is a hack to suspend three.js render for the first frame
+      setTimeout(async () => {
+        pose.value = await estimatePose()
+        threeJs.trigger(resumeLoop)
+      }, 50)
+    } else {
       pose.value = await estimatePose()
-      threeJs.trigger(resumeLoop)
-    }, 50)
-  } else {
-    pose.value = await estimatePose()
-  }
-})
+    }
+  },
+  { eventFilter: invoke => state.estimatePose && invoke() }
+)
 
 whenever(toRef(state, "src"), async () => {
   const exists = await db.hasVideo(state.src)
@@ -81,8 +101,8 @@ useGuiFolder(folder => {
 })
 </script>
 
-<style scoped>
-video {
+<style module>
+.videoTag {
   position: fixed;
   top: 0;
   right: 0;

@@ -1,17 +1,15 @@
 <template lang="pug">
 transition(name="fade")
-  h1.title(v-if="showTitle")
+  h1(:class="$style.title" v-if="showTitle")
     slot
 </template>
 
 <script lang="ts" setup>
-import { set } from "@vueuse/core"
-
 const showTitle = ref(true)
 onMounted(() => set(showTitle, false))
 </script>
 
-<style scoped>
+<style module>
 .title {
   z-index: 100;
   font-size: 1.5rem;
@@ -21,8 +19,11 @@ onMounted(() => set(showTitle, false))
   top: 4px;
   left: 8px;
   user-select: none;
+  pointer-events: none;
 }
+</style>
 
+<style>
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 4s ease;

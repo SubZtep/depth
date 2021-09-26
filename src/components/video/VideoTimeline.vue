@@ -1,20 +1,29 @@
 <template lang="pug">
-.videoTimeline
-  TimelineToolbar
+div(:class="$style.videoTimeline" v-stop-propagation)
+
+  div(:class="$style.toolbar")
+    slot(name="toolbar")
+
   .flex
-    .flex-shrink-0.w-100px.bg-red-500
-    .timeline(ref="timeline" :class="{ grabbing: isSwiping }")
+    .flex-shrink-0.w-100px
+      div(:class="$style.ruler") ruler
+      div(:class="$style.pictures") pictures
+
+    div(ref="timeline" :class="{ [$style.timeline]: true, grabbing: isSwiping }")
       template(v-if="timeline")
+
         TimelineCanvas(
+          :class="$style.ruler"
           :wrapper="timeline"
           :duration="controls.duration"
           :frame-times="ff.keypoints")
 
         div
-          ImgMemfs(
-            v-if="props.ff.keypoints.value.length > 0"
-            :file="props.ff.getKeyframeFilename(props.ff.keypoints.value[0])"
-            :fs="props.ff.ffmpeg.FS")
+          div(:class="$style.pictures")
+            ImgMemfs(
+              v-if="props.ff.keypoints.value.length > 0"
+              :file="props.ff.getKeyframeFilename(props.ff.keypoints.value[0])"
+              :fs="props.ff.ffmpeg.FS")
 
           TimelineCursor(
             :wrapper="timeline"
@@ -22,14 +31,13 @@
 </template>
 
 <script lang="ts" setup>
-import TimelineToolbar from "./TimelineToolbar.vue"
 import { useFFmpeg } from "~/packages/FFmpeg/useFFmpeg"
 import ImgMemfs from "./ImgMemfs.vue"
 
 const props = defineProps({
   video: { type: Object as PropType<Ref<HTMLVideoElement>>, required: true },
   controls: { type: Object as PropType<UseMediaControlsReturn>, required: true },
-  ff: { type: Object as PropType<ReturnType<typeof useFFmpeg>>, required: true }
+  ff: { type: Object as PropType<ReturnType<typeof useFFmpeg>>, required: true },
 })
 
 const timeline = ref<HTMLDivElement>()
@@ -56,42 +64,46 @@ const { distanceX, isSwiping } = usePointerSwipe(timeline, {
 
 const handleCursorClick = (x: number) => {
   const gapSecPx = Math.round(get(timeline)!.clientWidth / get(props.controls.duration)) + get(zoomLevel)
-  const time = (x + get(timeline)!.scrollLeft) / get(gapSecPx)
+
+  //FIXME: has to round otherwise "controls" reduce it and watch fires twice. maybe closestPoseInTime?
+  const time = Number(((x + get(timeline)!.scrollLeft) / get(gapSecPx)).toFixed(6))
+
   set(props.controls.currentTime, time)
 }
 </script>
 
-<style lang="postcss" scoped>
+<style lang="postcss" module>
 .videoTimeline {
   @apply top-0 left-0 w-128 absolute;
-  background-color: #aaa;
-  border: 3px inset #000;
-  border-top-width: 1px;
+  /* background-color: #aaa; */
+  /* border: 3px inset #000; */
+  /* border-top-width: 1px; */
   overflow: hidden;
   resize: horizontal;
 }
 
+.toolbar {
+  @apply flex bg-gray-500 p-2 text-light-50 items-center justify-between;
+}
+
 .timeline {
-  @apply flex-grow relative;
+  @apply flex-grow relative scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300;
+
   overflow-x: scroll;
   overflow-y: hidden;
   cursor: grab;
   &.grabbing {
     cursor: grabbing;
   }
+}
 
-  scrollbar-width: thin;
-  scrollbar-color: #efe #000;
+.ruler {
+  height: 28px;
+  @apply bg-blue-500;
+}
 
-  &::-webkit-scrollbar {
-    background-color: #1234;
-    height: 12px;
-    width: 12px;
-    cursor: pointer;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-image: radial-gradient(#eefeee 0%, #0000 69%);
-  }
+.pictures {
+  @apply bg-blue-600;
+  height: 69px;
 }
 </style>

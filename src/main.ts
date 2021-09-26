@@ -6,6 +6,7 @@ import App from "./components/scene/App.vue"
 import Visible from "./directives/visible"
 import DBVideo from "./directives/dbvideo"
 import CssAspectRatio from "./directives/css-aspect-ratio"
+import StopPropagation from "./directives/stop-propagation"
 import Supabase from "./packages/Supabase"
 import ThreeJs from "./packages/ThreeJS"
 import Router, { navigation } from "./packages/router"
@@ -38,12 +39,10 @@ createApp(App)
   .use(Stats, { mosaic: true })
   .use(Gui, {
     routes,
-    addons: [
-      navigation(routes),
-      preferencesGui
-    ]
+    addons: [navigation(routes), preferencesGui],
   })
   .directive("visible", Visible)
   .directive("dbvideo", DBVideo)
   .directive("css-aspect-ratio", CssAspectRatio)
+  .directive("stop-propagation", StopPropagation)
   .mount("#app")
