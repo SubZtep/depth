@@ -11,9 +11,9 @@
           :frame-times="ff.keypoints")
 
         div
-          MemfsImage(
+          ImgMemfs(
             v-if="props.ff.keypoints.value.length > 0"
-            :filename="props.ff.getKeyframeFilename(props.ff.keypoints.value[0])"
+            :file="props.ff.getKeyframeFilename(props.ff.keypoints.value[0])"
             :fs="props.ff.ffmpeg.FS")
 
           TimelineCursor(
@@ -27,6 +27,7 @@ import { updateVideoTime } from "../../misc/utils"
 import TimelineToolbar from "./TimelineToolbar.vue"
 // import { useFFmpeg } from "~/packages/FFmpeg/useFFmpg"
 import { useFFmpeg } from "~/packages/FFmpeg/useFF"
+import ImgMemfs from "./ImgMemfs.vue"
 
 const props = defineProps({
   // frameTimes: { type: Array as PropType<number[]>, required: true },
@@ -79,6 +80,8 @@ const handleCursorClick = (x: number) => {
   border: 3px inset #000;
   /* border-radius: 4px; */
   border-top-width: 1px;
+  overflow: hidden;
+  resize: horizontal;
   /* width: 66vw;
   max-height: 12rem; */
   /* &.grabbing {

@@ -6,15 +6,11 @@ img(:src="src")
 import type { FFmpeg } from "@ffmpeg/ffmpeg"
 
 const props = defineProps({
-  filename: { type: String, required: true },
-  // eslint-disable-next-line
-  // FS: { type: Function as PropType<FFmpeg["FS"]>, required: true },
-  fs: { type: Object as any, required: true },
+  file: { type: String, required: true },
+  fs: { type: Function as PropType<FFmpeg["FS"]>, required: true },
 })
 
-
-console.log("CCCC", props)
-const data = props.fs("readFile", props.filename)
+const data = props.fs("readFile", props.file)
 const blob = new Blob([data.buffer], { type: "image/png" })
 const src = URL.createObjectURL(blob)
 

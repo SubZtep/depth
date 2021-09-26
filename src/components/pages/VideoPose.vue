@@ -7,8 +7,7 @@ video(:src="state.src" crossorigin="anonymous" muted ref="video" controls v-visi
 
 VideoTimeline(:video="video" :ff="ff" :controls="controls")
 
-StickmanSimple(:keypoints="pose?.poseLandmarks" :width="5")
-
+StickmanSimple(:keypoints="pose?.poseLandmarks" :width="3")
 </template>
 
 <script lang="ts" setup>
@@ -22,7 +21,7 @@ import { useVideoFiles } from "~/composables/useVideoFiles"
 
 const toast = useToast()
 const { progress } = useNProgress()
-const video = ref<HTMLVideoElement>()
+const video = ref() as Ref<HTMLVideoElement>
 const controls = useMediaControls(video)
 const { db } = useSupabase()
 
@@ -45,7 +44,7 @@ const { estimatePose } = useMediapipePose({
 
 const pose = ref<Results>()
 
-watch(controls.currentTime, async newTime => {
+watch(controls.currentTime, async () => {
   pose.value = await estimatePose()
 })
 
@@ -62,13 +61,6 @@ useGuiFolder(folder => {
   folder.name = "📼 FFmpeg"
   folder.add(state, "src", useVideoFiles().selectList()).name("Load video")
   folder.add(state, "showVideoTag").name("Show video")
-  // folder.add(videoStore, "src", useVideoFiles().selectList()).name("Load Video").onChange(newSrc => {
-  //   deleteVideoFromMEMFS()
-  //   writeVideoToMEMFS(newSrc)
-  // })
-  // folder.add(buttons, "pts").name("Get Keyframes Timestamps")
-  // folder.add(buttons, "images").name("Get Keyframes Images")
-  // folder.add(buttons, "delImages").name("Omit Keyframes Images")
 })
 </script>
 

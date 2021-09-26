@@ -1,8 +1,7 @@
 node_modules/
 dist/
+public/videos/
+src/misc/videos.ts
 .env
 .env.toml
 .npmrc
-
-# public/videos/
-# src/misc/videos.ts

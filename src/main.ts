@@ -8,9 +8,10 @@ import DBVideo from "./directives/dbvideo"
 import AspectRatio from "./directives/aspect-ratio"
 import Supabase from "./packages/Supabase"
 import ThreeJs from "./packages/ThreeJS"
-import Router from "./packages/router"
+import Router, { navigation } from "./packages/router"
 import Stats from "./packages/Stats"
 import Gui from "./packages/datGUI"
+import { preferencesGui } from "./preferences"
 import routes from "./routes"
 import "./icons"
 
@@ -35,7 +36,13 @@ createApp(App)
   .use(Router, { routes })
   .use(ThreeJs, { toastEvents: true })
   .use(Stats, { mosaic: true })
-  .use(Gui, { routes })
+  .use(Gui, {
+    routes,
+    addons: [
+      navigation(routes),
+      preferencesGui
+    ]
+  })
   .directive("visible", Visible)
   .directive("dbvideo", DBVideo)
   .directive("aspect-ratio", AspectRatio)

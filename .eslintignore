@@ -1,1 +1,4 @@
-/src/types/auto-imports.d.ts
+node_modules/
+public/
+dist/
+src/types/auto-imports.d.ts

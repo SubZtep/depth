@@ -7,6 +7,7 @@ MainScene
 
 <script lang="ts" setup>
 import { AmbientLight, DirectionalLight } from "three"
+import { usePreferencesStore } from "~/stores/preferences"
 import { sleep, rand } from "../../misc/utils"
 import { useAssets } from "../../packages/ThreeJS/useAssets"
 import { useCanvas } from "../../packages/ThreeJS/useThreeJS"
@@ -16,11 +17,12 @@ import { useThreeJSEventHook } from "../../packages/ThreeJS/plugin"
 import { resumeLoop } from "../../packages/ThreeJS/constants"
 import * as sdef from "../../models/sceneDefaults"
 
+const preferences = usePreferencesStore()
 const assets = useAssets()
 
 await assets.loadNoVideoMaterial()
 await assets.loadLeafMaterial()
-const skybox = await assets.loadSkybox(rand(15))
+const skybox = await assets.loadSkybox(preferences.skybox as SkyboxNumber || rand(15))
 const wc = ref() as Ref<HTMLCanvasElement>
 
 const ambLight = new AmbientLight()
