@@ -1,8 +1,9 @@
 <template lang="pug">
 Help
-component(:is="page" v-bind="toComp")
+component(:is="page")
+//- component(:is="page" v-bind="toComp")
 
-teleport(to="#hud")
+//-teleport(to="#hud")
   HudVideo(@on-ref="handleVideoRef")
 </template>
 

@@ -9,16 +9,22 @@ interface FFmpegOptions {
   // onUpdated?: (ffmpeg: FFmpeg) => void
 }
 
+interface FFVideo {
+  src?: string
+  /** Video filename in MEMFS */
+  memfsFilename?: string
+  frameTimes?: number[]
+  imageMemfsFilenames?: string[]
+}
+
 interface FFreturns {
   ffmpeg?: FFmpeg
   video: FFVideo
-  // memfs: {
-  //   writeVideo: (src: string, ext?: string) => void,
-  //   delVideo: () => void,
-  //   delImages: () => void,
-  // },
-  // frameTimestamps: () => Promise<void>,
-  // frameImages: () => Promise<void>,
+  writeToMemfs: (src: string, ext?: string) => void,
+  delVideo: () => void,
+  delImages: () => void,
+  frameTimestamps: () => Promise<void>,
+  frameImages: () => Promise<void>,
 }
 
 /** find pts (presentation time stamp) in ffmpeg output */
@@ -38,26 +44,24 @@ export function useFFmpeg(options: FFmpegOptions): FFreturns {
   invoke(async () => {
     try {
       await ffmpeg.load()
-    } catch (e) {
+    } catch (e: any) {
       throw new Error(e.message)
     }
   })
 
-  invoke(async () => {
-    const fn = basename(src, "webm")
-    ffmpeg.FS("writeFile", fn, await fetchFile(src))
-    await ffmpeg.run(...VIDEO_KEYFRAME_IMAGES(fn))
-    // @ts-ignore
-    files.value = ffmpeg.FS<"readdir">("readdir", "/")
-
-
-  })
+  // invoke(async () => {
+  //   const fn = basename(src, "webm")
+  //   ffmpeg.FS("writeFile", fn, await fetchFile(src))
+  //   await ffmpeg.run(...VIDEO_KEYFRAME_IMAGES(fn))
+  //   // @ts-ignore
+  //   files.value = ffmpeg.FS<"readdir">("readdir", "/")
+  // })
 
   tryOnUnmounted(() => {
     try {
       ffmpeg.exit()
-    } catch (e) {
-      console.error("FFmpeg exit", e)
+    } catch (e: any) {
+      console.error("FFmpeg exit", e.message)
     }
   })
 
@@ -86,15 +90,39 @@ export function useFFmpeg(options: FFmpegOptions): FFreturns {
     pngs.length > 0 && (video.imageMemfsFilenames = pngs)
   }
 
+  /** Upload file on given source to MEMFS */
+  const writeToMemfs = async (src: string, ext = "webm") => {
+    const fn = basename(src, ext)
+    FS("writeFile", fn, await fetchFile(src))
+    video.src = src
+    video.memfsFilename = fn
+  }
+
+  /** Unlink file from MEMFS */
+  const delFromMemfs = () => {
+    if (video.memfsFilename) {
+      FS<"unlink">("unlink", video.memfsFilename)
+      delete video.memfsFilename
+      delete video.src
+      delete video.frameTimes
+    }
+  }
+
+  const delImagesFromMemfs = () => {
+    if (!video.imageMemfsFilenames) throw new Error("No images in MEMFS")
+    for (const fn of video.imageMemfsFilenames) {
+      ffmpeg!.FS<"unlink">("unlink", fn)
+    }
+    delete video.imageMemfsFilenames
+  }
+
   return {
     // ffmpeg: ffmpeg!,
     ffmpeg,
     video,
-    memfs: {
-      writeVideo: writeToMemfs,
-      delVideo: delFromMemfs,
-      delImages: delImagesFromMemfs,
-    },
+    writeToMemfs,
+    delFromMemfs,
+    delImagesFromMemfs,
     frameTimestamps,
     frameImages,
   }

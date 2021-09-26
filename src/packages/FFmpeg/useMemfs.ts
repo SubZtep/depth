@@ -52,7 +52,7 @@ export function useMemfs(options: MemfsOptions): MemfsReturns {
   const delImagesFromMemfs = () => {
     if (!video.imageMemfsFilenames) throw new Error("No images in MEMFS")
     for (const fn of video.imageMemfsFilenames) {
-      ffmpeg!.FS<"unlink">("unlink", fn)
+      ffmpeg.FS<"unlink">("unlink", fn)
     }
     delete video.imageMemfsFilenames
   }

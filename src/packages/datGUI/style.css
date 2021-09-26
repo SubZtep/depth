@@ -1,3 +1,15 @@
+/* .dg.ac {
+  top: auto;
+  right: auto;
+  bottom: 0;
+  left: 0;
+} */
+#gui {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
 .dg {
   font-family: var(--font-sans);
   font-size: 17px;

@@ -76,7 +76,7 @@ export function rand<T = number>(max: number, min = 1): T {
 
 /** Forward video to the given timestamp */
 export async function updateVideoTime(video: MaybeRef<HTMLVideoElement>, seekToSec: number): Promise<void> {
-  const el: HTMLVideoElement = unrefElement(video)
+  const el: HTMLVideoElement = unrefElement(video) as HTMLVideoElement
   el.currentTime = seekToSec
   return new Promise(resolve => {
     el.addEventListener("timeupdate", () => resolve(), { once: true })
@@ -113,6 +113,6 @@ export function pngOnly(filename: string) {
   return filename.endsWith(".png")
 }
 
-export function basename(src: string, ext = "webm") {
-  return `${src.split("/").pop()}.${ext}`
+export function basename(src: string): string {
+  return src.split("/").pop()!.split("?").shift()!
 }

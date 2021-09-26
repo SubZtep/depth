@@ -1,22 +1,23 @@
 .Stats {
-  grid-area: stats;
-  justify-self: end;
   transform-origin: right bottom;
   transition-duration: 80ms;
-  /* z-index: 1000; */
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  cursor: zoom-in;
+}
 
-  &:hover {
-    transition-duration: 220ms;
-    transform: scale(1.6);
-  }
+.Stats:hover {
+  transition-duration: 220ms;
+  transform: scale(1.5);
 }
 
 .Stats.mosaic {
   display: flex;
-  flex-direction: column;
-  cursor: cell;
+  flex-direction: column-reverse;
+  cursor: zoom-out;
 }
 
-.Stats.mosaic > canvas {
+.Stats.mosaic > canvas[style] {
   display: block !important;
 }

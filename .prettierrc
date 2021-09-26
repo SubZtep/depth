@@ -1,0 +1,4 @@
+semi: false
+# printWidth: 80
+arrowParens: "avoid"
+pugAttributeSeparator: "never"

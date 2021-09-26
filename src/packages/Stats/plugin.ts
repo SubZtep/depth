@@ -7,7 +7,8 @@ const stats = new Stats()
 stats.dom.removeAttribute("style")
 stats.dom.classList.add("Stats")
 stats.dom.addEventListener("dblclick", () => stats.dom.classList.toggle("mosaic"))
-document.querySelector("#hud")!.appendChild(stats.dom)
+document.body.appendChild(stats.dom)
+// document.querySelector("#hud")!.appendChild(stats.dom)
 
 // FIXME: extend nicer
 // const dlstat = stats.addPanel(new Stats.Panel("MS/DL", "#ffffff", "#0000ff"))

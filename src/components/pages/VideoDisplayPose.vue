@@ -1,90 +1,84 @@
 <template lang="pug">
 Title Video Display Pose
 
-teleport(to="#hud")
-  Debug
-    p {{videoStore.$state}}
-    hr
-    p {{ff.video}}
+Debug {{pose}}
 
-  VideoTimeline(
-    :video="video"
-    :ff="ff")
-  //- v-if="ff.video.frameTimes"
-  //- :frame-times="ff.video.frameTimes")
+video(:src="state.src" crossorigin="anonymous" muted ref="video" controls v-visible="state.showVideoTag")
 
-  MemfsCommander(:FS="ff.ffmpeg?.FS")
+VideoTimeline(:video="video" :ff="ff" :controls="controls")
+
+StickmanSimple(:keypoints="pose?.poseLandmarks" :width="5")
+
 </template>
 
 <script lang="ts" setup>
-import { storeToRefs } from "pinia"
+import { useMediaControls } from "@vueuse/core"
+import type { Results } from "public/pose"
 import { useGuiFolder } from "~/packages/datGUI"
-import { useFFmpeg } from "~/packages/FFmpeg/useFFmpg"
-import { useVideoDisplay } from "~/composables/useVideoDisplay"
+import { useFFmpeg } from "~/packages/FFmpeg/useFF"
+import { useMediapipePose } from "~/packages/PoseAI"
+import { useSupabase } from "~/packages/Supabase"
 import { useVideoFiles } from "~/composables/useVideoFiles"
-import { updateVideoTime } from "~/misc/utils"
-import VideoTimeline from "~/components/video-timeline/VideoTimeline.vue"
-import { useVideoStore } from "~/stores/video"
-import MemfsCommander from "~/components/memfs-commander/MemfsCommander.vue"
 
 const toast = useToast()
 const { progress } = useNProgress()
-const videoStore = useVideoStore()
+const video = ref<HTMLVideoElement>()
+const controls = useMediaControls(video)
+const { db } = useSupabase()
 
-const FS = ref()
-
-const props = defineProps({
-  video: { type: Object as PropType<Ref<HTMLVideoElement>>, required: true },
+const state = reactive({
+  src: "",
+  showVideoTag: false,
 })
-
-useVideoDisplay({ video: props.video, src: storeToRefs(videoStore).src })
 
 const ff = useFFmpeg({
-  ffOpts: {
-    progress: ({ ratio }) => set(progress, ratio),
-    log: true,
-  },
+  src: toRef(state, "src"),
+  options: { progress: ({ ratio }) => set(progress, ratio), log: true },
+  onKeypointsReady: () => void toast.info("Keypoints ready"),
 })
 
-const deleteVideoFromMEMFS = () => {
-  if (ff.video.memfsFilename) {
-    toast.info(`Delete ${ff.video.memfsFilename} from MEMFS`)
-    ff.memfs.delVideo()
-  }
-}
+const { estimatePose } = useMediapipePose({
+  video,
+  options: { modelComplexity: 2 },
+  onDetectorReady: () => void toast.info("Pose detector ready")
+})
 
-const writeVideoToMEMFS = async (src: string) => {
-  if (src) {
-    toast.info(`Write ${src} to MEMFS`)
-    await ff.memfs.writeVideo(src)
-  }
-}
+const pose = ref<Results>()
 
-const buttons = {
-  async pts() {
-    toast.info("Get video frame timestamps")
-    await ff.frameTimestamps()
-    ff.video.frameTimes || toast.error("Couldn't get the timestamps")
-  },
-  async images() {
-    toast.info("Get video frame images")
-    await ff.frameImages()
-    ff.video.imageMemfsFilenames || toast.error("Couldn't get the images")
-  },
-  delImages() {
-    ff.memfs.delImages()
-    !ff.video.imageMemfsFilenames || toast.error("Couldn't delete the images")
-  },
-}
+watch(controls.currentTime, async newTime => {
+  pose.value = await estimatePose()
+})
+
+whenever(toRef(state, "src"), async () => {
+  const exists = await db.hasVideo(state.src)
+  if (exists) {
+    toast.info(`${state.src} exists in database`)
+  } else {
+    toast.warning(`${state.src} does not exist in database`)
+  }
+})
 
 useGuiFolder(folder => {
   folder.name = "📼 FFmpeg"
-  folder.add(videoStore, "src", useVideoFiles().selectList()).name("Load Video").onChange(newSrc => {
-    deleteVideoFromMEMFS()
-    writeVideoToMEMFS(newSrc)
-  })
-  folder.add(buttons, "pts").name("Get Keyframes Timestamps")
-  folder.add(buttons, "images").name("Get Keyframes Images")
-  folder.add(buttons, "delImages").name("Omit Keyframes Images")
+  folder.add(state, "src", useVideoFiles().selectList()).name("Load video")
+  folder.add(state, "showVideoTag").name("Show video")
+  // folder.add(videoStore, "src", useVideoFiles().selectList()).name("Load Video").onChange(newSrc => {
+  //   deleteVideoFromMEMFS()
+  //   writeVideoToMEMFS(newSrc)
+  // })
+  // folder.add(buttons, "pts").name("Get Keyframes Timestamps")
+  // folder.add(buttons, "images").name("Get Keyframes Images")
+  // folder.add(buttons, "delImages").name("Omit Keyframes Images")
 })
 </script>
+
+<style scoped>
+video {
+  position: fixed;
+  top: 0;
+  right: 0;
+  max-width: 40%;
+  max-height: 40%;
+  border: 8px outset #964b00;
+}
+</style>

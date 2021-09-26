@@ -30,7 +30,7 @@ body {
   line-height: 150%;
 }
 
-#hud {
+/* #hud {
   display: grid;
   align-items: end;
   grid-template-columns: 1fr 1fr 1fr;
@@ -45,9 +45,9 @@ body {
 
 #hud > div {
   pointer-events: auto;
-}
+} */
 
-#app, #world, #hud, .loadingScreen {
+#app, #world, /*#hud,*/ .loadingScreen {
   top: 0;
   left: 0;
   width: 100vw;
@@ -55,9 +55,9 @@ body {
   position: absolute;
 }
 
-#app {
+/* #app {
   display: flex;
-}
+} */
 
 #world.paused {
   mask-image: radial-gradient(#000a, #000 69%);
@@ -68,14 +68,14 @@ body {
   height: inherit;
 }
 
-#app > video, #app > img, #app > canvas {
+/* #app > video, #app > img, #app > canvas {
   max-width: 40%;
   max-height: 40%;
   border: 8px outset #964B00;
   box-shadow: -10px 0 8px #000;
   align-self: center;
   margin-left: 8px;
-}
+} */
 
 /* #app > video {
   aspect-ratio: var(--ratio, 1);

@@ -22,8 +22,10 @@ const cameraHookKey = Symbol("camera hook")
 
 // const gui = new dat.GUI({ autoPlace: false, closed: false, width: 280, closeOnTop: false })
 const gui = new dat.GUI({ autoPlace: false, width: 250, closeOnTop: false })
+gui.domElement.id = "gui"
+document.body.appendChild(gui.domElement)
 // gui.domElement.removeAttribute("style")
-document.querySelector("#hud")!.appendChild(gui.domElement)
+// document.querySelector("#hud")!.appendChild(gui.domElement)
 //gui.hide()
 
 function addCameraControl(gui: dat.GUI, routes?: Route[]) {

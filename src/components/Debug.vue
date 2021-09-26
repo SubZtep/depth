@@ -11,9 +11,13 @@ const exists = ref(true)
 
 <style lang="postcss" scoped>
 .debug {
-  grid-area: debug;
+  /* grid-area: debug; */
+  /* @apply h-full w-full; */
 
-  @apply h-full w-full;
+  position: fixed;
+  left: 0;
+  bottom: 150px;
+  height: 300px;
 
   cursor: help;
   background-color: #0102;

@@ -29,6 +29,7 @@
     "@vueuse/components": "^6.4.1",
     "@vueuse/core": "^6.4.1",
     "@vueuse/integrations": "^6.4.1",
+    "@vueuse/shared": "^6.5.3",
     "camera-controls": "^1.32.2",
     "canvas-confetti": "^1.4.0",
     "chroma-js": "^2.1.2",

@@ -7,3 +7,13 @@ type Ref<T = any> = import("@vue/reactivity").Ref<T>
 // type FFmpeg = import("@ffmpeg/ffmpeg").FFmpeg
 
 // declare module "@ffmpeg/ffmpeg";
+
+// export const FS: {
+//   writeFile: (fileName: string, binaryData: Uint8Array) => void
+//   readFile: (fileName: string) => Uint8Array
+//   unlink: (fileName: string) => void
+//   readdir: (dirName: string) => string[]
+// }
+
+// type FSMethodNames = keyof typeof FS
+type UseMediaControlsReturn = import("@vueuse/core").UseMediaControlsReturn
