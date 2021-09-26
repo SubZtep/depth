@@ -33,9 +33,11 @@ export function useGui(options?: { close?: boolean }) {
   return g
 }
 
+let cx = 0
+
 export function useGuiFolder(init?: FolderInit) {
   const g = inject<dat.GUI>(guiKey)!
-  const folderName = window.location.hash
+  const folderName = `f${++cx}`
   let folder: dat.GUI
   try {
     folder = g.addFolder(folderName)
@@ -51,5 +53,6 @@ export function useGuiFolder(init?: FolderInit) {
   onBeforeUnmount(() => {
     gui.removeFolder(folder)
     delete g.__folders[folderName]
+    cx--
   })
 }

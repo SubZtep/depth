@@ -1,24 +1,33 @@
 <template lang="pug">
 Title Video Display Pose
 
-Debug {{pose}}
-
-video(:src="state.src" crossorigin="anonymous" muted ref="video" controls v-visible="state.showVideoTag")
+video(
+  ref="video"
+  :src="state.src"
+  v-visible="state.showVideoTag"
+  v-css-aspect-ratio="`--video-aspect-ratio`"
+  crossorigin="anonymous"
+  controls
+  muted)
 
 VideoTimeline(:video="video" :ff="ff" :controls="controls")
 
-StickmanSimple(:keypoints="pose?.poseLandmarks" :width="3")
+StickmanLandmarks(v-if="pose" :pose="pose")
 </template>
 
 <script lang="ts" setup>
 import { useMediaControls } from "@vueuse/core"
 import type { Results } from "public/pose"
 import { useGuiFolder } from "~/packages/datGUI"
-import { useFFmpeg } from "~/packages/FFmpeg/useFF"
+import { useFFmpeg } from "~/packages/FFmpeg/useFFmpeg"
 import { useMediapipePose } from "~/packages/PoseAI"
 import { useSupabase } from "~/packages/Supabase"
 import { useVideoFiles } from "~/composables/useVideoFiles"
+import StickmanLandmarks from "../characters/StickmanLandmarks.vue"
+import { pauseLoop, resumeLoop } from "~/packages/ThreeJS/constants"
+import { useThreeJSEventHook } from "~/packages/ThreeJS/plugin"
 
+const threeJs = useThreeJSEventHook()
 const toast = useToast()
 const { progress } = useNProgress()
 const video = ref() as Ref<HTMLVideoElement>
@@ -45,7 +54,15 @@ const { estimatePose } = useMediapipePose({
 const pose = ref<Results>()
 
 watch(controls.currentTime, async () => {
-  pose.value = await estimatePose()
+  if (get(pose) === undefined) {
+    threeJs.trigger(pauseLoop)
+    setTimeout(async () => {
+      pose.value = await estimatePose()
+      threeJs.trigger(resumeLoop)
+    }, 50)
+  } else {
+    pose.value = await estimatePose()
+  }
 })
 
 whenever(toRef(state, "src"), async () => {
@@ -60,7 +77,7 @@ whenever(toRef(state, "src"), async () => {
 useGuiFolder(folder => {
   folder.name = "📼 FFmpeg"
   folder.add(state, "src", useVideoFiles().selectList()).name("Load video")
-  folder.add(state, "showVideoTag").name("Show video")
+  folder.add(state, "showVideoTag").name("Video tag")
 })
 </script>
 
@@ -69,8 +86,8 @@ video {
   position: fixed;
   top: 0;
   right: 0;
-  max-width: 40%;
   max-height: 40%;
+  aspect-ratio: var(--video-aspect-ratio);
   border: 8px outset #964b00;
 }
 </style>

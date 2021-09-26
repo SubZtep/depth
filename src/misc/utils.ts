@@ -1,5 +1,5 @@
 import type { MaybeRef } from "@vueuse/core"
-import type { Landmark, LandmarkList, NormalizedLandmark } from "../../public/pose"
+import type { Landmark, LandmarkList, NormalizedLandmark } from "public/pose"
 import { reactify, get, unrefElement } from "@vueuse/core"
 import { HEAD_AREA } from "./constants"
 import VIDEOS from "./videos"
@@ -106,7 +106,7 @@ export function normaliseKeypointToDisplay(point: Landmark, scale: number, zMult
 export function formatToTimeline(secs: number) {
   const mins = Math.floor(secs / 60)
   const s = secs - mins * 60
-  return `${String(mins).padStart(2, "0")}:${String(s).padStart(2, "0")}`
+  return `${String(mins).padStart(2, "0")}:${String(s).padStart(2, "0")}.000`
 }
 
 export function pngOnly(filename: string) {

@@ -1,17 +1,33 @@
+import type { ColorRepresentation } from "three"
 import { SphereGeometry, MeshPhongMaterial, Mesh, BufferGeometry, LineBasicMaterial, Line } from "three"
+
+interface KeypointFactoryOptions {
+  name?: string
+  color: ColorRepresentation
+  visible?: boolean
+}
 
 const sphereGeometry = new SphereGeometry(0.06, 8, 6)
 export const whiteMaterial = new MeshPhongMaterial({ color: 0x69ffff, flatShading: true })
 export const redMaterial = new MeshPhongMaterial({ color: 0xff0000, flatShading: true })
 
-export function keypointFactory(name?: string, visible = true): KeypointMesh {
-  const mesh = new Mesh(sphereGeometry, whiteMaterial)
+const materials = new Map<ColorRepresentation, MeshPhongMaterial>()
+
+
+export function keypointFactory(options: KeypointFactoryOptions): KeypointMesh {
+  if (!materials.has(options.color)) {
+    materials.set(options.color, new MeshPhongMaterial({ color: options.color, flatShading: true }))
+  }
+
+  const mesh = new Mesh(sphereGeometry, materials.get(options.color))
   mesh.castShadow = true
   mesh.receiveShadow = true
-  if (name !== undefined) {
-    mesh.name = name
+  if (options.name !== undefined) {
+    mesh.name = options.name
   }
-  mesh.visible = visible
+  if (options.visible !== undefined) {
+    mesh.visible = options.visible
+  }
   return mesh
 }
 

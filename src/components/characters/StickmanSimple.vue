@@ -3,18 +3,19 @@
 
 <script lang="ts" setup>
 import type { PropType } from "vue"
-import type { LandmarkList } from "../../../public/pose/index.d"
-import { singleFns } from "../../packages/ThreeJS/useRenderLoop"
+import type { LandmarkList } from "public/pose/index.d"
+import { singleFns } from "~/packages/ThreeJS/useRenderLoop"
 import { watch, onBeforeUnmount, onMounted } from "vue"
 import { Vector3, Group } from "three"
-import { lineFactory, keypointFactory, boneMaterial } from "../../models/factories"
-import { BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS, BLAZEPOSE_KEYPOINTS } from "../../misc/constants"
+import { lineFactory, keypointFactory, boneMaterial } from "~/models/factories"
+import { BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS, BLAZEPOSE_KEYPOINTS } from "~/misc/constants"
 
 const props = defineProps({
   keypoints: { type: Object as PropType<Keypoint[]>, required: false },
   position: { type: Array as unknown as PropType<THREE.Vector3Tuple>, default: () => [0, 0, 0] },
-  width: { type: Number, default: 1 },
-  zMulti: { type: Number, default: 1 },
+  scale: { type: Number, default: 1 },
+  zMulti: { type: Number, default: 0.5 },
+  color: { type: Number, default: 0xffffff },
 })
 
 const root = new Group()
@@ -29,7 +30,7 @@ const lines = new Map<string, THREE.Line>()
 
 stickmanGroup.add(
   ...BLAZEPOSE_KEYPOINTS.map((v, i) => {
-    const joint = keypointFactory(v)
+    const joint = keypointFactory({ name: v, color: props.color })
     joints.set(i, joint)
     return joint
   }),
@@ -43,15 +44,15 @@ stickmanGroup.add(
 
 const updateJoints = (points: LandmarkList) => {
   points.forEach((point, index) => {
-    joints.get(index)!.position.set(point.x * props.width, point.y * props.width, point.z * props.width * props.zMulti)
+    joints.get(index)!.position.set(point.x * props.scale, point.y * props.scale, point.z * props.scale * props.zMulti)
   })
 }
 
 const lineEnds = [new Vector3(), new Vector3()]
 const updateLines = (points: LandmarkList) => {
   BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS.forEach(([i, j]) => {
-    lineEnds[0].set(points[i].x * props.width, points[i].y * props.width, points[i].z * props.width * props.zMulti)
-    lineEnds[1].set(points[j].x * props.width, points[j].y * props.width, points[j].z * props.width * props.zMulti)
+    lineEnds[0].set(points[i].x * props.scale, points[i].y * props.scale, points[i].z * props.scale * props.zMulti)
+    lineEnds[1].set(points[j].x * props.scale, points[j].y * props.scale, points[j].z * props.scale * props.zMulti)
 
     const line = lines.get(lineKey(i, j))!
     line.geometry.setFromPoints(lineEnds)
@@ -63,15 +64,16 @@ onMounted(() => {
   root.add(stickmanGroup)
 
   watch(
-    () => props.keypoints,
-    marks => {
-      if (marks !== undefined) {
-        updateJoints(marks)
-        updateLines(marks)
+    [() => props.keypoints, () => props.scale, () => props.zMulti],
+    () => {
+      if (props.keypoints !== undefined) {
+        updateJoints(props.keypoints)
+        updateLines(props.keypoints)
       } else {
         console.warn("Stickman is hidden booo")
       }
-    }
+    },
+    { immediate: true }
   )
 })
 

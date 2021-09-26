@@ -5,7 +5,7 @@ import Toast from "vue-toastification"
 import App from "./components/scene/App.vue"
 import Visible from "./directives/visible"
 import DBVideo from "./directives/dbvideo"
-import AspectRatio from "./directives/aspect-ratio"
+import CssAspectRatio from "./directives/css-aspect-ratio"
 import Supabase from "./packages/Supabase"
 import ThreeJs from "./packages/ThreeJS"
 import Router, { navigation } from "./packages/router"
@@ -45,5 +45,5 @@ createApp(App)
   })
   .directive("visible", Visible)
   .directive("dbvideo", DBVideo)
-  .directive("aspect-ratio", AspectRatio)
+  .directive("css-aspect-ratio", CssAspectRatio)
   .mount("#app")

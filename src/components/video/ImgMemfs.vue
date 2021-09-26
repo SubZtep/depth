@@ -18,3 +18,10 @@ onBeforeUnmount(() => {
   URL.revokeObjectURL(src)
 })
 </script>
+
+<style scoped>
+img {
+  height: 69px;
+  aspect-ratio: var(--video-aspect-ratio);
+}
+</style>

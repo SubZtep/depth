@@ -22,17 +22,12 @@
 </template>
 
 <script lang="ts" setup>
-// import { UseMediaControlsReturn, usePointerSwipe } from "@vueuse/core"
-import { updateVideoTime } from "../../misc/utils"
 import TimelineToolbar from "./TimelineToolbar.vue"
-// import { useFFmpeg } from "~/packages/FFmpeg/useFFmpg"
-import { useFFmpeg } from "~/packages/FFmpeg/useFF"
+import { useFFmpeg } from "~/packages/FFmpeg/useFFmpeg"
 import ImgMemfs from "./ImgMemfs.vue"
 
 const props = defineProps({
-  // frameTimes: { type: Array as PropType<number[]>, required: true },
   video: { type: Object as PropType<Ref<HTMLVideoElement>>, required: true },
-  // keypoints: { type: Object as PropType<Ref<number[]>>, required: true },
   controls: { type: Object as PropType<UseMediaControlsReturn>, required: true },
   ff: { type: Object as PropType<ReturnType<typeof useFFmpeg>>, required: true }
 })
@@ -62,7 +57,6 @@ const { distanceX, isSwiping } = usePointerSwipe(timeline, {
 const handleCursorClick = (x: number) => {
   const gapSecPx = Math.round(get(timeline)!.clientWidth / get(props.controls.duration)) + get(zoomLevel)
   const time = (x + get(timeline)!.scrollLeft) / get(gapSecPx)
-  // console.log("PRESS", time)
   set(props.controls.currentTime, time)
 }
 </script>
@@ -70,31 +64,34 @@ const handleCursorClick = (x: number) => {
 <style lang="postcss" scoped>
 .videoTimeline {
   @apply top-0 left-0 w-128 absolute;
-  /* @apply relative; */
-  /* grid-area: timeline; */
-  /* cursor: grab; */
-  /* position: relative; */
-  /* @apply h-full w-full; */
-
-  background-color: #dedede88;
+  background-color: #aaa;
   border: 3px inset #000;
-  /* border-radius: 4px; */
   border-top-width: 1px;
   overflow: hidden;
   resize: horizontal;
-  /* width: 66vw;
-  max-height: 12rem; */
-  /* &.grabbing {
-    cursor: grabbing;
-  } */
 }
 
 .timeline {
   @apply flex-grow relative;
+  overflow-x: scroll;
   overflow-y: hidden;
   cursor: grab;
   &.grabbing {
     cursor: grabbing;
+  }
+
+  scrollbar-width: thin;
+  scrollbar-color: #efe #000;
+
+  &::-webkit-scrollbar {
+    background-color: #1234;
+    height: 12px;
+    width: 12px;
+    cursor: pointer;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-image: radial-gradient(#eefeee 0%, #0000 69%);
   }
 }
 </style>

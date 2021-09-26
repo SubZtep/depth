@@ -3,7 +3,7 @@ canvas(ref="canvas" height="28")
 </template>
 
 <script lang="ts" setup>
-import { formatToTimeline } from "../../misc/utils"
+import { formatToTimeline } from "~/misc/utils"
 const toast = useToast()
 
 const props = defineProps({
