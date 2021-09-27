@@ -19,6 +19,11 @@ export default defineConfig({
           "&:active": {
             borderStyle: "inset",
           },
+          "&:disabled": {
+            borderStyle: "ridge",
+            cursor: "not-allowed",
+            opacity: "0.65",
+          },
         },
       }
       addComponents(buttons)

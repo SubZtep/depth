@@ -1,20 +1,12 @@
 # depth 🧘‍♀️ ~~perception~~
 
-Just another _code sandbox_. If this term exists at all — there is too much code in it to call a _boilerplate_, the _playground_ is more appropriate. So what?
+Just another _code sandbox_. The **Three.js** background occupies the full viewport, the **Vue.js** foreground add _HUD_ components, and the composables make it alive. In this stage I just keep adding new packages considering a lucid developer experience.
 
-Back in the day, I was amazed by browser based machine learning solutions, especially the one that was able to tell the coordinate points of human joints from videos. Even though it was 2D only, calculating the rotations and trying out on rigged 3D models made some fun moments, certainly without the hoped-for precise Z-axis positions. There are glitches in the Matrix but if Skynet would use that for motion capturing nobody would eat that reality.
+### :milky_way::running:
 
-When I heard about the new deeply learned [TensorFlow](https://blog.tensorflow.org/2021/05/high-fidelity-pose-tracking-with-mediapipe-blazepose-and-tfjs.html) models I surely tried out. Faster, smoother, and finally not having to combine vectors like an animal, my phone can make many more attempts to accomplish the goal - whatever is that - the only thing I need to do is let it do it.
+## Folder structure
 
-Connecting webcam with the API, cache it, normalise it, visualise it, etcetera. All these tasks are quite simple to make in a browser with JavaScript. Controlling a **Three.js** canvas and smooth out the data flow with open source packages is feasible thanks to the community. Hard to imagine a better workflow than **Vue.js** with its recent updates and reactive composables. All I want here is to make it very comfortable and quick to use. I don't even bother Babel, if my sessionless **Chrome™ Canary** can run it it's just good enough, yolo.
 
-## What's this?
-
-Long story short I try to organise packages without intentionally following standardised patterns and avoid _spaghetti_. Just keep moving files, rewriting definitions, recursive redundant.
-
-# 3D
-
-# 2D
 
 ## Packages
 
@@ -32,11 +24,24 @@ While this is not a _monorepo_ it is great to keep packages separated. There are
 
 ## Shell Scripts
 
-To execute a local script install the excellent bash wrapper [zx](https://github.com/google/zx) package, why not globally:
+The simpliest way to execute a local script is that install the [**`zx`**](https://github.com/google/zx) package globally:
 
 ```sh
 $ npm i -g zx
 ```
+
+It's possible that if you don't want to use the `zx` bin, you need to add execute mode to the script files.
+
+### Available scripts
+
+- `scripts/public_videos_to_constant.mjs`
+
+  Scan and update.
+
+- `scripts/induct_sounds.mjs`
+
+  Scan and update.
+
 
 ## Simple Examples
 

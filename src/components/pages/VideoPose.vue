@@ -1,7 +1,7 @@
 <template lang="pug">
 Title Video Display Pose
 
-Debug {{state}}
+Debug(v-if="!state.src") {{state}}
 
 video(
   ref="video"
@@ -14,6 +14,7 @@ video(
   muted)
 
 VideoTimeline(
+  v-if="state.src"
   v-model:estimatePose="state.estimatePose"
   :controls="controls"
   :ff="ff")
@@ -48,7 +49,7 @@ const state = reactive({
 
 const ff = useFFmpeg({
   src: toRef(state, "src"),
-  options: { progress: ({ ratio }) => set(progress, ratio), log: true },
+  options: { progress: ({ ratio }) => set(progress, ratio), log: false },
   onKeypointsReady: () => void toast.info("Keypoints ready"),
 })
 

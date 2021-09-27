@@ -17,6 +17,7 @@
   "less.lint.emptyRules": "ignore",
   // "vite.autoStart": true
   "files.associations": {
-    ".prettierrc": "yaml"
+    ".prettierrc": "yaml",
+    "*.mjs": "ignore",
   },
 }

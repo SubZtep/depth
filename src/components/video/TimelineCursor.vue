@@ -1,25 +1,24 @@
 <template lang="pug">
-.timelineCursor(ref="cursor" v-show="!isOutside")
+div(
+  ref="cursor"
+  :style="{ left: `${left}px` }"
+  v-show="!isOutside"
+  :class="$style.cursor")
 </template>
 
 <script lang="ts" setup>
 import { useMouseInElement, useMousePressed } from "@vueuse/core"
 
-const emit = defineEmits(["pressed"])
+const emit = defineEmits(["select-time"])
 
 const props = defineProps({
+  gapSecPx: { type: Number, required: true },
   wrapper: { type: Object as PropType<Ref<HTMLDivElement>>, required: true },
 })
 
-const moveCursorToPointer = (x: number) => {
-  get(cursor)!.style.left = `${x + get(props.wrapper).scrollLeft}px`
-}
-
-const cursor = ref<HTMLDivElement | null>(null)
+const cursor = ref<HTMLDivElement>()
 const { elementX, isOutside } = useMouseInElement(props.wrapper)
-watch(elementX, moveCursorToPointer)
-
-
+const left = computed(() => get(elementX) + get(props.wrapper).scrollLeft)
 
 // const { distanceX, isSwiping } = usePointerSwipe(props.wrapper, { // move2parent
 //   onSwipeStart(e: PointerEvent) {
@@ -34,20 +33,15 @@ watch(elementX, moveCursorToPointer)
 const { pressed } = useMousePressed({ target: props.wrapper })
 
 whenever(pressed, () => {
-  emit("pressed", get(elementX))
-  // const time = (get(elementX) + get(props.wrapper).scrollLeft) / get(gapSecPx)
-  // console.log("CLIKKKKK", [get(elementX), get(sourceType)])
+  //FIXME: has to round otherwise "controls" reduce it and watch fires twice. maybe closestPoseInTime?
+  const time = Number(((get(elementX) + get(props.wrapper).scrollLeft) / props.gapSecPx).toFixed(6))
+  emit("select-time", time)
 })
-
 </script>
 
-<style>
-.timelineCursor {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background-color: #ff0;
-  pointer-events: none;
+<style module>
+.cursor {
+  @apply top-0 bottom-0 w-0 absolute pointer-events-none;
+  border-right: 1px dashed #ff06;
 }
 </style>

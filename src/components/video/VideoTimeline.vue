@@ -3,13 +3,10 @@ div(:class="$style.videoTimeline" v-stop-propagation)
 
   div(:class="$style.toolbar")
     .flex.gap-1
-      button.btn-icon
+      button.btn-icon(@click="state.zoom--" :disabled="state.zoom === 0")
         fa(:icon="['far', 'magnifying-glass-minus']")
-      button.btn-icon
+      button.btn-icon(@click="state.zoom++")
         fa(:icon="['far', 'magnifying-glass-plus']")
-    div
-      div zoom: {{zoomLevel}}
-      div gapSecPx: {{gapSecPx}}
     div
       label
         input(type="checkbox" v-model="estimatePose")
@@ -19,26 +16,41 @@ div(:class="$style.videoTimeline" v-stop-propagation)
     .flex-shrink-0.w-100px
       div(:class="$style.ruler") ruler
       div(:class="$style.pictures") pictures
+      div(:class="$style.detected") detected
 
     div(ref="timeline" :class="{ [$style.timeline]: true, grabbing: isSwiping }")
       template(v-if="timeline")
 
+        TimelineCursor(
+          :wrapper="timeline"
+          :gap-sec-px="gapSecPx"
+          @select-time="(time: number) => props.controls.currentTime.value = time")
+
+        TimelinePlayhead(
+          :gap-sec-px="gapSecPx"
+          :current-time="props.controls.currentTime")
+
         TimelineCanvas(
+          v-model:zoom="state.zoom"
+          :gap-sec-px="gapSecPx"
           :class="$style.ruler"
           :wrapper="timeline"
           :duration="controls.duration"
           :frame-times="props.ff.keypoints")
 
-        div
-          div(:class="$style.pictures")
-            ImgMemfs(
-              v-if="props.ff.keypoints.value.length > 0"
-              :file="props.ff.getKeyframeFilename(props.ff.keypoints.value[0])"
-              :fs="props.ff.ffmpeg.FS")
+        div(:class="$style.pictures")
+          ImgMemfs(
+            v-if="props.ff.keypoints.value.length > 0"
+            :file="props.ff.getKeyframeFilename(props.ff.keypoints.value[0])"
+            :fs="props.ff.ffmpeg.FS")
 
-          TimelineCursor(
-            :wrapper="timeline"
-            @pressed="handleCursorClick")
+        div(:class="$style.detected")
+
+Debug
+  div zoom: {{state.zoom}}
+  div duration: {{props.controls.duration}}
+  div currentTime: {{props.controls.currentTime}}
+  div gapSecPx: {{gapSecPx}}
 </template>
 
 <script lang="ts" setup>
@@ -52,20 +64,18 @@ const props = defineProps({
 })
 
 const estimatePose = useVModel(props, "estimatePose")
-
 const timeline = ref<HTMLDivElement>()
 let canvas: HTMLCanvasElement
 
-// const state = reactive({
-//   //
-// })
+const state = reactive({
+  zoom: 0,
+})
 
-const zoomLevel = ref(0)
-provide("zoomLevel", zoomLevel)
+const { width } = useElementSize(timeline)
 
 const gapSecPx = computed(() => {
-  // return get(timeline)?.clientWidth ?? 0 / get(props.controls.duration)
-  return Math.round(get(timeline)?.clientWidth ?? 0 / get(props.controls.duration)) + get(zoomLevel)
+  if (get(width) === 0 || get(props.controls.duration) === 0) return 0
+  return Number((get(width) / get(props.controls.duration)).toFixed(6)) + state.zoom
 })
 
 onMounted(() => {
@@ -83,15 +93,6 @@ const { distanceX, isSwiping } = usePointerSwipe(timeline, {
     get(timeline)!.scrollLeft -= (distanceX.value * speed) / 100
   },
 })
-
-const handleCursorClick = (x: number) => {
-  // const gapSecPx = Math.round(get(timeline)!.clientWidth / get(props.controls.duration)) + get(zoomLevel)
-
-  //FIXME: has to round otherwise "controls" reduce it and watch fires twice. maybe closestPoseInTime?
-  const time = Number(((x + get(timeline)!.scrollLeft) / get(gapSecPx)).toFixed(6))
-
-  set(props.controls.currentTime, time)
-}
 </script>
 
 <style lang="postcss" module>
@@ -104,14 +105,12 @@ const handleCursorClick = (x: number) => {
 }
 
 .timeline {
-  @apply flex-grow relative scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300;
+  @apply flex-grow relative overflow-hidden;
 
-  overflow-x: scroll;
-  overflow-y: hidden;
-  /* cursor: grab;
+  cursor: grab;
   &.grabbing {
     cursor: grabbing;
-  } */
+  }
 }
 
 .ruler {
@@ -122,5 +121,10 @@ const handleCursorClick = (x: number) => {
 .pictures {
   @apply bg-blue-600;
   height: 69px;
+}
+
+.detected {
+  @apply bg-blue-700;
+  height: 15px;
 }
 </style>

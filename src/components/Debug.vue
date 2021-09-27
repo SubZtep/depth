@@ -11,8 +11,7 @@ const exists = ref(true)
 
 <style lang="postcss" scoped>
 .debug {
-  /* grid-area: debug; */
-  /* @apply h-full w-full; */
+  @apply scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300;
 
   position: fixed;
   left: 260px;
@@ -24,39 +23,20 @@ const exists = ref(true)
   padding: 4px;
   font-size: 0.6rem;
   line-height: 0.8rem;
-  /* position: fixed;
-  top: 0;
-  left: 0; */
 
   font-family: monospace;
   white-space: pre;
   color: var(--terminal);
   overflow: auto;
-  /* max-height: 100vh; */
-  /* opacity: 0.4;
-  transform: translateX(-69%);
-  transition: all 0.1s ease-in 1.5s;
+
+  opacity: 0.5;
+  transform: rotateX(-45deg);
+  transition: all 0.1s ease-in 1s;
+  transform-origin: bottom left;
   &:hover {
     opacity: 1;
-    transform: translateX(0);
+    transform: rotateX(0deg) scale(1.5);
     transition: all 0.2s ease-out;
-  } */
-}
-
-.miniScrollbar {
-  overflow: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #efe #000;
-}
-
-.miniScrollbar::-webkit-scrollbar {
-  background-color: #1234;
-  height: 12px;
-  width: 12px;
-  cursor: pointer;
-}
-
-.miniScrollbar::-webkit-scrollbar-thumb {
-  background-image: radial-gradient(#eefeee 0%, #0000 69%);
+  }
 }
 </style>

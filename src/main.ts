@@ -12,6 +12,7 @@ import ThreeJs from "./packages/ThreeJS"
 import Router, { navigation } from "./packages/router"
 import Stats from "./packages/Stats"
 import Gui from "./packages/datGUI"
+import Howler from "./packages/Howler"
 import { preferencesGui } from "./preferences"
 import routes from "./routes"
 import "./icons"
@@ -41,6 +42,7 @@ createApp(App)
     routes,
     addons: [navigation(routes), preferencesGui],
   })
+  .use(Howler)
   .directive("visible", Visible)
   .directive("dbvideo", DBVideo)
   .directive("css-aspect-ratio", CssAspectRatio)
