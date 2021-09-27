@@ -20,7 +20,7 @@
     "@ffmpeg/ffmpeg": "^0.10.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/pro-duotone-svg-icons": "^6.0.0-beta1",
-    "@fortawesome/pro-light-svg-icons": "^5.15.4",
+    "@fortawesome/pro-light-svg-icons": "^6.0.0-beta1",
     "@fortawesome/pro-regular-svg-icons": "^6.0.0-beta1",
     "@fortawesome/pro-solid-svg-icons": "^6.0.0-beta1",
     "@fortawesome/pro-thin-svg-icons": "^6.0.0-beta1",
@@ -72,9 +72,8 @@
     "vite": "^2.5.10",
     "vite-plugin-components": "^0.13.3",
     "vite-plugin-fonts": "^0.2.2",
-    "vite-plugin-restart": "^0.0.2",
     "vite-plugin-windicss": "^1.4.7",
     "vue-tsc": "^0.3.0",
-    "windicss": "^3.1.7"
+    "windicss": "^3.1.8"
   }
 }
