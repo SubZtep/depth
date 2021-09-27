@@ -4,4 +4,4 @@ public/videos/
 src/misc/videos.ts
 .env
 .env.toml
-.npmrc
+# .npmrc
