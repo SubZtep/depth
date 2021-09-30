@@ -7,6 +7,5 @@ declare namespace dat {
 type GuiAddon = (gui: dat.GUI) => void
 
 interface GuiOptions {
-  routes?: Route[]
   addons?: GuiAddon[]
 }

@@ -27,12 +27,12 @@
     ],
     "typeRoots": [
       "./node_modules/@types",
-      "./src/packages/*/types.d.ts",
-      "./src/types"
+      "./src/packages/**/*.d.ts",
+      "./src/types/**/*.d.ts"
     ],
     "paths": {
       "~/*": ["src/*"]
-    }
+    },
   },
   "exclude": ["dist", "node_modules"]
 }

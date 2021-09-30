@@ -5,6 +5,7 @@ import ViteComponents from "vite-plugin-components"
 import ViteFonts from "vite-plugin-fonts"
 import AutoImport from "unplugin-auto-import/vite"
 import WindiCSS from "vite-plugin-windicss"
+import { ViteToml } from "vite-plugin-toml"
 import { EnableSharedArrayBuffer } from "./src/packages/VitePlugins"
 
 export default defineConfig({
@@ -14,6 +15,10 @@ export default defineConfig({
     },
   },
   plugins: [
+    ViteToml({
+      useBigInt: false,
+      namedExports: false,
+    }),
     Vue({
       include: [/\.vue$/],
     }),
@@ -26,7 +31,6 @@ export default defineConfig({
         "vue",
         "@vueuse/core",
         { "@vueuse/core": ["get", "set", "and", "not", "invoke"] },
-        // { "@vueuse/sound": ["useSound"] },
         { "@vueuse/integrations": ["useNProgress"] },
         { "vue-toastification": ["useToast"] },
       ],
@@ -39,7 +43,6 @@ export default defineConfig({
     }),
     WindiCSS(),
     EnableSharedArrayBuffer(),
-    // TODO: scoped styles to modules
   ],
   build: {
     cssCodeSplit: false,
@@ -51,10 +54,9 @@ export default defineConfig({
           if (id.includes("three")) {
             return "three"
           }
-          // console.log(id)
-          // if (id.includes("node_modules")) {
-          //   return id.toString().split("node_modules/")[1].split("/")[0].toString()
-          // }
+          if (id.includes("fortawesome")) {
+            return "fa"
+          }
         },
       },
     },

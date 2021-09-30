@@ -1,2 +1,2 @@
 export { default } from "./plugin"
-export { navigation } from "./gui"
+export { navigationGui, normalizeRoutes } from "./utils"

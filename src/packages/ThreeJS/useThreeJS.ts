@@ -22,14 +22,14 @@ export function useCanvas(canvasRef: MaybeRef<HTMLCanvasElement>): Scene {
   const scene = new Scene()
 
   useThreeJSEventHook().on(params => {
-    const world = document.querySelector("#world")!
+    const scene = document.querySelector("#scene")!
     switch (params.cmd) {
       case "pauseLoop":
         toggleRun(false)
-        world.classList.add("paused")
+        scene.classList.add("paused")
         break
       case "resumeLoop":
-        world.classList.remove("paused")
+        scene.classList.remove("paused")
         toggleRun(true)
         break
       case "doRenderAllFrames":

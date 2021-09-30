@@ -1,0 +1,5 @@
+include = ["./my-settings.toml"]
+
+[schema]
+path = "./schemas/my-settings.json"
+enabled = true

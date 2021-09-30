@@ -1,8 +1,23 @@
 # depth 🧘‍♀️ ~~perception~~
 
-Just another _code sandbox_. The **Three.js** background occupies the full viewport, the **Vue.js** foreground add _HUD_ components, and the composables make it alive. In this stage I just keep adding new packages considering a lucid developer experience.
+Just another _code sandbox_. The _Three.js_ background occupies the full viewport, the **Vue.js** foreground add _HUD_ components, and the composables make it alive. In this stage I just keep adding new packages considering a lucid developer experience.
 
 ### :milky_way::running:
+
+```html
+<body>
+    <div id="scene"><!-- Three.js
+
+      __̴ı̴̴̡̡̡ ̡͌l̡̡̡ ̡͌l̡*̡̡ ̴̡ı̴̴̡ ̡̡͡|̲̲̲͡͡͡ ̲▫̲͡ ̲̲̲͡͡π̲̲͡͡ ̲̲͡▫̲̲͡͡ ̲|̡̡̡ ̡ ̴̡ı̴̡̡ ̡͌l̡̡̡̡.___ -->
+
+    </div>
+    <div id="hud"><!-- Vue.js
+
+         ┬┴┬┴┤･ω･)ﾉ├┬┴┬┴ -->
+
+    </div>
+</body>
+```
 
 ## Folder structure
 

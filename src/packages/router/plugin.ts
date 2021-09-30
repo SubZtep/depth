@@ -2,13 +2,17 @@ import type { Plugin, Component } from "vue"
 import type { EventHook } from "@vueuse/core"
 import { ref } from "vue"
 import { createEventHook, set } from "@vueuse/core"
+import type { Route } from "~/types/settings"
+import type { RouterEvent, RouterOptions, PathToRouteFn, OnRouterEventFn } from "./types.d"
 
 function banglessHash() {
   return window.location.hash.replace(/^(#)/, "")
 }
 
 function routeByPath(routes: Route[]) {
-  return (windowPath = "/") => routes.find(({ path }) => path === windowPath)
+  return (windowPath = "/") => {
+    return routes.find(route => route.path === windowPath)
+  }
 }
 
 const eventHookKey = Symbol("router event hook")
@@ -20,14 +24,13 @@ export const opening = ref(true) //TODO: deleteme
 
 export default {
   install(app, options: RouterOptions) {
-    const { routes, transition = true } = options
-
-    getRoute = routeByPath(routes)
+    getRoute = routeByPath(options.routes)
     app.provide(eventHookKey, eventHook)
 
     window.addEventListener("hashchange", () => {
       const route = useActiveRoute()
-      route && eventHook.trigger({ ...route, transition })
+      // @ts-ignore
+      route && eventHook.trigger({ ...route, transition: options.transition })
       set(opening, false)
     })
   },
@@ -43,6 +46,7 @@ export function useActiveRoute(): Route | undefined {
 
 export function useActiveRouteComponent(): Component {
   const pageComponent = shallowRef(useActiveRoute()?.component)
-  inject<EventHook<RouterEvent>>(eventHookKey)!.on(({ component }) => set(pageComponent, component))
+  // @ts-ignore
+  inject<EventHook<RouterEvent>>(eventHookKey)!.on(route => set(pageComponent, route.component))
   return pageComponent
 }

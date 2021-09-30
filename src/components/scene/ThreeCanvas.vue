@@ -1,5 +1,5 @@
 <template lang="pug">
-Teleport(to="#world")
+Teleport(to="#scene")
   canvas(ref="wc")
 
 MainScene

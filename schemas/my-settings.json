@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "My settings",
+  "description": "Project settings",
+  "definitions": {
+    "vector3": {
+      "type": "array",
+      "items": [
+        { "type": "integer" },
+        { "type": "integer" },
+        { "type": "integer" }
+      ],
+      "minItems": 3
+    }
+  },
+  "type": "object",
+  "properties": {
+    "router": {
+      "title": "Router",
+      "type": "object",
+      "properties": {
+        "transition": {
+          "type": "boolean"
+        },
+        "routes": {
+          "type": "array",
+          "items": {
+            "title": "Route",
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The path of the route",
+                "uniqueItems": true
+              },
+              "label": {
+                "type": "string",
+                "description": "Menu item label"
+              },
+              "component": {
+                "type": "string",
+                "description": "Page component name, pattern: `./components/pages/[VALUE].vue`"
+              },
+              "position": {
+                "$ref": "#/definitions/vector3",
+                "description": "Initial camera position"
+              },
+              "lookAt": {
+                "$ref": "#/definitions/vector3",
+                "description": "Initial camera rotation"
+              }
+            },
+            "required": ["path"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["routes"],
+      "additionalProperties": false
+    },
+    "sounds": {
+      "title": "Sound",
+      "type": "object",
+      "properties": {
+        "volume": {
+          "type": "number",
+          "description": "Master volume of the sounds",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "samples": {
+          "type": "object",
+          "description": "Sounds samples",
+          "properties": {
+            "denied": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["router"],
+  "additionalProperties": false
+}

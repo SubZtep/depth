@@ -1,21 +1,30 @@
 import type { Plugin } from "vue"
 import { Howl, Howler } from "howler"
-import sounds from "~/../public/sounds.json"
+// import sounds from "~/../public/sounds.json"
 
-type SoundEffect = keyof typeof sounds
-const howlerKey = Symbol("Howler sounds")
-const players = new Map<SoundEffect, Howl>()
-
-function playSound(sound: SoundEffect) {
-  if (!players.has(sound)) {
-    players.set(sound, new Howl({ src: sounds[sound] }))
-  }
-  players.get(sound)?.play()
+type HowlerSounds = {
+  [key in string]: string
 }
 
+type HowlerOptions = {
+  sounds: HowlerSounds
+}
+
+type PlaySound = (sound: keyof HowlerSounds) => void
+
+const howlerKey = Symbol("Howler sounds")
+const players = new Map<keyof HowlerSounds, Howl>()
+
 const plugin: Plugin = {
-  install(app) {
+  install(app, { sounds }: HowlerOptions) {
     Howler.volume(0.45)
+
+    const playSound: PlaySound = sound =>{
+      if (!players.has(sound)) {
+        players.set(sound, new Howl({ src: sounds[sound] }))
+      }
+      players.get(sound)?.play()
+    }
 
     const ctx = new AudioContext()
     if (ctx.state === "suspended") {
@@ -48,7 +57,7 @@ const plugin: Plugin = {
 export default plugin
 
 export function useHowler() {
-  const player = inject<typeof playSound>(howlerKey)
+  const player = inject<PlaySound>(howlerKey)
   if (player === undefined) {
     console.warn("Howler plugin is not installed properly")
     return () => {

@@ -3,7 +3,6 @@ import { useIdle, whenever } from "@vueuse/core"
 import { CameraShake } from "../../models/camerashake"
 import { useActiveRoute, useOnRouterEvent } from "../router/plugin"
 import { Box3, Vector3 } from "three"
-// import { useGui } from "../datGUI/plugin"
 
 function setupBoundaries(cameraControls: CameraControls) {
   cameraControls.minPolarAngle = Math.PI / 6
@@ -25,8 +24,7 @@ function initShakes(cameraControls: CameraControls) {
 }
 
 function shakeIt(nr?: number) {
-  // console.log("SHAKE IT", shakes)
-  shakes[nr ?? shaker++ % shakes.length].shake()
+  shakes[nr ?? shaker++ % shakes.length]?.shake()
 }
 
 function startPosition(cameraControls: CameraControls) {
@@ -40,26 +38,20 @@ function startPosition(cameraControls: CameraControls) {
 
 export function useCameraControls(cameraControls: CameraControls) {
   initShakes(cameraControls)
-  // setupBoundaries(cameraControls)
+  setupBoundaries(cameraControls)
   startPosition(cameraControls)
 
   const { idle } = useIdle()
   whenever(idle, shakeIt)
 
-  // const gui = useGui()
-
   const arrived = () => {
     {
       cameraControls.removeEventListener("sleep", arrived)
-      // cameraControls.enabled = true
-      // gui.show()
     }
   }
 
   useOnRouterEvent(({ position, lookAt, transition }) => {
     if (position && lookAt) {
-      // gui.hide()
-      // cameraControls.enabled = false
       cameraControls.setLookAt(...position, ...lookAt, transition)
       cameraControls.addEventListener("sleep", arrived)
     }

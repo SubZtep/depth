@@ -13,6 +13,5 @@ const state = reactive<EmptyTemplateState>({
 useGuiFolder(folder => {
   folder.name = "Empty Template"
   folder.add(state, "test")
-  // folder.open()
 })
 </script>

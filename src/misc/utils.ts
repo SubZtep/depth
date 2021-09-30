@@ -109,10 +109,10 @@ export function formatToTimeline(secs: number) {
   return `${String(mins).padStart(2, "0")}:${String(s).padStart(2, "0")}.000`
 }
 
-export function pngOnly(filename: string) {
-  return filename.endsWith(".png")
-}
-
 export function basename(src: string): string {
   return src.split("/").pop()!.split("?").shift()!
+}
+
+export function capitalize(str: string): string {
+  return `${str.charAt(0).toUpperCase()}${str.slice(1)}`
 }

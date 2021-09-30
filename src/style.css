@@ -5,7 +5,6 @@
   --video-hide-transition: visibility var(--video-hide-duration) linear, opacity var(--video-hide-duration) linear;
   --unicode-transition: opacity var(--video-hide-duration) linear;
   /* font-size: calc(1vw + 1vh + .5vmin); */
-  --world-opacity: 0;
   --font-sans: 'Text Me One', sans-serif;
 }
 
@@ -34,7 +33,7 @@ body {
   line-height: 150%;
 }
 
-#app, #world, .loadingScreen {
+#hud, #scene, .loadingScreen {
   top: 0;
   left: 0;
   width: 100vw;
@@ -42,11 +41,11 @@ body {
   position: absolute;
 }
 
-#world.paused {
+#scene.paused {
   mask-image: radial-gradient(#000a, #000 69%);
 }
 
-#world > canvas {
+#scene > canvas {
   width: inherit;
   height: inherit;
 }
