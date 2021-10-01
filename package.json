@@ -10,8 +10,8 @@
     "typecheck": "tsc --noEmit -p .",
     "test": "jest",
     "lint": "eslint src",
-    "lint:settings": "npx @taplo/cli lint ./my-settings.toml",
-    "js2ts": "npx json-schema-to-typescript schemas/my-settings.json src/types/settings.d.ts"
+    "lint:settings": "npx @taplo/cli lint ./SETTINGS.toml",
+    "js2ts": "npx json-schema-to-typescript schemas/SETTINGS.json src/types/settings.d.ts"
   },
   "postinstall": "scripts/public_videos_to_constant.mjs",
   "keywords": [],

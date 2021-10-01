@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "My settings",
-  "description": "Project settings",
+  "title": "Settings",
+  "description": "Project settings — router and other basic stuff",
   "definitions": {
     "vector3": {
       "type": "array",
@@ -20,7 +20,8 @@
       "type": "object",
       "properties": {
         "transition": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Camera transitions between states"
         },
         "routes": {
           "type": "array",

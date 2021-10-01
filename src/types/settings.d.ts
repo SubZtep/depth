@@ -6,13 +6,16 @@
  */
 
 /**
- * Project settings
+ * Project settings — router and other basic stuff
  */
-export interface MySettings {
+export interface Settings {
   router: Router;
   sounds?: Sound;
 }
 export interface Router {
+  /**
+   * Camera transitions between states
+   */
   transition?: boolean;
   routes: Route[];
 }

@@ -1,5 +1,6 @@
-include = ["./my-settings.toml"]
+
+include = ["./SETTINGS.toml"]
 
 [schema]
-path = "./schemas/my-settings.json"
+path = "./schemas/SETTINGS.json"
 enabled = true
