@@ -13,14 +13,12 @@ import ThreeJs from "./packages/ThreeJS"
 import Router, { navigationGui, normalizeRoutes } from "./packages/router"
 import Stats from "./packages/Stats"
 import Gui from "./packages/datGUI"
-import Howler from "./packages/Howler"
+import Howler from "./packages/Howler/plugin"
 import { preferencesGui } from "./preferences"
 import settings from "../SETTINGS.toml"
 import "./icons"
 
 import "virtual:windi.css"
-import "vue-toastification/dist/index.css"
-import "./vendors.css"
 import "./style.css"
 
 const routes = normalizeRoutes(settings.router.routes)

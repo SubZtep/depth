@@ -54,7 +54,7 @@ Debug
 </template>
 
 <script lang="ts" setup>
-import { useFFmpeg } from "~/packages/FFmpeg/useFFmpeg"
+import { useFFmpeg } from "~/packages/FFmpeg"
 import ImgMemfs from "./ImgMemfs.vue"
 
 const props = defineProps({

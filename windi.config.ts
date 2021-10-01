@@ -3,6 +3,13 @@ import plugin from "windicss/plugin"
 import type { DeepNestObject } from "windicss/types/interfaces"
 
 export default defineConfig({
+  theme: {
+    extend: {
+      fontFamily: {
+        mono: ["JuliaMono"],
+      }
+    },
+  },
   plugins: [
     require("@windicss/plugin-scrollbar"),
     plugin(({ addComponents }) => {

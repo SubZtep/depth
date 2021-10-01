@@ -26,7 +26,7 @@ StickmanLandmarks(v-if="pose" :pose="pose")
 import { useMediaControls } from "@vueuse/core"
 import type { Results } from "public/pose"
 import { useGuiFolder } from "~/packages/datGUI"
-import { useFFmpeg } from "~/packages/FFmpeg/useFFmpeg"
+import { useFFmpeg } from "~/packages/FFmpeg"
 import { useMediapipePose } from "~/packages/PoseAI"
 import { useSupabase } from "~/packages/Supabase"
 import { useVideoFiles } from "~/composables/useVideoFiles"

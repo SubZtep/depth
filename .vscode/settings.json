@@ -1,6 +1,5 @@
 {
   "deno.enable": false,
-  // "workbench.colorTheme": "SynthWave '84",
   "typescript.tsdk": "node_modules/typescript/lib",
   "windicss.enableCodeFolding": true,
   "windicss.foldByLength": true,
@@ -11,13 +10,12 @@
   "gitlens.codeLens.recentChange.enabled": false,
   "gitlens.codeLens.authors.enabled": false,
   "gitlens.codeLens.enabled": false,
-  // "workbench.colorTheme": "Ayu Mirage Bordered",
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "scss.lint.emptyRules": "ignore",
   "less.lint.emptyRules": "ignore",
-  // "vite.autoStart": true
+  "vite.autoStart": false,
   "files.associations": {
-    ".prettierrc": "toml",
+    ".prettierrc": "yaml",
     "*.mjs": "ignore",
   },
   "jest.autoRun": "off",

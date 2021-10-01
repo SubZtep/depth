@@ -8,10 +8,12 @@ function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, stri
   if (!html.includes(" selected")) targetCtrl.setValue("")
 }
 
-dat.GUI.prototype.addReactiveSelect = function (target: Record<string, string | number | boolean>, propName: string, options: Ref<Record<string, string>>) {
-  const ctrl = this.add(target, propName, options.value)
-  watch(options, newList => updateDropdown(ctrl, newList, String(target[propName])))
-  return ctrl
+export function installReactiveSelect() {
+  dat.GUI.prototype.addReactiveSelect = function (target, propName, options) {
+    const ctrl = this.add(target, propName, options.value)
+    watch(options, newList => updateDropdown(ctrl, newList, String(target[propName])))
+    return ctrl
+  }
 }
 
 // https://threejsfundamentals.org/threejs/lessons/threejs-lights.html

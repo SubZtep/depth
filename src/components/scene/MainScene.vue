@@ -5,10 +5,9 @@ component(:is="page")
 
 <script lang="ts" setup>
 import { useGui } from "~/packages/datGUI"
-import { useActiveRouteComponent } from "../../packages/router/plugin"
+import { useActiveRouteComponent } from "~/packages/router/plugin"
 
 const page = useActiveRouteComponent()
-// console.log("WDERD", page)
 
 useGui().show()
 </script>

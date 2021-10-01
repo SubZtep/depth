@@ -26,7 +26,7 @@ export interface Route {
    */
   label?: string;
   /**
-   * Path to the page's Vue file
+   * Page component name, pattern: `./components/pages/[VALUE].vue`
    */
   component?: string;
   /**

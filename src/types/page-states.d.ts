@@ -7,10 +7,9 @@ interface DepthHeadState {
   detectionFps: number
 }
 
-interface EmptyTemplateState {
+interface  {
   test: number
 }
-
 
 interface VideoDisplayLocalsState {
   src: string

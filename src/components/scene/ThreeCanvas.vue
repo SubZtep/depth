@@ -22,7 +22,7 @@ const assets = useAssets()
 
 await assets.loadNoVideoMaterial()
 await assets.loadLeafMaterial()
-const skybox = await assets.loadSkybox(preferences.skybox as SkyboxNumber || rand(15))
+const skybox = await assets.loadSkybox(preferences.skybox || rand(15))
 const wc = ref() as Ref<HTMLCanvasElement>
 
 const ambLight = new AmbientLight()

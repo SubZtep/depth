@@ -39,10 +39,11 @@ module.exports = {
     "@typescript-eslint/ban-ts-comment": "warn",
     "@typescript-eslint/no-empty-function": "warn",
     "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "vue/require-default-prop": "off",
     indent: ["warn", 2, { "SwitchCase": 1 }],
-    "max-len": ["warn", { code: 420, tabWidth: 2 }],
-    "css/": "off",
+    // "max-len": ["warn", { code: 420, tabWidth: 2 }],
+    // "css/": "off",
     "prefer-const": "warn",
   },
 }

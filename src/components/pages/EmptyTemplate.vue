@@ -6,7 +6,7 @@ p test: {{state.test}}
 <script lang="ts" setup>
 import { useGuiFolder } from "~/packages/datGUI"
 
-const state = reactive<EmptyTemplateState>({
+const state = reactive({
   test: 0,
 })
 

@@ -1,5 +1,4 @@
-import { Mesh, Color, GridHelper, PlaneGeometry, MeshPhongMaterial, MeshBasicMaterial, DoubleSide, FrontSide } from "three"
-import * as THREE from "three"
+import { Mesh, Color, GridHelper, PlaneGeometry, MeshPhongMaterial, MeshBasicMaterial, DoubleSide } from "three"
 import { useAssets } from "../packages/ThreeJS/useAssets"
 
 const assets = useAssets()

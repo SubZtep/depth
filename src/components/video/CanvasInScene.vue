@@ -32,15 +32,22 @@ const updateTexture: LoopFn = () => {
 
 loopFns.add(updateTexture)
 
-watch(() => props.scale, scale => {
-  const width = scale * +get(aspectRatio)
-  player.scale.set(width, scale, 1)
-  player.position.set(width / 2, scale / 2, 0)
-}, { immediate: true })
+watch(
+  () => props.scale,
+  scale => {
+    const width = scale * +get(aspectRatio)
+    player.scale.set(width, scale, 1)
+    player.position.set(width / 2, scale / 2, 0)
+  },
+  { immediate: true }
+)
 
-watch(() => props.opacity, opacity => {
-  videoMaterial.opacity = opacity
-})
+watch(
+  () => props.opacity,
+  opacity => {
+    videoMaterial.opacity = opacity
+  }
+)
 
 onBeforeUnmount(() => {
   loopFns.delete(updateTexture)

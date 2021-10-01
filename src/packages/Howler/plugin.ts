@@ -19,7 +19,7 @@ const plugin: Plugin = {
   install(app, { sounds }: HowlerOptions) {
     Howler.volume(0.45)
 
-    const playSound: PlaySound = sound =>{
+    const playSound: PlaySound = sound => {
       if (!players.has(sound)) {
         players.set(sound, new Howl({ src: sounds[sound] }))
       }

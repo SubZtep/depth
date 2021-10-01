@@ -58,7 +58,7 @@ It's possible that if you don't want to use the `zx` bin, you need to add execut
   Scan and update.
 
 
-## Simple Examples
+## Page component examples
 
 1. [Empty Template](src/components/pages/EmptyTemplate.vue)
 1. [Video Display Locals](src/components/pages/VideoDisplayLocals.vue)
@@ -71,7 +71,6 @@ It's possible that if you don't want to use the `zx` bin, you need to add execut
 - [x] [**VueUse** — reactive composition utilities](https://vueuse.org/)
 - [x] [**MediaPipe** pose detection](https://google.github.io/mediapipe/solutions/pose.html)
 - [x] [**Font Awesome** _pro_ icons](https://fontawesome.com/v6.0/icons)
-- [x] chroma-js
 - [x] stats.js
 - [x] dat.gui
 - [x] three

@@ -1,5 +1,5 @@
-<template>
-</template>
+<!-- <template>
+</template> -->
 
 <script lang="ts" setup>
 import { capitalize } from "~/misc/utils"

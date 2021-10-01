@@ -13,7 +13,6 @@ export const redMaterial = new MeshPhongMaterial({ color: 0xff0000, flatShading:
 
 const materials = new Map<ColorRepresentation, MeshPhongMaterial>()
 
-
 export function keypointFactory(options: KeypointFactoryOptions): KeypointMesh {
   if (!materials.has(options.color)) {
     materials.set(options.color, new MeshPhongMaterial({ color: options.color, flatShading: true }))

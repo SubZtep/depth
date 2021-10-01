@@ -6,7 +6,7 @@ Title Scene setup
 <script lang="ts" setup>
 import { onBeforeUnmount } from "@vue/runtime-core"
 import { loopFns, singleFns } from "../../packages/ThreeJS/useRenderLoop"
-import { useGui } from "../../packages/datGUI/plugin"
+import { useGui } from "../../packages/datGUI"
 import { useAssets } from "../../packages/ThreeJS/useAssets"
 import { useInterval, set } from "@vueuse/core"
 import { AmbientLight, CubeTexture, DirectionalLight, DirectionalLightHelper } from "three"

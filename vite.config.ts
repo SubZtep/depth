@@ -2,11 +2,10 @@ import path from "path"
 import { defineConfig } from "vite"
 import Vue from "@vitejs/plugin-vue"
 import ViteComponents from "vite-plugin-components"
-import ViteFonts from "vite-plugin-fonts"
+import CrossOriginIsolation from "vite-plugin-cross-origin-isolation"
 import AutoImport from "unplugin-auto-import/vite"
 import WindiCSS from "vite-plugin-windicss"
 import { ViteToml } from "vite-plugin-toml"
-import { EnableSharedArrayBuffer } from "./src/packages/VitePlugins"
 
 export default defineConfig({
   resolve: {
@@ -36,13 +35,8 @@ export default defineConfig({
       ],
       dts: "./src/types/auto-imports.d.ts",
     }),
-    ViteFonts({
-      google: {
-        families: ["Merriweather", "Text Me One", "Hind Siliguri"],
-      },
-    }),
     WindiCSS(),
-    EnableSharedArrayBuffer(),
+    CrossOriginIsolation(),
   ],
   build: {
     cssCodeSplit: false,
