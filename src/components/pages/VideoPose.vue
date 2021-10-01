@@ -30,7 +30,7 @@ import { useFFmpeg } from "~/packages/FFmpeg/useFFmpeg"
 import { useMediapipePose } from "~/packages/PoseAI"
 import { useSupabase } from "~/packages/Supabase"
 import { useVideoFiles } from "~/composables/useVideoFiles"
-import StickmanLandmarks from "../characters/StickmanLandmarks.vue"
+// import StickmanLandmarks from "../characters/StickmanLandmarks.vue"
 import { pauseLoop, resumeLoop } from "~/packages/ThreeJS/constants"
 import { useThreeJSEventHook } from "~/packages/ThreeJS/plugin"
 
@@ -43,6 +43,7 @@ const { db } = useSupabase()
 
 const state = reactive({
   src: "",
+  url: "",
   showVideoTag: false,
   estimatePose: false,
 })
@@ -91,6 +92,7 @@ whenever(toRef(state, "src"), async () => {
 useGuiFolder(folder => {
   folder.name = "📼 FFmpeg"
   folder.add(state, "src", useVideoFiles().selectList()).name("Load video")
+  folder.add(state, "url").name("Video URL")
   folder.add(state, "showVideoTag").name("Video tag")
 })
 </script>

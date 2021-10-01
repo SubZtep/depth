@@ -5,3 +5,4 @@ src/misc/videos.ts
 .env
 .env.toml
 # .npmrc
+package-lock.json

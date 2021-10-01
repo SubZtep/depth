@@ -15,7 +15,7 @@ import Stats from "./packages/Stats"
 import Gui from "./packages/datGUI"
 import Howler from "./packages/Howler"
 import { preferencesGui } from "./preferences"
-import settings from "../my-settings.toml"
+import settings from "../SETTINGS.toml"
 import "./icons"
 
 import "virtual:windi.css"

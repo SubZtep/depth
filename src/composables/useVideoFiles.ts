@@ -1,9 +1,9 @@
-import VIDEOS, { localFilename } from "../misc/videos"
+// import VIDEOS, { localFilename } from "../misc/videos"
 
 export function useVideoFiles(moreFiles = {}) {
   const selectList = () => ({
     "": "",
-    ...Object.fromEntries(VIDEOS.map(file => [file, localFilename(file)])),
+    // ...Object.fromEntries(VIDEOS.map(file => [file, localFilename(file)])),
   })
 
   return {
