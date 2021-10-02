@@ -9,10 +9,8 @@ Suspense(v-else)
 </template>
 
 <script lang="ts" setup>
-import { useNProgress } from "@vueuse/integrations/useNProgress"
-
 const hold = ref(true)
-const { ready, start, stop } = useTimeout(3500, { controls: true, immediate: false })
+const { ready, start, stop } = useTimeout(5000, { controls: true, immediate: false })
 
 if (process.env.NODE_ENV === "production") {
   start()

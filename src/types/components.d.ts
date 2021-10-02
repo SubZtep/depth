@@ -5,7 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     App: typeof import('C:/Users/subzt/Code/depth/src/components/scene/App.vue')['default']
-    CanvasInScene: typeof import('C:/Users/subzt/Code/depth/src/components/video/CanvasInScene.vue')['default']
+    CanvasInScene: typeof import('C:/Users/subzt/Code/depth/src/components/video/CanvasInScene.ts')['default']
     Debug: typeof import('C:/Users/subzt/Code/depth/src/components/ui/Debug.vue')['default']
     EmptyTemplate: typeof import('C:/Users/subzt/Code/depth/src/components/pages/EmptyTemplate.vue')['default']
     Help: typeof import('C:/Users/subzt/Code/depth/src/components/ui/Help.vue')['default']
@@ -13,8 +13,8 @@ declare module 'vue' {
     MainScene: typeof import('C:/Users/subzt/Code/depth/src/components/scene/MainScene.vue')['default']
     SceneSetup: typeof import('C:/Users/subzt/Code/depth/src/components/pages/SceneSetup.vue')['default']
     StickmanLandmarks: typeof import('C:/Users/subzt/Code/depth/src/components/characters/StickmanLandmarks.vue')['default']
-    StickmanSimple: typeof import('C:/Users/subzt/Code/depth/src/components/characters/StickmanSimple.vue')['default']
-    SystemCheck: typeof import('C:/Users/subzt/Code/depth/src/components/scene/SystemCheck.vue')['default']
+    StickmanSimple: typeof import('C:/Users/subzt/Code/depth/src/components/characters/StickmanSimple.ts')['default']
+    SystemCheck: typeof import('C:/Users/subzt/Code/depth/src/components/scene/SystemCheck.ts')['default']
     ThreeCanvas: typeof import('C:/Users/subzt/Code/depth/src/components/scene/ThreeCanvas.vue')['default']
     TimelineCanvas: typeof import('C:/Users/subzt/Code/depth/src/components/video/TimelineCanvas.vue')['default']
     TimelineCursor: typeof import('C:/Users/subzt/Code/depth/src/components/video/TimelineCursor.vue')['default']

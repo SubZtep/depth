@@ -23,7 +23,6 @@ CanvasInScene(
 <script lang="ts" setup>
 import type { Results } from "public/pose"
 import { useGuiFolder } from "~/packages/datGUI"
-// import CanvasInScene from "~/components/video/CanvasInScene.vue"
 
 const props = defineProps({
   pose: { type: Object as PropType<Results>, required: true },

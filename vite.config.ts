@@ -43,12 +43,10 @@ export default defineConfig(({ mode, command }) => {
         useBigInt: false,
         namedExports: true,
       }),
-      Vue({
-        include: [/\.vue$/],
-      }),
+      Vue(),
       Components({
         dirs: ["src/components"],
-        extensions: ["vue"],
+        extensions: ["vue", "ts"],
         deep: true,
         dts: "src/types/components.d.ts",
       }),
