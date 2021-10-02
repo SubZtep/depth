@@ -1,5 +1,5 @@
 .dg {
-  @apply font-mono font-light text-base;
+  @apply font-mono text-base;
   color: #e0e0e0;
   user-select: none;
 }
@@ -13,22 +13,19 @@
 }
 
 .dg.main > ul {
-  display: flex;
-  flex-direction: column-reverse;
+  @apply flex flex-col-reverse;
 }
 
 .dg .property-name, .dg .c {
-  width: 50%;
+  @apply w-1/2;
 }
 
 .dg li:not(.folder) {
-  height: 28px;
-  line-height: 28px;
+  @apply flex items-center font-light tracking-wider h-8;
 }
 
 .dg .folder .title {
-  font-size: 18px;
-  color: #efefef;
+  @apply text-lg flex font-medium items-center tracking-wide h-8;
 }
 
 .dg .folder .closed .title {
@@ -36,7 +33,11 @@
 }
 
 .dg .c input[type="text"] {
-  @apply leading-none p-0;
+  @apply leading-none px-1 py-0;
+}
+
+.dg .cr > div {
+  @apply w-full;
 }
 
 .dg .cr.function {
@@ -59,16 +60,15 @@
 }
 
 .dg .cr.function .property-name {
-  width: 100%;
-  line-height: 22px;
+  @apply w-full leading-none;
 }
 
 .dg .cr.function .c {
-  display: none;
+  @apply hidden;
 }
 
 .dg .cr.string select {
-  width: 100%;
+  @apply w-full;
 }
 
 .dg.main .close-button {
@@ -79,11 +79,12 @@
 }
 
 .dg.main .closed + .close-button {
-  /* @apply !h-12 !w-16; */
-  color: #690;
-  /* background-image: linear-gradient(to left, #220, #000); */
-  opacity: 0.9;
+  transform-origin: bottom left;
+  transform: scale(0.5, 1.5);
+  background-image: radial-gradient(closest-side, #220, #000);
+  border-top-right-radius: 5rem 1rem;
   transition: 80ms;
+  color: #690;
 }
 
 .dg.main .closed + .close-button:hover {

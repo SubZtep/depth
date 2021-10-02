@@ -8,7 +8,7 @@ const guiKey = Symbol("dat.gui")
 
 const plugin: Plugin = {
   install(app, options?: GuiOptions) {
-    const gui = new dat.GUI({ autoPlace: false, width: 250, closeOnTop: false })
+    const gui = new dat.GUI({ autoPlace: false, width: 280, closeOnTop: false })
     document.body.appendChild(gui.domElement)
     installReactiveSelect()
     app.provide(guiKey, gui)

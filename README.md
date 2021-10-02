@@ -45,7 +45,7 @@ TypeScript project with the usual configs. Although there are secrets that requi
 
 ## Source code overview
 
-Most of the packages and components are auto-imported. Also there could be some unused functions.
+Most of the packages and components are auto-imported. Also there can be some unused functions.
 
 ### Notable files & folders
 
@@ -84,6 +84,10 @@ While this is not a _monorepo_ it is great to keep packages separated. Mostly wr
 
 [Pinia](https://pinia.esm.dev/) store definitions.
 
+## Demo
+
+Unstable deploy [available](https://depth.demo.land/). :finnadie:
+
 ---
-_superWIP_!noeta.\
-unlicense4tmp?-
+_super**WIP**_!noeta.\
+unlicense4tmp?-:sweat_drops:

@@ -1,5 +1,4 @@
 @import "vue-toastification/dist/index.css";
-/* @import "../public/fonts/juliamono.css"; */
 @import "vendors.css";
 
 :root {
@@ -7,28 +6,9 @@
   --terminal: #4af626;
 }
 
-/* * {
-  box-sizing: border-box;
-} */
-
-/* textarea:focus, input:focus, button:focus{
-  outline: none;
-} */
-
-/* body {
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  touch-action: pan-x pan-y;
-  background-image: repeating-conic-gradient(from 0deg, transparent 0deg 90deg, #d3d4d6 90deg 180deg);
-  background-size: 1rem 1rem;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-size: 100%;
-  line-height: 150%;
-} */
+body {
+  @apply overflow-hidden;
+}
 
 #hud, #scene, .loadingScreen {
   top: 0;

@@ -3,8 +3,6 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "windicss.enableCodeFolding": true,
   "windicss.foldByLength": true,
-  "windicss.includeLanguages": {},
-  "windicss.sortOnSave": true,
   "css.validate": false,
   "css.lint.emptyRules": "ignore",
   "gitlens.codeLens.recentChange.enabled": false,

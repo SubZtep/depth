@@ -7,15 +7,15 @@ MainScene
 
 <script lang="ts" setup>
 import { AmbientLight, DirectionalLight } from "three"
+import { useThreeJSEventHook } from "~/packages/ThreeJS/plugin"
 import { usePreferencesStore } from "~/stores/preferences"
-import { sleep, rand } from "../../misc/utils"
-import { useAssets } from "../../packages/ThreeJS/useAssets"
-import { useCanvas } from "../../packages/ThreeJS/useThreeJS"
-import { useNProgress } from "@vueuse/integrations/useNProgress"
-import { objs } from "../../packages/ThreeJS/useSceneObjects"
-import { useThreeJSEventHook } from "../../packages/ThreeJS/plugin"
-import { resumeLoop } from "../../packages/ThreeJS/constants"
-import * as sdef from "../../models/sceneDefaults"
+import { InfiniteGridHelper } from "~/models/infiniteGrid"
+import { useCanvas } from "~/packages/ThreeJS/useThreeJS"
+import { resumeLoop } from "~/packages/ThreeJS/constants"
+import { objs } from "~/packages/ThreeJS/useSceneObjects"
+import { useAssets } from "~/packages/ThreeJS/useAssets"
+import * as sdef from "~/models/sceneDefaults"
+import { sleep, rand } from "~/misc/utils"
 
 const preferences = usePreferencesStore()
 const assets = useAssets()
@@ -33,8 +33,9 @@ objs.set("dirLight", dirLight)
 const grid = sdef.grid()
 const plane = sdef.plane()
 const leafPlane = sdef.leafPlane()
+const igrid = InfiniteGridHelper()
 
-useCanvas(wc).add(ambLight, dirLight, grid, plane, leafPlane).background = skybox
+useCanvas(wc).add(ambLight, dirLight, grid, plane, leafPlane, igrid).background = skybox
 
 // transformables.push(leafPlane.name)
 

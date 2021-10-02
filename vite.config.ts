@@ -41,14 +41,14 @@ export default defineConfig(({ mode, command }) => {
     plugins: [
       ViteToml({
         useBigInt: false,
-        namedExports: true,
+        namedExports: false,
       }),
       Vue(),
       Components({
         dirs: ["src/components"],
         extensions: ["vue", "ts"],
-        deep: true,
         dts: "src/types/components.d.ts",
+        deep: true,
       }),
       AutoImport({
         include: [/\.ts$/, /\.vue$/],
