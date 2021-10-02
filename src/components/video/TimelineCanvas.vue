@@ -8,7 +8,7 @@ import { formatToTimeline } from "~/misc/utils"
 import { useHowler } from "~/packages/Howler"
 
 const toast = useToast()
-const player = useHowler()
+const player = useHowler(toast.error)
 
 const props = defineProps({
   gapSecPx: { type: Number, required: true },
@@ -27,7 +27,7 @@ const handleZoomScroll: GeneralEventListener<WheelEvent> = ({ deltaY }) => {
     set(zoom, nextZoom)
   } else {
     try {
-      player("access-denied")
+      player("denied")
     } catch {
       toast.warning("Zoom level is out of range", { timeout: 1300 })
     }

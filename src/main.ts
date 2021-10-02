@@ -1,4 +1,3 @@
-import type { Route } from "~/types/settings.d"
 import { createApp } from "vue"
 import { createPinia } from "pinia"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
@@ -39,7 +38,7 @@ createApp(App)
   .use(ThreeJs, { toastEvents: true })
   .use(Stats, { mosaic: true })
   .use(Gui, { addons: [navigationGui(routes), preferencesGui] })
-  .use(Howler, { sounds: settings.audio })
+  .use(Howler, settings.audio)
   .component("fa", FontAwesomeIcon)
   .directive("visible", Visible)
   .directive("dbvideo", DBVideo)

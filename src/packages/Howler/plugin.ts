@@ -1,47 +1,51 @@
 import type { Plugin } from "vue"
 import { Howl, Howler } from "howler"
-// import sounds from "~/../public/sounds.json"
 
 type HowlerSounds = {
   [key in string]: string
 }
 
 type HowlerOptions = {
-  sounds: HowlerSounds
+  volume?: number
+  samples: HowlerSounds
 }
 
 type PlaySound = (sound: keyof HowlerSounds) => void
 
-const howlerKey = Symbol("Howler sounds")
+const howlerKey = Symbol("HowlerSounds")
 const players = new Map<keyof HowlerSounds, Howl>()
 
 const plugin: Plugin = {
-  install(app, { sounds }: HowlerOptions) {
-    Howler.volume(0.45)
+  install(app, options: HowlerOptions) {
+    if (options.volume !== undefined) {
+      Howler.volume(options.volume)
+    }
 
     const playSound: PlaySound = sound => {
       if (!players.has(sound)) {
-        players.set(sound, new Howl({ src: sounds[sound] }))
+        players.set(sound, new Howl({ src: options.samples[sound] }))
       }
       players.get(sound)?.play()
     }
 
     const ctx = new AudioContext()
+
+    const resumeAudioContext = async () => {
+      ctx.resume()
+    }
+
     if (ctx.state === "suspended") {
       // https://goo.gl/7K7WLu
       console.warn("Audio context is suspended")
 
-      document.addEventListener(
-        "click",
-        () => {
-          ctx.resume()
-        },
-        { once: true }
-      )
+      document.addEventListener("click", resumeAudioContext, { once: true })
+      document.addEventListener("keypress", resumeAudioContext, { once: true })
 
       ctx.addEventListener(
         "statechange",
         async () => {
+          document.removeEventListener("click", resumeAudioContext)
+          document.removeEventListener("keypress", resumeAudioContext)
           console.info("Audio context state changed 🎧", ctx.state)
           await ctx.close()
           app.provide(howlerKey, playSound)
@@ -56,13 +60,16 @@ const plugin: Plugin = {
 
 export default plugin
 
-export function useHowler() {
+export function useHowler(log?: (msg: string) => void): PlaySound {
   const player = inject<PlaySound>(howlerKey)
   if (player === undefined) {
-    console.warn("Howler plugin is not installed properly")
     return () => {
-      // FIXME: once context state is running, replace with sound player function
-      throw new Error("no sound, run audio context")
+      const msg = "no sound, run audio context"
+      if (log) {
+        log(msg)
+      } else {
+        throw new Error("no sound, run audio context")
+      }
     }
   }
   return player
