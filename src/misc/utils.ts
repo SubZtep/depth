@@ -2,7 +2,6 @@ import type { MaybeRef } from "@vueuse/core"
 import type { Landmark, LandmarkList, NormalizedLandmark } from "public/pose"
 import { reactify, get, unrefElement } from "@vueuse/core"
 import { HEAD_AREA } from "./constants"
-// import VIDEOS from "./videos"
 
 export function normalizeDeviceLabel(label: string) {
   const res = label.match(/^(.*)\s\([a-z0-9]{4}:[a-z0-9]{4}\)$/)
@@ -26,11 +25,6 @@ export function sleep(ms: number) {
 
 export function selectableMedias(inputs: Ref<MediaDeviceInfo[]>) {
   return computed<Record<string, string>>(() => get(inputs).reduce((obj: Record<string, string>, d: MediaDeviceInfo) => Object.assign(obj, { [normalizeDeviceLabel(d.label)]: d.deviceId }), {}))
-}
-
-export function selectableVideos() {
-  // return ["", ...VIDEOS]
-  return [""]
 }
 
 export function isInRect(width: number, height: number, x: number, y: number) {

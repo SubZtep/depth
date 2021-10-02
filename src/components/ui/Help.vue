@@ -13,7 +13,7 @@ div(:class="$style.helpModal" v-if="show")
       td
         pre h
       td toggle dat.gui
-
+//-
   h3 Transform constrols
   table(border="1")
     tr

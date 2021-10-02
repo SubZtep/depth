@@ -7,7 +7,7 @@ export default defineConfig({
     extend: {
       fontFamily: {
         mono: ["JuliaMono"],
-      }
+      },
     },
   },
   plugins: [

@@ -5,22 +5,17 @@
 :root {
   --blood: #8a0303;
   --terminal: #4af626;
-  --video-hide-duration: 150ms;
-  --video-hide-transition: visibility var(--video-hide-duration) linear, opacity var(--video-hide-duration) linear;
-  --unicode-transition: opacity var(--video-hide-duration) linear;
-  /* font-size: calc(1vw + 1vh + .5vmin); */
-  --font-sans: 'Text Me One', sans-serif;
 }
 
-* {
+/* * {
   box-sizing: border-box;
-}
+} */
 
-textarea:focus, input:focus, button:focus{
+/* textarea:focus, input:focus, button:focus{
   outline: none;
-}
+} */
 
-body {
+/* body {
   margin: 0;
   padding: 0;
   width: 100vw;
@@ -29,13 +24,11 @@ body {
   touch-action: pan-x pan-y;
   background-image: repeating-conic-gradient(from 0deg, transparent 0deg 90deg, #d3d4d6 90deg 180deg);
   background-size: 1rem 1rem;
-  /* font: 1rem/1.6 var(--font-sans); */
-  /* font-family: "Hind Siliguri", sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 100%;
   line-height: 150%;
-}
+} */
 
 #hud, #scene, .loadingScreen {
   top: 0;

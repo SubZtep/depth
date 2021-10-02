@@ -24,7 +24,7 @@ useNProgress().start()
 .loadingScreen {
   padding: 25px;
   text-align: right;
-  font: bold 2.5rem Merriweather;
+  font: bold 2.5rem "Comic Sans MS";
   text-shadow: 1px 1px 1px #fff;
   letter-spacing: 0.3rem;
   line-break: anywhere;

@@ -12,7 +12,7 @@ onMounted(() => set(showTitle, false))
 <style module>
 .title {
   z-index: 100;
-  font-size: 1.5rem;
+  font-size: 1rem;
   text-shadow: -4px 0 var(--blood), 1px 0 #fffa, 1px 1px 2px #0063;
   position: fixed;
   transform-origin: top left;
@@ -20,6 +20,7 @@ onMounted(() => set(showTitle, false))
   left: 8px;
   user-select: none;
   pointer-events: none;
+  font-family: "Trebuchet MS";
 }
 </style>
 
@@ -31,7 +32,7 @@ onMounted(() => set(showTitle, false))
 
 .fade-enter-from,
 .fade-leave-to {
-  transform: scale(5);
+  transform: scale(4);
   opacity: 0;
 }
 </style>

@@ -35,10 +35,10 @@ export class ColorGUIHelper {
   }
 }
 
-export function makeXYZGUI(gui: dat.GUI, vector3: THREE.Vector3, name: string, onChangeFn: (value?: unknown) => void) {
-  const folder = gui.addFolder(name)
-  folder.add(vector3, "x", -10, 10).onChange(onChangeFn)
-  folder.add(vector3, "y", 0, 10).onChange(onChangeFn)
-  folder.add(vector3, "z", -10, 10).onChange(onChangeFn)
-  folder.open()
+export function makeXYZGUI(gui: dat.GUI, vector3: THREE.Vector3, name: string, onChangeFn: (value?: unknown) => void, open = false) {
+  const folder = gui.addFolder(`🆛 ${name}`)
+  folder.add(vector3, "x", -10, 10).name("X–axis").onChange(onChangeFn)
+  folder.add(vector3, "y", 0, 10).name("Y–axis").onChange(onChangeFn)
+  folder.add(vector3, "z", -10, 10).name("Z–axis").onChange(onChangeFn)
+  open && folder.open()
 }

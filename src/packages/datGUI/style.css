@@ -1,28 +1,15 @@
 .dg {
-  /* font-family: var(--font-sans); */
-  /* font-family: JuliaMono; */
-  @apply font-mono;
-  font-size: 17px;
+  @apply font-mono font-light text-base;
   color: #e0e0e0;
-  /* text-shadow: -1px -2px 0 #00690069; */
-  letter-spacing: 1px;
   user-select: none;
 }
 
 .dg.main {
-  /* grid-area: dat;
-  justify-self: start;
-  text-shadow: none; */
   position: absolute;
   bottom: 0;
   left: 0;
   transform-origin: left bottom;
   transform: scale(var(--gui-scale, 1));
-}
-
-.dg.main:hover {
-  /* text-shadow: 0px -4px 0px #aaa, 0 0 0 #000, 0px 4px var(--blood); */
-  /* transition: text-shadow 150ms ease-in-out 10s; */
 }
 
 .dg.main > ul {
@@ -42,11 +29,14 @@
 .dg .folder .title {
   font-size: 18px;
   color: #efefef;
-  /* text-shadow: -1px -1px 0 darkolivegreen; */
 }
 
-.dg .folder:first-of-type .closed .title {
+.dg .folder .closed .title {
   color: #efefef69;
+}
+
+.dg .c input[type="text"] {
+  @apply leading-none p-0;
 }
 
 .dg .cr.function {
@@ -89,8 +79,9 @@
 }
 
 .dg.main .closed + .close-button {
+  /* @apply !h-12 !w-16; */
   color: #690;
-  /* background-image: linear-gradient(to right, #220, #000); */
+  /* background-image: linear-gradient(to left, #220, #000); */
   opacity: 0.9;
   transition: 80ms;
 }
