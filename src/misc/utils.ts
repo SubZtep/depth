@@ -110,8 +110,12 @@ export function formatToTimeline(secs: number) {
   return `${String(mins).padStart(2, "0")}:${String(s).padStart(2, "0")}.000`
 }
 
-export function basename(src: string): string {
-  return src.split("/").pop()!.split("?").shift()!
+export function basename(src: string, ext = true): string {
+  let base = src.split("/").pop()!.split("?").shift()!
+  if (!ext) {
+    base = base.split(".").shift()!
+  }
+  return base
 }
 
 export function capitalize(str: string): string {

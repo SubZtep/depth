@@ -2,5 +2,6 @@ node_modules/
 public/
 dist/
 src/types/auto-imports.d.ts
+src/types/components.d.ts
 src/types/settings.d.ts
 src/misc/videos.ts

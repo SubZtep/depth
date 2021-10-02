@@ -4,7 +4,6 @@ import type { Pose, PoseConfig, ResultsListener, Results, Options } from "public
 import { reactive, ref, watch } from "vue"
 import Stats from "stats.js"
 import { useStats } from "~/packages/Stats"
-import "../../../public/pose"
 
 interface MediapipePoseOptions {
   /** Video element */
@@ -76,7 +75,7 @@ export function useMediapipePose(options: MediapipePoseOptions) {
   }
 
   tryOnMounted(async () => {
-    // @ts-ignore
+
     solution = new Poser({ locateFile: fn => `/pose/${fn}` } as PoseConfig)
     solution.setOptions({
       modelComplexity: 1,

@@ -1,6 +1,5 @@
 node_modules/
 dist/
-public/videos/
 src/misc/videos.ts
 .env
 .npmrc

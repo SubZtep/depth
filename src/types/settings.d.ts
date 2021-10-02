@@ -10,7 +10,8 @@
  */
 export interface Settings {
   router: Router;
-  sounds?: Sound;
+  audio?: AudioSettings;
+  video?: VideoSettings;
 }
 export interface Router {
   /**
@@ -41,9 +42,9 @@ export interface Route {
    */
   lookAt?: [number, number, number];
 }
-export interface Sound {
+export interface AudioSettings {
   /**
-   * Master volume of the sounds
+   * Master volume
    */
   volume?: number;
   /**
@@ -52,4 +53,10 @@ export interface Sound {
   samples?: {
     denied?: string;
   };
+}
+export interface VideoSettings {
+  /**
+   * Attached video clips
+   */
+  clips?: string[];
 }

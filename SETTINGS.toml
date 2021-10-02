@@ -18,8 +18,11 @@ component = "EmptyTemplate"
 position = [-30, 2, -10]
 lookAt = [30, 2, -20]
 
-[sounds]
+[audio]
 volume = 0.45
 
-[sounds.samples]
-denied = "/sounds/249300__suntemple__access-denied.wav"
+[audio.samples]
+denied = "sounds/249300__suntemple__access-denied.wav"
+
+[video]
+clips = ["videos/yoga2.webm"]

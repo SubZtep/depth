@@ -7,8 +7,6 @@ div(
 </template>
 
 <script lang="ts" setup>
-import { useMouseInElement, useMousePressed } from "@vueuse/core"
-
 const emit = defineEmits(["select-time"])
 
 const props = defineProps({
@@ -17,18 +15,9 @@ const props = defineProps({
 })
 
 const cursor = ref<HTMLDivElement>()
+
 const { elementX, isOutside } = useMouseInElement(props.wrapper)
 const left = computed(() => get(elementX) + get(props.wrapper).scrollLeft)
-
-// const { distanceX, isSwiping } = usePointerSwipe(props.wrapper, { // move2parent
-//   onSwipeStart(e: PointerEvent) {
-//     e.stopPropagation()
-//   },
-//   onSwipe(e: PointerEvent) {
-//     // const speed = get(wrapper)!.clientWidth / get(notches)!.width
-//     // get(wrapper)!.scrollLeft -= (distanceX.value * speed) / (200 * e.pressure)
-//   },
-// })
 
 const { pressed } = useMousePressed({ target: props.wrapper })
 

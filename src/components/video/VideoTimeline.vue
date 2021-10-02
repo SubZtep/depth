@@ -19,10 +19,10 @@ div(:class="$style.videoTimeline" v-stop-propagation)
       div(:class="$style.detected") detected
 
     div(ref="timeline" :class="{ [$style.timeline]: true, grabbing: isSwiping }")
-      template(v-if="timeline")
+      template(v-if="timeline !== null")
 
         TimelineCursor(
-          :wrapper="timeline"
+          :wrapper="timelineFn"
           :gap-sec-px="gapSecPx"
           @select-time="(time: number) => props.controls.currentTime.value = time")
 
@@ -34,7 +34,7 @@ div(:class="$style.videoTimeline" v-stop-propagation)
           v-model:zoom="state.zoom"
           :gap-sec-px="gapSecPx"
           :class="$style.ruler"
-          :wrapper="timeline"
+          :wrapper="timelineFn"
           :duration="controls.duration"
           :frame-times="props.ff.keypoints")
 
@@ -47,6 +47,7 @@ div(:class="$style.videoTimeline" v-stop-propagation)
         div(:class="$style.detected")
 
 Debug
+  h1 {{typeof timeline}}
   div zoom: {{state.zoom}}
   div duration: {{props.controls.duration}}
   div currentTime: {{props.controls.currentTime}}
@@ -54,17 +55,19 @@ Debug
 </template>
 
 <script lang="ts" setup>
+import type { UseMediaControlsReturn } from "@vueuse/core"
 import { useFFmpeg } from "~/packages/FFmpeg"
 import ImgMemfs from "./ImgMemfs.vue"
 
 const props = defineProps({
   controls: { type: Object as PropType<UseMediaControlsReturn>, required: true },
-  ff: { type: Object as PropType<ReturnType<typeof useFFmpeg>>, required: true },
+  ff: { type: Object as PropType<AsyncReturnType<typeof useFFmpeg>>, required: true },
   estimatePose: { type: Boolean, required: true },
 })
 
 const estimatePose = useVModel(props, "estimatePose")
-const timeline = ref<HTMLDivElement>()
+const timeline = ref<HTMLDivElement | null>(null)
+const timelineFn = computed(() => timeline as Ref<HTMLDivElement>)
 let canvas: HTMLCanvasElement
 
 const state = reactive({

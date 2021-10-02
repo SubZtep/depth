@@ -11,7 +11,7 @@ interface FFmpegOptions {
   onKeypointsReady?: () => void
 }
 
-export function useFFmpeg(options: FFmpegOptions) {
+export async function useFFmpeg(options: FFmpegOptions) {
   const ffmpeg = createFFmpeg(options.options)
   const dir = "/depth/"
   const memfsSrc = () => `${dir}${basename(get(options.src))}.webm`
@@ -19,15 +19,20 @@ export function useFFmpeg(options: FFmpegOptions) {
   /** keyframe timestamps */
   const keypoints = ref<number[]>([])
 
-  invoke(async () => {
-    try {
-      await ffmpeg.load()
-      // @ts-ignore
-      ffmpeg.FS("mkdir", dir)
-    } catch (e: any) {
-      throw new Error(e.message)
-    }
-  })
+  await ffmpeg.load()
+
+  // @ts-ignore
+  ffmpeg.FS("mkdir", dir)
+
+  // invoke(async () => {
+  //   try {
+  //     await ffmpeg.load()
+  //     // @ts-ignore
+  //     ffmpeg.FS("mkdir", dir)
+  //   } catch (e: any) {
+  //     throw new Error(e.message)
+  //   }
+  // })
 
   tryOnUnmounted(() => {
     unlinkAll()

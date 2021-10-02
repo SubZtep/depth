@@ -15,7 +15,7 @@ import Stats from "./packages/Stats"
 import Gui from "./packages/datGUI"
 import Howler from "./packages/Howler/plugin"
 import { preferencesGui } from "./preferences"
-import settings from "../SETTINGS.toml"
+import settings from "~/../SETTINGS.toml"
 import "./icons"
 
 import "virtual:windi.css"
@@ -39,7 +39,7 @@ createApp(App)
   .use(ThreeJs, { toastEvents: true })
   .use(Stats, { mosaic: true })
   .use(Gui, { addons: [navigationGui(routes), preferencesGui] })
-  .use(Howler, { sounds: settings.sounds })
+  .use(Howler, { sounds: settings.audio })
   .component("fa", FontAwesomeIcon)
   .directive("visible", Visible)
   .directive("dbvideo", DBVideo)

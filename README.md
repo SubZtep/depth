@@ -65,7 +65,7 @@ While this is not a _monorepo_ it is great to keep packages separated. There are
 
 ### :file_folder: `/scripts`
 
-To be able to excecute scrThe simpliest way to execute a local script is that install the [**`zx`**](https://github.com/google/zx) package globally:
+The simpliest way to execute a local script is that install the [**`zx`**](https://github.com/google/zx) package globally:
 
 ```sh
 $ npm i -g zx

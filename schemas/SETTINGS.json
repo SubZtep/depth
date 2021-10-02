@@ -59,13 +59,13 @@
       "required": ["routes"],
       "additionalProperties": false
     },
-    "sounds": {
-      "title": "Sound",
+    "audio": {
+      "title": "AudioSettings",
       "type": "object",
       "properties": {
         "volume": {
           "type": "number",
-          "description": "Master volume of the sounds",
+          "description": "Master volume",
           "minimum": 0,
           "maximum": 1
         },
@@ -78,6 +78,21 @@
             }
           },
           "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "video": {
+      "title": "VideoSettings",
+      "type": "object",
+      "properties": {
+        "clips": {
+          "type": "array",
+          "description": "Attached video clips",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
         }
       },
       "additionalProperties": false

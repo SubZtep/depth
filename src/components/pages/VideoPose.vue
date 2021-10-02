@@ -1,7 +1,9 @@
 <template lang="pug">
 Title Video Display Pose
 
-Debug(v-if="!state.src") {{state}}
+//- Debug {{ state }} {{ videos}}
+//- Debug {{videos}}
+//- //- Debug(v-if="!state.src") {{state}}
 
 video(
   ref="video"
@@ -14,7 +16,7 @@ video(
   muted)
 
 VideoTimeline(
-  v-if="state.src"
+  v-if="state.src && ff.ffmpeg.isLoaded()"
   v-model:estimatePose="state.estimatePose"
   :controls="controls"
   :ff="ff")
@@ -29,10 +31,11 @@ import { useGuiFolder } from "~/packages/datGUI"
 import { useFFmpeg } from "~/packages/FFmpeg"
 import { useMediapipePose } from "~/packages/PoseAI"
 import { useSupabase } from "~/packages/Supabase"
-import { useVideoFiles } from "~/composables/useVideoFiles"
 // import StickmanLandmarks from "../characters/StickmanLandmarks.vue"
 import { pauseLoop, resumeLoop } from "~/packages/ThreeJS/constants"
 import { useThreeJSEventHook } from "~/packages/ThreeJS/plugin"
+import settings from "~/../SETTINGS.toml"
+import { basename } from "~/misc/utils"
 
 const threeJs = useThreeJSEventHook()
 const toast = useToast()
@@ -41,14 +44,15 @@ const video = ref() as Ref<HTMLVideoElement>
 const controls = useMediaControls(video)
 const { db } = useSupabase()
 
+const videos = ref(Object.fromEntries(settings.video?.clips?.map(url => [basename(url, false), url]) ?? []))
+
 const state = reactive({
-  src: "",
-  url: "",
-  showVideoTag: false,
+  src: settings.video?.clips?.[0] ?? "",
+  showVideoTag: true,
   estimatePose: false,
 })
 
-const ff = useFFmpeg({
+const ff = await useFFmpeg({
   src: toRef(state, "src"),
   options: { progress: ({ ratio }) => set(progress, ratio), log: false },
   onKeypointsReady: () => void toast.info("Keypoints ready"),
@@ -91,8 +95,15 @@ whenever(toRef(state, "src"), async () => {
 
 useGuiFolder(folder => {
   folder.name = "📼 FFmpeg"
-  folder.add(state, "src", useVideoFiles().selectList()).name("Load video")
-  folder.add(state, "url").name("Video URL")
+  const src = folder.add(state, "src", get(videos)).name("Load video")
+  const url = folder.add({ url: "" }, "url").name("Video URL").onFinishChange(v => {
+    if (v) {
+      (get(videos))[basename(v, false)] = v
+      src.options(get(videos))
+      url.setValue("")
+    }
+  })
+  url.domElement.querySelector("input")!.placeholder = "blur to add"
   folder.add(state, "showVideoTag").name("Video tag")
 })
 </script>
