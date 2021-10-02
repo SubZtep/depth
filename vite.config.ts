@@ -9,7 +9,9 @@ import { ViteToml } from "vite-plugin-toml"
 import type { BuildOptions } from "vite"
 
 export default defineConfig(({ mode, command }) => {
-  let build: BuildOptions | undefined = undefined
+  let build: BuildOptions = {
+    sourcemap: true,
+  }
 
   if (mode === "production" && command === "build") {
     build = {

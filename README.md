@@ -41,7 +41,13 @@ TypeScript project with the usual configs. Although there are secrets that requi
 
 2. Configure access for [Font Awesome pro](https://fontawesome.com/v6.0/docs/web/setup/packages#_1-configure-access) _(for now)_.
 
-3. Run `npm install`.
+
+3. Make it [cross-origin isolated](https://developer.chrome.com/blog/enabling-shared-array-buffer/) for _SharedArrayBuffer_. The _Vite_
+dev server is configured to automatically send all the necessary headers.
+
+4. Run `npm install`.
+
+5. Be sure the local `public/pose` folder is an up-to-date mirror to the [`@mediapipe/pose`](https://www.npmjs.com/package/@mediapipe/pose) package.
 
 ## Source code overview
 
@@ -87,6 +93,8 @@ While this is not a _monorepo_ it is great to keep packages separated. Mostly wr
 ## Demo
 
 Unstable deploy [available](https://depth.demo.land/). :finnadie:
+
+> [Google Chrome&trade; Canary](https://www.google.com/intl/en_uk/chrome/canary/) recommended.
 
 ---
 _super**WIP**_!noeta.\
