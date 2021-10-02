@@ -1,4 +1,5 @@
-import type { IconPack, IconDefinition } from "@fortawesome/fontawesome-common-types"
+// import type { IconPack, IconDefinition } from "@fortawesome/fontawesome-common-types"
+import type { IconDefinition } from "@fortawesome/fontawesome-common-types"
 import { library } from "@fortawesome/fontawesome-svg-core"
 // import { fad } from "@fortawesome/pro-duotone-svg-icons"
 // import { fal } from "@fortawesome/pro-light-svg-icons"
@@ -18,7 +19,7 @@ import { faMagnifyingGlassMinus } from "@fortawesome/pro-regular-svg-icons/faMag
 import { faTvRetro } from "@fortawesome/pro-solid-svg-icons/faTvRetro"
 import { faTvAlt } from "@fortawesome/pro-regular-svg-icons/faTvAlt"
 
-library.add(faTimer)
+library.add(faTimer as IconDefinition)
 library.add(faMagnifyingGlassPlus as IconDefinition)
 library.add(faMagnifyingGlassMinus as IconDefinition)
 library.add(faTvRetro as IconDefinition)

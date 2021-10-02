@@ -1,6 +1,5 @@
 node_modules/
 dist/
-src/misc/videos.ts
 .env
 .npmrc
 package-lock.json
