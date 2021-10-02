@@ -1,17 +1,16 @@
 import dat from "dat.gui"
 
 function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, string>, selected: string) {
-  // eslint-disable-next-line quotes
-  let html = `<option value=""></option>`
-  html += Object.entries(list).map(([key, val]) => `<option value="${val}"${val === selected && " selected"}>${key}</option>`)
+  const html = Object.entries(list)
+    .map(([key, val]) => `<option value="${val}"${val === selected ? " selected" : ""}>${key}</option>`)
+    .join("")
   targetCtrl.domElement.children[0].innerHTML = html
-  if (!html.includes(" selected")) targetCtrl.setValue("")
 }
 
 export function installReactiveSelect() {
   dat.GUI.prototype.addReactiveSelect = function (target, propName, options) {
     const ctrl = this.add(target, propName, options.value)
-    watch(options, newList => updateDropdown(ctrl, newList, String(target[propName])))
+    watch(options, newList => updateDropdown(ctrl, newList, String(target[propName])), { deep: true })
     return ctrl
   }
 }

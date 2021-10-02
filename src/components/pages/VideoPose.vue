@@ -1,13 +1,10 @@
 <template lang="pug">
 Title Video Display Pose
 
-//- Debug {{ state }} {{ videos}}
-//- Debug {{videos}}
-//- //- Debug(v-if="!state.src") {{state}}
-
 video(
   ref="video"
   :src="state.src"
+  @error="onVideoError"
   :class="$style.videoTag"
   v-visible="state.showVideoTag"
   v-css-aspect-ratio="`--video-aspect-ratio`"
@@ -52,6 +49,13 @@ const state = reactive({
   estimatePose: false,
 })
 
+const onVideoError = () => {
+  delete get(videos)[state.src]
+  toast.error(`${state.src} load error`)
+  const srcs = Object.values(get(videos))
+  state.src = srcs.length > 0 ? srcs[0] : ""
+}
+
 const ff = await useFFmpeg({
   src: toRef(state, "src"),
   options: { progress: ({ ratio }) => set(progress, ratio), log: false },
@@ -95,12 +99,12 @@ whenever(toRef(state, "src"), async () => {
 
 useGuiFolder(folder => {
   folder.name = "📼 FFmpeg"
-  const src = folder.add(state, "src", get(videos)).name("Load video")
+  folder.addReactiveSelect(state, "src", videos).name("Load video")
   const url = folder.add({ url: "" }, "url").name("Video URL").onFinishChange(v => {
     if (v) {
       (get(videos))[basename(v, false)] = v
-      src.options(get(videos))
       url.setValue("")
+      state.src = v
     }
   })
   url.domElement.querySelector("input")!.placeholder = "blur to add"

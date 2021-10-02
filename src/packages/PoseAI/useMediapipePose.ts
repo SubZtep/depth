@@ -20,7 +20,6 @@ interface MediapipePoseOptions {
 }
 
 let dstat: Stats.Panel | undefined
-const Poser = window.Pose
 
 export function useMediapipePose(options: MediapipePoseOptions) {
   const { video, estimateReturns = true, onDetectorReady } = options
@@ -75,8 +74,8 @@ export function useMediapipePose(options: MediapipePoseOptions) {
   }
 
   tryOnMounted(async () => {
-
-    solution = new Poser({ locateFile: fn => `/pose/${fn}` } as PoseConfig)
+    // @ts-ignore
+    solution = new window.Pose({ locateFile: fn => `/pose/${fn}` } as PoseConfig)
     solution.setOptions({
       modelComplexity: 1,
       smoothLandmarks: true,

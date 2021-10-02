@@ -1,23 +1,17 @@
 import type { Plugin } from "vue"
 import dat from "dat.gui"
-// import "./extend"
+import { installReactiveSelect } from "./extend"
 import "./style.css"
 
 type FolderInit = (folder: dat.GUI) => void
-
-const gui = new dat.GUI({
-  autoPlace: false,
-  width: 250,
-  closeOnTop: false,
-})
-
-document.body.appendChild(gui.domElement)
 const guiKey = Symbol("dat.gui")
 
 const plugin: Plugin = {
   install(app, options?: GuiOptions) {
+    const gui = new dat.GUI({ autoPlace: false, width: 250, closeOnTop: false })
+    document.body.appendChild(gui.domElement)
+    installReactiveSelect()
     app.provide(guiKey, gui)
-
     options?.addons?.reverse().forEach(addon => addon.call(null, gui))
   },
 }
@@ -25,25 +19,19 @@ const plugin: Plugin = {
 export default plugin
 
 export function useGui(options?: { close?: boolean }) {
-  const g = inject<dat.GUI>(guiKey)!
+  const gui = inject<dat.GUI>(guiKey)!
   if (options?.close !== undefined) {
-    g[options.close ? "close" : "open"]()
+    gui[options.close ? "close" : "open"]()
   }
-  return g
+  return gui
 }
 
 let cx = 0
 
 export function useGuiFolder(init: FolderInit): any {
-  const g = inject<dat.GUI>(guiKey)!
+  const gui = inject<dat.GUI>(guiKey)!
   const folderName = `f${++cx}`
-  let folder: dat.GUI = g.addFolder(folderName)
-
-  // try {
-  //   folder = g.addFolder(folderName)
-  // } catch (e) {
-  //   console.error("Add GUI folder", e)
-  // }
+  const folder = gui.addFolder(folderName)
 
   onMounted(() => {
     folder.open()
@@ -52,7 +40,7 @@ export function useGuiFolder(init: FolderInit): any {
 
   onBeforeUnmount(() => {
     gui.removeFolder(folder)
-    delete g.__folders[folderName]
+    delete gui.__folders[folderName]
     cx--
   })
 }
