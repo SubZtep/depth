@@ -1,4 +1,4 @@
-import { logLoaded } from "../../misc/console"
+import { logLoaded } from "~/misc/console"
 import { CubeTexture, DoubleSide, LinearFilter, TextureLoader, MeshBasicMaterial, CubeTextureLoader, CubeReflectionMapping } from "three"
 import { DDSLoader } from "three/examples/jsm/loaders/DDSLoader"
 
@@ -19,7 +19,7 @@ export function useAssets() {
         resolve(texture)
       }
 
-      const path = `/Classic Skybox/${String(nr).padStart(2, "0")}/`
+      const path = `/skybox/${String(nr).padStart(2, "0")}/`
       const urls = ["RT", "LF", "UP", "DN", "BK", "FR"].map(side => `sky${nr}_${side}.jpg`)
       loader.setPath(path).load(urls, onLoad, onProgress, onError)
     })
