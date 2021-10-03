@@ -7,12 +7,14 @@ div(
 </template>
 
 <script lang="ts" setup>
-const emit = defineEmits(["select-time"])
+const emit = defineEmits<{
+  (e: "select-time", time: number): void
+}>()
 
-const props = defineProps({
-  gapSecPx: { type: Number, required: true },
-  wrapper: { type: Object as PropType<Ref<HTMLDivElement>>, required: true },
-})
+const props = defineProps<{
+  gapSecPx: number
+  wrapper: Ref<HTMLDivElement>
+}>()
 
 const cursor = ref<HTMLDivElement>()
 

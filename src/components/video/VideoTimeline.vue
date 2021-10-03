@@ -59,11 +59,11 @@ import type { UseMediaControlsReturn } from "@vueuse/core"
 import { useFFmpeg } from "~/packages/FFmpeg"
 import ImgMemfs from "./ImgMemfs.vue"
 
-const props = defineProps({
-  controls: { type: Object as PropType<UseMediaControlsReturn>, required: true },
-  ff: { type: Object as PropType<AsyncReturnType<typeof useFFmpeg>>, required: true },
-  estimatePose: { type: Boolean, required: true },
-})
+const props = defineProps<{
+  controls: UseMediaControlsReturn
+  ff: AsyncReturnType<typeof useFFmpeg>
+  estimatePose: boolean
+}>()
 
 const estimatePose = useVModel(props, "estimatePose")
 const timeline = ref<HTMLDivElement | null>(null)

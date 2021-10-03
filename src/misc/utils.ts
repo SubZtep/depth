@@ -104,7 +104,7 @@ export function formatToTimeline(secs: number) {
   return `${String(mins).padStart(2, "0")}:${String(s).padStart(2, "0")}.000`
 }
 
-export function basename(src: string, ext = true): string {
+export function basename(src: string, ext = false): string {
   let base = src.split("/").pop()!.split("?").shift()!
   if (!ext) {
     base = base.split(".").shift()!
@@ -117,5 +117,5 @@ export function capitalize(str: string): string {
 }
 
 export function urlsToSelectableObjects(urls: string[]): Record<string, string> {
-  return urls.reduce((obj, url) => Object.assign(obj, { [basename(url, false)]: url }), {})
+  return urls.reduce((obj, url) => Object.assign(obj, { [basename(url)]: url }), {})
 }

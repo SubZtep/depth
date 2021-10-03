@@ -20,7 +20,7 @@ export function navigationGui(routes: Route[]) {
 export function normalizeRoutes(routes: Route[]) {
   return routes.map((route: Route) => {
     const parts = route.path.split("-").map(part => capitalize(part))
-    const normalizedRoutes: any = {
+    const normalizedRoutes: Route = {
       label: route.label ?? parts.join(" "),
       path: route.path,
       component: defineAsyncComponent(() => import(`../../components/pages/${route.component ?? parts.join("")}.vue`)),

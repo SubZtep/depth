@@ -24,9 +24,7 @@ CanvasInScene(
 import type { Results } from "public/pose"
 import { useGuiFolder } from "~/packages/datGUI"
 
-const props = defineProps({
-  pose: { type: Object as PropType<Results>, required: true },
-})
+const props = defineProps<{ pose: Results }>()
 
 const state = reactive({
   showLandmarks: true,

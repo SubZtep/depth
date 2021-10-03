@@ -32,6 +32,7 @@ import { pauseLoop, resumeLoop } from "~/packages/ThreeJS/constants"
 import { useThreeJSEventHook } from "~/packages/ThreeJS/plugin"
 import settings from "~/../SETTINGS.toml"
 import { basename, sleep, urlsToSelectableObjects } from "~/misc/utils"
+import { VALID_VIDEO_URL_FOR_FFMPEG } from "~/misc/regexp"
 
 const threeJs = useThreeJSEventHook()
 const toast = useToast()
@@ -45,7 +46,6 @@ const state = reactive({
   showVideoTag: false, //true,
   estimatePose: false,
 })
-
 
 const videos = ref(urlsToSelectableObjects(settings.video?.clips ?? []))
 
@@ -101,31 +101,14 @@ useGuiFolder(folder => {
   folder.name = "📼 FFmpeg"
   folder.addReactiveSelect(state, "src", videos).name("Load video")
 
-  const url = folder.addTextInput(/^\S+\.webm|mkv|mp4|ogv$/).name("Video URL")
-    .onChange(v => {
-      console.log("onChange", v)
-    })
+  folder
+    .addTextInput(VALID_VIDEO_URL_FOR_FFMPEG, "blur to add")
+    .name("Video URL")
     .onFinishChange(v => {
-      console.log("onFinishChange", v)
+      get(videos)[basename(v)] = v
+      state.src = v
     })
 
-  // const url = folder.add({ url: "" }, "url").name("Video URL")
-  //   .onChange(v => {
-  //     console.log("**********", v)
-  //   })
-  //   .onFinishChange(v => {
-  //     console.log("==========", v)
-  //   })
-
-
-  // const url = folder.add({ url: "" }, "url").name("Video URL").onFinishChange(v => {
-  //   if (v) {
-  //     (get(videos))[basename(v, false)] = v
-  //     url.setValue("")
-  //     state.src = v
-  //   }
-  // })
-  url.domElement.querySelector("input")!.placeholder = "blur to add"
   folder.add(state, "showVideoTag").name("Show video")
   folder.add(state, "estimatePose").name("Estimate pose")
 })

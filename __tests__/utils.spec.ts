@@ -18,8 +18,8 @@ describe("device label parse", () => {
 describe("string functions", () => {
   test("basename", () => {
     const urls = ["hello.html", "/var/hello.html", "/var/hello.html?x"]
-    urls.forEach(url => void expect(utils.basename(url)).toBe("hello.html"))
-    urls.forEach(url => void expect(utils.basename(url, false)).toBe("hello"))
+    urls.forEach(url => void expect(utils.basename(url, true)).toBe("hello.html"))
+    urls.forEach(url => void expect(utils.basename(url)).toBe("hello"))
     expect(utils.basename("")).toBe("")
   })
 })

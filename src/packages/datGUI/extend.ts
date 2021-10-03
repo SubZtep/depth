@@ -8,16 +8,23 @@ function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, stri
   targetCtrl.domElement.children[0].innerHTML = html
 }
 
-export function extendControllers() {
-  dat.GUI.prototype.addReactiveSelect = function (target, propName, options) {
+export function applyReactiveSelect(guiPrototype: dat.GUI) {
+  guiPrototype.addReactiveSelect = function (target, propName, options) {
     const ctrl = this.add(target, propName, options.value)
     watch(options, newList => updateDropdown(ctrl, newList, String(target[propName])), { deep: true })
     return ctrl
   }
+}
 
-  dat.GUI.prototype.addTextInput = function (filterRegexp: RegExp) {
+export function applyTextInput(guiPrototype: dat.GUI) {
+  guiPrototype.addTextInput = function (filterRegexp, placeholder, clearOnFinish = true) {
     const obj = reactive({ value: "" })
     const ctrl = this.add(obj, "value")
+    const input = ctrl.domElement.children[0] as HTMLInputElement
+
+    if (placeholder) {
+      input.placeholder = placeholder
+    }
 
     let originalChange: ChangeCallback | undefined = undefined
     let originalFinishChange: ChangeCallback | undefined = undefined
@@ -27,7 +34,7 @@ export function extendControllers() {
       value => originalChange!.call(ctrl, value),
       {
         immediate: false,
-        eventFilter: invoke => filterRegexp.test(obj.value) && invoke()
+        eventFilter: invoke => filterRegexp.test(obj.value) && invoke(),
       }
     )
 
@@ -41,9 +48,12 @@ export function extendControllers() {
 
     ctrl.onFinishChange = (fnc: ChangeCallback) => {
       originalFinishChange = fnc
-      dom.bind(ctrl.domElement.children[0], "blur", () => {
+      dom.bind(input, "blur", () => {
         if (filterRegexp.test(obj.value)) {
           originalFinishChange!.call(ctrl, obj.value)
+          if (clearOnFinish) {
+            input.value = ""
+          }
         }
       })
       return ctrl

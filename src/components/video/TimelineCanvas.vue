@@ -10,12 +10,12 @@ import { useHowler } from "~/packages/Howler"
 const toast = useToast()
 const player = useHowler(toast.error)
 
-const props = defineProps({
-  gapSecPx: { type: Number, required: true },
-  wrapper: { type: Object as PropType<Ref<HTMLDivElement>>, required: true },
-  duration: { type: Object as PropType<Ref<number>>, required: true },
-  zoom: { type: Number, required: true },
-})
+const props = defineProps<{
+  gapSecPx: number
+  wrapper: Ref<HTMLDivElement>
+  duration: Ref<number>
+  zoom: number
+}>()
 
 const zoom = useVModel(props, "zoom")
 const canvas = ref<HTMLCanvasElement | null>(null)

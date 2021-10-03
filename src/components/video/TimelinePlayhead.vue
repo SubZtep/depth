@@ -6,10 +6,10 @@ div(
 </template>
 
 <script lang="ts" setup>
-const props = defineProps({
-  gapSecPx: { type: Number, required: true },
-  currentTime: { type: Object as PropType<Ref<number>>, required: true },
-})
+const props = defineProps<{
+  gapSecPx: number
+  currentTime: Ref<number>
+}>()
 
 const left = computed(() => props.gapSecPx * get(props.currentTime))
 </script>

@@ -9,8 +9,10 @@ declare namespace dat {
     /**
      * Trigger `onChange` and `onFinishChange` callbacks without the object to be manipulated
      * @param filterRegexp Only trigger callbacks when input value matching with it
+     * @param placeholder Input element placeholder
+     * @param clearOnFinish Clear input element value on blur event
      */
-    addTextInput: (filterRegexp: RegExp) => GUIController
+    addTextInput: (filterRegexp: RegExp, placeholder?: string, clearOnFinish?: boolean) => GUIController
   }
 }
 
