@@ -14,7 +14,7 @@ const exists = ref(true)
   @apply scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300;
 
   position: fixed;
-  left: 260px;
+  left: 360px;
   bottom: 0;
   max-height: 300px;
 

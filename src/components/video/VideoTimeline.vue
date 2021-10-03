@@ -46,7 +46,7 @@ div(:class="$style.videoTimeline" v-stop-propagation)
 
         div(:class="$style.detected")
 
-Debug
+//- Debug
   h1 {{typeof timeline}}
   div zoom: {{state.zoom}}
   div duration: {{props.controls.duration}}

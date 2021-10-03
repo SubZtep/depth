@@ -3,12 +3,11 @@ import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
 import { basename } from "~/misc/utils"
 import { pngOnly, noDotFiles } from "~/misc/filters"
 import { get } from "@vueuse/core"
-import { VIDEO_KEYFRAME_IMAGES } from "./commands"
+import { KEYFRAME_TIMESTAMPS_LOG, KEYFRAME_IMAGES, KEYFRAME_TIMESTAMPS } from "./commands"
 
 interface FFmpegOptions {
   src: Ref<string>
   options?: CreateFFmpegOptions
-  onKeypointsReady?: () => void
 }
 
 export async function useFFmpeg(options: FFmpegOptions) {
@@ -18,6 +17,8 @@ export async function useFFmpeg(options: FFmpegOptions) {
 
   /** keyframe timestamps */
   const keypoints = ref<number[]>([])
+  /** keyframe preview images */
+  const thumbnails = ref<string[]>([])
 
   await ffmpeg.load()
 
@@ -35,37 +36,36 @@ export async function useFFmpeg(options: FFmpegOptions) {
     }
   })
 
-  watch(
+  ffmpeg.setLogger(({ message }) => {
+    const found = message.match(KEYFRAME_TIMESTAMPS_LOG)
+    if (found === null) return
+    get(keypoints).push(parseFloat(found[1]))
+  })
+
+  const { resume, pause, isActive } = pausableWatch(
     options.src,
-    async (newSrc, oldSrc) => {
-      const src = memfsSrc()
-      if (oldSrc) {
-        unlinkAll()
-      }
-      if (newSrc) {
-        ffmpeg.FS("writeFile", src, await fetchFile(newSrc))
-        await ffmpeg!.run(...VIDEO_KEYFRAME_IMAGES(memfsSrc(), dir))
-        set(
-          keypoints,
-          ffmpeg
-            // @ts-ignore
-            .FS("readdir", dir)
-            // @ts-ignore
-            .filter(pngOnly)
-            .map((file: string) => Number(file.split(".")[0]))
-        )
-        options.onKeypointsReady?.call(null)
-      }
+    async newSrc => {
+      pause()
+
+      const videoSrc = memfsSrc()
+      ffmpeg.FS("writeFile", videoSrc, await fetchFile(newSrc))
+
+      await ffmpeg.run(...KEYFRAME_TIMESTAMPS(videoSrc))
+      await ffmpeg.run(...KEYFRAME_IMAGES(videoSrc, dir))
+      // @ts-ignore
+      set(thumbnails, ffmpeg.FS("readdir", dir).filter(pngOnly))
+
+      resume()
     },
-    { immediate: true }
+    {
+      immediate: true,
+      eventFilter: invoke => get(options.src).length > 0 && invoke(),
+    }
   )
 
   const unlinkAll = () => {
-    const files = ffmpeg
-      // @ts-ignore
-      .FS("readdir", dir)
-      // @ts-ignore
-      .filter(noDotFiles)
+    // @ts-ignore
+    const files = ffmpeg.FS("readdir", dir).filter(noDotFiles)
     set(keypoints, [])
     for (const file of files) {
       ffmpeg.FS("unlink", `${dir}${file}`)
@@ -76,7 +76,9 @@ export async function useFFmpeg(options: FFmpegOptions) {
 
   return {
     ffmpeg,
+    running: not(isActive),
     keypoints,
+    thumbnails,
     getKeyframeFilename,
   }
 }

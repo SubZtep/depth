@@ -1,6 +1,11 @@
 <template lang="pug">
 Title Video Display Pose
 
+Debug
+  .flex
+    div {{ff.keypoints}}
+    div {{ff.thumbnails}}
+
 video(
   ref="video"
   :src="state.src"
@@ -59,8 +64,9 @@ const onVideoError = () => {
 const ff = await useFFmpeg({
   src: toRef(state, "src"),
   options: { progress: ({ ratio }) => set(progress, ratio), log: false },
-  onKeypointsReady: () => void toast.info("Keypoints ready"),
 })
+
+watch(ff.running, isRunning => void toast.info(`FFmpeg is ${isRunning ? "running" : "not running"}`))
 
 const { estimatePose } = useMediapipePose({
   video,
@@ -100,15 +106,13 @@ watchWithFilter(
 useGuiFolder(folder => {
   folder.name = "📼 FFmpeg"
   folder.addReactiveSelect(state, "src", videos).name("Load video")
-
   folder
     .addTextInput(VALID_VIDEO_URL_FOR_FFMPEG, "blur to add")
     .name("Video URL")
-    .onFinishChange(v => {
-      get(videos)[basename(v)] = v
-      state.src = v
+    .onFinishChange(url => {
+      get(videos)[basename(url)] = url
+      state.src = url
     })
-
   folder.add(state, "showVideoTag").name("Show video")
   folder.add(state, "estimatePose").name("Estimate pose")
 })
