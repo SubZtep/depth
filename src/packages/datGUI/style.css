@@ -21,7 +21,7 @@
 }
 
 .dg li:not(.folder) {
-  @apply flex items-center font-light tracking-wider h-8;
+  @apply flex items-center font-light tracking-normal h-8;
 }
 
 .dg .folder .title {
@@ -61,6 +61,10 @@
 
 .dg .cr.function .property-name {
   @apply w-full leading-none;
+}
+
+.dg .cr .property-name {
+  @apply whitespace-nowrap;
 }
 
 .dg .cr.function .c {

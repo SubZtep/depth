@@ -23,3 +23,16 @@ describe("string functions", () => {
     expect(utils.basename("")).toBe("")
   })
 })
+
+describe("restructuring data functions", () => {
+  test("urlsToSelectableObjects", () => {
+    const urls = [
+      "http://www.hello.hu/a/video.webm",
+      "/a/another_one.webm",
+    ]
+    expect(utils.urlsToSelectableObjects(urls)).toEqual({
+      "video": "http://www.hello.hu/a/video.webm",
+      "another_one": "/a/another_one.webm",
+    })
+  })
+})

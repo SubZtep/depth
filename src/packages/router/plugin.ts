@@ -1,7 +1,5 @@
 import type { Plugin, Component } from "vue"
 import type { EventHook } from "@vueuse/core"
-import { ref } from "vue"
-import { createEventHook, set } from "@vueuse/core"
 import type { Route } from "~/types/settings"
 import type { RouterEvent, RouterOptions, PathToRouteFn, OnRouterEventFn } from "./types.d"
 
@@ -19,9 +17,6 @@ const eventHookKey = Symbol("router event hook")
 const eventHook = createEventHook<RouterEvent>()
 let getRoute: PathToRouteFn
 
-/** is this the first visited page */
-export const opening = ref(true) //TODO: deleteme
-
 export default {
   install(app, options: RouterOptions) {
     getRoute = routeByPath(options.routes)
@@ -31,7 +26,6 @@ export default {
       const route = useActiveRoute()
       // @ts-ignore
       route && eventHook.trigger({ ...route, transition: options.transition })
-      set(opening, false)
     })
   },
 } as Plugin

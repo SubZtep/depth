@@ -1,4 +1,5 @@
 import dat from "dat.gui"
+import dom from "dat.gui/src/dat/dom/dom"
 
 function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, string>, selected: string) {
   const html = Object.entries(list)
@@ -7,10 +8,47 @@ function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, stri
   targetCtrl.domElement.children[0].innerHTML = html
 }
 
-export function installReactiveSelect() {
+export function extendControllers() {
   dat.GUI.prototype.addReactiveSelect = function (target, propName, options) {
     const ctrl = this.add(target, propName, options.value)
     watch(options, newList => updateDropdown(ctrl, newList, String(target[propName])), { deep: true })
+    return ctrl
+  }
+
+  dat.GUI.prototype.addTextInput = function (filterRegexp: RegExp) {
+    const obj = reactive({ value: "" })
+    const ctrl = this.add(obj, "value")
+
+    let originalChange: ChangeCallback | undefined = undefined
+    let originalFinishChange: ChangeCallback | undefined = undefined
+
+    const { resume, pause } = pausableWatch(
+      () => obj.value,
+      value => originalChange!.call(ctrl, value),
+      {
+        immediate: false,
+        eventFilter: invoke => filterRegexp.test(obj.value) && invoke()
+      }
+    )
+
+    pause()
+
+    ctrl.onChange = (fnc: ChangeCallback) => {
+      originalChange = fnc
+      resume()
+      return ctrl
+    }
+
+    ctrl.onFinishChange = (fnc: ChangeCallback) => {
+      originalFinishChange = fnc
+      dom.bind(ctrl.domElement.children[0], "blur", () => {
+        if (filterRegexp.test(obj.value)) {
+          originalFinishChange!.call(ctrl, obj.value)
+        }
+      })
+      return ctrl
+    }
+
     return ctrl
   }
 }

@@ -24,16 +24,6 @@ export async function useFFmpeg(options: FFmpegOptions) {
   // @ts-ignore
   ffmpeg.FS("mkdir", dir)
 
-  // invoke(async () => {
-  //   try {
-  //     await ffmpeg.load()
-  //     // @ts-ignore
-  //     ffmpeg.FS("mkdir", dir)
-  //   } catch (e: any) {
-  //     throw new Error(e.message)
-  //   }
-  // })
-
   tryOnUnmounted(() => {
     unlinkAll()
     // @ts-ignore

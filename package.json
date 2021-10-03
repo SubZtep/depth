@@ -53,6 +53,7 @@
     "@typescript-eslint/parser": "^4.32.0",
     "@vitejs/plugin-vue": "^1.9.2",
     "@vue/compiler-sfc": "^3.2.19",
+    "@vue/test-utils": "^2.0.0-rc.15",
     "@windicss/plugin-scrollbar": "^1.2.3",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
@@ -70,6 +71,7 @@
     "vite-plugin-cross-origin-isolation": "^0.1.1",
     "vite-plugin-toml": "^0.3.1",
     "vite-plugin-windicss": "^1.4.9",
+    "vue3-jest": "^27.0.0-alpha.2",
     "windicss": "^3.1.8"
   },
   "peerDependencies": {

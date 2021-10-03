@@ -115,3 +115,7 @@ export function basename(src: string, ext = true): string {
 export function capitalize(str: string): string {
   return `${str.charAt(0).toUpperCase()}${str.slice(1)}`
 }
+
+export function urlsToSelectableObjects(urls: string[]): Record<string, string> {
+  return urls.reduce((obj, url) => Object.assign(obj, { [basename(url, false)]: url }), {})
+}

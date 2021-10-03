@@ -15,7 +15,7 @@ video(
 VideoTimeline(
   v-if="state.src && ff.ffmpeg.isLoaded()"
   v-model:estimatePose="state.estimatePose"
-  :controls="controls"
+  :controls="mediaControls"
   :ff="ff")
 
 StickmanLandmarks(v-if="pose" :pose="pose")
@@ -28,32 +28,32 @@ import { useGuiFolder } from "~/packages/datGUI"
 import { useFFmpeg } from "~/packages/FFmpeg"
 import { useMediapipePose } from "~/packages/PoseAI"
 import { useSupabase } from "~/packages/Supabase"
-// import StickmanLandmarks from "../characters/StickmanLandmarks.vue"
 import { pauseLoop, resumeLoop } from "~/packages/ThreeJS/constants"
 import { useThreeJSEventHook } from "~/packages/ThreeJS/plugin"
 import settings from "~/../SETTINGS.toml"
-import { basename } from "~/misc/utils"
+import { basename, sleep, urlsToSelectableObjects } from "~/misc/utils"
 
 const threeJs = useThreeJSEventHook()
 const toast = useToast()
 const { progress } = useNProgress()
 const video = ref() as Ref<HTMLVideoElement>
-const controls = useMediaControls(video)
+const mediaControls = useMediaControls(video)
 const { db } = useSupabase()
 
-const videos = ref(Object.fromEntries(settings.video?.clips?.map(url => [basename(url, false), url]) ?? []))
-
 const state = reactive({
-  src: settings.video?.clips?.[0] ?? "",
-  showVideoTag: true,
+  src: "", // settings.video?.clips?.[0] ?? "",
+  showVideoTag: false, //true,
   estimatePose: false,
 })
 
+
+const videos = ref(urlsToSelectableObjects(settings.video?.clips ?? []))
+
 const onVideoError = () => {
   delete get(videos)[state.src]
-  toast.error(`${state.src} load error`)
-  const srcs = Object.values(get(videos))
-  state.src = srcs.length > 0 ? srcs[0] : ""
+  state.src = ""
+  //TODO: implenent error codes: https://developer.mozilla.org/en-US/docs/Web/API/MediaError
+  toast.error(`Unable to load ${state.src}.\n${get(video).error?.message}`)
 }
 
 const ff = await useFFmpeg({
@@ -71,7 +71,7 @@ const { estimatePose } = useMediapipePose({
 const pose = ref<Results>()
 
 watchWithFilter(
-  controls.currentTime,
+  mediaControls.currentTime,
   async () => {
     if (get(pose) === undefined) {
       toast.warning("First frame estimation can be quite slow")
@@ -88,27 +88,51 @@ watchWithFilter(
   { eventFilter: invoke => state.estimatePose && invoke() }
 )
 
-whenever(toRef(state, "src"), async () => {
-  const exists = await db.hasVideo(state.src)
-  if (exists) {
-    toast.info(`${state.src} exists in database`)
-  } else {
-    toast.warning(`${state.src} does not exist in database`)
-  }
-})
+// whenever(toRef(state, "src"), async () => {
+//   const exists = await db.hasVideo(state.src)
+//   if (exists) {
+//     toast.info(`${state.src} exists in database`)
+//   } else {
+//     toast.warning(`${state.src} does not exist in database`)
+//   }
+// })
 
 useGuiFolder(folder => {
   folder.name = "📼 FFmpeg"
   folder.addReactiveSelect(state, "src", videos).name("Load video")
-  const url = folder.add({ url: "" }, "url").name("Video URL").onFinishChange(v => {
-    if (v) {
-      (get(videos))[basename(v, false)] = v
-      url.setValue("")
-      state.src = v
-    }
-  })
+
+  const url = folder.addTextInput(/^\S+\.webm|mkv|mp4|ogv$/).name("Video URL")
+    .onChange(v => {
+      console.log("onChange", v)
+    })
+    .onFinishChange(v => {
+      console.log("onFinishChange", v)
+    })
+
+  // const url = folder.add({ url: "" }, "url").name("Video URL")
+  //   .onChange(v => {
+  //     console.log("**********", v)
+  //   })
+  //   .onFinishChange(v => {
+  //     console.log("==========", v)
+  //   })
+
+
+  // const url = folder.add({ url: "" }, "url").name("Video URL").onFinishChange(v => {
+  //   if (v) {
+  //     (get(videos))[basename(v, false)] = v
+  //     url.setValue("")
+  //     state.src = v
+  //   }
+  // })
   url.domElement.querySelector("input")!.placeholder = "blur to add"
-  folder.add(state, "showVideoTag").name("Video tag")
+  folder.add(state, "showVideoTag").name("Show video")
+  folder.add(state, "estimatePose").name("Estimate pose")
+})
+
+onBeforeUnmount(async () => {
+  await sleep(5000)
+  console.log("BBy")
 })
 </script>
 

@@ -16,6 +16,7 @@ export function navigationGui(routes: Route[]) {
   }
 }
 
+/** Patch missing routing data from settings */
 export function normalizeRoutes(routes: Route[]) {
   return routes.map((route: Route) => {
     const parts = route.path.split("-").map(part => capitalize(part))

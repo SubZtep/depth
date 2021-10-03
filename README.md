@@ -26,7 +26,7 @@ There are **two full-screen layers** on each other.
 
 Use [Vue.js](https://github.com/vuejs/vue-next#readme) and [Three.js](https://github.com/mrdoob/three.js#readme) together on the same screen. To achieve this I found it quite handy to wrap local and 3rd-party packages into composition functions with additional reactive [VueUse](https://github.com/vueuse/vueuse#readme) helpers. In the ideal world, those packages would seamlessly integrate into a system.
 
-Opt for my lucid developer experience :pensive: intentionally without following standardised patterns but avoid(ish) _spaghetti_. Just keep adding packages, moving files, rewriting definitions _~~recursive redundant~~_. This is certainly chaotic and confusing but it’s too early to talk about its serviceable form.
+Opt for my lucid developer experience :pensive: intentionally without following standardised patterns but avoid(ish) _spaghetti_. Just keep adding packages, moving files, rewriting definitions _~~recursive redundant~~_. This is certainly chaotic and confusing but it’s too early to talk about a serviceable form.
 
 > aka :construction: **under construction**, don’t expect anything like  production level.
 
@@ -44,7 +44,8 @@ In the current phase, no performance tweaks on the packages applied. Heavy calcu
 | :-: |
 | **<sup>:dancer:</sup>[MediaPipe Pose](https://google.github.io/mediapipe/solutions/pose.html#pose-landmark-model-blazepose-ghum-3d) -—- <sup>:vhs:</sup>[FFmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm-core#configuration) -—- <sup>:symbols:</sup>[Font Awesome 6 Pro](https://fontawesome.com/v6.0/icons) -—- <sup>:minidisc:</sup>[Supabase](https://supabase.io/docs/guides/database/introduction) -—- <sup>:video_game:</sup>[dat.GUI](https://github.com/dataarts/dat.gui#readme) -—- <sup>:movie_camera:</sup>[CameraControls](https://github.com/yomotsu/camera-controls#examples) -—- <sup>:musical_score:</sup>[Howler.js](https://github.com/goldfire/howler.js#examples) -—- <sup>:hourglass:</sup>[NProgress](https://ricostacruz.com/nprogress/) -—- <sup>:floppy_disk:</sup>[Pinia](https://pinia.esm.dev/introduction.html#comparison-with-vuex-3-x-4-x) -—- <sup>:chart_with_upwards_trend:</sup>[Stats.js](http://mrdoob.github.io/stats.js/) -—- <sup>:game_die:</sup>[Three.js](https://threejs.org/examples/#webgl_loader_md2) -—- <sup>:speech_balloon:</sup>[Vue Toastification](https://maronato.github.io/vue-toastification/) -—- <sup>:crystal_ball:</sup>[Modernizr](https://modernizr.com/download?setclasses)** |
 
-Most of the packages and components are auto-imported. Also, there can be some unused functions _`(already legacy?)`_.
+Most of the packages and components are auto-imported. Also, there can be some unused functions.\
+_`already legacy?`_`(ノωヽ)`
 
 ### Notable files & folders
 
@@ -150,7 +151,7 @@ I believe there are many ways to run it, I simply do static hosting with PM2 and
     image/vnd-ms.dds                dds;
     ```
 
-    I’m going to reinstall my box anyway, at some point.
+    > I’m going to reinstall my box at some point. %)
 
 ## Demo
 
