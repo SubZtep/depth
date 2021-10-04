@@ -34,3 +34,13 @@ export function normalizeRoutes(routes: Route[]) {
     return normalizedRoutes
   })
 }
+
+export function banglessHash() {
+  return window.location.hash.replace(/^(#)/, "")
+}
+
+export function routeByPath(routes: Route[]) {
+  return (windowPath = "/") => {
+    return routes.find(route => route.path === windowPath)
+  }
+}

@@ -5,3 +5,7 @@ export function pngOnly(filename: string) {
 export function noDotFiles(filename: string) {
   return ![".", ".."].includes(filename)
 }
+
+export function truthyFilter(value: any) {
+  return (invoke: Fn) => value && invoke()
+}

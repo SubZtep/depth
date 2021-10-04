@@ -3,8 +3,8 @@ transition = true
 
 [[router.routes]]
 path = "video-pose"
-position = [2, 1, -4]
-lookAt = [2, 2, 0]
+position = [0, 1.6, 0]
+lookAt = [0, 1.6, -10]
 
 [[router.routes]]
 path = "scene-setup"

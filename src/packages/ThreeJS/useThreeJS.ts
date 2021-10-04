@@ -18,7 +18,7 @@ export function useCanvas(canvasRef: MaybeRef<HTMLCanvasElement>): Scene {
   CameraControls.install({ THREE: THREE }) // TODO: tree shaking
   const { width, height } = useWindowSize()
   const [isRunning, toggleRun] = useToggle(false)
-  const [isRenderAllFrames, toggleRenderAllFrames] = useToggle(false)
+  const [isRenderAllFrames, toggleRenderAllFrames] = useToggle(true)
   const scene = new Scene()
 
   useThreeJSEventHook().on(params => {

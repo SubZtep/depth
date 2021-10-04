@@ -6,6 +6,7 @@
     "^.+\\.vue$": "vue3-jest"
   },
   "testEnvironment": "jsdom",
+  "coveragePathIgnorePatterns": ["/node_modules/"],
   "globals": {
     "ts-jest": {
       "tsconfig": "tsconfig.json"

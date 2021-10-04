@@ -30,7 +30,7 @@ describe("restructuring data functions", () => {
       "http://www.hello.hu/a/video.webm",
       "/a/another_one.webm",
     ]
-    expect(utils.urlsToSelectableObjects(urls)).toEqual({
+    expect(utils.stringsToObj(urls)).toEqual({
       "video": "http://www.hello.hu/a/video.webm",
       "another_one": "/a/another_one.webm",
     })

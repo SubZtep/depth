@@ -1,5 +1,5 @@
 <template lang="pug">
-.debug.miniScrollbar(
+.debug(
   v-if="exists"
   @dblclick="exists = false")
   slot

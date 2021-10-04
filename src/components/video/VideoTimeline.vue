@@ -40,8 +40,8 @@ div(:class="$style.videoTimeline" v-stop-propagation)
 
         div(:class="$style.pictures")
           ImgMemfs(
-            v-if="props.ff.keypoints.value.length > 0"
-            :file="props.ff.getKeyframeFilename(props.ff.keypoints.value[0])"
+            v-if="props.ff.thumbnails.value.length > 0"
+            :file="props.ff.thumbnails.value[0]"
             :fs="props.ff.ffmpeg.FS")
 
         div(:class="$style.detected")

@@ -2,16 +2,7 @@ import type { Plugin, Component } from "vue"
 import type { EventHook } from "@vueuse/core"
 import type { Route } from "~/types/settings"
 import type { RouterEvent, RouterOptions, PathToRouteFn, OnRouterEventFn } from "./types.d"
-
-function banglessHash() {
-  return window.location.hash.replace(/^(#)/, "")
-}
-
-function routeByPath(routes: Route[]) {
-  return (windowPath = "/") => {
-    return routes.find(route => route.path === windowPath)
-  }
-}
+import { banglessHash, routeByPath } from "./utils"
 
 const eventHookKey = Symbol("router event hook")
 const eventHook = createEventHook<RouterEvent>()

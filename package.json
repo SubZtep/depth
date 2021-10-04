@@ -32,11 +32,11 @@
     "@vueuse/core": "^6.5.3",
     "@vueuse/integrations": "^6.5.3",
     "@vueuse/shared": "^6.5.3",
-    "camera-controls": "^1.32.3",
+    "camera-controls": "^1.33.0",
     "dat.gui": "^0.7.7",
     "howler": "^2.2.3",
     "nprogress": "^0.2.0",
-    "pinia": "^2.0.0-rc.10",
+    "pinia": "^2.0.0-rc.11",
     "stats.js": "^0.17.0",
     "three": "^0.133.0",
     "vue": "^3.2.19",
@@ -72,7 +72,7 @@
     "vite-plugin-toml": "^0.3.1",
     "vite-plugin-windicss": "^1.4.9",
     "vue3-jest": "^27.0.0-alpha.2",
-    "windicss": "^3.1.8"
+    "windicss": "^3.1.9"
   },
   "peerDependencies": {
     "@mediapipe/pose": "^0.4.1630009814"

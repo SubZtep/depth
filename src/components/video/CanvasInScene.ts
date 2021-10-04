@@ -7,6 +7,7 @@ export default defineComponent({
     image: { type: Object as PropType<GpuBuffer>, required: true },
     scale: { type: Number, default: 1 },
     opacity: { type: Number, default: 1 },
+    position: { type: Array as PropType<number[]>, default: () => ([0, 0, 0]) },
   },
 
   setup(props) {
@@ -35,7 +36,7 @@ export default defineComponent({
       scale => {
         const width = scale * +get(aspectRatio)
         player.scale.set(width, scale, 1)
-        player.position.set(width / 2, scale / 2, 0)
+        player.position.set(props.position[0] + width / 2, props.position[1] + scale / 2, props.position[2])
       },
       { immediate: true }
     )

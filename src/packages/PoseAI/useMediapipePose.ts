@@ -12,9 +12,6 @@ interface MediapipePoseOptions {
   // /** If true (default), pose estimation fn return, otherwise `results` updated */
   estimateReturns?: boolean
 
-  // /** Callback when detector is ready */
-  onDetectorReady?: Fn
-
   /** mediapipe pose options */
   options?: Options
 }
@@ -22,7 +19,7 @@ interface MediapipePoseOptions {
 let dstat: Stats.Panel | undefined
 
 export function useMediapipePose(options: MediapipePoseOptions) {
-  const { video, estimateReturns = true, onDetectorReady } = options
+  const { video, estimateReturns = true } = options
 
   const detectorReady = ref(false)
   const results: Partial<Results> = reactive({})
@@ -86,7 +83,6 @@ export function useMediapipePose(options: MediapipePoseOptions) {
 
     await solution.initialize()
     set(detectorReady, true)
-    onDetectorReady?.call(null)
   })
 
   tryOnUnmounted(() => {

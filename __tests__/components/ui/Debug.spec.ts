@@ -12,6 +12,6 @@ describe("Debug test", () => {
         default: "Hello World",
       },
     })
-    expect(wrapper.text()).toBe("Hello World")
+    expect(wrapper.text()).toBeFalsy()
   })
 })

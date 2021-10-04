@@ -4,27 +4,33 @@ StickmanSimple(
   :keypoints="pose.poseLandmarks"
   :z-multi="state.zMulti"
   :color="0xffffff"
-  :scale="state.scale")
+  :scale="state.scale"
+  :position="props.position")
 
 StickmanSimple(
   v-if="state.showWorldLandmarks"
   :keypoints="pose.poseWorldLandmarks"
   :z-multi="state.zMulti"
   :color="0x8888ff"
-  :scale="state.scale")
+  :scale="state.scale"
+  :position="props.position")
 
 CanvasInScene(
   v-if="state.videoOpacity > 0"
   :image="props.pose.image"
   :scale="state.scale"
-  :opacity="state.videoOpacity")
+  :opacity="state.videoOpacity"
+  :position="props.position")
 </template>
 
 <script lang="ts" setup>
 import type { Results } from "public/pose"
 import { useGuiFolder } from "~/packages/datGUI"
 
-const props = defineProps<{ pose: Results }>()
+const props = defineProps<{
+  pose: Results
+  position: [number, number, number]
+}>()
 
 const state = reactive({
   showLandmarks: true,

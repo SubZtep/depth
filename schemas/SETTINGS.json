@@ -6,9 +6,9 @@
     "vector3": {
       "type": "array",
       "items": [
-        { "type": "integer" },
-        { "type": "integer" },
-        { "type": "integer" }
+        { "type": ["integer", "number"] },
+        { "type": ["integer", "number"] },
+        { "type": ["integer", "number"] }
       ],
       "minItems": 3
     }

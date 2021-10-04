@@ -5,8 +5,10 @@ import { useActiveRoute, useOnRouterEvent } from "../router/plugin"
 import { Box3, Vector3 } from "three"
 
 function setupBoundaries(cameraControls: CameraControls) {
-  cameraControls.minPolarAngle = Math.PI / 6
-  cameraControls.maxPolarAngle = Math.PI / 1.95
+  // cameraControls.minPolarAngle = Math.PI / 6
+  // cameraControls.maxPolarAngle = Math.PI / 1.95
+  cameraControls.minPolarAngle = Math.PI / 2
+  cameraControls.maxPolarAngle = Math.PI / 2
   cameraControls.minDistance = 1
   cameraControls.maxDistance = 200
   cameraControls.dollySpeed = 0.5

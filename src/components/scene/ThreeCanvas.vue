@@ -30,12 +30,13 @@ const dirLight = new DirectionalLight(0xffffff, 0.5)
 objs.set("ambLight", ambLight)
 objs.set("dirLight", dirLight)
 
-const grid = sdef.grid()
+const grid = sdef.grid(-7.5)
+const grid2 = sdef.grid(7.5)
 const plane = sdef.plane()
 const leafPlane = sdef.leafPlane()
 const igrid = InfiniteGridHelper()
 
-useCanvas(wc).add(ambLight, dirLight, grid, plane, leafPlane, igrid).background = skybox
+useCanvas(wc).add(ambLight, dirLight, plane, leafPlane, grid, grid2, igrid).background = skybox
 
 // transformables.push(leafPlane.name)
 

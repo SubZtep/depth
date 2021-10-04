@@ -1,8 +1,7 @@
 import type { CreateFFmpegOptions } from "@ffmpeg/ffmpeg"
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
 import { basename } from "~/misc/utils"
-import { pngOnly, noDotFiles } from "~/misc/filters"
-import { get } from "@vueuse/core"
+import { pngOnly, noDotFiles, truthyFilter } from "~/misc/filters"
 import { KEYFRAME_TIMESTAMPS_LOG, KEYFRAME_IMAGES, KEYFRAME_TIMESTAMPS } from "./commands"
 
 interface FFmpegOptions {
@@ -53,13 +52,14 @@ export async function useFFmpeg(options: FFmpegOptions) {
       await ffmpeg.run(...KEYFRAME_TIMESTAMPS(videoSrc))
       await ffmpeg.run(...KEYFRAME_IMAGES(videoSrc, dir))
       // @ts-ignore
-      set(thumbnails, ffmpeg.FS("readdir", dir).filter(pngOnly))
+      const filenames: string[] = ffmpeg.FS("readdir", dir)
+      set(thumbnails, filenames.filter(pngOnly).map(fn => `${dir}${fn}`))
 
       resume()
     },
     {
-      immediate: true,
-      eventFilter: invoke => get(options.src).length > 0 && invoke(),
+      immediate: false,
+      eventFilter: truthyFilter(options.src),
     }
   )
 
@@ -72,13 +72,10 @@ export async function useFFmpeg(options: FFmpegOptions) {
     }
   }
 
-  const getKeyframeFilename = (index: number) => `${dir}${String(index).padStart(9, "0")}.png`
-
   return {
     ffmpeg,
     running: not(isActive),
     keypoints,
     thumbnails,
-    getKeyframeFilename,
   }
 }
