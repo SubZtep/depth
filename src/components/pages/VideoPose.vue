@@ -116,10 +116,7 @@ onBeforeUnmount(async () => {
 
 <style module>
 .videoTag {
-  position: fixed;
-  bottom: 0;
-  right: 200px;
-  max-height: 300px;
+  @apply fixed top-0 left-0 max-h-300px;
   aspect-ratio: var(--video-aspect-ratio);
   border: 4px ridge #964b00;
 }

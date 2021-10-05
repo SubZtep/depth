@@ -1,12 +1,14 @@
 import { usePreferencesStore } from "~/stores/preferences"
 import { useAssets } from "~/packages/ThreeJS/useAssets"
-import { singleFnPrs } from "~/packages/ThreeJS/useRenderLoop"
+import { singleFns, singleFnPrs } from "~/packages/ThreeJS/useRenderLoop"
+import { setupBoundaries } from "./packages/ThreeJS/useCameraControls"
 
 export function preferencesGui(gui: dat.GUI) {
   const preferences = usePreferencesStore()
 
   const guiScaleCss = useCssVar("--gui-scale")
   const { loadSkybox } = useAssets()
+  const { enter, exit } = useFullscreen()
 
   const f = gui.addFolder("⚙ Preferences")
   f.add(preferences, "guiScale", 0.5, 3, 0.1)
@@ -19,4 +21,17 @@ export function preferencesGui(gui: dat.GUI) {
         scene.background = await loadSkybox(nr)
       })
     )
+  f.add(preferences, "horizontalLock")
+    .name("Rotation lock")
+    .onChange(lock => {
+      singleFns.add(({ cameraControls }) => {
+        setupBoundaries(cameraControls, lock)
+      })
+    })
+  f.add(preferences, "fullscreen")
+    .name("Fullscreen")
+    .onChange(fs => {
+      // TODO: impement reactive gui checkbox
+      fs ? enter() : exit()
+    })
 }

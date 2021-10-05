@@ -4,11 +4,14 @@ import { CameraShake } from "../../models/camerashake"
 import { useActiveRoute, useOnRouterEvent } from "../router/plugin"
 import { Box3, Vector3 } from "three"
 
-function setupBoundaries(cameraControls: CameraControls) {
-  // cameraControls.minPolarAngle = Math.PI / 6
-  // cameraControls.maxPolarAngle = Math.PI / 1.95
-  cameraControls.minPolarAngle = Math.PI / 2
-  cameraControls.maxPolarAngle = Math.PI / 2
+export function setupBoundaries(cameraControls: CameraControls, horizontalLock = true) {
+  if (horizontalLock) {
+    cameraControls.minPolarAngle = Math.PI / 2
+    cameraControls.maxPolarAngle = Math.PI / 2
+  } else {
+    cameraControls.minPolarAngle = Math.PI / 6
+    cameraControls.maxPolarAngle = Math.PI / 1.95
+  }
   cameraControls.minDistance = 1
   cameraControls.maxDistance = 200
   cameraControls.dollySpeed = 0.5
@@ -22,7 +25,11 @@ let shaker = 0
 const shakes: CameraShake[] = []
 
 function initShakes(cameraControls: CameraControls) {
-  shakes.push(new CameraShake(cameraControls, 500, 10, 0.5), new CameraShake(cameraControls, 1000, 10, 1), new CameraShake(cameraControls, 5000, 2, 0.5))
+  shakes.push(
+    new CameraShake(cameraControls, 500, 10, 0.5),
+    new CameraShake(cameraControls, 1000, 10, 1),
+    new CameraShake(cameraControls, 5000, 2, 0.5),
+  )
 }
 
 function shakeIt(nr?: number) {
@@ -47,9 +54,7 @@ export function useCameraControls(cameraControls: CameraControls) {
   whenever(idle, shakeIt)
 
   const arrived = () => {
-    {
-      cameraControls.removeEventListener("sleep", arrived)
-    }
+    cameraControls.removeEventListener("sleep", arrived)
   }
 
   useOnRouterEvent(({ position, lookAt, transition }) => {
