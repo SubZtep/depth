@@ -1,122 +1,180 @@
 <template lang="pug">
 Title Video Display Pose
 
-Debug.flex
-  div {{ff.keypoints}}
-  div {{ff.thumbnails}}
-
-video(
-  ref="video"
-  :src="state.src"
+video.left-0(
+  ref="videoRef"
+  :src="video.src"
+  :class="$style.video"
   @error="onVideoError"
-  :class="$style.videoTag"
-  v-visible="state.showVideoTag"
+  @timeupdate="onTimeupdate"
+  @loadedmetadata="onVideoMetadata"
   v-css-aspect-ratio="`--video-aspect-ratio`"
+  v-visible="state.showVideoTag"
   crossorigin="anonymous"
   controls
   muted)
 
-//- VideoTimeline(
-  v-if="state.src && ff.ffmpeg.isLoaded()"
-  v-model:estimatePose="state.estimatePose"
-  :controls="mediaControls"
-  :ff="ff")
-
-StickmanLandmarks(v-if="pose" :pose="pose" :position="[-2, 0, -10]")
+StickmanNormalized(v-if="pose" :pose="pose" :position="[-2, 0, -10]")
 </template>
 
 <script lang="ts" setup>
+import type { NormalizedLandmarkList } from "public/pose"
+import type { VideoStatePose } from "~/stores/video"
 import { useMediaControls } from "@vueuse/core"
-import type { Results } from "public/pose"
 import { useGuiFolder } from "~/packages/datGUI"
 import { useFFmpeg } from "~/packages/FFmpeg"
+import { useSupabase } from "~/packages/Supabase"
 import { useMediapipePose } from "~/packages/PoseAI"
 import { useThreeJSEventHook, pauseLoop, resumeLoop } from "~/packages/ThreeJS"
-import settings from "~/../SETTINGS.toml"
-import { basename, sleep, stringsToObj } from "~/misc/utils"
 import { VALID_VIDEO_URL_FOR_FFMPEG } from "~/misc/regexp"
-import { truthyFilter } from "~/misc/filters"
+import { basename, sleep } from "~/misc/utils"
+import { useVideoStore } from "~/stores/video"
+import settings from "~/../SETTINGS.toml"
 
-const threeJs = useThreeJSEventHook()
 const toast = useToast()
 const { progress } = useNProgress()
-const video = ref() as Ref<HTMLVideoElement>
-const mediaControls = useMediaControls(video)
-// const { db } = useSupabase()
+const threeJs = useThreeJSEventHook()
+const { db } = useSupabase({ logger: toast })
+const video = useVideoStore()
+
+const videoRef = ref() as Ref<HTMLVideoElement>
+const playerTimeUpdated = ref(false)
+const pose = ref<NormalizedLandmarkList>()
 
 const state = reactive({
-  src: settings.video?.clips?.[0] ?? "",
   showVideoTag: true,
-  estimatePose: true,
 })
 
-const ff = await useFFmpeg({ src: toRef(state, "src"), options: { progress: ({ ratio }) => set(progress, ratio), log: false } })
-const { estimatePose, detectorReady } = useMediapipePose({ video, options: { modelComplexity: 2 } })
+const {
+  playing,
+  currentTime,
+} = useMediaControls(videoRef)
 
-const pose = ref<Results>()
+const {
+  keyframes,
+  runKeyframes,
+} = await useFFmpeg({ src: toRef(video, "src"), options: { progress: ({ ratio }) => set(progress, ratio), log: false } })
 
-watchWithFilter(
-  mediaControls.currentTime,
-  async () => {
-    if (get(pose) === undefined) {
-      toast.warning("First frame estimation can be quite slow")
-      threeJs.trigger(pauseLoop)
-      //FIXME: this is a hack to suspend three.js render for the first frame
-      setTimeout(async () => {
-        pose.value = await estimatePose()
-        threeJs.trigger(resumeLoop)
-      }, 50)
-    } else {
-      pose.value = await estimatePose()
+const {
+  results,
+  estimatePose,
+  detectorReady,
+} = useMediapipePose({ video: videoRef, options: { modelComplexity: 2 } })
+
+whenever(and(detectorReady, toRef(video, "src"), toRef(video, "duration")), async () => {
+  const videoObj = ["src", "duration", "width", "height"].reduce((obj, key) => ({ ...obj, [key]: video[key] }), {}) as Db.Video
+
+  video.id = await db.getVideoId(videoObj)
+  if (video.id === undefined) {
+    toast.info(`Insert video entry ${video.src} to the database`)
+    video.id = await db.insertVideo(videoObj)
+    if (video.id === undefined) {
+      toast.error("Failed")
+      return
     }
-  },
-  { eventFilter: truthyFilter(state.estimatePose) }
+  }
+
+  video.keyframes = await db.getKeyframes(video.id)
+  if (video.keyframes === undefined) {
+    toast.info("Fetch and insert keyframes to the database")
+    await runKeyframes()
+    video.keyframes = get(keyframes)
+    if (video.keyframes === undefined) {
+      toast.error("Failed")
+      return
+    }
+    await db.insertKeyframes(video.id, video.keyframes)
+  }
+
+  video.poses = await db.getPoses(video.id)
+  if (video.poses === undefined) {
+    toast.info("Fetch and insert poses to the database")
+    toast.warning("First frame estimation can be quite slow")
+    threeJs.trigger(pauseLoop)
+    await sleep(50)
+
+    video.poses = []
+    const poses: VideoStatePose[] = []
+    for (const ts of video.keyframes!) {
+      set(playerTimeUpdated, false)
+
+      if (get(currentTime) !== ts) {
+        set(currentTime, ts)
+        await until(playerTimeUpdated).toBeTruthy()
+      }
+
+      await estimatePose()
+      if (results.poseWorldLandmarks === undefined) continue
+      poses.push({ ts, pose_normalized: results.poseWorldLandmarks })
+
+      if (poses.length === 10) {
+        await db.insertPoses(video.id, poses)
+        video.poses.push(...poses)
+        poses.length = 0
+      }
+    }
+
+    if (poses.length > 0) {
+      await db.insertPoses(video.id, poses)
+      video.poses.push(...poses)
+    }
+
+    threeJs.trigger(resumeLoop)
+  }
+})
+
+whenever(
+  and(playing, toRef(video, "poses")),
+  async () => {
+    if (video.poses === undefined) return
+
+    for (const p of video.poses) {
+      // console.log("TS", p.ts)
+      set(pose, p.pose_normalized)
+      await sleep(30)
+    }
+  }
 )
 
-// whenever(toRef(state, "src"), async () => {
-//   const exists = await db.hasVideo(state.src)
-//   if (exists) {
-//     toast.info(`${state.src} exists in database`)
-//   } else {
-//     toast.warning(`${state.src} does not exist in database`)
-//   }
-// })
-
-const videos = ref(stringsToObj(settings.video?.clips ?? [], basename))
-
-const onVideoError = () => {
-  delete get(videos)[state.src]
-  state.src = ""
-  //TODO: implenent error codes: https://developer.mozilla.org/en-US/docs/Web/API/MediaError
-  toast.error(`Unable to load ${state.src}.\n${get(video).error?.message}`)
+const onTimeupdate = () => {
+  set(playerTimeUpdated, true)
+  // console.log("TU", e.target.currentTime)
 }
 
-watch(ff.running, isRunning => void toast.info(`FFmpeg is ${isRunning ? "running" : "not running"}`))
-watch(detectorReady, isReady => void toast.info(`Pose detector is ${isReady ? "ready" : "not ready"}`))
+const videoOptions = ref(settings.video?.clips?.reduce((obj, url) => ({ ...obj, [basename(url)]: url }), {})) as Ref<Record<string, string>>
+
+const onVideoMetadata = ({ target }: Event) => {
+  const { videoWidth, videoHeight, duration } = target as HTMLVideoElement
+  video.width = videoWidth
+  video.height = videoHeight
+  video.duration = duration
+}
+
+const onVideoError = () => {
+  const videoEl = get(videoRef)
+  delete get(videoOptions)[videoEl.src]
+  videoEl.src = ""
+  //TODO: implenent error codes: https://developer.mozilla.org/en-US/docs/Web/API/MediaError
+  toast.error(`Unable to load ${video.src}.\n${videoEl.error?.message}`)
+}
 
 useGuiFolder(folder => {
   folder.name = "📼 FFmpeg"
-  folder.addReactiveSelect(state, "src", videos).name("Load video")
+  folder.addReactiveSelect(video, "src", videoOptions).name("Load video")
   folder
     .addTextInput(VALID_VIDEO_URL_FOR_FFMPEG, "blur to add")
     .name("Video URL")
     .onFinishChange(url => {
-      get(videos)[basename(url)] = url
-      state.src = url
+      get(videoOptions)[basename(url)] = url
+      video.src = url
     })
   folder.add(state, "showVideoTag").name("Show video")
-  folder.add(state, "estimatePose").name("Estimate pose")
-})
-
-onBeforeUnmount(async () => {
-  await sleep(5000)
-  console.log("BBy")
 })
 </script>
 
 <style module>
-.videoTag {
-  @apply fixed top-0 left-0 max-h-300px;
+.video {
+  @apply fixed top-0 max-h-300px;
   aspect-ratio: var(--video-aspect-ratio);
   border: 4px ridge #964b00;
 }

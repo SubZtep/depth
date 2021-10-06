@@ -2,9 +2,9 @@ declare namespace dat {
   interface GUI {
     /**
      * Works as `OptionController`, but with the ability to keep options up-to-date
-     * @patam options Reactive options
+     * @param options Reactive options
      */
-    addReactiveSelect: (target: Record<string, string | number | boolean>, propName: string, options: Ref<Record<string, string>>) => GUIController
+    addReactiveSelect: (target: Record<string, string | number | boolean> | any, propName: string, options: Ref<Record<string, string>>) => GUIController
 
     /**
      * Trigger `onChange` and `onFinishChange` callbacks without the object to be manipulated

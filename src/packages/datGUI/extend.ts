@@ -10,6 +10,9 @@ function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, stri
 
 export function applyReactiveSelect(guiPrototype: dat.GUI) {
   guiPrototype.addReactiveSelect = function (target, propName, options) {
+    if (target[propName] === undefined) {
+      target[propName] = ""
+    }
     const ctrl = this.add(target, propName, options.value)
     watch(options, newList => updateDropdown(ctrl, newList, String(target[propName])), { deep: true })
     return ctrl

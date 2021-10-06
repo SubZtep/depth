@@ -9,18 +9,13 @@ interface MediapipePoseOptions {
   /** Video element */
   video: MaybeRef<HTMLVideoElement>
 
-  // /** If true (default), pose estimation fn return, otherwise `results` updated */
-  estimateReturns?: boolean
-
   /** mediapipe pose options */
   options?: Options
 }
 
 let dstat: Stats.Panel | undefined
 
-export function useMediapipePose(options: MediapipePoseOptions) {
-  const { video, estimateReturns = true } = options
-
+export function useMediapipePose({ video, options }: MediapipePoseOptions) {
   const detectorReady = ref(false)
   const results: Partial<Results> = reactive({})
   let solution: Pose
@@ -40,7 +35,7 @@ export function useMediapipePose(options: MediapipePoseOptions) {
     Object.assign(results, res)
   }
 
-  const estimatePose = async (): Promise<Results> => {
+  const estimatePose = async () => {
     const elem = unrefElement(video) as HTMLVideoElement
 
     if (elem === undefined) {
@@ -55,19 +50,11 @@ export function useMediapipePose(options: MediapipePoseOptions) {
       return Promise.reject(new Error("no pose detector"))
     }
 
-    return new Promise(async resolve => {
-      if (estimateReturns) {
-        solution.onResults(results => {
-          return resolve(results)
-        })
-      }
+    const t0 = performance.now()
+    await solution.send({ image: elem })
+    const t1 = performance.now()
 
-      const t0 = performance.now()
-      await solution.send({ image: elem })
-      const t1 = performance.now()
-
-      dstat?.update(t1 - t0, 120)
-    })
+    dstat?.update(t1 - t0, 120)
   }
 
   tryOnMounted(async () => {
@@ -77,7 +64,7 @@ export function useMediapipePose(options: MediapipePoseOptions) {
       modelComplexity: 1,
       smoothLandmarks: true,
       selfieMode: false,
-      ...options.options,
+      ...options,
     })
     solution.onResults(poseResult)
 

@@ -14,6 +14,24 @@ export default defineConfig({
     require("@windicss/plugin-scrollbar"),
     plugin(({ addComponents }) => {
       const buttons: DeepNestObject = {
+        ".btn": {
+          padding: "2px",
+          borderWidth: "2px",
+          borderStyle: "outset",
+          height: "2rem",
+          aspectRatio: "1",
+          "&:hover": {
+            borderStyle: "solid",
+          },
+          "&:active": {
+            borderStyle: "inset",
+          },
+          "&:disabled": {
+            borderStyle: "ridge",
+            cursor: "not-allowed",
+            opacity: "0.65",
+          },
+        },
         ".btn-icon": {
           padding: "2px",
           borderWidth: "2px",

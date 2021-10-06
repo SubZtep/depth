@@ -25,10 +25,10 @@ await assets.loadLeafMaterial()
 const skybox = await assets.loadSkybox(preferences.skybox || rand(15))
 const wc = ref() as Ref<HTMLCanvasElement>
 
-// const ambLight = new AmbientLight()
+const ambLight = new AmbientLight()
 const dirLight = new DirectionalLight(0xffffff, 0.5)
-// objs.set("ambLight", ambLight)
-// objs.set("dirLight", dirLight)
+objs.set("ambLight", ambLight)
+objs.set("dirLight", dirLight)
 
 const grid = sdef.grid(-7.5)
 const grid2 = sdef.grid(7.5)
@@ -37,8 +37,8 @@ const leafPlane = sdef.leafPlane()
 const igrid = InfiniteGridHelper()
 
 useCanvas(wc).add(
-  // ambLight,
-  // dirLight,
+  ambLight,
+  dirLight,
   plane,
   leafPlane,
   grid,

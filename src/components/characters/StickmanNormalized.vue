@@ -1,0 +1,30 @@
+<template lang="pug">
+StickmanSimple(
+  :keypoints="pose"
+  :z-multi="state.zMulti"
+  :color="0xffffff"
+  :scale="state.scale"
+  :position="props.position")
+</template>
+
+<script lang="ts" setup>
+import type { NormalizedLandmarkList } from "public/pose"
+
+import { useGuiFolder } from "~/packages/datGUI"
+
+const props = defineProps<{
+  pose: NormalizedLandmarkList
+  position: [number, number, number]
+}>()
+
+const state = reactive({
+  scale: 1,
+  zMulti: 0.5,
+})
+
+useGuiFolder(folder => {
+  folder.name = "🤸 Stickman"
+  folder.add(state, "scale", 0.1, 5, 0.1).name("Scale objects")
+  folder.add(state, "zMulti", 0.1, 2, 0.1).name("Z multiplier")
+})
+</script>

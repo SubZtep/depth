@@ -1,21 +1,21 @@
 import type { CreateFFmpegOptions } from "@ffmpeg/ffmpeg"
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
 import { basename } from "~/misc/utils"
-import { pngOnly, noDotFiles, truthyFilter } from "~/misc/filters"
-import { KEYFRAME_TIMESTAMPS_LOG, KEYFRAME_IMAGES, KEYFRAME_TIMESTAMPS } from "./commands"
+import { noDotFiles, truthyFilter } from "~/misc/filters"
+import { KEYFRAME_TIMESTAMPS_LOG, KEYFRAME_TIMESTAMPS } from "./commands"
 
 interface FFmpegOptions {
-  src: Ref<string>
+  src: Ref<string | undefined>
   options?: CreateFFmpegOptions
 }
 
 export async function useFFmpeg(options: FFmpegOptions) {
   const ffmpeg = createFFmpeg(options.options)
   const dir = "/depth/"
-  const memfsSrc = () => `${dir}${basename(get(options.src))}.webm`
+  const memfsSrc = computed(() => `${dir}${basename(get(options.src) || "fixme")}.webm`)
 
   /** keyframe timestamps */
-  const keypoints = ref<number[]>([])
+  const keyframes = ref<number[]>([])
   /** keyframe preview images */
   const thumbnails = ref<string[]>([])
 
@@ -38,35 +38,43 @@ export async function useFFmpeg(options: FFmpegOptions) {
   ffmpeg.setLogger(({ message }) => {
     const found = message.match(KEYFRAME_TIMESTAMPS_LOG)
     if (found === null) return
-    get(keypoints).push(parseFloat(found[1]))
+    get(keyframes).push(parseFloat(found[1]))
   })
+
+  const loadVideo = async (src?: string) => {
+    if (!src) return
+    pause()
+    ffmpeg.FS("writeFile", get(memfsSrc), await fetchFile(src))
+    resume()
+  }
 
   const { resume, pause, isActive } = pausableWatch(
     options.src,
-    async newSrc => {
-      pause()
-
-      const videoSrc = memfsSrc()
-      ffmpeg.FS("writeFile", videoSrc, await fetchFile(newSrc))
-
-      await ffmpeg.run(...KEYFRAME_TIMESTAMPS(videoSrc))
-      await ffmpeg.run(...KEYFRAME_IMAGES(videoSrc, dir))
-      // @ts-ignore
-      const filenames: string[] = ffmpeg.FS("readdir", dir)
-      set(thumbnails, filenames.filter(pngOnly).map(fn => `${dir}${fn}`))
-
-      resume()
-    },
+    loadVideo,
     {
       immediate: false,
       eventFilter: truthyFilter(options.src),
     }
   )
 
+  tryOnMounted(() => {
+    if (get(options.src)) {
+      loadVideo(get(options.src))
+    }
+  })
+
+  const runKeyframes = async () => {
+    // await until(isActive).toBeTruthy()
+    pause()
+    set(keyframes, [])
+    await ffmpeg.run(...KEYFRAME_TIMESTAMPS(get(memfsSrc)))
+    resume()
+  }
+
   const unlinkAll = () => {
     // @ts-ignore
     const files = ffmpeg.FS("readdir", dir).filter(noDotFiles)
-    set(keypoints, [])
+    set(keyframes, [])
     for (const file of files) {
       ffmpeg.FS("unlink", `${dir}${file}`)
     }
@@ -75,7 +83,8 @@ export async function useFFmpeg(options: FFmpegOptions) {
   return {
     ffmpeg,
     running: not(isActive),
-    keypoints,
+    runKeyframes,
+    keyframes,
     thumbnails,
   }
 }

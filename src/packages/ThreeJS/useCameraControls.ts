@@ -6,11 +6,13 @@ import { Box3, Vector3 } from "three"
 
 export function setupBoundaries(cameraControls: CameraControls, horizontalLock = true) {
   if (horizontalLock) {
-    cameraControls.minPolarAngle = Math.PI / 2
-    cameraControls.maxPolarAngle = Math.PI / 2
+    const halfPi = Math.PI / 2
+    cameraControls.minPolarAngle = halfPi
+    cameraControls.maxPolarAngle = halfPi
+    cameraControls.polarAngle = halfPi
   } else {
     cameraControls.minPolarAngle = Math.PI / 6
-    cameraControls.maxPolarAngle = Math.PI / 1.95
+    cameraControls.maxPolarAngle = Math.PI / 1.4
   }
   cameraControls.minDistance = 1
   cameraControls.maxDistance = 200

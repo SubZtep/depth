@@ -4,39 +4,35 @@ interface SupabasePluginOptions {
   options?: import("@supabase/supabase-js").SupabaseClientOptions
 }
 
-abstract interface SerialId {
-  readonly id?: number
-}
+namespace Db {
+  abstract interface SerialId {
+    readonly id?: number
+  }
 
-abstract interface TriggerInserted {
-  readonly inserted_at?: string
-}
+  abstract interface TriggerInserted {
+    readonly inserted_at?: string
+  }
 
-abstract interface TriggerUpdated {
-  readonly inserted_at?: string
-}
+  abstract interface TriggerUpdated {
+    readonly inserted_at?: string
+  }
 
-interface Video extends SerialId, TriggerInserted, TriggerUpdated {
-  filename: string
-  duration: number
-  width: number
-  height: number
-}
+  interface Video extends SerialId, TriggerInserted, TriggerUpdated {
+    src: string
+    duration: number
+    width: number
+    height: number
+  }
 
-interface Pose extends SerialId, TriggerInserted, TriggerUpdated {
-  video_id: number
-  time: number
-  type: PoseType
-}
+  interface Keyframe {
+    video_id: number
+    ts: number
+  }
 
-interface Keypoint {
-  pose_id: number
-  index: number
-  x: number
-  y: number
-  z: number
-  visibility?: number
+  interface Pose extends SerialId, TriggerInserted, TriggerUpdated {
+    video_id: number
+    ts: number
+    pose_raw?: import("public/pose").LandmarkList
+    pose_normalized: import("public/pose").NormalizedLandmarkList
+  }
 }
-
-type SBVideo = Required<Pick<Video, "id" | "filename" | "width" | "height" | "duration">>
-type SBPose = Required<Pick<Pose, "id" | "time">>

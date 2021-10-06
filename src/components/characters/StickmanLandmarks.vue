@@ -1,21 +1,23 @@
 <template lang="pug">
+Debug {{pose.pose_normalized}}
+
 StickmanSimple(
   v-if="state.showLandmarks"
-  :keypoints="pose.poseLandmarks"
+  :keypoints="pose.pose_normalized"
   :z-multi="state.zMulti"
   :color="0xffffff"
   :scale="state.scale"
   :position="props.position")
 
-StickmanSimple(
+//- StickmanSimple(
   v-if="state.showWorldLandmarks"
-  :keypoints="pose.poseWorldLandmarks"
+  :keypoints="pose.value.pose_normalized"
   :z-multi="state.zMulti"
   :color="0x8888ff"
   :scale="state.scale"
   :position="props.position")
 
-CanvasInScene(
+//-CanvasInScene(
   v-if="state.videoOpacity > 0"
   :image="props.pose.image"
   :scale="state.scale"
@@ -24,13 +26,17 @@ CanvasInScene(
 </template>
 
 <script lang="ts" setup>
-import type { Results } from "public/pose"
+import type { VideoStatePose } from "~/stores/video"
+// import type { Results } from "public/pose"
 import { useGuiFolder } from "~/packages/datGUI"
 
 const props = defineProps<{
-  pose: Results
+  // pose: Results
+  pose: VideoStatePose
   position: [number, number, number]
 }>()
+
+// const raw = ref(props.pose.value.pose_raw)
 
 const state = reactive({
   showLandmarks: true,

@@ -24,11 +24,11 @@ There are **two full-screen layers** on each other.
 
 ## What’s this?
 
-**Experiment project.** Use [Vue.js](https://github.com/vuejs/vue-next#readme) and [Three.js](https://github.com/mrdoob/three.js#readme) together on the same screen. To achieve this I found it quite handy to wrap local and 3rd-party packages into composition functions with additional reactive [VueUse](https://github.com/vueuse/vueuse#readme) helpers. In the ideal world, those packages would seamlessly integrate into a system.
+**Experiment project.** Use [Vue.js](https://github.com/vuejs/vue-next#readme) and [Three.js](https://github.com/mrdoob/three.js#readme) together on the same screen. To achieve this I found it quite handy to wrap local and 3rd-party packages into composition functions with additional reactive [VueUse](https://github.com/vueuse/vueuse#readme) helpers.
 
 Opt for my lucid developer experience :pensive: intentionally without following standardised patterns but avoid(ish) _spaghetti_. Just keep adding packages, moving files, rewriting definitions _~~recursive redundant~~_. This is certainly chaotic and confusing but it’s too early to talk about a serviceable form.
 
-> aka :construction: **under construction**, don’t expect anything like  production level.
+> aka :construction: **under construction**
 
 ## Source code overview
 
@@ -71,21 +71,21 @@ While this is not a _monorepo_ it is great to keep packages separated. Mostly wr
 
 | Folder | Description |
 | ------ | ----------- |
-| [datGUI](src/packages/datGUI/index.ts) | The menu. |
-| [FFmpeg](src/packages/FFmpeg/index.ts) | For creating video screenshots and determinate PTS timestamps. |
-| [Howler](src/packages/Howler/index.ts) | Play audio feedback. |
-| [PoseAI](src/packages/PoseAI/index.ts) | Human pose detection from a video file. |
-| [router](src/packages/router/index.ts) | Simple custom router. |
-| [Stats](src/packages/Stats/index.ts) | Performance monitor. |
-| [Supabase](src/packages/Supabase/index.ts) | Database connection. |
-| [ThreeJS](src/packages/ThreeJS/index.ts) | 3D scene. |
+| [datGUI](src/packages/datGUI/) | The menu. |
+| [FFmpeg](src/packages/FFmpeg/) | For creating video screenshots and determinate PTS timestamps. |
+| [Howler](src/packages/Howler/) | Play audio feedback. |
+| [PoseAI](src/packages/PoseAI/) | Human pose detection from a video file. |
+| [router](src/packages/router/) | Simple custom router. |
+| [Stats](src/packages/Stats/) | Performance monitor. |
+| [Supabase](src/packages/Supabase/) | Database connection. |
+| [ThreeJS](src/packages/ThreeJS/) | 3D scene. |
 
 #### :file_folder:[`src/stores`](src/stores)
 
 [Pinia](https://pinia.esm.dev/) store definitions.
 
 
-## Serve setup
+## Setup
 
 The configuration is mostly about headers and secret settings. These require some extra steps.
 
@@ -119,7 +119,7 @@ I believe there are many ways to run it, I simply do static hosting with PM2 and
 
     ```nginx
     server {
-        # ...usual stuff...
+        # ...my configs...
 
         location ~ \.wasm$ {
             proxy_set_header Content-Type application/wasm;
@@ -142,15 +142,6 @@ I believe there are many ways to run it, I simply do static hosting with PM2 and
         }
     }
     ```
-
-    Just in case I also added the unknown mime types to `/etc/mime.types` and `/etc/nginx/mime.types` configs.
-
-    ```ini
-    application/wasm                wasm;
-    image/vnd-ms.dds                dds;
-    ```
-
-    > I’m going to reinstall my box at some point. %)
 
 ## Demo
 

@@ -7,6 +7,12 @@ position = [0, 1.6, 0]
 lookAt = [0, 1.6, -10]
 
 [[router.routes]]
+path = "db-admin"
+label = "Database Admin"
+position = [0, 1.6, 0]
+lookAt = [0, 1.6, 10]
+
+[[router.routes]]
 path = "scene-setup"
 position = [-2, 2, -10]
 lookAt = [0, 0, 0]
@@ -15,8 +21,8 @@ lookAt = [0, 0, 0]
 path = "empty"
 label = "Empty"
 component = "EmptyTemplate"
-position = [-30, 2, -10]
-lookAt = [30, 2, -20]
+position = [-30, 2, -30]
+lookAt = [-300, 2, -30]
 
 [audio]
 volume = 0.45
@@ -25,4 +31,6 @@ volume = 0.45
 denied = "sounds/249300__suntemple__access-denied.wav"
 
 [video]
-clips = ["videos/yoga2.webm"]
+clips = [
+  "videos/yoga2.webm",
+]
