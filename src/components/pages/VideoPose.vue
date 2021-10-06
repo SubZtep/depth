@@ -32,7 +32,7 @@ import { useVideoStore } from "~/stores/video"
 import settings from "~/../SETTINGS.toml"
 
 const toast = useToast()
-const { progress } = useNProgress()
+const { progress, start, done } = useNProgress()
 const threeJs = useThreeJSEventHook()
 const { db } = useSupabase({ logger: toast })
 const video = useVideoStore()
@@ -51,11 +51,6 @@ const {
 } = useMediaControls(videoRef)
 
 const {
-  keyframes,
-  runKeyframes,
-} = await useFFmpeg({ src: toRef(video, "src"), options: { progress: ({ ratio }) => set(progress, ratio), log: false } })
-
-const {
   results,
   estimatePose,
   detectorReady,
@@ -68,26 +63,36 @@ whenever(and(detectorReady, toRef(video, "src"), toRef(video, "duration")), asyn
   if (video.id === undefined) {
     toast.info(`Insert video entry ${video.src} to the database`)
     video.id = await db.insertVideo(videoObj)
-    if (video.id === undefined) {
-      toast.error("Failed")
-      return
-    }
   }
 
   video.keyframes = await db.getKeyframes(video.id)
   if (video.keyframes === undefined) {
     toast.info("Fetch and insert keyframes to the database")
+
+    const {
+      exit,
+      ffmpeg,
+      keyframes,
+      runKeyframes,
+    } = await useFFmpeg({
+      src: toRef(video, "src"),
+      options: { progress: ({ ratio }) => set(progress, ratio), log: true },
+    })
+
     await runKeyframes()
     video.keyframes = get(keyframes)
-    if (video.keyframes === undefined) {
-      toast.error("Failed")
+    await db.insertKeyframes(video.id, video.keyframes)
+
+    exit()
+    if (ffmpeg.isLoaded()) {
+      toast.warning("Unable to exit from FFmpeg, please reload the page to get back your memory!", { timeout: 10000 })
       return
     }
-    await db.insertKeyframes(video.id, video.keyframes)
   }
 
   video.poses = await db.getPoses(video.id)
   if (video.poses === undefined) {
+    start()
     toast.info("Fetch and insert poses to the database")
     toast.warning("First frame estimation can be quite slow")
     threeJs.trigger(pauseLoop)
@@ -120,6 +125,7 @@ whenever(and(detectorReady, toRef(video, "src"), toRef(video, "duration")), asyn
     }
 
     threeJs.trigger(resumeLoop)
+    done()
   }
 })
 

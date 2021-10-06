@@ -46,7 +46,7 @@ export default class DbQueries {
     return data?.[0]?.id
   }
 
-  async insertVideo(obj: Db.Video): Promise<number | undefined> {
+  async insertVideo(obj: Db.Video): Promise<number> {
     const {
       data,
       error,
@@ -60,7 +60,13 @@ export default class DbQueries {
       return Promise.reject(error.message)
     }
 
-    return data?.[0]?.id
+    if (data == null || data.length === 0 || data[0].id == null) {
+      const msg = "Insert video error"
+      this.#logger?.error(msg)
+      return Promise.reject(msg)
+    }
+
+    return data[0].id
   }
 
   async getKeyframes(videoId: number): Promise<number[] | undefined> {

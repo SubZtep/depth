@@ -8,7 +8,7 @@ import { BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS, BLAZEPOSE_KEYPOINTS } from "~/misc
 
 export default defineComponent({
   props: {
-    keypoints: { type: Object as PropType<Keypoint[]>, required: false },
+    keypoints: { type: Object as PropType<LandmarkList>, required: false },
     position: { type: Array as unknown as PropType<THREE.Vector3Tuple>, default: () => [0, 0, 0] },
     scale: { type: Number, default: 1 },
     zMulti: { type: Number, default: 0.5 },

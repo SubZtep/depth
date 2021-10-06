@@ -11,6 +11,8 @@ interface FFmpegOptions {
 
 export async function useFFmpeg(options: FFmpegOptions) {
   const ffmpeg = createFFmpeg(options.options)
+  await ffmpeg.load()
+
   const dir = "/depth/"
   const memfsSrc = computed(() => `${dir}${basename(get(options.src) || "fixme")}.webm`)
 
@@ -19,21 +21,22 @@ export async function useFFmpeg(options: FFmpegOptions) {
   /** keyframe preview images */
   const thumbnails = ref<string[]>([])
 
-  await ffmpeg.load()
-
   // @ts-ignore
   ffmpeg.FS("mkdir", dir)
 
-  tryOnUnmounted(() => {
+  const exit = () => {
     unlinkAll()
     // @ts-ignore
     ffmpeg.FS("rmdir", dir)
+
     try {
       ffmpeg.exit()
     } catch (e) {
       console.error("FFmpeg exit", e)
     }
-  })
+  }
+
+  tryOnUnmounted(() => exit())
 
   ffmpeg.setLogger(({ message }) => {
     const found = message.match(KEYFRAME_TIMESTAMPS_LOG)
@@ -86,5 +89,6 @@ export async function useFFmpeg(options: FFmpegOptions) {
     runKeyframes,
     keyframes,
     thumbnails,
+    exit,
   }
 }

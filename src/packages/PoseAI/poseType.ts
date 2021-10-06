@@ -19,8 +19,8 @@ export const poseTypeOptions = {
   [poseTypeName(PoseType.Raw)]: PoseType.Raw,
 }
 
-type PoseForTime = Pick<SBPose, "id" | "time">
+type PoseForTime = Pick<Db.Pose, "id" | "ts">
 
-export function closestPoseInTime(poses: SBPose[], currentTime: number) {
-  return poses.reduce((prev: PoseForTime, curr: PoseForTime) => (Math.abs(curr.time - currentTime) < Math.abs(prev.time - currentTime) ? curr : prev)) as SBPose
-}
+// export function closestPoseInTime(poses: SBPose[], currentTime: number) {
+//   return poses.reduce((prev: PoseForTime, curr: PoseForTime) => (Math.abs(curr.time - currentTime) < Math.abs(prev.time - currentTime) ? curr : prev)) as SBPose
+// }

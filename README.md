@@ -26,28 +26,20 @@ There are **two full-screen layers** on each other.
 
 **Experiment project.** Use [Vue.js](https://github.com/vuejs/vue-next#readme) and [Three.js](https://github.com/mrdoob/three.js#readme) together on the same screen. To achieve this I found it quite handy to wrap local and 3rd-party packages into composition functions with additional reactive [VueUse](https://github.com/vueuse/vueuse#readme) helpers.
 
-Opt for my lucid developer experience :pensive: intentionally without following standardised patterns but avoid(ish) _spaghetti_. Just keep adding packages, moving files, rewriting definitions _~~recursive redundant~~_. This is certainly chaotic and confusing but it’s too early to talk about a serviceable form.
+Functionality so far:
+1. Load a short video file
+2. Get keyframe timestamps with FFmpeg
+3. Estimate human pose with Mediapipe
+4. Store poses in Supabase
+
 
 > aka :construction: **under construction**
 
 ## Source code overview
 
-It uses the most common packages for a front-end workflow. [VSCode](https://twitter.com/CODE) editor is highly recommended for [ESLint](https://eslint.org/blog/2019/01/future-typescript-eslint), [Prettier](https://prettier.io/playground/) and code auto-completion.
+It uses the most common packages for a front-end workflow. [VSCode](https://github.com/microsoft/vscode) editor is recommended since it's preconfigured in the repository.
 
-| Developer tools |
-| :-: |
-| **[JavaScript](https://2ality.com/) — [TypeScript](https://www.typescriptlang.org/docs/handbook/utility-types.html) — [Vue3](https://v3.vuejs.org/guide/composition-api-introduction.html) — [VueUse](https://vueuse.org/shared/reactify/) — [Vite](https://vitejs.dev/guide/features.html) — [Jest](https://jestjs.io/) — [Pug](https://www.npmjs.com/package/vite-plugin-pug) — [TOML](https://taplo.tamasfe.dev/configuration/#writing-schemas) — [PostCSS](https://preset-env.cssdb.org/playground) — [Windi CSS](https://windicss.org/features/)** |
-
-In the current phase, no performance tweaks on the packages applied. Heavy calculations are in _WebAssembly_ code anyway, rather problematic to avoid memory overflow.
-
-| 3rd-party packages |
-| :-: |
-| **[MediaPipe Pose](https://google.github.io/mediapipe/solutions/pose.html#pose-landmark-model-blazepose-ghum-3d) — [FFmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm-core#configuration) — [Font Awesome 6 Pro](https://fontawesome.com/v6.0/icons) — [Supabase](https://supabase.io/docs/guides/database/introduction) — [dat.GUI](https://github.com/dataarts/dat.gui#readme) — [CameraControls](https://github.com/yomotsu/camera-controls#examples) — [Howler.js](https://github.com/goldfire/howler.js#examples) — [NProgress](https://ricostacruz.com/nprogress/) — [Pinia](https://pinia.esm.dev/introduction.html#comparison-with-vuex-3-x-4-x) — [Stats.js](http://mrdoob.github.io/stats.js/) — [Three.js](https://threejs.org/examples/#webgl_loader_md2) — [Vue Toastification](https://maronato.github.io/vue-toastification/) — [Modernizr](https://modernizr.com/download?setclasses)** |
-
-Most of the packages and components are auto-imported. Also, there can be some unused functions.\
-_`already legacy?`_`(ノωヽ)`
-
-### Notable files & folders
+### Files & folders
 
 #### :file_folder:[`SETTINGS.toml`](SETTINGS.toml)
 
@@ -145,7 +137,7 @@ I believe there are many ways to run it, I simply do static hosting with PM2 and
 
 ## Demo
 
-Unstable deployment is [available](https://depth.demo.land/). :finnadie:
+Unstable deployment is [here](https://depth.demo.land/). :finnadie:
 
 > The latest [Google Chrome&trade; Canary](https://www.google.com/intl/en_uk/chrome/canary/) recommended.
 
