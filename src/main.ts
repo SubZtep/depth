@@ -13,7 +13,7 @@ import Router, { navigationGui, normalizeRoutes } from "./packages/router"
 import Stats from "./packages/Stats"
 import Gui from "./packages/datGUI"
 import Howler from "./packages/Howler/plugin"
-import { preferencesGui } from "./preferences"
+import preferencesGui from "./misc/preferencesGui"
 import settings from "~/../SETTINGS.toml"
 import "./icons"
 
@@ -35,7 +35,9 @@ createApp(App)
     key: import.meta.env.VITE_SUPABASE_KEY,
   })
   .use(Router, { routes, transition: settings.router.transition })
-  .use(ThreeJs, { toastEvents: true })
+  .use(ThreeJs, {
+    // toastEvents: true,
+  })
   .use(Stats, { mosaic: true })
   .use(Gui, { addons: [navigationGui(routes), preferencesGui] })
   .use(Howler, settings.audio)

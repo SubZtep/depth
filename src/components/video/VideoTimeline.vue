@@ -3,9 +3,9 @@ div(:class="$style.videoTimeline" v-stop-propagation)
 
   div(:class="$style.toolbar")
     .flex.gap-1
-      button.btn-icon(@click="state.zoom--" :disabled="state.zoom === 0")
+      button.btn(@click="state.zoom--" :disabled="state.zoom === 0")
         fa(:icon="['far', 'magnifying-glass-minus']")
-      button.btn-icon(@click="state.zoom++")
+      button.btn(@click="state.zoom++")
         fa(:icon="['far', 'magnifying-glass-plus']")
     div
       label
@@ -57,7 +57,7 @@ div(:class="$style.videoTimeline" v-stop-propagation)
 <script lang="ts" setup>
 import type { UseMediaControlsReturn } from "@vueuse/core"
 import { useFFmpeg } from "~/packages/FFmpeg"
-import ImgMemfs from "./ImgMemfs.vue"
+// import ImgMemfs from "./ImgMemfs.vue"
 
 const props = defineProps<{
   controls: UseMediaControlsReturn

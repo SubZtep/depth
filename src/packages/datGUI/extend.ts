@@ -1,5 +1,6 @@
 import dat from "dat.gui"
 import dom from "dat.gui/src/dat/dom/dom"
+import { regexpFilter } from "~/misc/filters"
 
 function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, string>, selected: string) {
   const html = Object.entries(list)
@@ -20,7 +21,7 @@ export function applyReactiveSelect(guiPrototype: dat.GUI) {
 }
 
 export function applyTextInput(guiPrototype: dat.GUI) {
-  guiPrototype.addTextInput = function (filterRegexp, placeholder, clearOnFinish = true) {
+  guiPrototype.addTextInput = function ({ filter, placeholder, keepValue }) {
     const obj = reactive({ value: "" })
     const ctrl = this.add(obj, "value")
     const input = ctrl.domElement.children[0] as HTMLInputElement
@@ -37,7 +38,7 @@ export function applyTextInput(guiPrototype: dat.GUI) {
       value => originalChange!.call(ctrl, value),
       {
         immediate: false,
-        eventFilter: invoke => filterRegexp.test(obj.value) && invoke(),
+        eventFilter: regexpFilter(filter, obj.value),
       }
     )
 
@@ -52,9 +53,9 @@ export function applyTextInput(guiPrototype: dat.GUI) {
     ctrl.onFinishChange = (fnc: ChangeCallback) => {
       originalFinishChange = fnc
       dom.bind(input, "blur", () => {
-        if (filterRegexp.test(obj.value)) {
+        if (filter.test(obj.value)) {
           originalFinishChange!.call(ctrl, obj.value)
-          if (clearOnFinish) {
+          if (!keepValue) {
             input.value = ""
           }
         }

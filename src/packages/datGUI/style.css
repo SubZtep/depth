@@ -1,96 +1,118 @@
-.dg {
-  @apply !font-mono !text-base;
-  color: #e0e0e0;
-  user-select: none;
-}
-
-.dg.main {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  transform-origin: left bottom;
+.depth.dg.main {
+  @apply absolute bottom-0 left-0 origin-bottom-left;
   transform: scale(var(--gui-scale, 1));
-}
+  * {
+    @apply font-mono text-light-500;
+  }
 
-.dg.main > ul {
-  @apply flex flex-col-reverse;
-}
+  > ul {
+    @apply flex flex-col-reverse;
+  }
 
-.dg .property-name, .dg .c {
-  @apply w-1/2;
-}
+  *:not(.closed) li {
 
-.dg li:not(.folder) {
-  @apply flex items-center font-light tracking-normal h-8;
-}
+    &.title {
+      @apply tracking-wide text-lg font-normal h-9 flex items-center transition duration-150;
+    }
 
-.dg .folder .title {
-  @apply text-lg flex font-medium items-center tracking-wide h-8;
-}
+    &.title::first-letter {
+      @apply text-5xl;
+    }
 
-.dg .folder .closed .title {
-  color: #efefef69;
-}
+    &:hover {
+      @apply text-terminal;
+    }
 
-.dg .c input[type="text"] {
-  @apply leading-none px-1 py-0;
-}
+    &.cr {
+      @apply flex flex-col;
+    }
 
-.dg .cr > div {
-  @apply w-full;
-}
+    .property-name, .c {
+      @apply w-1/2 text-sm font-light tracking-wide;
+    }
 
-.dg .cr.function {
-  --btn-border-width: 3px;
-  --btn-border-color: #333;
-  border-style: outset;
-  border-top-width: var(--btn-border-width);
-  border-right-width: var(--btn-border-width);
-  border-bottom-width: var(--btn-border-width);
-  border-left-width: calc(var(--btn-border-width) + 1px);
-  border-top-color: var(--btn-border-color);
-  border-right-color: var(--btn-border-color);
-  border-bottom-color: var(--btn-border-color);
-  &:active {
-    border-style: inset;
-    & .property-name {
-      transform: translate(1px, 1px);
+    .property-name {
+      @apply w-1/2 p-3px;
+      &:function {
+        @apply p-4px;
+      }
     }
   }
-}
 
-.dg .cr.function .property-name {
-  @apply w-full leading-none;
-}
+  .closed .title {
+    @apply text-warm-gray-500;
+  }
 
-.dg .cr .property-name {
-  @apply whitespace-nowrap;
-}
+  .c {
+    input[type="text"], select {
+      @apply leading-none px-1 py-0;
+    }
 
-.dg .cr.function .c {
-  @apply hidden;
-}
+    select {
+      color: #1ed36f;
+      background-color: #303030;
+      &:active {
+        color: #fff;
+      }
+      &:hover {
+        background-color: #3c3c3c;
+      }
+    }
+  }
 
-.dg .cr.string select {
-  @apply w-full;
-}
+  ul:not(.closed) > .cr.function {
+    --btn-border-width: 3px;
+    --btn-border-color: #333;
+    border-style: outset;
+    border-width: 2px;
+    border-top-width: var(--btn-border-width);
+    border-right-width: var(--btn-border-width);
+    border-bottom-width: var(--btn-border-width);
+    border-left-width: calc(var(--btn-border-width) + 1px);
+    border-top-color: var(--btn-border-color);
+    border-right-color: var(--btn-border-color);
+    border-bottom-color: var(--btn-border-color);
+    &:active {
+      border-style: inset;
+      & .property-name {
+        transform: translate(1px, 1px);
+      }
+    }
+  }
 
-.dg.main .close-button {
-  color: #666;
-  position: relative !important;
-  height: 32px;
-  line-height: 32px;
-}
+  .cr.function .property-name {
+    @apply w-full leading-none;
+  }
 
-.dg.main .closed + .close-button {
-  transform-origin: bottom left;
-  transform: scale(0.5, 1.5);
-  background-image: radial-gradient(closest-side, #220, #000);
-  border-top-right-radius: 5rem 1rem;
-  transition: 80ms;
-  color: #690;
-}
+  .cr .property-name {
+    @apply whitespace-nowrap;
+  }
 
-.dg.main .closed + .close-button:hover {
-  color: #cfc;
+  .cr.function .c {
+    @apply hidden;
+  }
+
+  .cr.string select {
+    @apply w-full;
+  }
+
+  .close-button {
+    @apply text-sm;
+    color: #666;
+    position: relative !important;
+    height: 32px;
+    line-height: 32px;
+  }
+
+  .closed + .close-button {
+    transform-origin: bottom left;
+    transform: scale(0.5, 1.5);
+    background-image: radial-gradient(closest-side, #220, #000);
+    border-top-right-radius: 5rem 1rem;
+    @apply text-emerald-600 transition duration-150;
+  }
+
+  .closed + .close-button:hover {
+    @apply text-emerald-500;
+  }
 }

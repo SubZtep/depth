@@ -5,6 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     App: typeof import('C:/Users/subzt/Code/depth/src/components/scene/App.vue')['default']
+    CancellableEventToast: typeof import('C:/Users/subzt/Code/depth/src/components/toasts/CancellableEventToast.vue')['default']
     CanvasInScene: typeof import('C:/Users/subzt/Code/depth/src/components/video/CanvasInScene.ts')['default']
     DbAdmin: typeof import('C:/Users/subzt/Code/depth/src/components/pages/DbAdmin.vue')['default']
     Debug: typeof import('C:/Users/subzt/Code/depth/src/components/ui/Debug.vue')['default']
@@ -13,6 +14,7 @@ declare module 'vue' {
     ImgMemfs: typeof import('C:/Users/subzt/Code/depth/src/components/video/ImgMemfs.vue')['default']
     MainScene: typeof import('C:/Users/subzt/Code/depth/src/components/scene/MainScene.vue')['default']
     SceneSetup: typeof import('C:/Users/subzt/Code/depth/src/components/pages/SceneSetup.vue')['default']
+    StepProgressBar: typeof import('C:/Users/subzt/Code/depth/src/components/ui/StepProgressBar.vue')['default']
     StickmanLandmarks: typeof import('C:/Users/subzt/Code/depth/src/components/characters/StickmanLandmarks.vue')['default']
     StickmanNormalized: typeof import('C:/Users/subzt/Code/depth/src/components/characters/StickmanNormalized.vue')['default']
     StickmanSimple: typeof import('C:/Users/subzt/Code/depth/src/components/characters/StickmanSimple.ts')['default']

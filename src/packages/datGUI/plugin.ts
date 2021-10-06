@@ -9,6 +9,7 @@ const guiKey = Symbol("dat.gui")
 const plugin: Plugin = {
   install(app, options?: GuiOptions) {
     const gui = new dat.GUI({ autoPlace: false, width: 285, closeOnTop: false })
+    gui.domElement.classList.add("depth")
     document.body.appendChild(gui.domElement)
     app.provide(guiKey, gui)
     options?.addons?.reverse().forEach(addon => addon.call(null, gui))
