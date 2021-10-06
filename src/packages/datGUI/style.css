@@ -1,5 +1,5 @@
 .dg {
-  @apply font-mono text-base;
+  @apply !font-mono !text-base;
   color: #e0e0e0;
   user-select: none;
 }
