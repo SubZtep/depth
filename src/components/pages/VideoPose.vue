@@ -30,6 +30,7 @@ import { VALID_VIDEO_URL_FOR_FFMPEG } from "~/misc/regexp"
 import { basename, sleep } from "~/misc/utils"
 import { useVideoStore } from "~/stores/video"
 import settings from "~/../SETTINGS.toml"
+import { storeToRefs } from "pinia"
 
 const toast = useToast()
 const { progress, start, done } = useNProgress()
@@ -37,6 +38,7 @@ const threeJs = useThreeJSEventHook()
 const { db } = useSupabase({ logger: toast })
 const video = useVideoStore()
 
+const { src } = storeToRefs(video) as { src: Ref<typeof video.src> }
 const videoRef = ref() as Ref<HTMLVideoElement>
 const playerTimeUpdated = ref(false)
 const pose = ref<NormalizedLandmarkList>()
@@ -56,7 +58,7 @@ const {
   detectorReady,
 } = useMediapipePose({ video: videoRef, options: { modelComplexity: 2 } })
 
-whenever(and(detectorReady, toRef(video, "src"), toRef(video, "duration")), async () => {
+whenever(and(detectorReady, src, toRef(video, "duration")), async () => {
   const videoObj = ["src", "duration", "width", "height"].reduce((obj, key) => ({ ...obj, [key]: video[key] }), {}) as Db.Video
 
   video.id = await db.getVideoId(videoObj)
@@ -75,8 +77,8 @@ whenever(and(detectorReady, toRef(video, "src"), toRef(video, "duration")), asyn
       keyframes,
       runKeyframes,
     } = await useFFmpeg({
-      src: toRef(video, "src"),
-      options: { progress: ({ ratio }) => set(progress, ratio), log: true },
+      src,
+      options: { progress: ({ ratio }) => set(progress, ratio), log: false },
     })
 
     await runKeyframes()
@@ -161,7 +163,7 @@ const onVideoError = () => {
   delete get(videoOptions)[videoEl.src]
   videoEl.src = ""
   //TODO: implenent error codes: https://developer.mozilla.org/en-US/docs/Web/API/MediaError
-  toast.error(`Unable to load ${video.src}.\n${videoEl.error?.message}`)
+  toast.error(`Unable to load ${src}.\n${videoEl.error?.message}`)
 }
 
 useGuiFolder(folder => {

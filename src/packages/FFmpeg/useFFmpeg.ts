@@ -14,15 +14,16 @@ export async function useFFmpeg(options: FFmpegOptions) {
   await ffmpeg.load()
 
   const dir = "/depth/"
-  const memfsSrc = computed(() => `${dir}${basename(get(options.src) || "fixme")}.webm`)
+  // @ts-ignore
+  ffmpeg.FS("mkdir", dir)
+
+  const memfsNamer = (srcstr: string) => `${dir}${basename(srcstr)}.webm`
+  const memfsSrc = computed(() => memfsNamer(get(options.src) || "fixme"))
 
   /** keyframe timestamps */
   const keyframes = ref<number[]>([])
   /** keyframe preview images */
-  const thumbnails = ref<string[]>([])
-
-  // @ts-ignore
-  ffmpeg.FS("mkdir", dir)
+  // const thumbnails = ref<string[]>([])
 
   const exit = () => {
     unlinkAll()
@@ -44,27 +45,19 @@ export async function useFFmpeg(options: FFmpegOptions) {
     get(keyframes).push(parseFloat(found[1]))
   })
 
-  const loadVideo = async (src?: string) => {
-    if (!src) return
-    pause()
-    ffmpeg.FS("writeFile", get(memfsSrc), await fetchFile(src))
-    resume()
-  }
-
   const { resume, pause, isActive } = pausableWatch(
     options.src,
-    loadVideo,
+    async (newSrc, oldSrc) => {
+      if (oldSrc) {
+        ffmpeg.FS("unlink", memfsNamer(oldSrc))
+      }
+      ffmpeg.FS("writeFile", get(memfsSrc), await fetchFile(newSrc!))
+    },
     {
-      immediate: false,
+      immediate: true,
       eventFilter: truthyFilter(options.src),
     }
   )
-
-  tryOnMounted(() => {
-    if (get(options.src)) {
-      loadVideo(get(options.src))
-    }
-  })
 
   const runKeyframes = async () => {
     // await until(isActive).toBeTruthy()
@@ -88,7 +81,7 @@ export async function useFFmpeg(options: FFmpegOptions) {
     running: not(isActive),
     runKeyframes,
     keyframes,
-    thumbnails,
+    // thumbnails,
     exit,
   }
 }

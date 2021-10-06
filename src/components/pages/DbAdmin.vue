@@ -70,7 +70,9 @@ const deleteVideo = async (videoId: number) => {
 
 <style module>
 .table {
-  @apply mx-auto max-w-full max-h-full;
+  @apply mx-auto max-w-full max-h-full border-separate;
+  border-spacing: 2px;
+
   td {
     @apply px-2 py-1;
     &:not(:first-child) {
