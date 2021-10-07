@@ -1,5 +1,5 @@
 .depth.dg.main {
-  @apply absolute bottom-0 left-0 origin-bottom-left;
+  @apply absolute bottom-0 left-0 origin-bottom-left select-none;
   transform: scale(var(--gui-scale, 1));
   * {
     @apply font-mono text-light-500;
@@ -61,10 +61,9 @@
   }
 
   ul:not(.closed) > .cr.function {
-    --btn-border-width: 3px;
+    --btn-border-width: 2px;
     --btn-border-color: #333;
     border-style: outset;
-    border-width: 2px;
     border-top-width: var(--btn-border-width);
     border-right-width: var(--btn-border-width);
     border-bottom-width: var(--btn-border-width);
@@ -74,7 +73,7 @@
     border-bottom-color: var(--btn-border-color);
     &:active {
       border-style: inset;
-      & .property-name {
+      .property-name {
         transform: translate(1px, 1px);
       }
     }

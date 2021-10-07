@@ -3,6 +3,7 @@ table(v-if="videos.length > 0" :class="$style.table" v-stop-propagation)
   caption Videos in database
   thead
     tr
+      td id
       td src
       td duration
       td width
@@ -12,6 +13,7 @@ table(v-if="videos.length > 0" :class="$style.table" v-stop-propagation)
       td
   tbody
     tr(v-for="video in videos")
+      td {{ video.id }}
       td {{ video.src }}
       td {{ video.duration }}
       td {{ video.width }}

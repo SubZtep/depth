@@ -28,11 +28,7 @@
     
       function fetchRemotePackage(packageName, packageSize, callback, errback) {
         
-        const isNodeJs = () => (typeof process !== 'undefined') &&
-          (typeof process.versions !== 'undefined') &&
-          (typeof process.versions.node !== 'undefined');
-
-        if (isNodeJs()) {
+        if (typeof process === 'object' && typeof process.versions === 'object' && typeof process.versions.node === 'string') {
           require('fs').readFile(packageName, function(err, contents) {
             if (err) {
               errback(err);
@@ -194,7 +190,7 @@ Module['FS_createPath']("/third_party/mediapipe/modules", "pose_detection", true
     }
   
    }
-   loadPackage({"files": [{"filename": "/third_party/mediapipe/modules/pose_detection/pose_detection.tflite", "start": 0, "end": 2961104, "audio": 0}], "remote_package_size": 2961104, "package_uuid": "ce6b1404-d3a5-4e7f-9208-6d378e105f11"});
+   loadPackage({"files": [{"filename": "/third_party/mediapipe/modules/pose_detection/pose_detection.tflite", "start": 0, "end": 2961104, "audio": 0}], "remote_package_size": 2961104, "package_uuid": "2af7b544-1952-4b6a-85a6-a23a126a93f8"});
   
   })();
   

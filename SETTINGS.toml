@@ -13,6 +13,11 @@ position = [0, 1.6, 0]
 lookAt = [0, 1.6, 10]
 
 [[router.routes]]
+path = "store-test"
+position = [0, 1.6, 0]
+lookAt = [10, 1.6, 0]
+
+[[router.routes]]
 path = "scene-setup"
 position = [-2, 2, -10]
 lookAt = [0, 0, 0]

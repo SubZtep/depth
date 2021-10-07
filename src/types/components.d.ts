@@ -18,6 +18,7 @@ declare module 'vue' {
     StickmanLandmarks: typeof import('C:/Users/subzt/Code/depth/src/components/characters/StickmanLandmarks.vue')['default']
     StickmanNormalized: typeof import('C:/Users/subzt/Code/depth/src/components/characters/StickmanNormalized.vue')['default']
     StickmanSimple: typeof import('C:/Users/subzt/Code/depth/src/components/characters/StickmanSimple.ts')['default']
+    StoreTest: typeof import('C:/Users/subzt/Code/depth/src/components/pages/StoreTest.vue')['default']
     SystemCheck: typeof import('C:/Users/subzt/Code/depth/src/components/scene/SystemCheck.ts')['default']
     ThreeCanvas: typeof import('C:/Users/subzt/Code/depth/src/components/scene/ThreeCanvas.vue')['default']
     TimelineCanvas: typeof import('C:/Users/subzt/Code/depth/src/components/video/TimelineCanvas.vue')['default']

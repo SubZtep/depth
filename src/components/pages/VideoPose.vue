@@ -4,9 +4,9 @@ Title Video Display Pose
 .top-left.gap-6
   video.videoPlayer(
     ref="videoRef"
-    :src="videoState.src"
+    :src="videoStore.src"
     @error="loadError"
-    @timeupdate="onTimeupdate"
+    @timeupdate="playerTimeUpdater"
     @loadedmetadata="setAttributes"
     v-css-aspect-ratio="`--video-aspect-ratio`"
     v-visible="state.showVideoTag"
@@ -14,11 +14,13 @@ Title Video Display Pose
     controls
     muted)
 
-  StepProgressBar(position="left" :items="progressItemsLeft")
+  transition(name="slide")
+    StepProgressBar(v-if="videoIsReadyToProcess" :items="progressItemsLeft")
 
 .top-right.gap-6
-  StepProgressBar(position="right" :items="progressItemsRight")
-  StepProgressBar(position="right" :items="progressItemsRight")
+  .bg-white
+    | {{detectorReady}} {{src}} {{isProcessable}}
+  //- StepProgressBar(:items="progressItemsRight")
 
 StickmanNormalized(v-if="pose" :pose="pose" :position="[-2, 0, -10]")
 </template>
@@ -43,52 +45,59 @@ const toast = useToast()
 const { progress, start, done } = useNProgress()
 const threeJs = useThreeJSEventHook()
 const { db } = useSupabase({ logger: toast })
-const videoState = useVideoStore()
+const videoStore = useVideoStore()
 
-const { src } = storeToRefs(videoState) as { src: Ref<typeof videoState.src> }
+// const { src } = storeToRefs(videoStore) as { src: Ref<typeof videoStore.src> }
+const { src, isProcessable, hasId, hasKeyframes, hasPoses } = storeToRefs(videoStore)
+
 const videoRef = ref() as Ref<HTMLVideoElement>
-const playerTimeUpdated = ref(false)
+// const playerTimeUpdated = ref(false)
 const pose = ref<NormalizedLandmarkList>()
 
 const state = reactive({
   showVideoTag: true,
 })
 
-const progressItemsLeft = ref([
-  { label: "Load video", done: true },
-  { label: "Get keyframes", done: true },
-  { label: "Get poses", done: false },
-])
+const progressItemsLeft = [
+  { label: "Load video", done: hasId },
+  { label: "Get keyframes", done: hasKeyframes },
+  { label: "Get poses", done: hasPoses },
+]
 
-const progressItemsRight = ref([
-  { label: "Load video", done: false },
-  { label: "Get keyframes", done: false },
-  { label: "Get poses", done: false },
-])
+// videoStore.$subscribe((mt, st) => {
+//   console.log({ mt, st })
+// })
 
-const { videoSelectOptions, loadError, setAttributes } = useVideoHandlers({ videoState }, toast)
+// const progressItemsRight = ref([
+//   { label: "Load video", done: false },
+//   { label: "Get keyframes", done: false },
+//   { label: "Get poses", done: false },
+// ])
+
 const { playing, currentTime } = useMediaControls(videoRef)
+const { videoSelectOptions, loadError, setAttributes, playerTimeUpdater, playerTimeUpdated } = useVideoHandlers({ videoState: videoStore }, toast)
 const { results, estimatePose, detectorReady } = useMediapipePose({ video: videoRef, options: { modelComplexity: 2 } })
 
-const videoIsReadyToProcess = and(detectorReady, src, toRef(videoState, "duration"))
+const videoIsReadyToProcess = and(detectorReady, src, isProcessable)
 
 whenever(videoIsReadyToProcess, async () => {
-  const videoObj = ["src", "duration", "width", "height"].reduce((obj, key) => ({ ...obj, [key]: videoState[key] }), {}) as Db.Video
+  const videoObj = ["src", "duration", "width", "height"].reduce((obj, key) => Object.assign(obj, { [key]: videoStore[key] }), {}) as Db.Video
 
-  videoState.id = await db.getVideoId(videoObj)
-  if (videoState.id === undefined) {
-    toast.info(`Insert video entry ${videoState.src} to the database`)
-    videoState.id = await db.insertVideo(videoObj)
+  videoStore.id = await db.getVideoId(videoObj)
+
+  if (videoStore.id === undefined) {
+    toast.info(`Insert video entry ${videoStore.src} to the database`)
+    videoStore.id = await db.insertVideo(videoObj)
   }
 
-  videoState.keyframes = await db.getKeyframes(videoState.id)
-  if (!videoState.keyframes) {
+  videoStore.keyframes = await db.getKeyframes(videoStore.id)
+  if (!videoStore.keyframes) {
     toast.info("Keyframe timestamps — via FFmpeg — to the database")
 
     const ff = await useFFmpeg({ src, options: { progress: ({ ratio }) => set(progress, ratio), log: false } })
     await ff.runKeyframes()
-    videoState.keyframes = get(ff.keyframes)
-    await db.insertKeyframes(videoState.id, videoState.keyframes)
+    videoStore.keyframes = get(ff.keyframes)
+    await db.insertKeyframes(videoStore.id, videoStore.keyframes)
 
     ff.exit()
     if (ff.ffmpeg.isLoaded()) {
@@ -106,17 +115,17 @@ whenever(videoIsReadyToProcess, async () => {
     }
   }
 
-  videoState.poses = await db.getPoses(videoState.id)
-  if (videoState.poses === undefined) {
+  videoStore.poses = await db.getPoses(videoStore.id)
+  if (videoStore.poses === undefined) {
     start()
     toast.info("Fetch and insert poses to the database")
     toast.warning("First frame estimation can be quite slow")
     threeJs.trigger(pauseLoop)
     await sleep(50)
 
-    videoState.poses = []
+    videoStore.poses = []
     const poses: VideoStatePose[] = []
-    for (const ts of videoState.keyframes!) {
+    for (const ts of videoStore.keyframes!) {
       set(playerTimeUpdated, false)
 
       if (get(currentTime) !== ts) {
@@ -129,15 +138,15 @@ whenever(videoIsReadyToProcess, async () => {
       poses.push({ ts, pose_normalized: results.poseWorldLandmarks })
 
       if (poses.length === 10) {
-        await db.insertPoses(videoState.id, poses)
-        videoState.poses.push(...poses)
+        await db.insertPoses(videoStore.id, poses)
+        videoStore.poses.push(...poses)
         poses.length = 0
       }
     }
 
     if (poses.length > 0) {
-      await db.insertPoses(videoState.id, poses)
-      videoState.poses.push(...poses)
+      await db.insertPoses(videoStore.id, poses)
+      videoStore.poses.push(...poses)
     }
 
     threeJs.trigger(resumeLoop)
@@ -145,30 +154,30 @@ whenever(videoIsReadyToProcess, async () => {
   }
 })
 
-whenever(and(playing, toRef(videoState, "poses")), async () => {
-  if (videoState.poses === undefined) return
-
-  for (const p of videoState.poses) {
+// gagyi playback
+whenever(and(playing, toRef(videoStore, "poses")), async () => {
+  if (videoStore.poses === undefined) return
+  for (const p of videoStore.poses) {
     // console.log("TS", p.ts)
     set(pose, p.pose_normalized)
     await sleep(30)
   }
 })
 
-const onTimeupdate = () => {
-  set(playerTimeUpdated, true)
-  // console.log("TU", e.target.currentTime)
-}
+// const onTimeupdate = () => {
+//   set(playerTimeUpdated, true)
+//   // console.log("TU", e.target.currentTime)
+// }
 
 useGuiFolder(folder => {
   folder.name = "📼 FFmpeg"
-  folder.addReactiveSelect(videoState, "src", videoSelectOptions).name("Load video")
+  folder.addReactiveSelect(videoStore, "src", videoSelectOptions).name("Load video")
   folder
     .addTextInput({ filter: VALID_VIDEO_URL_FOR_FFMPEG, placeholder: "blur to add" })
     .name("Video URL")
     .onFinishChange(url => {
       get(videoSelectOptions)[basename(url)] = url
-      videoState.src = url
+      videoStore.src = url
     })
   folder.add(state, "showVideoTag").name("Show video")
 })
@@ -179,5 +188,13 @@ useGuiFolder(folder => {
   @apply max-h-300px;
   aspect-ratio: var(--video-aspect-ratio);
   border: 4px ridge #964b00;
+}
+
+.slide-enter-active, .slide-leave-active {
+  transition: transform 500ms ease;
+}
+
+.slide-enter-from, .slide-leave-to {
+  transform: translateX(-100%);
 }
 </style>
