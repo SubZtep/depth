@@ -10,13 +10,16 @@ let getRoute: PathToRouteFn
 
 export default {
   install(app, options: RouterOptions) {
-    getRoute = routeByPath(options.routes)
+    const { routes, transition = false } = options
+
+    getRoute = routeByPath(routes)
     app.provide(eventHookKey, eventHook)
 
     window.addEventListener("hashchange", () => {
       const route = useActiveRoute()
+      if (!route) throw new Error("No route found")
       // @ts-ignore
-      route && eventHook.trigger({ ...route, transition: options.transition })
+      eventHook.trigger({ ...route, transition })
     })
   },
 } as Plugin
@@ -31,7 +34,6 @@ export function useActiveRoute(): Route | undefined {
 
 export function useActiveRouteComponent(): Component {
   const pageComponent = shallowRef(useActiveRoute()?.component)
-  // @ts-ignore
   inject<EventHook<RouterEvent>>(eventHookKey)!.on(route => set(pageComponent, route.component))
   return pageComponent
 }

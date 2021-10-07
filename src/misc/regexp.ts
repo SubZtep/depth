@@ -1,1 +1,1 @@
-export const VALID_VIDEO_URL_FOR_FFMPEG = /^\S+\.webm|mkv|mp4|avi|ogv$/
+export const VIDEO_URL = /^\S+\.webm|mkv|mp4|avi|ogv$/

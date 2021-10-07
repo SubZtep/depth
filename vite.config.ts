@@ -62,7 +62,8 @@ export default defineConfig(({ mode, command }) => {
           "@vueuse/core",
           { "@vueuse/core": ["get", "set", "and", "not", "invoke"] },
           { "@vueuse/integrations": ["useNProgress"] },
-          { "vue-toastification": ["useToast"] }
+          { "vue-toastification": ["useToast", "POSITION"] },
+          { "pinia": ["storeToRefs"] },
         ],
         dts: "src/types/auto-imports.d.ts",
       }),

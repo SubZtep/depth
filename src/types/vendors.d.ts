@@ -7,3 +7,6 @@ declare module "*SETTINGS.toml" {
   const value: import("./settings").Settings
   export default value
 }
+
+type NormalizedLandmarkList = import("public/pose/index.d").NormalizedLandmarkList
+type LandmarkList = import("public/pose/index.d").LandmarkList

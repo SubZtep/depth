@@ -1,33 +1,30 @@
-import { videoClipSelectOptions } from "~/misc/constants"
-import { basename } from "~/misc/utils"
-import { VideoState } from "~/stores/video"
+import { useVideoStore } from "~/stores/video"
 
-interface VideoHandlers {
-  videoState: VideoState
+type VideoElementEvent = Event & { target: HTMLVideoElement }
+
+interface Params {
+  onError?: (src: string) => void
+  logger?: Logger
 }
 
 /** Event handlers */
-export default function useVideoHandlers({ videoState }: VideoHandlers, logger?: Logger) {
+export default function useVideoHandlers({ onError, logger }: Params) {
+  const videoStore = useVideoStore()
 
   /** timeupdate event (should) change it */
   const playerTimeUpdated = ref(false)
 
-  /** Available video files in gui-friendly format */
-  const videoSelectOptions: Ref<SelectOptions> = ref(videoClipSelectOptions)
-
-  const setAttributes = ({ target }: Event) => {
-    const { videoWidth, videoHeight, duration } = target as HTMLVideoElement
-    videoState.width = videoWidth
-    videoState.height = videoHeight
-    videoState.duration = duration
+  const setAttributes = ({ target }: VideoElementEvent) => {
+    videoStore.width = target.videoHeight
+    videoStore.height = target.videoHeight
+    videoStore.duration = target.duration
   }
 
-  const loadError = (ev: Event) => {
-    const videoEl = ev.target as HTMLVideoElement
-    logger?.error(videoEl.error!.message)
-    delete get(videoSelectOptions)[basename(videoEl.src)]
-    videoEl.removeAttribute("src")
-  }
+  const loadError = (({ target }: VideoElementEvent) => {
+    onError?.call(null, target.src)
+    target.removeAttribute("src")
+    logger?.error(target.error!.message)
+  })
 
   const playerTimeUpdater = () => {
     set(playerTimeUpdated, true)
@@ -37,7 +34,6 @@ export default function useVideoHandlers({ videoState }: VideoHandlers, logger?:
   return {
     playerTimeUpdater,
     playerTimeUpdated,
-    videoSelectOptions,
     setAttributes,
     loadError,
   }

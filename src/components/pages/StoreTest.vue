@@ -23,7 +23,6 @@ button.btn.px-1.bg-white(@click="testStore.$reset()") reset
 
 <script lang="ts" setup>
 import { useTestStore } from "~/stores/test"
-import { storeToRefs } from "pinia"
 
 const testStore = useTestStore()
 

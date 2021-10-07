@@ -15,19 +15,22 @@ import Gui from "./packages/datGUI"
 import Howler from "./packages/Howler/plugin"
 import preferencesGui from "./misc/preferencesGui"
 import settings from "~/../SETTINGS.toml"
+import videoPlugin from "./stores/videoPlugin"
 import "./icons"
-
 import "virtual:windi.css"
 import "./style.css"
 
 const routes = normalizeRoutes(settings.router.routes)
 
-createApp(App)
-  .use(createPinia())
+const piana = createPinia()
+  .use(videoPlugin)
+
+const app = createApp(App)
+  .use(piana)
   .use(Toast, {
     timeout: 4569,
     maxToasts: 13,
-    position: "bottom-right",
+    position: POSITION.BOTTOM_RIGHT,
     showCloseButtonOnHover: true,
   })
   .use(Supabase, {
@@ -35,9 +38,7 @@ createApp(App)
     key: import.meta.env.VITE_SUPABASE_KEY,
   })
   .use(Router, { routes, transition: settings.router.transition })
-  .use(ThreeJs, {
-    // toastEvents: true,
-  })
+  .use(ThreeJs, { toastEvents: false })
   .use(Stats, { mosaic: true })
   .use(Gui, { addons: [navigationGui(routes), preferencesGui] })
   .use(Howler, settings.audio)
@@ -46,4 +47,9 @@ createApp(App)
   .directive("dbvideo", DBVideo)
   .directive("css-aspect-ratio", CssAspectRatio)
   .directive("stop-propagation", StopPropagation)
-  .mount("#hud")
+
+app.config.errorHandler = (err, instance, info) => {
+  console.log("My Error Handler", { err, instance, info })
+}
+
+app.mount("#hud")

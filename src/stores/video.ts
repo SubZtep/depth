@@ -1,4 +1,3 @@
-import type { LandmarkList, NormalizedLandmarkList } from "public/pose"
 import { defineStore } from "pinia"
 import settings from "~/../SETTINGS.toml"
 

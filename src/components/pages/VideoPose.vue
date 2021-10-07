@@ -19,27 +19,24 @@ Title Video Display Pose
 
 .top-right.gap-6
   .bg-white
-    | {{detectorReady}} {{src}} {{isProcessable}}
-  //- StepProgressBar(:items="progressItemsRight")
+    | {{detectorReady}} {{isProcessable}}
 
 StickmanNormalized(v-if="pose" :pose="pose" :position="[-2, 0, -10]")
 </template>
 
 <script lang="ts" setup>
-import type { NormalizedLandmarkList } from "public/pose"
 import type { VideoStatePose } from "~/stores/video"
-import { useMediaControls } from "@vueuse/core"
 import { useGuiFolder } from "~/packages/datGUI"
 import { useFFmpeg } from "~/packages/FFmpeg"
 import { useSupabase } from "~/packages/Supabase"
 import { useMediapipePose } from "~/packages/PoseAI"
 import { useThreeJSEventHook, pauseLoop, resumeLoop } from "~/packages/ThreeJS"
-import { VALID_VIDEO_URL_FOR_FFMPEG } from "~/misc/regexp"
+import { VIDEO_URL } from "~/misc/regexp"
 import { basename, sleep } from "~/misc/utils"
 import { useVideoStore } from "~/stores/video"
-import { storeToRefs } from "pinia"
 import { useVideoHandlers } from "~/composables"
 import CancellableEventToast from "~/components/toasts/CancellableEventToast.vue"
+import { videoClipSelectOptions } from "~/misc/constants"
 
 const toast = useToast()
 const { progress, start, done } = useNProgress()
@@ -47,16 +44,10 @@ const threeJs = useThreeJSEventHook()
 const { db } = useSupabase({ logger: toast })
 const videoStore = useVideoStore()
 
-// const { src } = storeToRefs(videoStore) as { src: Ref<typeof videoStore.src> }
-const { src, isProcessable, hasId, hasKeyframes, hasPoses } = storeToRefs(videoStore)
+const { src, hasId, hasKeyframes, hasPoses, isProcessable } = storeToRefs(videoStore)
 
 const videoRef = ref() as Ref<HTMLVideoElement>
-// const playerTimeUpdated = ref(false)
 const pose = ref<NormalizedLandmarkList>()
-
-const state = reactive({
-  showVideoTag: true,
-})
 
 const progressItemsLeft = [
   { label: "Load video", done: hasId },
@@ -64,21 +55,34 @@ const progressItemsLeft = [
   { label: "Get poses", done: hasPoses },
 ]
 
-// videoStore.$subscribe((mt, st) => {
-//   console.log({ mt, st })
-// })
+const videoSelectOptions: Ref<SelectOptions> = ref(videoClipSelectOptions)
 
-// const progressItemsRight = ref([
-//   { label: "Load video", done: false },
-//   { label: "Get keyframes", done: false },
-//   { label: "Get poses", done: false },
-// ])
+const {
+  playing,
+  currentTime,
+} = useMediaControls(videoRef)
 
-const { playing, currentTime } = useMediaControls(videoRef)
-const { videoSelectOptions, loadError, setAttributes, playerTimeUpdater, playerTimeUpdated } = useVideoHandlers({ videoState: videoStore }, toast)
-const { results, estimatePose, detectorReady } = useMediapipePose({ video: videoRef, options: { modelComplexity: 2 } })
+const {
+  loadError,
+  setAttributes,
+  playerTimeUpdater,
+  playerTimeUpdated,
+} = useVideoHandlers({
+      onError: src => (delete get(videoSelectOptions)[basename(src)]),
+      logger: toast,
+    })
 
-const videoIsReadyToProcess = and(detectorReady, src, isProcessable)
+const {
+  results,
+  estimatePose,
+  detectorReady,
+} = useMediapipePose({
+      video: videoRef,
+      options: { modelComplexity: 2 }
+    })
+
+
+const videoIsReadyToProcess = and(detectorReady, isProcessable)
 
 whenever(videoIsReadyToProcess, async () => {
   const videoObj = ["src", "duration", "width", "height"].reduce((obj, key) => Object.assign(obj, { [key]: videoStore[key] }), {}) as Db.Video
@@ -109,7 +113,7 @@ whenever(videoIsReadyToProcess, async () => {
             event: () => location.reload(),
           },
         },
-        { timeout: 10000 }
+        { timeout: 10000, position: POSITION.BOTTOM_CENTER }
       )
       return
     }
@@ -155,7 +159,7 @@ whenever(videoIsReadyToProcess, async () => {
 })
 
 // gagyi playback
-whenever(and(playing, toRef(videoStore, "poses")), async () => {
+whenever(and(playing, hasPoses), async () => {
   if (videoStore.poses === undefined) return
   for (const p of videoStore.poses) {
     // console.log("TS", p.ts)
@@ -164,16 +168,15 @@ whenever(and(playing, toRef(videoStore, "poses")), async () => {
   }
 })
 
-// const onTimeupdate = () => {
-//   set(playerTimeUpdated, true)
-//   // console.log("TU", e.target.currentTime)
-// }
+const state = reactive({
+  showVideoTag: true,
+})
 
 useGuiFolder(folder => {
   folder.name = "📼 FFmpeg"
   folder.addReactiveSelect(videoStore, "src", videoSelectOptions).name("Load video")
   folder
-    .addTextInput({ filter: VALID_VIDEO_URL_FOR_FFMPEG, placeholder: "blur to add" })
+    .addTextInput({ filter: VIDEO_URL, placeholder: "blur to add" })
     .name("Video URL")
     .onFinishChange(url => {
       get(videoSelectOptions)[basename(url)] = url
@@ -190,11 +193,13 @@ useGuiFolder(folder => {
   border: 4px ridge #964b00;
 }
 
-.slide-enter-active, .slide-leave-active {
+.slide-enter-active,
+.slide-leave-active {
   transition: transform 500ms ease;
 }
 
-.slide-enter-from, .slide-leave-to {
+.slide-enter-from,
+.slide-leave-to {
   transform: translateX(-100%);
 }
 </style>

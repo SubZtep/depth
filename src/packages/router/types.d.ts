@@ -1,13 +1,15 @@
 import type { Router, Route } from "~/types/settings"
 
 interface BaseRoute {
-  component: import("@vue/runtime-core").Component
+  // component: import("@vue/runtime-core").Component
+  component: any
   position?: THREE.Vector3Tuple
   lookAt?: THREE.Vector3Tuple
 }
 
 interface RouterEvent {
-  component: import("@vue/runtime-core").Component
+  // component: import("@vue/runtime-core").Component
+  component: any
   transition: boolean
 
   path: string
