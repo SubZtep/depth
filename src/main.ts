@@ -23,7 +23,7 @@ import "./style.css"
 const routes = normalizeRoutes(settings.router.routes)
 
 const piana = createPinia()
-  .use(videoPlugin)
+// .use(videoPlugin)
 
 const app = createApp(App)
   .use(piana)

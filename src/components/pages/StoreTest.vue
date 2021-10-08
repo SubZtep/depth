@@ -23,8 +23,17 @@ button.btn.px-1.bg-white(@click="testStore.$reset()") reset
 
 <script lang="ts" setup>
 import { useTestStore } from "~/stores/test"
+import { useVideoStore } from "~/stores/video"
 
 const testStore = useTestStore()
+
+// const videoStore = useVideoStore()
+// videoStore.replace("qqq")
+// videoStore.id = 1
+// videoStore.duration = 123
+// videoStore.id = 2
+// videoStore.id = undefined
+// videoStore.id = 3
 
 const { nullable, undefinedable, undef } = storeToRefs(testStore)
 

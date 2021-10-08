@@ -1,7 +1,5 @@
 import { useVideoStore } from "~/stores/video"
 
-type VideoElementEvent = Event & { target: HTMLVideoElement }
-
 interface Params {
   onError?: (src: string) => void
   logger?: Logger

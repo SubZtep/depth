@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
 import settings from "~/../SETTINGS.toml"
+import { useSupabase } from "~/packages/Supabase"
 
 export interface VideoStatePose {
   ts: number
@@ -7,33 +8,10 @@ export interface VideoStatePose {
   pose_normalized: NormalizedLandmarkList
 }
 
-// export interface VideoState {
-//   /** Database ID */
-//   id: number | undefined
-
-//   /** Video source url */
-//   src: string | undefined
-
-//   /** Video width in pixels  */
-//   width: number | undefined
-
-//   /** Video height in pixels  */
-//   height: number | undefined
-
-//   /** Video length */
-//   duration: number | undefined
-
-//   /** video keyframe timestamps */
-//   keyframes: number[] | undefined
-
-//   poses: VideoStatePose[] | undefined
-// }
-
-// export const useVideoStore = defineStore<"video", VideoState>("video", {
 export const useVideoStore = defineStore("video", {
   state: () => ({
     id: undefined as number | undefined,
-    src: settings.video?.clips?.[0] ?? (undefined as string | undefined),
+    src: undefined as string | undefined,
     width: undefined as number | undefined,
     height: undefined as number | undefined,
     duration: undefined as number | undefined,
@@ -46,15 +24,28 @@ export const useVideoStore = defineStore("video", {
     hasPoses: state => state.poses !== undefined && state.poses.length > 0,
     isProcessable: state => state.src !== undefined && state.width !== undefined && state.height !== undefined && state.duration !== undefined,
   },
-  // actions: {
-  //   reset() {
-  //     this.id = undefined
-  //     this.src = undefined
-  //     this.width = undefined
-  //     this.height = undefined
-  //     this.duration = undefined
-  //     this.keyframes = undefined
-  //     this.poses = undefined
-  //   },
-  // },
+  actions: {
+    async replace(obj: Db.Video) {
+      this.$reset()
+      const { db } = useSupabase()
+
+      let id = await db.getVideoId(obj)
+      let keyframes: number[] | undefined = undefined
+      let poses: VideoStatePose[] | undefined = undefined
+
+      if (id) {
+        keyframes = await db.getKeyframes(id)
+        poses = await db.getPoses(id)
+      } else {
+        id = await db.insertVideo(obj)
+      }
+
+      this.$patch({
+        id,
+        ...obj,
+        keyframes,
+        poses,
+      })
+    },
+  },
 })
