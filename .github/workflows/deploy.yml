@@ -12,9 +12,11 @@ jobs:
         with:
           node-version: "16"
           cache: "npm"
-      - run: npm install
-      - run: npm test
-      - run: npm run build
+      - run: |
+          npm config set '//npm.fontawesome.com/:_authToken' "${{ secrets.FA_TOKEN }}"
+          npm i
+          npm test
+          npm run build
       - name: copy file via ssh password
         uses: appleboy/scp-action@master
         with:
