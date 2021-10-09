@@ -25,8 +25,20 @@ export default defineConfig(({ mode, command }) => {
             if (id.includes("three")) {
               return "three"
             }
-            if (id.includes("fortawesome")) {
-              return "fa"
+            if (id.includes("fortawesome/pro-duotone-svg-icons")) {
+              return "fad"
+            }
+            if (id.includes("fortawesome/pro-light-svg-icons")) {
+              return "fal"
+            }
+            if (id.includes("fortawesome/pro-regular-svg-icons")) {
+              return "far"
+            }
+            if (id.includes("fortawesome/pro-solid-svg-icons")) {
+              return "fas"
+            }
+            if (id.includes("fortawesome/pro-thin-svg-icons")) {
+              return "fat"
             }
           },
         },
