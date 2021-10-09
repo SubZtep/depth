@@ -28,3 +28,4 @@ jobs:
           port: ${{ secrets.PORT }}
           source: "dist/**/*"
           target: ${{ secrets.TARGET }}
+          rm: true
