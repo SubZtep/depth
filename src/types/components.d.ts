@@ -25,6 +25,7 @@ declare module 'vue' {
     TimelineCursor: typeof import('C:/Users/subzt/Code/depth/src/components/video/TimelineCursor.vue')['default']
     TimelinePlayhead: typeof import('C:/Users/subzt/Code/depth/src/components/video/TimelinePlayhead.vue')['default']
     Title: typeof import('C:/Users/subzt/Code/depth/src/components/ui/Title.vue')['default']
+    VideoPlayer: typeof import('C:/Users/subzt/Code/depth/src/components/video/VideoPlayer.vue')['default']
     VideoPose: typeof import('C:/Users/subzt/Code/depth/src/components/pages/VideoPose.vue')['default']
     VideoTimeline: typeof import('C:/Users/subzt/Code/depth/src/components/video/VideoTimeline.vue')['default']
   }

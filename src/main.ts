@@ -48,8 +48,10 @@ const app = createApp(App)
   .directive("css-aspect-ratio", CssAspectRatio)
   .directive("stop-propagation", StopPropagation)
 
-app.config.errorHandler = (err, instance, info) => {
-  console.log("My Error Handler", { err, instance, info })
+if (process.env.NODE_ENV === "production") {
+  app.config.errorHandler = (err, instance, info) => {
+    console.log("My Error Handler", { err, instance, info })
+  }
 }
 
 app.mount("#hud")

@@ -1,9 +1,9 @@
 <template lang="pug">
 div(:class="$style.progressBar")
-  div(v-for="(item, index) in props.items" :key="item.label" :class="$style.item")
-    fa.mx-1.text-green-800(:icon="['fad', 'check']" v-show="item.done")
-    .flex-grow(:class="[ item.done ? 'line-through' : 'font-bold' ]") {{item.label}}
-    fa(:icon="[item.done ? 'fas' : 'far', `circle-${index + 1}`]" size="lg")
+  div(v-for="({ label, done }, index) in props.items" :key="label" :class="$style.item")
+    fa.mx-1.text-green-800(:icon="['fad', 'check']" v-show="done.value")
+    .flex-grow(:class="[done.value ? 'line-through' : 'font-bold']") {{label}}
+    fa(:icon="[done.value ? 'fas' : 'far', `circle-${index + 1}`]" size="lg")
 </template>
 
 <script lang="ts" setup>

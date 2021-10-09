@@ -1,6 +1,5 @@
 import type { CreateFFmpegOptions } from "@ffmpeg/ffmpeg"
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
-import { basename } from "~/misc/utils"
 import { noDotFiles, truthyFilter } from "~/misc/filters"
 import { KEYFRAME_TIMESTAMPS_LOG, KEYFRAME_TIMESTAMPS } from "./commands"
 

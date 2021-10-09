@@ -1,6 +1,6 @@
 import type { Plugin } from "vue"
 import dat from "dat.gui"
-import { applyReactiveSelect, applyTextInput } from "./extend"
+import { addReactiveSelect, addTextInput } from "./extend"
 import "./style.css"
 
 type FolderInit = (folder: dat.GUI) => void
@@ -14,8 +14,8 @@ const plugin: Plugin = {
     app.provide(guiKey, gui)
     options?.addons?.reverse().forEach(addon => addon.call(null, gui))
 
-    applyReactiveSelect(dat.GUI.prototype)
-    applyTextInput(dat.GUI.prototype)
+    dat.GUI.prototype.addReactiveSelect = addReactiveSelect
+    dat.GUI.prototype.addTextInput = addTextInput
   },
 }
 

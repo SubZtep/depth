@@ -7,15 +7,18 @@ import { useStats } from "~/packages/Stats"
 
 interface MediapipePoseOptions {
   /** Video element */
-  video: MaybeRef<HTMLVideoElement>
+  video: MaybeRef<HTMLVideoElement | undefined>
 
-  /** mediapipe pose options */
+  /** Mediapipe pose options */
   options?: Options
+
+  /** Callback function with the latest detected pose */
+  handler?: ResultsListener
 }
 
 let dstat: Stats.Panel | undefined
 
-export function useMediapipePose({ video, options }: MediapipePoseOptions) {
+export function useMediapipePose({ video, options, handler }: MediapipePoseOptions) {
   const detectorReady = ref(false)
   const results: Partial<Results> = reactive({})
   let solution: Pose
@@ -25,17 +28,19 @@ export function useMediapipePose({ video, options }: MediapipePoseOptions) {
     dstat = stats.addPanel(new Stats.Panel("ms/pose", "#f9d71c", "#191970"))
   }
 
-  watch(video, (_, oldEl) => {
-    if (oldEl && solution) {
-      solution.reset()
-    }
-  })
+  if (isRef(video)) {
+    watch(video, (_, oldEl) => {
+      if (oldEl && solution) {
+        solution.reset()
+      }
+    })
+  }
 
   const poseResult: ResultsListener = res => {
     Object.assign(results, res)
   }
 
-  const estimatePose = async () => {
+  const estimatePose = async (at?: number) => {
     const elem = unrefElement(video) as HTMLVideoElement
 
     if (elem === undefined) {
@@ -51,7 +56,10 @@ export function useMediapipePose({ video, options }: MediapipePoseOptions) {
     }
 
     const t0 = performance.now()
-    await solution.send({ image: elem })
+    // FIXME: doublecheck `at` parameter
+    // https://github.com/google/mediapipe/blob/33d683c67100ef3db37d9752fcf65d30bea440c4/mediapipe/util/filtering/one_euro_filter.cc#L26
+    // https://nodatime.org/3.0.x/api/NodaTime.Duration.html#NodaTime_Duration_ToInt64Nanoseconds
+    await solution.send({ image: elem }, at)
     const t1 = performance.now()
 
     dstat?.update(t1 - t0, 120)
@@ -66,7 +74,8 @@ export function useMediapipePose({ video, options }: MediapipePoseOptions) {
       selfieMode: false,
       ...options,
     })
-    solution.onResults(poseResult)
+
+    solution.onResults(handler ?? poseResult)
 
     await solution.initialize()
     set(detectorReady, true)

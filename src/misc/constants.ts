@@ -1,4 +1,3 @@
-import { basename, isInRange } from "./utils"
 import settings from "~/../SETTINGS.toml"
 
 export const videoClipSelectOptions = settings.video?.clips?.reduce((obj, url) => ({ ...obj, [basename(url)]: url }), {}) as SelectOptions

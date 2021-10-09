@@ -22,11 +22,10 @@ export default function useVideoHandlers({ onError, logger }: Params) {
     onError?.call(null, target.src)
     target.removeAttribute("src")
     logger?.error(target.error!.message)
-  })
+  }) as (payload: Event) => void
 
   const playerTimeUpdater = () => {
     set(playerTimeUpdated, true)
-    // console.log("TU", e.target.currentTime)
   }
 
   return {

@@ -1,5 +1,4 @@
 import { defineStore } from "pinia"
-import settings from "~/../SETTINGS.toml"
 import { useSupabase } from "~/packages/Supabase"
 
 export interface VideoStatePose {
@@ -20,18 +19,18 @@ export const useVideoStore = defineStore("video", {
   }),
   getters: {
     hasId: state => state.id !== undefined,
+    hasSrc: state => state.src !== undefined,
     hasKeyframes: state => state.keyframes !== undefined && state.keyframes.length > 0,
     hasPoses: state => state.poses !== undefined && state.poses.length > 0,
-    isProcessable: state => state.src !== undefined && state.width !== undefined && state.height !== undefined && state.duration !== undefined,
   },
   actions: {
     async replace(obj: Db.Video) {
       this.$reset()
       const { db } = useSupabase()
 
-      let id = await db.getVideoId(obj)
       let keyframes: number[] | undefined = undefined
       let poses: VideoStatePose[] | undefined = undefined
+      let id = await db.getVideoId(obj)
 
       if (id) {
         keyframes = await db.getKeyframes(id)
@@ -41,11 +40,21 @@ export const useVideoStore = defineStore("video", {
       }
 
       this.$patch({
-        id,
         ...obj,
+        id,
         keyframes,
         poses,
       })
+    },
+    async setKeyframes(keyframes: number[]) {
+      const { db } = useSupabase()
+      await db.insertKeyframes(this.id!, keyframes)
+      this.keyframes = keyframes
+    },
+    async setPoses(poses: VideoStatePose[]) {
+      const { db } = useSupabase()
+      await db.insertPoses(this.id!, poses)
+      this.poses = poses
     },
   },
 })

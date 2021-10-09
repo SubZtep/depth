@@ -4,7 +4,8 @@ declare namespace dat {
      * Works as `OptionController`, but with the ability to keep options up-to-date
      * @param options Reactive options
      */
-    addReactiveSelect: (target: Record<string, string | number | boolean> | any, propName: string, options: Ref<Record<string, string>>) => GUIController
+    addReactiveSelect: (params: ReactiveSelectParams) => GUIController
+    // addReactiveSelect: (target: Record<string, any>, propName: string, options: Ref<SelectOptions>) => GUIController
 
     /**
      * Trigger `onChange` and `onFinishChange` callbacks without the object to be manipulated
@@ -12,7 +13,7 @@ declare namespace dat {
      * @param placeholder Text input element placeholder
      * @param keepValue Keep input element value on blur event
      */
-    addTextInput: (params: { filter: RegExp, placeholder?: string, keepValue?: boolean }) => GUIController
+    addTextInput: (params: TextInputParams) => GUIController
   }
 }
 
@@ -24,3 +25,17 @@ interface GuiOptions {
 }
 
 type ChangeCallback<T = any> = (value: T) => void
+
+type SelectOptions = Record<string, string>
+
+interface ReactiveSelectParams {
+  target: Record<string, any>
+  propName: string
+  options: Ref<SelectOptions>
+}
+
+interface TextInputParams {
+  filter: RegExp
+  placeholder?: string
+  keepValue?: boolean
+}

@@ -8,8 +8,8 @@ table(v-if="videos.length > 0" :class="$style.table" v-stop-propagation)
       td duration
       td width
       td height
-      td keyframe count
-      td pose count
+      td keyframes
+      td poses
       td
   tbody
     tr(v-for="video in videos")
@@ -36,9 +36,11 @@ table(v-if="videos.length > 0" :class="$style.table" v-stop-propagation)
 
 <script lang="ts" setup>
 import { useSupabase } from "~/packages/Supabase"
+import { pauseLoop, resumeLoop, useThreeJSEventHook } from "~/packages/ThreeJS"
 type VideoWithCounts = Required<Db.Video> & { keyframe: [{ count: number }], pose: [{ count: number }] }
 
 const toast = useToast()
+const threeJs = useThreeJSEventHook()
 const { supabase } = useSupabase()
 
 const videos = ref<VideoWithCounts[]>([])
@@ -51,7 +53,12 @@ const refreshVideos = async () => {
 }
 
 onMounted(async () => {
+  threeJs.trigger(pauseLoop)
   await refreshVideos()
+})
+
+onBeforeUnmount(() => {
+  threeJs.trigger(resumeLoop)
 })
 
 const getVideo = (videoId: number): VideoWithCounts => {
@@ -107,7 +114,7 @@ const deleteVideo = async (videoId: number) => {
 
   td {
     @apply px-2 py-1;
-    &:not(:first-child) {
+    &:not(:nth-child(2)) {
       @apply text-right;
     }
   }

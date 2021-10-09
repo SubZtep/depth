@@ -1,5 +1,6 @@
 <template lang="pug">
 StickmanSimple(
+  v-if="pose"
   :keypoints="pose"
   :z-multi="state.zMulti"
   :color="0xffffff"
@@ -13,7 +14,7 @@ import type { NormalizedLandmarkList } from "public/pose"
 import { useGuiFolder } from "~/packages/datGUI"
 
 const props = defineProps<{
-  pose: NormalizedLandmarkList
+  pose?: NormalizedLandmarkList
   position: [number, number, number]
 }>()
 
