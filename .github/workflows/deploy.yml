@@ -16,7 +16,7 @@ jobs:
         run: |
           echo VITE_SUPABASE_URL=${{ secrets.SUPABASE_URL }} > .env
           echo VITE_SUPABASE_KEY=${{ secrets.SUPABASE_SECRET }} >> .env
-      - name: all the npm scripts
+      - name: All the npm scripts
         run: |
           npm config set "@fortawesome:registry" https://npm.fontawesome.com/
           npm config set '//npm.fontawesome.com/:_authToken' "${{ secrets.FA_TOKEN }}"
