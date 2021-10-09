@@ -115,3 +115,10 @@ export function basename(src: string, ext = false): string {
 export function capitalize(str: string): string {
   return `${str.charAt(0).toUpperCase()}${str.slice(1)}`
 }
+
+// import settings from "~/../SETTINGS.toml"
+// export const videoClipSelectOptions = settings.video?.clips?.reduce((obj, url) => ({ ...obj, [basename(url)]: url }), {}) as SelectOptions
+
+export function toSelectOptions(urls: string[]) {
+  return urls.reduce((obj, url) => ({ ...obj, [basename(url)]: url }), {}) as SelectOptions
+}

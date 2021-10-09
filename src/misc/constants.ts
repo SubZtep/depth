@@ -1,7 +1,3 @@
-import settings from "~/../SETTINGS.toml"
-
-export const videoClipSelectOptions = settings.video?.clips?.reduce((obj, url) => ({ ...obj, [basename(url)]: url }), {}) as SelectOptions
-
 export const BLAZEPOSE_KEYPOINTS = [
   "nose",
   "left_eye_inner",

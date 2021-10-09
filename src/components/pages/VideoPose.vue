@@ -28,8 +28,9 @@ import { useThreeJSEventHook, pauseLoop, resumeLoop } from "~/packages/ThreeJS"
 import { VIDEO_URL } from "~/misc/regexp"
 import { useVideoStore } from "~/stores/video"
 import CancellableEventToast from "~/components/toasts/CancellableEventToast.vue"
-import { videoClipSelectOptions } from "~/misc/constants"
-import VideoPlayer from "../video/VideoPlayer.vue"
+import { toSelectOptions } from "~/misc/utils"
+import VideoPlayer from "~/components/video/VideoPlayer.vue"
+import settings from "~/../SETTINGS.toml"
 
 const toast = useToast()
 const { progress, done } = useNProgress()
@@ -38,7 +39,7 @@ const threeJs = useThreeJSEventHook()
 const videoStore = useVideoStore()
 const videoRef = ref<HTMLVideoElement>()
 const { playing, currentTime } = useMediaControls(videoRef)
-const videoSelectOptions: Ref<SelectOptions> = ref(videoClipSelectOptions)
+const videoSelectOptions: Ref<SelectOptions> = ref(toSelectOptions(settings.video?.clips ?? []))
 const videoTimeUpdated = ref(false)
 
 const { hasId, hasKeyframes, hasPoses } = storeToRefs(videoStore)

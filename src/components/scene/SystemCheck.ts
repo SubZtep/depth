@@ -1,5 +1,9 @@
 declare const Modernizr: Record<string, boolean>
 import { capitalize } from "~/misc/utils"
+import { defineComponent } from "@vue/runtime-core"
+import { useToast } from "vue-toastification"
+import { useScriptTag } from "@vueuse/core"
+// FIXME: https://github.com/antfu/unplugin-auto-import/issues/33
 
 export default defineComponent({
   emits: ["done"],

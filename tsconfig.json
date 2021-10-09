@@ -2,7 +2,11 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "Node",
@@ -32,7 +36,7 @@
     ],
     "paths": {
       "~/*": ["src/*"]
-    },
+    }
   },
   "exclude": ["dist", "node_modules"]
 }
