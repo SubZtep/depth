@@ -42,7 +42,14 @@ export default defineConfig({
           },
         },
       }
-      addComponents(buttons)
+      const misc: DeepNestObject = {
+        ".video-border": {
+          borderWidth: "4px",
+          borderStyle: "ridge",
+          borderColor: "#964b00",
+        }
+      }
+      addComponents([buttons, misc])
     }),
   ],
   extract: {

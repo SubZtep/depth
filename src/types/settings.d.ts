@@ -18,6 +18,10 @@ export interface Router {
    * Camera transitions between states
    */
   transition?: boolean;
+  /**
+   * Camera damping inertia
+   */
+  damping?: number;
   routes: Route[];
 }
 export interface Route {
@@ -36,11 +40,11 @@ export interface Route {
   /**
    * Initial camera position
    */
-  position?: [number, number, number];
+  position?: [number | number, number | number, number | number];
   /**
    * Initial camera rotation
    */
-  lookAt?: [number, number, number];
+  lookAt?: [number | number, number | number, number | number];
 }
 export interface AudioSettings {
   /**

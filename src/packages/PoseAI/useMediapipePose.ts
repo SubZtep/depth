@@ -31,7 +31,9 @@ export function useMediapipePose({ video, options, handler }: MediapipePoseOptio
   if (isRef(video)) {
     watch(video, (_, oldEl) => {
       if (oldEl && solution) {
+        set(detectorReady, false)
         solution.reset()
+        set(detectorReady, true)
       }
     })
   }

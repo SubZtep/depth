@@ -11,9 +11,12 @@ declare module 'vue' {
     Debug: typeof import('C:/Users/subzt/Code/depth/src/components/ui/Debug.vue')['default']
     EmptyTemplate: typeof import('C:/Users/subzt/Code/depth/src/components/pages/EmptyTemplate.vue')['default']
     Help: typeof import('C:/Users/subzt/Code/depth/src/components/ui/Help.vue')['default']
+    Home: typeof import('C:/Users/subzt/Code/depth/src/components/pages/Home.vue')['default']
     ImgMemfs: typeof import('C:/Users/subzt/Code/depth/src/components/video/ImgMemfs.vue')['default']
     MainScene: typeof import('C:/Users/subzt/Code/depth/src/components/scene/MainScene.vue')['default']
     SceneSetup: typeof import('C:/Users/subzt/Code/depth/src/components/pages/SceneSetup.vue')['default']
+    SelectVideoClip: typeof import('C:/Users/subzt/Code/depth/src/components/video/SelectVideoClip.ts')['default']
+    StatefulVideoPlayer: typeof import('C:/Users/subzt/Code/depth/src/components/video/StatefulVideoPlayer.vue')['default']
     StepProgressBar: typeof import('C:/Users/subzt/Code/depth/src/components/ui/StepProgressBar.vue')['default']
     StickmanLandmarks: typeof import('C:/Users/subzt/Code/depth/src/components/characters/StickmanLandmarks.vue')['default']
     StickmanNormalized: typeof import('C:/Users/subzt/Code/depth/src/components/characters/StickmanNormalized.vue')['default']
@@ -25,9 +28,15 @@ declare module 'vue' {
     TimelineCursor: typeof import('C:/Users/subzt/Code/depth/src/components/video/TimelineCursor.vue')['default']
     TimelinePlayhead: typeof import('C:/Users/subzt/Code/depth/src/components/video/TimelinePlayhead.vue')['default']
     Title: typeof import('C:/Users/subzt/Code/depth/src/components/ui/Title.vue')['default']
+    VideoClipPlayer: typeof import('C:/Users/subzt/Code/depth/src/components/video/VideoClipPlayer.vue')['default']
+    VideoKeyframes: typeof import('C:/Users/subzt/Code/depth/src/components/video/VideoKeyframes.ts')['default']
+    VideoKeyTimes: typeof import('C:/Users/subzt/Code/depth/src/components/video/VideoKeyTimes.ts')['default']
     VideoPlayer: typeof import('C:/Users/subzt/Code/depth/src/components/video/VideoPlayer.vue')['default']
     VideoPose: typeof import('C:/Users/subzt/Code/depth/src/components/pages/VideoPose.vue')['default']
+    VideoPoses: typeof import('C:/Users/subzt/Code/depth/src/components/video/VideoPoses.ts')['default']
+    VideoStorePlayer: typeof import('C:/Users/subzt/Code/depth/src/components/stateful/VideoStorePlayer.ts')['default']
     VideoTimeline: typeof import('C:/Users/subzt/Code/depth/src/components/video/VideoTimeline.vue')['default']
+    WebcamPlayer: typeof import('C:/Users/subzt/Code/depth/src/components/video/WebcamPlayer.vue')['default']
   }
 }
 

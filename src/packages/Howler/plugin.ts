@@ -12,7 +12,7 @@ type HowlerOptions = {
 
 type PlaySound = (sound: keyof HowlerSounds) => void
 
-const howlerKey = Symbol("HowlerSounds")
+const howlerKey = "HowlerSounds"
 const players = new Map<keyof HowlerSounds, Howl>()
 
 const plugin: Plugin = {
@@ -35,7 +35,6 @@ const plugin: Plugin = {
     }
 
     if (ctx.state === "suspended") {
-      // https://goo.gl/7K7WLu
       console.warn("Audio context is suspended")
 
       document.addEventListener("click", resumeAudioContext, { once: true })
@@ -48,11 +47,19 @@ const plugin: Plugin = {
           document.removeEventListener("keypress", resumeAudioContext)
           console.info("Audio context state changed 🎧", ctx.state)
           await ctx.close()
+
+          // TODO: this is certainly a temporary test of handle sound autoplay policy https://goo.gl/7K7WLu
           app.provide(howlerKey, playSound)
+
+          const hash = location.hash
+          location.hash = ""
+          console.log("╳ Whops, redirect")
+          await sleep(1000)
+          location.hash = hash
         },
         { once: true }
       )
-    } else {
+    } else if (ctx.state === "running") {
       app.provide(howlerKey, playSound)
     }
   },
@@ -68,7 +75,7 @@ export function useHowler(log?: (msg: string) => void): PlaySound {
       if (log) {
         log(msg)
       } else {
-        throw new Error("no sound, run audio context")
+        throw new Error(msg)
       }
     }
   }

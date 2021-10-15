@@ -10,7 +10,7 @@ export default function preferencesGui(gui: dat.GUI) {
   const { loadSkybox } = useAssets()
   const { enter, exit } = useFullscreen()
 
-  const f = gui.addFolder("⚙ Global Preferences")
+  const f = gui.addFolder("⚙ Preferences")
   f.add(preferences, "guiScale", 0.5, 3, 0.1)
     .name("GUI scale")
     .onFinishChange(scale => set(guiScaleCss, String(scale)))

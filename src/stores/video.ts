@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
 import { useSupabase } from "~/packages/Supabase"
+import type { Results } from "~/packages/PoseAI"
 
 export interface VideoStatePose {
   ts: number
@@ -24,20 +25,44 @@ export const useVideoStore = defineStore("video", {
     hasPoses: state => state.poses !== undefined && state.poses.length > 0,
   },
   actions: {
-    async replace(obj: Db.Video) {
+    async replace(obj?: Db.Video) {
       this.$reset()
+      if (!obj) return
       const { db } = useSupabase()
 
       let keyframes: number[] | undefined = undefined
       let poses: VideoStatePose[] | undefined = undefined
       let id = await db.getVideoId(obj)
 
+      // console.log("IIIFFF", id)
       if (id) {
         keyframes = await db.getKeyframes(id)
         poses = await db.getPoses(id)
+
+        // console.log({ keyframes, poses })
       } else {
         id = await db.insertVideo(obj)
       }
+
+      // console.log("PATCH", {
+      //   ...obj,
+      //   id,
+      //   keyframes,
+      //   poses,
+      // })
+
+      const all = {
+        ...obj,
+        id,
+        keyframes,
+        poses,
+      }
+
+      // for (const [k, v] of Object.entries(all).filter(([, v]) => v !== undefined)) {
+      //   // this.$patch(k, v)
+      //   // console.log(k, v)
+      //   this[k] = v
+      // }
 
       this.$patch({
         ...obj,
@@ -45,16 +70,35 @@ export const useVideoStore = defineStore("video", {
         keyframes,
         poses,
       })
+
+      // console.log("ginii")
     },
-    async setKeyframes(keyframes: number[]) {
+
+    async setKeyframes(keyframes?: number[]) {
+      if (!this.id) throw new Error("Unable to set keyframes without video id")
+      if (!keyframes) throw new Error("Unable to set keyframes without keyframes")
       const { db } = useSupabase()
-      await db.insertKeyframes(this.id!, keyframes)
+      await db.insertKeyframes(this.id, keyframes)
       this.keyframes = keyframes
     },
+
     async setPoses(poses: VideoStatePose[]) {
+      if (!this.id) throw new Error("Unable to set poses without video id")
       const { db } = useSupabase()
-      await db.insertPoses(this.id!, poses)
+      await db.insertPoses(this.id, poses)
       this.poses = poses
+    },
+
+    async addPose(ts: number, results: Results) {
+      if (!this.id) throw new Error("Unable to set poses without video id")
+      const { db } = useSupabase()
+      await db.insertPose(this.id, ts, results)
+      if (this.poses === undefined) this.poses = []
+      this.poses.push({
+        ts,
+        pose_raw: results.poseLandmarks,
+        pose_normalized: results.poseWorldLandmarks,
+      })
     },
   },
 })

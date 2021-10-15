@@ -1,5 +1,6 @@
 import type { VideoStatePose } from "~/stores/video"
 import type { SupabaseClient } from "@supabase/supabase-js"
+import type { Results } from "~/packages/PoseAI"
 
 export default class DbQueries {
   #client: SupabaseClient
@@ -131,6 +132,23 @@ export default class DbQueries {
 
   async insertPoses(videoId: number, poses: VideoStatePose[]): Promise<void> {
     const obj: Db.Pose[] = poses.map(({ ts, pose_normalized }) => ({ video_id: videoId, ts, pose_normalized }))
+
+    const {
+      error
+    } = await this
+      .#client
+      .from<Db.Pose>("pose")
+      .upsert(obj, { returning: "minimal" })
+
+    if (error) {
+      this.#logger?.error(error.message)
+      return Promise.reject(error.message)
+    }
+  }
+
+  // async insertPose(videoId: number, pose: VideoStatePose): Promise<void> {
+  async insertPose(videoId: number, ts: number, results: Results): Promise<void> {
+    const obj: Db.Pose = { video_id: videoId, ts, pose_normalized: results.poseWorldLandmarks }
 
     const {
       error

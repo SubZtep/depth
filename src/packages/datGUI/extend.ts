@@ -3,6 +3,7 @@ import dom from "dat.gui/src/dat/dom/dom"
 import { regexpFilter } from "~/misc/filters"
 
 function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, string>, selected: string) {
+  list["--- Please, select ---"] = ""
   const html = Object.entries(list)
     .map(([key, val]) => `<option value="${val}"${val === selected ? " selected" : ""}>${key}</option>`)
     .sort()

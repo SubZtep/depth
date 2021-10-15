@@ -36,15 +36,7 @@ const plane = sdef.plane()
 const leafPlane = sdef.leafPlane()
 const igrid = InfiniteGridHelper()
 
-useCanvas(wc).add(
-  ambLight,
-  dirLight,
-  plane,
-  leafPlane,
-  grid,
-  grid2,
-  igrid,
-).background = skybox
+useCanvas(wc).add(ambLight, dirLight, plane, leafPlane, grid, grid2, igrid).background = skybox
 
 // transformables.push(leafPlane.name)
 

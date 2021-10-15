@@ -1,17 +1,24 @@
 <template lang="pug">
 Title Empty Template
-p test: {{state.test}}
 </template>
 
 <script lang="ts" setup>
 import { useGuiFolder } from "~/packages/datGUI"
+import { useHowler } from "~/packages/Howler"
 
-const state = reactive({
-  test: 0,
-})
+const toast = useToast()
+const play = useHowler(toast.error)
+// x("denied").play()
+
+// const btns = { btn: () => {
+//   // let gm = x()("denied")
+//   let gm = x()
+
+//   gm("denied")
+// } }
 
 useGuiFolder(folder => {
-  folder.name = "Empty Template"
-  folder.add(state, "test")
+  folder.name = "♡ Emptyerest"
+  folder.add({ btn: () => play("denied") }, "btn").name("Hello, Sound ")
 })
 </script>

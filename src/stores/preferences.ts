@@ -1,17 +1,10 @@
 import { defineStore } from "pinia"
 
-interface PreferencesState {
-  guiScale: number
-  skybox: SkyboxNumber
-  horizontalLock: boolean
-  fullscreen: boolean
-}
-
-export const usePreferencesStore = defineStore<"preferences", PreferencesState>("preferences", {
+export const usePreferencesStore = defineStore("preferences", {
   state: () => ({
-    guiScale: 1,
-    skybox: 2,
-    horizontalLock: true,
+    guiScale: useStorage("preferences.guiScale", 1),
+    skybox: useStorage<SkyboxNumber>("preferences.skybox", 2),
+    horizontalLock: useStorage("preferences.horizontalLock", true),
     fullscreen: false,
   }),
 })

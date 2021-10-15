@@ -3,6 +3,7 @@ import { useIdle, whenever } from "@vueuse/core"
 import { CameraShake } from "../../models/camerashake"
 import { useActiveRoute, useOnRouterEvent } from "../router/plugin"
 import { Box3, Vector3 } from "three"
+import settings from "~/../SETTINGS.toml"
 
 export function setupBoundaries(cameraControls: CameraControls, horizontalLock = true) {
   if (horizontalLock) {
@@ -19,7 +20,9 @@ export function setupBoundaries(cameraControls: CameraControls, horizontalLock =
   cameraControls.dollySpeed = 0.5
   cameraControls.polarRotateSpeed = 0.6
   cameraControls.azimuthRotateSpeed = 0.8
-  cameraControls.dampingFactor = 0.35
+  if (settings.router.damping) {
+    cameraControls.dampingFactor = settings.router.damping
+  }
   cameraControls.setBoundary(new Box3(new Vector3(-100, 2, -100), new Vector3(100, 2, 100)))
 }
 

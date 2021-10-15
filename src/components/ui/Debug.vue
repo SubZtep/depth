@@ -29,9 +29,9 @@ const exists = ref(true)
   color: var(--terminal);
   overflow: auto;
 
-  opacity: 0.5;
-  transform: rotateX(-45deg);
-  transition: all 0.1s ease-in 1s;
+  opacity: 0.6;
+  transform: rotateX(-25deg);
+  transition: all 0.1s ease-in 5s;
   transform-origin: bottom left;
   &:hover {
     opacity: 1;

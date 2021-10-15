@@ -20,6 +20,8 @@ import "./icons"
 import "virtual:windi.css"
 import "./style.css"
 
+export const useSharedMediaControls = createSharedComposable(useMediaControls)
+
 const routes = normalizeRoutes(settings.router.routes)
 
 const piana = createPinia()

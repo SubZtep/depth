@@ -23,6 +23,12 @@
           "type": "boolean",
           "description": "Camera transitions between states"
         },
+        "damping": {
+          "type": "number",
+          "description": "Camera damping inertia",
+          "minimum": 0,
+          "maximum": 1
+        },
         "routes": {
           "type": "array",
           "items": {

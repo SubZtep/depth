@@ -1,5 +1,11 @@
 [router]
 transition = true
+damping = 0.069
+
+[[router.routes]]
+path = ""
+label = "Home"
+component = "Home"
 
 [[router.routes]]
 path = "video-pose"
@@ -11,11 +17,6 @@ path = "db-admin"
 label = "Database Admin"
 position = [0, 1.6, 0]
 lookAt = [0, 1.6, 10]
-
-[[router.routes]]
-path = "store-test"
-position = [0, 1.6, 0]
-lookAt = [10, 1.6, 0]
 
 [[router.routes]]
 path = "scene-setup"
@@ -38,4 +39,5 @@ denied = "sounds/249300__suntemple__access-denied.wav"
 [video]
 clips = [
   "videos/yoga2.webm",
+  "videos/extended_leg_pistol_squats.webm"
 ]
