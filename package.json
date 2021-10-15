@@ -46,7 +46,6 @@
     "@types/dat.gui": "^0.7.7",
     "@types/howler": "^2.2.4",
     "@types/jest": "^27.0.2",
-    "@types/mathjs": "^9.4.2",
     "@types/node": "^16.11.0",
     "@types/stats.js": "^0.17.0",
     "@types/three": "^0.133.1",

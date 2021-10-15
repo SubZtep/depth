@@ -10,7 +10,7 @@ type HowlerOptions = {
   samples: HowlerSounds
 }
 
-type PlaySound = (sound: keyof HowlerSounds) => void
+export type PlaySound = (sound: keyof HowlerSounds) => void
 
 const howlerKey = "HowlerSounds"
 const players = new Map<keyof HowlerSounds, Howl>()
@@ -49,13 +49,14 @@ const plugin: Plugin = {
           await ctx.close()
 
           // TODO: this is certainly a temporary test of handle sound autoplay policy https://goo.gl/7K7WLu
-          app.provide(howlerKey, playSound)
-
           const hash = location.hash
-          location.hash = ""
-          console.log("╳ Whops, redirect")
-          await sleep(1000)
-          location.hash = hash
+          if (hash === "#empty") {
+            app.provide(howlerKey, playSound)
+            location.hash = ""
+            console.log("╳ Whops, redirect")
+            await sleep(1000)
+            location.hash = hash
+          }
         },
         { once: true }
       )

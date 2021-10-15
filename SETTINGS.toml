@@ -6,6 +6,8 @@ damping = 0.069
 path = ""
 label = "Home"
 component = "Home"
+position = [0, 0, 0]
+lookAt = [6, 9, 6]
 
 [[router.routes]]
 path = "video-pose"

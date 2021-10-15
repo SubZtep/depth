@@ -2,7 +2,7 @@
 video.video-border.max-h-300px(
   ref="videoRef"
   v-visible="state.showVideoTag"
-  poster="textures/no-video.png"
+  poster="/textures/no-video.png"
   autoplay
   muted)
 </template>

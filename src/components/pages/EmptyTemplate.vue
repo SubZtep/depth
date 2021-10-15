@@ -3,22 +3,20 @@ Title Empty Template
 </template>
 
 <script lang="ts" setup>
+import type { PlaySound } from "~/packages/Howler/plugin"
 import { useGuiFolder } from "~/packages/datGUI"
 import { useHowler } from "~/packages/Howler"
 
 const toast = useToast()
-const play = useHowler(toast.error)
-// x("denied").play()
-
-// const btns = { btn: () => {
-//   // let gm = x()("denied")
-//   let gm = x()
-
-//   gm("denied")
-// } }
+let p: PlaySound
+try {
+  p = useHowler(toast.warning)
+} catch (e: any) {
+  toast.error(e.message)
+}
 
 useGuiFolder(folder => {
   folder.name = "♡ Emptyerest"
-  folder.add({ btn: () => play("denied") }, "btn").name("Hello, Sound ")
+  folder.add({ btn: () => p("denied") }, "btn").name("Hello, Sound ")
 })
 </script>

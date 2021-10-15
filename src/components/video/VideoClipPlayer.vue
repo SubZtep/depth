@@ -2,7 +2,7 @@
 video.video-border.max-h-300px(
   ref="videoRef"
   crossorigin="anonymous"
-  poster="textures/no-video.png"
+  poster="/textures/no-video.png"
   @loadedmetadata="videoLoaded"
   muted)
   //- v-visible="state.showVideoTag")

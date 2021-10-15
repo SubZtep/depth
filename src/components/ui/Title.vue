@@ -21,9 +21,7 @@ onMounted(() => set(showTitle, false))
 <style>
 .title-enter-active,
 .title-leave-active {
-  transition-property: all;
-  transition-duration: var(--title-duration, 4s);
-  transition-timing-function: ease-in;
+  transition: all 4s ease-in;
 }
 
 .title-enter-from {
