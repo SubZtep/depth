@@ -1,6 +1,5 @@
 {
   "recommendations": [
-    "antfu.vite",
     "dbaeumer.vscode-eslint",
     "tamasfe.even-better-toml",
     "voorjaar.windicss-intellisense"

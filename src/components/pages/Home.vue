@@ -49,8 +49,8 @@ useIntervalFn(async () => {
     moves(cameraControls)(rand(8))
   })
 
-  const { data, isFinished } = useFetch("http://numbersapi.com/random").get().text()
+  const { data, isFinished } = useFetch("http://numbersapi.com/random", { mode: "cors" }).get().text()
   await until(isFinished).toBe(true)
   set(title, get(data))
-}, 6969)
+}, 6969, { immediateCallback: true })
 </script>

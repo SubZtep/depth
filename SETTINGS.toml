@@ -6,7 +6,7 @@ damping = 0.069
 path = ""
 label = "Home"
 component = "Home"
-position = [0, 0, 0]
+position = [0, 1.6, 0]
 lookAt = [6, 9, 6]
 
 [[router.routes]]
@@ -22,14 +22,14 @@ lookAt = [0, 1.6, 10]
 
 [[router.routes]]
 path = "scene-setup"
-position = [-2, 2, -10]
+position = [-2, 1.6, -10]
 lookAt = [0, 0, 0]
 
 [[router.routes]]
 path = "empty"
 label = "Empty"
 component = "EmptyTemplate"
-position = [-30, 2, -30]
+position = [-30, 1.6, -30]
 lookAt = [-300, 2, -30]
 
 [audio]
