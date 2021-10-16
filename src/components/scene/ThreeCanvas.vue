@@ -9,14 +9,15 @@ MainScene
 import { AmbientLight, DirectionalLight } from "three"
 import { useThreeJSEventHook } from "~/packages/ThreeJS/plugin"
 import { usePreferencesStore } from "~/stores/preferences"
-import { InfiniteGridHelper } from "~/models/infiniteGrid"
+import { InfiniteGridHelper } from "~/3D/infiniteGrid"
 import { useCanvas } from "~/packages/ThreeJS/useThreeJS"
 import { resumeLoop } from "~/packages/ThreeJS/constants"
 import { objs } from "~/packages/ThreeJS/useSceneObjects"
 import { useAssets } from "~/packages/ThreeJS/useAssets"
-import * as sdef from "~/models/sceneDefaults"
+import * as sdef from "~/3D/sceneDefaults"
 import { sleep, rand } from "~/misc/utils"
 
+const toast = useToast()
 const preferences = usePreferencesStore()
 const assets = useAssets()
 
@@ -44,4 +45,12 @@ await sleep(69)
 useNProgress().done()
 
 useThreeJSEventHook().trigger(resumeLoop)
+
+const visibility = useDocumentVisibility()
+
+watch(visibility, (current, previous) => {
+  if (current === "visible" && previous === "hidden") {
+    toast.success("🎉 Welcome back!")
+  }
+})
 </script>

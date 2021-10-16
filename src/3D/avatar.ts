@@ -1,7 +1,7 @@
 /**
  ** Basic objects for a humanoid-like character.
  **/
-import { BLAZEPOSE_HEAD_KEYPOINTS } from "../misc/constants"
+import { BLAZEPOSE_HEAD_KEYPOINTS } from "../ stants"
 import { Mesh, MeshPhongMaterial, SphereGeometry, ConeGeometry, CylinderGeometry, DoubleSide } from "three"
 
 const sphere = new SphereGeometry(0.3)

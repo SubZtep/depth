@@ -3,7 +3,7 @@ import { useFFmpeg } from "~/packages/FFmpeg"
 export default defineComponent({
   props: {
     src: {
-      src: String,
+      type: String,
       required: true,
     },
   },

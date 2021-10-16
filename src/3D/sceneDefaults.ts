@@ -14,7 +14,10 @@ export function grid(x = -7.5) {
 }
 
 export function plane() {
-  const plane = new Mesh(new PlaneGeometry(6, 2), new MeshPhongMaterial({ color: 0x001000, specular: 0x000000, shininess: 69, side: DoubleSide }))
+  const plane = new Mesh(
+    new PlaneGeometry(6, 2),
+    new MeshPhongMaterial({ color: 0x001000, specular: 0x000000, shininess: 69, side: DoubleSide })
+  )
   plane.position.setX(-2)
   plane.position.setY(-0.1)
   plane.position.setZ(-20.1)

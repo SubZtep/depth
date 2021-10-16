@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import Toast from "vue-toastification"
 import App from "./components/scene/App.vue"
 import Visible from "./directives/visible"
-import DBVideo from "./directives/dbvideo"
 import CssAspectRatio from "./directives/css-aspect-ratio"
 import StopPropagation from "./directives/stop-propagation"
 import Supabase from "./packages/Supabase"
@@ -12,8 +11,7 @@ import ThreeJs from "./packages/ThreeJS"
 import Stats from "./packages/Stats"
 import Gui from "./packages/datGUI"
 import Howler from "./packages/Howler/plugin"
-import navigationGui from "./misc/navigationGui"
-import preferencesGui from "./misc/preferencesGui"
+import { navigationGui, preferencesGui } from "./misc/hud"
 import settings from "~/../SETTINGS.toml"
 // import videoPlugin from "./stores/videoPlugin"
 import router from "./router"
@@ -45,7 +43,6 @@ const app = createApp(App)
   .use(Howler, settings.audio)
   .component("fa", FontAwesomeIcon)
   .directive("visible", Visible)
-  .directive("dbvideo", DBVideo)
   .directive("css-aspect-ratio", CssAspectRatio)
   .directive("stop-propagation", StopPropagation)
 

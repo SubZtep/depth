@@ -73,7 +73,10 @@ export const BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS: [number, number][] = [
   [30, 32],
 ]
 
-export const HEAD_AREA: [number, number] = [BLAZEPOSE_KEYPOINTS.indexOf("nose"), BLAZEPOSE_KEYPOINTS.indexOf("mouth_right")]
+export const HEAD_AREA: [number, number] = [
+  BLAZEPOSE_KEYPOINTS.indexOf("nose"),
+  BLAZEPOSE_KEYPOINTS.indexOf("mouth_right"),
+]
 
 export const BLAZEPOSE_HEAD_KEYPOINTS = BLAZEPOSE_KEYPOINTS.slice(HEAD_AREA[0], HEAD_AREA[1] + 1)
 // export const BLAZEPOSE_HEAD_CONNECTED_KEYPOINTS_PAIRS = BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS.filter(isInRange(...HEAD_AREA))

@@ -37,7 +37,7 @@ table(v-if="videos.length > 0" :class="$style.table" v-stop-propagation)
 <script lang="ts" setup>
 import { useSupabase } from "~/packages/Supabase"
 import { pauseLoop, resumeLoop, useThreeJSEventHook } from "~/packages/ThreeJS"
-type VideoWithCounts = Required<Db.Video> & { keyframe: [{ count: number }], pose: [{ count: number }] }
+type VideoWithCounts = Required<Db.Video> & { keyframe: [{ count: number }]; pose: [{ count: number }] }
 
 const toast = useToast()
 const threeJs = useThreeJSEventHook()
@@ -46,7 +46,9 @@ const { supabase } = useSupabase()
 const videos = ref<VideoWithCounts[]>([])
 
 const refreshVideos = async () => {
-  const res = await supabase.from<VideoWithCounts>("video").select("id, src, duration, width, height, keyframe(count), pose(count)")
+  const res = await supabase
+    .from<VideoWithCounts>("video")
+    .select("id, src, duration, width, height, keyframe(count), pose(count)")
   if (res.error === null) {
     set(videos, res.data)
   }
@@ -70,7 +72,10 @@ const getVideo = (videoId: number): VideoWithCounts => {
 const deleteKeyframes = async (videoId: number) => {
   const video = getVideo(videoId)
   if (video.keyframe[0].count > 0) {
-    const { error } = await supabase.from<Db.Keyframe>("keyframe").delete({ returning: "minimal" }).eq("video_id", videoId)
+    const { error } = await supabase
+      .from<Db.Keyframe>("keyframe")
+      .delete({ returning: "minimal" })
+      .eq("video_id", videoId)
     if (error) {
       toast.error(error.message)
       return

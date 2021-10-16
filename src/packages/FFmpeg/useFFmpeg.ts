@@ -50,7 +50,6 @@ export function useFFmpeg(options: FFmpegOptions) {
   pause()
 
   const unlinkAll = () => {
-    // @ts-ignore
     const files = ffmpeg.FS("readdir", dir).filter(noDotFiles)
     for (const file of files) {
       ffmpeg.FS("unlink", `${dir}${file}`)
@@ -60,7 +59,6 @@ export function useFFmpeg(options: FFmpegOptions) {
   const exit = () => {
     pause()
     unlinkAll()
-    // @ts-ignore
     ffmpeg.FS("rmdir", dir)
 
     try {
@@ -79,7 +77,6 @@ export function useFFmpeg(options: FFmpegOptions) {
       get(keyframes).push(parseFloat(found[1]))
     })
 
-    // @ts-ignore
     ffmpeg.FS("mkdir", dir)
 
     if (get(src)) {

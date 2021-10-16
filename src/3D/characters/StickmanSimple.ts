@@ -3,8 +3,8 @@ import type { LandmarkList } from "public/pose/index.d"
 import { singleFns } from "~/packages/ThreeJS/useRenderLoop"
 import { watch, onBeforeUnmount, onMounted } from "vue"
 import { Vector3, Group } from "three"
-import { lineFactory, keypointFactory, boneMaterial } from "~/models/factories"
-import { BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS, BLAZEPOSE_KEYPOINTS } from "~/misc/constants"
+import { lineFactory, keypointFactory, boneMaterial } from "~/3D/factories"
+import { BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS, BLAZEPOSE_KEYPOINTS } from "~/misc/hud"
 
 export default defineComponent({
   props: {
@@ -47,15 +47,29 @@ export default defineComponent({
 
     const updateJoints = (points: LandmarkList) => {
       points.forEach((point, index) => {
-        joints.get(index)!.position.set(point.x * props.scale, mayFlipVertical(point.y * props.scale), point.z * props.scale * props.zMulti)
+        joints
+          .get(index)!
+          .position.set(
+            point.x * props.scale,
+            mayFlipVertical(point.y * props.scale),
+            point.z * props.scale * props.zMulti
+          )
       })
     }
 
     const lineEnds = [new Vector3(), new Vector3()]
     const updateLines = (points: LandmarkList) => {
       BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS.forEach(([i, j]) => {
-        lineEnds[0].set(points[i].x * props.scale, mayFlipVertical(points[i].y * props.scale), points[i].z * props.scale * props.zMulti)
-        lineEnds[1].set(points[j].x * props.scale, mayFlipVertical(points[j].y * props.scale), points[j].z * props.scale * props.zMulti)
+        lineEnds[0].set(
+          points[i].x * props.scale,
+          mayFlipVertical(points[i].y * props.scale),
+          points[i].z * props.scale * props.zMulti
+        )
+        lineEnds[1].set(
+          points[j].x * props.scale,
+          mayFlipVertical(points[j].y * props.scale),
+          points[j].z * props.scale * props.zMulti
+        )
 
         const line = lines.get(lineKey(i, j))!
         line.geometry.setFromPoints(lineEnds)

@@ -7,7 +7,7 @@ export default defineComponent({
     image: { type: Object as PropType<GpuBuffer>, required: true },
     scale: { type: Number, default: 1 },
     opacity: { type: Number, default: 1 },
-    position: { type: Array as PropType<number[]>, default: () => ([0, 0, 0]) },
+    position: { type: Array as PropType<number[]>, default: () => [0, 0, 0] },
   },
 
   setup(props) {

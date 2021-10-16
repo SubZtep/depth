@@ -2,8 +2,8 @@
 Help
 
 router-view(v-slot="{ Component }")
-  transition(name="fade")
-    component(:is="Component")
+  //- transition(name="fade")
+  component(:is="Component")
 </template>
 
 <script lang="ts" setup>
@@ -22,6 +22,6 @@ useGui().show()
 
 .fade-enter,
 .fade-leave-active {
-  opacity: 0
+  opacity: 0;
 }
 </style>
