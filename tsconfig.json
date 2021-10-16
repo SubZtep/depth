@@ -5,7 +5,7 @@
     "lib": [
       "ESNext",
       "DOM",
-      "DOM.Iterable"
+      "DOM.Iterable",
     ],
     "jsx": "preserve",
     "importHelpers": true,

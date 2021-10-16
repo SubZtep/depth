@@ -1,9 +1,7 @@
 import type CameraControls from "camera-controls"
 import { useIdle, whenever } from "@vueuse/core"
 import { CameraShake } from "../../models/camerashake"
-import { useActiveRoute, useOnRouterEvent } from "../router/plugin"
 import { Box3, Vector3 } from "three"
-import settings from "~/../SETTINGS.toml"
 
 export function setupBoundaries(cameraControls: CameraControls, horizontalLock = true) {
   if (horizontalLock) {
@@ -20,9 +18,7 @@ export function setupBoundaries(cameraControls: CameraControls, horizontalLock =
   cameraControls.dollySpeed = 0.5
   cameraControls.polarRotateSpeed = 0.6
   cameraControls.azimuthRotateSpeed = 0.8
-  if (settings.router.damping) {
-    cameraControls.dampingFactor = settings.router.damping
-  }
+  cameraControls.dampingFactor = 0.069
   cameraControls.setBoundary(new Box3(new Vector3(-100, 2, -100), new Vector3(100, 2, 100)))
 }
 
@@ -42,12 +38,12 @@ function shakeIt(nr?: number) {
 }
 
 function startPosition(cameraControls: CameraControls) {
-  const startRoute = useActiveRoute()
-  if (startRoute && startRoute.position && startRoute.lookAt) {
-    cameraControls.setLookAt(...startRoute.position, ...startRoute.lookAt, false)
-  } else {
-    cameraControls.setPosition(0, 2, 0, false)
-  }
+  // const startRoute = useActiveRoute()
+  // if (startRoute && startRoute.position && startRoute.lookAt) {
+  //   cameraControls.setLookAt(...startRoute.position, ...startRoute.lookAt, false)
+  // } else {
+  //   cameraControls.setPosition(0, 2, 0, false)
+  // }
 }
 
 export function useCameraControls(cameraControls: CameraControls) {
@@ -62,12 +58,12 @@ export function useCameraControls(cameraControls: CameraControls) {
     cameraControls.removeEventListener("sleep", arrived)
   }
 
-  useOnRouterEvent(({ position, lookAt, transition }) => {
-    if (position && lookAt) {
-      cameraControls.setLookAt(...position, ...lookAt, transition)
-      cameraControls.addEventListener("sleep", arrived)
-    }
-  })
+  // useOnRouterEvent(({ position, lookAt, transition }) => {
+  //   if (position && lookAt) {
+  //     cameraControls.setLookAt(...position, ...lookAt, transition)
+  //     cameraControls.addEventListener("sleep", arrived)
+  //   }
+  // })
 
   shakeIt() // FIXME: shouldn't be necessary for able to move camera in the beginning
 }

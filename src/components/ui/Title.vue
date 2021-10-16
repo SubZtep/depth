@@ -11,7 +11,7 @@ onMounted(() => set(showTitle, false))
 
 <style module>
 .title {
-  @apply fixed inset-0 z-10 flex justify-center items-center text-center
+  @apply fixed inset-0 flex justify-center items-center text-center
     font-mono font-extrabold text-8xl opacity-100 pointer-events-none select-none;
   text-shadow: -4px 0 var(--blood), 1px 0 #fffa, 1px 1px 2px #0063;
   transform: translateX(-100%);

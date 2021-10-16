@@ -23,5 +23,8 @@
   "evenBetterToml.commands.copyJsonAsToml": false,
   "evenBetterToml.commands.copyTomlAsJson": false,
   "evenBetterToml.commands.pasteJsonAsToml": false,
-  "evenBetterToml.commands.pasteTomlAsJson": false
+  "evenBetterToml.commands.pasteTomlAsJson": false,
+  "editor.quickSuggestions": {
+    "strings": true
+  }
 }

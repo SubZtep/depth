@@ -73,7 +73,6 @@ While this is not a _monorepo_ it is great to keep packages separated. Mostly wr
 | [FFmpeg](src/packages/FFmpeg/) | For creating video screenshots and determinate PTS timestamps. |
 | [Howler](src/packages/Howler/) | Play audio feedback. |
 | [PoseAI](src/packages/PoseAI/) | Human pose detection from a video file. |
-| [router](src/packages/router/) | Simple custom router. |
 | [Stats](src/packages/Stats/) | Performance monitor. |
 | [Supabase](src/packages/Supabase/) | Database connection. |
 | [ThreeJS](src/packages/ThreeJS/) | 3D scene. |

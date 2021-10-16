@@ -1,5 +1,5 @@
 <template lang="pug">
-Title Video Display Pose
+//- Title Video Display Pose
 
 .top-left.gap-6
   SelectVideoClip(v-slot="{ src, showVideoTag }")
@@ -28,7 +28,7 @@ Title Video Display Pose
 
 //- Debug dff {{autoStart}}
 
-.top-right.gap-6
+//- .top-right.gap-6
   WebcamPlayer
   //- pre {{videoTimeUpdated}} {{pose}}
 
@@ -61,10 +61,6 @@ const progressItemsLeft = [
 //     set(pose, p.pose_normalized)
 //     await sleep(30)
 //   }
-// })
-
-// useGuiFolder(folder => {
-//   folder.name = "📼 Video Pose"
 // })
 </script>
 

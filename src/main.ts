@@ -9,25 +9,25 @@ import CssAspectRatio from "./directives/css-aspect-ratio"
 import StopPropagation from "./directives/stop-propagation"
 import Supabase from "./packages/Supabase"
 import ThreeJs from "./packages/ThreeJS"
-import Router, { navigationGui, normalizeRoutes } from "./packages/router"
 import Stats from "./packages/Stats"
 import Gui from "./packages/datGUI"
 import Howler from "./packages/Howler/plugin"
+import navigationGui from "./misc/navigationGui"
 import preferencesGui from "./misc/preferencesGui"
 import settings from "~/../SETTINGS.toml"
 // import videoPlugin from "./stores/videoPlugin"
+import router from "./router"
 import "./icons"
 import "virtual:windi.css"
 import "./style.css"
 
 export const useSharedMediaControls = createSharedComposable(useMediaControls)
 
-const routes = normalizeRoutes(settings.router.routes)
-
 const piana = createPinia()
 // .use(videoPlugin)
 
 const app = createApp(App)
+  .use(router)
   .use(piana)
   .use(Toast, {
     timeout: 4569,
@@ -39,10 +39,9 @@ const app = createApp(App)
     url: import.meta.env.VITE_SUPABASE_URL,
     key: import.meta.env.VITE_SUPABASE_KEY,
   })
-  .use(Router, { routes, transition: settings.router.transition })
   .use(ThreeJs, { toastEvents: false })
   .use(Stats, { mosaic: true })
-  .use(Gui, { addons: [navigationGui(routes), preferencesGui] })
+  .use(Gui, { addons: [navigationGui(router.getRoutes()), preferencesGui] })
   .use(Howler, settings.audio)
   .component("fa", FontAwesomeIcon)
   .directive("visible", Visible)

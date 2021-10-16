@@ -2,69 +2,8 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Settings",
   "description": "Project settings — router and other basic stuff",
-  "definitions": {
-    "vector3": {
-      "type": "array",
-      "items": [
-        { "type": ["integer", "number"] },
-        { "type": ["integer", "number"] },
-        { "type": ["integer", "number"] }
-      ],
-      "minItems": 3
-    }
-  },
   "type": "object",
   "properties": {
-    "router": {
-      "title": "Router",
-      "type": "object",
-      "properties": {
-        "transition": {
-          "type": "boolean",
-          "description": "Camera transitions between states"
-        },
-        "damping": {
-          "type": "number",
-          "description": "Camera damping inertia",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "routes": {
-          "type": "array",
-          "items": {
-            "title": "Route",
-            "type": "object",
-            "properties": {
-              "path": {
-                "type": "string",
-                "description": "The path of the route",
-                "uniqueItems": true
-              },
-              "label": {
-                "type": "string",
-                "description": "Menu item label"
-              },
-              "component": {
-                "type": "string",
-                "description": "Page component name, pattern: `./components/pages/[VALUE].vue`"
-              },
-              "position": {
-                "$ref": "#/definitions/vector3",
-                "description": "Initial camera position"
-              },
-              "lookAt": {
-                "$ref": "#/definitions/vector3",
-                "description": "Initial camera rotation"
-              }
-            },
-            "required": ["path"],
-            "additionalProperties": false
-          }
-        }
-      },
-      "required": ["routes"],
-      "additionalProperties": false
-    },
     "audio": {
       "title": "AudioSettings",
       "type": "object",

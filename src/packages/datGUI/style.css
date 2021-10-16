@@ -5,6 +5,10 @@
     @apply font-mono text-light-500;
   }
 
+  .folder .dg .title:first-of-type {
+    border-top-right-radius: 1.75rem 1rem;
+  }
+
   > ul {
     @apply flex flex-col-reverse;
   }
