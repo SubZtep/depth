@@ -1,28 +1,48 @@
 name: Test & Build & Deploy
+
 on:
   push:
     branches:
       - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
         with:
           node-version: "16"
-          cache: "npm"
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.0.1
+        with:
+          run_install: true
+
       - name: Create env file with secrets
         run: |
           echo VITE_SUPABASE_URL=${{ secrets.SUPABASE_URL }} > .env
           echo VITE_SUPABASE_KEY=${{ secrets.SUPABASE_SECRET }} >> .env
-      - name: Install npm packages
-        run: npm i
+
+
+
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
+          run_install: true
+
       - name: Run tests
-        run: npm test
+        run: pnpm test
+
       - name: Build for production
-        run: npm run build
-      - name: Copy files on the cloud via SSH
+        run: pnpm build
+
+      - name: Herd files over the cloud via SSH
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
