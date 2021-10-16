@@ -1,4 +1,5 @@
-import { basename, normalizeDeviceLabel } from "~/misc/utils"
+import { normalizeDeviceLabel } from "~/misc/transformers"
+import { basename } from "~/misc/transformers"
 
 describe("device label parse", () => {
   test("has no-idea-what at the end", () => {

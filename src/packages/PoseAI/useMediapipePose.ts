@@ -68,8 +68,7 @@ export function useMediapipePose({ video, options, handler }: MediapipePoseOptio
   }
 
   tryOnMounted(async () => {
-    // @ts-ignore
-    solution = new window.Pose({ locateFile: fn => `/pose/${fn}` } as PoseConfig)
+    solution = new (window as any).Pose({ locateFile: fn => `/pose/${fn}` } as PoseConfig)
     solution.setOptions({
       modelComplexity: 1,
       smoothLandmarks: true,

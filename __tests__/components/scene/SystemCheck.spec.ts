@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
-import SystemCheck from "~/components/scene/SystemCheck"
+import SystemCheck from "~/App/SystemCheck"
 import Toast from "vue-toastification"
 
 describe("SystemCheck test", () => {

@@ -18,12 +18,14 @@ export const useVideoStore = defineStore("video", {
     keyframes: undefined as number[] | undefined,
     poses: undefined as VideoStatePose[] | undefined,
   }),
+
   getters: {
     hasId: state => state.id !== undefined,
     hasSrc: state => state.src !== undefined,
     hasKeyframes: state => state.keyframes !== undefined && state.keyframes.length > 0,
     hasPoses: state => state.poses !== undefined && state.poses.length > 0,
   },
+
   actions: {
     async replace(obj?: Db.Video) {
       this.$reset()
@@ -34,35 +36,12 @@ export const useVideoStore = defineStore("video", {
       let poses: VideoStatePose[] | undefined = undefined
       let id = await db.getVideoId(obj)
 
-      // console.log("IIIFFF", id)
       if (id) {
         keyframes = await db.getKeyframes(id)
         poses = await db.getPoses(id)
-
-        // console.log({ keyframes, poses })
       } else {
         id = await db.insertVideo(obj)
       }
-
-      // console.log("PATCH", {
-      //   ...obj,
-      //   id,
-      //   keyframes,
-      //   poses,
-      // })
-
-      const all = {
-        ...obj,
-        id,
-        keyframes,
-        poses,
-      }
-
-      // for (const [k, v] of Object.entries(all).filter(([, v]) => v !== undefined)) {
-      //   // this.$patch(k, v)
-      //   // console.log(k, v)
-      //   this[k] = v
-      // }
 
       this.$patch({
         ...obj,
@@ -70,8 +49,6 @@ export const useVideoStore = defineStore("video", {
         keyframes,
         poses,
       })
-
-      // console.log("ginii")
     },
 
     async setKeyframes(keyframes?: number[]) {

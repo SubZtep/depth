@@ -18,9 +18,9 @@ video.video-border.max-h-300px(
 
 <script lang="ts" setup>
 import settings from "~/../SETTINGS.toml"
-import { toSelectOptions } from "~/misc/utils"
+import { toSelectOptions } from "~/misc/transformers"
 import { useGuiFolder } from "~/packages/datGUI"
-import { VIDEO_URL } from "~/misc/regexp"
+import { VIDEO_URL } from "~/misc/constants"
 
 const toast = useToast()
 const { progress, start, done } = useNProgress()

@@ -1,7 +1,7 @@
 import type { CreateFFmpegOptions } from "@ffmpeg/ffmpeg"
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
 import { noDotFiles } from "~/misc/filters"
-import { basename } from "~/misc/utils"
+import { basename } from "~/misc/transformers"
 import { KEYFRAME_TIMESTAMPS_LOG, KEYFRAME_TIMESTAMPS } from "./commands"
 
 interface FFmpegOptions {

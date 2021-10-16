@@ -1,5 +1,5 @@
 declare const Modernizr: Record<string, boolean>
-import { capitalize } from "~/misc/utils"
+import { capitalize } from "~/misc/transformers"
 import { defineComponent } from "vue"
 import { useToast } from "vue-toastification"
 import { useScriptTag } from "@vueuse/core"

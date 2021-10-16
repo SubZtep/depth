@@ -37,33 +37,12 @@ function shakeIt(nr?: number) {
   shakes[nr ?? shaker++ % shakes.length]?.shake()
 }
 
-function startPosition(cameraControls: CameraControls) {
-  // const startRoute = useActiveRoute()
-  // if (startRoute && startRoute.position && startRoute.lookAt) {
-  //   cameraControls.setLookAt(...startRoute.position, ...startRoute.lookAt, false)
-  // } else {
-  //   cameraControls.setPosition(0, 2, 0, false)
-  // }
-}
-
 export function useCameraControls(cameraControls: CameraControls) {
   initShakes(cameraControls)
   setupBoundaries(cameraControls)
-  startPosition(cameraControls)
 
   const { idle } = useIdle()
   whenever(idle, shakeIt)
-
-  const arrived = () => {
-    cameraControls.removeEventListener("sleep", arrived)
-  }
-
-  // useOnRouterEvent(({ position, lookAt, transition }) => {
-  //   if (position && lookAt) {
-  //     cameraControls.setLookAt(...position, ...lookAt, transition)
-  //     cameraControls.addEventListener("sleep", arrived)
-  //   }
-  // })
 
   shakeIt() // FIXME: shouldn't be necessary for able to move camera in the beginning
 }

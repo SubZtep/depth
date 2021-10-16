@@ -1,30 +1,24 @@
 import { createApp } from "vue"
 import { createPinia } from "pinia"
-import Toast from "vue-toastification"
-import App from "./components/scene/App.vue"
-import Visible from "./directives/visible"
-import CssAspectRatio from "./directives/css-aspect-ratio"
-import StopPropagation from "./directives/stop-propagation"
-import Supabase from "./packages/Supabase"
-import ThreeJs from "./packages/ThreeJS"
-import Stats from "./packages/Stats"
-import Gui from "./packages/datGUI"
-import Howler from "./packages/Howler/plugin"
-import { navigationGui, preferencesGui } from "./misc/hud"
+import CssAspectRatio from "~/directives/css-aspect-ratio"
+import StopPropagation from "~/directives/stop-propagation"
+import { navigationGui, preferencesGui } from "~/misc/hud"
+import Howler from "~/packages/Howler/plugin"
+import Visible from "~/directives/visible"
+import Supabase from "~/packages/Supabase"
 import settings from "~/../SETTINGS.toml"
-// import videoPlugin from "./stores/videoPlugin"
-import router from "./router"
+import ThreeJs from "~/packages/ThreeJS"
+import Toast from "vue-toastification"
+import Stats from "~/packages/Stats"
+import Gui from "~/packages/datGUI"
+import App from "~/App/App.vue"
+import router from "~/router"
 import "virtual:windi.css"
-import "./style.css"
-
-export const useSharedMediaControls = createSharedComposable(useMediaControls)
-
-const piana = createPinia()
-// .use(videoPlugin)
+import "~/style.css"
 
 const app = createApp(App)
+  .use(createPinia())
   .use(router)
-  .use(piana)
   .use(Toast, {
     timeout: 4569,
     maxToasts: 13,
@@ -35,8 +29,8 @@ const app = createApp(App)
     url: import.meta.env.VITE_SUPABASE_URL,
     key: import.meta.env.VITE_SUPABASE_KEY,
   })
-  .use(ThreeJs, { toastEvents: false })
   .use(Stats, { mosaic: true })
+  .use(ThreeJs, { toastEvents: false })
   .use(Gui, { addons: [navigationGui(router.getRoutes()), preferencesGui] })
   .use(Howler, settings.audio)
   .directive("visible", Visible)

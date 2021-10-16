@@ -1,4 +1,4 @@
-import { kebabToTitle } from "~/misc/string"
+import { kebabToTitle } from "~/misc/transformers"
 
 describe("string mutations", () => {
   test("kebab case to human readable", () => {

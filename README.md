@@ -1,4 +1,4 @@
-# depth 🧘‍♀️ ~~perception~~
+# depth 🧘‍♀️ _~~poser~~_:godmode:~~perception~~
 
 [![CodeQL](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml)
 :balloon:
@@ -7,10 +7,15 @@
 ---
 
 > Just another _code sandbox_.
-
-# [subztep.github.io/depth](https://subztep.github.io/depth/)
-
 ---
+> - [x] for ongoing **phase 1** snippets. :pencil2:
+---
+> Please visit
+> # [subztep.github.io/depth](https://subztep.github.io/depth/)
+> for more readme.
+---
+
+> ###### <sup>`Keep 2D for ASCIIs`</sup> `(･ω<)☆`
 
 ```js
                                                    ..
@@ -51,12 +56,6 @@
                                             `"?MMMMMMMMP'
                                                  `?MMMP
 ```
-
----
-_superWIP_!noeta.\
-unlicense4temp-
-
----
 
 <sub>_superWIP_!noeta.\
 unlicense4tmp?-:sweat_drops:</sub>

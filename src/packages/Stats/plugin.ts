@@ -9,13 +9,6 @@ stats.dom.classList.add("Stats")
 stats.dom.addEventListener("dblclick", () => stats.dom.classList.toggle("mosaic"))
 document.body.appendChild(stats.dom)
 
-async function dlStats(cb: FnPr, thisArg = globalThis) {
-  const t0 = performance.now()
-  await cb.call(thisArg)
-  const t1 = performance.now()
-  // dlstat.update(t1 - t0, 33.33) // for 30fps
-}
-
 export default {
   install(app, options?: StatsOptions) {
     if (options?.showPanel !== undefined) {
@@ -35,6 +28,5 @@ export function useStats(options?: { mosaic?: boolean }) {
   }
   return {
     stats: s,
-    dlStats,
   }
 }

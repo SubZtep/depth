@@ -3,7 +3,7 @@ import { useAssets } from "~/packages/ThreeJS/useAssets"
 import { singleFns, singleFnPrs } from "~/packages/ThreeJS/useRenderLoop"
 import { setupBoundaries } from "~/packages/ThreeJS/useCameraControls"
 import type { RouteRecordNormalized } from "vue-router"
-import { kebabToTitle } from "~/misc/string"
+import { kebabToTitle } from "~/misc/transformers"
 import router from "~/router"
 
 export function logLoaded(str: string) {

@@ -1,10 +1,10 @@
 import type { RouteRecordRaw } from "vue-router"
 import * as VueRouter from "vue-router"
-import Home from "~/components/pages/Home.vue"
-import VideoPose from "~/components/pages/VideoPose.vue"
-import DbAdmin from "~/components/pages/DbAdmin.vue"
-import SceneSetup from "~/components/pages/SceneSetup.vue"
-import EmptyTemplate from "~/components/pages/EmptyTemplate.vue"
+import Home from "~/pages/Home.vue"
+import VideoPose from "~/pages/VideoPose.vue"
+import DbAdmin from "~/pages/DbAdmin.vue"
+import SceneSetup from "~/pages/SceneSetup.vue"
+import EmptyTemplate from "~/pages/EmptyTemplate.vue"
 import { singleFns } from "~/packages/ThreeJS/useRenderLoop"
 
 const routes: RouteRecordRaw[] = [

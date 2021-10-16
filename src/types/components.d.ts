@@ -4,7 +4,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    App: typeof import('C:/Users/subzt/Code/depth/src/components/scene/App.vue')['default']
+    App: typeof import('../App/App.vue')['default']
     Avatar: typeof import('C:/Users/subzt/Code/depth/src/3D/avatar.ts')['default']
     Camerashake: typeof import('C:/Users/subzt/Code/depth/src/3D/camerashake.ts')['default']
     CancellableEventToast: typeof import('C:/Users/subzt/Code/depth/src/components/toasts/CancellableEventToast.vue')['default']
@@ -17,7 +17,7 @@ declare module 'vue' {
     Home: typeof import('C:/Users/subzt/Code/depth/src/components/pages/Home.vue')['default']
     ImgMemfs: typeof import('C:/Users/subzt/Code/depth/src/components/video/ImgMemfs.vue')['default']
     InfiniteGrid: typeof import('C:/Users/subzt/Code/depth/src/3D/infiniteGrid.ts')['default']
-    MainScene: typeof import('C:/Users/subzt/Code/depth/src/components/scene/MainScene.vue')['default']
+    MainScene: typeof import('../App/MainScene.vue')['default']
     SceneDefaults: typeof import('C:/Users/subzt/Code/depth/src/3D/sceneDefaults.ts')['default']
     SceneSetup: typeof import('C:/Users/subzt/Code/depth/src/components/pages/SceneSetup.vue')['default']
     SelectVideoClip: typeof import('C:/Users/subzt/Code/depth/src/components/video/SelectVideoClip.ts')['default']
@@ -28,7 +28,7 @@ declare module 'vue' {
     StickmanSimple: typeof import('C:/Users/subzt/Code/depth/src/3D/characters/StickmanSimple.ts')['default']
     StoreTest: typeof import('C:/Users/subzt/Code/depth/src/components/pages/StoreTest.vue')['default']
     SystemCheck: typeof import('C:/Users/subzt/Code/depth/src/components/scene/SystemCheck.ts')['default']
-    ThreeCanvas: typeof import('C:/Users/subzt/Code/depth/src/components/scene/ThreeCanvas.vue')['default']
+    ThreeCanvas: typeof import('../App/ThreeCanvas.vue')['default']
     ThreeGlobe: typeof import('C:/Users/subzt/Code/depth/src/3D/ThreeGlobe.ts')['default']
     TimelineCanvas: typeof import('C:/Users/subzt/Code/depth/src/components/video/TimelineCanvas.vue')['default']
     TimelineCursor: typeof import('C:/Users/subzt/Code/depth/src/components/video/TimelineCursor.vue')['default']

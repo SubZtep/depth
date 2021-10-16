@@ -8,7 +8,7 @@ video.video-border.max-h-300px(
 </template>
 
 <script lang="ts" setup>
-import { normalizeDeviceLabel } from "~/misc/utils"
+import { normalizeDeviceLabel } from "~/misc/transformers"
 import { useGuiFolder } from "~/packages/datGUI"
 
 const videoRef = ref() as Ref<HTMLVideoElement>
