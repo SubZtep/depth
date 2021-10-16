@@ -29,14 +29,6 @@ jobs:
           echo VITE_SUPABASE_URL=${{ secrets.SUPABASE_URL }} > .env
           echo VITE_SUPABASE_KEY=${{ secrets.SUPABASE_SECRET }} >> .env
 
-
-
-
-      - uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 6.0.2
-          run_install: true
-
       - name: Run tests
         run: pnpm test
 
