@@ -4,9 +4,9 @@ div(:class="$style.videoTimeline" v-stop-propagation)
   div(:class="$style.toolbar")
     .flex.gap-1
       button.btn(@click="state.zoom--" :disabled="state.zoom === 0")
-        fa(:icon="['far', 'magnifying-glass-minus']")
+        i.far.magnifying-glass-minus
       button.btn(@click="state.zoom++")
-        fa(:icon="['far', 'magnifying-glass-plus']")
+        i.far.magnifying-glass-plus
     div
       label
         input(type="checkbox" v-model="estimatePose")

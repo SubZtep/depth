@@ -3,7 +3,7 @@ div(:class="$style.progressBar")
   div(v-for="({ label, done }, index) in props.items" :key="label" :class="$style.item")
     fa.mx-1.text-green-800(:icon="['fad', 'check']" v-show="done.value")
     .flex-grow(:class="[done.value ? 'line-through' : 'font-bold']") {{label}}
-    fa(:icon="[done.value ? 'fas' : 'far', `circle-${index + 1}`]" size="lg")
+    i.fa-5x(:class="[done.value ? 'fas' : 'far', `circle-${index + 1}`]")
 </template>
 
 <script lang="ts" setup>

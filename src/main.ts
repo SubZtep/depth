@@ -1,6 +1,5 @@
 import { createApp } from "vue"
 import { createPinia } from "pinia"
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import Toast from "vue-toastification"
 import App from "./components/scene/App.vue"
 import Visible from "./directives/visible"
@@ -15,7 +14,6 @@ import { navigationGui, preferencesGui } from "./misc/hud"
 import settings from "~/../SETTINGS.toml"
 // import videoPlugin from "./stores/videoPlugin"
 import router from "./router"
-import "./icons"
 import "virtual:windi.css"
 import "./style.css"
 
@@ -41,7 +39,6 @@ const app = createApp(App)
   .use(Stats, { mosaic: true })
   .use(Gui, { addons: [navigationGui(router.getRoutes()), preferencesGui] })
   .use(Howler, settings.audio)
-  .component("fa", FontAwesomeIcon)
   .directive("visible", Visible)
   .directive("css-aspect-ratio", CssAspectRatio)
   .directive("stop-propagation", StopPropagation)

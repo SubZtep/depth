@@ -21,15 +21,14 @@ table(v-if="videos.length > 0" :class="$style.table" v-stop-propagation)
       td
         | {{ video.keyframe[0].count }}
         button.btn.ml-1(@click="deleteKeyframes(video.id)" :disabled="video.keyframe[0].count === 0")
-          fa(:icon="['fat', 'trash']")
+          i.fat.fa-trash
       td
         | {{ video.pose[0].count }}
         button.btn.ml-1(@click="deletePoses(video.id)" :disabled="video.pose[0].count === 0")
-          fa(:icon="['fat', 'trash']")
-
+          i.fat.fa-trash
       td
         button.btn.px-2.mx-2(@click="deleteVideo(video.id)" title="Delete the full video")
-          fa(:icon="['fat', 'dumpster']")
+          i.fat.fa-dumpster
 
 .text-2xl.text-center.bg-red-800.text-white.p-4.m-4(v-else) No video data
 </template>

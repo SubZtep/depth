@@ -12,18 +12,17 @@ jobs:
         with:
           node-version: "16"
           cache: "npm"
-      - name: Create env file
+      - name: Create env file with secrets
         run: |
           echo VITE_SUPABASE_URL=${{ secrets.SUPABASE_URL }} > .env
           echo VITE_SUPABASE_KEY=${{ secrets.SUPABASE_SECRET }} >> .env
-      - name: All the npm scripts
-        run: |
-          npm config set "@fortawesome:registry" https://npm.fontawesome.com/
-          npm config set '//npm.fontawesome.com/:_authToken' "${{ secrets.FA_TOKEN }}"
-          npm i
-          npm test
-          npm run build
-      - name: Copy files via SSH
+      - name: Install npm packages
+        run: npm i
+      - name: Run tests
+        run: npm test
+      - name: Build for production
+        run: npm run build
+      - name: Copy files on the cloud via SSH
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
