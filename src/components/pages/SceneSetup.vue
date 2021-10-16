@@ -3,7 +3,7 @@ Title Scene setup
 </template>
 
 <script lang="ts" setup>
-import { onBeforeUnmount } from "@vue/runtime-core"
+import { onBeforeUnmount } from "vue"
 import { singleFns } from "~/packages/ThreeJS/useRenderLoop"
 import { useGuiFolder } from "~/packages/datGUI"
 import { AmbientLight, DirectionalLight, DirectionalLightHelper } from "three"
