@@ -21,7 +21,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
-          version: latest
+          version: 6.17.2
           run_install: true
 
       - name: Create env file with secrets
