@@ -59,7 +59,7 @@ export default defineConfig(({ mode, command }) => {
       }),
       Vue(),
       Components({
-        dirs: ["src/components", "src/3D"],
+        dirs: ["src"],
         extensions: ["vue", "ts"],
         dts: "src/types/components.d.ts",
         deep: true,

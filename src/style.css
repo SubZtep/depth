@@ -1,3 +1,5 @@
+@import "vue-toastification/dist/index.css";
+
 :root {
   --blood: #8a0303;
   --terminal: #4af626;
@@ -29,8 +31,6 @@ body {
 /*
 ** Overwrite some 3rd-parties
 */
-
-@import "vue-toastification/dist/index.css";
 
 /*
 ** NProgress

@@ -1,6 +1,6 @@
 import { useGuiFolder } from "~/packages/datGUI"
 import { VIDEO_URL } from "~/misc/constants"
-import { toSelectOptions } from "~/misc/transformers"
+import { toSelectOptions, basename } from "~/misc/transformers"
 import settings from "~/../SETTINGS.toml"
 
 export default defineComponent({

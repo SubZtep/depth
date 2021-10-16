@@ -1,4 +1,4 @@
-# depth 🧘‍♀️ _~~poser~~_:godmode:~~perception~~
+# depth 🧘‍♀️ ~~perception~~ <sub>_poserAI_</sub>:godmode:
 
 [![CodeQL](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml)
 :balloon:
