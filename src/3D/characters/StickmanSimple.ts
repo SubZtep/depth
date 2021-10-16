@@ -4,7 +4,7 @@ import { singleFns } from "~/packages/ThreeJS/useRenderLoop"
 import { watch, onBeforeUnmount, onMounted } from "vue"
 import { Vector3, Group } from "three"
 import { lineFactory, keypointFactory, boneMaterial } from "~/3D/factories"
-import { BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS, BLAZEPOSE_KEYPOINTS } from "~/misc/hud"
+import { BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS, BLAZEPOSE_KEYPOINTS } from "~/misc/constants"
 
 export default defineComponent({
   props: {
