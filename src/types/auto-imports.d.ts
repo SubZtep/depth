@@ -48,6 +48,7 @@ declare global {
   const onStartTyping: typeof import('@vueuse/core')['onStartTyping']
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
+  const onVisible: typeof import('~/events')['onVisible']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
   const POSITION: typeof import('vue-toastification')['POSITION']
   const provide: typeof import('vue')['provide']

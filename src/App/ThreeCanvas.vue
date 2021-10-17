@@ -13,7 +13,6 @@ import { pauseLoop, resumeLoop, useAssets, useThreeJSEventHook, useCanvas } from
 import { objs } from "~/packages/ThreeJS/useSceneObjects"
 import * as sdef from "~/3D/sceneDefaults"
 import { sleep, rand } from "~/misc/utils"
-const visibility = useDocumentVisibility()
 
 const toast = useToast()
 const preferences = usePreferencesStore()
@@ -41,14 +40,11 @@ await sleep(69)
 useNProgress().done()
 threeJs.trigger(resumeLoop)
 
-watch(visibility, (current, previous) => {
-  if (current === previous) {
-    throw new Error(`Visibility ${current} shouldn't be ${previous}`)
-  }
-  if (current === "visible") {
-    threeJs.trigger(resumeLoop)
-  } else if (current === "hidden") {
-    threeJs.trigger(pauseLoop)
+onVisible(({ visible, since }) => {
+  threeJs.trigger(visible ? resumeLoop : pauseLoop)
+  if (visible) {
+    const ago = useTimeAgo(since)
+    toast.info(`Hello, since ${ago.value}.`)
   }
 })
 </script>
