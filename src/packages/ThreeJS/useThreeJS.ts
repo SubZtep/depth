@@ -7,8 +7,6 @@ import { useRenderLoop } from "./useRenderLoop"
 import { useThreeJSEventHook } from "./plugin"
 import { useCameraControls } from "./useCameraControls"
 
-export const transformables = new Set()
-
 export function useCanvas(canvasRef: MaybeRef<HTMLCanvasElement>): Scene {
   const instance = getCurrentInstance()
   if (instance === null) {

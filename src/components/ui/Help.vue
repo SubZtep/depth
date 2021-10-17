@@ -13,32 +13,6 @@ div(:class="$style.helpModal" v-if="show")
       td
         pre h
       td toggle dat.gui
-//-
-  h3 Transform constrols
-  table(border="1")
-    tr
-      th code
-      th event
-    tr
-      td
-        pre space
-      td  control deatach / attach next element
-    tr
-      td
-        pre q
-      td toggle local/world space
-    tr
-      td
-        pre w
-      td translate mode
-    tr
-      td
-        pre e
-      td rotate mode
-    tr
-      td
-        pre r
-      td scale mode
 </template>
 
 <script lang="ts" setup>
