@@ -27,4 +27,8 @@ const { pause, resume } = useIntervalFn(
 onVisible(({ visible }) => {
   visible ? resume() : pause()
 })
+
+onBeforeUnmount(() => {
+  pause()
+})
 </script>

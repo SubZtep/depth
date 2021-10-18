@@ -13,7 +13,7 @@ useGui().show()
 </script>
 
 <style>
-.fade-enter-active,
+/*.fade-enter-active,
 .fade-leave-active {
   transition-duration: 0.3s;
   transition-property: opacity;
@@ -23,5 +23,5 @@ useGui().show()
 .fade-enter,
 .fade-leave-active {
   opacity: 0;
-}
+}*/
 </style>

@@ -43,7 +43,7 @@ threeJs.trigger(resumeLoop)
 onVisible(({ visible, since }) => {
   threeJs.trigger(visible ? resumeLoop : pauseLoop)
   if (visible) {
-    const ago = useTimeAgo(since)
+    const ago = useTimeAgo(since, { updateInterval: 0 })
     toast.info(`Hello, since ${ago.value}.`)
   }
 })
