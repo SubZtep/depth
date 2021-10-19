@@ -4,18 +4,7 @@
 :balloon:
 [![Test & Build & Deploy](https://github.com/SubZtep/depth/actions/workflows/deploy.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/deploy.yml)
 
----
-
 > Just another _code sandbox_.
----
-> - [x] for ongoing **phase 1** snippets. :pencil2:
----
-> Please visit
-> # [subztep.github.io/depth](https://subztep.github.io/depth/)
-> for more readme.
----
-
-> ###### <sup>`Keep 2D for ASCIIs`</sup> `(･ω<)☆`
 
 ```js
                                                    ..
@@ -56,6 +45,3 @@
                                             `"?MMMMMMMMP'
                                                  `?MMMP
 ```
-
-<sub>_superWIP_!noeta.\
-unlicense4tmp?-:sweat_drops:</sub>

@@ -4,6 +4,7 @@ import CssAspectRatio from "~/directives/css-aspect-ratio"
 import StopPropagation from "~/directives/stop-propagation"
 import { navigationGui, preferencesGui } from "~/misc/hud"
 import { UserEvents } from "./events"
+import { MotionPlugin } from "@vueuse/motion"
 import Howler from "~/packages/Howler/plugin"
 import Visible from "~/directives/visible"
 import Supabase from "~/packages/Supabase"
@@ -19,7 +20,6 @@ import "~/style.css"
 
 const app = createApp(App)
   .use(createPinia())
-  .use(UserEvents)
   .use(router)
   .use(Toast, {
     timeout: 4569,
@@ -35,6 +35,7 @@ const app = createApp(App)
   .use(ThreeJs, { toastEvents: false })
   .use(Gui, { addons: [navigationGui(router.getRoutes()), preferencesGui] })
   .use(Howler, settings.audio)
+  .use(UserEvents)
   .directive("visible", Visible)
   .directive("css-aspect-ratio", CssAspectRatio)
   .directive("stop-propagation", StopPropagation)

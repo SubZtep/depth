@@ -4,6 +4,13 @@
 .top-left.gap-6
   SelectVideoClip(v-slot="{ src, showVideoTag }")
 
+    VideoClipPlayer(
+      :controls="!autoStart"
+      :src="src"
+      v-visible="showVideoTag"
+      @mounted="setVideoRef"
+      @loaded="videoStore.replace")
+
     VideoKeyTimes(
       v-if="src && hasId && !hasKeyframes"
       :src="src"
@@ -15,13 +22,6 @@
       :keyframes="videoStore.keyframes"
       :auto-start="autoStart"
       @pose="videoStore.addPose")
-
-    VideoClipPlayer(
-      :controls="!autoStart"
-      :src="src"
-      @mounted="setVideoRef"
-      @loaded="videoStore.replace"
-      v-visible="showVideoTag")
 
     transition(name="slide")
       StepProgressBar(v-if="src" :items="progressItemsLeft")
@@ -63,21 +63,3 @@ const progressItemsLeft = [
 //   }
 // })
 </script>
-
-<style>
-.videoPlayer {
-  @apply max-h-300px;
-  aspect-ratio: var(--video-aspect-ratio);
-  border: 4px ridge #964b00;
-}
-
-.slide-enter-active,
-.slide-leave-active {
-  transition: transform 500ms ease;
-}
-
-.slide-enter-from,
-.slide-leave-to {
-  transform: translateX(-100%);
-}
-</style>

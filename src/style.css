@@ -29,6 +29,20 @@ body {
 }
 
 /*
+** Transitions
+*/
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 500ms ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(-100%);
+}
+
+/*
 ** Overwrite some 3rd-parties
 */
 
