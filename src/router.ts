@@ -6,7 +6,7 @@ const QuoteWalker = () => import("~/pages/QuoteWalker.vue")
 const VideoPose = () => import("~/pages/VideoPose.vue")
 const DbAdmin = () => import("~/pages/DbAdmin.vue")
 const SceneSetup = () => import("~/pages/SceneSetup.vue")
-const EmptyTemplate = () => import("~/pages/EmptyTemplate.vue")
+const SoundTest = () => import("~/pages/SoundTest.vue")
 
 const routes: RouteRecordRaw[] = [
   {
@@ -46,9 +46,9 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: "/empty",
-    name: "empty",
-    component: EmptyTemplate,
+    path: "/sound-test",
+    name: "sound-test",
+    component: SoundTest,
     meta: {
       position: [-30, 1.6, -30],
       lookAt: [-300, 2, -30],

@@ -20,12 +20,12 @@ specifiers:
   '@vueuse/integrations': ^6.6.2
   '@vueuse/shared': ^6.6.2
   '@windicss/plugin-scrollbar': ^1.2.3
-  camera-controls: ^1.33.0
+  camera-controls: ^1.33.1
   dat.gui: ^0.7.7
   eslint: ^8.0.1
   eslint-config-prettier: ^8.3.0
   eslint-plugin-prettier: ^4.0.0
-  eslint-plugin-vue: ^7.19.1
+  eslint-plugin-vue: ^7.20.0
   howler: ^2.2.3
   jest: ^27.3.1
   mathjs: ^9.5.1
@@ -60,7 +60,7 @@ dependencies:
   '@vueuse/core': 6.6.2_vue@3.2.20
   '@vueuse/integrations': 6.6.2_vue@3.2.20
   '@vueuse/shared': 6.6.2_vue@3.2.20
-  camera-controls: 1.33.0_three@0.133.1
+  camera-controls: 1.33.1_three@0.133.1
   dat.gui: 0.7.7
   howler: 2.2.3
   mathjs: 9.5.1
@@ -94,7 +94,7 @@ devDependencies:
   eslint: 8.0.1
   eslint-config-prettier: 8.3.0_eslint@8.0.1
   eslint-plugin-prettier: 4.0.0_15313026b01cdd263118061498e273ac
-  eslint-plugin-vue: 7.19.1_eslint@8.0.1
+  eslint-plugin-vue: 7.20.0_eslint@8.0.1
   jest: 27.3.1
   postcss-preset-env: 6.7.0
   prettier: 2.4.1
@@ -1629,8 +1629,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /camera-controls/1.33.0_three@0.133.1:
-    resolution: {integrity: sha512-QTXwz/XbLCPGf7l6u9cWKfR3WwKulnNAahfg+RE+dFOAQ40KKvwTIvBs3Q29kqntJlKvY79ZVsmPUEUA6LoF2A==}
+  /camera-controls/1.33.1_three@0.133.1:
+    resolution: {integrity: sha512-+l0LgV+w0G4GAtwiSahHLj7rCqzVMSa+/BHE3+aE7vdku2B9QF8CXgDSlCH9cBt2TZeg+WQSkRPeIYwjvtjdPw==}
     peerDependencies:
       three: '>=0.126.1'
     dependencies:
@@ -2402,11 +2402,11 @@ packages:
       prettier-linter-helpers: 1.0.0
     dev: true
 
-  /eslint-plugin-vue/7.19.1_eslint@8.0.1:
-    resolution: {integrity: sha512-e2pD7nW2sTY04ThH+66BgToNwC4n6dqfNhKE+ypdJFtZgn3Zn+nP8ZEIFPG0PGqCKQ3qxy8dJk1bzUsuQd3ANA==}
+  /eslint-plugin-vue/7.20.0_eslint@8.0.1:
+    resolution: {integrity: sha512-oVNDqzBC9h3GO+NTgWeLMhhGigy6/bQaQbHS+0z7C4YEu/qK/yxHvca/2PTZtGNPsCrHwOTgKMrwu02A9iPBmw==}
     engines: {node: '>=8.10'}
     peerDependencies:
-      eslint: ^6.2.0 || ^7.0.0 || ^8.0.0-0
+      eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
     dependencies:
       eslint: 8.0.1
       eslint-utils: 2.1.0

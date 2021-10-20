@@ -1,11 +1,9 @@
 <template lang="pug">
-Title Empty Template
+Title Sound Test
 </template>
 
 <script lang="ts" setup>
 import type { PlaySound } from "~/packages/Howler/plugin"
-
-// TODO: remove howler everywhere
 import { useHowler } from "~/packages/Howler"
 
 const toast = useToast()
@@ -17,7 +15,7 @@ try {
 }
 
 addGuiFolder(folder => {
-  folder.name = "♡ Emptyerest"
+  folder.name = "♡ Sound Test"
   folder.add({ btn: () => p("denied") }, "btn").name("Hello, Sound ")
 })
 </script>

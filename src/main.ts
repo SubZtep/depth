@@ -4,7 +4,7 @@ import CssAspectRatio from "~/directives/css-aspect-ratio"
 import StopPropagation from "~/directives/stop-propagation"
 import { navigationGui, preferencesGui } from "~/misc/hud"
 import { UserEvents } from "./events"
-import Howler from "~/packages/Howler/plugin"
+import Howler from "~/packages/Howler"
 import Visible from "~/directives/visible"
 import Supabase from "~/packages/Supabase"
 import settings from "~/../SETTINGS.toml"
@@ -33,7 +33,7 @@ const app = createApp(App)
   .use(Stats, { mosaic: true })
   .use(ThreeJs, { toastEvents: false })
   .use(Gui, { addons: [navigationGui(router.getRoutes()), preferencesGui] })
-  // .use(Howler, settings.audio)
+  .use(Howler, settings.audio)
   .use(UserEvents)
   .directive("visible", Visible)
   .directive("css-aspect-ratio", CssAspectRatio)
