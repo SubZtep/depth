@@ -1,25 +1,31 @@
 # depth 🧘‍♀️ ~~perception~~
 
-[![CodeQL](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml)
-:balloon:
-[![Test & Build & Deploy](https://github.com/SubZtep/depth/actions/workflows/deploy.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/deploy.yml)
 
 >  Just another _code sandbox_.
 
+[![CodeQL](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml)
+:balloon: \
+[![Test & Build & Deploy](https://github.com/SubZtep/depth/actions/workflows/deploy.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/deploy.yml)
+
+Custom helpers and structure that built top on:
+- [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) Composition API,
+- [VueUse](https://vueuse.org/functions.html) Composition Utilities,
+- [Vite](https://vitejs.dev/) Next Generation Frontend Tooling.
+
 ## Monorepo packages
 
-These are mostly wrappers of [Vue.js flavour](https://v3.vuejs.org/guide/plugins.html) around existing 3rd-party packages, extending functionality in places.
+These are mostly wrappers of [Vue.js flavour](https://v3.vuejs.org/guide/plugins.html) around existing 3rd-party packages, extending functionality in places. <sub>_WIP!_</sub>
 
 | Package | Origin | Description |
 | --- | --- | --- |
-| audio | |
-| dat.gui
-| ffmpeg
-| mediapipe
-| stats.js
-| supabase
-| three.js
-| [web](./packages/web#readme) | | Master of Puppets |
+| [**audio**](packages/audio#readme) | — | Make a single test sound with the Web Audio API. |
+| [**dat.gui**](packages/dat.gui#readme) | [dat.GUI](https://github.com/dataarts/dat.gui) | The well-known tool handles most of the user inputs. |
+| [**ffmpeg**](packages/ffmpeg#readme) | [Wasm port of FFmpeg](https://ffmpegwasm.netlify.app/) | Analise video keyframes and save screenshots. |
+| [**mediapipe**](packages/mediapipe#readme) | [mediapipe Live ML](https://google.github.io/mediapipe/getting_started/javascript) | Human pose detection. |
+| [**stats.js**](packages/stats.js#readme) | [stats.js](http://mrdoob.github.io/stats.js/) | Performance monitor for 3D and heavy calculations. |
+| [**supabase**](packages/supabase#readme) | [supabase](https://supabase.io/) | Fast and easy to use database for some backend I/O. |——
+| [**three.js**](packages/three.js#readme) | [three.js](https://threejs.org/) | Draw to the 3D canvas, _WebGL_ for dummies%). |
+| [web](./packages/web#readme) | — | The frontend, master of these puppets. |
 
 ---
 
