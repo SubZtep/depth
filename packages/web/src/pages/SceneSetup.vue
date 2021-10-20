@@ -3,6 +3,7 @@ Title Scene setup
 </template>
 
 <script lang="ts" setup>
+import { addGuiFolder } from "@depth/dat.gui"
 import { singleFns } from "~/packages/ThreeJS/useRenderLoop"
 import { AmbientLight, DirectionalLight, DirectionalLightHelper } from "three"
 import { ColorGUIHelper, makeXYZGUI } from "@depth/dat.gui"

@@ -4,6 +4,7 @@ ThreeGlobe(:position="state.position" :scale="state.scale")
 </template>
 
 <script lang="ts" setup>
+import { addGuiFolder } from "@depth/dat.gui"
 import type { Vector3Tuple } from "three"
 
 const state = reactive({

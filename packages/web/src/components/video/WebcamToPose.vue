@@ -8,6 +8,7 @@ video.video-border.max-h-300px(
 </template>
 
 <script lang="ts" setup>
+import { addGuiFolder } from "@depth/dat.gui"
 import { normalizeDeviceLabel } from "~/misc/transformers"
 import { useMediapipePose } from "~/packages/PoseAI"
 

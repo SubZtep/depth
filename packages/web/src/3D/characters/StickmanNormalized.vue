@@ -9,6 +9,7 @@ StickmanSimple(
 </template>
 
 <script lang="ts" setup>
+import { addGuiFolder } from "@depth/dat.gui"
 import type { NormalizedLandmarkList } from "public/pose"
 
 const props = defineProps<{

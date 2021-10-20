@@ -8,7 +8,7 @@
     "build": "pnpm recursive run build",
     "clean": "pnpm recursive exec -- rm -rf node_modules dist tsconfig.tsbuildinfo",
     "dev": "pnpm recursive run dev --filter @depth/web",
-    "serve": "pnpm recursive run dev --filter @depth/web",
+    "serve": "pnpm recursive run serve --filter @depth/web",
     "lint": "pnpm recursive run lint",
     "test": "pnpm jest",
     "ncu": "pnpm recursive exec -- ncu"
@@ -16,6 +16,9 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
+  "dependencies": {
+    "vue": "^3.2.19"
+  },
   "devDependencies": {
     "@types/jest": "^27.0.2",
     "@vue/test-utils": "^2.0.0-rc.15",

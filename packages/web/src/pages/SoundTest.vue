@@ -3,19 +3,14 @@ Title Sound Test
 </template>
 
 <script lang="ts" setup>
-import type { PlaySound } from "~/packages/Howler/plugin"
-import { useHowler } from "~/packages/Howler"
-
-const toast = useToast()
-let p: PlaySound
-try {
-  p = useHowler(toast.warning)
-} catch (e: any) {
-  toast.error(e.message)
-}
+import { addGuiFolder } from "@depth/dat.gui"
+import settings from "~/../SETTINGS.toml"
+import { useAudio } from "@depth/audio"
 
 addGuiFolder(folder => {
   folder.name = "♡ Sound Test"
-  folder.add({ btn: () => p("denied") }, "btn").name("Hello, Sound ")
+  folder
+    .add({ btn: () => settings.audio?.samples?.denied && useAudio().play(settings.audio.samples.denied) }, "btn")
+    .name("Hello, Sound")
 })
 </script>

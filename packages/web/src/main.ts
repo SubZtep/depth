@@ -4,14 +4,14 @@ import CssAspectRatio from "~/directives/css-aspect-ratio"
 import StopPropagation from "~/directives/stop-propagation"
 import { navigationGui, preferencesGui } from "~/misc/hud"
 import { UserEvents } from "./events"
-import Howler from "~/packages/Howler"
 import Visible from "~/directives/visible"
 import Supabase from "~/packages/Supabase"
 import settings from "~/../SETTINGS.toml"
 import ThreeJs from "~/packages/ThreeJS"
 import Toast from "vue-toastification"
-import Stats from "@depth/stats.js"
-import Gui from "@depth/dat.gui"
+import { AudioPlugin } from "@depth/audio"
+import { StatsPlugin } from "@depth/stats.js"
+import { GuiPlugin } from "@depth/dat.gui"
 import App from "~/App/App.vue"
 import router from "~/router"
 import "virtual:windi.css"
@@ -30,10 +30,10 @@ const app = createApp(App)
     url: import.meta.env.VITE_SUPABASE_URL,
     key: import.meta.env.VITE_SUPABASE_KEY,
   })
-  .use(Stats, { mosaic: true })
+  .use(StatsPlugin, { mosaic: true })
   .use(ThreeJs, { toastEvents: false })
-  .use(Gui, { addons: [navigationGui(router.getRoutes()), preferencesGui] })
-  .use(Howler, settings.audio)
+  .use(GuiPlugin, { addons: [navigationGui(router.getRoutes()), preferencesGui] })
+  .use(AudioPlugin, settings.audio)
   .use(UserEvents)
   .directive("visible", Visible)
   .directive("css-aspect-ratio", CssAspectRatio)

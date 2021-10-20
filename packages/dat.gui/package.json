@@ -10,9 +10,8 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@vueuse/core": "^6.6.2",
-    "dat.gui": "^0.7.7",
-    "vue": "^3.2.19"
+    "@vueuse/core": "^6.7.1",
+    "dat.gui": "^0.7.7"
   },
   "devDependencies": {
     "@types/dat.gui": "^0.7.7"

@@ -14,6 +14,7 @@ transition(name="slide")
 </template>
 
 <script lang="ts" setup>
+import { addGuiFolder } from "@depth/dat.gui"
 import { VIDEO_URL } from "~/misc/constants"
 import { toSelectOptions, basename } from "~/misc/transformers"
 import { useFFmpeg } from "~/packages/FFmpeg"

@@ -1,2 +1,2 @@
 export { default as Stats } from "stats.js"
-export { default, useStats } from "./plugin"
+export { default as StatsPlugin, useStats } from "./plugin"
