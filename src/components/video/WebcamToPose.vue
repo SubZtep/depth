@@ -10,6 +10,7 @@ video.video-border.max-h-300px(
 <script lang="ts" setup>
 import { normalizeDeviceLabel } from "~/misc/transformers"
 import { useGuiFolder } from "~/packages/datGUI"
+import { useMediapipePose } from "~/packages/PoseAI"
 
 const videoRef = ref() as Ref<HTMLVideoElement>
 
@@ -18,6 +19,10 @@ const state = reactive({
   videoDeviceId: undefined,
   enabled: false,
 })
+
+const emit = defineEmits<{
+  (event: "pose", pose: LandmarkList): void
+}>()
 
 const { videoInputs } = useDevicesList({ requestPermissions: true })
 
@@ -36,13 +41,25 @@ const cameras = computed(() =>
 
 watch([videoDeviceId, stream], () => {
   get(videoRef).srcObject = get(stream) || null
+
+  const { estimatePose, detectorReady } = useMediapipePose({
+    video: videoRef,
+    options: { modelComplexity: 2 },
+    handler: results => {
+      emit("pose", results.poseWorldLandmarks)
+    },
+  })
+
+  whenever(detectorReady, async () => {
+    estimatePose()
+  })
 })
 
 useGuiFolder(folder => {
   folder.name = "📹 Webcam Player"
-  folder.add(state, "showVideoTag").name("Show video")
+  folder.add(state, "showVideoTag").name("Show video tag")
   folder.add(state, "enabled").name("Enabled webcam")
   folder.addReactiveSelect({ target: state, propName: "videoDeviceId", options: cameras }).name("Device")
-  folder.close()
+  // folder.close()
 })
 </script>

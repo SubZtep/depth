@@ -28,6 +28,7 @@ const toast = useToast()
 const threeJs = useThreeJSEventHook()
 
 const videoStore = useVideoStore()
+
 const state = reactive({
   src: "",
   showVideoTag: true,
