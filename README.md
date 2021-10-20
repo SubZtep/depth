@@ -9,7 +9,8 @@
 
 Custom helpers and structure that built top on:
 - [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) Composition API,
-- [VueUse](https://vueuse.org/functions.html) Composition Utilities,
+- [VueUse](https://vueuse.org/functions.html) Reactive Composition Utilities,
+- [Pinia](https://pinia.esm.dev/) Store, the closest word to piña that is a valid package name,
 - [Vite](https://vitejs.dev/) Next Generation Frontend Tooling.
 
 ## Monorepo packages
@@ -18,14 +19,16 @@ These are mostly wrappers of [Vue.js flavour](https://v3.vuejs.org/guide/plugins
 
 | Package | Origin | Description |
 | --- | --- | --- |
-| [**audio**](packages/audio#readme) | — | Make a single test sound with the Web Audio API. |
-| [**dat.gui**](packages/dat.gui#readme) | [dat.GUI](https://github.com/dataarts/dat.gui) | The well-known tool handles most of the user inputs. |
-| [**ffmpeg**](packages/ffmpeg#readme) | [Wasm port of FFmpeg](https://ffmpegwasm.netlify.app/) | Analise video keyframes and save screenshots. |
-| [**mediapipe**](packages/mediapipe#readme) | [mediapipe Live ML](https://google.github.io/mediapipe/getting_started/javascript) | Human pose detection. |
-| [**stats.js**](packages/stats.js#readme) | [stats.js](http://mrdoob.github.io/stats.js/) | Performance monitor for 3D and heavy calculations. |
-| [**supabase**](packages/supabase#readme) | [supabase](https://supabase.io/) | Fast and easy to use database for some backend I/O. |——
-| [**three.js**](packages/three.js#readme) | [three.js](https://threejs.org/) | Draw to the 3D canvas, _WebGL_ for dummies%). |
-| [web](./packages/web#readme) | — | The frontend, master of these puppets. |
+| **[a](packages/audio#readme)udio** | — | Make a single test sound with the Web Audio API. |
+| **[dat.gui](packages/dat.gui#readme)** | [dat.GUI](https://github.com/dataarts/dat.gui) | The well-known tool handles most of the user inputs. |
+| **[f](packages/ffmpeg#readme)fmpeg** | [Wasm port of FFmpeg](https://ffmpegwasm.netlify.app/) | Analise video keyframes and save screenshots. |
+| **[m](packages/mediapipe#readme)ediapipe** | [Mediapipe Live ML](https://google.github.io/mediapipe/getting_started/javascript) | Human pose detection. |
+| **[s](packages/stats.js#readme)tats.js** | [Stats.js](http://mrdoob.github.io/stats.js/) | Performance monitor for 3D and heavy calculations. |
+| **[s](packages/supabase#readme)upabase** | [Supabase](https://supabase.io/) | Fast and easy to use database for some backend I/O. |——
+| **[t](packages/three.js#readme)hree.js** | [Three.js](https://threejs.org/) | Draw to the 3D canvas, _WebGL_ for dummies%). |
+| **[w](./packages/web#readme)eb** | — | The frontend, master of these puppets. |
+
+> Since that is still under development all the docs are handwritten without the need for completeness. :pencil2: _If you’re interested check the source code, it’s up-to-date._
 
 ---
 
@@ -71,6 +74,8 @@ These are mostly wrappers of [Vue.js flavour](https://v3.vuejs.org/guide/plugins
 
 ## Setup
 
+> tl;dr :nerd_face: See the entire deploy workflow in the [GitHub Action](.github/workflows/deploy.yml) markup.
+
 - [ ] Create an `.env` file.
 
     ```sh
@@ -81,9 +86,9 @@ These are mostly wrappers of [Vue.js flavour](https://v3.vuejs.org/guide/plugins
 - [x] Make it [cross-origin isolated](https://developer.chrome.com/blog/enabling-shared-array-buffer/) for FFmpeg _SharedArrayBuffer_. \
     A Vite plugin is configured in the project, let's hope it will work for a while.
 
-- [ ] run `$ pnpm install`.
+- [ ] Run `$ pnpm install`.
 
-- [ ] ~~Be sure the local `public/pose` folder is an up-to-date mirror to the [`@mediapipe/pose`](https://www.npmjs.com/package/@mediapipe/pose) package.~~
+- [ ] ~~Be sure the local `public/pose` folder is an up-to-date mirror to the [`@mediapipe/pose`](https://www.npmjs.com/package/@mediapipe/pose) package. _//FIXME: wip_~~
 
 ### Server hints
 

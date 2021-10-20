@@ -33,7 +33,7 @@ export function useGui(options?: { close?: boolean }) {
 
 let cx = 0
 
-export function useGuiFolder(init: FolderInit): any {
+export function addGuiFolder(init: FolderInit): any {
   const gui = inject<dat.GUI>(guiKey)!
   const folderName = `f${++cx}`
   const folder = gui.addFolder(folderName)
