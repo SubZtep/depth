@@ -20,6 +20,7 @@
     "@depth/audio": "workspace:*",
     "@depth/dat.gui": "workspace:*",
     "@depth/ffmpeg": "workspace:*",
+    "@depth/mediapipe": "workspace:*",
     "@depth/stats.js": "workspace:*",
     "@depth/supabase": "workspace:*",
     "@depth/three.js": "workspace:*",
@@ -57,8 +58,5 @@
     "vite-plugin-toml": "^0.3.1",
     "vite-plugin-windicss": "^1.4.12",
     "windicss": "^3.1.9"
-  },
-  "optionalDependencies": {
-    "@mediapipe/pose": "^0.4.1633558788"
   }
 }

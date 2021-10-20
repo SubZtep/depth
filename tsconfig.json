@@ -38,6 +38,7 @@
     { "path": "packages/audio" },
     { "path": "packages/dat.gui" },
     { "path": "packages/ffmpeg" },
+    { "path": "packages/mediapipe" },
     { "path": "packages/stats.js" },
     { "path": "packages/supadbase" },
     { "path": "packages/three.js" },

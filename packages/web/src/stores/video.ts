@@ -1,7 +1,7 @@
 import type { StoreDefinition } from "pinia"
 import { defineStore } from "pinia"
 import { useSupabase } from "@depth/supabase"
-import type { Results } from "~/packages/PoseAI"
+import type { Results } from "@depth/mediapipe"
 import DbQueries from "~/misc/dbqueries"
 
 export interface VideoStatePose {

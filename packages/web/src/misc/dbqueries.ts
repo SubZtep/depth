@@ -1,6 +1,6 @@
 // import type { VideoStatePose } from "~/stores/video"
 import type { SupabaseClient } from "@depth/supabase"
-// import type { Results } from "~/packages/PoseAI"
+import type { Results } from "@depth/mediapipe"
 
 type VideoStatePose = any
 type Logger = any
@@ -113,7 +113,7 @@ export default class DbQueries {
   }
 
   // async insertPose(videoId: number, pose: VideoStatePose): Promise<void> {
-  async insertPose(videoId: number, ts: number, results: any /*Results*/): Promise<void> {
+  async insertPose(videoId: number, ts: number, results: Results): Promise<void> {
     const obj: Db.Pose = { video_id: videoId, ts, pose_normalized: results.poseWorldLandmarks }
 
     const { error } = await this.#client.from<Db.Pose>("pose").upsert(obj, { returning: "minimal" })

@@ -19,7 +19,7 @@ import { VIDEO_URL } from "~/misc/constants"
 import { toSelectOptions, basename } from "~/misc/transformers"
 import { useFFmpeg } from "@depth/ffmpeg"
 import { useThreeJSEventHook, pauseLoop, resumeLoop } from "@depth/three.js"
-import { useMediapipePose } from "~/packages/PoseAI"
+import { useMediapipePose } from "@depth/mediapipe"
 import settings from "~/../SETTINGS.toml"
 import { round, compare } from "mathjs"
 

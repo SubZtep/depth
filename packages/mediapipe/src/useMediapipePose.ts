@@ -1,8 +1,8 @@
 import type { MaybeRef } from "@vueuse/core"
 import { set, tryOnUnmounted, unrefElement, tryOnMounted } from "@vueuse/core"
-import type { Pose, PoseConfig, ResultsListener, Results, Options } from "../../../public/pose"
-import { reactive, ref, watch } from "vue"
-import { Stats, useStats } from "@depth/stats.js"
+import type { Pose, PoseConfig, ResultsListener, Results, Options } from "@mediapipe/pose"
+import { isRef, reactive, ref, watch } from "vue"
+// import { Stats, useStats } from "@depth/stats.js"
 
 interface MediapipePoseOptions {
   /** Video element */
@@ -15,17 +15,17 @@ interface MediapipePoseOptions {
   handler?: ResultsListener
 }
 
-let dstat: Stats.Panel | undefined
+// let dstat: Stats.Panel | undefined
 
 export function useMediapipePose({ video, options, handler }: MediapipePoseOptions) {
   const detectorReady = ref(false)
   const results: Partial<Results> = reactive({})
   let solution: Pose
 
-  if (dstat === undefined) {
-    const { stats } = useStats()
-    dstat = stats.addPanel(new Stats.Panel("ms/pose", "#f9d71c", "#191970"))
-  }
+  // if (dstat === undefined) {
+  //   const { stats } = useStats()
+  //   dstat = stats.addPanel(new Stats.Panel("ms/pose", "#f9d71c", "#191970"))
+  // }
 
   if (isRef(video)) {
     watch(video, (_, oldEl) => {
@@ -56,14 +56,14 @@ export function useMediapipePose({ video, options, handler }: MediapipePoseOptio
       return Promise.reject(new Error("no pose detector"))
     }
 
-    const t0 = performance.now()
+    // const t0 = performance.now()
     // FIXME: doublecheck `at` parameter
     // https://github.com/google/mediapipe/blob/33d683c67100ef3db37d9752fcf65d30bea440c4/mediapipe/util/filtering/one_euro_filter.cc#L26
     // https://nodatime.org/3.0.x/api/NodaTime.Duration.html#NodaTime_Duration_ToInt64Nanoseconds
     await solution.send({ image: elem }, at)
-    const t1 = performance.now()
+    // const t1 = performance.now()
 
-    dstat?.update(t1 - t0, 120)
+    // dstat?.update(t1 - t0, 120)
   }
 
   tryOnMounted(async () => {
