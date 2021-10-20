@@ -2,10 +2,10 @@
   "verbose": true,
   "preset": "ts-jest",
   "collectCoverage": false,
-  "testRegex": "/__tests__/.*$",
+  "testRegex": "./packages/.+/__tests__/.*$",
   "moduleFileExtensions": ["vue", "ts", "js"],
   "moduleNameMapper": {
-    "^~\/(.*)$": "<rootDir>/src/$1"
+    "^~\/(.*)$": "<rootDir>/packages/./web/src/$1"
   },
   "transform": {
     "^.+\\.vue$": "vue3-jest"
@@ -14,7 +14,8 @@
   "coveragePathIgnorePatterns": ["/node_modules/"],
   "globals": {
     "ts-jest": {
-      "tsconfig": "./tsconfig.json"
+      "tsconfig": "./tsconfig.json",
+      "diagnostics": true
     },
     "vue-jest": {
       "babelConfig": false

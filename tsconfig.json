@@ -10,7 +10,7 @@
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "Node",
-    "noEmit": true,
+    "noEmit": false,
     "strict": true,
     "allowJs": true,
     "checkJs": false,
@@ -24,19 +24,19 @@
     "noImplicitReturns": false,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
     "types": [
-      "vite/client",
       "jest"
     ],
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/packages/**/*.d.ts",
-      "./src/types/**/*.d.ts"
-    ],
-    "paths": {
-      "~/*": ["src/*"]
-    }
   },
-  "exclude": ["dist", "node_modules"]
+  "include": [
+    "packages"
+  ],
+  "exclude": [
+    "node_modules",
+    "public",
+    "dist",
+  ],
+  "references": [
+    { "path": "packages/web" }
+  ]
 }

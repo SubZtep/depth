@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "types": [
+      "vite/client",
+      "jest"
+    ],
+    "baseUrl": ".",
+    "typeRoots": [
+      "node_modules/@types",
+      "src/packages/**/*.d.ts",
+      "src/types/**/*.d.ts"
+    ],
+    "paths": {
+      "~/*": ["src/*"]
+    }
+  },
+  "include": ["./src"]
+}
