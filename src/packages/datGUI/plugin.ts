@@ -1,6 +1,6 @@
 import type { Plugin } from "vue"
 import dat from "dat.gui"
-import { addReactiveSelect, addTextInput } from "./extend"
+import { addReactiveSelect, addTextInput, addVector3 } from "./extend"
 import "./style.css"
 
 type FolderInit = (folder: dat.GUI) => void
@@ -16,6 +16,7 @@ const plugin: Plugin = {
 
     dat.GUI.prototype.addReactiveSelect = addReactiveSelect
     dat.GUI.prototype.addTextInput = addTextInput
+    dat.GUI.prototype.addVector3 = addVector3
   },
 }
 

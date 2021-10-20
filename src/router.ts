@@ -7,6 +7,7 @@ const VideoPose = () => import("~/pages/VideoPose.vue")
 const DbAdmin = () => import("~/pages/DbAdmin.vue")
 const SceneSetup = () => import("~/pages/SceneSetup.vue")
 const SoundTest = () => import("~/pages/SoundTest.vue")
+const GlobeTest = () => import("~/pages/GlobeTest.vue")
 
 const routes: RouteRecordRaw[] = [
   {
@@ -52,6 +53,15 @@ const routes: RouteRecordRaw[] = [
     meta: {
       position: [-30, 1.6, -30],
       lookAt: [-300, 2, -30],
+    },
+  },
+  {
+    path: "/globe-test",
+    name: "globe-test",
+    component: GlobeTest,
+    meta: {
+      position: [-10, 1.6, -30],
+      lookAt: [-30, 2, -30],
     },
   },
 ]

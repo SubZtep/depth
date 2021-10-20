@@ -28,6 +28,7 @@ declare module 'vue' {
     FFmpegKeyfrakes: typeof import('./../components/renderless/FFmpegKeyfrakes.ts')['default']
     FFmpegKeyframes: typeof import('./../components/renderless/FFmpegKeyframes.ts')['default']
     Filters: typeof import('./../misc/filters.ts')['default']
+    GlobeTest: typeof import('./../pages/GlobeTest.vue')['default']
     GuiSelectVideo: typeof import('./../components/renderless/GuiSelectVideo.ts')['default']
     GuiSelectVideoClip: typeof import('./../components/renderless/GuiSelectVideoClip.ts')['default']
     Help: typeof import('./../components/ui/Help.vue')['default']

@@ -67,7 +67,18 @@ export function addTextInput(this: dat.GUI, { filter, placeholder, keepValue }: 
   return ctrl
 }
 
-// https://threejsfundamentals.org/threejs/lessons/threejs-lights.html
+export function addVector3(this: dat.GUI, xyz: THREE.Vector3Tuple) {
+  const folder = this.addFolder("Vector3")
+  const v3 = {
+    x: xyz[0],
+    y: xyz[1],
+    z: xyz[2],
+  }
+  folder.add(v3, "x", -100, 100).name("X").onChange(v => (xyz[0] = v))
+  folder.add(v3, "y", 0, 100).name("Y").onChange(v => (xyz[1] = v))
+  folder.add(v3, "z", -100, 100).name("Z").onChange(v => (xyz[2] = v))
+  folder.open()
+}
 
 export class ColorGUIHelper {
   object: THREE.Light

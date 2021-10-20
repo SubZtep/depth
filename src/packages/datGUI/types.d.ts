@@ -14,6 +14,8 @@ declare namespace dat {
      * @param keepValue Keep input element value on blur event
      */
     addTextInput: (params: TextInputParams) => GUIController
+
+    addVector3: (xyz: THREE.Vector3Tuple) => void
   }
 }
 
