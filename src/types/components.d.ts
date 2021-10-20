@@ -99,6 +99,7 @@ declare module 'vue' {
     VideoPose: typeof import('./../pages/VideoPose.vue')['default']
     VideoPoses: typeof import('../components/renderless/StorePoseAI.ts')['default']
     VideoTimeline: typeof import('./../components/video/VideoTimeline.vue')['default']
+    VideoToPose: typeof import('./../components/VideoToPose.vue')['default']
     Visible: typeof import('./../directives/visible.ts')['default']
     WebcamPlayer: typeof import('./../components/video/WebcamPlayer.vue')['default']
   }

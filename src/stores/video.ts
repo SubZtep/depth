@@ -8,6 +8,10 @@ export interface VideoStatePose {
   pose_normalized: NormalizedLandmarkList
 }
 
+// export function closestPoseInTime(poses: SBPose[], currentTime: number) {
+//   return poses.reduce((prev: PoseForTime, curr: PoseForTime) => (Math.abs(curr.time - currentTime) < Math.abs(prev.time - currentTime) ? curr : prev)) as SBPose
+// }
+
 export const useVideoStore = defineStore("video", {
   state: () => ({
     id: undefined as number | undefined,
@@ -24,6 +28,14 @@ export const useVideoStore = defineStore("video", {
     hasSrc: state => state.src !== undefined,
     hasKeyframes: state => state.keyframes !== undefined && state.keyframes.length > 0,
     hasPoses: state => state.poses !== undefined && state.poses.length > 0,
+    closestPose:
+      state =>
+      (ts: number): VideoStatePose => {
+        if (!state.poses) throw new Error("No poses")
+        return state.poses.reduce((prev: VideoStatePose, curr: VideoStatePose) =>
+          Math.abs(curr.ts - ts) < Math.abs(prev.ts - ts) ? curr : prev
+        )
+      },
   },
 
   actions: {

@@ -2,7 +2,7 @@ import type { Plugin, InjectionKey } from "vue"
 import Stats from "stats.js"
 import "./style.css"
 
-const statsKey: InjectionKey<Stats> = Symbol("stats panel")
+// const statsKey: InjectionKey<Stats> = Symbol("stats panel")
 const stats = new Stats()
 stats.dom.removeAttribute("style")
 stats.dom.classList.add("Stats")
@@ -17,16 +17,17 @@ export default {
     if (options?.mosaic) {
       stats.dom.classList.add("mosaic")
     }
-    app.provide(statsKey, stats)
+    // app.provide(statsKey, stats)
   },
 } as Plugin
 
 export function useStats(options?: { mosaic?: boolean }) {
-  const s = inject<Stats>(statsKey)!
+  // const s = inject<Stats>(statsKey)!
   if (options?.mosaic !== undefined) {
-    s.dom.classList[options.mosaic ? "add" : "remove"]("mosaic")
+    stats.dom.classList[options.mosaic ? "add" : "remove"]("mosaic")
+    // s.dom.classList[options.mosaic ? "add" : "remove"]("mosaic")
   }
   return {
-    stats: s,
+    stats,
   }
 }
