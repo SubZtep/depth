@@ -19,6 +19,9 @@
     "noUnusedLocals": false,
     "skipLibCheck": true,
     "noImplicitAny": false,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "types": [
       "jest"
     ]
@@ -34,7 +37,9 @@
   "references": [
     { "path": "packages/audio" },
     { "path": "packages/dat.gui" },
+    { "path": "packages/ffmpeg" },
     { "path": "packages/stats.js" },
+    { "path": "packages/supabase" },
     { "path": "packages/web" }
   ]
 }

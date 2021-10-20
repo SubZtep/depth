@@ -4,7 +4,19 @@
 :balloon:
 [![Test & Build & Deploy](https://github.com/SubZtep/depth/actions/workflows/deploy.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/deploy.yml)
 
-> Just another _code sandbox_.
+## Monorepo packages
+
+
+
+| Name | Description |
+| --- | --- |
+
+- audio
+- dat.gui
+- ffmpeg
+- stats.js
+- supabase
+- [web]() — Master of Puppets
 
 ---
 
@@ -47,5 +59,7 @@
                                             `"?MMMMMMMMP'
                                                  `?MMMP
 ```
+
+>  Just another _code sandbox_.
 
 ---

@@ -5,7 +5,7 @@ import StopPropagation from "~/directives/stop-propagation"
 import { navigationGui, preferencesGui } from "~/misc/hud"
 import { UserEvents } from "./events"
 import Visible from "~/directives/visible"
-import Supabase from "~/packages/Supabase"
+import { SupabasePlugin } from "@depth/supabase"
 import settings from "~/../SETTINGS.toml"
 import ThreeJs from "~/packages/ThreeJS"
 import Toast from "vue-toastification"
@@ -26,7 +26,7 @@ const app = createApp(App)
     position: POSITION.BOTTOM_RIGHT,
     showCloseButtonOnHover: true,
   })
-  .use(Supabase, {
+  .use(SupabasePlugin, {
     url: import.meta.env.VITE_SUPABASE_URL,
     key: import.meta.env.VITE_SUPABASE_KEY,
   })

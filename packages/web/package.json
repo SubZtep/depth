@@ -17,7 +17,11 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
-    "@supabase/supabase-js": "^1.24.0",
+    "@depth/audio": "workspace:*",
+    "@depth/dat.gui": "workspace:*",
+    "@depth/ffmpeg": "workspace:*",
+    "@depth/stats.js": "workspace:*",
+    "@depth/supabase": "workspace:*",
     "@vueuse/core": "^6.7.1",
     "@vueuse/integrations": "^6.7.1",
     "@vueuse/shared": "^6.7.1",
@@ -32,10 +36,6 @@
     "vue-toastification": "^2.0.0-rc.1"
   },
   "devDependencies": {
-    "@depth/audio": "workspace:*",
-    "@depth/dat.gui": "workspace:*",
-    "@depth/ffmpeg": "workspace:*",
-    "@depth/stats.js": "workspace:*",
     "@types/node": "^16.11.1",
     "@types/three": "^0.133.1",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
