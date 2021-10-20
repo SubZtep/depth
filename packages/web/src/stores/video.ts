@@ -2,6 +2,7 @@ import type { StoreDefinition } from "pinia"
 import { defineStore } from "pinia"
 import { useSupabase } from "@depth/supabase"
 import type { Results } from "~/packages/PoseAI"
+import DbQueries from "~/misc/dbqueries"
 
 export interface VideoStatePose {
   ts: number
@@ -41,7 +42,8 @@ export const useVideoStore: StoreDefinition = defineStore("video", {
     async replace(obj?: Db.Video) {
       this.$reset()
       if (!obj) return
-      const { db } = useSupabase()
+      const { supabase } = useSupabase()
+      const db = new DbQueries(supabase, console)
 
       let keyframes: number[] | undefined = undefined
       let poses: VideoStatePose[] | undefined = undefined
@@ -65,21 +67,24 @@ export const useVideoStore: StoreDefinition = defineStore("video", {
     async setKeyframes(keyframes?: number[]) {
       if (!this.id) throw new Error("Unable to set keyframes without video id")
       if (!keyframes) throw new Error("Unable to set keyframes without keyframes")
-      const { db } = useSupabase()
+      const { supabase } = useSupabase()
+      const db = new DbQueries(supabase, console)
       await db.insertKeyframes(this.id, keyframes)
       this.keyframes = keyframes
     },
 
     async setPoses(poses: VideoStatePose[]) {
       if (!this.id) throw new Error("Unable to set poses without video id")
-      const { db } = useSupabase()
+      const { supabase } = useSupabase()
+      const db = new DbQueries(supabase, console)
       await db.insertPoses(this.id, poses)
       this.poses = poses
     },
 
     async addPose(ts: number, results: Results) {
       if (!this.id) throw new Error("Unable to set poses without video id")
-      const { db } = useSupabase()
+      const { supabase } = useSupabase()
+      const db = new DbQueries(supabase, console)
       await db.insertPose(this.id, ts, results)
       if (this.poses === undefined) this.poses = []
       this.poses.push({

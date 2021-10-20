@@ -39,7 +39,7 @@
     { "path": "packages/dat.gui" },
     { "path": "packages/ffmpeg" },
     { "path": "packages/stats.js" },
-    { "path": "packages/supabase" },
+    { "path": "packages/supadbase" },
     { "path": "packages/web" }
   ]
 }

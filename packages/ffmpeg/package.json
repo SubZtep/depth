@@ -12,6 +12,6 @@
   "dependencies": {
     "@ffmpeg/core": "^0.10.0",
     "@ffmpeg/ffmpeg": "github:SubZtep/ffmpeg.wasm#master",
-    "@vueuse/core": "^6.7.1"
+    "@vueuse/core": "^6.7.3"
   }
 }

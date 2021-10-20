@@ -1,6 +1,7 @@
-import { singleFns } from "../../packages/ThreeJS/useRenderLoop"
+import { singleFns } from "../ThreeJS/useRenderLoop"
+import type { Object3D } from "three"
 
-export function useLocalObject(...obj: THREE.Object3D[]) {
+export function useLocalObject(...obj: Object3D[]) {
   singleFns.add(({ scene }) => {
     scene.add(...obj)
   })

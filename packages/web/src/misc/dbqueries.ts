@@ -15,7 +15,7 @@ export default class DbQueries {
   }
 
   async getVideos(): Promise<Db.Video[] | undefined> {
-  const { data, error } = await this.#client.from<Db.Video>("video").select("id, src, duration, width, height")
+    const { data, error } = await this.#client.from<Db.Video>("video").select("id, src, duration, width, height")
 
     if (error) {
       this.#logger?.error(error.message)
@@ -113,7 +113,7 @@ export default class DbQueries {
   }
 
   // async insertPose(videoId: number, pose: VideoStatePose): Promise<void> {
-  async insertPose(videoId: number, ts: number, results: any/*Results*/): Promise<void> {
+  async insertPose(videoId: number, ts: number, results: any /*Results*/): Promise<void> {
     const obj: Db.Pose = { video_id: videoId, ts, pose_normalized: results.poseWorldLandmarks }
 
     const { error } = await this.#client.from<Db.Pose>("pose").upsert(obj, { returning: "minimal" })

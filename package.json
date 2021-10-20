@@ -6,7 +6,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm recursive run build",
-    "clean": "pnpm recursive exec -- rm -rf node_modules dist tsconfig.tsbuildinfo",
+    "wipe": "pnpm recursive exec -- rm -rf node_modules dist tsconfig.tsbuildinfo",
     "dev": "pnpm recursive run dev --filter @depth/web",
     "serve": "pnpm recursive run serve --filter @depth/web",
     "lint": "pnpm recursive run lint",

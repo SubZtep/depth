@@ -1,4 +1,3 @@
-
 include = ["./packages/web/SETTINGS.toml"]
 
 [schema]
