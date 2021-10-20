@@ -35,12 +35,12 @@ jobs:
       - name: Build for production
         run: pnpm build
 
-      - name: Herd files over the cloud via SSH as deploy
+      - name: Deploy via SSH
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          source: "dist/*,dist/**/*"
+          source: "packages/web/dist/*,packages/web/dist/**/*"
           target: ${{ secrets.TARGET }}
