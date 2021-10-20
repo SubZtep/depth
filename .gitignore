@@ -3,3 +3,4 @@ dist
 coverage
 .env
 .pnpm-debug.log
+tsconfig.tsbuildinfo

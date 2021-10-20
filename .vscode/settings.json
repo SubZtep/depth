@@ -26,5 +26,8 @@
   "evenBetterToml.commands.pasteTomlAsJson": false,
   "editor.quickSuggestions": {
     "strings": true
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

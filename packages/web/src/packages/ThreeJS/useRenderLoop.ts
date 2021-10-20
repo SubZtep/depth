@@ -1,5 +1,5 @@
 import { get, whenever } from "@vueuse/core"
-import { useStats } from "../Stats/plugin"
+import { useStats } from "@depth/stats.js"
 import { Clock } from "three"
 
 export const singleFns = new Set<LoopFn>()

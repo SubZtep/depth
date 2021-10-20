@@ -7,26 +7,21 @@
       "DOM",
       "DOM.Iterable",
     ],
-    "jsx": "preserve",
-    "importHelpers": true,
     "moduleResolution": "Node",
-    "noEmit": false,
+    "esModuleInterop": true,
     "strict": true,
     "allowJs": true,
     "checkJs": false,
     "sourceMap": true,
-    "noImplicitAny": false,
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "isolatedModules": false,
+    "rootDir": ".",
+    "baseUrl": ".",
     "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noImplicitReturns": false,
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
     "types": [
       "jest"
-    ],
+    ]
   },
   "include": [
     "packages"
@@ -37,6 +32,7 @@
     "dist",
   ],
   "references": [
+    { "path": "packages/stats.js" },
     { "path": "packages/web" }
   ]
 }

@@ -3,8 +3,6 @@ Title.flex-col(v-if="bored" class="!duration-13000")
   | {{bored.activity}}
   .text-2xl.text-cyan-600.opacity-50.tracking-wider
     | {{bored.type}}
-
-ThreeGlobe
 </template>
 
 <script lang="ts" setup>

@@ -6,19 +6,22 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm recursive run build",
-    "clean": "pnpm recursive exec -- rm -rf node_modules dist",
+    "clean": "pnpm recursive exec -- rm -rf node_modules dist tsconfig.tsbuildinfo",
     "dev": "pnpm recursive run dev --filter @depth/web",
     "serve": "pnpm recursive run dev --filter @depth/web",
     "lint": "pnpm recursive run lint",
-    "test": "pnpm jest"
+    "test": "pnpm jest",
+    "ncu": "pnpm recursive exec -- ncu"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "devDependencies": {
     "@types/jest": "^27.0.2",
+    "@vue/test-utils": "^2.0.0-rc.15",
     "jest": "^27.3.1",
     "ts-jest": "^27.0.7",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "vue3-jest": "^27.0.0-alpha.2"
   }
 }
