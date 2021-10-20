@@ -10,6 +10,6 @@ export function truthyFilter(value: any) {
   return (invoke: Fn) => value && invoke()
 }
 
-export function regexpFilter(filter: RegExp, value: string) {
-  return (invoke: Fn) => filter.test(value) && invoke()
-}
+// export function regexpFilter(filter: RegExp, value: string) {
+//   return (invoke: Fn) => filter.test(value) && invoke()
+// }

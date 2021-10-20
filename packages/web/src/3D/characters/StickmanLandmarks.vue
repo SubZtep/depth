@@ -28,7 +28,6 @@ StickmanSimple(
 <script lang="ts" setup>
 import type { VideoStatePose } from "~/stores/video"
 // import type { Results } from "public/pose"
-import { useGuiFolder } from "~/packages/datGUI"
 
 const props = defineProps<{
   // pose: Results
@@ -46,7 +45,7 @@ const state = reactive({
   zMulti: 0.5,
 })
 
-useGuiFolder(folder => {
+addGuiFolder(folder => {
   folder.name = "🤸 Stickman"
   folder.add(state, "showLandmarks").name("Normal landmarks")
   folder.add(state, "showWorldLandmarks").name("World landmarks")

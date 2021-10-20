@@ -8,6 +8,7 @@
       "jest"
     ],
     "baseUrl": "./",
+    "rootDir": "src",
     "typeRoots": [
       "node_modules/@types",
       "src/packages/**/*.d.ts",

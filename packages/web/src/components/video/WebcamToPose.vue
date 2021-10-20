@@ -9,7 +9,6 @@ video.video-border.max-h-300px(
 
 <script lang="ts" setup>
 import { normalizeDeviceLabel } from "~/misc/transformers"
-import { useGuiFolder } from "~/packages/datGUI"
 import { useMediapipePose } from "~/packages/PoseAI"
 
 const videoRef = ref() as Ref<HTMLVideoElement>
@@ -55,7 +54,7 @@ watch([videoDeviceId, stream], () => {
   })
 })
 
-useGuiFolder(folder => {
+addGuiFolder(folder => {
   folder.name = "📹 Webcam Player"
   folder.add(state, "showVideoTag").name("Show video tag")
   folder.add(state, "enabled").name("Enabled webcam")

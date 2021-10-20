@@ -44,7 +44,7 @@ export default defineConfig(({ mode, command }) => {
       }),
       Vue(),
       Components({
-        dirs: ["src"],
+        dirs: ["src/3D", "src/components"],
         extensions: ["vue", "ts"],
         dts: "src/types/components.d.ts",
         deep: true,
@@ -65,7 +65,7 @@ export default defineConfig(({ mode, command }) => {
           { "~/misc/utils": ["basename", "sleep"] },
           { "~/misc/filters": ["truthyFilter"] },
           { "~/events": ["onVisibility"] },
-          { "~/packages/datGUI": ["addGuiFolder"] },
+          { "~/../../dat.gui": ["addGuiFolder"] },
         ],
         dts: "src/types/auto-imports.d.ts",
       }),

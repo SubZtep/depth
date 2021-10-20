@@ -6,7 +6,7 @@ router-view(v-slot="{ Component }")
 </template>
 
 <script lang="ts" setup>
-import { useGui } from "~/packages/datGUI"
+import { useGui } from "@depth/dat.gui"
 
 useGui().show()
 </script>

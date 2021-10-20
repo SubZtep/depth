@@ -11,8 +11,6 @@ StickmanSimple(
 <script lang="ts" setup>
 import type { NormalizedLandmarkList } from "public/pose"
 
-import { useGuiFolder } from "~/packages/datGUI"
-
 const props = defineProps<{
   pose?: NormalizedLandmarkList
   position: [number, number, number]
@@ -23,7 +21,7 @@ const state = reactive({
   zMulti: 0.5,
 })
 
-useGuiFolder(folder => {
+addGuiFolder(folder => {
   folder.name = "🤸 Stickman"
   folder.add(state, "scale", 0.1, 5, 0.1).name("Scale objects")
   folder.add(state, "zMulti", 0.1, 2, 0.1).name("Z multiplier")

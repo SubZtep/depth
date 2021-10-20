@@ -1,7 +1,8 @@
-import type { Plugin } from "vue"
+import { inject, onBeforeUnmount, onMounted, Plugin } from "vue"
 import dat from "dat.gui"
 import { addReactiveSelect, addTextInput, addVector3 } from "./extend"
 import "./style.css"
+// import type { GuiOptions } from "./types"
 
 type FolderInit = (folder: dat.GUI) => void
 const guiKey = Symbol("dat.gui")

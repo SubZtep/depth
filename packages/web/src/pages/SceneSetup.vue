@@ -5,7 +5,7 @@ Title Scene setup
 <script lang="ts" setup>
 import { singleFns } from "~/packages/ThreeJS/useRenderLoop"
 import { AmbientLight, DirectionalLight, DirectionalLightHelper } from "three"
-import { ColorGUIHelper, makeXYZGUI } from "~/packages/datGUI/extend"
+import { ColorGUIHelper, makeXYZGUI } from "@depth/dat.gui"
 import { objs } from "~/packages/ThreeJS/useSceneObjects"
 import { useThreeJSEventHook } from "~/packages/ThreeJS/plugin"
 import { doRenderAllFrames, dontRenderAllFrames } from "~/packages/ThreeJS/constants"

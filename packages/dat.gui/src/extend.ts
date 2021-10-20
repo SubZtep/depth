@@ -1,6 +1,18 @@
+// import type { Fn } from "@vueuse/core"
+import { get, pausableWatch } from "@vueuse/core"
+import { watch, reactive } from "vue"
 import dat from "dat.gui"
 import dom from "dat.gui/src/dat/dom/dom"
-import { regexpFilter } from "~/misc/filters"
+// import type { ReactiveSelectParams, TextInputParams, ChangeCallback } from "./types.d"
+// import "./types.d"
+
+type Vector3Tuple = [number, number, number]
+type Vector3 = { x: number; y: number; z: number }
+
+function regexpFilter(filter: RegExp, value: string) {
+  return (invoke: () => void) => filter.test(value) && invoke()
+  // return (invoke: Fn) => filter.test(value) && invoke()
+}
 
 function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, string>, selected: string) {
   list["--- Please, select ---"] = ""
@@ -67,7 +79,7 @@ export function addTextInput(this: dat.GUI, { filter, placeholder, keepValue }: 
   return ctrl
 }
 
-export function addVector3(this: dat.GUI, xyz: THREE.Vector3Tuple) {
+export function addVector3(this: dat.GUI, xyz: Vector3Tuple) {
   const folder = this.addFolder("Vector3")
   const v3 = {
     x: xyz[0],
@@ -90,10 +102,10 @@ export function addVector3(this: dat.GUI, xyz: THREE.Vector3Tuple) {
 }
 
 export class ColorGUIHelper {
-  object: THREE.Light
+  object: any //THREE.Light
   prop: string
 
-  constructor(object: THREE.Light, prop: string) {
+  constructor(object: any/* THREE.Light*/, prop: string) {
     this.object = object
     this.prop = prop
   }
@@ -109,7 +121,7 @@ export class ColorGUIHelper {
 
 export function makeXYZGUI(
   gui: dat.GUI,
-  vector3: THREE.Vector3,
+  vector3: /*THREE.*/Vector3,
   name: string,
   onChangeFn: (value?: unknown) => void,
   open = false

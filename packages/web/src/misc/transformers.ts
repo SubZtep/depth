@@ -62,7 +62,7 @@ export function scaleKeypoint(
 }
 
 export function toSelectOptions(urls: string[]) {
-  return urls.reduce((obj, url) => ({ ...obj, [basename(url)]: url }), {}) as SelectOptions
+  return urls.reduce((obj, url) => ({ ...obj, [basename(url)]: url }), {}) // as SelectOptions
 }
 
 export function normalizeDeviceLabel(label: string) {

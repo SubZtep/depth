@@ -24,7 +24,6 @@
     "@vueuse/integrations": "^6.6.2",
     "@vueuse/shared": "^6.6.2",
     "camera-controls": "^1.33.1",
-    "dat.gui": "^0.7.7",
     "howler": "^2.2.3",
     "mathjs": "^9.5.1",
     "nprogress": "^0.2.0",
@@ -37,8 +36,8 @@
     "vue-toastification": "^2.0.0-rc.1"
   },
   "devDependencies": {
+    "@depth/dat.gui": "workspace:*",
     "@depth/stats.js": "workspace:*",
-    "@types/dat.gui": "^0.7.7",
     "@types/howler": "^2.2.4",
     "@types/node": "^16.11.1",
     "@types/three": "^0.133.1",
