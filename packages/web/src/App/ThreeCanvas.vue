@@ -9,8 +9,7 @@ MainScene
 import { AmbientLight, DirectionalLight } from "three"
 import { usePreferencesStore } from "~/stores/preferences"
 import { InfiniteGridHelper } from "~/3D/infiniteGrid"
-import { pauseLoop, resumeLoop, useAssets, useThreeJSEventHook, useCanvas } from "~/packages/ThreeJS"
-import { objs } from "~/packages/ThreeJS/useSceneObjects"
+import { pauseLoop, resumeLoop, useAssets, useThreeJSEventHook, useCanvas, objs } from "@depth/three.js"
 import * as sdef from "~/3D/sceneDefaults"
 import { sleep, rand } from "~/misc/utils"
 

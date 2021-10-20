@@ -4,12 +4,9 @@ Title Scene setup
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
-import { singleFns } from "~/packages/ThreeJS/useRenderLoop"
+import { singleFns, objs, useThreeJSEventHook, doRenderAllFrames, dontRenderAllFrames } from "@depth/three.js"
 import { AmbientLight, DirectionalLight, DirectionalLightHelper } from "three"
 import { ColorGUIHelper, makeXYZGUI } from "@depth/dat.gui"
-import { objs } from "~/packages/ThreeJS/useSceneObjects"
-import { useThreeJSEventHook } from "~/packages/ThreeJS/plugin"
-import { doRenderAllFrames, dontRenderAllFrames } from "~/packages/ThreeJS/constants"
 
 const ambLight = objs.get("ambLight") as AmbientLight
 const dirLight = objs.get("dirLight") as DirectionalLight

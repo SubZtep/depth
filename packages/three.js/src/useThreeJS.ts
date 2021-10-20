@@ -6,6 +6,7 @@ import { debouncedWatch, useWindowSize, get, tryOnMounted, useToggle } from "@vu
 import { useRenderLoop } from "./useRenderLoop"
 import { useThreeJSEventHook } from "./plugin"
 import { useCameraControls } from "./useCameraControls"
+import { getCurrentInstance, unref } from "vue"
 
 export function useCanvas(canvasRef: MaybeRef<HTMLCanvasElement>): Scene {
   const instance = getCurrentInstance()

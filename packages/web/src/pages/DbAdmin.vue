@@ -35,7 +35,7 @@ table(v-if="videos.length > 0" :class="$style.table" v-stop-propagation)
 
 <script lang="ts" setup>
 import { useSupabase } from "@depth/supabase"
-import { pauseLoop, resumeLoop, useThreeJSEventHook } from "~/packages/ThreeJS"
+import { pauseLoop, resumeLoop, useThreeJSEventHook } from "@depth/three.js"
 type VideoWithCounts = Required<Db.Video> & { keyframe: [{ count: number }]; pose: [{ count: number }] }
 
 const toast = useToast()

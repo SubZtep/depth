@@ -1,7 +1,7 @@
-import type { Plugin } from "vue"
+import { inject, Plugin } from "vue"
 import type { EventHook } from "@vueuse/core"
 import { createEventHook } from "@vueuse/core"
-import { useToast } from "vue-toastification"
+// import { useToast } from "vue-toastification"
 
 const eventHookKey = Symbol("ThreeJS event hook")
 const eventHook = createEventHook<ThreeJSEvent>()
@@ -11,9 +11,10 @@ export default {
     const { toastEvents = false } = options
 
     if (toastEvents) {
-      const toast = useToast()
+      // const toast = useToast()
       eventHook.on(({ cmd }) => {
-        toast.info(`[three.js] ${cmd}`)
+        console.log("IM A TOAST!", cmd)
+        // toast.info(`[three.js] ${cmd}`)
       })
     }
 

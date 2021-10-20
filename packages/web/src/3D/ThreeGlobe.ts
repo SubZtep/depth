@@ -1,5 +1,5 @@
 import ThreeGlobe from "three-globe"
-import { singleFns } from "~/packages/ThreeJS/useRenderLoop"
+import { singleFns } from "@depth/three.js"
 
 export default defineComponent({
   props: {

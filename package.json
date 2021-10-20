@@ -17,6 +17,7 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
+    "@vueuse/core": "^6.7.3",
     "vue": "^3.2.19"
   },
   "devDependencies": {

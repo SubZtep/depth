@@ -6,8 +6,8 @@ Title.flex-col(v-if="bored" class="!duration-13000")
 </template>
 
 <script lang="ts" setup>
-import { singleFns } from "~/packages/ThreeJS/useRenderLoop"
-import { useCameraMoves, useBoredApi } from "~/composables"
+import { useCameraMoves, singleFns } from "@depth/three.js"
+import { useBoredApi } from "~/composables"
 import { rand } from "~/misc/utils"
 
 const { moves, count } = useCameraMoves()

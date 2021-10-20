@@ -7,7 +7,7 @@ import { UserEvents } from "./events"
 import Visible from "~/directives/visible"
 import { SupabasePlugin } from "@depth/supabase"
 import settings from "~/../SETTINGS.toml"
-import ThreeJs from "~/packages/ThreeJS"
+import { ThreejsPlugin } from "@depth/three.js"
 import Toast from "vue-toastification"
 import { AudioPlugin } from "@depth/audio"
 import { StatsPlugin } from "@depth/stats.js"
@@ -31,7 +31,7 @@ const app = createApp(App)
     key: import.meta.env.VITE_SUPABASE_KEY,
   })
   .use(StatsPlugin, { mosaic: true })
-  .use(ThreeJs, { toastEvents: false })
+  .use(ThreejsPlugin, { toastEvents: false })
   .use(GuiPlugin, { addons: [navigationGui(router.getRoutes()), preferencesGui] })
   .use(AudioPlugin, settings.audio)
   .use(UserEvents)

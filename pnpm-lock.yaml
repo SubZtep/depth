@@ -6,12 +6,14 @@ importers:
     specifiers:
       '@types/jest': ^27.0.2
       '@vue/test-utils': ^2.0.0-rc.15
+      '@vueuse/core': ^6.7.3
       jest: ^27.3.1
       ts-jest: ^27.0.7
       typescript: ^4.4.4
       vue: ^3.2.19
       vue3-jest: ^27.0.0-alpha.2
     dependencies:
+      '@vueuse/core': 6.7.3_vue@3.2.20
       vue: 3.2.20
     devDependencies:
       '@types/jest': 27.0.2
@@ -27,10 +29,8 @@ importers:
   packages/dat.gui:
     specifiers:
       '@types/dat.gui': ^0.7.7
-      '@vueuse/core': ^6.7.3
       dat.gui: ^0.7.7
     dependencies:
-      '@vueuse/core': 6.7.3_vue@3.2.20
       dat.gui: 0.7.7
     devDependencies:
       '@types/dat.gui': 0.7.7
@@ -60,6 +60,17 @@ importers:
     dependencies:
       '@supabase/supabase-js': 1.24.0
 
+  packages/three.js:
+    specifiers:
+      '@types/three': ^0.133.1
+      camera-controls: ^1.33.1
+      three: ^0.133.1
+    dependencies:
+      camera-controls: 1.33.1_three@0.133.1
+      three: 0.133.1
+    devDependencies:
+      '@types/three': 0.133.1
+
   packages/web:
     specifiers:
       '@depth/audio': workspace:*
@@ -67,6 +78,7 @@ importers:
       '@depth/ffmpeg': workspace:*
       '@depth/stats.js': workspace:*
       '@depth/supabase': workspace:*
+      '@depth/three.js': workspace:*
       '@mediapipe/pose': ^0.4.1633558788
       '@types/node': ^16.11.1
       '@types/three': ^0.133.1
@@ -74,7 +86,6 @@ importers:
       '@typescript-eslint/parser': ^5.1.0
       '@vitejs/plugin-vue': ^1.9.3
       '@vue/compiler-sfc': ^3.2.20
-      '@vueuse/core': ^6.7.3
       '@vueuse/integrations': ^6.7.3
       '@vueuse/shared': ^6.7.3
       '@windicss/plugin-scrollbar': ^1.2.3
@@ -107,7 +118,7 @@ importers:
       '@depth/ffmpeg': link:../ffmpeg
       '@depth/stats.js': link:../stats.js
       '@depth/supabase': link:../supabase
-      '@vueuse/core': 6.7.3_vue@3.2.20
+      '@depth/three.js': link:../three.js
       '@vueuse/integrations': 6.7.3_vue@3.2.20
       '@vueuse/shared': 6.7.3_vue@3.2.20
       camera-controls: 1.33.1_three@0.133.1

@@ -22,7 +22,7 @@
     "@depth/ffmpeg": "workspace:*",
     "@depth/stats.js": "workspace:*",
     "@depth/supabase": "workspace:*",
-    "@vueuse/core": "^6.7.3",
+    "@depth/three.js": "workspace:*",
     "@vueuse/integrations": "^6.7.3",
     "@vueuse/shared": "^6.7.3",
     "camera-controls": "^1.33.1",

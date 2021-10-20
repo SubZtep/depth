@@ -6,7 +6,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     App: typeof import('./../App/App.vue')['default']
     Avatar: typeof import('./../3D/avatar.ts')['default']
-    Camerashake: typeof import('./../3D/camerashake.ts')['default']
+    Camerashake: typeof import('../../../three.js/src/camerashake.tscamerashake.ts')['default']
     CancellableEventToast: typeof import('./../components/toasts/CancellableEventToast.vue')['default']
     CanvasInScene: typeof import('./../components/video/CanvasInScene.ts')['default']
     Debug: typeof import('./../components/ui/Debug.vue')['default']

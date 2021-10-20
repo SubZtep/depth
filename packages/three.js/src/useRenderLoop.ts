@@ -1,5 +1,5 @@
 import { get, whenever } from "@vueuse/core"
-import { useStats } from "@depth/stats.js"
+// import { useStats } from "@depth/stats.js"
 import { Clock } from "three"
 
 export const singleFns = new Set<LoopFn>()
@@ -10,7 +10,7 @@ export const loopFnPrs = new Set<LoopFnPr>()
 const parallelLoopFns = false //FIXME: make a working version (probably queue based)
 
 export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRenderAllFrames }: RenderLoopProps) {
-  const { stats } = useStats()
+  // const { stats } = useStats()
   const clock = new Clock()
   const { camera } = cameraControls
   let delta: number
@@ -42,7 +42,7 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRe
 
     get(isRunning) && requestAnimationFrame(gameLoop)
     if (get(isRenderAllFrames) || camUpdated) renderer.render(scene, camera)
-    stats.update()
+    // stats.update()
   }
 
   whenever(isRunning, () => requestAnimationFrame(gameLoop), { immediate: true })

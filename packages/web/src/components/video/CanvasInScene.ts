@@ -1,6 +1,7 @@
 import type { GpuBuffer } from "../../../public/pose"
 import { CanvasTexture, MeshBasicMaterial, PlaneBufferGeometry, Mesh, DoubleSide } from "three"
-import { singleFns, loopFns } from "~/packages/ThreeJS/useRenderLoop"
+import { singleFns, loopFns } from "@depth/three.js"
+// import type { loopFn } from "@depth/three.js"
 
 export default defineComponent({
   props: {
@@ -25,7 +26,7 @@ export default defineComponent({
 
     singleFns.add(({ scene }) => scene.add(player))
 
-    const updateTexture: LoopFn = () => {
+    const updateTexture: Fn/*LoopFn*/ = () => {
       canvasTexture.needsUpdate = true
     }
 

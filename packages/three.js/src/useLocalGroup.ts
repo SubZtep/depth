@@ -1,4 +1,5 @@
 import { Group } from "three"
+import { provide } from "vue"
 import { useLocalObject } from "./useLocalObject"
 
 export function useLocalGroup(providedName = "root") {

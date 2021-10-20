@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from "vue-router"
 import * as VueRouter from "vue-router"
-import { singleFns } from "~/packages/ThreeJS/useRenderLoop"
+import { singleFns } from "@depth/three.js"
 
 const QuoteWalker = () => import("~/pages/QuoteWalker.vue")
 const VideoPose = () => import("~/pages/VideoPose.vue")

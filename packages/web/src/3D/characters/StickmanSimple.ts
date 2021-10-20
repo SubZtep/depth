@@ -1,6 +1,6 @@
 import type { PropType } from "vue"
 import type { LandmarkList } from "../../../public/pose/index.d"
-import { singleFns } from "~/packages/ThreeJS/useRenderLoop"
+import { singleFns } from "@depth/three.js"
 import { watch, onBeforeUnmount, onMounted } from "vue"
 import { Vector3, Group } from "three"
 import { lineFactory, keypointFactory, boneMaterial } from "~/3D/factories"

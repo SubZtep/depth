@@ -1,4 +1,4 @@
-import { logLoaded } from "~/misc/hud"
+// import { logLoaded } from "~/misc/hud"
 import {
   CubeTexture,
   DoubleSide,
@@ -9,6 +9,8 @@ import {
   CubeReflectionMapping,
 } from "three"
 import { DDSLoader } from "three/examples/jsm/loaders/DDSLoader"
+
+type SkyboxNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15
 
 const assets = new Map<string, unknown>()
 
@@ -23,7 +25,7 @@ export function useAssets() {
       const onError = (err: ErrorEvent) => reject(err)
       const onProgress = (ev: ProgressEvent) => console.info("downloading skybox", ev)
       const onLoad = (texture: CubeTexture) => {
-        logLoaded(`Skybox #${nr}`)
+        // logLoaded(`Skybox #${nr}`)
         resolve(texture)
       }
 
@@ -42,7 +44,7 @@ export function useAssets() {
         map => {
           const noVideoMaterial = new MeshBasicMaterial({ map, transparent: true, side: DoubleSide })
           assets.set("noVideoMaterial", noVideoMaterial)
-          logLoaded("noVideoMaterial")
+          // logLoaded("noVideoMaterial")
           resolve()
         },
         undefined,
@@ -68,7 +70,7 @@ export function useAssets() {
             side: DoubleSide,
           })
           assets.set("leafMaterial", material)
-          logLoaded("leafMaterial")
+          // logLoaded("leafMaterial")
           resolve(material)
         },
         undefined,
