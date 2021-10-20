@@ -38,12 +38,12 @@ Works together well with `reactive` objects by default.
 
    Payload object:
    - filter — RegExp
-   - placeholder? — string
-   - keepValue? — boolean
+   - placeholder — ?string
+   - keepValue — ?boolean
 
-- ### `addVector3(payload)`
+- ### `addVector3( payload )`
 
-  > Create subfolder for X, Y and Z axis numeric values.
+  > Create subfolder for the X, Y and Z axis numeric values.
 
    Payload parameter:
    - xyz — THREE.Vector3Tuple
