@@ -35,7 +35,6 @@ const state = reactive({
 
 const emit = defineEmits<{
   (event: "pose", pose: LandmarkList): void
-  // (e: "select-time", time: number): void
 }>()
 
 const { id, src, keyframes, poses } = storeToRefs(videoStore)
@@ -45,7 +44,6 @@ const setVideoRef = (el?: HTMLVideoElement) => set(videoRef, el)
 const { currentTime } = useMediaControls(videoRef)
 
 const { pause, resume } = pausableWatch(currentTime, t => {
-  // console.log({ t })
   const p = videoStore.closestPose(t)
   emit("pose", p.pose_normalized)
 }, { immediate: false })
@@ -60,7 +58,7 @@ whenever(and(id, src, not(keyframes)), () => {
     isActive,
     exit,
   } = useFFmpeg({
-    // @ts-ignore
+    // @ts-ignored
     src,
     options: { progress: ({ ratio }) => set(progress, ratio), log: false },
   })
@@ -76,8 +74,6 @@ whenever(and(id, src, not(keyframes)), () => {
 whenever(and(id, src, keyframes, not(poses)), () => {
   toast.info("Use pose AI")
   start()
-  // FIXME: maybe https://vueuse.org/shared/createSharedComposable/
-  // const { currentTime } = useMediaControls(videoRef)
   let kf: number[] = toRaw(get(keyframes)) as number[]
   let t: number | undefined
 
@@ -93,7 +89,6 @@ whenever(and(id, src, keyframes, not(poses)), () => {
     await estimatePose(get(currentTime))
     t = kf.shift()
     if (t === undefined) {
-      // toast.success("Keyframes done")
       threeJs.trigger(resumeLoop)
       done()
       return

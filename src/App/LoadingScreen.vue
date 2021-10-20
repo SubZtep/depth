@@ -1,8 +1,8 @@
 <template lang="pug">
-.loadingScreen
+div(:class="$style.loadingScreen")
 </template>
 
-<style lang="postcss">
+<style module lang="postcss">
 .loadingScreen {
   padding: 25px;
   text-align: right;
