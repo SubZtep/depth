@@ -14,7 +14,6 @@ import { objs } from "~/packages/ThreeJS/useSceneObjects"
 import * as sdef from "~/3D/sceneDefaults"
 import { sleep, rand } from "~/misc/utils"
 
-const toast = useToast()
 const preferences = usePreferencesStore()
 const assets = useAssets()
 
@@ -40,11 +39,7 @@ await sleep(69)
 useNProgress().done()
 threeJs.trigger(resumeLoop)
 
-onVisible(({ visible, since }) => {
+onVisible(({ visible }) => {
   threeJs.trigger(visible ? resumeLoop : pauseLoop)
-  if (visible) {
-    const ago = useTimeAgo(since, { updateInterval: 0 })
-    toast.info(`Hello, since ${ago.value}.`)
-  }
 })
 </script>

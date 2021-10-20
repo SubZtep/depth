@@ -1,22 +1,26 @@
 <template lang="pug">
 //- Title Video Display Pose
 
-.top-left.gap-6
-  SelectVideoClip(v-slot="{ src, showVideoTag }")
-
-    VideoClipPlayer(
-      :controls="!autoStart"
+.top-left
+  GuiSelectVideo(v-slot="{ id, src, showVideoTag }")
+    VideoPlayer(
       :src="src"
       v-visible="showVideoTag"
       @mounted="setVideoRef"
       @loaded="videoStore.replace")
 
-    VideoKeyTimes(
-      v-if="src && hasId && !hasKeyframes"
+    StoreFFmpegKeyframes(v-slot="{ keyframes }")
+      StorePoseAI(:el="videoRef" :keyframes="keyframes")
+
+      //-h1 {{ keyframes }}
+
+    //-StoreFFmpegKeyframes(
+      v-slot="{ keyframes }"
+      v-if="id"
       :src="src"
       @done="videoStore.setKeyframes")
 
-    VideoPoses(
+    //-VideoPoses(
       v-if="videoRef && hasId && hasKeyframes"
       :el="videoRef"
       :keyframes="videoStore.keyframes"
@@ -24,11 +28,14 @@
       @pose="videoStore.addPose")
 
     transition(name="slide")
-      StepProgressBar(v-if="src" :items="progressItemsLeft")
+      .progressSteps(v-if="src")
+        ItemProgress(:nr="1" :done="hasId") Video in db
+        ItemProgress(:nr="2" :done="hasKeyframes") Has keyframes
+        ItemProgress(:nr="3" :done="hasPoses") Has poses
 
 //- Debug dff {{autoStart}}
 
-//- .top-right.gap-6
+//- .top-right
   WebcamPlayer
   //- pre {{videoTimeUpdated}} {{pose}}
 
@@ -40,17 +47,13 @@ import { useVideoStore } from "~/stores/video"
 
 const videoStore = useVideoStore()
 const { hasId, hasKeyframes, hasPoses } = storeToRefs(videoStore)
-
+// toRef
 const autoStart = toRaw(and(hasId, hasKeyframes, not(hasPoses)))
 
 const videoRef = ref<HTMLVideoElement>()
 const setVideoRef = (el?: HTMLVideoElement) => set(videoRef, el)
 
-const progressItemsLeft = [
-  { label: "Video in db", done: hasId },
-  { label: "Has keyframes", done: hasKeyframes },
-  { label: "Has poses", done: hasPoses },
-]
+const videoEl = ref<HTMLVideoElement>()
 
 // gagyi playback
 // whenever(and(playing, hasPoses), async () => {
@@ -63,3 +66,26 @@ const progressItemsLeft = [
 //   }
 // })
 </script>
+
+<style module>
+.progressBar {
+  @apply flex flex-col p-2 gap-2 font-serif bg-typepad;
+  /* .item {
+    @apply flex gap-3 items-center;
+  } */
+}
+
+:global(.top-left) .progressBar {
+  border-radius: 0 0.25rem 0.25rem 0;
+  /* .item {
+    @apply text-right justify-end text-left flex-row-reverse;
+  } */
+}
+
+:global(.top-right) .progressBar {
+  border-radius: 0.25rem 0 0 0.25rem;
+  /* .item {
+    @apply text-left justify-end text-right;
+  } */
+}
+</style>

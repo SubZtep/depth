@@ -17,10 +17,8 @@ export function addReactiveSelect(this: dat.GUI, { target, propName, options }: 
   }
 
   const optionsList = get(options)
-  optionsList["--- Please, select ---"] = ""
   const ctrl = this.add(target, propName, optionsList)
-
-  watch(options, newList => updateDropdown(ctrl, newList, String(target[propName])), { deep: true })
+  watch(options, newList => updateDropdown(ctrl, newList, String(target[propName])), { deep: true, immediate: true })
   return ctrl
 }
 

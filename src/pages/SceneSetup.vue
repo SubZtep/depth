@@ -3,9 +3,7 @@ Title Scene setup
 </template>
 
 <script lang="ts" setup>
-import { onBeforeUnmount } from "vue"
 import { singleFns } from "~/packages/ThreeJS/useRenderLoop"
-import { useGuiFolder } from "~/packages/datGUI"
 import { AmbientLight, DirectionalLight, DirectionalLightHelper } from "three"
 import { ColorGUIHelper, makeXYZGUI } from "~/packages/datGUI/extend"
 import { objs } from "~/packages/ThreeJS/useSceneObjects"
@@ -20,13 +18,13 @@ singleFns.add(({ scene }) => scene.add(dirLight.target, dirLightHelper))
 const threeJs = useThreeJSEventHook()
 threeJs.trigger(doRenderAllFrames)
 
-useGuiFolder(folder => {
+addGuiFolder(folder => {
   folder.name = "💡 Ambient light"
   folder.addColor(new ColorGUIHelper(ambLight, "color"), "value").name("Color")
   folder.add(ambLight, "intensity", 0, 2, 0.01).name("Intensity")
 })
 
-useGuiFolder(folder => {
+addGuiFolder(folder => {
   const updateDirLight = () => {
     dirLight.target.updateMatrixWorld()
     dirLightHelper.update()

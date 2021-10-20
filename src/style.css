@@ -30,6 +30,12 @@ body {
 
 /*
 ** Transitions
+
+transition(name="...")
+
+slide
+fade
+
 */
 
 .slide-enter-active,
@@ -40,6 +46,18 @@ body {
 .slide-enter-from,
 .slide-leave-to {
   transform: translateX(-100%);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
 }
 
 /*

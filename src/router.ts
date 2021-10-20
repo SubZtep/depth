@@ -1,17 +1,18 @@
 import type { RouteRecordRaw } from "vue-router"
 import * as VueRouter from "vue-router"
-import Home from "~/pages/Home.vue"
-import VideoPose from "~/pages/VideoPose.vue"
-import DbAdmin from "~/pages/DbAdmin.vue"
-import SceneSetup from "~/pages/SceneSetup.vue"
-import EmptyTemplate from "~/pages/EmptyTemplate.vue"
 import { singleFns } from "~/packages/ThreeJS/useRenderLoop"
+
+const QuoteWalker = () => import("~/pages/QuoteWalker.vue")
+const VideoPose = () => import("~/pages/VideoPose.vue")
+const DbAdmin = () => import("~/pages/DbAdmin.vue")
+const SceneSetup = () => import("~/pages/SceneSetup.vue")
+const EmptyTemplate = () => import("~/pages/EmptyTemplate.vue")
 
 const routes: RouteRecordRaw[] = [
   {
-    path: "/",
-    name: "home",
-    component: Home,
+    path: "/quote-walker",
+    name: "quote-walker",
+    component: QuoteWalker,
     meta: {
       position: [0, 1.6, 0],
       lookAt: [6, 9, 6],

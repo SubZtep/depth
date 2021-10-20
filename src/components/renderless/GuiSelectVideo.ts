@@ -10,6 +10,7 @@ export default defineComponent({
       src: "",
     })
     const videoStore = useVideoStore()
+    const { id } = storeToRefs(videoStore)
     const videoSelectOptions: Ref<SelectOptions> = ref(toSelectOptions(settings.video?.clips ?? []))
 
     useGuiFolder(folder => {
@@ -26,7 +27,8 @@ export default defineComponent({
         })
     })
 
-    return () => slots.default && slots.default(reactivePick(state, "src", "showVideoTag"))
+    return () => slots.default && slots.default({ ...state, id })
+    // return () => slots.default && slots.default(reactivePick(state, "src", "showVideoTag"))
     // return () => slots.default && slots.default(state)
   },
 })

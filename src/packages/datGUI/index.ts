@@ -1,1 +1,1 @@
-export { default, useGui, useGuiFolder } from "./plugin"
+export { default, useGui, useGuiFolder, useGuiFolder as addGuiFolder } from "./plugin"

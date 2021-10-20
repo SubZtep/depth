@@ -4,7 +4,8 @@ Title Empty Template
 
 <script lang="ts" setup>
 import type { PlaySound } from "~/packages/Howler/plugin"
-import { useGuiFolder } from "~/packages/datGUI"
+
+// TODO: remove howler everywhere
 import { useHowler } from "~/packages/Howler"
 
 const toast = useToast()
@@ -15,7 +16,7 @@ try {
   toast.error(e.message)
 }
 
-useGuiFolder(folder => {
+addGuiFolder(folder => {
   folder.name = "♡ Emptyerest"
   folder.add({ btn: () => p("denied") }, "btn").name("Hello, Sound ")
 })

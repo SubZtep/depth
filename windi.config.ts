@@ -16,8 +16,8 @@ export default defineConfig({
     },
   },
   shortcuts: {
-    "top-left": "absolute top-0 left-0 flex flex-col items-start",
-    "top-right": "absolute top-0 right-0 flex flex-col items-end",
+    "top-left": "absolute top-0 left-0 flex flex-col items-start gap-6",
+    "top-right": "absolute top-0 right-0 flex flex-col items-end gap-6",
   },
   plugins: [
     require("@windicss/plugin-scrollbar"),

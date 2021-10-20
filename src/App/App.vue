@@ -18,4 +18,13 @@ if (process.env.NODE_ENV === "production") {
 set(hold, false)
 
 useNProgress().start()
+const toast = useToast()
+
+onVisible(({ visible, since }) => {
+  if (visible) {
+    const ago = useTimeAgo(since, { updateInterval: 0 })
+    toast.dismiss("hello")
+    toast.info(`Hello, since ${ago.value}.`, { id: "hello" })
+  }
+})
 </script>

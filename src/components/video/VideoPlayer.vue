@@ -1,69 +1,58 @@
 <template lang="pug">
-video(
+video.video-border.max-h-300px(
   ref="videoRef"
-  :class="$style.video"
-  :controls="props.controls"
-  @loadedmetadata="videoToStore"
-  @timeupdate="emit('timeupdated')"
-  v-css-aspect-ratio="`--video-aspect-ratio`"
   crossorigin="anonymous"
+  poster="/textures/no-video.png"
+  @loadedmetadata="videoLoaded"
   muted)
+  //- v-visible="state.showVideoTag")
   source(
-    v-if="!!props.src"
+    v-if="props.src"
     @error="loadError"
-    :src="props.src")
+    :src="`${props.src}\#t=0.1`")
 </template>
 
 <script lang="ts" setup>
 const toast = useToast()
-const { start, done } = useNProgress()
-const videoStore = useVideoStore()
 
 const props = defineProps<{
   src: string
-  controls: boolean
 }>()
 
 const emit = defineEmits<{
+  (e: "mounted", el: HTMLVideoElement): void
   (e: "error", src: string): void
-  (e: "loaded", el?: HTMLVideoElement): void
+  (e: "loaded", obj?: Db.Video): void
   (e: "timeupdated"): void
 }>()
 
-const videoRef = ref() as Ref<HTMLVideoElement>
+const videoRef = ref<HTMLVideoElement>()
+
+onMounted(() => {
+  emit("mounted", get(videoRef)!)
+})
 
 watch(
   () => props.src,
-  src => {
+  () => {
     const el = get(videoRef)
+    if (!el) return
     el.srcObject = null
-    videoStore.$reset()
-    emit("loaded", src ? el : undefined)
+    emit("loaded", undefined)
   }
 )
 
-const videoToStore = (async ({ target }: VideoElementEvent) => {
-  start()
-  await videoStore.replace({
+const videoLoaded = (async ({ target }: VideoElementEvent) => {
+  emit("loaded", {
     src: props.src,
     duration: target.duration,
     width: target.videoWidth,
     height: target.videoHeight,
   })
-  done()
-  emit("loaded", get(videoRef))
 }) as (payload: Event) => Promise<void>
 
 const loadError = () => {
-  emit("error", props.src)
   toast.error(`Load video error ${props.src}`)
+  throw new Error(get(videoRef)?.error?.message ?? `Load error ${props.src}`)
 }
 </script>
-
-<style module>
-.video {
-  @apply max-h-300px;
-  aspect-ratio: var(--video-aspect-ratio);
-  border: 4px ridge #964b00;
-}
-</style>

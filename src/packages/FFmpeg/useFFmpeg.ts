@@ -93,5 +93,6 @@ export function useFFmpeg(options: FFmpegOptions) {
   return {
     keyframes,
     isActive,
+    exit,
   }
 }

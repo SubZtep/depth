@@ -1,26 +1,41 @@
 import type { Plugin } from "vue"
 
-const payload = {
-  visible: true,
-  since: new Date()
+interface EventPayload {
+  visible: boolean
+  since: Date
 }
 
-const visibility = useDocumentVisibility()
-const vis = createEventHook<typeof payload>()
-
+const vis = createEventHook<EventPayload>()
 export const onVisible = vis.on
 
 export const UserEvents: Plugin = {
+  install() {
+    const visibility = useDocumentVisibility()
+    const focused = useWindowFocus()
 
-  install(_app, _options = {}) {
-    let since = new Date()
+    const payload: EventPayload = {
+      visible: true,
+      since: new Date(),
+    }
 
-    watch(visibility, current => {
-      vis.trigger({
-        visible: current === "visible",
-        since,
-      })
-      since = new Date()
+    const togglePayload = (pl: EventPayload) => {
+      pl.visible = !pl.visible
+      pl.since = new Date()
+    }
+
+    watch(visibility, newVisibility => {
+      const isVisible = newVisibility === "visible"
+      if (payload.visible !== isVisible) {
+        vis.trigger(payload)
+        togglePayload(payload)
+      }
+    })
+
+    watch(focused, isFocused => {
+      if (payload.visible !== isFocused) {
+        vis.trigger(payload)
+        togglePayload(payload)
+      }
     })
   },
 }

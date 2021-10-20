@@ -54,8 +54,8 @@ const refreshVideos = async () => {
 }
 
 onMounted(async () => {
-  threeJs.trigger(pauseLoop)
   await refreshVideos()
+  threeJs.trigger(pauseLoop)
 })
 
 onBeforeUnmount(() => {
