@@ -17,7 +17,7 @@ transition(name="slide")
 import { addGuiFolder } from "@depth/dat.gui"
 import { VIDEO_URL } from "~/misc/constants"
 import { toSelectOptions, basename } from "~/misc/transformers"
-import { useFFmpeg } from "~/packages/FFmpeg"
+import { useFFmpeg } from "@depth/ffmpeg"
 import { useThreeJSEventHook, pauseLoop, resumeLoop } from "~/packages/ThreeJS"
 import { useMediapipePose } from "~/packages/PoseAI"
 import settings from "~/../SETTINGS.toml"

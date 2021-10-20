@@ -17,8 +17,6 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
-    "@ffmpeg/core": "^0.10.0",
-    "@ffmpeg/ffmpeg": "github:SubZtep/ffmpeg.wasm#master",
     "@supabase/supabase-js": "^1.24.0",
     "@vueuse/core": "^6.7.1",
     "@vueuse/integrations": "^6.7.1",
@@ -36,6 +34,7 @@
   "devDependencies": {
     "@depth/audio": "workspace:*",
     "@depth/dat.gui": "workspace:*",
+    "@depth/ffmpeg": "workspace:*",
     "@depth/stats.js": "workspace:*",
     "@types/node": "^16.11.1",
     "@types/three": "^0.133.1",

@@ -35,6 +35,16 @@ importers:
     devDependencies:
       '@types/dat.gui': 0.7.7
 
+  packages/ffmpeg:
+    specifiers:
+      '@ffmpeg/core': ^0.10.0
+      '@ffmpeg/ffmpeg': github:SubZtep/ffmpeg.wasm#master
+      '@vueuse/core': ^6.7.1
+    dependencies:
+      '@ffmpeg/core': 0.10.0
+      '@ffmpeg/ffmpeg': github.com/SubZtep/ffmpeg.wasm/761031c28be6d9a13fad1856c04e751b3388439a
+      '@vueuse/core': 6.7.1_vue@3.2.20
+
   packages/stats.js:
     specifiers:
       '@types/stats.js': ^0.17.0
@@ -48,9 +58,8 @@ importers:
     specifiers:
       '@depth/audio': workspace:*
       '@depth/dat.gui': workspace:*
+      '@depth/ffmpeg': workspace:*
       '@depth/stats.js': workspace:*
-      '@ffmpeg/core': ^0.10.0
-      '@ffmpeg/ffmpeg': github:SubZtep/ffmpeg.wasm#master
       '@mediapipe/pose': ^0.4.1633558788
       '@supabase/supabase-js': ^1.24.0
       '@types/node': ^16.11.1
@@ -87,8 +96,6 @@ importers:
       vue-toastification: ^2.0.0-rc.1
       windicss: ^3.1.9
     dependencies:
-      '@ffmpeg/core': 0.10.0
-      '@ffmpeg/ffmpeg': github.com/SubZtep/ffmpeg.wasm/761031c28be6d9a13fad1856c04e751b3388439a
       '@supabase/supabase-js': 1.24.0
       '@vueuse/core': 6.7.1_vue@3.2.20
       '@vueuse/integrations': 6.7.1_vue@3.2.20
@@ -107,6 +114,7 @@ importers:
     devDependencies:
       '@depth/audio': link:../audio
       '@depth/dat.gui': link:../dat.gui
+      '@depth/ffmpeg': link:../ffmpeg
       '@depth/stats.js': link:../stats.js
       '@types/node': 16.11.1
       '@types/three': 0.133.1
