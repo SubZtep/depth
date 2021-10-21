@@ -24,6 +24,7 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "types": [
+      "vue"
       // "jest",
       // "node"
     ],

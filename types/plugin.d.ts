@@ -1,5 +1,10 @@
 import { Plugin } from "vue";
-import type { EventHook } from "@vueuse/core";
-declare const _default: Plugin;
-export default _default;
-export declare function useThreeJSEventHook(): EventHook<ThreeJSEvent>;
+import dat from "dat.gui";
+import "./style.css";
+declare type FolderInit = (folder: dat.GUI) => void;
+declare const plugin: Plugin;
+export default plugin;
+export declare function useGui(options?: {
+    close?: boolean;
+}): dat.GUI;
+export declare function addGuiFolder(init: FolderInit): any;

@@ -35,18 +35,17 @@ let cx = 0
 
 export function addGuiFolder(init: FolderInit): any {
   const gui = inject<dat.GUI>(guiKey)!
-  console.log("HUUII", gui)
   const folderName = `f${++cx}`
-  // const folder = gui.addFolder(folderName)
+  const folder = gui.addFolder(folderName)
 
-  // onMounted(() => {
-  //   folder.open()
-  //   init(folder)
-  // })
+  onMounted(() => {
+    folder.open()
+    init(folder)
+  })
 
-  // onBeforeUnmount(() => {
-  //   gui.removeFolder(folder)
-  //   delete gui.__folders[folderName]
-  //   cx--
-  // })
+  onBeforeUnmount(() => {
+    gui.removeFolder(folder)
+    delete gui.__folders[folderName]
+    cx--
+  })
 }
