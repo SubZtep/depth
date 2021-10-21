@@ -1,7 +1,7 @@
 <template lang="pug">
 Debug STATE {{state}}
 
-.top-left
+//- .top-left
   img.gif(src="/gifs/copilot-eslint-x.gif" ref="gif")
 
 ThreeGlobe(:position="state.position" :scale="state.scale")
@@ -20,11 +20,11 @@ const state = reactive({
   image: "/gifs/copilot-eslint-x.gif",
 })
 
-addGuiFolder(folder => {
-  folder.name = "Globe"
-  folder.addVector3(state.position)
-  folder.add(state, "scale", 0.1, 0.69, 0.01)
-})
+// addGuiFolder(folder => {
+//   folder.name = "Globe"
+//   folder.addVector3(state.position)
+//   folder.add(state, "scale", 0.1, 0.69, 0.01)
+// })
 
 // const rotate0To120 = function () {
 //   const animation = popmotion.tween({

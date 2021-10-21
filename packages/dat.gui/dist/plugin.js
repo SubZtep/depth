@@ -1,4 +1,4 @@
-import { inject, onBeforeUnmount, onMounted } from "vue";
+import { inject } from "vue";
 import dat from "dat.gui";
 import { addReactiveSelect, addTextInput, addVector3 } from "./extend";
 import "./style.css";
@@ -26,15 +26,6 @@ export function useGui(options) {
 let cx = 0;
 export function addGuiFolder(init) {
     const gui = inject(guiKey);
+    console.log("HUUII", gui);
     const folderName = `f${++cx}`;
-    const folder = gui.addFolder(folderName);
-    onMounted(() => {
-        folder.open();
-        init(folder);
-    });
-    onBeforeUnmount(() => {
-        gui.removeFolder(folder);
-        delete gui.__folders[folderName];
-        cx--;
-    });
 }

@@ -89,7 +89,7 @@ importers:
       '@depth/stats.js': workspace:*
       '@depth/supabase': workspace:*
       '@depth/three.js': workspace:*
-      '@types/node': ^16.11.1
+      '@types/node': ^16.11.2
       '@types/three': ^0.133.1
       '@typescript-eslint/eslint-plugin': ^5.1.0
       '@typescript-eslint/parser': ^5.1.0

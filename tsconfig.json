@@ -25,14 +25,14 @@
     "isolatedModules": true,
     "types": [
       // "jest",
-      "node"
+      // "node"
     ],
     "typeRoots": [
       "node_modules/@types"
     ]
   },
   "exclude": [
-    "node_modules",
+    // "node_modules",
     "**/**/*.md",
     "**/dist",
     "**/**/*.spec.ts"

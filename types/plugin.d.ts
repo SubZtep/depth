@@ -1,6 +1,5 @@
-import type { Plugin } from "vue";
-declare const plugin: Plugin;
-export default plugin;
-export declare function useAudio(): {
-    play: (src: string) => Promise<void>;
-};
+import { Plugin } from "vue";
+import type { EventHook } from "@vueuse/core";
+declare const _default: Plugin;
+export default _default;
+export declare function useThreeJSEventHook(): EventHook<ThreeJSEvent>;

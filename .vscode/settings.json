@@ -29,9 +29,9 @@
   },
 	"search.exclude": {
 		"**/.git": true,
-		"**/dist/*/**": true,
+		// "**/dist/*/**": true,
 		"**/node_modules/*/**": true,
-		"**/*.js": true,
+		// "**/*.js": true,
 		"**/*.d.ts": true,
 		"**/*.spec.ts": true,
 	},
