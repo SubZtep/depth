@@ -9,6 +9,8 @@ Suspense(v-else)
 </template>
 
 <script lang="ts" setup>
+import { onVisibility } from "../events"
+
 const hold = ref(true)
 const { ready, start, stop } = useTimeout(5000, { controls: true, immediate: false })
 

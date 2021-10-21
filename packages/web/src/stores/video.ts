@@ -1,8 +1,8 @@
 import type { StoreDefinition } from "pinia"
 import { defineStore } from "pinia"
-import { useSupabase } from "@depth/supabase"
-import type { Results } from "@depth/mediapipe"
-import DbQueries from "~/misc/dbqueries"
+// import { useSupabase } from "@depth/supabase"
+// import type { Results } from "@depth/mediapipe"
+import DbQueries from "../misc/dbqueries"
 
 export interface VideoStatePose {
   ts: number
@@ -40,58 +40,59 @@ export const useVideoStore: StoreDefinition = defineStore("video", {
 
   actions: {
     async replace(obj?: Db.Video) {
-      this.$reset()
-      if (!obj) return
-      const { supabase } = useSupabase()
-      const db = new DbQueries(supabase, console)
+      // this.$reset()
+      // if (!obj) return
+      // const { supabase } = useSupabase()
+      // const db = new DbQueries(supabase, console)
 
-      let keyframes: number[] | undefined = undefined
-      let poses: VideoStatePose[] | undefined = undefined
-      let id = await db.getVideoId(obj)
+      // let keyframes: number[] | undefined = undefined
+      // let poses: VideoStatePose[] | undefined = undefined
+      // let id = await db.getVideoId(obj)
 
-      if (id) {
-        keyframes = await db.getKeyframes(id)
-        poses = await db.getPoses(id)
-      } else {
-        id = await db.insertVideo(obj)
-      }
+      // if (id) {
+      //   keyframes = await db.getKeyframes(id)
+      //   poses = await db.getPoses(id)
+      // } else {
+      //   id = await db.insertVideo(obj)
+      // }
 
-      this.$patch({
-        ...obj,
-        id,
-        keyframes,
-        poses,
-      })
+      // this.$patch({
+      //   ...obj,
+      //   id,
+      //   keyframes,
+      //   poses,
+      // })
     },
 
     async setKeyframes(keyframes?: number[]) {
-      if (!this.id) throw new Error("Unable to set keyframes without video id")
-      if (!keyframes) throw new Error("Unable to set keyframes without keyframes")
-      const { supabase } = useSupabase()
-      const db = new DbQueries(supabase, console)
-      await db.insertKeyframes(this.id, keyframes)
-      this.keyframes = keyframes
+      // if (!this.id) throw new Error("Unable to set keyframes without video id")
+      // if (!keyframes) throw new Error("Unable to set keyframes without keyframes")
+      // const { supabase } = useSupabase()
+      // const db = new DbQueries(supabase, console)
+      // await db.insertKeyframes(this.id, keyframes)
+      // this.keyframes = keyframes
     },
 
     async setPoses(poses: VideoStatePose[]) {
-      if (!this.id) throw new Error("Unable to set poses without video id")
-      const { supabase } = useSupabase()
-      const db = new DbQueries(supabase, console)
-      await db.insertPoses(this.id, poses)
-      this.poses = poses
+      // if (!this.id) throw new Error("Unable to set poses without video id")
+      // const { supabase } = useSupabase()
+      // const db = new DbQueries(supabase, console)
+      // await db.insertPoses(this.id, poses)
+      // this.poses = poses
     },
 
-    async addPose(ts: number, results: Results) {
-      if (!this.id) throw new Error("Unable to set poses without video id")
-      const { supabase } = useSupabase()
-      const db = new DbQueries(supabase, console)
-      await db.insertPose(this.id, ts, results)
-      if (this.poses === undefined) this.poses = []
-      this.poses.push({
-        ts,
-        pose_raw: results.poseLandmarks,
-        pose_normalized: results.poseWorldLandmarks,
-      })
+    // async addPose(ts: number, results: Results) {
+    async addPose(ts: number, results: any) {
+      // if (!this.id) throw new Error("Unable to set poses without video id")
+      // const { supabase } = useSupabase()
+      // const db = new DbQueries(supabase, console)
+      // await db.insertPose(this.id, ts, results)
+      // if (this.poses === undefined) this.poses = []
+      // this.poses.push({
+      //   ts,
+      //   pose_raw: results.poseLandmarks,
+      //   pose_normalized: results.poseWorldLandmarks,
+      // })
     },
   },
 })

@@ -2,6 +2,7 @@
   "recommendations": [
     "dbaeumer.vscode-eslint",
     "tamasfe.even-better-toml",
-    "voorjaar.windicss-intellisense"
+    "voorjaar.windicss-intellisense",
+    "folke.vscode-monorepo-workspace"
   ]
 }

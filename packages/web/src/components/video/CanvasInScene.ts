@@ -1,6 +1,6 @@
 import type { GpuBuffer } from "../../../public/pose"
 import { CanvasTexture, MeshBasicMaterial, PlaneBufferGeometry, Mesh, DoubleSide } from "three"
-import { singleFns, loopFns } from "@depth/three.js"
+// import { singleFns, loopFns } from "@depth/three.js"
 // import type { loopFn } from "@depth/three.js"
 
 export default defineComponent({
@@ -24,13 +24,13 @@ export default defineComponent({
     const player = new Mesh(playerGeometry, videoMaterial)
     const aspectRatio = useCssVar("--video-aspect-ratio")
 
-    singleFns.add(({ scene }) => scene.add(player))
+    // singleFns.add(({ scene }) => scene.add(player))
 
-    const updateTexture: Fn/*LoopFn*/ = () => {
-      canvasTexture.needsUpdate = true
-    }
+    // const updateTexture: Fn /*LoopFn*/ = () => {
+    //   canvasTexture.needsUpdate = true
+    // }
 
-    loopFns.add(updateTexture)
+    // loopFns.add(updateTexture)
 
     watch(
       () => props.scale,
@@ -50,8 +50,8 @@ export default defineComponent({
     )
 
     onBeforeUnmount(() => {
-      loopFns.delete(updateTexture)
-      singleFns.add(({ scene }) => scene.remove(player))
+      // loopFns.delete(updateTexture)
+      // singleFns.add(({ scene }) => scene.remove(player))
       canvasTexture.dispose()
       videoMaterial.dispose()
       playerGeometry.dispose()

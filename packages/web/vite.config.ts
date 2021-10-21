@@ -1,4 +1,3 @@
-import path from "path"
 import { defineConfig } from "vite"
 import Vue from "@vitejs/plugin-vue"
 import Components from "unplugin-vue-components/vite"
@@ -32,11 +31,6 @@ export default defineConfig(({ mode, command }) => {
   }
 
   return {
-    resolve: {
-      alias: {
-        "~/": `${path.resolve(__dirname, "src")}/`,
-      },
-    },
     plugins: [
       ViteToml({
         useBigInt: false,
@@ -61,15 +55,16 @@ export default defineConfig(({ mode, command }) => {
           { "@vueuse/integrations": ["useNProgress"] },
           { "vue-toastification": ["useToast", "POSITION"] },
           { pinia: ["storeToRefs"] },
-          { "~/stores/video": ["useVideoStore"] },
-          { "~/misc/utils": ["basename", "sleep"] },
-          { "~/misc/filters": ["truthyFilter"] },
-          { "~/events": ["onVisibility"] },
+          // { "./src/stores/video": ["useVideoStore"] },
+          // { "./src/misc/utils": ["basename", "sleep"] },
+          // { "./src/misc/filters": ["truthyFilter"] },
+          // { "./src/events": ["onVisibility"] },
         ],
-        dts: "src/types/auto-imports.d.ts",
+        dts: "./src/types/auto-imports.d.ts",
       }),
       WindiCSS(),
       CrossOriginIsolation(),
+
     ],
     build,
     server: {

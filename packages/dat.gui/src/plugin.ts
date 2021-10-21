@@ -35,6 +35,7 @@ let cx = 0
 
 export function addGuiFolder(init: FolderInit): any {
   const gui = inject<dat.GUI>(guiKey)!
+  console.log("HUUII", gui)
   const folderName = `f${++cx}`
   const folder = gui.addFolder(folderName)
 

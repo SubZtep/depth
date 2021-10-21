@@ -1,13 +1,15 @@
 // Based on: Fyrestar https://mevedia.com (https://github.com/Fyrestar/THREE.InfiniteGridHelper)
 import { Color, PlaneBufferGeometry, ShaderMaterial, BackSide, Mesh } from "three"
 
-export function InfiniteGridHelper(
-  size1 = 1,
-  size2 = 10,
-  color = new Color("darkgreen"),
-  distance = 8000,
-  axes = "xzy"
-) {
+export function InfiniteGridHelper(params: Record<string, any> = {}) {
+  const {
+    size1 = 1,
+    size2 = 10,
+    color = new Color("darkgreen"),
+    distance = 8000,
+    axes = "xzy"
+  } = params
+
   const planeAxes = axes.substr(0, 2)
   const geometry = new PlaneBufferGeometry(2, 2, 1, 1)
   const material = new ShaderMaterial({

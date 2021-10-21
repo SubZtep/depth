@@ -7,8 +7,9 @@ Title.flex-col(v-if="bored" class="!duration-13000")
 
 <script lang="ts" setup>
 import { useCameraMoves, singleFns } from "@depth/three.js"
-import { useBoredApi } from "~/composables"
-import { rand } from "~/misc/utils"
+import { useBoredApi } from "../composables"
+import { onVisibility } from "../events"
+import { rand } from "../misc/utils"
 
 const { moves, count } = useCameraMoves()
 const { bored, query } = useBoredApi()

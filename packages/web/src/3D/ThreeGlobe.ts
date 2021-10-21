@@ -1,5 +1,5 @@
 import ThreeGlobe from "three-globe"
-import { singleFns } from "@depth/three.js"
+// import { singleFns } from "@depth/three.js"
 
 export default defineComponent({
   props: {
@@ -51,15 +51,15 @@ export default defineComponent({
     )
 
     onMounted(() => {
-      singleFns.add(({ scene }) => {
-        scene.add(Globe)
-      })
+      // singleFns.add(({ scene }) => {
+      //   scene.add(Globe)
+      // })
     })
 
     onBeforeUnmount(() => {
-      singleFns.add(({ scene }) => {
-        scene.remove(Globe)
-      })
+      // singleFns.add(({ scene }) => {
+      //   scene.remove(Globe)
+      // })
     })
 
     return () => slots.default && slots.default()

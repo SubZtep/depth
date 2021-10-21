@@ -1,7 +1,7 @@
-import { Mesh, Color, GridHelper, PlaneGeometry, MeshPhongMaterial, MeshBasicMaterial, DoubleSide } from "three"
-import { useAssets } from "@depth/three.js"
+import { Mesh, Color, GridHelper, PlaneGeometry, MeshPhongMaterial, DoubleSide } from "three"
+// import { useAssets } from "@depth/three.js"
 
-const assets = useAssets()
+// const assets = useAssets()
 
 export function grid(x = -7.5) {
   const grid = new GridHelper(5, 5, Color.NAMES.blue, Color.NAMES.blue)
@@ -28,11 +28,11 @@ export function plane() {
 }
 
 export function leafPlane() {
-  const leaf = assets.assets.get("leafMaterial") as MeshBasicMaterial
-  const leafPlane = new Mesh(new PlaneGeometry(4, 4), leaf)
-  leafPlane.rotateX(-Math.PI / 2)
-  leafPlane.position.set(-1, -0.05, -20.7)
-  leafPlane.receiveShadow = true
-  leafPlane.name = "leafPlane"
-  return leafPlane
+  // const leaf = assets.assets.get("leafMaterial") as MeshBasicMaterial
+  // const leafPlane = new Mesh(new PlaneGeometry(4, 4), leaf)
+  // leafPlane.rotateX(-Math.PI / 2)
+  // leafPlane.position.set(-1, -0.05, -20.7)
+  // leafPlane.receiveShadow = true
+  // leafPlane.name = "leafPlane"
+  // return leafPlane
 }

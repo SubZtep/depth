@@ -2,10 +2,10 @@
   "name": "@depth/stats.js",
   "version": "0.1.0",
   "private": true,
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc && cp src/*.css dist"
+    "build": "tsc && cp ./src/style.css dist"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",

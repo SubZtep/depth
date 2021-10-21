@@ -5,16 +5,9 @@
   "windicss.foldByLength": true,
   "css.validate": false,
   "css.lint.emptyRules": "ignore",
-  "gitlens.codeLens.recentChange.enabled": false,
-  "gitlens.codeLens.authors.enabled": false,
-  "gitlens.codeLens.enabled": false,
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
-  "scss.lint.emptyRules": "ignore",
-  "less.lint.emptyRules": "ignore",
-  "vite.autoStart": false,
   "files.associations": {
-    ".prettierrc": "yaml",
-    "*.mjs": "ignore"
+    ".prettierrc": "yaml"
   },
   "jest.autoRun": "off",
   "evenBetterToml.taploConfigEnabled": true,
@@ -24,10 +17,31 @@
   "evenBetterToml.commands.copyTomlAsJson": false,
   "evenBetterToml.commands.pasteJsonAsToml": false,
   "evenBetterToml.commands.pasteTomlAsJson": false,
+
   "editor.quickSuggestions": {
     "strings": true
   },
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+	"search.exclude": {
+		"**/.git": true,
+		"**/dist/*/**": true,
+		"**/node_modules/*/**": true,
+		"**/*.js": true,
+		"**/*.d.ts": true,
+		"**/*.spec.ts": true,
+	},
+  "monorepoWorkspace.includeRoot": true,
+  "monorepoWorkspace.folders.custom": [
+    {"regex":"app1", "prefix": "🔥"},
+    {"regex":"app2", "prefix": "📚"}
+  ],
+
+  "files.watcherExclude": {
+    "**/node_modules/*/**": true,
   }
 }

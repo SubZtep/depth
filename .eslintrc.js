@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-undef
+// // eslint-disable-next-line no-undef
 module.exports = {
   root: true,
   overrides: [
@@ -16,9 +16,10 @@ module.exports = {
       },
     },
   ],
-  env: {
-    browser: true,
-    es2021: true,
+  "env": {
+    "browser": true,
+    "es2020": true,
+    "node": true
   },
   extends: ["eslint:recommended", "plugin:vue/vue3-recommended", "plugin:@typescript-eslint/recommended", "prettier"],
   parserOptions: {
@@ -39,8 +40,6 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
     "vue/require-default-prop": "off",
     indent: ["warn", 2, { "SwitchCase": 1 }],
-    // "max-len": ["warn", { code: 420, tabWidth: 2 }],
-    // "css/": "off",
     "prefer-const": "warn",
   },
 }

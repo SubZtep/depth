@@ -1,13 +1,13 @@
 import type { RouteRecordRaw } from "vue-router"
 import * as VueRouter from "vue-router"
-import { singleFns } from "@depth/three.js"
+// import { singleFns } from "@depth/three.js"
 
-const QuoteWalker = () => import("~/pages/QuoteWalker.vue")
-const VideoPose = () => import("~/pages/VideoPose.vue")
-const DbAdmin = () => import("~/pages/DbAdmin.vue")
-const SceneSetup = () => import("~/pages/SceneSetup.vue")
-const SoundTest = () => import("~/pages/SoundTest.vue")
-const GlobeTest = () => import("~/pages/GlobeTest.vue")
+const QuoteWalker = () => import("./pages/QuoteWalker.vue")
+const VideoPose = () => import("./pages/VideoPose.vue")
+const DbAdmin = () => import("./pages/DbAdmin.vue")
+const SceneSetup = () => import("./pages/SceneSetup.vue")
+const SoundTest = () => import("./pages/SoundTest.vue")
+const GlobeTest = () => import("./pages/GlobeTest.vue")
 
 const routes: RouteRecordRaw[] = [
   {
@@ -56,12 +56,12 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: "/globe-test",
+    path: "/",
     name: "globe-test",
     component: GlobeTest,
     meta: {
-      position: [-10, 1.6, -30],
-      lookAt: [-30, 2, -30],
+      position: [0, 1.6, 0],
+      lookAt: [0, 1.6, -30],
     },
   },
 ]
@@ -74,9 +74,9 @@ const router = VueRouter.createRouter({
 router.beforeEach(to => {
   const { position, lookAt } = to.meta
   if (position && lookAt) {
-    singleFns.add(({ cameraControls }) => {
-      cameraControls.setLookAt(...position, ...lookAt, true)
-    })
+    // singleFns.add(({ cameraControls }) => {
+    //   cameraControls.setLookAt(...position, ...lookAt, true)
+    // })
   }
 })
 

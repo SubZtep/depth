@@ -9,7 +9,7 @@ video.video-border.max-h-300px(
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
-import { normalizeDeviceLabel } from "~/misc/transformers"
+import { normalizeDeviceLabel }from "../../misc/transformers"
 import { useMediapipePose } from "@depth/mediapipe"
 
 const videoRef = ref() as Ref<HTMLVideoElement>

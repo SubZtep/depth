@@ -1,4 +1,4 @@
-// export {}
+//  export {}
 
 interface GuiOptions {
   /** Add global, always visible gui folders */
@@ -62,7 +62,6 @@ namespace dat {
 // }
 
 type GuiAddon = (gui: dat.GUI) => void
-
 
 type ChangeCallback<T = any> = (value: T) => void
 

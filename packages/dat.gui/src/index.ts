@@ -1,2 +1,2 @@
 export { default as GuiPlugin, useGui, addGuiFolder } from "./plugin"
-export * from "./extend"
+export { addReactiveSelect, addTextInput, addVector3, ColorGUIHelper, makeXYZGUI } from "./extend"

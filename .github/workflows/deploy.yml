@@ -2,8 +2,7 @@ name: Test & Build & Deploy
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   deploy:

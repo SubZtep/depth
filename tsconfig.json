@@ -2,46 +2,49 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "lib": [
-      "ESNext",
-      "DOM",
-      "DOM.Iterable",
-    ],
-    "moduleResolution": "Node",
+    "lib": ["ESNext", "DOM", "DOM.Iterable", "webworker"],
+    "moduleResolution": "node",
     "esModuleInterop": true,
+    "allowJs": false,
     "strict": true,
-    "allowJs": true,
-    "checkJs": false,
-    "sourceMap": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "declaration": true,
+    "declarationDir": "./types",
     "resolveJsonModule": true,
     "rootDir": ".",
     "baseUrl": ".",
-    "noUnusedLocals": false,
     "skipLibCheck": true,
+    "noUnusedLocals": false,
     "noImplicitAny": false,
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "sourceMap": false,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "types": [
+      // "jest",
+      "node"
+    ],
     "typeRoots": [
       "node_modules/@types"
-    ],
-    "types": [
-      "jest"
     ]
   },
-  "include": [
-    "packages"
-  ],
   "exclude": [
     "node_modules",
-    "public",
-    "dist",
+    "**/**/*.md",
+    "**/dist",
+    "**/**/*.spec.ts"
   ],
   "references": [
-    { "path": "packages/audio" },
-    { "path": "packages/dat.gui" },
-    { "path": "packages/ffmpeg" },
-    { "path": "packages/mediapipe" },
-    { "path": "packages/stats.js" },
-    { "path": "packages/supadbase" },
-    { "path": "packages/three.js" },
-    { "path": "packages/web" }
+    { "path": "./packages/audio/" },
+    { "path": "./packages/dat.gui/" },
+    { "path": "./packages/ffmpeg/" },
+    { "path": "./packages/mediapipe/" },
+    { "path": "./packages/stats.js/" },
+    { "path": "./packages/supabase/" },
+    { "path": "./packages/three.js/" },
+    { "path": "./packages/web/" }
   ]
 }

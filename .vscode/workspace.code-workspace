@@ -1,0 +1,49 @@
+{
+  "folders": [
+    {
+      "name": "🚽 depth",
+      "path": ".."
+    },
+    {
+      "name": "📦 @depth/audio",
+      "path": "..\\packages\\audio"
+    },
+    {
+      "name": "📦 @depth/dat.gui",
+      "path": "..\\packages\\dat.gui"
+    },
+    {
+      "name": "📦 @depth/ffmpeg",
+      "path": "..\\packages\\ffmpeg"
+    },
+    {
+      "name": "🌞@depth/mediapipe",
+      "path": "..\\packages\\mediapipe"
+    },
+    {
+      "name": "📦 @depth/stats.js",
+      "path": "..\\packages\\stats.js"
+    },
+    {
+      "name": "📦 @depth/supabase",
+      "path": "..\\packages\\supabase"
+    },
+    {
+      "name": "📦 @depth/three.js",
+      "path": "..\\packages\\three.js"
+    },
+    {
+      "name": "🌞@depth/web",
+      "path": "..\\packages\\web"
+    }
+  ],
+  "settings": {
+    "monorepoWorkspace.folders.prefix.root": "🚽 ",
+    "monorepoWorkspace.folders.prefix.apps": "🌞",
+    "files.exclude": {
+      "dist/": false,
+      "node_modules/": false,
+      "tsconfig.tsbuildinfo": false
+    }
+  }
+}

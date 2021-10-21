@@ -1,10 +1,10 @@
 import type { PropType } from "vue"
 import type { LandmarkList } from "../../../public/pose/index.d"
-import { singleFns } from "@depth/three.js"
+// import { singleFns } from "@depth/three.js"
 import { watch, onBeforeUnmount, onMounted } from "vue"
 import { Vector3, Group } from "three"
-import { lineFactory, keypointFactory, boneMaterial } from "~/3D/factories"
-import { BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS, BLAZEPOSE_KEYPOINTS } from "~/misc/constants"
+import { lineFactory, keypointFactory, boneMaterial } from "../factories"
+import { BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS, BLAZEPOSE_KEYPOINTS } from "../../misc/constants"
 
 export default defineComponent({
   props: {
@@ -18,7 +18,7 @@ export default defineComponent({
 
   setup(props) {
     const root = new Group()
-    singleFns.add(({ scene }) => scene.add(root))
+    // singleFns.add(({ scene }) => scene.add(root))
 
     const stickmanGroup = new Group()
     stickmanGroup.position.fromArray(props.position)
@@ -96,7 +96,7 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       lines.forEach(line => line.geometry.dispose())
-      singleFns.add(({ scene }) => scene.remove(root))
+      // singleFns.add(({ scene }) => scene.remove(root))
     })
   },
 

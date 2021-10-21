@@ -2,13 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "composite": true,
-    "baseUrl": "./",
-    "rootDir": "src",
-    "outDir": "dist",
-    "typeRoots": [
-      "node_modules/@types",
-      "src/types.d.ts"
-    ]
+    "rootDir": "./src",
+    "outDir": "./dist",
   },
-  "include": ["src"]
+  "include": ["./src"]
 }

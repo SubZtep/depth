@@ -1,4 +1,4 @@
-import { useVideoStore } from "~/stores/video"
+import { useVideoStore } from "../stores/video"
 
 interface Params {
   onError?: (src: string) => void

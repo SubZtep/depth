@@ -17,7 +17,7 @@ interface SupabaseOptions {
 }
 
 export function useSupabase(options: SupabaseOptions = {}) {
-  const { logger = console } = options
+  // const { logger = console } = options
   const supabase: SupabaseClient = globalThis.supabase
   // const db = new DbQueries(globalThis.supabase, logger)
 

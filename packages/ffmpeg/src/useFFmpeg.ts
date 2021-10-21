@@ -1,4 +1,4 @@
-import type { CreateFFmpegOptions } from "@ffmpeg/ffmpeg"
+// import type { CreateFFmpegOptions } from "@ffmpeg/ffmpeg"
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
 import { get, set, until, pausableWatch, tryOnMounted, tryOnUnmounted } from "@vueuse/core"
 import { toRef, computed, ref } from "vue"

@@ -1,0 +1,23 @@
+.Stats {
+  transform-origin: right bottom;
+  transition-duration: 80ms;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  cursor: zoom-in;
+}
+
+.Stats:hover {
+  transition-duration: 220ms;
+  transform: scale(1.5);
+}
+
+.Stats.mosaic {
+  display: flex;
+  flex-direction: column-reverse;
+  cursor: zoom-out;
+}
+
+.Stats.mosaic > canvas[style] {
+  display: block !important;
+}

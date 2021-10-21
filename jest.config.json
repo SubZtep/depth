@@ -2,11 +2,8 @@
   "verbose": true,
   "preset": "ts-jest",
   "collectCoverage": false,
-  "testRegex": "./packages/.+/__tests__/.*$",
+  "testRegex": "./packages/**/*.spec.ts$",
   "moduleFileExtensions": ["vue", "ts", "js"],
-  "moduleNameMapper": {
-    "^~\/(.*)$": "<rootDir>/packages/./web/src/$1"
-  },
   "transform": {
     "^.+\\.vue$": "vue3-jest"
   },

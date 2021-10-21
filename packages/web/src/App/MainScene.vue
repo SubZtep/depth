@@ -8,5 +8,7 @@ router-view(v-slot="{ Component }")
 <script lang="ts" setup>
 import { useGui } from "@depth/dat.gui"
 
-useGui().show()
+console.log("QQQQ", useGui)
+
+// useGui().show()
 </script>

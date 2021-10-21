@@ -1,0 +1,11 @@
+import type { MaybeRef } from "@vueuse/core";
+import type { LandmarkList } from "../../public/pose";
+export declare function normalizeDeviceLabel(label: string): string;
+export declare const div: (dividend: MaybeRef<number>, divisor: MaybeRef<number>) => import("vue").ComputedRef<number>;
+export declare function sleep(ms: number): Promise<unknown>;
+export declare function selectableMedias(inputs: Ref<MediaDeviceInfo[]>): import("vue").ComputedRef<Record<string, string>>;
+export declare function isInRect(width: number, height: number, x: number, y: number): boolean;
+export declare function rand<T = number>(max: number, min?: number): T;
+export declare function updateVideoTime(video: MaybeRef<HTMLVideoElement>, seekToSec: number): Promise<void>;
+export declare function isInRange(min: number, max: number): (arr: number[]) => boolean;
+export declare function headOnly(pose: LandmarkList): LandmarkList;

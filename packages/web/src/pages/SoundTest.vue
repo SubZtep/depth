@@ -4,7 +4,7 @@ Title Sound Test
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
-import settings from "~/../SETTINGS.toml"
+import settings from "../../SETTINGS.toml"
 import { useAudio } from "@depth/audio"
 
 addGuiFolder(folder => {

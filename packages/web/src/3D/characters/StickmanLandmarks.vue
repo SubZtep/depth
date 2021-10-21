@@ -27,7 +27,7 @@ StickmanSimple(
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
-import type { VideoStatePose } from "~/stores/video"
+import type { VideoStatePose } from "../../stores/video"
 // import type { Results } from "public/pose"
 
 const props = defineProps<{

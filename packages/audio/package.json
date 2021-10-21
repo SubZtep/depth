@@ -2,8 +2,8 @@
   "name": "@depth/audio",
   "version": "0.1.0",
   "private": true,
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "typings": "./dist/types.d.ts",
   "scripts": {
     "build": "tsc"
   },

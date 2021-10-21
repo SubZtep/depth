@@ -7,10 +7,14 @@ export const singleFnPrs = new Set<LoopFnPr>()
 export const loopFns = new Set<LoopFn>()
 export const loopFnPrs = new Set<LoopFnPr>()
 
+export const loopThreeJs = (fn?: LoopFn, pr?: LoopFnPr) => {
+  fn && singleFns.add(fn)
+  pr && singleFnPrs.add(pr)
+}
+
 const parallelLoopFns = false //FIXME: make a working version (probably queue based)
 
 export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRenderAllFrames }: RenderLoopProps) {
-  // const { stats } = useStats()
   const clock = new Clock()
   const { camera } = cameraControls
   let delta: number

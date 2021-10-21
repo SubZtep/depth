@@ -2,8 +2,8 @@
   "name": "@depth/ffmpeg",
   "version": "0.1.0",
   "private": true,
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
@@ -11,7 +11,6 @@
   "license": "Unlicense",
   "dependencies": {
     "@ffmpeg/core": "^0.10.0",
-    "@ffmpeg/ffmpeg": "github:SubZtep/ffmpeg.wasm#master",
-    "@vueuse/core": "^6.7.3"
+    "@ffmpeg/ffmpeg": "github:SubZtep/ffmpeg.wasm#master"
   }
 }
