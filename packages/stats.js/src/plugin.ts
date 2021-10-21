@@ -11,7 +11,7 @@ stats.dom.addEventListener("dblclick", () => stats.dom.classList.toggle("mosaic"
 document.body.appendChild(stats.dom)
 
 export default {
-  install(_app, options?: StatsOptions) {
+  install(app, options?: StatsOptions) {
     if (options?.showPanel !== undefined) {
       stats.showPanel(options.showPanel)
     }

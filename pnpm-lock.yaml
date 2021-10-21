@@ -80,7 +80,7 @@ importers:
     devDependencies:
       '@types/three': 0.133.1
 
-  packages/web:
+  web:
     specifiers:
       '@depth/audio': workspace:*
       '@depth/dat.gui': workspace:*
@@ -121,13 +121,13 @@ importers:
       vue-toastification: ^2.0.0-rc.1
       windicss: ^3.1.9
     dependencies:
-      '@depth/audio': link:../audio
-      '@depth/dat.gui': link:../dat.gui
-      '@depth/ffmpeg': link:../ffmpeg
-      '@depth/mediapipe': link:../mediapipe
-      '@depth/stats.js': link:../stats.js
-      '@depth/supabase': link:../supabase
-      '@depth/three.js': link:../three.js
+      '@depth/audio': link:../packages/audio
+      '@depth/dat.gui': link:../packages/dat.gui
+      '@depth/ffmpeg': link:../packages/ffmpeg
+      '@depth/mediapipe': link:../packages/mediapipe
+      '@depth/stats.js': link:../packages/stats.js
+      '@depth/supabase': link:../packages/supabase
+      '@depth/three.js': link:../packages/three.js
       '@vueuse/integrations': 6.7.3_vue@3.2.20
       '@vueuse/shared': 6.7.3_vue@3.2.20
       mathjs: 9.5.1
@@ -160,9 +160,6 @@ importers:
       vite-plugin-toml: 0.3.1_vite@2.6.10
       vite-plugin-windicss: 1.4.12_vite@2.6.10
       windicss: 3.1.9
-
-  packages/web/public/pose:
-    specifiers: {}
 
 packages:
 

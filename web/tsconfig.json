@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "composite": true,
     "rootDir": "./src",
@@ -7,12 +7,7 @@
     "types": [
       "vite/client",
       "node"
-      // "jest"
     ],
-    // "typeRoots": [
-    //   "./node_modules/@types",
-    //   "./src/types/*.d.ts"
-    // ],
   },
   "include": ["src", "src/stores"]
 }

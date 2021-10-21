@@ -29,8 +29,6 @@
   },
   "pnpm": {
     "neverBuiltDependencies": [
-      "fsevents",
-      "level",
       "node-gyp"
     ]
   },

@@ -1,4 +1,4 @@
-include = ["./packages/web/SETTINGS.toml"]
+include = ["./web/SETTINGS.toml"]
 
 [schema]
 path = "./schemas/SETTINGS.json"

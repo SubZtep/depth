@@ -43,5 +43,8 @@
 
   "files.watcherExclude": {
     "**/node_modules/*/**": true,
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

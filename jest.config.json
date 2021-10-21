@@ -2,7 +2,7 @@
   "verbose": true,
   "preset": "ts-jest",
   "collectCoverage": false,
-  "testRegex": "./packages/**/*.spec.ts$",
+  "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.[jt]sx?$",
   "moduleFileExtensions": ["vue", "ts", "js"],
   "transform": {
     "^.+\\.vue$": "vue3-jest"
