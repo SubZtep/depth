@@ -5,7 +5,7 @@
       "label": "Outdated packages",
       "detail": "Looking for depdendency updates",
       "type": "shell",
-      "command": "pnpm dlx npm-check-updates",
+      "command": "pnpm ncu",
       "runOptions": {
         "runOn": "folderOpen"
       },
