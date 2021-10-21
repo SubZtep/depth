@@ -24,13 +24,11 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "types": [
-      "vue"
-      // "jest",
-      // "node"
+      "vue",
+      "jest",
+      "node"
     ],
-    "typeRoots": ["node_modules/@types"]
   },
-  // "exclude": ["**/**/*.md", "**/dist", "**/**/*.spec.ts"],
   "references": [
     { "path": "./packages/audio/" },
     { "path": "./packages/dat.gui/" },

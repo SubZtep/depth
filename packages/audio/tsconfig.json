@@ -4,6 +4,9 @@
     "composite": true,
     "rootDir": "./src",
     "outDir": "./dist",
+    "typeRoots": [
+      "./src/types.d.ts"
+    ]
   },
   "include": ["./src"]
 }

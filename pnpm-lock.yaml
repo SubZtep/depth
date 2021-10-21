@@ -1,8 +1,6 @@
 lockfileVersion: 5.3
 
 neverBuiltDependencies:
-  - fsevents
-  - level
   - node-gyp
 
 importers:
@@ -10,23 +8,23 @@ importers:
   .:
     specifiers:
       '@types/jest': ^27.0.2
+      '@types/node': ^16.11.2
       '@vue/test-utils': ^2.0.0-rc.15
       '@vueuse/core': ^6.7.3
       jest: ^27.3.1
       ts-jest: ^27.0.7
       typescript: ^4.4.4
       vue: ^3.2.19
-      vue3-jest: ^27.0.0-alpha.2
     dependencies:
       '@vueuse/core': 6.7.3_vue@3.2.20
       vue: 3.2.20
     devDependencies:
       '@types/jest': 27.0.2
+      '@types/node': 16.11.2
       '@vue/test-utils': 2.0.0-rc.16_vue@3.2.20
       jest: 27.3.1
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
-      vue3-jest: 27.0.0-alpha.2_050ab2b4f20b89f0eba4761b579cf4fc
 
   packages/audio:
     specifiers: {}
@@ -89,7 +87,6 @@ importers:
       '@depth/stats.js': workspace:*
       '@depth/supabase': workspace:*
       '@depth/three.js': workspace:*
-      '@types/node': ^16.11.2
       '@types/three': ^0.133.1
       '@typescript-eslint/eslint-plugin': ^5.1.0
       '@typescript-eslint/parser': ^5.1.0
@@ -119,6 +116,7 @@ importers:
       vite-plugin-windicss: ^1.4.12
       vue-router: ^4.0.12
       vue-toastification: ^2.0.0-rc.1
+      vue3-jest: ^27.0.0-alpha.1
       windicss: ^3.1.9
     dependencies:
       '@depth/audio': link:../packages/audio
@@ -139,7 +137,6 @@ importers:
       vue-router: 4.0.12_vue@3.2.20
       vue-toastification: 2.0.0-rc.5_vue@3.2.20
     devDependencies:
-      '@types/node': 16.11.2
       '@types/three': 0.133.1
       '@typescript-eslint/eslint-plugin': 5.1.0_5c3e9dad3ab5199adbc8541e4d2d5a4f
       '@typescript-eslint/parser': 5.1.0_eslint@8.0.1+typescript@4.4.4
@@ -159,6 +156,7 @@ importers:
       vite-plugin-cross-origin-isolation: 0.1.1
       vite-plugin-toml: 0.3.1_vite@2.6.10
       vite-plugin-windicss: 1.4.12_vite@2.6.10
+      vue3-jest: 27.0.0-alpha.1_050ab2b4f20b89f0eba4761b579cf4fc
       windicss: 3.1.9
 
 packages:
@@ -2792,6 +2790,7 @@ packages:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5465,8 +5464,8 @@ packages:
       '@vue/shared': 3.2.20
     dev: false
 
-  /vue3-jest/27.0.0-alpha.2_050ab2b4f20b89f0eba4761b579cf4fc:
-    resolution: {integrity: sha512-1UkRp+DLFWZQ6fFRQe4T3jpY/Rd+6zjwuLlnMNTbP8PgDrcykSS8aZaYZqFhNG6ECZ6qmV1F2jXcg9lMGRzLuw==}
+  /vue3-jest/27.0.0-alpha.1_050ab2b4f20b89f0eba4761b579cf4fc:
+    resolution: {integrity: sha512-F/pSFbpLcYVIv0ogNMFwT+W+r9tCRfLw84IIqqyocD1FZaW6m3RpfqwQsOXgYJVXFSdj4t3xbgj967s8WMrZjQ==}
     peerDependencies:
       '@babel/core': 7.x
       babel-jest: 27.x

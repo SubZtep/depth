@@ -36,7 +36,6 @@
     "vue-toastification": "^2.0.0-rc.1"
   },
   "devDependencies": {
-    "@types/node": "^16.11.2",
     "@types/three": "^0.133.1",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
@@ -56,6 +55,7 @@
     "vite-plugin-cross-origin-isolation": "^0.1.1",
     "vite-plugin-toml": "^0.3.1",
     "vite-plugin-windicss": "^1.4.12",
+    "vue3-jest": "^27.0.0-alpha.1",
     "windicss": "^3.1.9"
   }
 }

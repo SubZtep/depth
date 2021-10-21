@@ -35,12 +35,16 @@
 		"**/*.d.ts": true,
 		"**/*.spec.ts": true,
 	},
-  "monorepoWorkspace.includeRoot": true,
-  "monorepoWorkspace.folders.custom": [
-    {"regex":"app1", "prefix": "🔥"},
-    {"regex":"app2", "prefix": "📚"}
-  ],
 
+  "files.exclude": {
+    "**/dist": true,
+    "**/node_modules": true,
+    "**/tsconfig.tsbuildinfo": true
+  },
+  "monorepoWorkspace.folders.prefix.custom": [
+    { "regex": "audio", "prefix": "🎧 " },
+    { "regex": "web", "prefix": "⚓ " }
+  ],
   "files.watcherExclude": {
     "**/node_modules/*/**": true,
   },

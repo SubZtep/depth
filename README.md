@@ -12,7 +12,9 @@ Custom helpers and structure that built top on:
 - [Pinia](https://pinia.esm.dev/) Store, the closest word to piña that is a valid package name,
 - [Vite](https://vitejs.dev/) Next Generation Frontend Tooling.
 
-## Monorepo packages
+## Monorepo
+
+### Packages
 
 These are mostly wrappers of [Vue.js flavour](https://v3.vuejs.org/guide/plugins.html) around existing 3rd-party packages, extending functionality in places. <sub>_WIP!_</sub>
 
@@ -24,12 +26,16 @@ These are mostly wrappers of [Vue.js flavour](https://v3.vuejs.org/guide/plugins
 | **[m](packages/mediapipe#readme)ediapipe** | [Mediapipe Live ML](https://google.github.io/mediapipe/getting_started/javascript) | Human pose detection. |
 | **[s](packages/stats.js#readme)tats.js** | [Stats.js](http://mrdoob.github.io/stats.js/) | Performance monitor for 3D and heavy calculations. |
 | **[s](packages/supabase#readme)upabase** | [Supabase](https://supabase.io/) | Fast and easy to use database for some backend I/O. |——
-| **[t](packages/three.js#readme)hree.js** | [Three.js](https://threejs.org/) | Draw to the 3D canvas, _WebGL_ for dummies%). |
-| **[w](./packages/web#readme)eb** | — | The frontend, master of these puppets. |
+| **[t](packages/three.js#readme)hree.js** | [Three.js](https://threejs.org/) | Draw to the 3D canvas, _WebGL_ for dummies%).
+
+### Frontend
+
+The standalone **[w](./web#readme)eb** folder is also part of the monorepo workspace, the test frontend, master of those puppets.
+
+---
 
 > Since that is still under development all the docs are handwritten without the need for completeness. :pencil2: _If you’re interested check the source code, it’s up-to-date._
 
----
 
 ```js
                                                    ..
@@ -89,7 +95,7 @@ These are mostly wrappers of [Vue.js flavour](https://v3.vuejs.org/guide/plugins
 
     | No pnpm? No problem! | :bulb: Tip of the day!  |
     | --: | --- |
-    | ![](https://pnpm.io/assets/images/pnpm-standard-79c9dbb2e99b8525ae55174580061e1b.svg)| [Install pnpm](https://pnpm.io/installation) and the [recommended](.vscode/extensions.json) VSCode extensions to enjoy monorepo [workspace](./packages)! |
+    | ![](https://pnpm.io/assets/images/pnpm-standard-79c9dbb2e99b8525ae55174580061e1b.svg)| [Install pnpm](https://pnpm.io/installation) and the [recommended](.vscode/extensions.json) VSCode extensions and enjoy the  monorepo [workspace](./packages)! |
 
 
 
