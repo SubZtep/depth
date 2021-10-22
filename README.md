@@ -26,7 +26,7 @@ These are mostly wrappers of [Vue.js flavour](https://v3.vuejs.org/guide/plugins
 | **[m](packages/mediapipe#readme)ediapipe** | [Mediapipe Live ML](https://google.github.io/mediapipe/getting_started/javascript) | Human pose detection. |
 | **[s](packages/stats.js#readme)tats.js** | [Stats.js](http://mrdoob.github.io/stats.js/) | Performance monitor for 3D and heavy calculations. |
 | **[s](packages/supabase#readme)upabase** | [Supabase](https://supabase.io/) | Fast and easy to use database for some backend I/O. |——
-| **[t](packages/three.js#readme)hree.js** | [Three.js](https://threejs.org/) | Draw to the 3D canvas, _WebGL_ for dummies%).
+| **[t](packages/three.js#readme)hree.js+cc** | [Three.js](https://threejs.org/), [camera-controls](https://github.com/yomotsu/camera-controls) | Draw to the 3D canvas, _WebGL_ for dummies%).
 
 ### Frontend
 
@@ -96,8 +96,6 @@ The standalone **[w](./web#readme)eb** folder is also part of the monorepo works
     | No pnpm? No problem! | :bulb: Tip of the day!  |
     | --: | --- |
     | ![](https://pnpm.io/assets/images/pnpm-standard-79c9dbb2e99b8525ae55174580061e1b.svg)| [Install pnpm](https://pnpm.io/installation) and the [recommended](.vscode/extensions.json) VSCode extensions and enjoy the  monorepo [workspace](./packages)! |
-
-
 
 - [ ] ~~Be sure the local `public/pose` folder is an up-to-date mirror to the [`@mediapipe/pose`](https://www.npmjs.com/package/@mediapipe/pose) package. _//FIXME: wip_~~
 

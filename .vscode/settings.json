@@ -27,28 +27,26 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-	"search.exclude": {
-		"**/.git": true,
-		// "**/dist/*/**": true,
-		"**/node_modules/*/**": true,
-		// "**/*.js": true,
-		"**/*.d.ts": true,
-		"**/*.spec.ts": true,
-	},
-
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "search.exclude": {
+    "**/.git": true,
+    "**/*.js": true,
+    "**/*.d.ts": true,
+    "**/*.spec.ts": true,
+    "**/node_modules/*/**": true
+  },
   "files.exclude": {
     "**/dist": true,
     "**/node_modules": true,
     "**/tsconfig.tsbuildinfo": true
   },
+  "files.watcherExclude": {
+    "**/node_modules/*/**": true
+  },
   "monorepoWorkspace.folders.prefix.custom": [
     { "regex": "audio", "prefix": "🎧 " },
     { "regex": "web", "prefix": "⚓ " }
-  ],
-  "files.watcherExclude": {
-    "**/node_modules/*/**": true,
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  ]
 }

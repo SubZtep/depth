@@ -1,5 +1,4 @@
 import { get, whenever } from "@vueuse/core"
-// import { useStats } from "@depth/stats.js"
 import { Clock } from "three"
 
 export const singleFns = new Set<LoopFn>()
@@ -7,12 +6,13 @@ export const singleFnPrs = new Set<LoopFnPr>()
 export const loopFns = new Set<LoopFn>()
 export const loopFnPrs = new Set<LoopFnPr>()
 
-export const loopThreeJs = (fn?: LoopFn, pr?: LoopFnPr) => {
-  fn && singleFns.add(fn)
-  pr && singleFnPrs.add(pr)
+export const singleThreeJs = (fn: LoopFn) => {
+  singleFns.add(fn)
 }
 
-const parallelLoopFns = false //FIXME: make a working version (probably queue based)
+export const loopThreeJs = (fn: LoopFn) => {
+  loopFns.add(fn)
+}
 
 export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRenderAllFrames }: RenderLoopProps) {
   const clock = new Clock()
@@ -28,25 +28,20 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRe
       singleFns.clear()
       loopFns.forEach(fn => fn({ scene, cameraControls, clock }))
 
-      if (parallelLoopFns) {
-        // await Promise.allSettled([singleFnPrs, loopFnPrs])
-        // singleFnPrs.clear()
-      } else {
-        for (const fn of singleFnPrs) {
-          await fn({ scene, cameraControls, clock })
-        }
-        singleFnPrs.clear()
-        for (const fn of loopFnPrs) {
-          await fn({ scene, cameraControls, clock })
-        }
+      for (const fn of singleFnPrs) {
+        await fn({ scene, cameraControls, clock })
       }
+      singleFnPrs.clear()
+      for (const fn of loopFnPrs) {
+        await fn({ scene, cameraControls, clock })
+      }
+
     } catch (e) {
       console.error("ThreeJS Render Loop", e)
     }
 
     get(isRunning) && requestAnimationFrame(gameLoop)
     if (get(isRenderAllFrames) || camUpdated) renderer.render(scene, camera)
-    // stats.update()
   }
 
   whenever(isRunning, () => requestAnimationFrame(gameLoop), { immediate: true })

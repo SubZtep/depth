@@ -28,8 +28,8 @@ export function navigationGui(routes: RouteRecordNormalized[]) {
   }
 }
 
-// export function preferencesGui(gui: dat.GUI) {
-export function preferencesGui(gui: any) {
+export function preferencesGui(gui: dat.GUI) {
+// export function preferencesGui(gui: any) {
   const preferences = usePreferencesStore()
 
   const guiScaleCss = useCssVar("--gui-scale")

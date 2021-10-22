@@ -1,8 +1,3 @@
-interface ThreeJSOptions {
-  /** Display toast for triggered events */
-  toastEvents?: boolean
-}
-
 interface RenderLoopProps {
   renderer: THREE.WebGLRenderer
   cameraControls: import("camera-controls").default

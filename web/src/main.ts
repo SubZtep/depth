@@ -15,7 +15,6 @@ import { GuiPlugin } from "@depth/dat.gui"
 import App from "./App/App.vue"
 import router from "./router"
 import "virtual:windi.css"
-
 import "./style.css"
 
 const app = createApp(App)
@@ -32,7 +31,7 @@ const app = createApp(App)
     key: import.meta.env.VITE_SUPABASE_KEY,
   })
   .use(StatsPlugin, { mosaic: true })
-  .use(ThreejsPlugin, { toastEvents: false })
+  .use(ThreejsPlugin)
   .use(GuiPlugin, { addons: [navigationGui(router.getRoutes()), preferencesGui] })
   .use(AudioPlugin, settings.audio)
   .use(UserEvents)

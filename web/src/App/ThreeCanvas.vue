@@ -19,7 +19,8 @@ const assets = useAssets()
 
 await assets.loadNoVideoMaterial()
 await assets.loadLeafMaterial()
-const skybox = await assets.loadSkybox(1) //(preferences.skybox || rand(15))
+// const skybox = await assets.loadSkybox(1) //(preferences.skybox || rand(15))
+const skybox = await assets.loadSkybox(preferences.skybox || rand(15))
 const wc = ref() as Ref<HTMLCanvasElement>
 
 const ambLight = new AmbientLight(0xbbbbbb)
@@ -35,21 +36,20 @@ const plane = sdef.plane()
 const leafPlane = sdef.leafPlane()
 const threeJs = useThreeJSEventHook()
 
-// const igrid = InfiniteGridHelper({
-//   // size1: 10,
-//   size2: 0.5,
-//   distance: 10,
-//   // color: new Color("pink"),
-// })
+const igrid = InfiniteGridHelper({
+  size1: 5,
+  size2: 10,
+  distance: 1000,
+})
 
 useCanvas(wc).add(
   ambLight,
-  dirLight
+  dirLight,
   // plane,
-  // leafPlane,
+  leafPlane,
   // grid,
   // grid2,
-  // igrid
+  igrid,
 ).background = skybox
 // await sleep(69)
 useNProgress().done()

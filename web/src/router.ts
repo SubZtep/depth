@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from "vue-router"
 import * as VueRouter from "vue-router"
-// import { singleFns } from "@depth/three.js"
+import { singleFns } from "@depth/three.js"
 
 const QuoteWalker = () => import("./pages/QuoteWalker.vue")
 const VideoPose = () => import("./pages/VideoPose.vue")
@@ -8,6 +8,7 @@ const DbAdmin = () => import("./pages/DbAdmin.vue")
 const SceneSetup = () => import("./pages/SceneSetup.vue")
 const SoundTest = () => import("./pages/SoundTest.vue")
 const GlobeTest = () => import("./pages/GlobeTest.vue")
+const GeoMat = () => import("./pages/GeoMat.vue")
 
 const routes: RouteRecordRaw[] = [
   {
@@ -47,6 +48,15 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    path: "/geo-mat",
+    name: "geo-mat",
+    component: GeoMat,
+    meta: {
+      position: [-30, 1.6, -30],
+      lookAt: [-300, 2, -30],
+    }
+  },
+  {
     path: "/sound-test",
     name: "sound-test",
     component: SoundTest,
@@ -74,9 +84,9 @@ const router = VueRouter.createRouter({
 router.beforeEach(to => {
   const { position, lookAt } = to.meta
   if (position && lookAt) {
-    // singleFns.add(({ cameraControls }) => {
-    //   cameraControls.setLookAt(...position, ...lookAt, true)
-    // })
+    singleFns.add(({ cameraControls }) => {
+      cameraControls.setLookAt(...position, ...lookAt, true)
+    })
   }
 })
 

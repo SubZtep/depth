@@ -1,3 +1,10 @@
 # three.js
 
-Next-gen `POKE <Memory address>,<number>`.
+## Callable in component scope
+
+- Single run
+  ```ts
+  singleThreeJs({ cameraControls, scene, clock }) => {
+    // TODO: do something
+  })
+  ```

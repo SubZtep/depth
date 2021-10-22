@@ -108,7 +108,7 @@ importers:
       three: ^0.133.1
       three-globe: ^2.18.11
       three.meshline: ^1.3.0
-      unplugin-auto-import: ^0.4.12
+      unplugin-auto-import: ^0.4.13
       unplugin-vue-components: ^0.16.0
       vite: ^2.6.10
       vite-plugin-cross-origin-isolation: ^0.1.1
@@ -150,7 +150,7 @@ importers:
       postcss-preset-env: 6.7.0
       prettier: 2.4.1
       pug: 3.0.2
-      unplugin-auto-import: 0.4.12_@vueuse+core@6.7.3+vite@2.6.10
+      unplugin-auto-import: 0.4.13_@vueuse+core@6.7.3+vite@2.6.10
       unplugin-vue-components: 0.16.0_vite@2.6.10+vue@3.2.20
       vite: 2.6.10
       vite-plugin-cross-origin-isolation: 0.1.1
@@ -5248,8 +5248,8 @@ packages:
     engines: {node: '>= 4.0.0'}
     dev: true
 
-  /unplugin-auto-import/0.4.12_@vueuse+core@6.7.3+vite@2.6.10:
-    resolution: {integrity: sha512-H8iA+u21oyQkkXR0m1IJp20mM76uv0enQwrYMeDISq9Ixm8c+jeDleh5ld7vo8GUc+Pg3hlgixP+td6XjX5rJw==}
+  /unplugin-auto-import/0.4.13_@vueuse+core@6.7.3+vite@2.6.10:
+    resolution: {integrity: sha512-tSN4eObmxVJQtDrpEo7VgWScbTOQU3r4NuD0+6vM55ORe3qMrJJcrOqEpqjRdAlI9edYa9p2TS0BxGECNKub+g==}
     engines: {node: '>=14'}
     peerDependencies:
       '@vueuse/core': ^6.0.0
