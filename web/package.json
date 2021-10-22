@@ -11,7 +11,7 @@
     "test": "jest",
     "lint": "eslint src",
     "lint:settings": "npx @taplo/cli lint ./SETTINGS.toml",
-    "js2ts": "npx json-schema-to-typescript ../../schemas/SETTINGS.json src/types/settings.d.ts"
+    "js2ts": "npx json-schema-to-typescript ../schemas/SETTINGS.json ../types/settings.d.ts"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",

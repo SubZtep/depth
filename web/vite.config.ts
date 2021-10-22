@@ -40,7 +40,7 @@ export default defineConfig(({ mode, command }) => {
       Components({
         dirs: ["src/3D", "src/App", "src/components"],
         extensions: ["vue", "ts"],
-        dts: "src/types/components.d.ts",
+        dts: "../types/components.d.ts",
         deep: true,
       }),
       AutoImport({
@@ -60,11 +60,10 @@ export default defineConfig(({ mode, command }) => {
           // { "./src/misc/filters": ["truthyFilter"] },
           // { "./src/events": ["onVisibility"] },
         ],
-        dts: "./src/types/auto-imports.d.ts",
+        dts: "../types/auto-imports.d.ts",
       }),
       WindiCSS(),
       CrossOriginIsolation(),
-
     ],
     build,
     server: {
