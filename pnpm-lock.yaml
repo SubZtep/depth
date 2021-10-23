@@ -9,8 +9,14 @@ importers:
     specifiers:
       '@types/jest': ^27.0.2
       '@types/node': ^16.11.4
+      '@typescript-eslint/eslint-plugin': ^5.1.0
+      '@typescript-eslint/parser': ^5.1.0
       '@vue/test-utils': ^2.0.0-rc.16
       '@vueuse/core': ^6.7.3
+      eslint: ^8.1.0
+      eslint-config-prettier: ^8.3.0
+      eslint-plugin-prettier: ^4.0.0
+      eslint-plugin-vue: ^7.20.0
       jest: ^27.3.1
       ts-jest: ^27.0.7
       typescript: ^4.4.4
@@ -22,7 +28,13 @@ importers:
     devDependencies:
       '@types/jest': 27.0.2
       '@types/node': 16.11.4
+      '@typescript-eslint/eslint-plugin': 5.1.0_273a00ec265649c49755eee7222c1c12
+      '@typescript-eslint/parser': 5.1.0_eslint@8.1.0+typescript@4.4.4
       '@vue/test-utils': 2.0.0-rc.16_vue@3.2.20
+      eslint: 8.1.0
+      eslint-config-prettier: 8.3.0_eslint@8.1.0
+      eslint-plugin-prettier: 4.0.0_559a9556effbe94838bd29eaa9fdc6b8
+      eslint-plugin-vue: 7.20.0_eslint@8.1.0
       jest: 27.3.1
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
@@ -90,17 +102,11 @@ importers:
       '@depth/supabase': workspace:*
       '@depth/three.js': workspace:*
       '@types/three': ^0.133.1
-      '@typescript-eslint/eslint-plugin': ^5.1.0
-      '@typescript-eslint/parser': ^5.1.0
       '@vitejs/plugin-vue': ^1.9.3
       '@vue/compiler-sfc': ^3.2.20
       '@vueuse/integrations': ^6.7.3
       '@vueuse/shared': ^6.7.3
       '@windicss/plugin-scrollbar': ^1.2.3
-      eslint: ^8.1.0
-      eslint-config-prettier: ^8.3.0
-      eslint-plugin-prettier: ^4.0.0
-      eslint-plugin-vue: ^7.20.0
       mathjs: ^9.5.1
       nprogress: ^0.2.0
       pinia: ^2.0.0-rc.14
@@ -139,15 +145,9 @@ importers:
       vue-toastification: 2.0.0-rc.5_vue@3.2.20
     devDependencies:
       '@types/three': 0.133.1
-      '@typescript-eslint/eslint-plugin': 5.1.0_273a00ec265649c49755eee7222c1c12
-      '@typescript-eslint/parser': 5.1.0_eslint@8.1.0+typescript@4.4.4
       '@vitejs/plugin-vue': 1.9.3_vite@2.6.10
       '@vue/compiler-sfc': 3.2.20
       '@windicss/plugin-scrollbar': 1.2.3
-      eslint: 8.1.0
-      eslint-config-prettier: 8.3.0_eslint@8.1.0
-      eslint-plugin-prettier: 4.0.0_850528f9ec3c0797b9b19a94a36b5ba3
-      eslint-plugin-vue: 7.20.0_eslint@8.1.0
       postcss-preset-env: 6.7.0
       prettier: 2.4.1
       pug: 3.0.2
@@ -2430,7 +2430,7 @@ packages:
       eslint: 8.1.0
     dev: true
 
-  /eslint-plugin-prettier/4.0.0_850528f9ec3c0797b9b19a94a36b5ba3:
+  /eslint-plugin-prettier/4.0.0_559a9556effbe94838bd29eaa9fdc6b8:
     resolution: {integrity: sha512-98MqmCJ7vJodoQK359bqQWaxOE0CS8paAz/GgjaZLyex4TTk3g9HugoO89EqWCrFiOqn9EVvcoo7gZzONCWVwQ==}
     engines: {node: '>=6.0.0'}
     peerDependencies:
@@ -2443,7 +2443,6 @@ packages:
     dependencies:
       eslint: 8.1.0
       eslint-config-prettier: 8.3.0_eslint@8.1.0
-      prettier: 2.4.1
       prettier-linter-helpers: 1.0.0
     dev: true
 
