@@ -7,7 +7,7 @@
   "css.lint.emptyRules": "ignore",
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "files.associations": {
-    ".prettierrc": "yaml"
+    ".*rc": "yaml"
   },
   "jest.autoRun": "off",
   "evenBetterToml.taploConfigEnabled": true,
