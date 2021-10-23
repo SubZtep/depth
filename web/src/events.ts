@@ -1,5 +1,6 @@
-import type { EventHookOn } from "@vueuse/core"
+import { createEventHook, EventHookOn, useDocumentVisibility, useWindowFocus } from "@vueuse/core"
 import type { Plugin } from "vue"
+import { watch } from "vue"
 
 interface EventPayload {
   visible: boolean

@@ -13,6 +13,8 @@ import { resumeLoop, useAssets, useThreeJSEventHook, useCanvas, objs } from "@de
 import { onVisibility } from "../events"
 import * as sdef from "../3D/sceneDefaults"
 import { sleep, rand } from "../misc/utils"
+import type { Ref } from "vue"
+import { ref } from "vue"
 
 const preferences = usePreferencesStore()
 const assets = useAssets()
@@ -30,10 +32,10 @@ dirLight.rotation.set(0, 1.6, -30)
 objs.set("ambLight", ambLight)
 objs.set("dirLight", dirLight)
 
-const grid = sdef.grid(-7.5)
-const grid2 = sdef.grid(7.5)
-const plane = sdef.plane()
-const leafPlane = sdef.leafPlane()
+// const grid = sdef.grid(-7.5)
+// const grid2 = sdef.grid(7.5)
+// const plane = sdef.plane()
+// const leafPlane = sdef.leafPlane()
 const threeJs = useThreeJSEventHook()
 
 const igrid = InfiniteGridHelper({
@@ -42,16 +44,9 @@ const igrid = InfiniteGridHelper({
   distance: 1000,
 })
 
-useCanvas(wc).add(
-  ambLight,
-  dirLight,
-  // plane,
-  leafPlane,
-  // grid,
-  // grid2,
-  igrid,
-).background = skybox
-// await sleep(69)
+useCanvas(wc).add(ambLight, dirLight, igrid).background = skybox
+
+await sleep(69)
 useNProgress().done()
 threeJs.trigger(resumeLoop)
 

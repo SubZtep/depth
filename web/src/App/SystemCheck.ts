@@ -2,7 +2,7 @@ declare const Modernizr: Record<string, boolean>
 import { capitalize } from "../misc/transformers"
 import { defineComponent } from "vue"
 import { useToast } from "vue-toastification"
-import { useScriptTag } from "@vueuse/core"
+import { useIntervalFn, useScriptTag } from "@vueuse/core"
 // FIXME: https://github.com/antfu/unplugin-auto-import/issues/33
 
 export default defineComponent({

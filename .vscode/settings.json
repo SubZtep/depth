@@ -37,11 +37,11 @@
     "**/*.spec.ts": true,
     "**/node_modules/*/**": true
   },
-  "files.exclude": {
-    "**/dist": true,
-    "**/node_modules": true,
-    "**/tsconfig.tsbuildinfo": true
-  },
+  // "files.exclude": {
+  //   "**/dist": true,
+  //   "**/node_modules": true,
+  //   "**/tsconfig.tsbuildinfo": true
+  // },
   "files.watcherExclude": {
     "**/node_modules/*/**": true
   },

@@ -1,19 +1,8 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "composite": true,
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "types": [
-      "vite/client",
-      "jest",
-      "node"
-    ],
-    "typeRoots": [
-      "../node_modules/@types",
-      "./node_modules/@types",
-      "../types/**"
-    ]
+    "outDir": "dist",
   },
-  "include": ["src", "src/stores"]
+  "include": ["src"],
+  "exclude": ["**/*.spec.*"]
 }

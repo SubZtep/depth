@@ -22,7 +22,8 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: "mounted", el: HTMLVideoElement): void
   (e: "error", src: string): void
-  (e: "loaded", obj?: Db.Video): void
+  (e: "loaded", obj?: any): void
+  // (e: "loaded", obj?: Db.Video): void
   (e: "timeupdated"): void
 }>()
 

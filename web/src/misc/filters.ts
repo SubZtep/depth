@@ -7,7 +7,7 @@ export function noDotFiles(filename: string) {
 }
 
 export function truthyFilter(value: any) {
-  return (invoke: Fn) => value && invoke()
+  return (invoke: () => void) => value && invoke()
 }
 
 // export function regexpFilter(filter: RegExp, value: string) {

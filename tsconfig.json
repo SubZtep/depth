@@ -28,6 +28,10 @@
       "jest",
       "node"
     ],
+    "typeRoots": [
+      "node_modules/vue/types",
+      "node_modules/@types",
+    ],
   },
   "references": [
     { "path": "./packages/audio/" },
@@ -36,7 +40,6 @@
     { "path": "./packages/mediapipe/" },
     { "path": "./packages/stats.js/" },
     { "path": "./packages/supabase/" },
-    { "path": "./packages/three.js/" },
-    { "path": "./web/" }
+    { "path": "./packages/three.js/" }
   ]
 }

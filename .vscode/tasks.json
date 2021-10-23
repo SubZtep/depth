@@ -5,7 +5,7 @@
       "label": "Outdated packages",
       "detail": "Looking for depdendency updates",
       "type": "shell",
-      "command": "pnpm ncu",
+      "command": "pnpm recursive up",
       "runOptions": {
         "runOn": "folderOpen"
       },

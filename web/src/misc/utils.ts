@@ -2,6 +2,7 @@ import type { MaybeRef } from "@vueuse/core"
 import type { LandmarkList } from "../../public/pose"
 import { reactify, get, unrefElement } from "@vueuse/core"
 import { HEAD_AREA } from "./constants"
+import { computed, Ref } from "vue"
 
 export function normalizeDeviceLabel(label: string) {
   const res = label.match(/^(.*)\s\([a-z0-9]{4}:[a-z0-9]{4}\)$/)

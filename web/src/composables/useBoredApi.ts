@@ -1,3 +1,6 @@
+import { set, useFetch, until, get } from "@vueuse/core"
+import { ref } from "vue"
+
 interface BoredApi {
   activity: string
   type: "education" | "recreational" | "social" | "diy" | "charity" | "cooking" | "relaxation" | "music" | "busywork"

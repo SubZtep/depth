@@ -13,11 +13,12 @@ ThreeGlobe(:position="state.position" :scale="state.scale")
 import { addGuiFolder } from "@depth/dat.gui"
 import { loopThreeJs } from "@depth/three.js"
 import type { Vector3Tuple } from "three"
+import { reactive } from "vue"
 
 const state = reactive({
   position: [0, 1.6, -69] as Vector3Tuple,
   scale: 0.25,
-  image: "/gifs/copilot-eslint-x.gif",
+  // image: "/gifs/copilot-eslint-x.gif",
 })
 
 // addGuiFolder(folder => {

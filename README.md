@@ -28,14 +28,20 @@ These are mostly wrappers of [Vue.js flavour](https://v3.vuejs.org/guide/plugins
 | **[s](packages/supabase#readme)upabase** | [Supabase](https://supabase.io/) | Fast and easy to use database for some backend I/O. |——
 | **[t](packages/three.js#readme)hree.js+cc** | [Three.js](https://threejs.org/), [camera-controls](https://github.com/yomotsu/camera-controls) | Draw to the 3D canvas, _WebGL_ for dummies%).
 
+> Since that is still under development all the docs are handwritten without the need for completeness. :pencil2: _If you’re interested check the source code, it’s up-to-date._
+
 ### Frontend
 
 The standalone **[w](./web#readme)eb** folder is also part of the monorepo workspace, the test frontend, master of those puppets.
 
+## CLI
+
+```sh
+# Generate TypeScript schema for (web..?) settings TOML
+$ npx json-schema-to-typescript schemas/SETTINGS.json types/settings.d.ts
+```
+
 ---
-
-> Since that is still under development all the docs are handwritten without the need for completeness. :pencil2: _If you’re interested check the source code, it’s up-to-date._
-
 
 ```js
                                                    ..

@@ -5,13 +5,13 @@
   "description": "depth test",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc",
+    "xxbuild": "tsc && vite build",
     "serve": "vite preview",
     "typecheck": "tsc --noEmit -p .",
     "test": "jest",
     "lint": "eslint src",
-    "lint:settings": "npx @taplo/cli lint ./SETTINGS.toml",
-    "js2ts": "npx json-schema-to-typescript ../schemas/SETTINGS.json ../types/settings.d.ts"
+    "lint:settings": "npx @taplo/cli lint ./SETTINGS.toml"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
@@ -33,7 +33,7 @@
     "three-globe": "^2.18.11",
     "three.meshline": "^1.3.0",
     "vue-router": "^4.0.12",
-    "vue-toastification": "^2.0.0-rc.1"
+    "vue-toastification": "^2.0.0-rc.5"
   },
   "devDependencies": {
     "@types/three": "^0.133.1",
@@ -42,7 +42,7 @@
     "@vitejs/plugin-vue": "^1.9.3",
     "@vue/compiler-sfc": "^3.2.20",
     "@windicss/plugin-scrollbar": "^1.2.3",
-    "eslint": "^8.0.1",
+    "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^7.20.0",
@@ -55,7 +55,6 @@
     "vite-plugin-cross-origin-isolation": "^0.1.1",
     "vite-plugin-toml": "^0.3.1",
     "vite-plugin-windicss": "^1.4.12",
-    "vue3-jest": "^27.0.0-alpha.1",
     "windicss": "^3.1.9"
   }
 }

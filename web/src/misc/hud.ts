@@ -5,6 +5,7 @@ import { usePreferencesStore } from "../stores/preferences"
 import type { RouteRecordNormalized } from "vue-router"
 import { kebabToTitle } from "../misc/transformers"
 import router from "../router"
+import { useCssVar, useFullscreen, set } from "@vueuse/core"
 
 export function logLoaded(str: string) {
   console.log(
@@ -28,8 +29,8 @@ export function navigationGui(routes: RouteRecordNormalized[]) {
   }
 }
 
-export function preferencesGui(gui: dat.GUI) {
-// export function preferencesGui(gui: any) {
+// export function preferencesGui(gui: dat.GUI) {
+export function preferencesGui(gui: any) {
   const preferences = usePreferencesStore()
 
   const guiScaleCss = useCssVar("--gui-scale")

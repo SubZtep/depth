@@ -1,3 +1,5 @@
+import { set } from "@vueuse/core"
+import { ref } from "vue"
 import { useVideoStore } from "../stores/video"
 
 interface Params {

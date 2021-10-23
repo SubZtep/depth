@@ -12,7 +12,7 @@ import { Mesh, IcosahedronGeometry, MeshPhysicalMaterial } from "three"
 const state = reactive({
   position: [0, 1.6, -69] as Vector3Tuple,
   scale: 0.25,
-  image: "/gifs/copilot-eslint-x.gif",
+  // image: "/gifs/copilot-eslint-x.gif",
 })
 
 const geometry = new IcosahedronGeometry(1, 0)

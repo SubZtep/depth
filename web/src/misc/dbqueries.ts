@@ -27,7 +27,8 @@ export default class DbQueries {
   //   // return data || undefined
   // }
 
-  async getVideoId({ src, duration, width, height }: Db.Video): Promise<number | undefined> {
+  // async getVideoId({ src, duration, width, height }: Db.Video): Promise<number | undefined> {
+  async getVideoId({ src, duration, width, height }): Promise<number | undefined> {
     // const { data, error } = await this.#client
     //   .from<Db.Video>("video")
     //   .select("id")
@@ -105,7 +106,8 @@ export default class DbQueries {
   // }
 
   async insertPoses(videoId: number, poses: VideoStatePose[]): Promise<void> {
-    const obj: Db.Pose[] = poses.map(({ ts, pose_normalized }) => ({ video_id: videoId, ts, pose_normalized }))
+    const obj: any = poses.map(({ ts, pose_normalized }) => ({ video_id: videoId, ts, pose_normalized }))
+    // const obj: Db.Pose[] = poses.map(({ ts, pose_normalized }) => ({ video_id: videoId, ts, pose_normalized }))
 
     // const { error } = await this.#client.from<Db.Pose>("pose").upsert(obj, { returning: "minimal" })
 
@@ -118,7 +120,8 @@ export default class DbQueries {
   // async insertPose(videoId: number, pose: VideoStatePose): Promise<void> {
   // async insertPose(videoId: number, ts: number, results: Results): Promise<void> {
   async insertPose(videoId: number, ts: number, results: any): Promise<void> {
-    const obj: Db.Pose = { video_id: videoId, ts, pose_normalized: results.poseWorldLandmarks }
+    const obj: any = { video_id: videoId, ts, pose_normalized: results.poseWorldLandmarks }
+    // const obj: Db.Pose = { video_id: videoId, ts, pose_normalized: results.poseWorldLandmarks }
 
     // const { error } = await this.#client.from<Db.Pose>("pose").upsert(obj, { returning: "minimal" })
 

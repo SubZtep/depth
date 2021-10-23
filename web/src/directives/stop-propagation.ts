@@ -1,3 +1,4 @@
+import { useEventListener } from "@vueuse/core"
 import type { Directive } from "vue"
 
 /** Don't propagate events behind the element (aka no camera control on hud) */

@@ -5,12 +5,14 @@ import { createClient } from "@supabase/supabase-js"
 
 type Logger = any
 
-export default {
+const plugin: Plugin = {
   install(_app, options: SupabasePluginOptions) {
     // FIXME: temp until we have a better solution
     globalThis.supabase = createClient(options.url!, options.key!, options.options)
   },
-} as Plugin
+}
+
+export default plugin
 
 interface SupabaseOptions {
   logger?: Logger

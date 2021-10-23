@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc && cp ./src/style.css dist"
+    "build": "tsc --build && cp ./src/style.css dist"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",

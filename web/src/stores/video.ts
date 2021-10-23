@@ -1,8 +1,9 @@
 import type { StoreDefinition } from "pinia"
 import { defineStore } from "pinia"
+import { LandmarkList, NormalizedLandmarkList } from "web/public/pose"
 // import { useSupabase } from "@depth/supabase"
 // import type { Results } from "@depth/mediapipe"
-import DbQueries from "../misc/dbqueries"
+// import DbQueries from "../misc/dbqueries"
 
 export interface VideoStatePose {
   ts: number
@@ -39,7 +40,8 @@ export const useVideoStore: StoreDefinition = defineStore("video", {
   },
 
   actions: {
-    async replace(obj?: Db.Video) {
+    // async replace(obj?: Db.Video) {
+    async replace(obj?: any) {
       // this.$reset()
       // if (!obj) return
       // const { supabase } = useSupabase()

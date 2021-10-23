@@ -17,15 +17,16 @@
   "repository": "github:SubZtep/depth",
   "dependencies": {
     "@vueuse/core": "^6.7.3",
-    "vue": "^2.6.14"
+    "vue": "^3.2.20"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
-    "@types/node": "^16.11.2",
-    "@vue/test-utils": "^1.2.2",
+    "@types/node": "^16.11.4",
+    "@vue/test-utils": "^2.0.0-rc.16",
     "jest": "^27.3.1",
     "ts-jest": "^27.0.7",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "vue3-jest": "^27.0.0-alpha.1"
   },
   "pnpm": {
     "neverBuiltDependencies": [

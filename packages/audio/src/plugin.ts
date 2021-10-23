@@ -8,7 +8,8 @@ let play = async (src: string) => {
 }
 
 const plugin: Plugin = {
-  install(_, _options?: AudioPluginOptions) {
+  // install(_, _options?: AudioPluginOptions) {
+  install() {
     onAudioPlayable(() => {
       play = playUrl
     })

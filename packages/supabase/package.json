@@ -10,6 +10,6 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@supabase/supabase-js": "^1.24.0"
+    "@supabase/supabase-js": "^1.25.0"
   }
 }

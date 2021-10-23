@@ -1,3 +1,4 @@
+import { useStorage } from "@vueuse/core"
 import type { StoreDefinition } from "pinia"
 import { defineStore } from "pinia"
 

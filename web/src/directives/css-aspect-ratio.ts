@@ -1,3 +1,4 @@
+import { useCssVar, set } from "@vueuse/core"
 import type { Directive, DirectiveBinding } from "vue"
 
 /** Set the given css variable to the video element's aspect ratio */

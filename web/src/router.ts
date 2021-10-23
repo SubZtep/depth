@@ -85,6 +85,7 @@ router.beforeEach(to => {
   const { position, lookAt } = to.meta
   if (position && lookAt) {
     singleFns.add(({ cameraControls }) => {
+      // @ts-ignore
       cameraControls.setLookAt(...position, ...lookAt, true)
     })
   }
