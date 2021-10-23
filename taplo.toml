@@ -1,5 +1,0 @@
-include = ["./web/SETTINGS.toml"]
-
-[schema]
-path = "./schemas/SETTINGS.json"
-enabled = true

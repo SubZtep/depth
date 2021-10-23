@@ -4,7 +4,6 @@ import Components from "unplugin-vue-components/vite"
 import CrossOriginIsolation from "vite-plugin-cross-origin-isolation"
 import AutoImport from "unplugin-auto-import/vite"
 import WindiCSS from "vite-plugin-windicss"
-import { ViteToml } from "vite-plugin-toml"
 import type { BuildOptions } from "vite"
 
 export default defineConfig(({ mode, command }) => {
@@ -16,7 +15,7 @@ export default defineConfig(({ mode, command }) => {
     build = {
       sourcemap: false,
       cssCodeSplit: false,
-      chunkSizeWarningLimit: 666,
+      chunkSizeWarningLimit: 1154,
       rollupOptions: {
         output: {
           sourcemap: false,
@@ -32,10 +31,6 @@ export default defineConfig(({ mode, command }) => {
 
   return {
     plugins: [
-      ViteToml({
-        useBigInt: false,
-        namedExports: false,
-      }),
       Vue(),
       Components({
         dirs: ["src/3D", "src/App", "src/components"],
@@ -45,8 +40,8 @@ export default defineConfig(({ mode, command }) => {
       }),
       AutoImport({
         include: [
-          /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
-          /\.vue\??/, // .vue
+          /\.[tj]s$/,
+          /\.vue\??/,
         ],
         imports: [
           "vue",

@@ -1,7 +1,10 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "composite": true,
     "outDir": "dist",
+    "types": ["vite/client", "node"],
+    "typeRoots": ["node_modules/@types", "./types"]
   },
   "include": ["src"],
   "exclude": ["**/*.spec.*"]

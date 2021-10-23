@@ -4,13 +4,12 @@ Title Sound Test
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
-import settings from "../../SETTINGS.toml"
 import { useAudio } from "@depth/audio"
 
 addGuiFolder(folder => {
   folder.name = "♡ Sound Test"
   folder
-    .add({ btn: () => settings.audio?.samples?.denied && useAudio().play(settings.audio.samples.denied) }, "btn")
+    .add({ btn: () => useAudio().play("/sounds/249300__suntemple__access-denied.wav") }, "btn")
     .name("Hello, Sound")
 })
 </script>

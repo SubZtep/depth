@@ -5,7 +5,7 @@
   "description": "depth test",
   "scripts": {
     "build": "pnpm recursive run build",
-    "wipe": "pnpm recursive exec -- rm -rf node_modules dist tsconfig.tsbuildinfo",
+    "wipe": "pnpm recursive exec -- rm -rf node_modules dist tsconfig.tsbuildinfo pnpm-lock.yaml",
     "dev": "pnpm recursive run dev",
     "web": "pnpm run dev watch --filter @depth/web",
     "serve": "pnpm recursive run serve --filter @depth/web",

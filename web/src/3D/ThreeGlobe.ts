@@ -2,6 +2,7 @@ import { useTimeoutFn } from "@vueuse/core"
 import ThreeGlobe from "three-globe"
 import { singleFns } from "@depth/three.js"
 import { defineComponent, onBeforeUnmount, onMounted, watch } from "vue"
+import type { PropType } from "vue"
 
 export default defineComponent({
   props: {

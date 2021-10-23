@@ -40,6 +40,7 @@
     { "path": "./packages/mediapipe/" },
     { "path": "./packages/stats.js/" },
     { "path": "./packages/supabase/" },
-    { "path": "./packages/three.js/" }
+    { "path": "./packages/three.js/" },
+    { "path": "./web/" }
   ]
 }

@@ -10,14 +10,6 @@
     ".*rc": "yaml"
   },
   "jest.autoRun": "off",
-  "evenBetterToml.taploConfigEnabled": true,
-  "evenBetterToml.commands.clearCache": true,
-  "evenBetterToml.commands.downloadSchemas": false,
-  "evenBetterToml.commands.copyJsonAsToml": false,
-  "evenBetterToml.commands.copyTomlAsJson": false,
-  "evenBetterToml.commands.pasteJsonAsToml": false,
-  "evenBetterToml.commands.pasteTomlAsJson": false,
-
   "editor.quickSuggestions": {
     "strings": true
   },

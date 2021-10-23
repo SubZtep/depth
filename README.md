@@ -35,13 +35,6 @@ These are mostly wrappers of [Vue.js flavour](https://v3.vuejs.org/guide/plugins
 
 The standalone **[w](./web#readme)eb** folder is also part of the monorepo workspace, the test frontend, master of those puppets.
 
-## CLI
-
-```sh
-# Generate TypeScript schema for (web..?) settings TOML
-$ npx json-schema-to-typescript schemas/SETTINGS.json types/settings.d.ts
-```
-
 ---
 
 ```js
@@ -88,7 +81,7 @@ $ npx json-schema-to-typescript schemas/SETTINGS.json types/settings.d.ts
 
 > tl;dr :nerd_face: See the entire deploy workflow in the [GitHub Action](.github/workflows/deploy.yml) markup.
 
-- [ ] Create an `.env` file.
+- [ ] Create `web/.env` file.
 
     ```sh
     VITE_SUPABASE_URL="https://[HASH].supabase.co"

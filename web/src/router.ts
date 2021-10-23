@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from "vue-router"
 import * as VueRouter from "vue-router"
-import { singleFns } from "@depth/three.js"
+import { singleThreeJs } from "@depth/three.js"
 
 const QuoteWalker = () => import("./pages/QuoteWalker.vue")
 const VideoPose = () => import("./pages/VideoPose.vue")
@@ -54,7 +54,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       position: [-30, 1.6, -30],
       lookAt: [-300, 2, -30],
-    }
+    },
   },
   {
     path: "/sound-test",
@@ -84,8 +84,7 @@ const router = VueRouter.createRouter({
 router.beforeEach(to => {
   const { position, lookAt } = to.meta
   if (position && lookAt) {
-    singleFns.add(({ cameraControls }) => {
-      // @ts-ignore
+    singleThreeJs(({ cameraControls }) => {
       cameraControls.setLookAt(...position, ...lookAt, true)
     })
   }
