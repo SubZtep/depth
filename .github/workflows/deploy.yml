@@ -41,5 +41,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          source: "packages/web/dist/*,packages/web/dist/**/*"
+          source: "web/dist/*,web/dist/**/*"
           target: ${{ secrets.TARGET }}
