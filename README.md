@@ -6,13 +6,9 @@
 :balloon: \
 [![Test & Build & Deploy](https://github.com/SubZtep/depth/actions/workflows/deploy.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/deploy.yml)
 
-Custom helpers and structure that built top on:
-- [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) Composition API,
-- [VueUse](https://vueuse.org/functions.html) Reactive Composition Utilities,
-- [Pinia](https://pinia.esm.dev/) Store, the closest word to piña that is a valid package name,
-- [Vite](https://vitejs.dev/) Next Generation Frontend Tooling.
-
 ## Monorepo
+
+Custom helpers and structure that built top on [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) Composition API and [VueUse](https://vueuse.org/functions.html) Reactive Composition Utilities.
 
 ### Packages
 
@@ -33,49 +29,7 @@ These are mostly wrappers of [Vue.js flavour](https://v3.vuejs.org/guide/plugins
 
 ### Frontend
 
-The standalone **[w](./web#readme)eb** folder is also part of the monorepo workspace, the test frontend, master of those puppets.
-
----
-
-```js
-                                                   ..
-                                                .-'  \
-                                              .':...::L
-                                            .':...::::|
-                                           /:::.:=:::::L
-                                         .':::...:./:::|
-                                        /:::..::::/.\:::L
-                                       /:::.:....':::L::|
-                                    .-'::::...:/d8888b::|
-                               ..dMP=:::::...:'d88888Nb.|
-                         ..odMMMP.:.'::=:...'d888888888::L
-                       .dMMMMMP..: .:':::.d888888888888I:|
-                     .dMMMMMM@b: ` ...:::d8888888888888::|
-                    dMMMMMMMMNM.. ..:::d88888888888888P|||
-                   dMMMMMMMMMMMboooodP" `?888888888P'``||
-                 .dMMMMMMMMMMMMMMMP'        `"""''  /  |`
-                 dMMMMMMMMMMMMMMP'                .'   |
-  .mggm..        MMMMMMMMMMMMMP'                .'     |
-.dMMMMMMMNNb,    ?MMMMMMMMMMMM|                 |:.. ` |
-.MMMMMMMMMMMMMb, .MMMMMMMMMMM(                  `-::   |
-.MMMMMMMMMMMMMMMMmdMMMMMMMMMMM.                   \::  |
- ?MMMMMMMMMMMMMMMMMMMMMMMMMMMMb                    |:..|
- `?MMMMMMMMMMMMMMMMMMMMMMMMMMMMbo.,               .MMMMb.
-  `MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMb,             dMMMMM:
-   ?MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMb           .MMMMMMb
-    ?MMMMMMb ?MMMMMMMMMMMMMMMMMMMMMMMMb          .MMMMMMM
-     ?MMMMMM  `?MMMMMMMMMMMMMMMMMMMMMMP          dMMMMMMM,
-     `?MMMMM     `?WMMMMMMMMMMMMMMMMMMbo,       .MMMMMMMM|
-      `MMMMM.         `?MMMMMMMMMMMMMMMMMbo,.   .MMMMMMMMb
-       ?MMMMb            `?MMMMMMMMMMMMMMMMMMb, dMMMMMMMMM
-       :::::|               `?MMMMMMMMMMMMMMMMMMNMMMMMMMMM
-       ::::.|                 `?MMMMMMMMMMMMMMMMMMMMMMMNMN.
-    .-:::::.\                    `?MMMMMMMMMMMMMMMMMMMMMHM`
- _.:::::::   |                      `?MMMMMMMMMMMMMMMMMMMM
-(_.__________/                         `?MMMM#MMMMMMMMMMMP
-                                            `"?MMMMMMMMP'
-                                                 `?MMMP
-```
+The standalone **[w](./web#readme)eb** frontend folder is also part of the monorepo workspace, including [Pinia](https://pinia.esm.dev/) store, built with [Vite](https://vitejs.dev/).
 
 ## Setup
 

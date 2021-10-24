@@ -1,5 +1,5 @@
 export * from "./constants"
-export { default as ThreejsPlugin, useThreeJSEventHook } from "./plugin"
+export * from "./plugin"
 export { useAssets } from "./useAssets"
 export { useCanvas } from "./useThreeJS"
 export { default as useCameraMoves } from "./useCameraMoves"

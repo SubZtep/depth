@@ -229,7 +229,7 @@ packages:
     dependencies:
       '@babel/types': 7.15.6
       jsesc: 2.5.2
-      source-map: 0.5.7
+      source-map: 0.5.6
     dev: true
 
   /@babel/helper-compilation-targets/7.15.4_@babel+core@7.15.8:
