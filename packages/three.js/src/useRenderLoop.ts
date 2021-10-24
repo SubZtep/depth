@@ -1,5 +1,24 @@
+import type CameraControls from "camera-controls"
 import { get, whenever } from "@vueuse/core"
+import { Ref } from "vue"
 import { Clock } from "three"
+
+interface RenderLoopProps {
+  renderer: THREE.WebGLRenderer
+  cameraControls: CameraControls
+  scene: THREE.Scene
+  isRunning: Ref<boolean>
+  isRenderAllFrames: Ref<boolean>
+}
+
+interface LoopFnProps {
+  cameraControls: CameraControls
+  scene: THREE.Scene
+  clock: THREE.Clock
+}
+
+type LoopFn = (props: LoopFnProps) => void
+type LoopFnPr = (props: LoopFnProps) => Promise<void>
 
 export const singleFns = new Set<LoopFn>()
 export const singleFnPrs = new Set<LoopFnPr>()

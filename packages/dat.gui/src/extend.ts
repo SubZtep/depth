@@ -1,19 +1,15 @@
-// import type { Fn } from "@vueuse/core"
+import type { Fn } from "@vueuse/core"
 import { get, pausableWatch } from "@vueuse/core"
-// import { watch, reactive } from "@vue/compiler-sfc"
+import type { Ref } from "vue"
 import { watch, reactive } from "vue"
 import dat from "dat.gui"
 import dom from "dat.gui/src/dat/dom/dom"
-// import type { ReactiveSelectParams, TextInputParams, ChangeCallback } from "./types.d"
-// import "./types.d"
 
 type Vector3Tuple = [number, number, number]
 type Vector3 = { x: number; y: number; z: number }
 
-
 function regexpFilter(filter: RegExp, value: string) {
-  return (invoke: () => void) => filter.test(value) && invoke()
-  // return (invoke: Fn) => filter.test(value) && invoke()
+  return (invoke: Fn) => filter.test(value) && invoke()
 }
 
 function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, string>, selected: string) {
@@ -25,6 +21,14 @@ function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, stri
   targetCtrl.domElement.children[0].innerHTML = html
 }
 
+type SelectOptions = Record<string, string>
+
+export interface ReactiveSelectParams {
+  target: Record<string, any>
+  propName: string
+  options: Ref<SelectOptions>
+}
+
 export function addReactiveSelect(this: dat.GUI, { target, propName, options }: ReactiveSelectParams) {
   if (target[propName] === undefined) {
     target[propName] = ""
@@ -34,6 +38,14 @@ export function addReactiveSelect(this: dat.GUI, { target, propName, options }: 
   const ctrl = this.add(target, propName, optionsList)
   watch(options, newList => updateDropdown(ctrl, newList, String(target[propName])), { deep: true, immediate: true })
   return ctrl
+}
+
+type ChangeCallback<T = any> = (value: T) => void
+
+interface TextInputParams {
+  filter: RegExp
+  placeholder?: string
+  keepValue?: boolean
 }
 
 export function addTextInput(this: dat.GUI, { filter, placeholder, keepValue }: TextInputParams) {

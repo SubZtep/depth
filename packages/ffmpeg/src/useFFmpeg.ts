@@ -1,7 +1,7 @@
 import type { CreateFFmpegOptions } from "@ffmpeg/ffmpeg"
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
 import { get, set, until, pausableWatch, tryOnMounted, tryOnUnmounted } from "@vueuse/core"
-import type {  Ref } from "vue"
+import type { Ref } from "vue"
 import { toRef, computed, ref } from "vue"
 import { KEYFRAME_TIMESTAMPS_LOG, KEYFRAME_TIMESTAMPS } from "./commands"
 

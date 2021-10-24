@@ -3,11 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "rootDir": "src",
-    "outDir": "dist",
-    "typeRoots": [
-      "node_modules/@types",
-      "src/types.d.ts"
-    ]
+    "outDir": "dist"
   },
   "include": ["src"]
 }

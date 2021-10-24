@@ -1,3 +1,5 @@
+export type ThreeJSEvent = { cmd: "pauseLoop" | "resumeLoop" | "doRenderAllFrames" | "dontRenderAllFrames" }
+
 export const pauseLoop: ThreeJSEvent = { cmd: "pauseLoop" }
 export const resumeLoop: ThreeJSEvent = { cmd: "resumeLoop" }
 

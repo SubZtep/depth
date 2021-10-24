@@ -1,27 +1,32 @@
-import { inject, onBeforeUnmount, onMounted, Plugin } from "vue"
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import dat from "dat.gui"
+import { inject, onBeforeUnmount, onMounted, Plugin } from "vue"
 import { addReactiveSelect, addTextInput, addVector3 } from "./extend"
 import "./style.css"
-// import type { GuiOptions } from "./types"
 
+type GuiAddon = (gui: dat.GUI) => void
+
+interface PluginOptions {
+  /** Add global, always visible gui folders */
+  addons?: GuiAddon[]
+}
 
 const guiKey = Symbol("dat.gui")
 
-const plugin: Plugin = {
-  install(app, options?: GuiOptions) {
-    const gui = new dat.GUI({ autoPlace: false, width: 285, closeOnTop: false })
-    gui.domElement.classList.add("depth")
-    document.body.appendChild(gui.domElement)
-    app.provide(guiKey, gui)
-    options?.addons?.reverse().forEach(addon => addon.call(null, gui))
+export const GuiPlugin: Plugin = function (app, options: PluginOptions = {}) {
+  const gui = new dat.GUI({ autoPlace: false, width: 285, closeOnTop: false })
+  gui.domElement.classList.add("depth")
+  document.body.appendChild(gui.domElement)
+  app.provide(guiKey, gui)
+  options.addons?.reverse().forEach(addon => addon.call(null, gui))
 
-    dat.GUI.prototype.addReactiveSelect = addReactiveSelect
-    dat.GUI.prototype.addTextInput = addTextInput
-    dat.GUI.prototype.addVector3 = addVector3
-  },
+  // @ts-ignore
+  dat.GUI.prototype.addReactiveSelect = addReactiveSelect
+  // @ts-ignore
+  dat.GUI.prototype.addTextInput = addTextInput
+  // @ts-ignore
+  dat.GUI.prototype.addVector3 = addVector3
 }
-
-export default plugin
 
 export function useGui(options?: { close?: boolean }) {
   const gui = inject<dat.GUI>(guiKey)!
@@ -32,7 +37,6 @@ export function useGui(options?: { close?: boolean }) {
 }
 
 let cx = 0
-
 
 type FolderInit = (folder: dat.GUI) => void
 

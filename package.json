@@ -9,7 +9,8 @@
     "dev": "pnpm recursive run dev",
     "web": "pnpm run dev watch --filter @depth/web",
     "serve": "pnpm recursive run serve --filter @depth/web",
-    "lint": "pnpm recursive exec eslint ."
+    "lint": "pnpm recursive exec eslint .",
+    "test": "pnpm test --filter @depth/web"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",

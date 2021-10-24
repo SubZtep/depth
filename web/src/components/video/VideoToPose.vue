@@ -123,6 +123,7 @@ pause()
 // GUI
 
 // const videoOptions: Ref<SelectOptions> = ref(toSelectOptions(settings.video?.clips ?? []))
+const videoOptions = ref([])
 
 addGuiFolder(folder => {
   folder.name = "📼 Video Player"
