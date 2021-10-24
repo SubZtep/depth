@@ -7,7 +7,6 @@ const eventHook = createEventHook<ThreeJSEvent>()
 
 export default {
   install(app) {
-
     eventHook.on(({ cmd }) => {
       console.log("IM A TOAST!", cmd)
     })

@@ -1,16 +1,18 @@
 {
   "name": "@depth/dat.gui",
   "version": "0.1.0",
-  "private": true,
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc && cp src/*.css dist"
+    "build": "tsc -b && cp src/*.css dist",
+    "buildx": "tsc && cp src/*.css src/*.d.ts dist"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "dat.gui": "^0.7.7"
+    "@vueuse/core": "^6.7.3",
+    "dat.gui": "^0.7.7",
+    "vue": "^3.2.20"
   },
   "devDependencies": {
     "@types/dat.gui": "^0.7.7"

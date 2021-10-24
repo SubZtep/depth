@@ -35,7 +35,6 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRe
       for (const fn of loopFnPrs) {
         await fn({ scene, cameraControls, clock })
       }
-
     } catch (e) {
       console.error("ThreeJS Render Loop", e)
     }

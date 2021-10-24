@@ -1,7 +1,6 @@
 {
   "name": "@depth/mediapipe",
   "version": "0.1.0",
-  "private": true,
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
@@ -10,6 +9,8 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@mediapipe/pose": "^0.4.1633558788"
+    "@vueuse/core": "^6.7.3",
+    "@mediapipe/pose": "^0.4.1633558788",
+    "vue": "^3.2.20"
   }
 }

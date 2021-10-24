@@ -6,7 +6,6 @@ import { toRef, computed, ref } from "vue"
 // import { basename } from "~/misc/transformers"
 import { KEYFRAME_TIMESTAMPS_LOG, KEYFRAME_TIMESTAMPS } from "./commands"
 
-
 function basename(src: string, ext = false): string {
   let base = src.split("/").pop()!.split("?").shift()!
   if (!ext) {

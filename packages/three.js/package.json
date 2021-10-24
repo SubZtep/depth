@@ -1,7 +1,6 @@
 {
   "name": "@depth/three.js",
   "version": "0.1.0",
-  "private": true,
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
@@ -14,6 +13,8 @@
     "three": "^0.133.1"
   },
   "devDependencies": {
-    "@types/three": "^0.133.1"
+    "@vueuse/core": "^6.7.3",
+    "@types/three": "^0.133.1",
+    "vue": "^3.2.20"
   }
 }

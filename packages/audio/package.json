@@ -1,12 +1,14 @@
 {
   "name": "@depth/audio",
   "version": "0.1.0",
-  "private": true,
   "main": "./dist/index.js",
   "typings": "./dist/types.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
-  "license": "Unlicense"
+  "license": "Unlicense",
+  "devDependencies": {
+    "vue": "^3.2.20"
+  }
 }

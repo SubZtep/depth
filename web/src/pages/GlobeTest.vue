@@ -53,8 +53,7 @@ loopThreeJs(
     // console.log(cameraControls)
     // cameraControls.lookAt(...state.position)
     cameraControls.setLookAt(0, 0, 0, ...state.position, true)
-  },
-  () => {}
+  }
 )
 </script>
 

@@ -10,6 +10,7 @@ import dom from "dat.gui/src/dat/dom/dom"
 type Vector3Tuple = [number, number, number]
 type Vector3 = { x: number; y: number; z: number }
 
+
 function regexpFilter(filter: RegExp, value: string) {
   return (invoke: () => void) => filter.test(value) && invoke()
   // return (invoke: Fn) => filter.test(value) && invoke()
@@ -106,7 +107,7 @@ export class ColorGUIHelper {
   object: any //THREE.Light
   prop: string
 
-  constructor(object: any/* THREE.Light*/, prop: string) {
+  constructor(object: any /* THREE.Light*/, prop: string) {
     this.object = object
     this.prop = prop
   }
@@ -122,7 +123,7 @@ export class ColorGUIHelper {
 
 export function makeXYZGUI(
   gui: dat.GUI,
-  vector3: /*THREE.*/Vector3,
+  vector3: /*THREE.*/ Vector3,
   name: string,
   onChangeFn: (value?: unknown) => void,
   open = false

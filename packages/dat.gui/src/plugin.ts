@@ -4,7 +4,7 @@ import { addReactiveSelect, addTextInput, addVector3 } from "./extend"
 import "./style.css"
 // import type { GuiOptions } from "./types"
 
-type FolderInit = (folder: dat.GUI) => void
+
 const guiKey = Symbol("dat.gui")
 
 const plugin: Plugin = {
@@ -33,7 +33,11 @@ export function useGui(options?: { close?: boolean }) {
 
 let cx = 0
 
-export function addGuiFolder(init: FolderInit): any {
+
+type FolderInit = (folder: dat.GUI) => void
+
+/** Add dat.GUI folder for the current scope */
+export function addGuiFolder(init: FolderInit): void {
   const gui = inject<dat.GUI>(guiKey)!
   const folderName = `f${++cx}`
   const folder = gui.addFolder(folderName)

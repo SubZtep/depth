@@ -1,5 +1,6 @@
 interface SupabasePluginOptions {
   url?: string
   key?: string
-  options?: import("@supabase/supabase-js").SupabaseClientOptions
+  options?: any
+  // options?: import("@supabase/supabase-js").SupabaseClientOptions
 }

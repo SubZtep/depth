@@ -1,7 +1,6 @@
 {
   "name": "@depth/ffmpeg",
   "version": "0.1.0",
-  "private": true,
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
@@ -10,7 +9,9 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
+    "@vueuse/core": "^6.7.3",
     "@ffmpeg/core": "^0.10.0",
-    "@ffmpeg/ffmpeg": "github:SubZtep/ffmpeg.wasm#master"
+    "@ffmpeg/ffmpeg": "github:SubZtep/ffmpeg.wasm#master",
+    "vue": "^3.2.20"
   }
 }

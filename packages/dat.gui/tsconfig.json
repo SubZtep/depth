@@ -3,8 +3,8 @@
   "compilerOptions": {
     "composite": true,
     "rootDir": "src",
-    "outDir": "dist",
-    "typeRoots": ["src/types.d.ts"]
+    "outDir": "dist"
   },
   "include": ["src"]
+  // "files": ["src/index.ts"]
 }

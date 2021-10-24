@@ -8,7 +8,8 @@ interface GuiOptions {
 interface ReactiveSelectParams {
   target: Record<string, any>
   propName: string
-  options: Ref<SelectOptions>
+  options: any
+  // options: Ref<SelectOptions>
 }
 
 interface TextInputParams {
@@ -37,6 +38,7 @@ namespace dat {
     addVector3: (xyz: THREE.Vector3Tuple) => void
   }
 }
+
 
 // declare global {
 //   namespace dat {

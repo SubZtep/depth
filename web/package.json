@@ -8,8 +8,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "typecheck": "tsc --noEmit -p .",
-    "test": "jest",
-    "lint": "eslint src",
+    "test": "jest"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
@@ -22,6 +21,7 @@
     "@depth/stats.js": "workspace:*",
     "@depth/supabase": "workspace:*",
     "@depth/three.js": "workspace:*",
+    "@vueuse/core": "^6.7.3",
     "@vueuse/integrations": "^6.7.3",
     "@vueuse/shared": "^6.7.3",
     "mathjs": "^9.5.1",
@@ -30,22 +30,29 @@
     "three": "^0.133.1",
     "three-globe": "^2.18.11",
     "three.meshline": "^1.3.0",
+    "vue": "^3.2.20",
     "vue-router": "^4.0.12",
     "vue-toastification": "^2.0.0-rc.5"
   },
   "devDependencies": {
     "@types/three": "^0.133.1",
+    "@types/jest": "^27.0.2",
+    "@types/node": "^16.11.4",
     "@vitejs/plugin-vue": "^1.9.3",
     "@vue/compiler-sfc": "^3.2.20",
+    "@vue/test-utils": "^2.0.0-rc.16",
     "@windicss/plugin-scrollbar": "^1.2.3",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.4.1",
     "pug": "^3.0.2",
     "unplugin-auto-import": "^0.4.13",
     "unplugin-vue-components": "^0.16.0",
+    "jest": "^27.3.1",
+    "ts-jest": "^27.0.7",
     "vite": "^2.6.10",
     "vite-plugin-cross-origin-isolation": "^0.1.1",
     "vite-plugin-windicss": "^1.4.12",
-    "windicss": "^3.1.9"
+    "windicss": "^3.1.9",
+    "vue3-jest": "^27.0.0-alpha.1"
   }
 }
