@@ -1,9 +1,8 @@
-// import type { CreateFFmpegOptions } from "@ffmpeg/ffmpeg"
+import type { CreateFFmpegOptions } from "@ffmpeg/ffmpeg"
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
 import { get, set, until, pausableWatch, tryOnMounted, tryOnUnmounted } from "@vueuse/core"
+import type {  Ref } from "vue"
 import { toRef, computed, ref } from "vue"
-// import { noDotFiles } from "~/misc/filters"
-// import { basename } from "~/misc/transformers"
 import { KEYFRAME_TIMESTAMPS_LOG, KEYFRAME_TIMESTAMPS } from "./commands"
 
 function basename(src: string, ext = false): string {
@@ -16,6 +15,11 @@ function basename(src: string, ext = false): string {
 
 function noDotFiles(filename: string) {
   return ![".", ".."].includes(filename)
+}
+
+export interface FFmpegOptions {
+  src: Ref<string>
+  options?: CreateFFmpegOptions
 }
 
 export function useFFmpeg(options: FFmpegOptions) {

@@ -7,16 +7,11 @@ let play = async (src: string) => {
   return Promise.resolve()
 }
 
-const plugin: Plugin = {
-  // install(_, _options?: AudioPluginOptions) {
-  install() {
-    onAudioPlayable(() => {
-      play = playUrl
-    })
-  },
+export const AudioPlugin: Plugin = function () {
+  onAudioPlayable(() => {
+    play = playUrl
+  })
 }
-
-export default plugin
 
 export function useAudio() {
   return {
