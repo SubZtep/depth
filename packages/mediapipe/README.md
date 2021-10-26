@@ -7,5 +7,5 @@ Tensorflow.
 Install dependencies automatically run the copy below, project root as the working directory.
 
 ```sh
-$ cp -ruv node_modules/@mediapipe/pose ../../web/public
+$ cp -ruv node_modules/@mediapipe/pose/ ../../web/public/
 ```

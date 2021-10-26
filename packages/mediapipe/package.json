@@ -5,7 +5,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "postinstall": "cp -ruv node_modules/@mediapipe/pose ../../web/public"
+    "postinstall": "cp -ruv node_modules/@mediapipe/pose/ ../../web/public/"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
