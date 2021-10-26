@@ -1,7 +1,7 @@
 module.exports = {
   name: "depth",
   script: "serve",
-  watch: "dist",
+  watch: true,
   cwd: require("path").join(__dirname, "dist"),
   env: {
     PM2_SERVER_PATH: ".",
