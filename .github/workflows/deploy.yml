@@ -28,11 +28,11 @@ jobs:
           echo VITE_SUPABASE_URL=${{ secrets.SUPABASE_URL }} > .env
           echo VITE_SUPABASE_KEY=${{ secrets.SUPABASE_SECRET }} >> .env
 
+      - name: Build project
+        run: pnpm build
+
       - name: Run tests
         run: pnpm test
-
-      - name: Build for production
-        run: pnpm build
 
       - name: Deploy via SSH
         uses: appleboy/scp-action@master
