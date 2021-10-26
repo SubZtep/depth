@@ -1,13 +1,30 @@
 import type { Fn } from "@vueuse/core"
 import { get, pausableWatch } from "@vueuse/core"
-import type { Ref } from "vue"
-import { watch, reactive } from "vue"
-import dat from "dat.gui"
+// import type { Ref } from "vue"
+import { watch, reactive, isReactive } from "vue"
+import dat, { GUI } from "dat.gui"
 import dom from "dat.gui/src/dat/dom/dom"
 import type { GUIController } from "dat.gui"
 
 type Vector3Tuple = [number, number, number] // from three.js
 type Vector3 = { x: number; y: number; z: number } // from three.js
+
+// export function add(this: dat.GUI, target: object, propName: string, options?: any, ...args: any[]) {
+//   // @ts-ignore
+//   const ctrl: GUIController = this.oadd(target, propName, ...args)
+
+//   if (isReactive(target)) {
+//     watch(() => target[propName], () => this.updateDisplay())
+
+//     if (options && (isArray(options) || isObject(options)) {
+
+//       watch(
+//         options, newOptions => updateDropdown(ctrl, newOptions, String(target[propName])), { deep: true, immediate: true })
+
+//     }
+//   }
+
+// }
 
 function regexpFilter(filter: RegExp, value: string) {
   return (invoke: Fn) => filter.test(value) && invoke()
@@ -28,7 +45,7 @@ export type SelectOptions = Record<string, string>
 export interface ReactiveSelectParams {
   target: Record<string, any>
   propName: string
-  options: Ref<SelectOptions>
+  options: any // Ref<SelectOptions>
 }
 
 export function addReactiveSelect(this: dat.GUI, { target, propName, options }: ReactiveSelectParams) {

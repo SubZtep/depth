@@ -1,10 +1,63 @@
 <template lang="pug">
 Title Sound Test
+
+Debug.flex
+  div {{state}}
+  div {{aoptd}}
+  div {{ooptd}}
 </template>
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
 import { useAudio } from "@depth/audio"
+
+const state = reactive({
+  boool: false,
+  arrra: "",
+  obbbj: "",
+})
+
+const state2 = {
+  boool: false
+}
+
+let cx = 0
+
+
+const aoptd = ref<string[]>([])
+const ooptd = ref({})
+
+const btns = {
+  addArrra: () => {
+    aoptd.value.push(`${++cx} item`)
+  },
+  delArrra: () => {
+    aoptd.value.pop()
+  },
+  addObbbj: () => {
+    ooptd.value[`${++cx}_prop`] = `${cx} prop`
+  },
+  delObbbj: () => {
+    const keys = Object.keys(ooptd.value)
+    if (keys.length > 0) {
+      delete ooptd.value[keys[0]]
+    }
+  }
+}
+
+addGuiFolder(folder => {
+  folder.name = "♡ Reactive Test"
+  folder.add(state, "boool").name("Boool 1")
+  folder.add(state, "boool").name("Boool 2")
+  folder.add(state2, "boool").name("2nd Boool 1")
+  folder.add(state2, "boool").name("2nd Boool 2")
+  folder.add(btns, "addArrra").name("Add arrra")
+  folder.add(btns, "delArrra").name("Del arrra")
+  folder.add(state, "arrra", aoptd).name("Arrra")
+  folder.add(btns, "addObbbj").name("Add obbbj")
+  folder.add(btns, "delObbbj").name("Del obbbj")
+  folder.add(state, "obbbj", ooptd).name("Obbbj")
+})
 
 addGuiFolder(folder => {
   folder.name = "♡ Sound Test"
