@@ -85,6 +85,7 @@ server {
   }
 
   location / {
+    try_files $uri $uri/ /index.html; # for vue router
     proxy_pass_header Content-Type;
     proxy_pass http://localhost:6669; # port from PM2 config
     proxy_http_version 1.1; # up to you

@@ -37,6 +37,7 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/scp-action@master
         with:
+          rm: true
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
