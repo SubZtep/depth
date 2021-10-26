@@ -13,17 +13,14 @@ import { resumeLoop, useAssets, useThreeJSEventHook, useCanvas, objs } from "@de
 // import { onVisibility } from "../events"
 import * as sdef from "../3D/sceneDefaults"
 import { sleep, rand } from "../misc/utils"
-import type { Ref } from "vue"
-import { ref } from "vue"
 
 const preferences = usePreferencesStore()
 const assets = useAssets()
 
 await assets.loadNoVideoMaterial()
 await assets.loadLeafMaterial()
-// const skybox = await assets.loadSkybox(1) //(preferences.skybox || rand(15))
 const skybox = await assets.loadSkybox(preferences.skybox || rand(15))
-const wc = ref() as Ref<HTMLCanvasElement>
+const wc = ref()
 
 const ambLight = new AmbientLight(0xbbbbbb)
 const dirLight = new DirectionalLight(0xffffff, 1)
@@ -44,7 +41,7 @@ const igrid = InfiniteGridHelper({
   distance: 1000,
 })
 
-useCanvas(wc).add(ambLight, dirLight, igrid, grid2, plane, leafPlane).background = skybox
+useCanvas(wc).add(ambLight, dirLight, igrid, grid, grid2, plane, leafPlane).background = skybox
 
 await sleep(69)
 useNProgress().done()

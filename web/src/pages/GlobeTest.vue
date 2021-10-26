@@ -1,74 +1,31 @@
 <template lang="pug">
-Debug STATE {{state}}
-
-//- .top-left
-  img.gif(src="/gifs/copilot-eslint-x.gif" ref="gif")
-
-ThreeGlobe(:position="state.position" :scale="state.scale")
-
-//- CanvasInScene(:position="state.position" :scale="state.scale" :image="gif")
+ThreeGlobe(
+  :position="state.position"
+  :scale="state.scale"
+  :surface="state.surface"
+  :terrain="state.terrain")
 </template>
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
-import { exec3D } from "@depth/three.js"
-import type { Vector3Tuple } from "three"
+import type { Vector3Tuple } from "three/src/math/Vector3"
 import { reactive } from "vue"
+import { surfaces, terrains } from "../3D/ThreeGlobe"
+import { capitalize, kebabToTitle, toSelectOptions } from "../misc/transformers"
 
 const state = reactive({
-  position: [0, 1.6, -69] as Vector3Tuple,
+  position: [0, 1.6, 69] as Vector3Tuple,
   scale: 0.25,
-  // image: "/gifs/copilot-eslint-x.gif",
+  rotateY: 2,
+  surface: surfaces[0],
+  terrain: terrains[0],
 })
 
-// addGuiFolder(folder => {
-//   folder.name = "Globe"
-//   folder.addVector3(state.position)
-//   folder.add(state, "scale", 0.1, 0.69, 0.01)
-// })
-
-// const rotate0To120 = function () {
-//   const animation = popmotion.tween({
-//     from: 0,
-//     to: 120 * THREE.MathUtils.DEG2RAD,
-//     duration: 3000,
-//     ease: popmotion.easing.easeOut,
-//   })
-//   const animationAction = {
-//     update(azimuthAngle) {
-//       cameraControls.azimuthAngle = azimuthAngle
-//     },
-//     complete() {
-//       cameraControls.enabled = true
-//     },
-//   }
-
-//   cameraControls.enabled = false
-//   animation.start(animationAction)
-// }
-
-exec3D(
-  ({ cameraControls }) => {
-    // cameraControls.target.set(...state.position)
-    // console.log(cameraControls)
-    // cameraControls.lookAt(...state.position)
-    cameraControls.setLookAt(0, 0, 0, ...state.position, true)
-  }
-)
+addGuiFolder(folder => {
+  folder.name = "Globe"
+  folder.addVector3(state.position) //.open()
+  folder.add(state, "scale", 0.1, 1, 0.01)
+  folder.add(state, "surface", toSelectOptions(surfaces, kebabToTitle))
+  folder.add(state, "terrain", toSelectOptions(terrains, capitalize))
+})
 </script>
-
-<style>
-.gif {
-  width: 20vw;
-  transform-style: preserve-3d;
-  transform-origin: top left;
-  transform: rotateZ(-5deg) rotateX(-31deg);
-  background: #3004;
-  /* width: 33%; */
-  /* position: absolute;
-  top: 5rem;
-  left: 1rem;
-  width: 33%; */
-  /* @apply rotate-x-45 w-half mt-32 mx-auto; */
-}
-</style>

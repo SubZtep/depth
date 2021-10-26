@@ -2,18 +2,11 @@ import type { RouteRecordRaw } from "vue-router"
 import * as VueRouter from "vue-router"
 import { exec3D } from "@depth/three.js"
 
-const QuoteWalker = () => import("./pages/QuoteWalker.vue")
-const VideoPose = () => import("./pages/VideoPose.vue")
-const DbAdmin = () => import("./pages/DbAdmin.vue")
-const SceneSetup = () => import("./pages/SceneSetup.vue")
-const SoundTest = () => import("./pages/SoundTest.vue")
-const GlobeTest = () => import("./pages/GlobeTest.vue")
-
 const routes: RouteRecordRaw[] = [
   {
     path: "/quote-walker",
     name: "quote-walker",
-    component: QuoteWalker,
+    component: () => import("./pages/QuoteWalker.vue"),
     meta: {
       position: [0, 1.6, 0],
       lookAt: [6, 9, 6],
@@ -22,7 +15,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/video-pose",
     name: "video-pose",
-    component: VideoPose,
+    component: () => import("./pages/VideoPose.vue"),
     meta: {
       position: [0, 1.6, 0],
       lookAt: [0, 1.6, -10],
@@ -31,7 +24,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/db-admin",
     name: "db-admin",
-    component: DbAdmin,
+    component: () => import("./pages/DbAdmin.vue"),
     meta: {
       position: [0, 1.6, 0],
       lookAt: [0, 1.6, 10],
@@ -40,7 +33,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/scene-setup",
     name: "scene-setup",
-    component: SceneSetup,
+    component: () => import("./pages/SceneSetup.vue"),
     meta: {
       position: [-2, 1.6, -10],
       lookAt: [0, 0, 0],
@@ -49,7 +42,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/sound-test",
     name: "sound-test",
-    component: SoundTest,
+    component: () => import("./pages/SoundTest.vue"),
     meta: {
       position: [-30, 1.6, -30],
       lookAt: [-300, 2, -30],
@@ -58,10 +51,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "globe-test",
-    component: GlobeTest,
+    component: () => import("./pages/GlobeTest.vue"),
     meta: {
       position: [0, 1.6, 0],
-      lookAt: [0, 1.6, -30],
+      lookAt: [0, 1.6, 69],
     },
   },
 ]

@@ -114,7 +114,7 @@ export function addVector3(this: dat.GUI, xyz: Vector3Tuple) {
     .add(v3, "z", -100, 100)
     .name("Z")
     .onChange(v => (xyz[2] = v))
-  folder.open()
+  return folder
 }
 
 export class ColorGUIHelper {
@@ -164,5 +164,5 @@ export interface extGUI {
    */
   addTextInput: (params: TextInputParams) => GUIController
 
-  addVector3: (xyz: Vector3Tuple) => void
+  addVector3: (xyz: Vector3Tuple) => dat.GUI
 }

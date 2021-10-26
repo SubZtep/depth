@@ -7,10 +7,7 @@ import type { Landmark, NormalizedLandmark } from "../../public/pose"
  * @returns human readable string
  */
 export function kebabToTitle(str: string): string {
-  return str
-    .split("-")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ")
+  return str.split("-").map(capitalize).join(" ")
 }
 
 export function arrayToObject<T>(arr: T[], key: string): Record<string, T> {
@@ -40,7 +37,7 @@ export function basename(src: string, ext = false): string {
 }
 
 export function capitalize(str: string): string {
-  return `${str.charAt(0).toUpperCase()}${str.slice(1)}`
+  return `${str.charAt(0).toUpperCase()}${str.slice(1).toLowerCase()}`
 }
 
 export function scaleKeypoint(
@@ -62,8 +59,8 @@ export function scaleKeypoint(
   return [x, y, z]
 }
 
-export function toSelectOptions(urls: string[]): SelectOptions {
-  return urls.reduce((obj, url) => ({ ...obj, [basename(url)]: url }), {})
+export function toSelectOptions(options: string[], transformer: (...args: any[]) => string): SelectOptions {
+  return options.reduce((obj, option) => ({ ...obj, [transformer(option)]: option }), {})
 }
 
 export function normalizeDeviceLabel(label: string) {

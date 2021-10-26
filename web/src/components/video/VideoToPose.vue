@@ -113,7 +113,7 @@ whenever(hasId, async () => {
   }
 })
 
-const videoOptions = ref(toSelectOptions(["/videos/extended_leg_pistol_squats.webm", "/videos/yoga2.webm"]))
+const videoOptions = ref(toSelectOptions(["/videos/extended_leg_pistol_squats.webm", "/videos/yoga2.webm"], basename))
 
 addGuiFolder(folder => {
   folder.name = "📼 Video Player"
