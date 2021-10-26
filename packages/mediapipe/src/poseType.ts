@@ -18,7 +18,3 @@ export const poseTypeOptions = {
   [poseTypeName(PoseType.Normalized)]: PoseType.Normalized,
   [poseTypeName(PoseType.Raw)]: PoseType.Raw,
 }
-
-// export function closestPoseInTime(poses: SBPose[], currentTime: number) {
-//   return poses.reduce((prev: PoseForTime, curr: PoseForTime) => (Math.abs(curr.time - currentTime) < Math.abs(prev.time - currentTime) ? curr : prev)) as SBPose
-// }

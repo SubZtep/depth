@@ -1,5 +1,7 @@
 # dat.gui
 
+> :warning: Current version extends the `dat.GUI` prototype; this behaviour is likely to change in the future.
+
 Always visible head-up display with permanent navigation and settings folder.
 
 ## Usage

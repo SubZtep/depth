@@ -11,7 +11,7 @@ ThreeGlobe(:position="state.position" :scale="state.scale")
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
-import { loopThreeJs } from "@depth/three.js"
+import { exec3D } from "@depth/three.js"
 import type { Vector3Tuple } from "three"
 import { reactive } from "vue"
 
@@ -47,7 +47,7 @@ const state = reactive({
 //   animation.start(animationAction)
 // }
 
-loopThreeJs(
+exec3D(
   ({ cameraControls }) => {
     // cameraControls.target.set(...state.position)
     // console.log(cameraControls)

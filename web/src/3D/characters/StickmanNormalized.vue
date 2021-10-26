@@ -10,7 +10,7 @@ StickmanSimple(
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
-import type { NormalizedLandmarkList } from "public/pose"
+import type { NormalizedLandmarkList } from "@depth/mediapipe"
 
 const props = defineProps<{
   pose?: NormalizedLandmarkList

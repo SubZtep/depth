@@ -6,13 +6,15 @@
 :balloon: \
 [![Test & Build & Deploy](https://github.com/SubZtep/depth/actions/workflows/deploy.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/deploy.yml)
 
+> :warning: **W.I.P.** — Publicity of the repository is only for demonstrating purposes.
+
 ## Monorepo
 
-Custom helpers and structure that built top on [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) Composition API and [VueUse](https://vueuse.org/functions.html) Reactive Composition Utilities.
+Built top on [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) Composition API and [VueUse](https://vueuse.org/functions.html) Reactive Composition Utilities.
 
 ### Packages
 
-These are mostly wrappers of [Vue.js flavour](https://v3.vuejs.org/guide/plugins.html) around existing 3rd-party packages, extending functionality in places. <sub>_WIP!_</sub>
+Mostly wrappers existing 3rd-party packages, extending functionality in places.
 
 | Package | Origin | Description |
 | --- | --- | --- |
@@ -24,16 +26,16 @@ These are mostly wrappers of [Vue.js flavour](https://v3.vuejs.org/guide/plugins
 | **[s](packages/supabase#readme)upabase** | [Supabase](https://supabase.io/) | Fast and easy to use database for some backend I/O. |——
 | **[t](packages/three.js#readme)hree.js+cc** | [Three.js](https://threejs.org/), [camera-controls](https://github.com/yomotsu/camera-controls) | Draw to the 3D canvas, _WebGL_ for dummies%).
 
-> Since that is still under development all the docs are handwritten without the need for completeness. :pencil2: \
-> _If you’re interested check the source code, it’s up-to-date._
+> Incomplete docs. :pencil2: If you’re interested please check the source code.
 
 ### Frontend
 
-The standalone **[w](./web#readme)eb** frontend folder is also part of the monorepo workspace, including [Pinia](https://pinia.esm.dev/) store, built with [Vite](https://vitejs.dev/).
+The standalone **[w](./web#readme)eb** frontend folder is also part of the monorepo workspace. \
+Including [Pinia](https://pinia.esm.dev/) store, built with [Vite](https://vitejs.dev/).
 
 ## Setup
 
-> tl;dr :nerd_face: See the entire deploy workflow in the [GitHub Action](.github/workflows/deploy.yml) markup.
+> tl;dr :nerd_face: See the entire build workflow in the [deploy action](.github/workflows/deploy.yml) markup.
 
 - [ ] Create `web/.env` file.
 
@@ -45,11 +47,17 @@ The standalone **[w](./web#readme)eb** frontend folder is also part of the monor
 - [x] Make it [cross-origin isolated](https://developer.chrome.com/blog/enabling-shared-array-buffer/) for FFmpeg _SharedArrayBuffer_. \
     A Vite plugin is configured in the project, let's hope it will work for a while.
 
-- [ ] Run `$ pnpm install`.
+- [ ] Run the following steps ([pnpm](https://pnpm.io/installation) required).
+    ```sh
+    # download dependencies
+    $ pnpm install
 
-    | No pnpm? No problem! | :bulb: Tip of the day!  |
-    | --: | --- |
-    | ![](https://pnpm.io/assets/images/pnpm-standard-79c9dbb2e99b8525ae55174580061e1b.svg)| [Install pnpm](https://pnpm.io/installation) and the [recommended](.vscode/extensions.json) VSCode extensions and enjoy the  monorepo [workspace](./packages)! |
+    #  build packages and interface
+    $ pnpm build
+
+    # run local server
+    $ pnpm dev
+    ```
 
 - [ ] ~~Be sure the local `public/pose` folder is an up-to-date mirror to the [`@mediapipe/pose`](https://www.npmjs.com/package/@mediapipe/pose) package. _//FIXME: wip_~~
 

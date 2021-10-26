@@ -84,5 +84,3 @@ export const BLAZEPOSE_HEAD_CONNECTED_KEYPOINTS_PAIRS = BLAZEPOSE_CONNECTED_KEYP
 
 export const FRAME_MS_60_FPS = 1000 / 60 // 16.6 // (1 / 60) * 1000
 export const FRAME_MS_30_FPS = 1000 / 30 // 33.3
-
-export const VIDEO_URL = /^\S+\.webm|mkv|mp4|avi|ogv$/

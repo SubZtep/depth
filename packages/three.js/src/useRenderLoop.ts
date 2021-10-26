@@ -25,11 +25,11 @@ export const singleFnPrs = new Set<LoopFnPr>()
 export const loopFns = new Set<LoopFn>()
 export const loopFnPrs = new Set<LoopFnPr>()
 
-export const singleThreeJs = (fn: LoopFn) => {
+export const exec3D = (fn: LoopFn) => {
   singleFns.add(fn)
 }
 
-export const loopThreeJs = (fn: LoopFn) => {
+export const loop3D = (fn: LoopFn) => {
   loopFns.add(fn)
 }
 

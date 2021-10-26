@@ -5,7 +5,6 @@ video.video-border.max-h-300px(
   poster="/textures/no-video.png"
   @loadedmetadata="videoLoaded"
   muted)
-  //- v-visible="state.showVideoTag")
   source(
     v-if="props.src"
     @error="loadError"
@@ -21,9 +20,8 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: "mounted", el: HTMLVideoElement): void
-  (e: "error", src: string): void
-  (e: "loaded", obj?: any): void
-  // (e: "loaded", obj?: Db.Video): void
+  (e: "error", src: string, ev: Event): void
+  (e: "loaded", obj?: Db.Video): void
   (e: "timeupdated"): void
 }>()
 
@@ -52,8 +50,8 @@ const videoLoaded = (async ({ target }: VideoElementEvent) => {
   })
 }) as (payload: Event) => Promise<void>
 
-const loadError = () => {
+const loadError = (ev: Event) => {
   toast.error(`Load video error ${props.src}`)
-  throw new Error(get(videoRef)?.error?.message ?? `Load error ${props.src}`)
+  emit("error", props.src, ev)
 }
 </script>

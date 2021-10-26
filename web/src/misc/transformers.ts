@@ -1,3 +1,4 @@
+import type { SelectOptions } from "@depth/dat.gui"
 import type { Landmark, NormalizedLandmark } from "../../public/pose"
 
 /**
@@ -61,8 +62,8 @@ export function scaleKeypoint(
   return [x, y, z]
 }
 
-export function toSelectOptions(urls: string[]) {
-  return urls.reduce((obj, url) => ({ ...obj, [basename(url)]: url }), {}) // as SelectOptions
+export function toSelectOptions(urls: string[]): SelectOptions {
+  return urls.reduce((obj, url) => ({ ...obj, [basename(url)]: url }), {})
 }
 
 export function normalizeDeviceLabel(label: string) {

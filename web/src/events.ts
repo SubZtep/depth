@@ -8,7 +8,7 @@ interface EventPayload {
 }
 
 const vis = createEventHook<EventPayload>()
-export const onVisibility: EventHookOn = vis.on
+export const onVisibility: EventHookOn<EventPayload> = vis.on
 
 export const UserEvents: Plugin = {
   install() {

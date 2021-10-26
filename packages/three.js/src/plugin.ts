@@ -8,7 +8,7 @@ const eventHook = createEventHook<ThreeJSEvent>()
 
 export const ThreejsPlugin: Plugin = function (app) {
   eventHook.on(({ cmd }) => {
-    console.log("IM A TOAST!", cmd)
+    console.log("three.js event", cmd)
   })
   app.provide(eventHookKey, eventHook)
 }

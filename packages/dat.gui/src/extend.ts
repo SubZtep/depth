@@ -4,9 +4,10 @@ import type { Ref } from "vue"
 import { watch, reactive } from "vue"
 import dat from "dat.gui"
 import dom from "dat.gui/src/dat/dom/dom"
+import type { GUIController } from "dat.gui"
 
-type Vector3Tuple = [number, number, number]
-type Vector3 = { x: number; y: number; z: number }
+type Vector3Tuple = [number, number, number] // from three.js
+type Vector3 = { x: number; y: number; z: number } // from three.js
 
 function regexpFilter(filter: RegExp, value: string) {
   return (invoke: Fn) => filter.test(value) && invoke()
@@ -21,7 +22,8 @@ function updateDropdown(targetCtrl: dat.GUIController, list: Record<string, stri
   targetCtrl.domElement.children[0].innerHTML = html
 }
 
-type SelectOptions = Record<string, string>
+/** Option list of reactive gui select */
+export type SelectOptions = Record<string, string>
 
 export interface ReactiveSelectParams {
   target: Record<string, any>
@@ -42,7 +44,7 @@ export function addReactiveSelect(this: dat.GUI, { target, propName, options }: 
 
 type ChangeCallback<T = any> = (value: T) => void
 
-interface TextInputParams {
+export interface TextInputParams {
   filter: RegExp
   placeholder?: string
   keepValue?: boolean
@@ -145,4 +147,22 @@ export function makeXYZGUI(
   folder.add(vector3, "y", 0, 10).name("Y–axis").onChange(onChangeFn)
   folder.add(vector3, "z", -10, 10).name("Z–axis").onChange(onChangeFn)
   open && folder.open()
+}
+
+export interface extGUI {
+  /**
+   * Works as `OptionController`, but with the ability to keep options up-to-date
+   * @param options Reactive options
+   */
+  addReactiveSelect: (params: ReactiveSelectParams) => GUIController
+
+  /**
+   * Trigger `onChange` and `onFinishChange` callbacks without the object to be manipulated
+   * @param filter Only trigger callbacks when input value matching with it
+   * @param placeholder Text input element placeholder
+   * @param keepValue Keep input element value on blur event
+   */
+  addTextInput: (params: TextInputParams) => GUIController
+
+  addVector3: (xyz: Vector3Tuple) => void
 }

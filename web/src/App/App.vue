@@ -24,9 +24,13 @@ const toast = useToast()
 
 onVisibility(({ visible, since }) => {
   if (visible) {
-    const ago = useTimeAgo(since, { updateInterval: 0 })
     toast.dismiss("hello")
-    toast.info(`Hello, since ${ago.value}.`, { id: "hello" })
+
+    // show more than 30 secs
+    if (Date.now() - since.getTime() > 30_000) {
+      const ago = useTimeAgo(since, { updateInterval: 0 })
+      toast.info(`Hello, since ${ago.value}.`, { id: "hello" })
+    }
   }
 })
 </script>

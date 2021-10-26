@@ -1,6 +1,5 @@
 node_modules
 dist
-/types
 # coverage
 .env
 .pnpm-debug.log

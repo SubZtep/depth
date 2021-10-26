@@ -10,7 +10,7 @@ import { AmbientLight, DirectionalLight } from "three"
 import { usePreferencesStore } from "../stores/preferences"
 import { InfiniteGridHelper } from "../3D/infiniteGrid"
 import { resumeLoop, useAssets, useThreeJSEventHook, useCanvas, objs } from "@depth/three.js"
-import { onVisibility } from "../events"
+// import { onVisibility } from "../events"
 import * as sdef from "../3D/sceneDefaults"
 import { sleep, rand } from "../misc/utils"
 import type { Ref } from "vue"
@@ -32,10 +32,10 @@ dirLight.rotation.set(0, 1.6, -30)
 objs.set("ambLight", ambLight)
 objs.set("dirLight", dirLight)
 
-// const grid = sdef.grid(-7.5)
-// const grid2 = sdef.grid(7.5)
-// const plane = sdef.plane()
-// const leafPlane = sdef.leafPlane()
+const grid = sdef.grid(-7.5)
+const grid2 = sdef.grid(7.5)
+const plane = sdef.plane()
+const leafPlane = sdef.leafPlane()
 const threeJs = useThreeJSEventHook()
 
 const igrid = InfiniteGridHelper({
@@ -44,7 +44,7 @@ const igrid = InfiniteGridHelper({
   distance: 1000,
 })
 
-useCanvas(wc).add(ambLight, dirLight, igrid).background = skybox
+useCanvas(wc).add(ambLight, dirLight, igrid, grid2, plane, leafPlane).background = skybox
 
 await sleep(69)
 useNProgress().done()
