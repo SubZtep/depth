@@ -1,13 +1,13 @@
 import { getEntries, getKeys, getSelected, getOptionsListTpl } from "../src/reactive"
-import type { NormalizedSelectItems } from "../src/reactive"
+import type { SelectOptions, NormalizedSelectOptions } from "../src/reactive"
 
 describe("reactivity helpers", () => {
-  const simpleEntries: NormalizedSelectItems = [
+  const simpleEntries: NormalizedSelectOptions = [
     ["a", "a"],
     ["b", "b"],
     ["c", "c"],
   ]
-  const complexEntries: NormalizedSelectItems = [
+  const complexEntries: NormalizedSelectOptions = [
     ["a", "aa"],
     ["b", "bb"],
     ["c", "cc"],
