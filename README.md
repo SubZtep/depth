@@ -61,8 +61,6 @@ $ pnpm build
 $ pnpm dev
 ```
 
-~~_//FIXME: wip_ Be sure the local `public/pose` folder is an up-to-date mirror to the [`@mediapipe/pose`](https://www.npmjs.com/package/@mediapipe/pose) package.~~
-
 ### Server hints
 
 [PM2](https://pm2.keymetrics.io/docs/usage/quick-start/) is for Node process management. A basic configuration file is in the project root.
