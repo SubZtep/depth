@@ -1,6 +1,7 @@
 node_modules
 dist
 # coverage
+/web/public/pose
 .env
 .pnpm-debug.log
 tsconfig.tsbuildinfo

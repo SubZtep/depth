@@ -49,7 +49,7 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: "/",
+    path: "",
     name: "globe-test",
     component: () => import("./pages/GlobeTest.vue"),
     meta: {

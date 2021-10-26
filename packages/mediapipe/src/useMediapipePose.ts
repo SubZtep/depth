@@ -1,6 +1,7 @@
 import type { MaybeRef } from "@vueuse/core"
 import { set, tryOnUnmounted, unrefElement, tryOnMounted } from "@vueuse/core"
-import type { Pose, PoseConfig, ResultsListener, Results, Options } from "@mediapipe/pose"
+import type { ResultsListener, Results, Options } from "@mediapipe/pose"
+import { Pose } from "@mediapipe/pose"
 import { isRef, reactive, ref, watch } from "vue"
 // import { Stats, useStats } from "@depth/stats.js"
 
@@ -67,7 +68,7 @@ export function useMediapipePose({ video, options, handler }: MediapipePoseOptio
   }
 
   tryOnMounted(async () => {
-    solution = new (window as any).Pose({ locateFile: fn => `/pose/${fn}` } as PoseConfig)
+    solution = new Pose({ locateFile: path => `/pose/${path}` })
     solution.setOptions({
       modelComplexity: 1,
       smoothLandmarks: true,

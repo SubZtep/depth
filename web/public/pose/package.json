@@ -1,6 +1,6 @@
 {
   "name": "@mediapipe/pose",
-  "version": "0.4.1624666670",
+  "version": "0.4.1633558788",
   "description": "Mediapipe Pose Solution",
   "main": "pose.js",
   "module": "pose.js",
