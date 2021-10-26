@@ -3,13 +3,13 @@ import dat from "dat.gui"
 import { watch, isReactive, isRef, unref } from "vue"
 import { toReactive } from "@vueuse/core"
 
-export type NormalizedSelectItems = [string, string][]
-export type RawSelectItems = Record<string, string> | string[]
+export type NormalizedSelectOptions = [string, string][]
+export type SelectOptions = Record<string, string> | string[]
 
-export const getEntries = (list: RawSelectItems): NormalizedSelectItems =>
+export const getEntries = (list: SelectOptions): NormalizedSelectOptions =>
   Array.isArray(list) ? list.map(v => [v, v]) : Object.entries(list)
 
-export const getKeys = (entries: NormalizedSelectItems) => entries.map(v => v[0])
+export const getKeys = (entries: NormalizedSelectOptions) => entries.map(v => v[0])
 
 export const getSelected = (keys: string[]) => (selected?: string) => {
   if (selected && keys.includes(selected)) {
@@ -18,10 +18,10 @@ export const getSelected = (keys: string[]) => (selected?: string) => {
   return keys.length > 0 ? keys[0] : undefined
 }
 
-export const getOptionsListTpl = (entries: NormalizedSelectItems, selected?: string) =>
+export const getOptionsListTpl = (entries: NormalizedSelectOptions, selected?: string) =>
   entries.map(([k, v]) => `<option value="${k}"${k === selected ? " selected" : ""}>${v}</option>`)
 
-function updateDropdown(targetCtrl: dat.GUIController, list: RawSelectItems, target: object, propName: string) {
+function updateDropdown(targetCtrl: dat.GUIController, list: SelectOptions, target: object, propName: string) {
   const items = getEntries(list)
   const keys = getKeys(items)
   const getSel = getSelected(keys)
