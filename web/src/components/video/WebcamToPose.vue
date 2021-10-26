@@ -9,8 +9,10 @@ video.video-border.max-h-300px(
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
-import { normalizeDeviceLabel }from "../../misc/transformers"
+import { normalizeDeviceLabel } from "../../misc/transformers"
 import { useMediapipePose } from "@depth/mediapipe"
+import type { LandmarkList } from "@depth/mediapipe"
+import type { Ref } from "vue"
 
 const videoRef = ref() as Ref<HTMLVideoElement>
 
@@ -59,7 +61,7 @@ addGuiFolder(folder => {
   folder.name = "📹 Webcam Player"
   folder.add(state, "showVideoTag").name("Show video tag")
   folder.add(state, "enabled").name("Enabled webcam")
-  folder.addReactiveSelect({ target: state, propName: "videoDeviceId", options: cameras }).name("Device")
+  folder.add(state, "videoDeviceId", cameras).name("Device")
   // folder.close()
 })
 </script>

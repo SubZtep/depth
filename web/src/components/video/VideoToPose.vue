@@ -24,6 +24,7 @@ import type { LandmarkList } from "@depth/mediapipe"
 import { round, compare } from "mathjs"
 import { useVideoStore } from "../../stores/video"
 import { sleep } from "../../misc/utils"
+import { useGui } from "@depth/dat.gui"
 
 const { progress, start, done, isLoading } = useNProgress()
 const toast = useToast()
@@ -31,6 +32,8 @@ const threeJs = useThreeJSEventHook()
 
 const videoStore = useVideoStore()
 const { hasId, hasKeyframes, hasPoses } = storeToRefs(videoStore)
+
+const gui = useGui()
 
 const state = reactive({
   src: "",
@@ -62,13 +65,15 @@ whenever(hasId, async () => {
 
   if (!get(hasKeyframes)) {
     toast.info("Use FFmpeg")
+    gui.hide()
     const timestamps = await grabKeyframes(videoStore.src)
     await videoStore.setKeyframes(timestamps)
-    toast.info("Keyframes done")
+    gui.show()
   }
 
   if (!get(hasPoses)) {
     toast.info("Use pose AI")
+    gui.hide()
     start()
     const kf: number[] = toRaw(get(videoStore.keyframes)) as number[]
     let t: number | undefined
@@ -82,11 +87,16 @@ whenever(hasId, async () => {
     })
 
     const rollKeyframes = async () => {
-      await estimatePose(get(currentTime))
+      try {
+        await estimatePose(get(currentTime))
+      } catch (e: any) {
+        toast.error(e.message)
+      }
       t = kf.shift()
       if (t === undefined) {
         threeJs.trigger(resumeLoop)
         done()
+        gui.show()
         return
       }
       set(currentTime, t)
@@ -118,7 +128,7 @@ const videoOptions = ref(toSelectOptions(["/videos/extended_leg_pistol_squats.we
 addGuiFolder(folder => {
   folder.name = "📼 Video Player"
   folder.add(state, "showVideoTag").name("Show video tag")
-  folder.addReactiveSelect({ target: state, propName: "src", options: videoOptions }).name("Load video")
+  folder.add(state, "src", videoOptions).name("Load video")
   folder
     .addTextInput({ filter: /^\S+\.webm|mkv|mp4|avi|ogv$/, placeholder: "blur to add" })
     .name("Video URL")

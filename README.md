@@ -10,16 +10,16 @@
 
 ## Monorepo
 
-Built top on [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) Composition API and [VueUse](https://vueuse.org/functions.html) Reactive Composition Utilities.
+Built top on [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) composition API and [VueUse](https://vueuse.org/functions.html) reactive composition utilities.
 
 ### Packages
 
-Mostly wrappers existing 3rd-party packages, extending functionality in places.
+These are mainly Vue plugin wrappers for existing 3rd-party packages., handy functionality extensions in places.
 
 | Package                                     | Origin                                                                                          | Description                                          |
 | ------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
 | **[a](packages/audio#readme)udio**          | —                                                                                               | Make a single test sound with the Web Audio API.     |
-| **[dat.gui](packages/dat.gui#readme)**      | [dat.GUI](https://github.com/dataarts/dat.gui)                                                  | The well-known tool handles most of the user inputs. |
+| **[dat.gui](packages/dat.gui#readme)**      | [dat.GUI](https://github.com/dataarts/dat.gui)                                                  | The well-known GUI tool handles most of the user inputs, reactive items and additional controls. |
 | **[f](packages/ffmpeg#readme)fmpeg**        | [Wasm port of FFmpeg](https://ffmpegwasm.netlify.app/)                                          | Analise video keyframes and save screenshots.        |
 | **[m](packages/mediapipe#readme)ediapipe**  | [Mediapipe Live ML](https://google.github.io/mediapipe/getting_started/javascript)              | Human pose detection.                                |
 | **[s](packages/stats.js#readme)tats.js**    | [Stats.js](http://mrdoob.github.io/stats.js/)                                                   | Performance monitor for 3D and heavy calculations.   |

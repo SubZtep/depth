@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import dat from "./reactive"
 import { inject, onBeforeUnmount, onMounted, Plugin } from "vue"
-import { addReactiveSelect, addTextInput, addVector3 } from "./extend"
+import { addTextInput, addVector3 } from "./extend"
 import type { extGUI } from "./extend"
 import "./style.css"
 
@@ -20,19 +20,9 @@ export const GuiPlugin: Plugin = function (app, options: PluginOptions = {}) {
   const gui: GUIExt = new dat.GUI({ autoPlace: false, width: 285, closeOnTop: false }) as GUIExt
 
   // @ts-ignore
-  dat.GUI.prototype.addReactiveSelect = addReactiveSelect
-  // @ts-ignore
   dat.GUI.prototype.addTextInput = addTextInput
   // @ts-ignore
   dat.GUI.prototype.addVector3 = addVector3
-
-  // const desc = Object.getOwnPropertyDescriptor(dat.GUI.prototype, "add")!
-  // Object.defineProperty(dat.GUI.prototype, "oadd", desc)
-  // // delete dat.GUI.prototype.add
-  // dat.GUI.prototype.add = add
-
-  // @ts-ignore
-  // dat.GUI.prototype.radd = radd
 
   gui.domElement.classList.add("depth")
   document.body.appendChild(gui.domElement)

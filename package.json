@@ -9,21 +9,28 @@
     "dev": "pnpm recursive run dev",
     "web": "pnpm run dev watch --filter @depth/web",
     "serve": "pnpm recursive run serve --filter @depth/web",
-    "lint": "pnpm recursive exec eslint .",
-    "test": "pnpm test --filter @depth/web",
+    "lint": "pnpm recursive exec -- eslint .",
+    "test": "jest",
     "preinstall": "npx only-allow pnpm"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "devDependencies": {
+    "@types/jest": "^27.0.2",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
+    "@typescript-eslint/typescript-estree": "^5.2.0",
+    "@vue/test-utils": "^2.0.0-rc.16",
     "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^7.20.0",
-    "typescript": "^4.4.4"
+    "jest": "^27.3.1",
+    "prettier": "^2.4.1",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.4.4",
+    "vue3-jest": "^27.0.0-alpha.1"
   },
   "pnpm": {
     "neverBuiltDependencies": [

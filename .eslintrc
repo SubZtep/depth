@@ -9,7 +9,9 @@ overrides:
   - files: ["*.vue"]
     parser: "vue-eslint-parser"
     parserOptions:
-      parser: "@typescript-eslint/parser"
+      vueFeatures:
+        filter: false
+      parser: "@typescript-eslint/typescript-estree"
     rules:
       no-unused-vars: warn
       no-undef: warn
@@ -21,7 +23,7 @@ extends:
   - "prettier"
 
 parserOptions:
-  ecmaVersion: 12
+  # ecmaVersion: 12
   parser: "@typescript-eslint/parser"
   sourceType: module
 
@@ -60,6 +62,7 @@ rules:
   "@typescript-eslint/no-explicit-any": off
 
 ignorePatterns:
-  - "types"
-  - "dist"
+  - "public/"
+  - "types/"
+  - "dist/"
   - "*.d.ts"

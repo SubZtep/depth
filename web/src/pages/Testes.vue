@@ -1,10 +1,11 @@
 <template lang="pug">
-Title Sound Test
+Title Various Dev Tests
 
 Debug.flex
   div {{state}}
   div {{aoptd}}
   div {{ooptd}}
+  div {{state2}}
 </template>
 
 <script lang="ts" setup>
@@ -18,18 +19,18 @@ const state = reactive({
 })
 
 const state2 = {
-  boool: false
+  boool: false,
+  refnum: ref(0)
 }
 
 let cx = 0
 
-
-const aoptd = ref<string[]>([])
+const aoptd = ref<string[]>(["a"])
 const ooptd = ref({})
 
 const btns = {
   addArrra: () => {
-    aoptd.value.push(`${++cx} item`)
+    aoptd.value.push(`item_${++cx}`)
   },
   delArrra: () => {
     aoptd.value.pop()
@@ -42,7 +43,7 @@ const btns = {
     if (keys.length > 0) {
       delete ooptd.value[keys[0]]
     }
-  }
+  },
 }
 
 addGuiFolder(folder => {
@@ -57,12 +58,12 @@ addGuiFolder(folder => {
   folder.add(btns, "addObbbj").name("Add obbbj")
   folder.add(btns, "delObbbj").name("Del obbbj")
   folder.add(state, "obbbj", ooptd).name("Obbbj")
+  folder.add(state2, "refnum", 0, 100, 5).name("Refnum 1")
+  folder.add(state2, "refnum").name("Refnum 2")
 })
 
 addGuiFolder(folder => {
   folder.name = "♡ Sound Test"
-  folder
-    .add({ btn: () => useAudio().play("/sounds/249300__suntemple__access-denied.wav") }, "btn")
-    .name("Hello, Sound")
+  folder.add({ btn: () => useAudio().play("/sounds/249300__suntemple__access-denied.wav") }, "btn").name("Hello, Sound")
 })
 </script>

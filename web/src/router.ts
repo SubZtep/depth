@@ -40,9 +40,9 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: "/sound-test",
-    name: "sound-test",
-    component: () => import("./pages/SoundTest.vue"),
+    path: "/testes",
+    name: "testes",
+    component: () => import("./pages/Testes.vue"),
     meta: {
       position: [-30, 1.6, -30],
       lookAt: [-300, 2, -30],

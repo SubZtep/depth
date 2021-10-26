@@ -47,7 +47,7 @@ export default defineConfig({
           borderWidth: "4px",
           borderStyle: "ridge",
           borderColor: "#964b00",
-        }
+        },
       }
       addComponents([buttons, misc])
     }),

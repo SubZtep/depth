@@ -39,10 +39,7 @@ export default defineConfig(({ mode, command }) => {
         deep: true,
       }),
       AutoImport({
-        include: [
-          /\.[tj]s$/,
-          /\.vue\??/,
-        ],
+        include: [/\.[tj]s$/, /\.vue\??/],
         imports: [
           "vue",
           "@vueuse/core",

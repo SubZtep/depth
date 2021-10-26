@@ -1,8 +1,8 @@
 # dat.gui
 
-> :warning: Current version extends the `dat.GUI` prototype; this behaviour is likely to change in the future.
-
 Always visible head-up display with permanent navigation and settings folder.
+
+Respect reactive target objects with primitive or options values.
 
 ## Usage
 
@@ -25,14 +25,6 @@ Works together well with `reactive` objects by default.
 
 ## Additional functions
 
-- ### `addReactiveSelect( payload )`
-
-  > Reactive select items.
-
-   Payload object:
-   - target — Record<string, any>
-   - propName — string
-   - options — Ref<Record<string, string>>
 
 - ### `addTextInput( payload )`
 
