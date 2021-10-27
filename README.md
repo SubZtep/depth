@@ -6,11 +6,11 @@
 :balloon: \
 [![Test & Build & Deploy](https://github.com/SubZtep/depth/actions/workflows/deploy.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/deploy.yml)
 
-Boilerplate that built top on [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) composition API and [VueUse](https://vueuse.org/functions.html) reactive composition utilities, [Three.js](https://threejs.org/), and embed many others, details are in package info.
+Boilerplate that is built on top of [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) and [Three.js](https://threejs.org/), using reactive compositions.
 
 ## Monorepository
 
-Various packages are embedded into the app, for effective code isolation those are separated packages in the monorepo. Public **[w](./web#readme)eb frontend** is also part of it in a separate workspace.
+Various 3rd-parties included in isolated packages in the monorepo. The public **[w](./web#readme)eb frontend** is also part of it in a separate workspace.
 
 ### Packages
 
@@ -19,7 +19,7 @@ Various packages are embedded into the app, for effective code isolation those a
 | Package                                    | Description                                                                                                      |
 | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
 | **[a](packages/audio#readme)udio**         | Make a single test sound (for now) with the Web Audio API.                                                       |
-| **[dat.gui](packages/dat.gui#readme)**     | The well-known GUI tool handles most of the user inputs, upgraded with reactivity and additional controls added. |
+| **[dat.gui](packages/dat.gui#readme)**     | The well-known GUI tool handles most of the user inputs, upgraded with reactivity and additional controls. |
 | **[f](packages/ffmpeg#readme)fmpeg**       | Analise video keyframes and save screenshots in the browser.                                                     |
 | **[m](packages/mediapipe#readme)ediapipe** | Human pose detection.                                                                                            |
 | **[s](packages/stats.js#readme)tats.js**   | Performance monitor for 3D and heavy calculations.                                                               |
@@ -29,6 +29,8 @@ Various packages are embedded into the app, for effective code isolation those a
 > Incomplete docs. :pencil2: If you’re interested please check the source code.
 
 ## Setup
+
+Does #GitHubUniverse part o
 
 Create `web/.env` file with the following content:
 

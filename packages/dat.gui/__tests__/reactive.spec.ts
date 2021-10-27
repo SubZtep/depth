@@ -1,5 +1,5 @@
 import { toEntries, toKeys, getSelected, toOptionsTpl } from "../src/reactive"
-import type { SelectOptions, SelectOptionsEntries } from "../src/reactive"
+import type { SelectOptionsEntries } from "../src/reactive"
 
 describe("reactivity helpers", () => {
   const simpleEntries: SelectOptionsEntries = [

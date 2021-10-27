@@ -1,5 +1,8 @@
 {
   "verbose": true,
   "preset": "ts-jest",
-  "testEnvironment": "jsdom"
+  "testEnvironment": "jsdom",
+  "moduleNameMapper": {
+    "^@depth/(.*)$": "<rootDir>packages/$1/src"
+  }
 }
