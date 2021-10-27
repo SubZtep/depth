@@ -1,62 +1,92 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import dat from "dat.gui"
-import { watch, isReactive, isRef, unref } from "vue"
-import { toReactive } from "@vueuse/core"
+import dat, { GUI, GUIController } from "dat.gui"
+import { watch, isReactive, isRef, unref, reactive } from "vue"
+import { MaybeRef, toReactive, watchWithFilter } from "@vueuse/core"
 
-export type NormalizedSelectOptions = [string, string][]
+type ReactiveGUI = dat.GUI & { _oadd: (...args: any[]) => GUIController }
+export type SelectOptionsEntries = [string, string][]
 export type SelectOptions = Record<string, string> | string[]
 
-export const getEntries = (list: SelectOptions): NormalizedSelectOptions =>
-  Array.isArray(list) ? list.map(v => [v, v]) : Object.entries(list)
-
-export const getKeys = (entries: NormalizedSelectOptions) => entries.map(v => v[0])
-
-export const getSelected = (keys: string[]) => (selected?: string) => {
-  if (selected && keys.includes(selected)) {
-    return selected
+export function toEntries(list: SelectOptions): SelectOptionsEntries {
+  if (Array.isArray(list)) {
+    return list.map(item => [item, item])
   }
-  return keys.length > 0 ? keys[0] : undefined
+  return Object.entries(list)
 }
 
-export const getOptionsListTpl = (entries: NormalizedSelectOptions, selected?: string) =>
-  entries.map(([k, v]) => `<option value="${k}"${k === selected ? " selected" : ""}>${v}</option>`)
+export function toKeys(entries: SelectOptionsEntries): string[] {
+  return entries.map(val => val[0])
+}
 
-function updateDropdown(targetCtrl: dat.GUIController, list: SelectOptions, target: object, propName: string) {
-  const items = getEntries(list)
-  const keys = getKeys(items)
+export function getSelected(values: string[]) {
+  if (values.length === 0) {
+    return
+  }
+  return (selected?: string): string => {
+    if (selected && values.includes(selected)) {
+      return selected
+    }
+    return values[0]
+  }
+}
+
+export function toOptionsTpl(entries: SelectOptionsEntries, selected?: string) {
+  const optionItem = ([key, value]) => {
+    const sel = key === selected ? " selected" : ""
+    return `<option value="${key}"${sel}>${value}</option>`
+  }
+  return entries.map(optionItem)
+}
+
+function updateDropdown(
+  targetCtrl: dat.GUIController,
+  list: SelectOptions,
+  target: Record<string, any>,
+  propName: string
+) {
+  const items = toEntries(list)
+  const keys = toKeys(items)
   const getSel = getSelected(keys)
-  const sel = getSel(target[propName])
+  const selected = getSel ? getSel(target[propName]) : undefined
 
-  if (sel !== target[propName]) {
-    target[propName] = sel
+  if (selected && selected !== target[propName]) {
+    target[propName] = selected
   }
 
-  targetCtrl.domElement.children[0].innerHTML = getOptionsListTpl(items, sel).sort().join("")
+  const html = toOptionsTpl(items, selected).sort().join("")
+  targetCtrl.domElement.children[0].innerHTML = html
 }
 
-const isSelectOptions = (opts: any) => opts && (Array.isArray(opts) || opts === Object(opts))
+function isSelect(options: any) {
+  return options && (Array.isArray(options) || options === Object(options))
+}
 
-function add(this: dat.GUI, target: object, propName: string, options?: any, ...args: any[]): dat.GUIController {
+function add(
+  this: ReactiveGUI,
+  target: Record<string, any>,
+  propName: string,
+  options?: MaybeRef<SelectOptions>,
+  ...args: any[]
+): dat.GUIController {
   if (isRef(target[propName])) {
     target = toReactive(target)
   }
-  const opts = unref(options)
 
-  // @ts-ignore
-  const ctrl: GUIController = this.oadd(unref(target), propName, isSelectOptions(opts) ? opts : options, ...args)
+  const ctrl: GUIController = this._oadd(unref(target), propName, unref(options), ...args)
 
   if (isReactive(target)) {
     watch(
       () => target[propName],
       () => ctrl.updateDisplay()
     )
+  }
 
-    if (isSelectOptions(opts)) {
-      watch(options, newOpts => updateDropdown(ctrl, newOpts, target, propName), {
-        deep: true,
-        immediate: true,
-      })
-    }
+  if (isRef(options) && isSelect(options.value)) {
+    watchWithFilter(options, newOpts => updateDropdown(ctrl, newOpts, target, propName), {
+      deep: true,
+      immediate: true,
+      eventFilter: truthyFilter(options),
+    })
   }
 
   return ctrl
@@ -64,10 +94,15 @@ function add(this: dat.GUI, target: object, propName: string, options?: any, ...
 
 const desc = Object.getOwnPropertyDescriptor(dat.GUI.prototype, "add")
 if (desc) {
-  Object.defineProperty(dat.GUI.prototype, "oadd", desc)
+  Object.defineProperty(dat.GUI.prototype, "_oadd", desc)
   // @ts-ignore
   delete dat.GUI.prototype.add
+  // @ts-ignore
   dat.GUI.prototype.add = add
 }
 
 export default dat
+
+export function truthyFilter(value: any) {
+  return (invoke: () => void) => value && invoke()
+}

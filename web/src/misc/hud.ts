@@ -24,7 +24,7 @@ export function navigationGui(routes: RouteRecordNormalized[]) {
       f.add(btns, name).name(kebabToTitle(name))
     })
     btns["ghpage"] = () => void window.open("https://github.com/SubZtep/depth")
-    f.add(btns, "ghpage").name("Open GitHub Page")
+    f.add(btns, "ghpage").name("😼 Open GitHub Page")
   }
 }
 
