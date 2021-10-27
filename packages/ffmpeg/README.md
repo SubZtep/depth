@@ -1,3 +1,3 @@
-# ffmpeg
+# `@depth/ffmpeg`
 
-FFmpeg.
+:link: [Wasm port of FFmpeg](https://ffmpegwasm.netlify.app/)

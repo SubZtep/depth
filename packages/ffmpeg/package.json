@@ -9,9 +9,10 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@vueuse/core": "^6.7.3",
+    "@depth/misc": "workspace:*",
     "@ffmpeg/core": "^0.10.0",
     "@ffmpeg/ffmpeg": "github:SubZtep/ffmpeg.wasm#master",
+    "@vueuse/core": "^6.7.3",
     "vue": "^3.2.20"
   }
 }

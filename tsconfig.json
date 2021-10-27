@@ -21,6 +21,7 @@
     { "path": "packages/dat.gui" },
     { "path": "packages/ffmpeg" },
     { "path": "packages/mediapipe" },
+    { "path": "packages/misc" },
     { "path": "packages/stats.js" },
     { "path": "packages/supabase" },
     { "path": "packages/three.js" },

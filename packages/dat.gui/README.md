@@ -1,4 +1,6 @@
-# dat.gui
+# `@depth/dat.gui`
+
+:link: [Origin](https://github.com/dataarts/dat.gui)
 
 Always visible head-up display with permanent navigation and settings folder.
 

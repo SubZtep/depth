@@ -35,7 +35,6 @@ export function useStats(options?: { mosaic?: boolean }) {
     stats.dom.classList[options.mosaic ? "add" : "remove"]("mosaic")
     s.dom.classList[options.mosaic ? "add" : "remove"]("mosaic")
   }
-  return {
-    stats,
-  }
+
+  return stats
 }

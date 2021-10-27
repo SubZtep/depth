@@ -1,0 +1,14 @@
+{
+  "name": "@depth/misc",
+  "version": "0.1.0",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "Andras Serfozo <subztep@gmail.com>",
+  "license": "Unlicense",
+  "devDependencies": {
+    "@vueuse/core": "^6.7.3"
+  }
+}

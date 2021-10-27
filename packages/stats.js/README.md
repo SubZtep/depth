@@ -1,3 +1,3 @@
-# stats.js
+# `@depth/stats.js`
 
-Stats.
+:link: [Stats.js](http://mrdoob.github.io/stats.js/)

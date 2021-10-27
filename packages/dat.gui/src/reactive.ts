@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import dat, { GUI, GUIController } from "dat.gui"
-import { watch, isReactive, isRef, unref, reactive } from "vue"
+import dat, { GUIController } from "dat.gui"
+import { watch, isReactive, isRef, unref } from "vue"
 import { MaybeRef, toReactive, watchWithFilter } from "@vueuse/core"
+import { truthyFilter } from "@depth/misc"
 
 type ReactiveGUI = dat.GUI & { _oadd: (...args: any[]) => GUIController }
 export type SelectOptionsEntries = [string, string][]
@@ -102,7 +103,3 @@ if (desc) {
 }
 
 export default dat
-
-export function truthyFilter(value: any) {
-  return (invoke: () => void) => value && invoke()
-}

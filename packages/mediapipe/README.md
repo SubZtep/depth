@@ -1,4 +1,6 @@
-# mediapipe
+# `@depth/mediapipe`
+
+:link: [Mediapipe Live ML](https://google.github.io/mediapipe/getting_started/javascript)
 
 Tensorflow.
 

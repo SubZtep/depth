@@ -1,37 +1,32 @@
 # depth 🧘‍♀️ ~~perception~~
 
-> Just another _code sandbox_.
+> Just another _code sandbox_. — :warning: **W.I.P.**
 
 [![CodeQL](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml)
 :balloon: \
 [![Test & Build & Deploy](https://github.com/SubZtep/depth/actions/workflows/deploy.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/deploy.yml)
 
-> :warning: **W.I.P.** — Publicity of the repository is only for demonstrating purposes.
+Boilerplate that built top on [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) composition API and [VueUse](https://vueuse.org/functions.html) reactive composition utilities, [Three.js](https://threejs.org/), and embed many others, details are in package info.
 
-## Monorepo
+## Monorepository
 
-Built top on [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) composition API and [VueUse](https://vueuse.org/functions.html) reactive composition utilities.
+Various packages are embedded into the app, for effective code isolation those are separated packages in the monorepo. Public **[w](./web#readme)eb frontend** is also part of it in a separate workspace.
 
 ### Packages
 
-These are mainly Vue plugin wrappers for existing 3rd-party packages., handy functionality extensions in places.
+3rd-party packages are wrapped into the Vue plugin interface and mostly extended with handy functionality.
 
-| Package                                     | Origin                                                                                          | Description                                          |
-| ------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| **[a](packages/audio#readme)udio**          | —                                                                                               | Make a single test sound with the Web Audio API.     |
-| **[dat.gui](packages/dat.gui#readme)**      | [dat.GUI](https://github.com/dataarts/dat.gui)                                                  | The well-known GUI tool handles most of the user inputs, reactive items and additional controls. |
-| **[f](packages/ffmpeg#readme)fmpeg**        | [Wasm port of FFmpeg](https://ffmpegwasm.netlify.app/)                                          | Analise video keyframes and save screenshots.        |
-| **[m](packages/mediapipe#readme)ediapipe**  | [Mediapipe Live ML](https://google.github.io/mediapipe/getting_started/javascript)              | Human pose detection.                                |
-| **[s](packages/stats.js#readme)tats.js**    | [Stats.js](http://mrdoob.github.io/stats.js/)                                                   | Performance monitor for 3D and heavy calculations.   |
-| **[s](packages/supabase#readme)upabase**    | [Supabase](https://supabase.io/)                                                                | Fast and easy to use database for some backend I/O.  |
-| **[t](packages/three.js#readme)hree.js+cc** | [Three.js](https://threejs.org/), [camera-controls](https://github.com/yomotsu/camera-controls) | Draw and show the 3D canvas.                         |
+| Package                                    | Description                                                                                                      |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| **[a](packages/audio#readme)udio**         | Make a single test sound (for now) with the Web Audio API.                                                       |
+| **[dat.gui](packages/dat.gui#readme)**     | The well-known GUI tool handles most of the user inputs, upgraded with reactivity and additional controls added. |
+| **[f](packages/ffmpeg#readme)fmpeg**       | Analise video keyframes and save screenshots in the browser.                                                     |
+| **[m](packages/mediapipe#readme)ediapipe** | Human pose detection.                                                                                            |
+| **[s](packages/stats.js#readme)tats.js**   | Performance monitor for 3D and heavy calculations.                                                               |
+| **[s](packages/supabase#readme)upabase**   | Fast and easy to use database for some backend I/O.                                                              |
+| **[t](packages/three.js#readme)hree.js**   | Draw and show the 3D canvas with _game loop_ and camera controls.                                                |
 
 > Incomplete docs. :pencil2: If you’re interested please check the source code.
-
-### Frontend
-
-The standalone **[w](./web#readme)eb** frontend folder is also part of the monorepo workspace. \
-Including [Pinia](https://pinia.esm.dev/) store, built with [Vite](https://vitejs.dev/).
 
 ## Setup
 
@@ -69,7 +64,7 @@ $ pnpm dev
 $ pm2 start ecosystem.config.js
 ```
 
-[Nginx](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) for reverse proxy.
+[Nginx](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) for reverse proxy. Sending _wasm_ header is required for the TensorFlow script.
 
 ```nginx
 server {

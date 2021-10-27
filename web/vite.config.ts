@@ -49,7 +49,6 @@ export default defineConfig(({ mode, command }) => {
           { pinia: ["storeToRefs"] },
           // { "./src/stores/video": ["useVideoStore"] },
           // { "./src/misc/utils": ["basename", "sleep"] },
-          // { "./src/misc/filters": ["truthyFilter"] },
           // { "./src/events": ["onVisibility"] },
         ],
         dts: "src/types/auto-imports.d.ts",
