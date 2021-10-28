@@ -16,14 +16,14 @@ transition(name="slide")
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
-import { toSelectOptions, basename } from "../../misc/transformers"
+import { toSelectOptions } from "../../misc/transformers"
 import { useFFmpeg } from "@depth/ffmpeg"
-import { useThreeJSEventHook, pauseLoop, resumeLoop } from "@depth/three.js"
+import { useThreeJSEventHook } from "@depth/three.js"
 import { useMediapipePose } from "@depth/mediapipe"
 import type { LandmarkList } from "@depth/mediapipe"
 import { round, compare } from "mathjs"
 import { useVideoStore } from "../../stores/video"
-import { sleep } from "../../misc/utils"
+import { sleep, basename } from "@depth/misc"
 import { useGui } from "@depth/dat.gui"
 
 const { progress, start, done, isLoading } = useNProgress()
@@ -94,7 +94,7 @@ whenever(hasId, async () => {
       }
       t = kf.shift()
       if (t === undefined) {
-        threeJs.trigger(resumeLoop)
+        threeJs.trigger({ cmd: "Resume" })
         done()
         gui.show()
         return
@@ -111,7 +111,7 @@ whenever(hasId, async () => {
     })
 
     whenever(detectorReady, async () => {
-      threeJs.trigger(pauseLoop)
+      threeJs.trigger({ cmd: "Pause" })
       await sleep(50)
       t = kf.shift()
       if (t === get(currentTime)) {

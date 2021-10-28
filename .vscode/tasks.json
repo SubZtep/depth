@@ -6,9 +6,6 @@
       "detail": "Looking for depdendency updates",
       "type": "shell",
       "command": "pnpm recursive up",
-      "runOptions": {
-        "runOn": "folderOpen"
-      },
       "presentation": {
         "echo": true,
         "reveal": "always",

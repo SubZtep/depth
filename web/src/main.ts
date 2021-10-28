@@ -2,7 +2,7 @@ import { createApp } from "vue"
 import { createPinia } from "pinia"
 import CssAspectRatio from "./directives/css-aspect-ratio"
 import StopPropagation from "./directives/stop-propagation"
-import { navigationGui, preferencesGui } from "./misc/hud"
+import { navigationGui } from "./router"
 import { UserEvents } from "./events"
 import Visible from "./directives/visible"
 import { SupabasePlugin } from "@depth/supabase"
@@ -31,7 +31,12 @@ const app = createApp(App)
   })
   .use(StatsPlugin, { mosaic: true })
   .use(ThreejsPlugin)
-  .use(GuiPlugin, { addons: [navigationGui(router.getRoutes()), preferencesGui] })
+  .use(GuiPlugin, {
+    hooked: [navigationGui],
+    closeOnTop: false,
+    autoPlace: false,
+    width: 285,
+  })
   .use(AudioPlugin)
   .use(UserEvents)
   .directive("visible", Visible)

@@ -1,33 +1,43 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import dat from "./reactive"
 import { inject, onBeforeUnmount, onMounted, Plugin } from "vue"
 import { addTextInput, addVector3 } from "./extend"
+import type { Fn } from "@vueuse/core"
 import type { extGUI } from "./extend"
+import dat from "./reactive"
 import "./style.css"
 
 export type GUIExt = dat.GUI & extGUI
+type GUIExtFn = (gui: GUIExt) => void
 
-type GuiAddon = (gui: dat.GUI) => void
-
-interface PluginOptions {
-  /** Add global, always visible gui folders */
-  addons?: GuiAddon[]
+interface PluginOptions extends Pick<dat.GUIParams, "autoPlace" | "width" | "closeOnTop"> {
+  /**
+   * Add an extra class to the root element.
+   * @defaultValue `depth` – _applies custom styling_
+   */
+  addClass?: string
+  /**
+   * Function list with provided gui instance. \
+   * E.g. always visible gui folders.
+   */
+  hooked?: GUIExtFn[]
 }
 
 const guiKey = Symbol("dat.gui")
+let folderCounter = 0
 
 export const GuiPlugin: Plugin = function (app, options: PluginOptions = {}) {
-  const gui: GUIExt = new dat.GUI({ autoPlace: false, width: 285, closeOnTop: false }) as GUIExt
+  const { addClass = "depth", hooked, autoPlace = false, width = 285, closeOnTop = false } = options
+  const gui = new dat.GUI({ autoPlace, width, closeOnTop }) as GUIExt
 
   // @ts-ignore
   dat.GUI.prototype.addTextInput = addTextInput
   // @ts-ignore
   dat.GUI.prototype.addVector3 = addVector3
 
-  gui.domElement.classList.add("depth")
+  gui.domElement.classList.add(addClass)
   document.body.appendChild(gui.domElement)
+  hooked?.forEach(fn => fn.call(null, gui))
   app.provide(guiKey, gui)
-  options.addons?.reverse().forEach(addon => addon.call(null, gui))
 }
 
 export function useGui(options?: { close?: boolean }) {
@@ -38,15 +48,23 @@ export function useGui(options?: { close?: boolean }) {
   return gui
 }
 
-let cx = 0
-
-type GUIExtFn = (folder: GUIExt) => void
-
-/** Add dat.GUI folder for the current scope */
-export function addGuiFolder(init: GUIExtFn): void {
+/**
+ * Add dat.GUI folder for the current scope
+ * @param init Initializer function with the folder as argument
+ * @returns Function that instantly removes the folder
+ */
+export function addGuiFolder(init: GUIExtFn): Fn {
   const gui = inject<dat.GUI>(guiKey)!
-  const folderName = `f${++cx}`
+  const folderName = `f${++folderCounter}`
   const folder = gui.addFolder(folderName) as GUIExt
+
+  const remove = () => {
+    gui.removeFolder(folder)
+    if (gui.__folders[folderName]) {
+      delete gui.__folders[folderName]
+      folderCounter--
+    }
+  }
 
   onMounted(() => {
     folder.open()
@@ -54,8 +72,8 @@ export function addGuiFolder(init: GUIExtFn): void {
   })
 
   onBeforeUnmount(() => {
-    gui.removeFolder(folder)
-    delete gui.__folders[folderName]
-    cx--
+    remove()
   })
+
+  return remove
 }

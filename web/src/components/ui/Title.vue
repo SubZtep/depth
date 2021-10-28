@@ -1,12 +1,15 @@
 <template lang="pug">
 transition(name="title")
-  h1(:class="$style.title" v-if="showTitle")
+  h1(:class="$style.title" v-if="!ready")
     slot
 </template>
 
 <script lang="ts" setup>
-const showTitle = ref(true)
-onMounted(() => set(showTitle, false))
+const props = defineProps<{
+  delay?: number
+}>()
+
+const ready = useTimeout(props.delay || 0)
 </script>
 
 <style module>

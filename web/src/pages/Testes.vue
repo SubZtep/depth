@@ -20,7 +20,7 @@ const state = reactive({
 
 const state2 = {
   boool: false,
-  refnum: ref(0)
+  refnum: ref(0),
 }
 
 let cx = 0

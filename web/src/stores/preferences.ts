@@ -7,6 +7,5 @@ export const usePreferencesStore: StoreDefinition = defineStore("preferences", {
     guiScale: useStorage("preferences.guiScale", 1),
     skybox: useStorage<SkyboxNumber>("preferences.skybox", 2),
     horizontalLock: useStorage("preferences.horizontalLock", true),
-    fullscreen: false,
   }),
 })

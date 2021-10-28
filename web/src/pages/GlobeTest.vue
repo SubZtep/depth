@@ -7,11 +7,12 @@ ThreeGlobe(
 </template>
 
 <script lang="ts" setup>
+import { reactive } from "vue"
 import { addGuiFolder } from "@depth/dat.gui"
 import type { Vector3Tuple } from "three/src/math/Vector3"
-import { reactive } from "vue"
+import { capitalize, kebabToTitle } from "@depth/misc"
 import { surfaces, terrains } from "../3D/ThreeGlobe"
-import { capitalize, kebabToTitle, toSelectOptions } from "../misc/transformers"
+import { toSelectOptions } from "../misc/transformers"
 
 const state = reactive({
   position: [0, 1.6, 69] as Vector3Tuple,

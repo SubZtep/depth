@@ -9,10 +9,11 @@ MainScene
 import { AmbientLight, DirectionalLight } from "three"
 import { usePreferencesStore } from "../stores/preferences"
 import { InfiniteGridHelper } from "../3D/infiniteGrid"
-import { resumeLoop, useAssets, useThreeJSEventHook, useCanvas, objs } from "@depth/three.js"
+import { useAssets, useThreeJSEventHook, useCanvas, objs } from "@depth/three.js"
 // import { onVisibility } from "../events"
 import * as sdef from "../3D/sceneDefaults"
-import { sleep, rand } from "../misc/utils"
+import { rand } from "../misc/utils"
+import { sleep } from "@depth/misc"
 
 const preferences = usePreferencesStore()
 const assets = useAssets()
@@ -45,7 +46,7 @@ useCanvas(wc).add(ambLight, dirLight, igrid, grid, grid2, plane, leafPlane).back
 
 await sleep(69)
 useNProgress().done()
-threeJs.trigger(resumeLoop)
+threeJs.trigger({ cmd: "Resume" })
 
 // onVisibility(({ visible }) => {
 //   threeJs.trigger(visible ? resumeLoop : pauseLoop)

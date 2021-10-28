@@ -1,4 +1,3 @@
-export * from "./constants"
 export * from "./plugin"
 export { useAssets } from "./useAssets"
 export { useCanvas } from "./useThreeJS"

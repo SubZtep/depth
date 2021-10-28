@@ -1,14 +1,17 @@
+import { createRouter, createWebHistory } from "vue-router"
 import type { RouteRecordRaw } from "vue-router"
-import * as VueRouter from "vue-router"
+import type { GUIExt } from "@depth/dat.gui"
+import { kebabToTitle } from "@depth/misc"
 import { exec3D } from "@depth/three.js"
 
+const camHeight = 1.6
 const routes: RouteRecordRaw[] = [
   {
     path: "/quote-walker",
     name: "quote-walker",
     component: () => import("./pages/QuoteWalker.vue"),
     meta: {
-      position: [0, 1.6, 0],
+      position: [0, camHeight, 0],
       lookAt: [6, 9, 6],
     },
   },
@@ -17,8 +20,8 @@ const routes: RouteRecordRaw[] = [
     name: "video-pose",
     component: () => import("./pages/VideoPose.vue"),
     meta: {
-      position: [0, 1.6, 0],
-      lookAt: [0, 1.6, -10],
+      position: [0, camHeight, 0],
+      lookAt: [0, camHeight, -10],
     },
   },
   {
@@ -26,16 +29,16 @@ const routes: RouteRecordRaw[] = [
     name: "db-admin",
     component: () => import("./pages/DbAdmin.vue"),
     meta: {
-      position: [0, 1.6, 0],
-      lookAt: [0, 1.6, 10],
+      position: [0, camHeight, 0],
+      lookAt: [0, camHeight, 10],
     },
   },
   {
-    path: "/scene-setup",
-    name: "scene-setup",
-    component: () => import("./pages/SceneSetup.vue"),
+    path: "/preferences",
+    name: "preferences",
+    component: () => import("./pages/Preferences.vue"),
     meta: {
-      position: [-2, 1.6, -10],
+      position: [-2, camHeight, -10],
       lookAt: [0, 0, 0],
     },
   },
@@ -44,33 +47,66 @@ const routes: RouteRecordRaw[] = [
     name: "testes",
     component: () => import("./pages/Testes.vue"),
     meta: {
-      position: [-30, 1.6, -30],
+      position: [-30, camHeight, -30],
       lookAt: [-300, 2, -30],
     },
   },
   {
-    path: "",
+    path: "/globe",
     name: "globe-test",
     component: () => import("./pages/GlobeTest.vue"),
     meta: {
-      position: [0, 1.6, 0],
-      lookAt: [0, 1.6, 69],
+      position: [0, camHeight, 0],
+      lookAt: [0, camHeight, 69],
+    },
+  },
+  {
+    path: "",
+    name: "home",
+    component: () => import("./pages/Home.vue"),
+    meta: {
+      position: [0, camHeight, 0],
+      lookAt: [0, 2, 0],
     },
   },
 ]
 
-const router = VueRouter.createRouter({
-  history: VueRouter.createWebHistory(),
+const router = createRouter({
+  history: createWebHistory(),
   routes,
 })
+export default router
 
-router.beforeEach(to => {
-  const { position, lookAt } = to.meta
-  if (position && lookAt) {
-    exec3D(({ cameraControls }) => {
-      cameraControls.setLookAt(...position, ...lookAt, true)
-    })
-  }
+function getRouteNames() {
+  // getRoutes returns ordered
+  // TODO: handle route changes
+  return router
+    .getRoutes()
+    .map(({ name }) => name as string)
+    .filter(Boolean)
+}
+
+const routeNames = getRouteNames()
+let folders: NodeListOf<Element>
+
+router.beforeEach(({ name, meta: { position, lookAt } }) => {
+  // set gui active class
+  if (!folders) folders = document.querySelectorAll(".dg.depth .folder:first-of-type .function")
+  const index = (typeof name === "string" && routeNames.indexOf(name)) ?? -1
+  folders.forEach((_el, i) => folders[i].classList[i === index ? "add" : "remove"]("active"))
+
+  // move camera to the desired position
+  position &&
+    lookAt &&
+    exec3D(async ({ cameraControls }) => await cameraControls.setLookAt(...position, ...lookAt, true))
 })
 
-export default router
+export function navigationGui(gui: GUIExt) {
+  const folder = gui.addFolder("⚓ Navigation")
+  const btns = Object.fromEntries(routeNames.map(name => [name, () => void router.push({ name })]))
+  routeNames.forEach(name => folder.add(btns, name).name(kebabToTitle(name)))
+
+  // add github link
+  btns["ghpage"] = () => void window.open("https://github.com/SubZtep/depth")
+  folder.add(btns, "ghpage").name("⮚ Open GitHub Page")
+}

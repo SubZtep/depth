@@ -1,7 +1,6 @@
 import ThreeGlobe from "three-globe"
 import { exec3D } from "@depth/three.js"
 import { defineComponent, onBeforeUnmount, onMounted, watch } from "vue"
-import type { PropType } from "vue"
 
 export const terrains = ["topology", "water"]
 export const surfaces = ["blue-marble", "day", "night", "dark"]

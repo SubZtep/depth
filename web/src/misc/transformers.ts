@@ -1,15 +1,6 @@
 import type { SelectOptions } from "@depth/dat.gui"
 import type { Landmark, NormalizedLandmark } from "../../public/pose"
 
-/**
- * Transform kebab case string to title case format.
- * @param str kebab case string
- * @returns human readable string
- */
-export function kebabToTitle(str: string): string {
-  return str.split("-").map(capitalize).join(" ")
-}
-
 export function arrayToObject<T>(arr: T[], key: string): Record<string, T> {
   return arr.reduce((a, b) => ({ ...a, [b[key]]: b }), {})
 }
@@ -26,18 +17,6 @@ export function formatToTimeline(secs: number) {
   const mins = Math.floor(secs / 60)
   const s = secs - mins * 60
   return `${String(mins).padStart(2, "0")}:${String(s).padStart(2, "0")}.000`
-}
-
-export function basename(src: string, ext = false): string {
-  let base = src.split("/").pop()!.split("?").shift()!
-  if (!ext) {
-    base = base.split(".").shift()!
-  }
-  return base
-}
-
-export function capitalize(str: string): string {
-  return `${str.charAt(0).toUpperCase()}${str.slice(1).toLowerCase()}`
 }
 
 export function scaleKeypoint(

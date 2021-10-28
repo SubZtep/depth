@@ -4,14 +4,14 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc -b && cp src/*.css dist",
+    "build": "tsc && cp src/*.css dist",
     "test": "jest"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
     "@depth/misc": "workspace:*",
-    "@vueuse/core": "^6.7.3",
+    "@vueuse/core": "^6.7.4",
     "dat.gui": "^0.7.7",
     "vue": "^3.2.20"
   },

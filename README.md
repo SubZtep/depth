@@ -16,21 +16,20 @@ Various 3rd-parties included in isolated packages in the monorepo. The public **
 
 3rd-party packages are wrapped into the Vue plugin interface and mostly extended with handy functionality.
 
-| Package                                    | Description                                                                                                      |
-| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| **[a](packages/audio#readme)udio**         | Make a single test sound (for now) with the Web Audio API.                                                       |
-| **[dat.gui](packages/dat.gui#readme)**     | The well-known GUI tool handles most of the user inputs, upgraded with reactivity and additional controls. |
-| **[f](packages/ffmpeg#readme)fmpeg**       | Analise video keyframes and save screenshots in the browser.                                                     |
-| **[m](packages/mediapipe#readme)ediapipe** | Human pose detection.                                                                                            |
-| **[s](packages/stats.js#readme)tats.js**   | Performance monitor for 3D and heavy calculations.                                                               |
-| **[s](packages/supabase#readme)upabase**   | Fast and easy to use database for some backend I/O.                                                              |
-| **[t](packages/three.js#readme)hree.js**   | Draw and show the 3D canvas with _game loop_ and camera controls.                                                |
+| Package                                    | Description                                                                                 |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| **[a](packages/audio#readme)udio**         | Detect autoplay policy, play a single test sound (for now) with the Web Audio API.          |
+| **[dat.gui](packages/dat.gui#readme)**     | GUI that handles most of the user inputs. Upgraded with reactivity and additional controls. |
+| **[f](packages/ffmpeg#readme)fmpeg**       | Analise video keyframes and save screenshots in the browser.                                |
+| **[m](packages/mediapipe#readme)ediapipe** | Human pose detection.                                                                       |
+| **[m](packages/misc#readme)isc**           | Miscellaneous helper scripts and text formatters.                                           |
+| **[s](packages/stats.js#readme)tats.js**   | Performance monitor for 3D and heavy calculations.                                          |
+| **[s](packages/supabase#readme)upabase**   | Fast and easy to use database for some backend I/O.                                         |
+| **[t](packages/three.js#readme)hree.js**   | Draw and show the 3D canvas with _game loop_ and camera controls.                           |
 
 > Incomplete docs. :pencil2: If you’re interested please check the source code.
 
 ## Setup
-
-Does #GitHubUniverse part o
 
 Create `web/.env` file with the following content:
 

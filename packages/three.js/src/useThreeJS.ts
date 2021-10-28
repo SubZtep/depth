@@ -1,12 +1,21 @@
-import type { MaybeRef } from "@vueuse/core"
+import { MaybeRef, set } from "@vueuse/core"
 import CameraControls from "camera-controls"
 import * as THREE from "three"
 import { Scene, WebGLRenderer, PerspectiveCamera } from "three"
 import { debouncedWatch, useWindowSize, get, tryOnMounted, useToggle } from "@vueuse/core"
 import { useRenderLoop } from "./useRenderLoop"
-import { useThreeJSEventHook } from "./plugin"
+// import { useThreeJSEventHook } from "./plugin"
 import { useCameraControls } from "./useCameraControls"
-import { getCurrentInstance, unref } from "vue"
+import { getCurrentInstance, ref, unref } from "vue"
+import { eventHook, eventHookHandler } from "./events"
+// import type Command3D from "./events"
+
+type ThreeJSEventCmd = "pauseLoop" | "resumeLoop" | "renderAllFrames" | "renderFramesWithCameraMove"
+export type ThreeJSEvent = ThreeJSEventCmd | { cmd: ThreeJSEventCmd }
+
+export function normalizeEventHookParam(param: ThreeJSEvent) {
+  return typeof param === "string" ? { cmd: param } : param
+}
 
 export function useCanvas(canvasRef: MaybeRef<HTMLCanvasElement>): Scene {
   const instance = getCurrentInstance()
@@ -16,29 +25,18 @@ export function useCanvas(canvasRef: MaybeRef<HTMLCanvasElement>): Scene {
 
   CameraControls.install({ THREE: THREE }) // TODO: tree shaking
   const { width, height } = useWindowSize()
-  const [isRunning, toggleRun] = useToggle(false)
-  const [isRenderAllFrames, toggleRenderAllFrames] = useToggle(true)
+  // const [isRunning, toggleRun] = useToggle(false)
+  // const renderFrames = ref<RenderFramesParam>()
+  // const cameraBoundaries = ref<CameraBoundariesParam>()
+
+  // const [isRenderAllFrames, toggleRenderAllFrames] = useToggle(true)
   const scene = new Scene()
 
-  useThreeJSEventHook().on(params => {
-    const scene = document.querySelector("#scene")!
-    switch (params.cmd) {
-      case "pauseLoop":
-        toggleRun(false)
-        scene.classList.add("paused")
-        break
-      case "resumeLoop":
-        scene.classList.remove("paused")
-        toggleRun(true)
-        break
-      case "doRenderAllFrames":
-        toggleRenderAllFrames(true)
-        break
-      case "dontRenderAllFrames":
-        toggleRenderAllFrames(false)
-        break
-    }
-  })
+  // const sceneEl = document.querySelector("#scene") as HTMLElement
+
+  const { onEvent, isRunning, renderFrames } = eventHookHandler()
+
+  eventHook.on(onEvent)
 
   tryOnMounted(() => {
     const canvas = unref(canvasRef)
@@ -52,7 +50,7 @@ export function useCanvas(canvasRef: MaybeRef<HTMLCanvasElement>): Scene {
     const cameraControls = new CameraControls(camera, instance.appContext.app._container)
     useCameraControls(cameraControls)
 
-    useRenderLoop({ renderer, cameraControls, scene, isRunning, isRenderAllFrames })
+    useRenderLoop({ renderer, cameraControls, scene, isRunning, renderFrames })
 
     debouncedWatch(
       [width, height],

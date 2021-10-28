@@ -1,14 +1,15 @@
+import type { RenderFramesParam, CameraBoundariesParam } from "./events"
 import type CameraControls from "camera-controls"
 import { get, whenever } from "@vueuse/core"
-import { Ref } from "vue"
 import { Clock } from "three"
+import { Ref } from "vue"
 
 interface RenderLoopProps {
   renderer: THREE.WebGLRenderer
   cameraControls: CameraControls
   scene: THREE.Scene
   isRunning: Ref<boolean>
-  isRenderAllFrames: Ref<boolean>
+  renderFrames: Ref<RenderFramesParam>
 }
 
 interface LoopFnProps {
@@ -33,7 +34,7 @@ export const loop3D = (fn: LoopFn) => {
   loopFns.add(fn)
 }
 
-export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRenderAllFrames }: RenderLoopProps) {
+export function useRenderLoop({ renderer, cameraControls, scene, isRunning, renderFrames }: RenderLoopProps) {
   const clock = new Clock()
   const { camera } = cameraControls
   let delta: number
@@ -58,8 +59,8 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, isRe
       console.error("ThreeJS Render Loop", e)
     }
 
-    get(isRunning) && requestAnimationFrame(gameLoop)
-    if (get(isRenderAllFrames) || camUpdated) renderer.render(scene, camera)
+    if (get(isRunning)) requestAnimationFrame(gameLoop)
+    if (camUpdated || get(renderFrames) === "All") renderer.render(scene, camera)
   }
 
   whenever(isRunning, () => requestAnimationFrame(gameLoop), { immediate: true })

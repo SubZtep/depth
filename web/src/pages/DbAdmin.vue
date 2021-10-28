@@ -35,7 +35,7 @@ table(v-if="videos.length > 0" :class="$style.table" v-stop-propagation)
 
 <script lang="ts" setup>
 import { useSupabase } from "@depth/supabase"
-import { pauseLoop, resumeLoop, useThreeJSEventHook } from "@depth/three.js"
+import { useThreeJSEventHook } from "@depth/three.js"
 type VideoWithCounts = any & { keyframe: [{ count: number }]; pose: [{ count: number }] }
 // type VideoWithCounts = Required<Db.Video> & { keyframe: [{ count: number }]; pose: [{ count: number }] }
 
@@ -56,11 +56,7 @@ const refreshVideos = async () => {
 
 onMounted(async () => {
   await refreshVideos()
-  threeJs.trigger(pauseLoop)
-})
-
-onBeforeUnmount(() => {
-  threeJs.trigger(resumeLoop)
+  threeJs.trigger({ cmd: "RenderFrames", param: "CameraMove" })
 })
 
 const getVideo = (videoId: number): VideoWithCounts => {
@@ -114,7 +110,7 @@ const deleteVideo = async (videoId: number) => {
 
 <style module>
 .table {
-  @apply mx-auto max-w-full max-h-full border-separate;
+  @apply mx-auto w-full @lg:w-850px max-w-full max-h-full border-separate;
   border-spacing: 2px;
 
   td {

@@ -48,7 +48,6 @@ export default defineConfig(({ mode, command }) => {
           { "vue-toastification": ["useToast", "POSITION"] },
           { pinia: ["storeToRefs"] },
           // { "./src/stores/video": ["useVideoStore"] },
-          // { "./src/misc/utils": ["basename", "sleep"] },
           // { "./src/events": ["onVisibility"] },
         ],
         dts: "src/types/auto-imports.d.ts",

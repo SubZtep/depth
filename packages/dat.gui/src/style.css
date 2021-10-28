@@ -14,7 +14,6 @@
   }
 
   *:not(.closed) li {
-
     &.title {
       @apply tracking-wide text-lg font-normal h-9 flex items-center transition duration-150;
     }
@@ -31,7 +30,8 @@
       @apply flex flex-col;
     }
 
-    .property-name, .c {
+    .property-name,
+    .c {
       @apply w-1/2 text-sm font-light tracking-wide;
     }
 
@@ -48,7 +48,8 @@
   }
 
   .c {
-    input[type="text"], select {
+    input[type="text"],
+    select {
       @apply leading-none px-1 py-0;
     }
 
@@ -79,6 +80,13 @@
       border-style: inset;
       .property-name {
         transform: translate(1px, 1px);
+      }
+    }
+    &.active {
+      pointer-events: none;
+      .property-name {
+        color: yellowgreen;
+        cursor: not-allowed;
       }
     }
   }

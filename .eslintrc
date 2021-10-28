@@ -62,7 +62,8 @@ rules:
   "@typescript-eslint/no-explicit-any": off
 
 ignorePatterns:
-  - "public/"
-  - "types/"
-  - "dist/"
+  - "**node_modules/"
+  - "**public/"
+  - "**types/"
+  - "**dist/"
   - "*.d.ts"

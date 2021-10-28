@@ -93,13 +93,11 @@ function add(
   return ctrl
 }
 
-const desc = Object.getOwnPropertyDescriptor(dat.GUI.prototype, "add")
-if (desc) {
-  Object.defineProperty(dat.GUI.prototype, "_oadd", desc)
-  // @ts-ignore
-  delete dat.GUI.prototype.add
-  // @ts-ignore
-  dat.GUI.prototype.add = add
-}
+const desc = Object.getOwnPropertyDescriptor(dat.GUI.prototype, "add")!
+Object.defineProperty(dat.GUI.prototype, "_oadd", desc)
+// @ts-ignore
+delete dat.GUI.prototype.add
+// @ts-ignore
+dat.GUI.prototype.add = add
 
 export default dat
