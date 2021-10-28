@@ -1,4 +1,4 @@
-import type { RenderFramesParam, CameraBoundariesParam } from "./events"
+import type { RenderFramesParam } from "./events"
 import type CameraControls from "camera-controls"
 import { get, whenever } from "@vueuse/core"
 import { Clock } from "three"

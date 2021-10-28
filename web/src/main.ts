@@ -14,7 +14,7 @@ import { GuiPlugin } from "@depth/dat.gui"
 import App from "./App/App.vue"
 import router from "./router"
 import "virtual:windi.css"
-import "./style.css"
+import "./styles/main.css"
 
 const app = createApp(App)
   .use(createPinia())
@@ -29,9 +29,13 @@ const app = createApp(App)
     url: import.meta.env.VITE_SUPABASE_URL,
     key: import.meta.env.VITE_SUPABASE_KEY,
   })
-  .use(StatsPlugin, { mosaic: true })
+  .use(StatsPlugin, {
+    addClass: "Stats",
+    mosaic: true,
+  })
   .use(ThreejsPlugin)
   .use(GuiPlugin, {
+    addClass: "depth",
     hooked: [navigationGui],
     closeOnTop: false,
     autoPlace: false,

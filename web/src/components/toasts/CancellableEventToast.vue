@@ -5,10 +5,7 @@ div
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{
-  message: string
-  event: Fn
-}>()
+const props = defineProps<{ message: string; event: Fn }>()
 
 // eslint-disable-next-line vue/no-setup-props-destructure
 let mayEvent = props.event

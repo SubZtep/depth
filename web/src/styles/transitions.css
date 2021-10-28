@@ -1,0 +1,48 @@
+/* transition(name="...") */
+
+/*
+** slide
+*/
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 500ms ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(-100%);
+}
+
+/*
+** fade
+*/
+
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
+/*
+** title
+*/
+
+.title-enter-active,
+.title-leave-active {
+  transition: all 4s ease-in;
+}
+
+.title-enter-from {
+  transform: translateX(0);
+}
+.title-leave-to {
+  @apply opacity-30;
+  transform: translateX(100%) scale(0.5);
+}

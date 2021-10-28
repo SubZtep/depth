@@ -4,20 +4,18 @@ import { addTextInput, addVector3 } from "./extend"
 import type { Fn } from "@vueuse/core"
 import type { extGUI } from "./extend"
 import dat from "./reactive"
-import "./style.css"
 
 export type GUIExt = dat.GUI & extGUI
 type GUIExtFn = (gui: GUIExt) => void
 
-interface PluginOptions extends Pick<dat.GUIParams, "autoPlace" | "width" | "closeOnTop"> {
+interface PluginOptions extends Omit<dat.GUIParams, "load" | "preset"> {
   /**
    * Add an extra class to the root element.
-   * @defaultValue `depth` – _applies custom styling_
    */
   addClass?: string
   /**
-   * Function list with provided gui instance. \
-   * E.g. always visible gui folders.
+   * Function list with provided gui instance.
+   * (E.g. always visible gui folders.)
    */
   hooked?: GUIExtFn[]
 }
@@ -25,32 +23,27 @@ interface PluginOptions extends Pick<dat.GUIParams, "autoPlace" | "width" | "clo
 const guiKey = Symbol("dat.gui")
 let folderCounter = 0
 
-export const GuiPlugin: Plugin = function (app, options: PluginOptions = {}) {
-  const { addClass = "depth", hooked, autoPlace = false, width = 285, closeOnTop = false } = options
-  const gui = new dat.GUI({ autoPlace, width, closeOnTop }) as GUIExt
+export const GuiPlugin: Plugin = function (app, { addClass, hooked, ...params }: PluginOptions = {}) {
+  const gui = new dat.GUI(params) as GUIExt
 
   // @ts-ignore
   dat.GUI.prototype.addTextInput = addTextInput
   // @ts-ignore
   dat.GUI.prototype.addVector3 = addVector3
 
-  gui.domElement.classList.add(addClass)
-  document.body.appendChild(gui.domElement)
+  addClass && gui.domElement.classList.add(addClass)
   hooked?.forEach(fn => fn.call(null, gui))
+  document.body.appendChild(gui.domElement)
   app.provide(guiKey, gui)
 }
 
-export function useGui(options?: { close?: boolean }) {
-  const gui = inject<GUIExt>(guiKey)!
-  if (options?.close !== undefined) {
-    gui[options.close ? "close" : "open"]()
-  }
-  return gui
+export function useGui() {
+  return inject<GUIExt>(guiKey)!
 }
 
 /**
  * Add dat.GUI folder for the current scope
- * @param init Initializer function with the folder as argument
+ * @param init - Initializer function with the folder as argument
  * @returns Function that instantly removes the folder
  */
 export function addGuiFolder(init: GUIExtFn): Fn {

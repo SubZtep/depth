@@ -20,18 +20,3 @@ const ready = useTimeout(props.delay || 0)
   transform: translateX(-100%);
 }
 </style>
-
-<style>
-.title-enter-active,
-.title-leave-active {
-  transition: all 4s ease-in;
-}
-
-.title-enter-from {
-  transform: translateX(0);
-}
-.title-leave-to {
-  @apply opacity-30;
-  transform: translateX(100%) scale(0.5);
-}
-</style>

@@ -1,16 +1,12 @@
-import type { Fn } from "@vueuse/core"
 import { pausableWatch } from "@vueuse/core"
 import { reactive } from "vue"
 import dat from "dat.gui"
 import dom from "dat.gui/src/dat/dom/dom"
 import type { GUIController } from "dat.gui"
+import { regexpFilter } from "@depth/misc"
 
 type Vector3Tuple = [number, number, number] // from three.js
 type Vector3 = { x: number; y: number; z: number } // from three.js
-
-function regexpFilter(filter: RegExp, value: string) {
-  return (invoke: Fn) => filter.test(value) && invoke()
-}
 
 type ChangeCallback<T = any> = (value: T) => void
 
@@ -122,9 +118,9 @@ export function makeXYZGUI(
 export interface extGUI {
   /**
    * Trigger `onChange` and `onFinishChange` callbacks without the object to be manipulated
-   * @param filter Only trigger callbacks when input value matching with it
-   * @param placeholder Text input element placeholder
-   * @param keepValue Keep input element value on blur event
+   * @param filter - Only trigger callbacks when input value matching with it
+   * @param placeholder - Text input element placeholder
+   * @param keepValue - Keep input element value on blur event
    */
   addTextInput: (params: TextInputParams) => GUIController
 

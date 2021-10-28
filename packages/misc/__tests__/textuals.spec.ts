@@ -1,4 +1,4 @@
-import { normalizeDeviceLabel, basename } from "../src/textuals"
+import { normalizeDeviceLabel, basename, kebabToTitle } from "../src/textuals"
 
 describe("device label parse", () => {
   it("has magic number at the end", () => {
@@ -24,5 +24,19 @@ describe("filename from path", () => {
   })
   it("empty string", () => {
     expect(basename("")).toBe("")
+  })
+})
+
+describe("string mutation", () => {
+  test("kebab case to human readable", () => {
+    const strings = [
+      ["hello", "Hello"],
+      ["hello-WORLD", "Hello World"],
+      ["hello-WORLD", "Hello World"],
+      ["Hello-world-program", "Hello World Program"],
+    ]
+    for (const [k, v] of strings) {
+      expect(kebabToTitle(k)).toBe(v)
+    }
   })
 })

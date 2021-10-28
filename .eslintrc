@@ -31,6 +31,7 @@ plugins:
   - "vue"
   - "@typescript-eslint"
   - "prettier"
+  - "eslint-plugin-tsdoc"
 
 rules:
   prettier/prettier: warn
@@ -60,6 +61,7 @@ rules:
   "@typescript-eslint/ban-ts-comment": warn
   "@typescript-eslint/no-empty-function": warn
   "@typescript-eslint/no-explicit-any": off
+  "tsdoc/syntax": warn
 
 ignorePatterns:
   - "**node_modules/"
@@ -67,3 +69,4 @@ ignorePatterns:
   - "**types/"
   - "**dist/"
   - "*.d.ts"
+  - "*.js"

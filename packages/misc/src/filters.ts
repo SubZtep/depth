@@ -1,4 +1,4 @@
-import type { EventFilter } from "@vueuse/core"
+import type { EventFilter, Fn } from "@vueuse/core"
 
 /** Map filter to show png files only. */
 export function pngOnly(filename: string) {
@@ -12,5 +12,10 @@ export function noDotFiles(filename: string) {
 
 /** Filter VueUse watcher until parameter is truthy. */
 export function truthyFilter(source: any): EventFilter {
-  return (invoke: () => void) => source && invoke()
+  return (invoke: Fn) => source && invoke()
+}
+
+/** Filter VueUse watcher until parameter is matches. */
+export function regexpFilter(filter: RegExp, value: string) {
+  return (invoke: Fn) => filter.test(value) && invoke()
 }

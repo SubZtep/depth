@@ -16,6 +16,6 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  threeJs.trigger({ cmd: "RenderFrames", param: "All"})
+  threeJs.trigger({ cmd: "RenderFrames", param: "All" })
 })
 </script>
