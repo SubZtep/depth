@@ -4,12 +4,16 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AmbLight: typeof import('../components/preferences/GlobalAmbientLight.vue')['default']
     App: typeof import('./../App/App.vue')['default']
     Avatar: typeof import('./../3D/avatar.ts')['default']
     CancellableEventToast: typeof import('./../components/toasts/CancellableEventToast.vue')['default']
     CanvasInScene: typeof import('./../components/video/CanvasInScene.ts')['default']
     Debug: typeof import('./../components/ui/Debug.vue')['default']
+    DirLight: typeof import('../components/preferences/GlobalDirectionalLight.vue')['default']
     Factories: typeof import('./../3D/factories.ts')['default']
+    GlobalAmbientLight: typeof import('./../components/preferences/GlobalAmbientLight.vue')['default']
+    GlobalDirectionalLight: typeof import('./../components/preferences/GlobalDirectionalLight.vue')['default']
     Help: typeof import('./../components/ui/Help.vue')['default']
     ImgMemfs: typeof import('./../components/ui/ImgMemfs.vue')['default']
     InfiniteGrid: typeof import('./../3D/infiniteGrid.ts')['default']

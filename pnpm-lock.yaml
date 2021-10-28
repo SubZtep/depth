@@ -878,8 +878,8 @@ packages:
       '@sinonjs/commons': 1.8.3
     dev: true
 
-  /@supabase/gotrue-js/1.18.0:
-    resolution: {integrity: sha512-kGKy6EkMwait89yUYQF7umUDCeOsnNZD/rrfRTDH5jVDwuudvrF/5Dw0mBMHh8lQdZDFaF6Q8bVHlD3vXguGdw==}
+  /@supabase/gotrue-js/1.19.0:
+    resolution: {integrity: sha512-pfCFEe8CB926Qf/F+3SngbG3TzaSk2/ABelVBLM5H1xsy7jJMvJ30xqY7gqKwH4Hb+u/LZjv2UhoyCi3Emg49A==}
     dependencies:
       cross-fetch: 3.1.4
     dev: false
@@ -906,7 +906,7 @@ packages:
   /@supabase/supabase-js/1.25.1:
     resolution: {integrity: sha512-FNPOpbjMfsVEogHCqQOVVETV4/NbF2xIVbaQEnIVqMHPEuuRiYr0a8p8VO2I2aNj7CAbevsco9H4BofoltSaHA==}
     dependencies:
-      '@supabase/gotrue-js': 1.18.0
+      '@supabase/gotrue-js': 1.19.0
       '@supabase/postgrest-js': 0.34.1
       '@supabase/realtime-js': 1.2.1
       '@supabase/storage-js': 1.4.1
@@ -1655,7 +1655,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001272
-      electron-to-chromium: 1.3.882
+      electron-to-chromium: 1.3.883
       escalade: 3.1.1
       node-releases: 2.0.1
       picocolors: 1.0.0
@@ -2246,8 +2246,8 @@ packages:
     resolution: {integrity: sha512-iRDI1QeCQIhMCZk48DRDMVgQSSBDmbzzNhnxIo+pwx3swkfjMh6vh0nWLq1NdvGHLKH6wIrAM3vQWeTj6qeoug==}
     dev: false
 
-  /electron-to-chromium/1.3.882:
-    resolution: {integrity: sha512-Kllt2R9+7yEIBbASR0MReJSK9TjPmHoomLbCLRP7r4SVtSy+Y0hYIhQ7LGjnMhlAyWUtGXTiznoGsaKxEH0ttw==}
+  /electron-to-chromium/1.3.883:
+    resolution: {integrity: sha512-goyjNx4wB9j911PBteb+AXNbErug7rJVkmDXWdw5SCVn2JlARBwsqucPkvp1h5mXWxHUbBRK3bwXTrqSxSiAIQ==}
     dev: true
 
   /emittery/0.8.1:

@@ -1,14 +1,12 @@
-import { MaybeRef, set } from "@vueuse/core"
+import { MaybeRef } from "@vueuse/core"
 import CameraControls from "camera-controls"
 import * as THREE from "three"
 import { Scene, WebGLRenderer, PerspectiveCamera } from "three"
-import { debouncedWatch, useWindowSize, get, tryOnMounted, useToggle } from "@vueuse/core"
+import { debouncedWatch, useWindowSize, get, tryOnMounted } from "@vueuse/core"
 import { useRenderLoop } from "./useRenderLoop"
-// import { useThreeJSEventHook } from "./plugin"
 import { useCameraControls } from "./useCameraControls"
-import { getCurrentInstance, ref, unref } from "vue"
+import { getCurrentInstance, unref } from "vue"
 import { eventHook, eventHookHandler } from "./events"
-// import type Command3D from "./events"
 
 type ThreeJSEventCmd = "pauseLoop" | "resumeLoop" | "renderAllFrames" | "renderFramesWithCameraMove"
 export type ThreeJSEvent = ThreeJSEventCmd | { cmd: ThreeJSEventCmd }
@@ -25,15 +23,7 @@ export function useCanvas(canvasRef: MaybeRef<HTMLCanvasElement>): Scene {
 
   CameraControls.install({ THREE: THREE }) // TODO: tree shaking
   const { width, height } = useWindowSize()
-  // const [isRunning, toggleRun] = useToggle(false)
-  // const renderFrames = ref<RenderFramesParam>()
-  // const cameraBoundaries = ref<CameraBoundariesParam>()
-
-  // const [isRenderAllFrames, toggleRenderAllFrames] = useToggle(true)
   const scene = new Scene()
-
-  // const sceneEl = document.querySelector("#scene") as HTMLElement
-
   const { onEvent, isRunning, renderFrames } = eventHookHandler()
 
   eventHook.on(onEvent)
@@ -43,6 +33,7 @@ export function useCanvas(canvasRef: MaybeRef<HTMLCanvasElement>): Scene {
     canvas.width = get(width)
     canvas.height = get(height)
 
+    // TODO: test for webgl2
     const renderer = new WebGLRenderer({ canvas, powerPreference: "high-performance", antialias: true })
     renderer.shadowMap.enabled = true
 

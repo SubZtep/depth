@@ -1,4 +1,3 @@
-// import { logLoaded } from "~/misc/hud"
 import {
   CubeTexture,
   DoubleSide,
@@ -24,12 +23,9 @@ export function useAssets() {
       const loader = new CubeTextureLoader()
       const onError = (err: ErrorEvent) => reject(err)
       const onProgress = (ev: ProgressEvent) => console.info("downloading skybox", ev)
-      const onLoad = (texture: CubeTexture) => {
-        // logLoaded(`Skybox #${nr}`)
-        resolve(texture)
-      }
+      const onLoad = (texture: CubeTexture) => resolve(texture)
 
-      const path = `/skybox/${String(nr).padStart(2, "0")}/`
+      const path = `/textures/skybox/${String(nr).padStart(2, "0")}/`
       const urls = ["RT", "LF", "UP", "DN", "BK", "FR"].map(side => `sky${nr}_${side}.jpg`)
       loader.setPath(path).load(urls, onLoad, onProgress, onError)
     })
@@ -38,13 +34,11 @@ export function useAssets() {
   const loadNoVideoMaterial = (): Promise<void> => {
     return new Promise((resolve, reject) => {
       const loader = new TextureLoader()
-
       loader.load(
         "textures/no-video.png",
         map => {
           const noVideoMaterial = new MeshBasicMaterial({ map, transparent: true, side: DoubleSide })
           assets.set("noVideoMaterial", noVideoMaterial)
-          // logLoaded("noVideoMaterial")
           resolve()
         },
         undefined,
@@ -70,7 +64,6 @@ export function useAssets() {
             side: DoubleSide,
           })
           assets.set("leafMaterial", material)
-          // logLoaded("leafMaterial")
           resolve(material)
         },
         undefined,

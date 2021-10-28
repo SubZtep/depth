@@ -10,7 +10,7 @@ Boilerplate that is built on top of [Vue3](https://v3.vuejs.org/api/sfc-script-s
 
 ## Monorepository
 
-Various 3rd-parties included in isolated packages in the monorepo. The public **[w](./web#readme)eb frontend** is also part of it in a separate workspace.
+Various 3rd-parties included in isolated packages in the monorepo. The public [web](./web#readme) frontend is also part of it in a separate workspace.
 
 ### Packages
 
@@ -18,16 +18,16 @@ Various 3rd-parties included in isolated packages in the monorepo. The public **
 
 | Package                                    | Description                                                                                 |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------- |
-| **[a](packages/audio#readme)udio**         | Detect autoplay policy, play a single test sound (for now) with the Web Audio API.          |
-| **[dat.gui](packages/dat.gui#readme)**     | GUI that handles most of the user inputs. Upgraded with reactivity and additional controls. |
-| **[f](packages/ffmpeg#readme)fmpeg**       | Analise video keyframes and save screenshots in the browser.                                |
-| **[m](packages/mediapipe#readme)ediapipe** | Human pose detection.                                                                       |
-| **[m](packages/misc#readme)isc**           | Miscellaneous helper scripts and text formatters.                                           |
-| **[s](packages/stats.js#readme)tats.js**   | Performance monitor for 3D and heavy calculations.                                          |
-| **[s](packages/supabase#readme)upabase**   | Fast and easy to use database for some backend I/O.                                         |
-| **[t](packages/three.js#readme)hree.js**   | Draw and show the 3D canvas with _game loop_ and camera controls.                           |
+| `audio`                                  | Detect autoplay policy, play a single test sound (for now) with the Web Audio API.          |
+| [`dat.gui`](packages/dat.gui#readme)     | GUI that handles most of the user inputs. Upgraded with reactivity and additional controls. |
+| [`ffmpeg`](packages/ffmpeg#readme)       | Analise video keyframes and save screenshots in the browser.                                |
+| [`mediapipe`](packages/mediapipe#readme) | Human pose detection.                                                                       |
+| `misc`                                   | Miscellaneous helper scripts and text formatters.                                           |
+| [`stats.js`](packages/stats.js#readme)   | Performance monitor for 3D and heavy calculations.                                          |
+| [`supabase`](packages/supabase#readme)   | Fast and easy to use database for some backend I/O.                                         |
+| [`three.js`](packages/three.js#readme)   | Draw and show the 3D canvas with _game loop_ and camera controls.                           |
 
-> Incomplete docs. :pencil2: If you’re interested please check the source code.
+> Incomplete docs. :pencil2: [TSDoc](https://tsdoc.org/) might be rendered to wiki pages at some point.
 
 ## Setup
 

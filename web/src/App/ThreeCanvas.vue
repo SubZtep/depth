@@ -9,11 +9,12 @@ MainScene
 import { AmbientLight, DirectionalLight } from "three"
 import { usePreferencesStore } from "../stores/preferences"
 import { InfiniteGridHelper } from "../3D/infiniteGrid"
-import { useAssets, useThreeJSEventHook, useCanvas, objs } from "@depth/three.js"
+import { useAssets, useThreeJSEventHook, useCanvas } from "@depth/three.js"
 // import { onVisibility } from "../events"
 import * as sdef from "../3D/sceneDefaults"
 import { rand } from "../misc/utils"
 import { sleep } from "@depth/misc"
+import useObjectPool from "../composables/useObjectPool"
 
 const preferences = usePreferencesStore()
 const assets = useAssets()
@@ -23,12 +24,14 @@ await assets.loadLeafMaterial()
 const skybox = await assets.loadSkybox(preferences.skybox || rand(15))
 const wc = ref()
 
+const { push } = useObjectPool()
+
 const ambLight = new AmbientLight(0xbbbbbb)
+push("GlobalAmbientLight", ambLight)
+
 const dirLight = new DirectionalLight(0xffffff, 1)
 dirLight.rotation.set(0, 1.6, -30)
-
-objs.set("ambLight", ambLight)
-objs.set("dirLight", dirLight)
+push("GlobalDirectionalLight", dirLight)
 
 const grid = sdef.grid(-7.5)
 const grid2 = sdef.grid(7.5)

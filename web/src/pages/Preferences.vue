@@ -1,20 +1,31 @@
 <template lang="pug">
 Title Preferences
+
+component(:is="activeObject")
 </template>
 
 <script lang="ts" setup>
-// import { addGuiFolder } from "@depth/dat.gui"
-// import { singleFns, objs, useThreeJSEventHook, renderAllFrames, renderFramesWithCameraMove } from "@depth/three.js"
-// import { AmbientLight, DirectionalLight, DirectionalLightHelper } from "three"
-// import { ColorGUIHelper, makeXYZGUI } from "@depth/dat.gui"
-
+import { useThreeJSEventHook } from "@depth/three.js"
 import { addGuiFolder } from "@depth/dat.gui"
 import { useAssets, exec3D, setupBoundaries } from "@depth/three.js"
 import { usePreferencesStore } from "../stores/preferences"
+import { keypointFactory } from "../3D/factories"
+import GlobalAmbientLight from "../components/preferences/GlobalAmbientLight.vue"
+import GlobalDirectionalLight from "../components/preferences/GlobalDirectionalLight.vue"
 
 const preferences = usePreferencesStore()
 const guiScaleCss = useCssVar("--gui-scale")
 const { loadSkybox } = useAssets()
+const threeJs = useThreeJSEventHook()
+
+onMounted(() => {
+  threeJs.trigger({ cmd: "RenderFrames", param: "All" })
+})
+
+const ball = keypointFactory({ color: "red" })
+ball.position.set(0, 1.6, 0)
+ball.scale.set(15, 15, 15)
+exec3D(({ scene }) => scene.add(ball))
 
 addGuiFolder(folder => {
   folder.name = "⚙ Preferences"
@@ -41,38 +52,21 @@ addGuiFolder(folder => {
     })
 })
 
-// const ambLight = objs.get("ambLight") as AmbientLight
-// const dirLight = objs.get("dirLight") as DirectionalLight
-// const dirLightHelper = new DirectionalLightHelper(dirLight, 5)
-// singleFns.add(({ scene }) => scene.add(dirLight.target, dirLightHelper))
+const editables = { "Ambient light": GlobalAmbientLight, "Directional light": GlobalDirectionalLight }
+const activeObject = shallowRef(GlobalAmbientLight)
 
-// const threeJs = useThreeJSEventHook()
-// threeJs.trigger("renderAllFrames")
+addGuiFolder(folder => {
+  folder.name = "🔧 Select object"
+  folder.add({ Edit: "Ambient light" }, "Edit", Object.keys(editables)).onChange(key => {
+    set(activeObject, editables[key])
+  })
+})
 
-// addGuiFolder(folder => {
-//   folder.name = "💡 Ambient light"
-//   folder.addColor(new ColorGUIHelper(ambLight, "color"), "value").name("Color")
-//   folder.add(ambLight, "intensity", 0, 2, 0.01).name("Intensity")
-// })
-
-// addGuiFolder(folder => {
-//   const updateDirLight = () => {
-//     dirLight.target.updateMatrixWorld()
-//     dirLightHelper.update()
-//   }
-//   folder.name = "🌞 Directional light"
-//   folder.addColor(new ColorGUIHelper(dirLight, "color"), "value").name("Color").onChange(updateDirLight)
-//   folder.add(dirLight, "castShadow").name("Cast shadow").onChange(updateDirLight)
-//   folder.add(dirLight, "intensity", 0, 2, 0.01).name("Intensity").onChange(updateDirLight)
-//   makeXYZGUI(folder, dirLight.position, "Position", updateDirLight)
-//   makeXYZGUI(folder, dirLight.target.position, "Target", updateDirLight)
-// })
-
-// onBeforeUnmount(() => {
-//   threeJs.trigger("renderFramesWithCameraMove")
-//   singleFns.add(({ scene }) => {
-//     scene.remove(dirLightHelper, dirLight.target)
-//     dirLightHelper.dispose()
-//   })
-// })
+onBeforeUnmount(() => {
+  exec3D(({ scene }) => {
+    scene.remove(ball)
+    // XXX: in case of misterious memory leak: renderer.renderLists.dispose()
+  })
+  threeJs.trigger({ cmd: "RenderFrames", param: "CameraMove" })
+})
 </script>

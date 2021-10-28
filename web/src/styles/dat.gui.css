@@ -65,6 +65,10 @@
     }
   }
 
+  .color .selector {
+    margin-top: 0;
+  }
+
   ul:not(.closed) > .cr.function {
     --btn-border-width: 2px;
     --btn-border-color: #333;

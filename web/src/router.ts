@@ -38,8 +38,8 @@ const routes: RouteRecordRaw[] = [
     name: "preferences",
     component: () => import("./pages/Preferences.vue"),
     meta: {
-      position: [-2, camHeight, -10],
-      lookAt: [0, 0, 0],
+      position: [-3, camHeight, -3],
+      lookAt: [0, camHeight, 0],
     },
   },
   {
@@ -78,8 +78,7 @@ const router = createRouter({
 export default router
 
 function getRouteNames() {
-  // getRoutes returns ordered
-  // TODO: handle route changes
+  // TODO: handle route changes (or not?)
   return router
     .getRoutes()
     .map(({ name }) => name as string)

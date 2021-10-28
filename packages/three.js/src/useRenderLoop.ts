@@ -14,6 +14,7 @@ interface RenderLoopProps {
 
 interface LoopFnProps {
   cameraControls: CameraControls
+  renderer: THREE.WebGLRenderer
   scene: THREE.Scene
   clock: THREE.Clock
 }
@@ -44,16 +45,16 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, rend
     const camUpdated = cameraControls.update(delta)
 
     try {
-      singleFns.forEach(fn => fn({ scene, cameraControls, clock }))
+      singleFns.forEach(fn => fn({ scene, renderer, cameraControls, clock }))
       singleFns.clear()
-      loopFns.forEach(fn => fn({ scene, cameraControls, clock }))
+      loopFns.forEach(fn => fn({ scene, renderer, cameraControls, clock }))
 
       for (const fn of singleFnPrs) {
-        await fn({ scene, cameraControls, clock })
+        await fn({ scene, renderer, cameraControls, clock })
       }
       singleFnPrs.clear()
       for (const fn of loopFnPrs) {
-        await fn({ scene, cameraControls, clock })
+        await fn({ scene, renderer, cameraControls, clock })
       }
     } catch (e) {
       console.error("ThreeJS Render Loop", e)
