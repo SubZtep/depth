@@ -1,5 +1,5 @@
 <template lang="pug">
-Title.flex-col(v-if="bored" class="!duration-13000")
+Title(v-if="bored" class="!duration-13000 flex-col")
   | {{bored.activity}}
   .text-2xl.text-cyan-600.opacity-50.tracking-wider
     | {{bored.type}}

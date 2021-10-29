@@ -1,11 +1,11 @@
 <template lang="pug">
-Title Directional light
+//- Title Directional light
 </template>
 
 <script lang="ts" setup>
 import { DirectionalLight, DirectionalLightHelper } from "three"
 import { addGuiFolder, ColorGUIHelper, makeXYZGUI } from "@depth/dat.gui"
-import useObjectPool from "../../composables/useObjectPool"
+import useObjectPool from "~/composables/useObjectPool"
 import { exec3D } from "@depth/three.js"
 
 const light = useObjectPool().pop("GlobalDirectionalLight") as DirectionalLight

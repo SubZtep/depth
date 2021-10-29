@@ -5,10 +5,7 @@ transition(name="title")
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{
-  delay?: number
-}>()
-
+const props = defineProps<{ delay?: number }>()
 const ready = useTimeout(props.delay || 0)
 </script>
 
@@ -18,5 +15,19 @@ const ready = useTimeout(props.delay || 0)
     font-mono font-extrabold text-8xl opacity-100 pointer-events-none select-none;
   text-shadow: -4px 0 var(--blood), 1px 0 #fffa, 1px 1px 2px #0063;
   transform: translateX(-100%);
+}
+</style>
+
+<style>
+.title-enter-active,
+.title-leave-active {
+  transition: all 4s ease-in;
+}
+.title-enter-from {
+  transform: translateX(0);
+}
+.title-leave-to {
+  @apply opacity-30;
+  transform: translateX(100%) scale(0.5);
 }
 </style>

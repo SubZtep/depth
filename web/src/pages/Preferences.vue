@@ -1,5 +1,5 @@
 <template lang="pug">
-Title Preferences
+Title Preferences (ambient light)
 
 component(:is="activeObject")
 </template>
@@ -13,21 +13,19 @@ import { keypointFactory } from "../3D/factories"
 import GlobalAmbientLight from "../components/preferences/GlobalAmbientLight.vue"
 import GlobalDirectionalLight from "../components/preferences/GlobalDirectionalLight.vue"
 
+onMounted(() => threeJs.trigger({ cmd: "RenderFrames", param: "All" }))
+
 const preferences = usePreferencesStore()
 const guiScaleCss = useCssVar("--gui-scale")
 const { loadSkybox } = useAssets()
 const threeJs = useThreeJSEventHook()
-
-onMounted(() => {
-  threeJs.trigger({ cmd: "RenderFrames", param: "All" })
-})
 
 const ball = keypointFactory({ color: "red" })
 ball.position.set(0, 1.6, 0)
 ball.scale.set(15, 15, 15)
 exec3D(({ scene }) => scene.add(ball))
 
-addGuiFolder(folder => {
+const { folder: fPref } = addGuiFolder(folder => {
   folder.name = "⚙ Preferences"
   folder
     .add(preferences, "guiScale", 0.5, 3, 0.1)
@@ -52,12 +50,15 @@ addGuiFolder(folder => {
     })
 })
 
-const editables = { "Ambient light": GlobalAmbientLight, "Directional light": GlobalDirectionalLight }
-const activeObject = shallowRef(GlobalAmbientLight)
+const emptyValue = "--- ??? ---"
+const editables = { [emptyValue]: null, "Ambient light": GlobalAmbientLight, "Directional light": GlobalDirectionalLight }
+const activeObject = shallowRef(null)
 
 addGuiFolder(folder => {
-  folder.name = "🔧 Select object"
-  folder.add({ Edit: "Ambient light" }, "Edit", Object.keys(editables)).onChange(key => {
+  folder.domElement.classList.add("opacity-60")
+  folder.name = "★ Active object"
+  folder.add({ Select: emptyValue }, "Select", Object.keys(editables)).onChange(key => {
+    fPref[key === emptyValue ? "open" : "close"]()
     set(activeObject, editables[key])
   })
 })
@@ -65,6 +66,7 @@ addGuiFolder(folder => {
 onBeforeUnmount(() => {
   exec3D(({ scene }) => {
     scene.remove(ball)
+    ball.dispatchEvent({ type: "dispose" })
     // XXX: in case of misterious memory leak: renderer.renderLists.dispose()
   })
   threeJs.trigger({ cmd: "RenderFrames", param: "CameraMove" })

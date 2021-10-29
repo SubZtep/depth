@@ -26,7 +26,7 @@ const wc = ref()
 
 const { push } = useObjectPool()
 
-const ambLight = new AmbientLight(0xbbbbbb)
+const ambLight = new AmbientLight(preferences.ambientLightColor, preferences.ambientLightIntensity)
 push("GlobalAmbientLight", ambLight)
 
 const dirLight = new DirectionalLight(0xffffff, 1)
@@ -42,7 +42,7 @@ const threeJs = useThreeJSEventHook()
 const igrid = InfiniteGridHelper({
   size1: 5,
   size2: 10,
-  distance: 1000,
+  distance: 2000,
 })
 
 useCanvas(wc).add(ambLight, dirLight, igrid, grid, grid2, plane, leafPlane).background = skybox

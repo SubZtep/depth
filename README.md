@@ -6,26 +6,27 @@
 :balloon: \
 [![Test & Build & Deploy](https://github.com/SubZtep/depth/actions/workflows/deploy.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/deploy.yml)
 
-Boilerplate that is built on top of [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) and [Three.js](https://threejs.org/), using reactive compositions.
+Boilerplate that is built on top of [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) and [Three.js](https://threejs.org/), using reactive compositions. \
+_2<sup>3</sup>_
 
 ## Monorepository
 
-Various 3rd-parties included in isolated packages in the monorepo. The public [web](./web#readme) frontend is also part of it in a separate workspace.
+Since purposelessness leading the project to avoid spaghetti code is essential to keep it alive. Writing self-contained modules is quite effective in isolated packages. Found out a monorepo is still manageable during development. Little discomfort with it shows a return on a higher level of cohesion.
 
 ### Packages
 
-3rd-party packages are wrapped into the Vue plugin interface and mostly extended with handy functionality.
+The public [web](./web#readme) frontend is also part of it in a workspace. 3rd-party packages are wrapped into the Vue plugin interface and mostly extended with handy functionality.
 
-| Package                                    | Description                                                                                 |
-| ------------------------------------------ | ------------------------------------------------------------------------------------------- |
-| `audio`                                  | Detect autoplay policy, play a single test sound (for now) with the Web Audio API.          |
-| [`dat.gui`](packages/dat.gui#readme)     | GUI that handles most of the user inputs. Upgraded with reactivity and additional controls. |
-| [`ffmpeg`](packages/ffmpeg#readme)       | Analise video keyframes and save screenshots in the browser.                                |
+|                                  Package | Description                                                                                 |
+| ---------------------------------------: | ------------------------------------------------------------------------------------------- |
+|                                  `audio` | Resolve [autoplay policy](https://developer.chrome.com/blog/autoplay/#webaudio), play a single test sound (for now) with the Web Audio API.          |
+|                                   `misc` | Miscellaneous helper scripts and text formatters.                                           |
+|     [`dat.gui`](packages/dat.gui#readme) | GUI that handles most of the user inputs. Upgraded with reactivity and additional controls. |
+|       [`ffmpeg`](packages/ffmpeg#readme) | Analise video keyframes and save screenshots in the browser.                                |
 | [`mediapipe`](packages/mediapipe#readme) | Human pose detection.                                                                       |
-| `misc`                                   | Miscellaneous helper scripts and text formatters.                                           |
-| [`stats.js`](packages/stats.js#readme)   | Performance monitor for 3D and heavy calculations.                                          |
-| [`supabase`](packages/supabase#readme)   | Fast and easy to use database for some backend I/O.                                         |
-| [`three.js`](packages/three.js#readme)   | Draw and show the 3D canvas with _game loop_ and camera controls.                           |
+|   [`stats.js`](packages/stats.js#readme) | Performance monitor for 3D and heavy calculations.                                          |
+|   [`supabase`](packages/supabase#readme) | Fast and easy to use database for some backend I/O.                                         |
+|   [`three.js`](packages/three.js#readme) | Draw and show the 3D canvas with _game loop_ and camera controls.                           |
 
 > Incomplete docs. :pencil2: [TSDoc](https://tsdoc.org/) might be rendered to wiki pages at some point.
 

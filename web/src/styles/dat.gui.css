@@ -9,6 +9,10 @@
     border-top-right-radius: 1.75rem 1rem;
   }
 
+  .folder .folder {
+    transform: translateX(1rem);
+  }
+
   > ul {
     @apply flex flex-col-reverse;
   }
@@ -89,8 +93,7 @@
     &.active {
       pointer-events: none;
       .property-name {
-        color: yellowgreen;
-        cursor: not-allowed;
+        color: #b55;
       }
     }
   }
