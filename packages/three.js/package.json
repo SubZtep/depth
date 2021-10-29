@@ -9,12 +9,12 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
+    "@vueuse/core": "^6.7.4",
     "camera-controls": "^1.33.1",
-    "three": "^0.133.1"
+    "three": "^0.133.1",
+    "vue": "^3.2.20"
   },
   "devDependencies": {
-    "@types/three": "^0.133.1",
-    "@vueuse/core": "^6.7.4",
-    "vue": "^3.2.20"
+    "@types/three": "^0.133.1"
   }
 }

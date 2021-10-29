@@ -1,8 +1,8 @@
-import type { RenderFramesParam } from "./events"
+import type { Ref } from "vue"
 import type CameraControls from "camera-controls"
+import type { RenderFramesParam } from "./events"
 import { get, whenever } from "@vueuse/core"
 import { Clock } from "three"
-import { Ref } from "vue"
 
 interface RenderLoopProps {
   renderer: THREE.WebGLRenderer

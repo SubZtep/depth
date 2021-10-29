@@ -4,15 +4,7 @@ import { get, set, until, pausableWatch, tryOnMounted, tryOnUnmounted } from "@v
 import type { Ref } from "vue"
 import { toRef, computed, ref } from "vue"
 import { KEYFRAME_TIMESTAMPS_LOG, KEYFRAME_TIMESTAMPS } from "./commands"
-import { noDotFiles } from "@depth/misc"
-
-function basename(src: string, ext = false): string {
-  let base = src.split("/").pop()!.split("?").shift()!
-  if (!ext) {
-    base = base.split(".").shift()!
-  }
-  return base
-}
+import { noDotFiles, basename } from "@depth/misc"
 
 export interface FFmpegOptions {
   src: Ref<string>

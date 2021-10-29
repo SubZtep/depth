@@ -28,7 +28,7 @@ describe("filename from path", () => {
 })
 
 describe("string mutation", () => {
-  test("kebab case to human readable", () => {
+  it("kebab case to human readable", () => {
     const strings = [
       ["hello", "Hello"],
       ["hello-WORLD", "Hello World"],

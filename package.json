@@ -12,6 +12,7 @@
     "serve": "pnpm recursive run serve --filter @depth/web",
     "lint": "pnpm recursive exec -- eslint .",
     "test": "jest",
+    "coverage": "jest --coverage",
     "preinstall": "npx only-allow pnpm"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",

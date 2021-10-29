@@ -1,6 +1,6 @@
+import * as THREE from "three"
 import { MaybeRef } from "@vueuse/core"
 import CameraControls from "camera-controls"
-import * as THREE from "three"
 import { Scene, WebGLRenderer, PerspectiveCamera } from "three"
 import { debouncedWatch, useWindowSize, get, tryOnMounted } from "@vueuse/core"
 import { useRenderLoop } from "./useRenderLoop"

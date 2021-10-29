@@ -1,32 +1,32 @@
 # depth 🧘‍♀️ ~~perception~~
 
-> Just another _code sandbox_. — :warning: **W.I.P.**
-
 [![CodeQL](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml)
-:balloon: \
 [![Test & Build & Deploy](https://github.com/SubZtep/depth/actions/workflows/deploy.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/deploy.yml)
 
-Boilerplate that is built on top of [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) and [Three.js](https://threejs.org/), using reactive compositions. \
-_2<sup>3</sup>_
+> Just another _code sandbox_. — **W.I.P.** — _2<sup>3</sup>_ :balloon:
 
-## Monorepository
+A [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) app uses composition API over and above with a full-screen [Three.js](https://threejs.org/) background layer which gains some advantages of its reactivity. This is adequate for trying out concepts and seeing how they could fit into a busy environment.
 
-Since purposelessness leading the project to avoid spaghetti code is essential to keep it alive. Writing self-contained modules is quite effective in isolated packages. Found out a monorepo is still manageable during development. Little discomfort with it shows a return on a higher level of cohesion.
+## Why monorepository
+
+Since purposelessness leads the project, avoiding spaghetti code is essential to keep it alive. Writing self-contained modules is quite effective in isolated packages. However, managing separate repositories for a relatively small platform could hold back the prototyping flow.
+
+A monorepo is moving beyond this problem, only with minimal discomfort shows a return on a higher level of cohesion.
 
 ### Packages
 
 The public [web](./web#readme) frontend is also part of it in a workspace. 3rd-party packages are wrapped into the Vue plugin interface and mostly extended with handy functionality.
 
-|                                  Package | Description                                                                                 |
-| ---------------------------------------: | ------------------------------------------------------------------------------------------- |
-|                                  `audio` | Resolve [autoplay policy](https://developer.chrome.com/blog/autoplay/#webaudio), play a single test sound (for now) with the Web Audio API.          |
-|                                   `misc` | Miscellaneous helper scripts and text formatters.                                           |
-|     [`dat.gui`](packages/dat.gui#readme) | GUI that handles most of the user inputs. Upgraded with reactivity and additional controls. |
-|       [`ffmpeg`](packages/ffmpeg#readme) | Analise video keyframes and save screenshots in the browser.                                |
-| [`mediapipe`](packages/mediapipe#readme) | Human pose detection.                                                                       |
-|   [`stats.js`](packages/stats.js#readme) | Performance monitor for 3D and heavy calculations.                                          |
-|   [`supabase`](packages/supabase#readme) | Fast and easy to use database for some backend I/O.                                         |
-|   [`three.js`](packages/three.js#readme) | Draw and show the 3D canvas with _game loop_ and camera controls.                           |
+|                                  Package | Description                                                                                                                                 |
+| ---------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------ |
+|                                  `audio` | Resolve [autoplay policy](https://developer.chrome.com/blog/autoplay/#webaudio), play a single test sound (for now) with the Web Audio API. |
+|                                   `misc` | Miscellaneous helper scripts and text formatters.                                                                                           |
+|     [`dat.gui`](packages/dat.gui#readme) | GUI that handles most of the user inputs. Upgraded with reactivity and additional controls.                                                 |
+|       [`ffmpeg`](packages/ffmpeg#readme) | Analise video keyframes and save screenshots in the browser.                                                                                |
+| [`mediapipe`](packages/mediapipe#readme) | Human pose detection.                                                                                                                       |
+|   [`stats.js`](packages/stats.js#readme) | Performance monitor for 3D and heavy calculations.                                                                                          |
+|   [`supabase`](packages/supabase#readme) | Fast and easy to use database for some backend I/O.                                                                                         |
+|   [`three.js`](packages/three.js#readme) | Draw and show the 3D canvas with _game loop_ and camera controls.                                                                           |
 
 > Incomplete docs. :pencil2: [TSDoc](https://tsdoc.org/) might be rendered to wiki pages at some point.
 
@@ -41,7 +41,7 @@ VITE_SUPABASE_KEY="[LIKE_148_CHARACTERS_HASH]"
 
 FFmpeg uses _SharedArrayBuffer_ that requires [cross-origin isolated](https://developer.chrome.com/blog/enabling-shared-array-buffer/) header.
 
-> A [Vite plugin](https://github.com/chaosprint/vite-plugin-cross-origin-isolation) is configured in the project for local server.
+> A [Vite plugin](https://github.com/chaosprint/vite-plugin-cross-origin-isolation) is configured in the project for the local server.
 
 ### Shell commands
 
