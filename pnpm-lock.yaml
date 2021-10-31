@@ -112,14 +112,12 @@ importers:
 
   packages/three.js:
     specifiers:
-      '@depth/misc': workspace:*
       '@types/three': ^0.133.1
       '@vueuse/core': ^6.7.4
       camera-controls: ^1.33.1
       three: ^0.133.1
       vue: ^3.2.20
     dependencies:
-      '@depth/misc': link:../misc
       '@vueuse/core': 6.7.4_vue@3.2.20
       camera-controls: 1.33.1_three@0.133.1
       three: 0.133.1

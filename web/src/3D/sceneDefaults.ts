@@ -92,14 +92,14 @@ export async function loadNoVideoMaterial(): Promise<MeshBasicMaterial> {
 
 export async function createDefaultObjects(): Promise<Object3D[]> {
   const preferences = usePreferencesStore()
-  const { push } = useObjectPool()
+  // const { push } = useObjectPool()
 
   const ambLight = new AmbientLight(preferences.ambientLightColor, preferences.ambientLightIntensity)
-  push("GlobalAmbientLight", ambLight)
+  // push("GlobalAmbientLight", ambLight)
 
   const dirLight = new DirectionalLight(0xffffff, 1)
   dirLight.rotation.set(0, 1.6, -30)
-  push("GlobalDirectionalLight", dirLight)
+  // push("GlobalDirectionalLight", dirLight)
 
   return [
     ambLight,
@@ -110,9 +110,9 @@ export async function createDefaultObjects(): Promise<Object3D[]> {
       size2: 10,
       distance: 2000,
     }),
-    grid(-7.5),
-    grid(7.5),
-    plane(),
-    await leafPlane(),
+    // grid(-7.5),
+    // grid(7.5),
+    // plane(),
+    // await leafPlane(),
   ]
 }

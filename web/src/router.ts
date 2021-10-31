@@ -11,7 +11,7 @@ const routes: RouteRecordRaw[] = [
     name: "pool",
     component: () => import("./pages/Pool.vue"),
     meta: {
-      position: [-20, camHeight, 0],
+      position: [-150, camHeight, 0],
       lookAt: [0, camHeight, 0],
     },
   },
