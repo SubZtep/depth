@@ -33,7 +33,7 @@ export default defineComponent({
 
     watch(
       () => props.position,
-      pos => {
+      (pos: THREE.Vector3Tuple) => {
         Globe.position.set(...pos)
       },
       { immediate: true, deep: true }

@@ -7,7 +7,7 @@ component(:is="activeObject")
 <script lang="ts" setup>
 import { useThreeJSEventHook } from "@depth/three.js"
 import { addGuiFolder } from "@depth/dat.gui"
-import { useAssets, exec3D, setupBoundaries } from "@depth/three.js"
+import { exec3D, setupBoundaries } from "@depth/three.js"
 import { usePreferencesStore } from "../stores/preferences"
 import { keypointFactory } from "../3D/factories"
 import GlobalAmbientLight from "../components/preferences/GlobalAmbientLight.vue"
@@ -16,8 +16,7 @@ import GlobalDirectionalLight from "../components/preferences/GlobalDirectionalL
 onMounted(() => threeJs.trigger({ cmd: "RenderFrames", param: "All" }))
 
 const preferences = usePreferencesStore()
-const guiScaleCss = useCssVar("--gui-scale")
-const { loadSkybox } = useAssets()
+
 const threeJs = useThreeJSEventHook()
 
 const ball = keypointFactory({ color: "red" })
@@ -28,18 +27,10 @@ exec3D(({ scene }) => scene.add(ball))
 const { folder: fPref } = addGuiFolder(folder => {
   folder.name = "⚙ Preferences"
   folder
-    .add(preferences, "guiScale", 0.5, 3, 0.1)
+    .add({ guiScale: preferences.guiScale }, "guiScale", 0.5, 3, 0.1)
     .name("GUI scale")
-    .onFinishChange(scale => set(guiScaleCss, String(scale)))
-  folder
-    .add(preferences, "skybox", 1, 15, 1)
-    .name("Skybox")
-    .onChange(async nr => {
-      const bg = await loadSkybox(nr)
-      exec3D(({ scene }) => {
-        scene.background = bg
-      })
-    })
+    .onFinishChange(scale => (preferences.guiScale = String(scale)))
+  folder.add(preferences, "skybox", 1, 15, 1).name("Skybox")
   folder
     .add(preferences, "horizontalLock")
     .name("Rotation lock")

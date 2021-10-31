@@ -8,7 +8,8 @@ router-view(v-slot="{ Component }")
 <script lang="ts" setup>
 import { useGui } from "@depth/dat.gui"
 import { useStats } from "@depth/stats.js"
-import { loop3D } from "@depth/three.js"
+import { useSkybox, loop3D } from "@depth/three.js"
+import { usePreferencesStore } from "~/stores/preferences"
 
 useGui().show()
 
@@ -17,4 +18,13 @@ const stats = useStats()
 loop3D(() => {
   stats.update()
 })
+
+// Sync preferences store to refs
+const preferences = usePreferencesStore()
+
+const { nr } = useSkybox()
+syncRef(toRef(preferences, "skybox"), nr)
+
+const guiScaleCss = useCssVar("--gui-scale")
+syncRef(toRef(preferences, "guiScale"), guiScaleCss)
 </script>

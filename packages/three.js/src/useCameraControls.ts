@@ -2,7 +2,6 @@ import type CameraControls from "camera-controls"
 import { useIdle, whenever } from "@vueuse/core"
 import { CameraShake } from "./camerashake"
 import { Box3, Vector3 } from "three"
-// import { Box3, Vector3 } from "camera-controls"
 
 export type CameraBoundary = "Full" | "Simple" | "Off"
 const boundaryBox = new Box3(new Vector3(-100, 2, -100), new Vector3(100, 2, 100))
@@ -17,7 +16,7 @@ export function setupBoundaries(cameraControls: CameraControls, boundary: Camera
     cameraControls.polarRotateSpeed = 1.0
     cameraControls.azimuthRotateSpeed = 1.0
     cameraControls.dampingFactor = 0.05
-    cameraControls.setBoundary(emptyBox)
+    cameraControls.setBoundary(emptyBox) // FIXME: remove param after cc release
   } else {
     if (boundary === "Full") {
       const halfPi = Math.PI / 2
@@ -42,12 +41,11 @@ let shaker = 0
 const shakes: CameraShake[] = []
 
 function initShakes(cameraControls: CameraControls) {
-  shakes
-    .push
-    // new CameraShake(cameraControls, 500, 10, 0.5),
-    // new CameraShake(cameraControls, 1000, 10, 1),
-    // new CameraShake(cameraControls, 5000, 2, 0.5)
-    ()
+  shakes.push(
+    new CameraShake(cameraControls, 500, 10, 0.5),
+    new CameraShake(cameraControls, 1000, 10, 1),
+    new CameraShake(cameraControls, 5000, 2, 0.5)
+  )
 }
 
 function shakeIt(nr?: number) {
@@ -59,7 +57,13 @@ export function useCameraControls(cameraControls: CameraControls) {
   setupBoundaries(cameraControls)
 
   const { idle } = useIdle()
-  whenever(idle, shakeIt)
+  whenever(
+    idle,
+    () => {
+      // console.log("SHAKE", shaker)
+      shakeIt()
+    }
+  )
 
   shakeIt() // FIXME: shouldn't be necessary for able to move camera in the beginning
 }

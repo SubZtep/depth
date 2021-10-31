@@ -7,6 +7,15 @@ import { exec3D } from "@depth/three.js"
 const camHeight = 1.6
 const routes: RouteRecordRaw[] = [
   {
+    path: "/pool",
+    name: "pool",
+    component: () => import("./pages/Pool.vue"),
+    meta: {
+      position: [-20, camHeight, 0],
+      lookAt: [0, camHeight, 0],
+    },
+  },
+  {
     path: "/quote-walker",
     name: "quote-walker",
     component: () => import("./pages/QuoteWalker.vue"),
