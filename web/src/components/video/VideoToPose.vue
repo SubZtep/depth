@@ -16,13 +16,13 @@ transition(name="slide")
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
-import { toSelectOptions } from "../../misc/transformers"
+import { toSelectOptions } from "~/misc/transformers"
 import { useFFmpeg } from "@depth/ffmpeg"
 import { useThreeJSEventHook } from "@depth/three.js"
 import { useMediapipePose } from "@depth/mediapipe"
 import type { LandmarkList } from "@depth/mediapipe"
 import { round, compare } from "mathjs"
-import { useVideoStore } from "../../stores/video"
+import { useVideoStore } from "~/stores/video"
 import { sleep, basename } from "@depth/misc"
 import { useGui } from "@depth/dat.gui"
 

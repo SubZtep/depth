@@ -110,9 +110,14 @@ export async function createDefaultObjects(): Promise<Object3D[]> {
       size2: 10,
       distance: 2000,
     }),
-    // grid(-7.5),
-    // grid(7.5),
-    // plane(),
-    // await leafPlane(),
+  ]
+}
+
+export async function createVsObjects(): Promise<Object3D[]> {
+  return [
+    grid(-7.5),
+    grid(7.5),
+    plane(),
+    await leafPlane(),
   ]
 }

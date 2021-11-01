@@ -3,6 +3,7 @@ import { defineConfig } from "vite"
 import Vue from "@vitejs/plugin-vue"
 import Components from "unplugin-vue-components/vite"
 import CrossOriginIsolation from "vite-plugin-cross-origin-isolation"
+import { VitePWA } from "vite-plugin-pwa"
 import AutoImport from "unplugin-auto-import/vite"
 import WindiCSS from "vite-plugin-windicss"
 import type { BuildOptions } from "vite"
@@ -38,6 +39,7 @@ export default defineConfig(({ mode, command }) => {
     },
     plugins: [
       Vue(),
+      VitePWA(),
       Components({
         dirs: ["src/3D", "src/App", "src/components"],
         extensions: ["vue", "ts"],

@@ -5,11 +5,12 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "postinstall": "cp -ruv node_modules/@mediapipe/pose/ ../../web/public/"
+    "postinstall": "cp -ruv node_modules/@mediapipe/*/ ../../web/public/"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
+    "@mediapipe/face_mesh": "^0.4.1633559619",
     "@mediapipe/pose": "^0.4.1633558788",
     "@vueuse/core": "^6.7.4",
     "vue": "^3.2.20"

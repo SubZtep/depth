@@ -39,7 +39,7 @@ export function scaleKeypoint(
 }
 
 export function toSelectOptions(options: string[], transformer: (...args: any[]) => string): SelectOptions {
-  return options.reduce((obj, option) => ({ ...obj, [transformer(option)]: option }), {})
+  return options.reduce((obj, option) => ({ ...obj, [option]: transformer(option) }), {})
 }
 
 export function normalizeDeviceLabel(label: string) {

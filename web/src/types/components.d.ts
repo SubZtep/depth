@@ -32,6 +32,7 @@ declare module 'vue' {
     Title: typeof import('./../components/ui/Title.vue')['default']
     VideoPlayer: typeof import('./../components/video/VideoPlayer.vue')['default']
     VideoToPose: typeof import('./../components/video/VideoToPose.vue')['default']
+    WebcamPlayer: typeof import('./../components/video/WebcamPlayer.vue')['default']
     WebcamToPose: typeof import('./../components/video/WebcamToPose.vue')['default']
   }
 }

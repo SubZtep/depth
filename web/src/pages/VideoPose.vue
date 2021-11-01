@@ -13,10 +13,26 @@ Title Video Display Pose
 
 <script lang="ts" setup>
 import type { LandmarkList } from "@depth/mediapipe"
+import { exec3D } from "@depth/three.js"
+import { createVsObjects } from "~/3D/sceneDefaults"
 
 const videoPose = ref<LandmarkList>()
 const setVideoPose = (pose: LandmarkList) => set(videoPose, pose)
 
 // const webcamPose = ref<LandmarkList>()
 // const setWebcamPose = (pose?: LandmarkList) => set(webcamPose, pose)
+
+const objs = await createVsObjects()
+
+onMounted(() => {
+  exec3D(({ scene }) => {
+    scene.add(...objs)
+  })
+})
+
+onBeforeUnmount(() => {
+  exec3D(({ scene }) => {
+    scene.remove(...objs)
+  })
+})
 </script>

@@ -2,6 +2,7 @@ node_modules
 dist
 coverage
 /web/public/pose
+/web/public/face_mesh
 .env
 .pnpm-debug.log
 tsconfig.tsbuildinfo
