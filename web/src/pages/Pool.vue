@@ -36,8 +36,8 @@ function createM2() {
   return new Mesh(geometry, material2)
 }
 
-const pool1 = useObjectPool<Mesh>("m1", createM1)
-const pool2 = useObjectPool<Mesh>("m2", createM2, 10)
+const pool1 = useObjectPool<Mesh>({ modelType: "m1", creator: createM1 })
+const pool2 = useObjectPool<Mesh>({ modelType: "m2", creator: createM2, size: 10 })
 
 const newRow = (xx: number) => {
   const creator = xx % 2 === 0 ? createM1 : createM2

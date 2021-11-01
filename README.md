@@ -52,6 +52,7 @@ To build all the packages, [pnpm](https://pnpm.io/installation) is required.
 $ pnpm install
 
 # build packages and web
+$ NODE_ENV="development"
 $ pnpm build
 
 # run local server

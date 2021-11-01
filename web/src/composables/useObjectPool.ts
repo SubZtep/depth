@@ -2,10 +2,9 @@ import { exec3D } from "@depth/three.js"
 import type { Object3D } from "three"
 
 interface Pool<T> {
-  creator: () => T
-  objects: T[]
+  creator?: () => T
 
-  autoSize: boolean
+  objects: T[]
 
   /** Index of the last assigned object */
   assigned: number
@@ -13,7 +12,18 @@ interface Pool<T> {
 
 const pools = new Map<string, Pool<unknown>>()
 
-export default function useObjectPool<T>(modelType: string, creator: () => T, size?: number) {
+interface ObjectPoolParams<T> {
+  /** Name of the pool */
+  modelType?: string
+  /** Factory that generate a pool item */
+  creator?: () => T
+  /** Set for fixed size pool */
+  size?: number
+}
+
+/** More than pool. */
+export default function useObjectPool<T extends Object3D>(params: ObjectPoolParams<T>) {
+  const { modelType = "base", creator, size } = params
   let pool: Pool<T>
 
   if (pools.has(modelType)) {
@@ -22,18 +32,21 @@ export default function useObjectPool<T>(modelType: string, creator: () => T, si
     const objects: T[] = []
     const autoSize = size === undefined
 
-    if (!autoSize) {
+    if (!autoSize && creator) {
       for (let i = 0; i < size; i++) {
         objects.push(creator())
       }
-      // @ts-ignore
-      exec3D(({ scene }) => (scene.add(...objects))) // FIXME
+
+      exec3D(({ scene }) => scene.add(...objects))
+      onBeforeUnmount(() => {
+        exec3D(({ scene }) => scene.remove(...objects))
+        // objects.forEach(o => o.dispose() somehow)
+      })
     }
 
     pool = {
       creator,
       objects,
-      autoSize,
       assigned: -1,
     }
 
@@ -48,7 +61,7 @@ export default function useObjectPool<T>(modelType: string, creator: () => T, si
     }
 
     const obj = pool.objects[++pool.assigned]
-    exec3D(({ scene }) => (scene.add(obj as unknown as Object3D)))
+    exec3D(({ scene }) => scene.add(obj))
     return obj
   }
 
@@ -58,7 +71,7 @@ export default function useObjectPool<T>(modelType: string, creator: () => T, si
     }
 
     const obj = pool.objects[pool.assigned--]
-    exec3D(({ scene }) => (scene.remove(obj as unknown as Object3D)))
+    exec3D(({ scene }) => scene.remove(obj))
   }
 
   return {

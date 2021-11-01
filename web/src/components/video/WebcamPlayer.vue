@@ -26,7 +26,7 @@ onMounted(() => {
 })
 
 const state = reactive({
-  showVideoTag: true,
+  showVideoTag: false,
   videoDeviceId: "",
   enabled: false,
 })
@@ -51,10 +51,10 @@ watch([videoDeviceId, stream], ([, theStream]) => {
   const video = get(videoRef)
   get(videoRef).srcObject = theStream || null
   if (theStream) {
-    video.srcObject = theStream
     const { width: w, height: h } = theStream.getVideoTracks()[0].getSettings()
     set(width, w)
     set(height, h)
+    video.srcObject = theStream
     emit("streaming", true)
   } else {
     video.srcObject = null
@@ -64,9 +64,9 @@ watch([videoDeviceId, stream], ([, theStream]) => {
 
 addGuiFolder(folder => {
   folder.name = "📹 Webcam Player"
-  folder.add(state, "showVideoTag").name("Show video tag")
-  folder.add(state, "enabled").name("Enabled webcam")
   folder.add(state, "videoDeviceId", cameras).name("Device")
+  folder.add(state, "enabled").name("Camera is ON")
+  folder.add(state, "showVideoTag").name("Show video tag")
   // folder.close()
 })
 </script>

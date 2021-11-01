@@ -43,3 +43,5 @@ export function useStats({ mosaic }: Pick<PluginOptions, "mosaic"> = {}) {
   }
   return stats
 }
+
+export { Stats }

@@ -1,8 +1,15 @@
 import type { FaceMeshResults } from "@depth/mediapipe"
 import { exec3D, camera } from "@depth/three.js"
-import { Group, Vector3, Box3, Mesh, BoxGeometry, MeshBasicMaterial } from "three"
 import type { Ref } from "vue"
 import useObjectPool from "~/composables/useObjectPool"
+import { whenever } from "@vueuse/core"
+import useObjectFactory from "~/composables/useObjectFactory"
+// import { Quaternion } from "three/src/math/Quaternion"
+import { Group } from "three/src/objects/Group"
+import { BoxGeometry } from "three/src/geometries/BoxGeometry"
+import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
+import { Mesh } from "three/src/objects/Mesh"
+import { Vector3 } from "three/src/math/Vector3"
 
 export default defineComponent({
   props: {
@@ -11,26 +18,33 @@ export default defineComponent({
   },
 
   setup(props) {
+    const factory = useObjectFactory()
+    const lineHorizontal = factory.line()
+    const lineVertical = factory.line()
+
+    const cube = factory.cube()
+    // const quaternion = new Quaternion()
+
     const root = new Group()
-    root.rotateOnAxis(new Vector3(1, 0, 0), Math.PI / 3)
+    exec3D(({ scene }) => scene.add(root, lineHorizontal, lineVertical, cube))
 
-    exec3D(({ scene, cameraControls }) => {
-      scene.add(root)
-      cameraControls.fitToBox(new Box3(new Vector3(-10, 5, 0), new Vector3(10, 0, 0)), true)
-    })
-
-    const geometry = new BoxGeometry(0.1, 0.1, 0.1)
-    const material = new MeshBasicMaterial({ color: 0xffff00 })
-    const pool = useObjectPool("face", () => new Mesh(geometry, material), 468)
+    const geometry = new BoxGeometry(0.08, 0.08, 0.08)
+    const material = new MeshBasicMaterial({ color: 0xcccc22 })
+    const pool = useObjectPool({ modelType: "face", creator: () => new Mesh(geometry, material), size: 468 })
 
     let csss: Ref<string>[] = []
-    if (props.cssVarsTarget) {
-      for (let i = 0; i < 468; i++) {
-        csss[i] = useCssVar(`--el-pos-${i}`, props.cssVarsTarget)
-      }
-    }
+    const stop = whenever(
+      () => props.cssVarsTarget,
+      target => {
+        for (let i = 0; i < 468; i++) {
+          csss[i] = useCssVar(`--el-pos-${i}`, target)
+        }
+        stop()
+      },
+      { immediate: true }
+    )
 
-    const tempV = new Vector3()
+    const tempPos = new Vector3()
     let x: number, y: number
     watch(
       () => props.landmarks,
@@ -39,22 +53,37 @@ export default defineComponent({
 
         for (const [index, landmark] of Object.entries(landmarks[0])) {
           const obj3d = pool.getByIndex(+index)
-          obj3d.position.set(landmark.x * 10 - 5, landmark.y * -10 + 15, landmark.z * -10)
+          obj3d.position.set(landmark.x * 10 - 5, landmark.y * -10 + 11, landmark.z * -10)
 
           if (props.cssVarsTarget) {
             obj3d.updateWorldMatrix(true, false)
-            obj3d.getWorldPosition(tempV)
-            tempV.project(camera)
-            x = (tempV.x * 0.5 + 0.5) * window.innerWidth
-            y = (tempV.y * -0.5 + 0.5) * window.innerHeight
+            obj3d.getWorldPosition(tempPos)
+            tempPos.project(camera)
+            // canvas is full without scrollbars, so windows size is just as good
+            x = (tempPos.x * 0.5 + 0.5) * window.innerWidth
+            y = (tempPos.y * -0.5 + 0.5) * window.innerHeight
             csss[index].value = `translate(${x}px,${y}px)`
           }
         }
+
+        const vh1 = pool.getByIndex(454).position
+        const vh2 = pool.getByIndex(234).position
+        const vv1 = pool.getByIndex(10).position
+        const vv2 = pool.getByIndex(152).position
+
+        lineHorizontal.geometry.setFromPoints([vh1, vh2])
+        lineVertical.geometry.setFromPoints([vv1, vv2])
+
+        // FIXME: rotate differently
+        cube.quaternion.setFromUnitVectors(vh1.normalize(), vh2.normalize())
+        cube.rotateX(Math.PI)
       }
     )
 
     onBeforeUnmount(() => {
       exec3D(({ scene }) => scene.remove(root))
+      geometry.dispose()
+      material.dispose()
     })
   },
 
