@@ -48,6 +48,15 @@ export default defineConfig({
           borderStyle: "ridge",
           borderColor: "#964b00",
         },
+        ".flip-x": {
+          transform: "scaleX(-1)",
+        },
+        ".flip-y": {
+          transform: "scaleY(-1)",
+        },
+        ".flip-xy": {
+          transform: "scale(-1, -1)",
+        },
       }
       addComponents([buttons, misc])
     }),

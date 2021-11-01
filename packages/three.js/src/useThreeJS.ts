@@ -15,6 +15,9 @@ export function normalizeEventHookParam(param: ThreeJSEvent) {
   return typeof param === "string" ? { cmd: param } : param
 }
 
+// Camera is required for some calculations
+export let camera: THREE.PerspectiveCamera
+
 export function useCanvas(canvasRef: MaybeRef<HTMLCanvasElement>): Scene {
   const instance = getCurrentInstance()
   if (instance === null) {
@@ -37,7 +40,8 @@ export function useCanvas(canvasRef: MaybeRef<HTMLCanvasElement>): Scene {
     const renderer = new WebGLRenderer({ canvas, powerPreference: "high-performance", antialias: true })
     renderer.shadowMap.enabled = true
 
-    const camera = new PerspectiveCamera(60, get(width) / get(height), 0.01, 1000)
+    // const camera = new PerspectiveCamera(60, get(width) / get(height), 0.01, 1000)
+    camera = new PerspectiveCamera(60, get(width) / get(height), 0.01, 1000)
     const cameraControls = new CameraControls(camera, instance.appContext.app._container)
     useCameraControls(cameraControls)
 

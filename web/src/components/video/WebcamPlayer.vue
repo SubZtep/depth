@@ -1,11 +1,11 @@
 <template lang="pug">
-video.video-border.max-h-300px(
+video.video-border.flip-x(
   ref="videoRef"
   v-visible="state.showVideoTag"
   poster="/textures/no-video.png"
+  :width="width"
+  :height="height"
   autoplay
-  width="640"
-  height="480"
   muted)
 </template>
 
@@ -38,15 +38,28 @@ const { stream, enabled } = useUserMedia({
   videoDeviceId,
 })
 
+const width = ref(0)
+const height = ref(0)
+
 biSyncRef(stateEnabled, enabled)
 
 const cameras = computed(() =>
   Object.fromEntries(get(videoInputs).map(v => [v.deviceId, normalizeDeviceLabel(v.label)]))
 )
 
-watch([videoDeviceId, stream], () => {
-  get(videoRef).srcObject = get(stream) || null
-  emit("streaming", !!get(stream))
+watch([videoDeviceId, stream], ([, theStream]) => {
+  const video = get(videoRef)
+  get(videoRef).srcObject = theStream || null
+  if (theStream) {
+    video.srcObject = theStream
+    const { width: w, height: h } = theStream.getVideoTracks()[0].getSettings()
+    set(width, w)
+    set(height, h)
+    emit("streaming", true)
+  } else {
+    video.srcObject = null
+    emit("streaming", false)
+  }
 })
 
 addGuiFolder(folder => {
