@@ -10,6 +10,7 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
+    "@depth/misc": "workspace:*",
     "@mediapipe/face_mesh": "^0.4.1633559619",
     "@mediapipe/pose": "^0.4.1633558788",
     "@vueuse/core": "^6.7.4",

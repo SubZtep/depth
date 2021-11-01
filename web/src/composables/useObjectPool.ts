@@ -26,6 +26,8 @@ export default function useObjectPool<T>(modelType: string, creator: () => T, si
       for (let i = 0; i < size; i++) {
         objects.push(creator())
       }
+      // @ts-ignore
+      exec3D(({ scene }) => (scene.add(...objects))) // FIXME
     }
 
     pool = {
@@ -37,6 +39,8 @@ export default function useObjectPool<T>(modelType: string, creator: () => T, si
 
     pools.set(modelType, pool)
   }
+
+  const getByIndex = (index: number) => pool.objects[index]
 
   const acquire = () => {
     if (pool.objects.length - 1 === pool.assigned) {
@@ -58,6 +62,7 @@ export default function useObjectPool<T>(modelType: string, creator: () => T, si
   }
 
   return {
+    getByIndex,
     acquire,
     release,
     assigned: () => pool.assigned,

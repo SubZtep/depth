@@ -8,7 +8,7 @@ router-view(v-slot="{ Component }")
 <script lang="ts" setup>
 import { useGui } from "@depth/dat.gui"
 import { useStats } from "@depth/stats.js"
-import { useSkybox, loop3D } from "@depth/three.js"
+import { useSkybox, loop3D, exec3D, setupBoundaries } from "@depth/three.js"
 import { usePreferencesStore } from "~/stores/preferences"
 
 useGui().show()
@@ -27,4 +27,9 @@ syncRef(toRef(preferences, "skybox"), nr)
 
 const guiScaleCss = useCssVar("--gui-scale")
 syncRef(toRef(preferences, "guiScale"), guiScaleCss)
+
+exec3D(({ cameraControls }) => {
+  setupBoundaries(cameraControls, preferences.horizontalLock ? "Full" : "Simple")
+})
+
 </script>

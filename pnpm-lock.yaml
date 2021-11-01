@@ -76,11 +76,13 @@ importers:
 
   packages/mediapipe:
     specifiers:
+      '@depth/misc': workspace:*
       '@mediapipe/face_mesh': ^0.4.1633559619
       '@mediapipe/pose': ^0.4.1633558788
       '@vueuse/core': ^6.7.4
       vue: ^3.2.20
     dependencies:
+      '@depth/misc': link:../misc
       '@mediapipe/face_mesh': 0.4.1633559619
       '@mediapipe/pose': 0.4.1633558788
       '@vueuse/core': 6.7.4_vue@3.2.20

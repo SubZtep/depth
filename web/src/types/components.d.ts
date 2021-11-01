@@ -11,6 +11,7 @@ declare module 'vue' {
     CanvasInScene: typeof import('./../components/video/CanvasInScene.ts')['default']
     Debug: typeof import('./../components/ui/Debug.vue')['default']
     DirLight: typeof import('../components/preferences/GlobalDirectionalLight.vue')['default']
+    FaceSimple: typeof import('./../3D/characters/FaceSimple.ts')['default']
     Factories: typeof import('./../3D/factories.ts')['default']
     GlobalAmbientLight: typeof import('./../components/preferences/GlobalAmbientLight.vue')['default']
     GlobalDirectionalLight: typeof import('./../components/preferences/GlobalDirectionalLight.vue')['default']
