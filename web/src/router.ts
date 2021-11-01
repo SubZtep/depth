@@ -22,6 +22,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       position: [0, camHeight, 0],
       lookAt: [6, 9, 6],
+      order: 2,
     },
   },
   {
@@ -31,6 +32,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       position: [0, camHeight, 0],
       lookAt: [0, camHeight, -10],
+      order: 4,
     },
   },
   {
@@ -40,6 +42,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       position: [0, camHeight, 0],
       lookAt: [0, camHeight, 10],
+      order: 5,
     },
   },
   {
@@ -49,6 +52,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       position: [-3, camHeight, -3],
       lookAt: [0, camHeight, 0],
+      order: 100,
     },
   },
   {
@@ -58,6 +62,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       position: [-30, camHeight, -30],
       lookAt: [-300, 2, -30],
+      order: 99,
     },
   },
   {
@@ -67,6 +72,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       position: [0, camHeight, 0],
       lookAt: [0, camHeight, 69],
+      order: 3,
     },
   },
   {
@@ -76,6 +82,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       position: [0, camHeight, 0],
       lookAt: [0, 2, 0],
+      order: 1,
     },
   },
 ]
@@ -90,6 +97,8 @@ function getRouteNames() {
   // TODO: handle route changes (or not?)
   return router
     .getRoutes()
+    .filter(({ meta }) => meta.order !== undefined)
+    .sort((a, b) => a.meta.order! - b.meta.order!)
     .map(({ name }) => name as string)
     .filter(Boolean)
 }

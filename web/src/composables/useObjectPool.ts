@@ -5,27 +5,33 @@ interface Pool<T> {
   creator: () => T
   objects: T[]
 
+  autoSize: boolean
+
   /** Index of the last assigned object */
   assigned: number
 }
 
 const pools = new Map<string, Pool<unknown>>()
 
-export default function useObjectPool<T>(modelType: string, creator: () => T, size: number) {
+export default function useObjectPool<T>(modelType: string, creator: () => T, size?: number) {
   let pool: Pool<T>
 
   if (pools.has(modelType)) {
     pool = pools.get(modelType) as Pool<T>
   } else {
     const objects: T[] = []
+    const autoSize = size === undefined
 
-    for (let i = 0; i < size; i++) {
-      objects.push(creator())
+    if (!autoSize) {
+      for (let i = 0; i < size; i++) {
+        objects.push(creator())
+      }
     }
 
     pool = {
       creator,
       objects,
+      autoSize,
       assigned: -1,
     }
 

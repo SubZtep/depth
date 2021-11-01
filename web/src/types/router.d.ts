@@ -2,9 +2,11 @@ import "vue-router"
 
 declare module "vue-router" {
   interface RouteMeta {
-    /** camera position */
+    /** Camera position */
     position?: THREE.Vector3Tuple
-    /** camera rotation */
+    /** Camera rotation */
     lookAt?: THREE.Vector3Tuple
+    /** Menu order if defined, otherwise not in the menu. */
+    order?: number
   }
 }

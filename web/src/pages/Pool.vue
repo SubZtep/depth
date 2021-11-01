@@ -4,8 +4,9 @@ Title Object Pool Test
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
-import { exec3D } from "@depth/three.js"
-import { BoxGeometry, MeshBasicMaterial, Mesh } from "three"
+import { exec3D, loop3D } from "@depth/three.js"
+import { BoxGeometry, MeshBasicMaterial, Mesh, Euler } from "three"
+import { Entity, SystemRotate } from "~/composables/useECS"
 import useObjectPool from "~/composables/useObjectPool"
 
 const toast = useToast()
@@ -14,15 +15,28 @@ const geometry = new BoxGeometry(1, 1, 1)
 const material1 = new MeshBasicMaterial({ color: 0xffff00 })
 const material2 = new MeshBasicMaterial({ color: 0xff00ff })
 
+// let rot = 0
+const rot = new Euler(0, 0, 0)
+
+// loop3D(() => {
+//   // rotY++
+//   rot.y++
+//   console.log(rot)
+// })
+
 function createM1() {
-  return new Mesh(geometry, material1)
+  const mesh = new Mesh(geometry, material1)
+  mesh.setRotationFromEuler(rot)
+  // mesh.rotation.set(rot)
+  // mesh.rotateY() = getRotY
+  return mesh
 }
 
 function createM2() {
   return new Mesh(geometry, material2)
 }
 
-const pool1 = useObjectPool<Mesh>("m1", createM1, 10)
+const pool1 = useObjectPool<Mesh>("m1", createM1)
 const pool2 = useObjectPool<Mesh>("m2", createM2, 10)
 
 const newRow = (xx: number) => {
@@ -41,6 +55,24 @@ const newRow = (xx: number) => {
 let x = 0
 const numOfRows = 100
 
+const addM1 = () => {
+  let cube: Mesh
+
+  try {
+    cube = pool1.acquire()
+  } catch (e: any) {
+    toast.error(e.message)
+    return
+  }
+
+  const num = pool1.assigned()
+  const col = Math.floor(num / numOfRows)
+  const row = num % numOfRows
+
+  cube.position.set(-x * 2, (col - 20) * -2, (row - 50) * 2)
+  return cube
+}
+
 const btns = {
   newRow: () => {
     const cubes = newRow(x++)
@@ -49,22 +81,7 @@ const btns = {
     })
   },
 
-  addM1: () => {
-    let cube: Mesh
-
-    try {
-      cube = pool1.acquire()
-    } catch (e: any) {
-      toast.error(e.message)
-      return
-    }
-
-    const num = pool1.assigned()
-    const col = Math.floor(num / numOfRows)
-    const row = num % numOfRows
-
-    cube.position.set(-x * 2, (col - 20) * -2, (row - 50) * 2)
-  },
+  addM1,
 
   delM1: () => {
     try {
@@ -73,12 +90,26 @@ const btns = {
       toast.error(e.message)
     }
   },
+
+  ecs: () => {
+    const obj = addM1()
+    if (!obj) return
+
+    const entity = new Entity()
+    entity.addComponent(obj)
+    entity.addSystem(SystemRotate)
+
+    loop3D(() => {
+      entity.update()
+    })
+  },
 }
 
 addGuiFolder(folder => {
   folder.name = "Object Pool Test"
-  // folder.add(btns, "newRow").name("Try mem leak")
+  folder.add(btns, "newRow").name("Try mem leak")
   folder.add(btns, "addM1")
   folder.add(btns, "delM1")
+  folder.add(btns, "ecs")
 })
 </script>
