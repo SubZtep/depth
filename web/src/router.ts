@@ -86,6 +86,16 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    path: "/rotations",
+    name: "rotations",
+    component: () => import("./pages/Rotations.vue"),
+    meta: {
+      position: [0, camHeight, -10],
+      lookAt: [0, 1, 0],
+      // order: 20,
+    },
+  },
+  {
     path: "",
     name: "home",
     component: () => import("./pages/Home.vue"),

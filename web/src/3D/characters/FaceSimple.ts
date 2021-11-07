@@ -10,11 +10,26 @@ import { BoxGeometry } from "three/src/geometries/BoxGeometry"
 import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
 import { Mesh } from "three/src/objects/Mesh"
 import { Vector3 } from "three/src/math/Vector3"
+import { Shape } from "three/src/extras/core/Shape"
+import { CubicBezierCurve3 } from "three/src/extras/curves/CubicBezierCurve3"
+import { BufferGeometry } from "three/src/core/BufferGeometry"
+import { LineBasicMaterial } from "three/src/materials/LineBasicMaterial"
+import { Line } from "three/src/objects/Line"
+import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
+import { DoubleSide } from "three/src/constants"
+import { Quaternion } from "three/src/math/Quaternion"
+import { ConeGeometry } from "three/src/geometries/ConeGeometry"
+
+// const vh1 = new Vector3()
+// const vh2 = new Vector3()
+// const vv1 = new Vector3()
+// const vv2 = new Vector3()
 
 export default defineComponent({
   props: {
     landmarks: { type: Object as PropType<FaceMeshResults["multiFaceLandmarks"]>, required: false },
     cssVarsTarget: { type: Object as PropType<HTMLElement>, required: false },
+    // vh1: { type: Object as PropType<Vector3>, required: true },
   },
 
   setup(props) {
@@ -22,8 +37,14 @@ export default defineComponent({
     const lineHorizontal = factory.line()
     const lineVertical = factory.line()
 
+    // const vh1 = toRef(props, "vh1")
+    // eslint-disable-next-line vue/no-setup-props-destructure
+    // const vh1 = props.vh1
+
     const cube = factory.cube()
-    // const quaternion = new Quaternion()
+    // const gc = new ConeGeometry(0.2, 5, 4)
+    // const mc = new MeshPhongMaterial({ color: 0xaaaa00 })
+    // const cube = new Mesh(gc, mc)
 
     const root = new Group()
     exec3D(({ scene }) => scene.add(root, lineHorizontal, lineVertical, cube))
@@ -43,6 +64,43 @@ export default defineComponent({
       },
       { immediate: true }
     )
+
+    // const rotateVectorsSimultaneously = (u0: Vector3, v0: Vector3, u2: Vector3, v2: Vector3) => {
+    //   const q2 = new Quaternion().setFromUnitVectors(u0, u2)
+
+    //   const v1 = v2.clone().applyQuaternion(q2.clone().conjugate())
+
+    //   const v0_proj = v0.projectOnPlane(u0)
+    //   const v1_proj = v1.projectOnPlane(u0)
+
+    //   let angleInPlane = v0_proj.angleTo(v1_proj)
+    //   if (v1_proj.dot(new Vector3().crossVectors(u0, v0)) < 0) {
+    //     angleInPlane *= -1
+    //   }
+    //   const q1 = new Quaternion().setFromAxisAngle(u0, angleInPlane)
+
+    //   const q = new Quaternion().multiplyQuaternions(q2, q1)
+    //   return q
+    // }
+
+    const rotateVectorsSimultaneously = (u0: Vector3, v0: Vector3, u2: Vector3, v2: Vector3) => {
+      const q2 = new Quaternion().setFromUnitVectors(u0, u2)
+
+      const v1 = v2.clone().applyQuaternion(q2.clone().conjugate())
+
+      const v0_proj = v0.projectOnPlane(u0)
+      const v1_proj = v1.projectOnPlane(u0)
+
+      // let angleInPlane = v0_proj.angleTo(v1_proj)
+      // if (v1_proj.dot(new Vector3().crossVectors(u0, v0)) < 0) {
+      //   angleInPlane *= -1
+      // }
+      // const q1 = new Quaternion().setFromAxisAngle(v0_proj, v1_proj)
+      const q1 = new Quaternion().setFromUnitVectors(v0_proj, v1_proj)
+
+      const q = new Quaternion().multiplyQuaternions(q2, q1)
+      return q
+    }
 
     const tempPos = new Vector3()
     let x: number, y: number
@@ -74,9 +132,13 @@ export default defineComponent({
         lineHorizontal.geometry.setFromPoints([vh1, vh2])
         lineVertical.geometry.setFromPoints([vv1, vv2])
 
-        // FIXME: rotate differently
-        cube.quaternion.setFromUnitVectors(vh1.normalize(), vh2.normalize())
-        cube.rotateX(Math.PI)
+        // const q = rotateVectorsSimultaneously(vh1, vh2, vv1, vv2)
+        // const q = rotateVectorsSimultaneously(vh1.normalize(), vh2.normalize(), vv1.normalize(), vv2.normalize())
+        const q = rotateVectorsSimultaneously(vh1, vv1, vh2, vv2)
+        cube.setRotationFromQuaternion(q.normalize())
+        // cube.quaternion. copy(q)
+        // cube.updateMatrix()
+
       }
     )
 
@@ -89,5 +151,6 @@ export default defineComponent({
 
   render() {
     return null
+    // return { vh1, vh2, vv1, vv2 }
   },
 })

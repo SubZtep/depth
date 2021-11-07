@@ -17,11 +17,11 @@ interface LineParams {
 
 export default function useObjectFactory() {
   const cube = () => {
-    const geometry = new BoxGeometry(0.1, 0.1, 5)
+    const geometry = new BoxGeometry(0.1, 0.1, 2)
     const material = new MeshBasicMaterial({ color: 0x666666, wireframe: true })
     const cube = new Mesh(geometry, material)
 
-    cube.position.set(0, 0, 2.5)
+    cube.position.set(0, 0, 1)
     const pivot = new Object3D()
     pivot.add(cube)
     return pivot

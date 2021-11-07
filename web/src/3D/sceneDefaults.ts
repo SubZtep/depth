@@ -98,7 +98,9 @@ export async function createDefaultObjects(): Promise<Object3D[]> {
   // push("GlobalAmbientLight", ambLight)
 
   const dirLight = new DirectionalLight(0xffffff, 1)
-  dirLight.rotation.set(0, 1.6, -30)
+  dirLight.position.set(0, 10, 10)
+  // dirLight.rotation.set(0, 1.6, -30)
+  // dirLight.target.position.set(-5, 0, 0)
   // push("GlobalDirectionalLight", dirLight)
 
   return [

@@ -24,6 +24,7 @@ type LoopFnPr = (props: LoopFnProps) => Promise<void>
 
 export const singleFns = new Set<LoopFn>()
 export const singleFnPrs = new Set<LoopFnPr>()
+
 export const loopFns = new Set<LoopFn>()
 export const loopFnPrs = new Set<LoopFnPr>()
 
@@ -31,7 +32,16 @@ export const exec3D = (fn: LoopFn) => {
   singleFns.add(fn)
 }
 
-export const loop3D = (fn: LoopFn) => {
+interface Loop3DParams {
+  inject?: "pre" | "post"
+}
+
+/** When added or removed a function thereby "sorted array" recalculation is necessary */
+// https://github.com/antfu/unocss/blob/main/packages/core/src/config.ts#L20-L24
+const loop3DDirty = false
+
+export const loop3D = (fn: LoopFn, params: Loop3DParams = {}) => {
+  const { inject = "pre" } = params
   loopFns.add(fn)
 }
 
@@ -64,5 +74,6 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, rend
     if (camUpdated || get(renderFrames) === "All") renderer.render(scene, camera)
   }
 
+  // Start and restart the main game loop
   whenever(isRunning, () => requestAnimationFrame(gameLoop), { immediate: true })
 }
