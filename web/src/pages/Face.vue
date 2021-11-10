@@ -9,7 +9,7 @@ FaceSimple(:landmarks="landmarks" :css-vars-target="pointsEl")
 
 <script lang="ts" setup>
 import type { FaceMeshResultsListener } from "@depth/mediapipe"
-import { useStats, Stats } from "@depth/stats.js"
+import { useStats } from "@depth/stats.js"
 import { useFaceMesh } from "@depth/mediapipe"
 import { addGuiFolder } from "@depth/dat.gui"
 
@@ -19,12 +19,11 @@ const setVideoRef = (el?: HTMLVideoElement) => set(video, el)
 const streaming = ref(false)
 const landmarks = ref()
 
-const statPanel = useStats().addPanel(new Stats.Panel("ms/face", "#f9d71c", "#191970"))
 const handler: FaceMeshResultsListener = res => {
   set(landmarks, res.multiFaceLandmarks)
 }
 
-await useFaceMesh({ video, streaming, handler, statPanel })
+await useFaceMesh({ video, streaming, handler, stats: useStats() })
 
 const state = reactive({
   showIndices: true,
@@ -33,9 +32,5 @@ const state = reactive({
 addGuiFolder(folder => {
   folder.name = "👽 Face"
   folder.add(state, "showIndices")
-})
-
-onBeforeUnmount(() => {
-  statPanel.dom.parentElement?.removeChild(statPanel.dom)
 })
 </script>

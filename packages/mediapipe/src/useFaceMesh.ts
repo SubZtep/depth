@@ -1,7 +1,7 @@
 import type { Ref } from "vue"
-import type { Stats } from "@depth/stats.js"
 import type { Options, FaceMeshConfig, Results, ResultsListener } from "@mediapipe/face_mesh"
-import { MaybeRef, unrefElement, useRafFn } from "@vueuse/core"
+import { MaybeRef, unrefElement, useRafFn, tryOnBeforeUnmount } from "@vueuse/core"
+import { Stats } from "@depth/stats.js"
 import { FaceMesh, VERSION } from "@mediapipe/face_mesh"
 import { sleep } from "@depth/misc"
 import { watch } from "vue"
@@ -19,8 +19,8 @@ interface FaceMeshOptions {
   /** Is camera feed active? */
   streaming: Ref<boolean>
 
-  /** Stats.js panel */
-  statPanel?: Stats.Panel
+  /** Add Stats.js panel */
+  stats?: Stats
 }
 
 const solutionOptions: Options = {
@@ -39,11 +39,16 @@ const config: FaceMeshConfig = {
       : `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@${VERSION}/${file}`,
 }
 
-export async function useFaceMesh({ video, handler, streaming, statPanel }: FaceMeshOptions) {
+export async function useFaceMesh({ video, handler, streaming, stats }: FaceMeshOptions) {
   const faceMesh = new FaceMesh(config)
   faceMesh.setOptions(solutionOptions)
   faceMesh.onResults(handler)
   await faceMesh.initialize()
+
+  let statPanel: Stats.Panel
+  if (stats) {
+    statPanel = stats.addPanel(new Stats.Panel("ms/face", "#f9d71c", "#191970"))
+  }
 
   const { pause, resume } = useRafFn(
     async () => {
@@ -61,6 +66,12 @@ export async function useFaceMesh({ video, handler, streaming, statPanel }: Face
       resume()
     } else {
       pause()
+    }
+  })
+
+  tryOnBeforeUnmount(() => {
+    if (statPanel) {
+      statPanel.dom.parentElement?.removeChild(statPanel.dom)
     }
   })
 }
