@@ -108,9 +108,9 @@ export async function createDefaultObjects(): Promise<Object3D[]> {
     dirLight,
 
     InfiniteGridHelper({
-      size1: 5,
+      size1: 1,
       size2: 10,
-      distance: 2000,
+      distance: 100,
     }),
   ]
 }

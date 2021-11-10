@@ -20,36 +20,49 @@ import { DoubleSide } from "three/src/constants"
 import { Quaternion } from "three/src/math/Quaternion"
 import { ConeGeometry } from "three/src/geometries/ConeGeometry"
 
-// const vh1 = new Vector3()
-// const vh2 = new Vector3()
-// const vv1 = new Vector3()
-// const vv2 = new Vector3()
-
 export default defineComponent({
   props: {
     landmarks: { type: Object as PropType<FaceMeshResults["multiFaceLandmarks"]>, required: false },
     cssVarsTarget: { type: Object as PropType<HTMLElement>, required: false },
-    // vh1: { type: Object as PropType<Vector3>, required: true },
   },
 
   setup(props) {
     const factory = useObjectFactory()
-    const lineHorizontal = factory.line()
-    const lineVertical = factory.line()
-
-    // const vh1 = toRef(props, "vh1")
-    // eslint-disable-next-line vue/no-setup-props-destructure
-    // const vh1 = props.vh1
-
     const cube = factory.cube()
-    // const gc = new ConeGeometry(0.2, 5, 4)
-    // const mc = new MeshPhongMaterial({ color: 0xaaaa00 })
-    // const cube = new Mesh(gc, mc)
+
+    const lineHorizontal = factory.line({ color: "yellowish" })
+    const lineVertical = factory.line({ color: "blue" })
+
+    const lineHorizontalNorm = factory.line({ color: "yellowish" })
+    const lineVerticalNorm = factory.line({ color: "blue" })
+
+    // const lineHorizontalBase = factory.line({ color: "yellowish", points: [new Vector3(0, 0, 0), new Vector3(-0.5, 0, 0)] })
+    // const lineVerticalBase = factory.line({ color: "blue", points: [new Vector3(0, 0, 0), new Vector3(0, -0.5, 0)] })
+    const lineHorizontalBase = factory.line({
+      color: "yellowish",
+      points: [new Vector3(0, 0, 0), new Vector3(0.5, 0, 0)],
+    })
+    const lineVerticalBase = factory.line({ color: "blue", points: [new Vector3(0, 0, 0), new Vector3(0, 0.5, 0)] })
+
+    const sphere = factory.sphere()
 
     const root = new Group()
-    exec3D(({ scene }) => scene.add(root, lineHorizontal, lineVertical, cube))
+    exec3D(({ scene }) =>
+      scene.add(
+        cube,
+        root,
+        lineHorizontal,
+        lineVertical,
+        lineHorizontalNorm,
+        lineVerticalNorm,
+        lineHorizontalBase,
+        lineVerticalBase,
+        sphere
+      )
+    )
 
-    const geometry = new BoxGeometry(0.08, 0.08, 0.08)
+    // const geometry = new BoxGeometry(0.08, 0.08, 0.08)
+    const geometry = new BoxGeometry(0.05, 0.05, 0.05)
     const material = new MeshBasicMaterial({ color: 0xcccc22 })
     const pool = useObjectPool({ modelType: "face", creator: () => new Mesh(geometry, material), size: 468 })
 
@@ -65,24 +78,6 @@ export default defineComponent({
       { immediate: true }
     )
 
-    // const rotateVectorsSimultaneously = (u0: Vector3, v0: Vector3, u2: Vector3, v2: Vector3) => {
-    //   const q2 = new Quaternion().setFromUnitVectors(u0, u2)
-
-    //   const v1 = v2.clone().applyQuaternion(q2.clone().conjugate())
-
-    //   const v0_proj = v0.projectOnPlane(u0)
-    //   const v1_proj = v1.projectOnPlane(u0)
-
-    //   let angleInPlane = v0_proj.angleTo(v1_proj)
-    //   if (v1_proj.dot(new Vector3().crossVectors(u0, v0)) < 0) {
-    //     angleInPlane *= -1
-    //   }
-    //   const q1 = new Quaternion().setFromAxisAngle(u0, angleInPlane)
-
-    //   const q = new Quaternion().multiplyQuaternions(q2, q1)
-    //   return q
-    // }
-
     const rotateVectorsSimultaneously = (u0: Vector3, v0: Vector3, u2: Vector3, v2: Vector3) => {
       const q2 = new Quaternion().setFromUnitVectors(u0, u2)
 
@@ -91,12 +86,11 @@ export default defineComponent({
       const v0_proj = v0.projectOnPlane(u0)
       const v1_proj = v1.projectOnPlane(u0)
 
-      // let angleInPlane = v0_proj.angleTo(v1_proj)
-      // if (v1_proj.dot(new Vector3().crossVectors(u0, v0)) < 0) {
-      //   angleInPlane *= -1
-      // }
-      // const q1 = new Quaternion().setFromAxisAngle(v0_proj, v1_proj)
-      const q1 = new Quaternion().setFromUnitVectors(v0_proj, v1_proj)
+      let angleInPlane = v0_proj.angleTo(v1_proj)
+      if (v1_proj.dot(new Vector3().crossVectors(u0, v0)) < 0) {
+        angleInPlane *= -1
+      }
+      const q1 = new Quaternion().setFromAxisAngle(u0, angleInPlane)
 
       const q = new Quaternion().multiplyQuaternions(q2, q1)
       return q
@@ -129,16 +123,28 @@ export default defineComponent({
         const vv1 = pool.getByIndex(10).position
         const vv2 = pool.getByIndex(152).position
 
+        const vh1o = new Vector3(0, 0, 0)
+        const vh2o = vh2.clone().sub(vh1.clone()).normalize()
+        // vh2o.setrota
+
+        const vv1o = new Vector3(0, 0, 0)
+        const vv2o = vv2.clone().sub(vv1.clone()).normalize()
+
         lineHorizontal.geometry.setFromPoints([vh1, vh2])
         lineVertical.geometry.setFromPoints([vv1, vv2])
 
-        // const q = rotateVectorsSimultaneously(vh1, vh2, vv1, vv2)
-        // const q = rotateVectorsSimultaneously(vh1.normalize(), vh2.normalize(), vv1.normalize(), vv2.normalize())
-        const q = rotateVectorsSimultaneously(vh1, vv1, vh2, vv2)
-        cube.setRotationFromQuaternion(q.normalize())
+        lineHorizontalNorm.geometry.setFromPoints([vh1o, vh2o])
+        // lineHorizontalNorm.geometry.rotateY(Math.PI)
+        lineVerticalNorm.geometry.setFromPoints([vv1o, vv2o])
+        // lineVerticalNorm.geometry.rotateX(Math.PI)
+
+        // const q = rotateVectorsSimultaneously(vh1o, vh2o, vv1o, vv2o)
+        const q = rotateVectorsSimultaneously(new Vector3(1, 0, 0), new Vector3(0, 1, 0), vh2o, vv2o)
+        // console.log(q)
+        cube.setRotationFromQuaternion(q)
+        // cube.setRotationFromQuaternion(q.normalize())
         // cube.quaternion. copy(q)
         // cube.updateMatrix()
-
       }
     )
 
@@ -151,6 +157,5 @@ export default defineComponent({
 
   render() {
     return null
-    // return { vh1, vh2, vv1, vv2 }
   },
 })

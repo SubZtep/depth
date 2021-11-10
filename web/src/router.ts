@@ -96,6 +96,16 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    path: "/vector",
+    name: "vector",
+    component: () => import("./pages/Vector.vue"),
+    meta: {
+      position: [0, camHeight, 10],
+      lookAt: [0, 1, 0],
+      // order: 20,
+    },
+  },
+  {
     path: "",
     name: "home",
     component: () => import("./pages/Home.vue"),
