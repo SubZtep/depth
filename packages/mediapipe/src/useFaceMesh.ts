@@ -36,7 +36,7 @@ const config: FaceMeshConfig = {
   locateFile: file =>
     process.env.NODE_ENV === "development"
       ? `/face_mesh/${file}`
-      : `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@${facemesh.VERSION}/${file}`,
+      : `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`,
 }
 
 export async function useFaceMesh({ video, handler, streaming, stats }: FaceMeshOptions) {

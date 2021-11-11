@@ -1,7 +1,7 @@
 import type { MaybeRef } from "@vueuse/core"
 import { set, tryOnUnmounted, unrefElement, tryOnMounted } from "@vueuse/core"
 import type { ResultsListener, Results, Options, PoseConfig } from "@mediapipe/pose"
-import { Pose ,VERSION } from "@mediapipe/pose"
+import { Pose } from "@mediapipe/pose"
 import { isRef, reactive, ref, watch } from "vue"
 // import { Stats, useStats } from "@depth/stats.js"
 
@@ -21,7 +21,7 @@ const config: PoseConfig = {
   locateFile: file =>
     process.env.NODE_ENV === "development"
       ? `/pose/${file}`
-      : `https://cdn.jsdelivr.net/npm/@mediapipe/pose@${VERSION}/${file}`,
+      : `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`,
 }
 
 // let dstat: Stats.Panel | undefined
