@@ -1,7 +1,7 @@
 import type { MaybeRef } from "@vueuse/core"
 import { set, tryOnUnmounted, unrefElement, tryOnMounted } from "@vueuse/core"
-import type { ResultsListener, Results, Options } from "@mediapipe/pose"
-import { Pose } from "@mediapipe/pose"
+import type { ResultsListener, Results, Options, PoseConfig } from "@mediapipe/pose"
+import { Pose ,VERSION } from "@mediapipe/pose"
 import { isRef, reactive, ref, watch } from "vue"
 // import { Stats, useStats } from "@depth/stats.js"
 
@@ -14,6 +14,14 @@ interface MediapipePoseOptions {
 
   /** Callback function with the latest detected pose */
   handler?: ResultsListener
+}
+
+
+const config: PoseConfig = {
+  locateFile: file =>
+    process.env.NODE_ENV === "development"
+      ? `/pose/${file}`
+      : `https://cdn.jsdelivr.net/npm/@mediapipe/pose@${VERSION}/${file}`,
 }
 
 // let dstat: Stats.Panel | undefined
@@ -68,7 +76,7 @@ export function useMediapipePose({ video, options, handler }: MediapipePoseOptio
   }
 
   tryOnMounted(async () => {
-    solution = new Pose({ locateFile: path => `/pose/${path}` })
+    solution = new Pose(config)
     solution.setOptions({
       modelComplexity: 1,
       smoothLandmarks: true,
