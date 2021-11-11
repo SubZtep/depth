@@ -43,7 +43,7 @@ export async function useFaceMesh({ video, handler, streaming, stats }: FaceMesh
   let faceMesh: facemesh.FaceMesh
 
   tryOnMounted(async () => {
-    faceMesh = new facemesh.FaceMesh(config)
+    faceMesh = new globalThis["FaceMesh"](config)
     faceMesh.setOptions(solutionOptions)
     faceMesh.onResults(handler)
     await faceMesh.initialize()
