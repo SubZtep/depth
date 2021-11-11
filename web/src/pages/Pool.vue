@@ -5,7 +5,10 @@ Title Object Pool Test
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
 import { exec3D, loop3D } from "@depth/three.js"
-import { BoxGeometry, MeshBasicMaterial, Mesh, Euler } from "three"
+import { BoxGeometry } from "three/src/geometries/BoxGeometry"
+import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
+import { Euler } from "three/src/math/Euler"
+import { Mesh } from "three/src/objects/Mesh"
 import { Entity, SystemRotate } from "~/composables/useECS"
 import useObjectPool from "~/composables/useObjectPool"
 

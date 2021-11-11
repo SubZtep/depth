@@ -1,5 +1,5 @@
 import { exec3D } from "@depth/three.js"
-import type { Object3D } from "three"
+import type { Object3D } from "three/src/core/Object3D"
 
 interface Pool<T> {
   creator?: () => T
@@ -22,7 +22,7 @@ interface ObjectPoolParams<T> {
 }
 
 /** More than pool. */
-export default function useObjectPool<T extends Object3D>(params: ObjectPoolParams<T>) {
+export default function useObjectPool<T extends Object3D>(params: ObjectPoolParams<T> = {}) {
   const { modelType = "base", creator, size } = params
   let pool: Pool<T>
 

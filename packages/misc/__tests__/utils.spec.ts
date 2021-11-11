@@ -6,6 +6,6 @@ describe("utility", () => {
     const start = Date.now()
     await sleep(t)
     const slept = Date.now() - start - t
-    expect(slept).toBeLessThanOrEqual(13)
+    expect(slept).toBeLessThanOrEqual(18)
   })
 })

@@ -1,3 +1,3 @@
 export { default, SelectOptions } from "./reactive"
-export * from "./plugin"
+export { GuiPlugin, addGuiFolder, useGui } from "./plugin"
 export * from "./extend"

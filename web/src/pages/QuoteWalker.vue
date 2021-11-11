@@ -6,10 +6,12 @@ Title(v-if="bored" class="!duration-13000 flex-col")
 </template>
 
 <script lang="ts" setup>
+import { DEG2RAD } from "three/src/math/MathUtils"
 import { exec3D } from "@depth/three.js"
 import { useBoredApi } from "../composables"
 import { onVisibility } from "../events"
 import { rand } from "@depth/misc"
+import { MathUtils } from "three/src/Three"
 
 const { moves, count } = useCameraMoves()
 const { bored, query } = useBoredApi()
@@ -33,19 +35,17 @@ onBeforeUnmount(() => {
 </script>
 
 <script lang="ts">
-import { MathUtils } from "three"
-
 function useCameraMoves() {
-  const moves = (cameraControls: any/*CameraControls*/) => (idx: number) => {
+  const moves = (cameraControls: any /*CameraControls*/) => (idx: number) => {
     switch (idx) {
       case 1:
-        cameraControls.rotate(45 * MathUtils.DEG2RAD, 0, true)
+        cameraControls.rotate(45 * DEG2RAD, 0, true)
         break
       case 2:
-        cameraControls.rotate(-90 * MathUtils.DEG2RAD, 0, true)
+        cameraControls.rotate(-90 * DEG2RAD, 0, true)
         break
       case 3:
-        cameraControls.rotate(0, 20 * MathUtils.DEG2RAD, true)
+        cameraControls.rotate(0, 20 * DEG2RAD, true)
         break
       case 4:
         cameraControls.truck(6, 0, true)

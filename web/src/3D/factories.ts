@@ -1,5 +1,10 @@
-import type { ColorRepresentation } from "three"
-import { SphereGeometry, MeshPhongMaterial, Mesh, BufferGeometry, LineBasicMaterial, Line } from "three"
+import { BufferGeometry } from "three/src/core/BufferGeometry"
+import { SphereGeometry } from "three/src/geometries/SphereGeometry"
+import { LineBasicMaterial } from "three/src/materials/LineBasicMaterial"
+import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
+import { Line } from "three/src/objects/Line"
+import { Mesh } from "three/src/objects/Mesh"
+import type { ColorRepresentation } from "three/src/utils"
 
 interface KeypointFactoryOptions {
   name?: string

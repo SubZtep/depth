@@ -1,12 +1,8 @@
-import { MaybeRef } from "@vueuse/core"
+import { debouncedWatch, get, MaybeRef, tryOnMounted, unrefElement } from "@vueuse/core"
+import { useWindowSize } from "@vueuse/core"
 import CameraControls from "camera-controls"
-import { debouncedWatch, useWindowSize, get, tryOnMounted } from "@vueuse/core"
-import { useRenderLoop } from "./useRenderLoop"
-import { useCameraControls } from "./useCameraControls"
-import { getCurrentInstance, unref } from "vue"
-import { eventHook, eventHookHandler } from "./events"
-import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera"
-import { MOUSE } from "three/src/constants"
+import type { THREESubset } from "camera-controls/dist/types"
+import { getCurrentInstance } from "vue"
 import { Vector2 } from "three/src/math/Vector2"
 import { Vector3 } from "three/src/math/Vector3"
 import { Vector4 } from "three/src/math/Vector4"
@@ -16,9 +12,14 @@ import { Spherical } from "three/src/math/Spherical"
 import { Box3 } from "three/src/math/Box3"
 import { Sphere } from "three/src/math/Sphere"
 import { Raycaster } from "three/src/core/Raycaster"
-import { DEG2RAD, clamp } from  "three/src/math/MathUtils"
+import { DEG2RAD, clamp } from "three/src/math/MathUtils"
 import { Scene } from "three/src/scenes/Scene"
 import { WebGLRenderer } from "three/src/renderers/WebGLRenderer"
+import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera"
+import { MOUSE } from "three/src/constants"
+import { eventHook, eventHookHandler } from "./events"
+import { useRenderLoop } from "./useRenderLoop"
+import { useCameraControls } from "./useCameraControls"
 
 type ThreeJSEventCmd = "pauseLoop" | "resumeLoop" | "renderAllFrames" | "renderFramesWithCameraMove"
 export type ThreeJSEvent = ThreeJSEventCmd | { cmd: ThreeJSEventCmd }
@@ -30,30 +31,31 @@ export function normalizeEventHookParam(param: ThreeJSEvent) {
 // Camera is required for some calculations
 export let camera: PerspectiveCamera
 
-const subsetOfTHREE = {
-  MOUSE: MOUSE,
-  Vector2: Vector2,
-  Vector3: Vector3,
-  Vector4: Vector4,
-  Quaternion: Quaternion,
-  Matrix4: Matrix4,
-  Spherical: Spherical,
-  Box3: Box3,
-  Sphere: Sphere,
-  Raycaster: Raycaster,
-  MathUtils: {
-    DEG2RAD: DEG2RAD,
-    clamp: clamp,
-  },
-}
-
 export function useCanvas(canvasRef: MaybeRef<HTMLCanvasElement>): Scene {
   const instance = getCurrentInstance()
   if (instance === null) {
     throw new Error("Use threeJs inside a component")
   }
 
-  CameraControls.install({ THREE: subsetOfTHREE })
+  CameraControls.install({
+    THREE: {
+      MOUSE,
+      Vector2,
+      Vector3,
+      Vector4,
+      Quaternion,
+      Matrix4,
+      Spherical,
+      Box3,
+      Sphere,
+      Raycaster,
+      MathUtils: {
+        DEG2RAD,
+        clamp,
+      },
+    } as THREESubset,
+  })
+
   const { width, height } = useWindowSize()
   const scene = new Scene()
   const { onEvent, isRunning, renderFrames } = eventHookHandler()
@@ -61,14 +63,13 @@ export function useCanvas(canvasRef: MaybeRef<HTMLCanvasElement>): Scene {
   eventHook.on(onEvent)
 
   tryOnMounted(() => {
-    const canvas = unref(canvasRef)
+    const canvas = unrefElement(canvasRef) as HTMLCanvasElement
     canvas.width = get(width)
     canvas.height = get(height)
 
     const renderer = new WebGLRenderer({ canvas, powerPreference: "high-performance", antialias: true })
     renderer.shadowMap.enabled = true
 
-    // const camera = new PerspectiveCamera(60, get(width) / get(height), 0.01, 1000)
     camera = new PerspectiveCamera(60, get(width) / get(height), 0.01, 1000)
     const cameraControls = new CameraControls(camera, instance.appContext.app._container)
     useCameraControls(cameraControls)

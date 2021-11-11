@@ -9,9 +9,13 @@ import { useFaceMesh } from "@depth/mediapipe"
 import useFaceRotation from "~/composables/useFaceRotation"
 import useSceneHelper from "~/composables/useSceneHelper"
 import { exec3D, loop3D, useThreeJSEventHook } from "@depth/three.js"
-import * as THREE from "three"
 import GradientMaterial from "~/3D/materials/GradientMaterial"
-import { Box3, Vector3 } from "three"
+import { Vector2 } from "three/src/math/Vector2"
+import { LatheGeometry } from "three/src/geometries/LatheGeometry"
+import { Color } from "three/src/math/Color"
+import { Mesh } from "three/src/objects/Mesh"
+import { Box3 } from "three/src/math/Box3"
+import { Vector3 } from "three/src/math/Vector3"
 
 const { addForPage } = useSceneHelper()
 
@@ -23,20 +27,20 @@ const setVideoRef = (el?: HTMLVideoElement) => set(video, el)
 const streaming = ref(false)
 const landmarks = ref<FaceMeshResults["multiFaceLandmarks"]>()
 
-const points: THREE.Vector2[] = [
-  new THREE.Vector2(1, 0),
-  new THREE.Vector2(1, 1),
-  new THREE.Vector2(2, 1),
-  new THREE.Vector2(2, 2),
-  new THREE.Vector2(3, 2),
-  new THREE.Vector2(3, 3),
+const points: Vector2[] = [
+  new Vector2(1, 0),
+  new Vector2(1, 1),
+  new Vector2(2, 1),
+  new Vector2(2, 2),
+  new Vector2(3, 2),
+  new Vector2(3, 3),
 ]
-const geometry = new THREE.LatheGeometry(points, 4)
+const geometry = new LatheGeometry(points, 4)
 geometry.rotateX(-Math.PI / 2)
 geometry.rotateZ(Math.PI / 4)
-const material = new GradientMaterial(new THREE.Color("red"), new THREE.Color("purple"))
+const material = new GradientMaterial(new Color("red"), new Color("purple"))
 
-const lathe = new THREE.Mesh(geometry, material)
+const lathe = new Mesh(geometry, material)
 lathe.position.set(0, 0, -10)
 
 addForPage(lathe)
@@ -64,7 +68,6 @@ loop3D(({ clock, cameraControls }) => {
 
   const o = new Vector3()
   cameraControls.getPosition(o)
-  console.log(o)
 })
 
 onBeforeUnmount(() => {

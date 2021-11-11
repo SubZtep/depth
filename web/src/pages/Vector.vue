@@ -7,7 +7,8 @@ Title Vector tests
 
 <script lang="ts" setup>
 import { exec3D } from "@depth/three.js"
-import * as THREE from "three"
+import { Color } from "three/src/math/Color"
+import { Vector3 } from "three/src/math/Vector3"
 import useObjectFactory from "~/composables/useObjectFactory"
 // import { ConeGeometry } from "three/src/geometries/ConeGeometry"
 // import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
@@ -24,17 +25,17 @@ import useObjectFactory from "~/composables/useObjectFactory"
 // pivot.add(cone)
 const factory = useObjectFactory()
 
-const v1_1 = new THREE.Vector3(-1, 1, 1)
-const v1_2 = new THREE.Vector3(2, 2, 0)
+const v1_1 = new Vector3(-1, 1, 1)
+const v1_2 = new Vector3(2, 2, 0)
 const l1 = factory.line({ color: "yellowish", points: [v1_1, v1_2] })
 
-const v2_1 = new THREE.Vector3(0, 0, 0)
+const v2_1 = new Vector3(0, 0, 0)
 const v2_2 = v1_2.clone().sub(v1_1.clone())
 const l2 = factory.line({ color: "yellowish", points: [v2_1, v2_2.normalize()] })
 
 
 exec3D(({ scene }) => {
-  scene.background = new THREE.Color(0x000000)
+  scene.background = new Color(0x000000)
   scene.add(l1, l2)
 })
 

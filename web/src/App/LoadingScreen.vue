@@ -2,7 +2,7 @@
 div(:class="$style.loadingScreen")
 </template>
 
-<style module lang="postcss">
+<style module>
 .loadingScreen {
   padding: 25px;
   text-align: right;
@@ -14,14 +14,12 @@ div(:class="$style.loadingScreen")
   align-items: center;
   display: flex;
   cursor: none;
-  &::after {
-    opacity: 0.9;
-    content: "loading stuff + waking ai";
-  }
-  &:active {
-    &::after {
-      content: "loadig stuff + wanking ai";
-    }
-  }
+}
+.loadingScreen::after {
+  opacity: 0.9;
+  content: "loading stuff + waking ai";
+}
+.loadingScreen:active::after {
+  content: "loadig stuff + wanking ai";
 }
 </style>

@@ -13,8 +13,8 @@
     "@depth/misc": "workspace:*",
     "@depth/stats.js": "workspace:*",
     "@mediapipe/face_mesh": "^0.4.1633559619",
-    "@mediapipe/pose": "^0.4.1633558788",
-    "@vueuse/core": "^6.7.4",
+    "@mediapipe/pose": "^0.5.1635988162",
+    "@vueuse/core": "^6.8.0",
     "vue": "^3.2.20"
   }
 }

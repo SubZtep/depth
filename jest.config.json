@@ -3,6 +3,10 @@
   "preset": "ts-jest",
   "testEnvironment": "jsdom",
   "moduleNameMapper": {
-    "^@depth/(.*)$": "<rootDir>packages/$1/src"
+    "^@depth/(.*)$": "<rootDir>packages/$1/src",
+    "^~/(.*)$": "<rootDir>web/src/$1"
+  },
+  "transform": {
+    "^.+\\.vue$": "vue3-jest"
   }
 }

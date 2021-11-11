@@ -1,4 +1,6 @@
-import * as THREE from "three"
+import { DoubleSide, GLSL3 } from "three/src/constants"
+import { ShaderMaterial } from "three/src/materials/ShaderMaterial"
+import { Color } from "three/src/math/Color"
 
 const vertexShader = `
   out vec2 vUv;
@@ -21,8 +23,8 @@ const fragmentShader = `
   }
 `
 
-export default class GradientMaterial extends THREE.ShaderMaterial {
-  constructor(color1: THREE.Color, color2: THREE.Color) {
+export default class GradientMaterial extends ShaderMaterial {
+  constructor(color1: Color, color2: Color) {
     super({
       uniforms: {
         color1: {
@@ -34,8 +36,8 @@ export default class GradientMaterial extends THREE.ShaderMaterial {
       },
       vertexShader,
       fragmentShader,
-      side: THREE.DoubleSide,
-      glslVersion: THREE.GLSL3,
+      side: DoubleSide,
+      glslVersion: GLSL3,
       // wireframe: true,
     })
   }

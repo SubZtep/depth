@@ -1,8 +1,13 @@
 /**
  ** Basic objects for a humanoid-like character.
  **/
+import { DoubleSide } from "three/src/constants"
+import { ConeGeometry } from "three/src/geometries/ConeGeometry"
+import { CylinderGeometry } from "three/src/geometries/CylinderGeometry"
+import { SphereGeometry } from "three/src/geometries/SphereGeometry"
+import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
+import { Mesh } from "three/src/objects/Mesh"
 import { BLAZEPOSE_HEAD_KEYPOINTS } from "../misc/constants"
-import { Mesh, MeshPhongMaterial, SphereGeometry, ConeGeometry, CylinderGeometry, DoubleSide } from "three"
 
 const sphere = new SphereGeometry(0.3)
 const sphereSmall = new SphereGeometry(0.2)

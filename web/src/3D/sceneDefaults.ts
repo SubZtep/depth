@@ -1,22 +1,18 @@
-import {
-  Mesh,
-  Color,
-  GridHelper,
-  PlaneGeometry,
-  MeshPhongMaterial,
-  DoubleSide,
-  MeshBasicMaterial,
-  Object3D,
-  AmbientLight,
-  DirectionalLight,
-  LinearFilter,
-  CubeReflectionMapping,
-  TextureLoader,
-} from "three"
 import useSingleton from "~/composables/useSingleton"
 import { usePreferencesStore } from "~/stores/preferences"
 import { InfiniteGridHelper } from "~/3D/infiniteGrid"
 import { DDSLoader } from "three/examples/jsm/loaders/DDSLoader"
+import { GridHelper } from "three/src/helpers/GridHelper"
+import { Color } from "three/src/math/Color"
+import { Mesh } from "three/src/objects/Mesh"
+import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
+import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
+import { CubeReflectionMapping, DoubleSide, LinearFilter } from "three/src/constants"
+import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
+import { TextureLoader } from "three/src/loaders/TextureLoader"
+import { AmbientLight } from "three/src/lights/AmbientLight"
+import { DirectionalLight } from "three/src/lights/DirectionalLight"
+import { Object3D } from "three/src/core/Object3D"
 
 export function grid(x = -7.5) {
   const grid = new GridHelper(5, 5, Color.NAMES.blue, Color.NAMES.blue)
