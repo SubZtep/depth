@@ -3,6 +3,7 @@ import { capitalize } from "@depth/misc"
 import { defineComponent } from "vue"
 import { useToast } from "vue-toastification"
 import { useIntervalFn, useScriptTag } from "@vueuse/core"
+import { exec3D } from "@depth/three.js"
 // FIXME: https://github.com/antfu/unplugin-auto-import/issues/33
 
 export default defineComponent({
@@ -25,6 +26,12 @@ export default defineComponent({
           emit("done")
         }
       }, 500)
+    })
+
+    exec3D(({ renderer }) => {
+      if (!renderer.capabilities.isWebGL2) {
+        toast.error("No WebGL 2!")
+      }
     })
   },
 

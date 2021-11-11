@@ -1,19 +1,12 @@
 <template lang="pug">
-WebcamPlayer(@mounted="setVideoRef" @streaming="isStreaming => streaming = isStreaming")
-
-ViewportView
-
-Debug {{q}}
+WebcamPlayer(:enabled="true" @mounted="setVideoRef" @streaming="isStreaming => streaming = isStreaming")
 </template>
 
 <script lang="ts" setup>
 import type { FaceMeshResults, FaceMeshResultsListener } from "@depth/mediapipe"
 import { useStats } from "@depth/stats.js"
 import { useFaceMesh } from "@depth/mediapipe"
-import { addGuiFolder } from "@depth/dat.gui"
 import useFaceRotation from "~/composables/useFaceRotation"
-import useObjectFactory from "~/composables/useObjectFactory"
-import useSceneHelper from "~/composables/useSceneHelper"
 import { exec3D, loop3D, useThreeJSEventHook } from "@depth/three.js"
 import * as THREE from "three"
 import GradientMaterial from "~/3D/materials/GradientMaterial"
@@ -21,17 +14,10 @@ import GradientMaterial from "~/3D/materials/GradientMaterial"
 const threeJs = useThreeJSEventHook()
 threeJs.trigger({ cmd: "RenderFrames", param: "All" })
 
-// const helper = useSceneHelper()
-// helper.removeForPage("grid")
-// helper.bgForPage(0x000000)
-
 const video = ref<HTMLVideoElement>()
 const setVideoRef = (el?: HTMLVideoElement) => set(video, el)
 const streaming = ref(false)
 const landmarks = ref<FaceMeshResults["multiFaceLandmarks"]>()
-
-const factory = useObjectFactory()
-const cube = factory.cube()
 
 const points: THREE.Vector2[] = [
   new THREE.Vector2(1, 0),
@@ -49,18 +35,8 @@ lathe.position.set(0, 0, 10)
 lathe.rotateX(Math.PI / 2)
 lathe.rotateY(Math.PI / 4)
 
-let cam
-
-exec3D(({ scene, cameraControls }) => {
-  scene.add(
-    // cube,
-    lathe
-  )
-
-  // cameraControls.setPosition(0, 0, 10)
-  cameraControls.setLookAt(0, 0, 0, 0, 0, 10)
-
-  cam = cameraControls.camera
+exec3D(({ scene }) => {
+  scene.add(lathe)
 })
 
 const handler: FaceMeshResultsListener = res => {
@@ -70,28 +46,14 @@ const handler: FaceMeshResultsListener = res => {
 await useFaceMesh({ video, streaming, handler, stats: useStats() })
 const q = useFaceRotation(landmarks)
 
-loop3D(({ cameraControls }) => {
-  // cameraControls.camera.setRotationFromQuaternion(q.value)
+loop3D(() => {
   lathe.setRotationFromQuaternion(q.value)
   lathe.rotateX(-Math.PI / 2)
   lathe.rotateY(-Math.PI / 4)
 })
 
-// watchEffect(() => {
-//   if (q.value) {
-//     // cube.setRotationFromQuaternion(q.value)
-//     // rot.set( = q.value
-//     // cam.setRotationFromQuaternion(q.value)
-//   }
-//   // material.needsUpdate = true
-// })
-
-addGuiFolder(folder => {
-  folder.name = "⚝ Depth"
-})
-
 onBeforeUnmount(() => {
-  exec3D(({ scene }) => scene.remove(cube, lathe))
+  exec3D(({ scene }) => scene.remove(lathe))
   geometry.dispose()
   material.dispose()
 })

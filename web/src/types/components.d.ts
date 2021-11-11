@@ -15,6 +15,7 @@ declare module 'vue' {
     Factories: typeof import('./../3D/factories.ts')['default']
     GlobalAmbientLight: typeof import('./../components/preferences/GlobalAmbientLight.vue')['default']
     GlobalDirectionalLight: typeof import('./../components/preferences/GlobalDirectionalLight.vue')['default']
+    GradientMaterial: typeof import('./../3D/materials/GradientMaterial.ts')['default']
     Help: typeof import('./../components/ui/Help.vue')['default']
     ImgMemfs: typeof import('./../components/ui/ImgMemfs.vue')['default']
     InfiniteGrid: typeof import('./../3D/infiniteGrid.ts')['default']
@@ -33,6 +34,7 @@ declare module 'vue' {
     Title: typeof import('./../components/ui/Title.vue')['default']
     VideoPlayer: typeof import('./../components/video/VideoPlayer.vue')['default']
     VideoToPose: typeof import('./../components/video/VideoToPose.vue')['default']
+    ViewportView: typeof import('./../components/ViewportView.ts')['default']
     WebcamPlayer: typeof import('./../components/video/WebcamPlayer.vue')['default']
     WebcamToPose: typeof import('./../components/video/WebcamToPose.vue')['default']
   }

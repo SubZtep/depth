@@ -13,9 +13,9 @@ import {
   CubeReflectionMapping,
   TextureLoader,
 } from "three"
-import useObjectPool from "../composables/useObjectPool"
-import { usePreferencesStore } from "../stores/preferences"
-import { InfiniteGridHelper } from "./infiniteGrid"
+import useSingleton from "~/composables/useSingleton"
+import { usePreferencesStore } from "~/stores/preferences"
+import { InfiniteGridHelper } from "~/3D/infiniteGrid"
 import { DDSLoader } from "three/examples/jsm/loaders/DDSLoader"
 
 export function grid(x = -7.5) {
@@ -100,26 +100,21 @@ export async function createDefaultObjects(): Promise<Object3D[]> {
   const dirLight = new DirectionalLight(0xffffff, 1)
   dirLight.position.set(0, 10, 10)
   // dirLight.rotation.set(0, 1.6, -30)
+  // dirLight.castShadow = true
   // dirLight.target.position.set(-5, 0, 0)
   // push("GlobalDirectionalLight", dirLight)
 
-  return [
-    ambLight,
-    dirLight,
+  const grid = InfiniteGridHelper({
+    size1: 5,
+    size2: 10,
+    distance: 2000,
+  })
 
-    InfiniteGridHelper({
-      size1: 1,
-      size2: 10,
-      distance: 100,
-    }),
-  ]
+  useSingleton().set("grid", grid)
+
+  return [ambLight, dirLight, grid]
 }
 
 export async function createVsObjects(): Promise<Object3D[]> {
-  return [
-    grid(-7.5),
-    grid(7.5),
-    plane(),
-    await leafPlane(),
-  ]
+  return [grid(-7.5), grid(7.5), plane(), await leafPlane()]
 }

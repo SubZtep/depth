@@ -16,6 +16,8 @@ import type { Ref } from "vue"
 
 const videoRef = ref() as Ref<HTMLVideoElement>
 
+const props = defineProps<{ enabled?: boolean }>()
+
 const emit = defineEmits<{
   (e: "mounted", el: HTMLVideoElement): void;
   (e: "streaming", isStreaming: boolean): void;
@@ -28,7 +30,7 @@ onMounted(() => {
 const state = reactive({
   showVideoTag: false,
   videoDeviceId: "",
-  enabled: false,
+  enabled: !!props.enabled,
 })
 
 const { videoInputs } = useDevicesList({ requestPermissions: true })
