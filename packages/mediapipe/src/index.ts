@@ -2,5 +2,5 @@ export type { Results, LandmarkList, NormalizedLandmarkList } from "@mediapipe/p
 export type { FaceMeshResultsListener, FaceMeshResults } from "./useFaceMesh"
 export { useMediapipePose } from "./useMediapipePose"
 export { useFaceMesh } from "./useFaceMesh"
-export { FaceMesh } from "@mediapipe/face_mesh"
+// export { FaceMesh } from "@mediapipe/face_mesh"
 export * from "./poseType"

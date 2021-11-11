@@ -20,15 +20,16 @@ function rotateVectorsSimultaneously(u0: THREE.Vector3, v0: THREE.Vector3, u2: T
   return q
 }
 
-export default function useFaceRotation(landmarks: Ref<FaceMeshResults["multiFaceLandmarks"] | undefined>): Ref<THREE.Quaternion> {
+export default function useFaceRotation(landmarks: Ref<FaceMeshResults["multiFaceLandmarks"] | undefined>) {
   const q = ref(new THREE.Quaternion())
+  const pos = ref(new THREE.Vector3())
   const vh1o = new THREE.Vector3(1, 0, 0)
   const vv1o = new THREE.Vector3(0, 1, 0)
 
   watch (landmarks, l => {
     if (l === undefined) return
     const lm = l[0]
-    if (!lm || !lm[454] || !lm[234] || !lm[10] || !lm[152]) return
+    if (!lm || !lm[454] || !lm[234] || !lm[10] || !lm[152] || !lm[173]) return
 
     const vh1 = new THREE.Vector3(l[0][454].x, l[0][454].y, l[0][454].z)
     const vh2 = new THREE.Vector3(l[0][234].x, l[0][234].y, l[0][234].z)
@@ -39,7 +40,11 @@ export default function useFaceRotation(landmarks: Ref<FaceMeshResults["multiFac
     const vv2o = vv2.clone().sub(vv1.clone()).normalize()
 
     q.value = rotateVectorsSimultaneously(vh1o, vv1o, vh2o, vv2o)
+    pos.value.set(lm[173].x, lm[173].y, lm[173].z)
   })
 
-  return q
+  return {
+    q,
+    pos,
+  }
 }

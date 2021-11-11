@@ -185,7 +185,7 @@ importers:
       nprogress: 0.2.0
       pinia: 2.0.3_typescript@4.4.4+vue@3.2.21
       three: 0.133.1
-      three-globe: 2.21.2_three@0.133.1
+      three-globe: 2.21.3_three@0.133.1
       three.meshline: 1.3.0
       uuid: 8.3.2
       vue: 3.2.21
@@ -6313,8 +6313,8 @@ packages:
       three: 0.133.1
     dev: false
 
-  /three-geojson-geometry/1.1.5_three@0.133.1:
-    resolution: {integrity: sha512-byypaav1AgwYOGcJo7EcB4Cfudv4N2SZfetXDDcl1HKJxV480pNuusQm6odN4MD0pKDZv0oBScqOZy3eBhWbNA==}
+  /three-geojson-geometry/1.1.6_three@0.133.1:
+    resolution: {integrity: sha512-q5KTcvzMMiWZ46ly8hOLv2GxT10vayYB9VaWU1Vf8pX1YlYHuY/3n7In4KQ7EaYYQc0zI6TI1Mopd55IdoQ6Zw==}
     peerDependencies:
       three: '>=0.72.0'
     dependencies:
@@ -6323,8 +6323,8 @@ packages:
       three: 0.133.1
     dev: false
 
-  /three-globe/2.21.2_three@0.133.1:
-    resolution: {integrity: sha512-jTMA3n0tlkN525I2fn8epoaI2rcUdQF/V3jpr5GnqxyuxjN2zPR8tep8PbpLnoROFRU8fgETPlLYprUFkjSx0w==}
+  /three-globe/2.21.3_three@0.133.1:
+    resolution: {integrity: sha512-ueMHVmpyutqgrgjZQe3VHutOlfveCwYB71cTuAu4zC3mnJAIy7A4/kLW8xz5ka3l1Pxa8+Avr50A7b5abW0CkQ==}
     peerDependencies:
       three: '>=0.109.0'
     dependencies:
@@ -6342,7 +6342,7 @@ packages:
       three: 0.133.1
       three-conic-polygon-geometry: 1.4.5_three@0.133.1
       three-fatline: 0.5.2_three@0.133.1
-      three-geojson-geometry: 1.1.5_three@0.133.1
+      three-geojson-geometry: 1.1.6_three@0.133.1
       tinycolor2: 1.4.2
     dev: false
 

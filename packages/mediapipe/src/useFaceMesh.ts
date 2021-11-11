@@ -1,4 +1,4 @@
-import type { Ref } from "vue"
+import { ref, Ref } from "vue"
 import type { Options, FaceMeshConfig, Results, ResultsListener } from "@mediapipe/face_mesh"
 import { MaybeRef, unrefElement, useRafFn, tryOnMounted, tryOnBeforeUnmount } from "@vueuse/core"
 import { Stats } from "@depth/stats.js"
@@ -41,9 +41,10 @@ const config: FaceMeshConfig = {
 
 export async function useFaceMesh({ video, handler, streaming, stats }: FaceMeshOptions) {
   let faceMesh: FaceMesh
+  const t = ref(0)
 
   tryOnMounted(async () => {
-    faceMesh = new globalThis.FaceMesh(config)
+    faceMesh = process.env.NODE_ENV === "development" ? new FaceMesh(config) :  new globalThis.FaceMesh(config)
     faceMesh.setOptions(solutionOptions)
     faceMesh.onResults(handler)
     await faceMesh.initialize()
@@ -59,7 +60,8 @@ export async function useFaceMesh({ video, handler, streaming, stats }: FaceMesh
       const t0 = performance.now()
       await faceMesh.send({ image: unrefElement(video) as HTMLVideoElement })
       const t1 = performance.now()
-      statPanel?.update(t1 - t0, 60)
+      t.value = t1 - t0
+      statPanel?.update(t.value, 60)
     },
     { immediate: false }
   )
@@ -78,4 +80,8 @@ export async function useFaceMesh({ video, handler, streaming, stats }: FaceMesh
       statPanel.dom.parentElement?.removeChild(statPanel.dom)
     }
   })
+
+  return {
+    t,
+  }
 }

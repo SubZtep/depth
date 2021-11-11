@@ -1,6 +1,8 @@
 import useSingleton from "~/composables/useSingleton"
 import { exec3D } from "@depth/three.js"
 import { Color } from "three/src/math/Color"
+import { Object3D } from "three/src/core/Object3D"
+
 
 type SceneBackground = THREE.Color | THREE.Texture | null
 
@@ -35,8 +37,22 @@ export default function useSceneHelper() {
     })
   }
 
+  const object3dForPage = (obj: Object3D) => {
+    onMounted(() =>
+      exec3D(({ scene }) => {
+        scene.add(obj)
+      })
+    )
+    onBeforeUnmount(() =>
+      exec3D(({ scene }) => {
+        scene.remove(obj)
+      })
+    )
+  }
+
   return {
     removeForPage,
     bgForPage,
+    object3dForPage,
   }
 }
