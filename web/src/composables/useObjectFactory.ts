@@ -2,9 +2,11 @@
 import { BufferGeometry } from "three/src/core/BufferGeometry"
 import { Object3D } from "three/src/core/Object3D"
 import { BoxGeometry } from "three/src/geometries/BoxGeometry"
+import { ConeGeometry } from "three/src/geometries/ConeGeometry"
 import { SphereGeometry } from "three/src/geometries/SphereGeometry"
 import { LineBasicMaterial } from "three/src/materials/LineBasicMaterial"
 import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
+import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
 import { Line } from "three/src/objects/Line"
 import { Mesh } from "three/src/objects/Mesh"
 
@@ -59,14 +61,24 @@ export default function useObjectFactory() {
   const sphere = () => {
     // const geometry = new SphereGeometry(15, 32, 16)
     const geometry = new SphereGeometry(1)
-    const material = new MeshBasicMaterial({ color: 0x00ff00, opacity: 0.1, transparent: true })
+    // const material = new MeshBasicMaterial({ color: 0x00ff00, opacity: 0.1, transparent: true })
+    const material = new MeshBasicMaterial({ color: 0x00ff00 })
     const sphere = new Mesh(geometry, material)
     return sphere
+  }
+
+  const cone = () => {
+    const geometry = new ConeGeometry(0.2, 2, 4)
+    const material = new MeshPhongMaterial({ color: 0xaaaa00 })
+    const cone = new Mesh(geometry, material)
+    cone.position.set(0, 1, 0)
+    return cone
   }
 
   return {
     cube,
     line,
     sphere,
+    cone,
   }
 }

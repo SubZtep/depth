@@ -3,7 +3,7 @@ import { useIdle, whenever } from "@vueuse/core"
 import { CameraShake } from "./camerashake"
 import { Box3, Vector3 } from "three"
 
-export type CameraBoundary = "Full" | "Simple" | "Off"
+export type CameraBoundary = "Full" | "Simple" | "Off" | "Zero"
 const boundaryBox = new Box3(new Vector3(-100, 2, -100), new Vector3(100, 2, 100))
 const emptyBox = new Box3(new Vector3(-Infinity, -Infinity, -Infinity), new Vector3(Infinity, Infinity, Infinity))
 
@@ -16,6 +16,23 @@ export function setupBoundaries(cameraControls: CameraControls, boundary: Camera
     cameraControls.polarRotateSpeed = 1.0
     cameraControls.azimuthRotateSpeed = 1.0
     cameraControls.dampingFactor = 0.05
+    cameraControls.setBoundary(emptyBox) // FIXME: remove param after cc release
+  } else if (boundary === "Zero") {
+    // defaults
+    cameraControls.minDistance = 0
+    cameraControls.maxDistance = Infinity
+    cameraControls.minAzimuthAngle = -Infinity
+    cameraControls.maxAzimuthAngle = Infinity
+    cameraControls.minPolarAngle = 0
+    cameraControls.maxPolarAngle = Math.PI
+
+    cameraControls.polarRotateSpeed = 1.0
+    cameraControls.azimuthRotateSpeed = 1.0
+    cameraControls.dampingFactor = 0.05
+    // cameraControls.dollySpeed = 0
+    // cameraControls.polarRotateSpeed = 0
+    // cameraControls.azimuthRotateSpeed = 0
+    // cameraControls.dampingFactor = 0
     cameraControls.setBoundary(emptyBox) // FIXME: remove param after cc release
   } else {
     if (boundary === "Full") {

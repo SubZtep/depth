@@ -13,7 +13,7 @@ import * as THREE from "three"
 import GradientMaterial from "~/3D/materials/GradientMaterial"
 import { Box3, Vector3 } from "three"
 
-const { object3dForPage } = useSceneHelper()
+const { addForPage } = useSceneHelper()
 
 const threeJs = useThreeJSEventHook()
 threeJs.trigger({ cmd: "RenderFrames", param: "All" })
@@ -39,7 +39,7 @@ const material = new GradientMaterial(new THREE.Color("red"), new THREE.Color("p
 const lathe = new THREE.Mesh(geometry, material)
 lathe.position.set(0, 0, -10)
 
-object3dForPage(lathe)
+addForPage(lathe)
 threeJs.trigger({ cmd: "RenderFrames", param: "All" })
 
 const handler: FaceMeshResultsListener = res => {
@@ -61,7 +61,6 @@ watch(streaming, isStreaming => (lathe.material.visible = isStreaming))
 loop3D(({ clock, cameraControls }) => {
   // if (!streaming.value) return
   lathe.quaternion.slerp(q.value, t.value * clock.getDelta() * 100)
-  // lathe.position.setX((pos.value.x * -(100 / 6)) + 6)
 
   const o = new Vector3()
   cameraControls.getPosition(o)

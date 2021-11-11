@@ -95,9 +95,11 @@ export async function createDefaultObjects(): Promise<Object3D[]> {
   // const { push } = useObjectPool()
 
   const ambLight = new AmbientLight(preferences.ambientLightColor, preferences.ambientLightIntensity)
+  ambLight.layers.enableAll()
   // push("GlobalAmbientLight", ambLight)
 
   const dirLight = new DirectionalLight(0xffffff, 1)
+  dirLight.layers.enableAll()
   dirLight.position.set(0, 10, 10)
   // dirLight.rotation.set(0, 1.6, -30)
   // dirLight.castShadow = true
@@ -105,10 +107,11 @@ export async function createDefaultObjects(): Promise<Object3D[]> {
   // push("GlobalDirectionalLight", dirLight)
 
   const grid = InfiniteGridHelper({
-    size1: 5,
+    size1: 2,
     size2: 10,
     distance: 2000,
   })
+  grid.layers.enableAll()
 
   useSingleton().set("grid", grid)
 

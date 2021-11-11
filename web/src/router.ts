@@ -120,9 +120,9 @@ const routes: RouteRecordRaw[] = [
     name: "depth",
     component: () => import("./pages/Depth.vue"),
     meta: {
-      position: [0, camHeight, 10],
-      lookAt: [0, 1, 0],
-      // order: 20,
+      position: [0, camHeight, -20],
+      lookAt: [0, 0, 0],
+      order: 21,
     },
   },
   {
