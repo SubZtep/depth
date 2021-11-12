@@ -1,6 +1,3 @@
-// import { Pile } from "../models/pile"
-// import type { Object3D } from "three"
-
 class Singleton {
   private static instance: Singleton
 

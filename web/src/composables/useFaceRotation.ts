@@ -27,7 +27,7 @@ export default function useFaceRotation(landmarks: Ref<FaceMeshResults["multiFac
   const vh1o = new Vector3(1, 0, 0)
   const vv1o = new Vector3(0, 1, 0)
 
-  watch (landmarks, l => {
+  watch(landmarks, l => {
     if (l === undefined) return
     const lm = l[0]
     if (!lm || !lm[454] || !lm[234] || !lm[10] || !lm[152] || !lm[173]) return

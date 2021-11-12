@@ -108,7 +108,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/face-rotate",
     name: "face-rotate",
-  component: () => import("./pages/FaceRotate.vue"),
+    component: () => import("./pages/FaceRotate.vue"),
     meta: {
       position: [0, 1, -20],
       lookAt: [0, 0, 0],

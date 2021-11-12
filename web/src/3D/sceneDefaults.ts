@@ -1,6 +1,5 @@
-import useSingleton from "~/composables/useSingleton"
 import { usePreferencesStore } from "~/stores/preferences"
-import { InfiniteGridHelper } from "~/3D/infiniteGrid"
+import { InfiniteGridHelper } from "~/3D/terrains/infiniteGrid"
 import { DDSLoader } from "three/examples/jsm/loaders/DDSLoader"
 import { GridHelper } from "three/src/helpers/GridHelper"
 import { Color } from "three/src/math/Color"
@@ -13,6 +12,7 @@ import { TextureLoader } from "three/src/loaders/TextureLoader"
 import { AmbientLight } from "three/src/lights/AmbientLight"
 import { DirectionalLight } from "three/src/lights/DirectionalLight"
 import { Object3D } from "three/src/core/Object3D"
+import useResources from "~/composables/useResources"
 
 export function grid(x = -7.5) {
   const grid = new GridHelper(5, 5, Color.NAMES.blue, Color.NAMES.blue)
@@ -88,11 +88,11 @@ export async function loadNoVideoMaterial(): Promise<MeshBasicMaterial> {
 
 export async function createDefaultObjects(): Promise<Object3D[]> {
   const preferences = usePreferencesStore()
-  // const { push } = useObjectPool()
+  const resources = useResources()
 
   const ambLight = new AmbientLight(preferences.ambientLightColor, preferences.ambientLightIntensity)
   ambLight.layers.enableAll()
-  // push("GlobalAmbientLight", ambLight)
+  resources.set("GlobalAmbientLight", ambLight)
 
   const dirLight = new DirectionalLight(0xffffff, 1)
   dirLight.layers.enableAll()
@@ -100,7 +100,7 @@ export async function createDefaultObjects(): Promise<Object3D[]> {
   // dirLight.rotation.set(0, 1.6, -30)
   // dirLight.castShadow = true
   // dirLight.target.position.set(-5, 0, 0)
-  // push("GlobalDirectionalLight", dirLight)
+  resources.set("GlobalDirectionalLight", dirLight)
 
   const grid = InfiniteGridHelper({
     size1: 2,
@@ -108,8 +108,7 @@ export async function createDefaultObjects(): Promise<Object3D[]> {
     distance: 2000,
   })
   grid.layers.enableAll()
-
-  useSingleton().set("grid", grid)
+  resources.set("InfiniteGrid", grid)
 
   return [ambLight, dirLight, grid]
 }

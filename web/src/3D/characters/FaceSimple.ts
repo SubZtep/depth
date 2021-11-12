@@ -19,13 +19,8 @@ export default defineComponent({
   setup(props) {
     const factory = useObjectFactory()
 
-
     const root = new Group()
-    exec3D(({ scene }) =>
-      scene.add(
-        root,
-      )
-    )
+    exec3D(({ scene }) => scene.add(root))
 
     const geometry = new BoxGeometry(0.08, 0.08, 0.08)
     const material = new MeshBasicMaterial({ color: 0xcccc22 })

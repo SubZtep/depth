@@ -44,7 +44,7 @@ export async function useFaceMesh({ video, handler, streaming, stats }: FaceMesh
   const t = ref(0)
 
   tryOnMounted(async () => {
-    faceMesh = process.env.NODE_ENV === "development" ? new FaceMesh(config) :  new globalThis.FaceMesh(config)
+    faceMesh = process.env.NODE_ENV === "development" ? new FaceMesh(config) : new globalThis.FaceMesh(config)
     faceMesh.setOptions(solutionOptions)
     faceMesh.onResults(handler)
     await faceMesh.initialize()

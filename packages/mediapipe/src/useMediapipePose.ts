@@ -16,12 +16,9 @@ interface MediapipePoseOptions {
   handler?: ResultsListener
 }
 
-
 const config: PoseConfig = {
   locateFile: file =>
-    process.env.NODE_ENV === "development"
-      ? `/pose/${file}`
-      : `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`,
+    process.env.NODE_ENV === "development" ? `/pose/${file}` : `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`,
 }
 
 // let dstat: Stats.Panel | undefined

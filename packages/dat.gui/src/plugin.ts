@@ -46,7 +46,7 @@ export function useGui() {
  * @param init - Initializer function with the folder as argument
  * @returns \{ remove: instantly removes the folder, folder: the instance \}
  */
-export function addGuiFolder(init: GUIExtFn): { remove: Fn, folder: GUIExt } {
+export function addGuiFolder(init: GUIExtFn): { remove: Fn; folder: GUIExt } {
   const gui = inject<dat.GUI>(guiKey)!
   const folderName = `f${++folderCounter}`
   const folder = gui.addFolder(folderName) as GUIExt

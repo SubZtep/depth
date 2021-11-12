@@ -47,7 +47,9 @@ export default defineConfig(({ mode, command }) => {
         deep: true,
       }),
       AutoImport({
+        // FIXME: https://github.com/antfu/unplugin-auto-import/issues/33
         include: [/\.[tj]s$/, /\.vue\??/],
+        exclude: [/node_modules/, /__test__/, /\.d\.ts$/],
         imports: [
           "vue",
           "@vueuse/core",

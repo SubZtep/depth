@@ -42,14 +42,23 @@ const state = reactive({
 
 addGuiFolder(folder => {
   folder.name = "♡ Cone"
-  folder.add(state, "rotateX", 0, 360).name("Rotate X").onChange(r => {
-    pivot.rotation.x = r * Math.PI / 180
-  })
-  folder.add(state, "rotateY", 0, 360).name("Rotate Y").onChange(r => {
-    pivot.rotation.y = r * Math.PI / 180
-  })
-  folder.add(state, "rotateZ", 0, 360).name("Rotate Z").onChange(r => {
-    pivot.rotation.z = r * Math.PI / 180
-  })
+  folder
+    .add(state, "rotateX", 0, 360)
+    .name("Rotate X")
+    .onChange(r => {
+      pivot.rotation.x = (r * Math.PI) / 180
+    })
+  folder
+    .add(state, "rotateY", 0, 360)
+    .name("Rotate Y")
+    .onChange(r => {
+      pivot.rotation.y = (r * Math.PI) / 180
+    })
+  folder
+    .add(state, "rotateZ", 0, 360)
+    .name("Rotate Z")
+    .onChange(r => {
+      pivot.rotation.z = (r * Math.PI) / 180
+    })
 })
 </script>

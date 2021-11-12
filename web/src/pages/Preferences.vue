@@ -8,15 +8,14 @@ component(:is="activeObject")
 import { useThreeJSEventHook } from "@depth/three.js"
 import { addGuiFolder } from "@depth/dat.gui"
 import { exec3D, setupBoundaries } from "@depth/three.js"
-import { usePreferencesStore } from "../stores/preferences"
-import { keypointFactory } from "../3D/factories"
-import GlobalAmbientLight from "../components/preferences/GlobalAmbientLight.vue"
-import GlobalDirectionalLight from "../components/preferences/GlobalDirectionalLight.vue"
+import { usePreferencesStore } from "~/stores/preferences"
+import { keypointFactory } from "~/3D/factories"
+import GlobalAmbientLight from "~/components/preferences/GlobalAmbientLight.vue"
+import GlobalDirectionalLight from "~/components/preferences/GlobalDirectionalLight.vue"
 
 onMounted(() => threeJs.trigger({ cmd: "RenderFrames", param: "All" }))
 
 const preferences = usePreferencesStore()
-
 const threeJs = useThreeJSEventHook()
 
 const ball = keypointFactory({ color: "red" })
@@ -41,14 +40,18 @@ const { folder: fPref } = addGuiFolder(folder => {
     })
 })
 
-const emptyValue = "--- ??? ---"
-const editables = { [emptyValue]: null, "Ambient light": GlobalAmbientLight, "Directional light": GlobalDirectionalLight }
+const emptyValue = "---"
+const editables = {
+  [emptyValue]: null,
+  "Ambient light": GlobalAmbientLight,
+  "Directional light": GlobalDirectionalLight,
+}
 const activeObject = shallowRef(null)
 
 addGuiFolder(folder => {
   folder.domElement.classList.add("opacity-60")
-  folder.name = "★ Active object"
-  folder.add({ Select: emptyValue }, "Select", Object.keys(editables)).onChange(key => {
+  folder.name = "★ Select object to edit"
+  folder.add({ Active: emptyValue }, "Active", Object.keys(editables)).onChange(key => {
     fPref[key === emptyValue ? "open" : "close"]()
     set(activeObject, editables[key])
   })

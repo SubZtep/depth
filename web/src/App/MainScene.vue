@@ -31,5 +31,4 @@ syncRef(toRef(preferences, "guiScale"), guiScaleCss)
 exec3D(({ cameraControls }) => {
   setupBoundaries(cameraControls, preferences.horizontalLock ? "Full" : "Simple")
 })
-
 </script>

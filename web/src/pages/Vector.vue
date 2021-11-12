@@ -33,7 +33,6 @@ const v2_1 = new Vector3(0, 0, 0)
 const v2_2 = v1_2.clone().sub(v1_1.clone())
 const l2 = factory.line({ color: "yellowish", points: [v2_1, v2_2.normalize()] })
 
-
 exec3D(({ scene }) => {
   scene.background = new Color(0x000000)
   scene.add(l1, l2)

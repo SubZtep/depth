@@ -17,10 +17,10 @@ const toast = useToast()
 const props = defineProps<{ src: string }>()
 
 const emit = defineEmits<{
-  (e: "mounted", el: HTMLVideoElement): void;
-  (e: "error", src: string, ev: Event): void;
-  (e: "loaded", obj?: Db.Video): void;
-  (e: "timeupdated"): void;
+  (e: "mounted", el: HTMLVideoElement): void
+  (e: "error", src: string, ev: Event): void
+  (e: "loaded", obj?: Db.Video): void
+  (e: "timeupdated"): void
 }>()
 
 const videoRef = ref<HTMLVideoElement>()

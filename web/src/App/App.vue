@@ -1,7 +1,5 @@
 <template lang="pug">
-SystemCheck(v-if="hold || !ready" @done="stop")
-
-Suspense(v-else)
+Suspense
   template(#default)
     ThreeCanvas
   template(#fallback)
@@ -9,28 +7,25 @@ Suspense(v-else)
 </template>
 
 <script lang="ts" setup>
-import { onVisibility } from "../events"
-
-const hold = ref(true)
-const { ready, start, stop } = useTimeout(5000, { controls: true, immediate: false })
-
-if (process.env.NODE_ENV === "production") {
-  start()
-}
-set(hold, false)
-
-useNProgress().start()
+// import { onVisibility } from "../events"
+import useSystemRequirements from "~/composables/useSystemRequirements"
 const toast = useToast()
+const { errors, warnings } = useSystemRequirements()
 
-onVisibility(({ visible, since }) => {
-  if (visible) {
-    toast.dismiss("hello")
+for (const error of errors) {
+  toast.error(error)
+}
+for (const warning of warnings) {
+  toast.error(warning)
+}
 
-    // show more than 30 secs
-    if (Date.now() - since.getTime() > 30_000) {
-      const ago = useTimeAgo(since, { updateInterval: 0 })
-      toast.info(`Hello, since ${ago.value}.`, { id: "hello" })
-    }
-  }
-})
+// onVisibility(({ visible, since }) => {
+//   if (visible) {
+//     // show more than 30 secs
+//     if (Date.now() - since.getTime() > 30_000) {
+//       const ago = useTimeAgo(since, { updateInterval: 0 })
+//       toast.info(`Hello, since ${ago.value}.`, { id: "hello" })
+//     }
+//   }
+// })
 </script>

@@ -19,8 +19,8 @@ const videoRef = ref() as Ref<HTMLVideoElement>
 const props = defineProps<{ enabled?: boolean }>()
 
 const emit = defineEmits<{
-  (e: "mounted", el: HTMLVideoElement): void;
-  (e: "streaming", isStreaming: boolean): void;
+  (e: "mounted", el: HTMLVideoElement): void
+  (e: "streaming", isStreaming: boolean): void
 }>()
 
 onMounted(() => {

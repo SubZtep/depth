@@ -61,7 +61,7 @@ $ pnpm dev
 
 ### Server hints
 
-[PM2](https://pm2.keymetrics.io/docs/usage/quick-start/) is for Node process management. A basic configuration file is in the project root.
+[PM2](https://pm2.keymetrics.io/docs/usage/quick-start/) is for Node process management. Deploy action is generating a basic configuration file to the project root.
 
 ```sh
 $ pm2 start ecosystem.config.js

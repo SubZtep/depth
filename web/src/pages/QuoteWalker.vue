@@ -8,10 +8,9 @@ Title(v-if="bored" class="!duration-13000 flex-col")
 <script lang="ts" setup>
 import { DEG2RAD } from "three/src/math/MathUtils"
 import { exec3D } from "@depth/three.js"
-import { useBoredApi } from "../composables"
-import { onVisibility } from "../events"
+import { useBoredApi } from "~/composables/useBoredApi"
+import { onVisibility } from "~/events"
 import { rand } from "@depth/misc"
-import { MathUtils } from "three/src/Three"
 
 const { moves, count } = useCameraMoves()
 const { bored, query } = useBoredApi()

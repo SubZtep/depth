@@ -11,7 +11,7 @@ interface BoredApi {
   accessibility: number
 }
 
-export default function useBoredApi() {
+export function useBoredApi() {
   const bored = ref<BoredApi | null>(null)
 
   const query = async () => {
