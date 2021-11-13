@@ -1,4 +1,4 @@
-import type { GpuBuffer } from "../../../public/pose"
+import type { GpuBuffer } from "../../../public/libs/pose"
 import { get, useCssVar } from "@vueuse/core"
 import { defineComponent, onBeforeUnmount, watch } from "vue"
 import { CanvasTexture } from "three/src/textures/CanvasTexture"

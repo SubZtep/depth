@@ -36,17 +36,33 @@ export default function useSceneHelper() {
     })
   }
 
-  const addForPage = (...obj: Object3D[]) => {
-    onMounted(() =>
-      exec3D(({ scene }) => {
-        scene.add(...obj)
-      })
-    )
-    onBeforeUnmount(() =>
+  // const addForPage = (...obj: Object3D[]) => {
+  //   onMounted(() =>
+  //     exec3D(({ scene }) => {
+  //       scene.add(...obj)
+  //     })
+  //   )
+  //   onBeforeUnmount(() =>
+  //     exec3D(({ scene }) => {
+  //       scene.remove(...obj)
+  //     })
+  //   )
+  // }
+  const addForPage = (...obj: Object3D[]): Promise<void> => {
+    const promise: Promise<void> = new Promise((resolve, reject) => {
+      tryOnMounted(() =>
+        exec3D(({ scene }) => {
+          scene.add(...obj)
+          resolve()
+        })
+      )
+    })
+    tryOnBeforeUnmount(() =>
       exec3D(({ scene }) => {
         scene.remove(...obj)
       })
     )
+    return promise
   }
 
   return {

@@ -1,5 +1,5 @@
 {
-  "Empty Vue file": {
+  "Empty Vue Component": {
     "scope": "vue",
     "body": [
       "<template lang=\"pug\">",
@@ -10,6 +10,19 @@
       "",
       "<style module>",
       "</style>"
+    ]
+  },
+  "Empty TS Component": {
+    "scope": "typescript",
+    "body": [
+      "import { addGuiFolder } from \"@depth/dat.gui\"",
+      "",
+      "export default defineComponent({",
+      "  setup(_props, { slots }) {",
+      "",
+      "  return () => slots.default && slots.default()",
+      "  }",
+      "})"
     ]
   }
 }

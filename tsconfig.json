@@ -15,6 +15,7 @@
     "noImplicitAny": false,
     "declarationMap": true
   },
+  "exclude": ["dist/*"],
   "references": [
     { "path": "packages/audio" },
     { "path": "packages/dat.gui" },

@@ -96,6 +96,20 @@ server {
   }
 }
 ```
+### 3d hints
+
+1. Resize textures (with Gimp).
+
+2. Convert to WebP \
+   https://developers.google.com/speed/webp/docs/using
+
+3. https://github.com/CesiumGS/gltf-pipeline \
+  `$ gltf-pipeline -i scene.gltf -o scene.glb -t -d`
+
+#### May check
+
+- [ ] https://github.com/zeux/meshoptimizer
+- [ ] https://www.khronos.org/blog/google-and-binomial-contribute-basis-universal-texture-format-to-khronos-gltf-3d-transmission-open-standard
 
 ###### :trollface:
 

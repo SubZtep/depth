@@ -31,6 +31,12 @@ const { folder: fPref } = addGuiFolder(folder => {
     .onFinishChange(scale => (preferences.guiScale = String(scale)))
   folder.add(preferences, "skybox", 1, 15, 1).name("Skybox")
   folder
+    .add({ fullscreen: false }, "fullscreen")
+    .name("Go Fullscreen")
+    .onChange(async v => {
+      await useFullscreen()[v ? "enter" : "exit"]()
+    })
+  folder
     .add(preferences, "horizontalLock")
     .name("Rotation lock")
     .onChange((lock: boolean) => {

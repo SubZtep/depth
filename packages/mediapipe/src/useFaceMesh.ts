@@ -35,7 +35,7 @@ const solutionOptions: Options = {
 const config: FaceMeshConfig = {
   locateFile: file =>
     process.env.NODE_ENV === "development"
-      ? `/face_mesh/${file}`
+      ? `/libs/face_mesh/${file}`
       : `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`,
 }
 

@@ -1,5 +1,5 @@
 import type { SelectOptions } from "@depth/dat.gui"
-import type { Landmark, NormalizedLandmark } from "../../public/pose"
+import type { Landmark, NormalizedLandmark } from "../../public/libs/pose"
 
 export function arrayToObject<T>(arr: T[], key: string): Record<string, T> {
   return arr.reduce((a, b) => ({ ...a, [b[key]]: b }), {})

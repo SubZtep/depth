@@ -16,7 +16,7 @@ import { DEG2RAD, clamp } from "three/src/math/MathUtils"
 import { Scene } from "three/src/scenes/Scene"
 import { WebGLRenderer } from "three/src/renderers/WebGLRenderer"
 import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera"
-import { MOUSE } from "three/src/constants"
+import { MOUSE, sRGBEncoding } from "three/src/constants"
 import { eventHook, eventHookHandler } from "./events"
 import { useRenderLoop } from "./useRenderLoop"
 import { useCameraControls } from "./useCameraControls"
@@ -68,6 +68,7 @@ export function useCanvas(canvasRef: MaybeRef<HTMLCanvasElement>): Scene {
     canvas.height = get(height)
 
     const renderer = new WebGLRenderer({ canvas, powerPreference: "high-performance", antialias: true })
+    renderer.outputEncoding = sRGBEncoding
     renderer.shadowMap.enabled = true
 
     camera = new PerspectiveCamera(60, get(width) / get(height), 0.01, 1000)

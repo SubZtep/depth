@@ -1,5 +1,5 @@
 import type { MaybeRef } from "@vueuse/core"
-import type { LandmarkList } from "../../public/pose"
+import type { LandmarkList } from "../../public/libs/pose"
 import { reactify, get, unrefElement } from "@vueuse/core"
 import { HEAD_AREA } from "./constants"
 import { computed, Ref } from "vue"

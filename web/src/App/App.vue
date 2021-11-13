@@ -12,12 +12,8 @@ import useSystemRequirements from "~/composables/useSystemRequirements"
 const toast = useToast()
 const { errors, warnings } = useSystemRequirements()
 
-for (const error of errors) {
-  toast.error(error)
-}
-for (const warning of warnings) {
-  toast.error(warning)
-}
+errors.forEach(msg => toast.error(msg))
+warnings.forEach(msg => toast.warning(msg))
 
 // onVisibility(({ visible, since }) => {
 //   if (visible) {
