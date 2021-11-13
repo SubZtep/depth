@@ -127,8 +127,8 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "/controller",
-    name: "controller",
-    component: () => import("./pages/Controller.vue"),
+    name: "controller-test",
+    component: () => import("./pages/ControllerTest.vue"),
     meta: {
       position: [0, camHeight, 5],
       lookAt: [0, 0, 0],
