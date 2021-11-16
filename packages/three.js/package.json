@@ -5,12 +5,12 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "postinstall": "cp -ruv node_modules/three/examples/js/libs/draco/ ../../web/public/libs/"
+    "postinstall": "cp -ruv node_modules/three/examples/js/libs/draco/ ../../web/public/libs/draco"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@vueuse/core": "^6.8.0",
+    "@vueuse/core": "^6.9.1",
     "camera-controls": "^1.33.1",
     "three": "^0.134.0",
     "vue": "^3.2.20"

@@ -13,7 +13,7 @@
     "lint": "pnpm recursive exec -- eslint .",
     "test": "jest",
     "coverage": "jest --coverage",
-    "ncu": "pnpm recursive exec -- ncu",
+    "ncu": "pnpm recursive exec -- ncu -u",
     "preinstall": "npx only-allow pnpm"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
@@ -21,9 +21,9 @@
   "repository": "github:SubZtep/depth",
   "devDependencies": {
     "@types/jest": "^27.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.3.1",
-    "@typescript-eslint/parser": "^5.3.1",
-    "@typescript-eslint/typescript-estree": "^5.3.1",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "@typescript-eslint/typescript-estree": "^5.4.0",
     "@vue/test-utils": "^2.0.0-rc.16",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",

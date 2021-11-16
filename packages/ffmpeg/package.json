@@ -12,7 +12,7 @@
     "@depth/misc": "workspace:*",
     "@ffmpeg/core": "^0.10.0",
     "@ffmpeg/ffmpeg": "github:SubZtep/ffmpeg.wasm#master",
-    "@vueuse/core": "^6.8.0",
+    "@vueuse/core": "^6.9.1",
     "vue": "^3.2.20"
   }
 }

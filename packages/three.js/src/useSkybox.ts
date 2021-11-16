@@ -19,7 +19,7 @@ export function useSkybox(initNr?: SkyboxNumber) {
       const onLoad = (texture: CubeTexture) => resolve(texture)
 
       const path = `/textures/skybox/${String(nr).padStart(2, "0")}/`
-      const urls = ["RT", "LF", "UP", "DN", "BK", "FR"].map(side => `sky${nr}_${side}.jpg`)
+      const urls = ["RT", "LF", "UP", "DN", "BK", "FR"].map(side => `sky${nr}_${side}.webp`)
       loader.setPath(path).load(urls, onLoad, onProgress, onError)
     })
   }
