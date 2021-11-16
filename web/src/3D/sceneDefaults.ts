@@ -1,5 +1,4 @@
 import { usePreferencesStore } from "~/stores/preferences"
-import { InfiniteGridHelper } from "~/3D/terrains/infiniteGrid"
 import { DDSLoader } from "three/examples/jsm/loaders/DDSLoader"
 import { GridHelper } from "three/src/helpers/GridHelper"
 import { Color } from "three/src/math/Color"
@@ -102,15 +101,7 @@ export async function createDefaultObjects(): Promise<Object3D[]> {
   // dirLight.target.position.set(-5, 0, 0)
   resources.set("GlobalDirectionalLight", dirLight)
 
-  const grid = InfiniteGridHelper({
-    size1: 2,
-    size2: 10,
-    distance: 2000,
-  })
-  grid.layers.enableAll()
-  resources.set("InfiniteGrid", grid)
-
-  return [ambLight, dirLight, grid]
+  return [ambLight, dirLight]
 }
 
 export async function createVsObjects(): Promise<Object3D[]> {

@@ -136,6 +136,16 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    path: "/environment",
+    name: "environment",
+    component: () => import("./pages/EnvironmentPage.vue"),
+    meta: {
+      position: [0, camHeight, 5],
+      lookAt: [0, 0, 0],
+      order: 23,
+    },
+  },
+  {
     path: "",
     name: "home",
     component: () => import("./pages/Home.vue"),

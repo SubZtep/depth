@@ -16,6 +16,7 @@
   "dependencies": {
     "@depth/audio": "workspace:*",
     "@depth/dat.gui": "workspace:*",
+    "@depth/environment": "workspace:*",
     "@depth/ffmpeg": "workspace:*",
     "@depth/mediapipe": "workspace:*",
     "@depth/misc": "workspace:*",

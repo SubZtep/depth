@@ -60,6 +60,21 @@ importers:
     devDependencies:
       '@types/dat.gui': 0.7.7
 
+  packages/environment:
+    specifiers:
+      '@depth/three.js': workspace:*
+      '@types/three': ^0.134.0
+      three: ^0.134.0
+      vite: ^2.6.14
+      vue: ^3.2.20
+    dependencies:
+      '@depth/three.js': link:../three.js
+      three: 0.134.0
+      vue: 3.2.22
+    devDependencies:
+      '@types/three': 0.134.0
+      vite: 2.6.14
+
   packages/ffmpeg:
     specifiers:
       '@depth/misc': workspace:*
@@ -135,6 +150,7 @@ importers:
     specifiers:
       '@depth/audio': workspace:*
       '@depth/dat.gui': workspace:*
+      '@depth/environment': workspace:*
       '@depth/ffmpeg': workspace:*
       '@depth/mediapipe': workspace:*
       '@depth/misc': workspace:*
@@ -174,6 +190,7 @@ importers:
     dependencies:
       '@depth/audio': link:../packages/audio
       '@depth/dat.gui': link:../packages/dat.gui
+      '@depth/environment': link:../packages/environment
       '@depth/ffmpeg': link:../packages/ffmpeg
       '@depth/mediapipe': link:../packages/mediapipe
       '@depth/misc': link:../packages/misc

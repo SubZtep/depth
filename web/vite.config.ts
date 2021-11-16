@@ -17,7 +17,7 @@ export default defineConfig(({ mode, command }) => {
     build = {
       sourcemap: false,
       cssCodeSplit: false,
-      chunkSizeWarningLimit: 1500,
+      chunkSizeWarningLimit: 1666,
       rollupOptions: {
         output: {
           sourcemap: false,

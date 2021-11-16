@@ -29,7 +29,6 @@ const { folder: fPref } = addGuiFolder(folder => {
     .add({ guiScale: preferences.guiScale }, "guiScale", 0.5, 3, 0.1)
     .name("GUI scale")
     .onFinishChange(scale => (preferences.guiScale = String(scale)))
-  folder.add(preferences, "skybox", 1, 15, 1).name("Skybox")
   folder
     .add({ fullscreen: false }, "fullscreen")
     .name("Go Fullscreen")

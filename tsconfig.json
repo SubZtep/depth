@@ -18,6 +18,7 @@
   "references": [
     { "path": "packages/audio" },
     { "path": "packages/dat.gui" },
+    { "path": "packages/environment" },
     { "path": "packages/ffmpeg" },
     { "path": "packages/mediapipe" },
     { "path": "packages/misc" },
