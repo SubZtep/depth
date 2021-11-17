@@ -5,26 +5,44 @@ import { CameraHelper } from "three/src/helpers/CameraHelper"
 import useObjectFactory from "~/composables/useObjectFactory"
 import { Vector4 } from "three/src/math/Vector4"
 import useSceneHelper from "~/composables/useSceneHelper"
+import { addGuiFolder } from "@depth/dat.gui"
 
 export default defineComponent({
-  props: {
-    width: { type: Number, default: 320 },
-    height: { type: Number, default: 240 },
-  },
-
-  setup(properties) {
+  setup() {
     const instance = getCurrentInstance()
     if (instance === null) {
       throw new Error("Use ViewportView inside a component")
     }
 
-    const { addForPage } = useSceneHelper()
-
     const single = useSingleton()
     const cam = new PerspectiveCamera(90)
-    cam.position.set(0, 15, 0)
+
+    const state = reactive({
+      width: 320,
+      height: 240,
+      elevation: 15,
+      view: "y",
+    })
+
+    addGuiFolder(folder => {
+      folder.name = "🎥 Viewport View"
+      folder.add(state, "width", 1, 1024, 1)
+      folder.add(state, "height", 1, 768, 1)
+      folder.add(state, "elevation", 1, 100, 1).onChange(value => {
+        cam.position.y = value
+      })
+      folder.add(state, "view", ["x", "y", "z"]).onChange(value => {
+        cam.position.set(0, 0, 0)
+        cam.position[value] = state.elevation * (value === "y" ? 1 : -1)
+      })
+    })
+
+    const { addForPage } = useSceneHelper()
+
+    cam.position.set(0, state.elevation, 0)
     cam.lookAt(0, 0, 0)
     cam.layers.enableAll()
+    // cam.layers.set(1)
 
     const camHelper = new CameraHelper(camera)
     camHelper.layers.enableAll()
@@ -44,7 +62,7 @@ export default defineComponent({
 
     loop3D(
       ({ renderer, scene }) => {
-        if (vp.width < properties.width || vp.height < properties.height) {
+        if (vp.width < state.width || vp.height < state.height) {
           return
         }
 
@@ -52,18 +70,8 @@ export default defineComponent({
         pivotHelper.position.copy(pivot.position)
         pivotHelper.rotation.copy(pivot.rotation)
 
-        renderer.setScissor(
-          vp.width - properties.width,
-          vp.height - properties.height,
-          properties.width,
-          properties.height
-        )
-        renderer.setViewport(
-          vp.width - properties.width,
-          vp.height - properties.height,
-          properties.width,
-          properties.height
-        )
+        renderer.setScissor(vp.width - state.width, vp.height - state.height, state.width, state.height)
+        renderer.setViewport(vp.width - state.width, vp.height - state.height, state.width, state.height)
         renderer.render(scene, cam)
 
         renderer.setViewport(vp)

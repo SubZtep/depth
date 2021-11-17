@@ -33,15 +33,15 @@ const state = reactive({
   enabled: !!properties.enabled,
 })
 
-const { videoInputs } = useDevicesList({ requestPermissions: true })
+const { videoInputs } = useDevicesList({ requestPermissions: true }) // TODO: request video only
 const { enabled: stateEnabled, videoDeviceId } = toRefs(state)
 const { stream, enabled } = useUserMedia({
   audioDeviceId: false,
   videoDeviceId,
 })
 
-const width = ref(0)
-const height = ref(0)
+const width = ref(640)
+const height = ref(480)
 
 biSyncRef(stateEnabled, enabled)
 

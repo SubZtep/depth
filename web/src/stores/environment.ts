@@ -8,9 +8,8 @@ export const useEnvironmentStore: StoreDefinition = defineStore("environment", {
     skybox: useStorage<number>("environment.skybox", 2),
     compressed: useStorage<boolean>("environment.compressed", true),
     // grid
-    size1: useStorage<number>("environment.size1", 1),
-    size2: useStorage<number>("environment.size2", 10),
-    color: useStorage<number>("environment.color", 0),
+    size: useStorage<number>("environment.size", 1),
+    color: useStorage<number>("environment.color", 0x000000),
     distance: useStorage<number>("environment.distance", 8000),
   }),
 })

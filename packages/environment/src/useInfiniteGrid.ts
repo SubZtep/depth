@@ -13,23 +13,19 @@ export function useInfiniteGrid(parameters: Partial<InfiniteGridParameters> = {}
   if (singleton.has("InfiniteGrid")) {
     grid = singleton.get("InfiniteGrid")
   } else {
-    const { size1 = 1, size2 = 10, color = new Color(0x00_00_00), distance = 8000 } = parameters
-    grid = { mesh: infiniteGrid({ size1, size2, color, distance }), size1, size2, color, distance }
+    const { size = 1, color = new Color(0x00_00_00), distance = 8000 } = parameters
+    grid = { mesh: infiniteGrid({ size, color, distance }), size, color, distance }
     exec3D(({ scene }) => scene.add(mesh))
     singleton.set("InfiniteGrid", grid)
   }
 
   const { mesh, ...p } = grid
-  const { size1, size2, color, distance } = toRefs(reactive(p))
+  const { size, color, distance } = toRefs(reactive(p))
   const scope = effectScope()
 
   scope.run(() => {
-    watch(size1, v => {
-      mesh.material.uniforms.uSize1.value = v
-    })
-
-    watch(size2, v => {
-      mesh.material.uniforms.uSize2.value = v
+    watch(size, v => {
+      mesh.material.uniforms.uSize.value = v
     })
 
     watch(distance, v => {
@@ -41,5 +37,5 @@ export function useInfiniteGrid(parameters: Partial<InfiniteGridParameters> = {}
     scope.stop()
   })
 
-  return { size1, size2, color, distance }
+  return { size, color, distance }
 }

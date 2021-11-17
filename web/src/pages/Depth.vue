@@ -1,7 +1,7 @@
 <template lang="pug">
 WebcamPlayer(:enabled="false" @mounted="setVideoReference" @streaming="isStreaming => streaming = isStreaming")
 
-ViewportView
+ViewportView(:width="400" :height="300")
 </template>
 
 <script lang="ts" setup>
@@ -64,8 +64,8 @@ pivotCamera.position.setZ(-5)
 
 exec3D(({ cameraControls }) => {
   cameraControls.reset(false)
-  cameraControls.camera.layers.enableAll()
-  cameraControls.camera.layers.set(0)
+  // cameraControls.camera.layers.enableAll()
+  // cameraControls.camera.layers.set(0)
   pivotCamera.add(cameraControls.camera)
 })
 
@@ -81,9 +81,9 @@ loop3D(({ clock }) => {
   pivot.quaternion.slerp(q.value, clock.getDelta() * t.value * 100)
 })
 
-addGuiFolder(folder => {
-  folder.name = "⚝ Depth"
-})
+// addGuiFolder(folder => {
+//   folder.name = "⚝ Depth"
+// })
 
 onBeforeUnmount(() => {
   geometry.dispose()

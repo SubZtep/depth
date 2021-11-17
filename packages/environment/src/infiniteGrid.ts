@@ -18,8 +18,7 @@ void main() {
 `
 
 const fragmentShader = `
-uniform float uSize1;
-uniform float uSize2;
+uniform float uSize;
 uniform vec3 uColor;
 uniform float uDistance;
 in vec3 worldPosition;
@@ -34,16 +33,14 @@ float getGrid(float size) {
 
 void main() {
   float d = 1.0 - min(distance(cameraPosition.xz, worldPosition.xz) / uDistance, 1.0);
-  float g1 = getGrid(uSize1);
-  float g2 = getGrid(uSize2);
+  float g = getGrid(uSize);
 
-  myOutputColor = vec4(uColor.rgb, mix(g2, g1, g1) * pow(d, 3.0));
+  myOutputColor = vec4(uColor.rgb, g * pow(d, 3.0));
 }
 `
 
 export interface InfiniteGridParameters {
-  size1: number
-  size2: number
+  size: number
   color: Color
   distance: number
 }
@@ -55,8 +52,7 @@ export function infiniteGrid(parameters: InfiniteGridParameters) {
     side: DoubleSide,
     transparent: true,
     uniforms: {
-      uSize1: { value: parameters.size1 },
-      uSize2: { value: parameters.size2 },
+      uSize: { value: parameters.size },
       uColor: { value: parameters.color },
       uDistance: { value: parameters.distance },
     },
@@ -65,6 +61,10 @@ export function infiniteGrid(parameters: InfiniteGridParameters) {
   })
 
   const mesh = new Mesh(geometry, material)
+  mesh.layers.enableAll()
+  // mesh.layers.disable(1)
+  mesh.layers.set(0)
+
   mesh.frustumCulled = false
 
   return mesh

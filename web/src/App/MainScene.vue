@@ -31,8 +31,7 @@ useSkybox({
 })
 
 useInfiniteGrid({
-  size1: environment.size1,
-  size2: environment.size2,
+  size: environment.size,
   color: new Color(environment.color),
   distance: environment.distance,
 })

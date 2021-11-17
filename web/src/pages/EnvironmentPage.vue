@@ -27,14 +27,12 @@ const grid = useInfiniteGrid()
 
 addGuiFolder(folder => {
   folder.name = "⚙ Grid"
-  folder.add(environment, "size1", 1, 15, 1)
-  folder.add(environment, "size2", 1, 15, 1)
+  folder.add(environment, "size", 1, 15, 1)
   folder.addColor(environment, "color")
   folder.add(environment, "distance", 1, 9_000, 10)
 })
 
-syncRef(toRef(environment, "size1"), grid.size1)
-syncRef(toRef(environment, "size2"), grid.size2)
+syncRef(toRef(environment, "size"), grid.size)
 watch(
   () => environment.color,
   col => grid.color.value.set(col)

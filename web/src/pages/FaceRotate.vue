@@ -1,5 +1,5 @@
 <template lang="pug">
-WebcamPlayer(:enabled="true" @mounted="setVideoReference" @streaming="isStreaming => streaming = isStreaming")
+WebcamPlayer(:enabled="false" @mounted="setVideoReference" @streaming="isStreaming => streaming = isStreaming")
 </template>
 
 <script lang="ts" setup>

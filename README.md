@@ -15,15 +15,16 @@ A monorepo is moving beyond this problem, only with minimal discomfort shows a r
 
 ### Packages
 
-The public [web](./web#readme) frontend is also part of it in a workspace. 3rd-party packages are wrapped into the Vue plugin interface and mostly extended with handy functionality.
+The public [web](./web#readme) frontend is also part of the _pnpm workspace_. 3rd-party packages are wrapped into the Vue plugin interface and mostly extended with handy functionality.
 
 |                                  Package | Description                                                                                                                                 |
 | ---------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------ |
 |                                  `audio` | Resolve [autoplay policy](https://developer.chrome.com/blog/autoplay/#webaudio), play a single test sound (for now) with the Web Audio API. |
-|                                   `misc` | Miscellaneous helper scripts and text formatters.                                                                                           |
 |     [`dat.gui`](packages/dat.gui#readme) | GUI that handles most of the user inputs. Upgraded with reactivity and additional controls.                                                 |
+|                            `environment` | Skybox and ground grid.                                                                                                                     |
 |       [`ffmpeg`](packages/ffmpeg#readme) | Analise video keyframes and save screenshots in the browser.                                                                                |
 | [`mediapipe`](packages/mediapipe#readme) | Human pose detection.                                                                                                                       |
+|                                   `misc` | Miscellaneous helper scripts and text formatters.                                                                                           |
 |   [`stats.js`](packages/stats.js#readme) | Performance monitor for 3D and heavy calculations.                                                                                          |
 |   [`supabase`](packages/supabase#readme) | Fast and easy to use database for some backend I/O.                                                                                         |
 |   [`three.js`](packages/three.js#readme) | Draw and show the 3D canvas with _game loop_ and camera controls.                                                                           |
@@ -51,7 +52,7 @@ To build all the packages, [pnpm](https://pnpm.io/installation) is required.
 # download dependencies
 $ pnpm install
 
-# build packages and web
+# build packages and web (always build after install)
 $ NODE_ENV="development"
 $ pnpm build
 
@@ -96,6 +97,7 @@ server {
   }
 }
 ```
+
 ### 3d hints
 
 1. Resize textures (with Gimp).
@@ -104,7 +106,7 @@ server {
    https://developers.google.com/speed/webp/docs/using
 
 3. https://github.com/CesiumGS/gltf-pipeline \
-  `$ gltf-pipeline -i scene.gltf -o scene.glb -t -d`
+   `$ gltf-pipeline -i scene.gltf -o scene.glb -t -d`
 
 #### May check
 
