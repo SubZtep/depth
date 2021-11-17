@@ -4,23 +4,23 @@ Title Environment
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
-import { Color } from "three/src/Three"
-import useResources from "~/composables/useResources"
 import { useEnvironmentStore } from "~/stores/environment"
-import { infiniteGrid } from "@depth/environment"
+import useSingleton from "~/composables/useSingleton"
 
-const resources = useResources()
+const singleton = useSingleton()
 const environment = useEnvironmentStore()
 
-const grid: any = resources.get("InfiniteGrid")
-// const grid = resources.get<ReturnType<typeof infiniteGrid>>("InfiniteGrid")
+const skybox = singleton.get("SkyboxRefs")
+const grid = singleton.get("InfiniteGridRefs")
 
 addGuiFolder(folder => {
   folder.name = "⚙ Skybox"
   folder.add(environment, "skybox", 1, 15, 1)
   folder.add(environment, "compressed")
-  folder.close()
 })
+
+syncRef(toRef(environment, "skybox"), skybox.nr)
+syncRef(toRef(environment, "compressed"), skybox.compressed)
 
 addGuiFolder(folder => {
   folder.name = "⚙ Grid"

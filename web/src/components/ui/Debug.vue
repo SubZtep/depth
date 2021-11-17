@@ -26,7 +26,7 @@ const exists = ref(true)
 
   font-family: monospace;
   white-space: pre;
-  color: var(--terminal);
+  color: #4af626;
   overflow: auto;
 
   opacity: 0.6;

@@ -4,11 +4,6 @@
 @import "nprogress.css";
 @import "toast.css";
 
-:root {
-  --blood: #8a0303;
-  --terminal: #4af626;
-}
-
 body {
   @apply overflow-hidden;
   background-image: repeating-conic-gradient(from 0deg, transparent 0deg 90deg, #d3d4d6 90deg 180deg);

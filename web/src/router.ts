@@ -7,25 +7,6 @@ import { exec3D } from "@depth/three.js"
 const camHeight = 1.6
 const routes: RouteRecordRaw[] = [
   {
-    path: "/pool",
-    name: "pool",
-    component: () => import("./pages/Pool.vue"),
-    meta: {
-      position: [-150, camHeight, 0],
-      lookAt: [0, camHeight, 0],
-    },
-  },
-  {
-    path: "/quote-walker",
-    name: "quote-walker",
-    component: () => import("./pages/QuoteWalker.vue"),
-    meta: {
-      position: [0, camHeight, 0],
-      lookAt: [6, 9, 6],
-      order: 2,
-    },
-  },
-  {
     path: "/video-pose",
     name: "video-pose",
     component: () => import("./pages/VideoPose.vue"),
@@ -72,7 +53,6 @@ const routes: RouteRecordRaw[] = [
     meta: {
       position: [-30, camHeight, -30],
       lookAt: [-300, 2, -30],
-      order: 99,
     },
   },
   {
@@ -83,26 +63,6 @@ const routes: RouteRecordRaw[] = [
       position: [0, camHeight, 0],
       lookAt: [0, camHeight, 69],
       order: 3,
-    },
-  },
-  {
-    path: "/rotations",
-    name: "rotations",
-    component: () => import("./pages/Rotations.vue"),
-    meta: {
-      position: [0, camHeight, -10],
-      lookAt: [0, 1, 0],
-      // order: 20,
-    },
-  },
-  {
-    path: "/vector",
-    name: "vector",
-    component: () => import("./pages/Vector.vue"),
-    meta: {
-      position: [0, camHeight, 10],
-      lookAt: [0, 1, 0],
-      // order: 20,
     },
   },
   {

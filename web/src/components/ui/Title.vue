@@ -1,33 +1,21 @@
 <template lang="pug">
 transition(name="title")
-  h1(:class="$style.title" v-if="!ready")
+  h1(:class="$style.title" v-if="ready && !go")
     slot
 </template>
 
 <script lang="ts" setup>
 const props = defineProps<{ delay?: number }>()
-const ready = useTimeout(props.delay || 0)
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { delay = 0 } = props
+const ready = useTimeout(delay)
+const go = useTimeout(delay + 1)
 </script>
 
 <style module>
 .title {
   @apply fixed inset-0 flex justify-center items-center text-center
     font-mono font-extrabold text-8xl opacity-100 pointer-events-none select-none;
-  text-shadow: -4px 0 var(--blood), 1px 0 #fffa, 1px 1px 2px #0063;
-  transform: translateX(-100%);
-}
-</style>
-
-<style>
-.title-enter-active,
-.title-leave-active {
-  transition: all 4s ease-in;
-}
-.title-enter-from {
-  transform: translateX(0);
-}
-.title-leave-to {
-  @apply opacity-30;
-  transform: translateX(100%) scale(0.5);
+  text-shadow: -4px 0 #8a0303, 1px 0 #fffa, 1px 1px 2px #0063;
 }
 </style>

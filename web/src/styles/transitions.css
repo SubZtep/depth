@@ -29,3 +29,19 @@
 .fade-leave-active {
   opacity: 0;
 }
+
+/*
+** For Title component
+*/
+
+.title-enter-active,
+.title-leave-active {
+  transition: all 4s ease-in;
+}
+.title-enter-from {
+  transform: translateX(-100%);
+}
+.title-leave-to {
+  opacity: 0.3;
+  transform: translateX(100%) scale(0.5);
+}

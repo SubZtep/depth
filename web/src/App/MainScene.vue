@@ -13,8 +13,7 @@ import { useSkybox, infiniteGrid } from "@depth/environment"
 import { usePreferencesStore } from "~/stores/preferences"
 import { useEnvironmentStore } from "~/stores/environment"
 import useResources from "~/composables/useResources"
-
-const resources = useResources()
+import useSingleton from "~/composables/useSingleton"
 
 useGui().show()
 
@@ -24,34 +23,30 @@ loop3D(() => {
   stats.update()
 })
 
-// Sync preferences store to refs
+const resources = useResources()
+const singleton = useSingleton()
 const preferences = usePreferencesStore()
 const environment = useEnvironmentStore()
-
-const { texture, nr, compressed } = useSkybox()
-syncRef(toRef(environment, "skybox"), nr)
-syncRef(toRef(environment, "compressed"), compressed)
 
 const guiScaleCss = useCssVar("--gui-scale")
 syncRef(toRef(preferences, "guiScale"), guiScaleCss)
 
-const grid = infiniteGrid({
+const { texture: skyboxTexture, ...skybox } = useSkybox()
+resources.set("Skybox", skyboxTexture)
+singleton.set("SkyboxRefs", skybox)
+
+const { mesh: gridMesh, ...grid } = infiniteGrid({
   size1: environment.size1,
   size2: environment.size2,
   color: environment.color,
   distance: environment.distance,
 })
-console.log(grid)
-resources.set("InfiniteGrid", grid)
+
+resources.set("InfiniteGrid", gridMesh)
+singleton.set("InfiniteGridRefs", grid)
 
 exec3D(({ cameraControls, scene }) => {
-  scene.add(grid.mesh)
+  scene.add(gridMesh)
   setupBoundaries(cameraControls, preferences.horizontalLock ? "Full" : "Simple")
-})
-
-watch(texture, txt => {
-  exec3D(({ scene }) => {
-    scene.background = txt
-  })
 })
 </script>
