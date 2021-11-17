@@ -17,7 +17,6 @@ declare module 'vue' {
     GradientMaterial: typeof import('./../3D/materials/GradientMaterial.ts')['default']
     Help: typeof import('./../components/ui/Help.vue')['default']
     ImgMemfs: typeof import('./../components/ui/ImgMemfs.vue')['default']
-    InfiniteGrid: typeof import('./../3D/terrains/infiniteGrid.ts')['default']
     InputIndicator: typeof import('./../components/player/InputIndicator.vue')['default']
     ItemProgress: typeof import('./../components/ui/ItemProgress.vue')['default']
     LoadingScreen: typeof import('./../App/LoadingScreen.vue')['default']
