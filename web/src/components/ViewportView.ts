@@ -1,8 +1,8 @@
 import { exec3D, loop3D, camera } from "@depth/three.js"
+import { useSingleton } from "@depth/misc"
 import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera"
 import { CameraHelper } from "three/src/helpers/CameraHelper"
 import useObjectFactory from "~/composables/useObjectFactory"
-import useSingleton from "~/composables/useSingleton"
 import { Vector4 } from "three/src/math/Vector4"
 import useSceneHelper from "~/composables/useSceneHelper"
 

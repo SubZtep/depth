@@ -1,4 +1,4 @@
-import useSingleton from "~/composables/useSingleton"
+import { useSingleton } from "@depth/misc"
 import Resources from "~/3D/resources"
 
 export const resources = new Resources()

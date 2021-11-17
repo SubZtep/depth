@@ -1,4 +1,4 @@
-import useSingleton from "~/composables/useSingleton"
+import { useSingleton } from "@depth/misc"
 import { exec3D } from "@depth/three.js"
 import { Color } from "three/src/math/Color"
 import { Object3D } from "three/src/core/Object3D"

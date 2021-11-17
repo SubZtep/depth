@@ -1,2 +1,2 @@
 export * from "./useSkybox"
-export * from "./infiniteGrid"
+export * from "./useInfiniteGrid"

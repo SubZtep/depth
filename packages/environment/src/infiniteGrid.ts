@@ -1,11 +1,9 @@
 // Based on: Fyrestar https://mevedia.com (https://github.com/Fyrestar/THREE.InfiniteGridHelper)
-
 import { DoubleSide, GLSL3 } from "three/src/constants"
 import { PlaneBufferGeometry } from "three/src/geometries/PlaneGeometry"
 import { ShaderMaterial } from "three/src/materials/ShaderMaterial"
 import { Color } from "three/src/math/Color"
 import { Mesh } from "three/src/objects/Mesh"
-import { ref, watch } from "vue"
 
 const vertexShader = `
 uniform float uDistance;
@@ -43,60 +41,31 @@ void main() {
 }
 `
 
-interface Params {
-  size1?: number
-  size2?: number
-  color?: number
-  distance?: number
+export interface InfiniteGridParams {
+  size1: number
+  size2: number
+  color: Color
+  distance: number
 }
 
-export function infiniteGrid(params: Params = {}) {
-  const size1 = ref(params.size1 ?? 1)
-  const size2 = ref(params.size2 ?? 10)
-  const color = ref(params.color ?? 0)
-  const distance = ref(params.distance ?? 8000)
-
-  const c = new Color(color.value)
-
+export function infiniteGrid(params: InfiniteGridParams) {
   const geometry = new PlaneBufferGeometry(2, 2, 1, 1)
   const material = new ShaderMaterial({
     glslVersion: GLSL3,
     side: DoubleSide,
     transparent: true,
     uniforms: {
-      uSize1: { value: size1.value },
-      uSize2: { value: size2.value },
-      uColor: { value: c },
-      uDistance: { value: distance.value },
+      uSize1: { value: params.size1 },
+      uSize2: { value: params.size2 },
+      uColor: { value: params.color },
+      uDistance: { value: params.distance },
     },
     vertexShader,
     fragmentShader,
   })
 
-  watch(size1, v => {
-    material.uniforms.uSize1.value = v
-  })
-
-  watch(size2, v => {
-    material.uniforms.uSize2.value = v
-  })
-
-  watch(color, v => {
-    c.set(v)
-  })
-
-  watch(distance, v => {
-    material.uniforms.uDistance.value = v
-  })
-
   const mesh = new Mesh(geometry, material)
   mesh.frustumCulled = false
 
-  return {
-    mesh,
-    size1,
-    size2,
-    color,
-    distance,
-  }
+  return mesh
 }

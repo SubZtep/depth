@@ -9,7 +9,10 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
+    "@depth/misc": "workspace:*",
     "@depth/three.js": "workspace:*",
+    "@vue/reactivity": "^3.2.22",
+    "@vue/runtime-core": "^3.2.22",
     "three": "^0.134.0",
     "vue": "^3.2.20"
   },

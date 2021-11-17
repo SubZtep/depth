@@ -64,13 +64,19 @@ importers:
 
   packages/environment:
     specifiers:
+      '@depth/misc': workspace:*
       '@depth/three.js': workspace:*
       '@types/three': ^0.134.0
+      '@vue/reactivity': ^3.2.22
+      '@vue/runtime-core': ^3.2.22
       three: ^0.134.0
       vite: ^2.6.14
       vue: ^3.2.20
     dependencies:
+      '@depth/misc': link:../misc
       '@depth/three.js': link:../three.js
+      '@vue/reactivity': 3.2.22
+      '@vue/runtime-core': 3.2.22
       three: 0.134.0
       vue: 3.2.22
     devDependencies:

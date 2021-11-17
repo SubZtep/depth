@@ -2,10 +2,30 @@ import { ref, watch } from "vue"
 import { exec3D } from "@depth/three.js"
 import { CubeTexture } from "three/src/textures/CubeTexture"
 import { CubeTextureLoader } from "three/src/loaders/CubeTextureLoader"
+import { useSingleton } from "@depth/misc"
 
 type SkyboxNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15
 
-export function useSkybox(initNr: SkyboxNumber = 1, initCompressed = true) {
+interface Props {
+  nr?: SkyboxNumber
+  compressed?: boolean
+}
+
+export function useSkybox(props: Props = {}) {
+  const singleton = useSingleton()
+  let { nr: initNr = 1, compressed: initCompressed = true } = props
+
+  let texture: CubeTexture | null
+  if (singleton.has("Skybox")) {
+    const s = singleton.get("Skybox")
+    texture = s.texture
+    initNr = s.nr
+    initCompressed = s.compressed
+  } else {
+    texture = null
+    singleton.set("Skybox", { texture, nr: initNr, compressed: initCompressed })
+  }
+
   const nr = ref<SkyboxNumber>(initNr)
   const compressed = ref<boolean>(initCompressed)
 
@@ -26,13 +46,11 @@ export function useSkybox(initNr: SkyboxNumber = 1, initCompressed = true) {
     })
   }
 
-  const texture = ref<CubeTexture | null>(null)
-
   watch(
     [nr, compressed],
     async values => {
-      texture.value = await load(values[0], values[1])
-      exec3D(({ scene }) => (scene.background = texture.value))
+      texture = await load(values[0], values[1])
+      exec3D(({ scene }) => (scene.background = texture))
     },
     {
       immediate: true,
@@ -40,7 +58,6 @@ export function useSkybox(initNr: SkyboxNumber = 1, initCompressed = true) {
   )
 
   return {
-    texture,
     nr,
     compressed,
   }

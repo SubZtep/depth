@@ -5,13 +5,14 @@ Title Environment
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
 import { useEnvironmentStore } from "~/stores/environment"
-import useSingleton from "~/composables/useSingleton"
+import { useInfiniteGrid, useSkybox } from "@depth/environment"
+import { useThreeJSEventHook } from "@depth/three.js"
 
-const singleton = useSingleton()
+const threeJs = useThreeJSEventHook()
+threeJs.trigger({ cmd: "RenderFrames", param: "All" })
 const environment = useEnvironmentStore()
 
-const skybox = singleton.get("SkyboxRefs")
-const grid = singleton.get("InfiniteGridRefs")
+const skybox = useSkybox()
 
 addGuiFolder(folder => {
   folder.name = "⚙ Skybox"
@@ -21,6 +22,8 @@ addGuiFolder(folder => {
 
 syncRef(toRef(environment, "skybox"), skybox.nr)
 syncRef(toRef(environment, "compressed"), skybox.compressed)
+
+const grid = useInfiniteGrid()
 
 addGuiFolder(folder => {
   folder.name = "⚙ Grid"
@@ -32,6 +35,6 @@ addGuiFolder(folder => {
 
 syncRef(toRef(environment, "size1"), grid.size1)
 syncRef(toRef(environment, "size2"), grid.size2)
-syncRef(toRef(environment, "color"), grid.color)
+watch(() => environment.color, col => grid.color.value.set(col))
 syncRef(toRef(environment, "distance"), grid.distance)
 </script>

@@ -18,7 +18,7 @@ import { LatheGeometry } from "three/src/geometries/LatheGeometry"
 import { Color } from "three/src/math/Color"
 import { Mesh } from "three/src/objects/Mesh"
 import { Object3D } from "three/src/core/Object3D"
-import useSingleton from "~/composables/useSingleton"
+import { useSingleton } from "@depth/misc"
 
 const threeJs = useThreeJSEventHook()
 threeJs.trigger({ cmd: "RenderFrames", param: "All" })

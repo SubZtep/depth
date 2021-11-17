@@ -9,11 +9,10 @@ router-view(v-slot="{ Component }")
 import { useGui } from "@depth/dat.gui"
 import { useStats } from "@depth/stats.js"
 import { loop3D, exec3D, setupBoundaries } from "@depth/three.js"
-import { useSkybox, infiniteGrid } from "@depth/environment"
+import { useSkybox, useInfiniteGrid } from "@depth/environment"
 import { usePreferencesStore } from "~/stores/preferences"
 import { useEnvironmentStore } from "~/stores/environment"
-import useResources from "~/composables/useResources"
-import useSingleton from "~/composables/useSingleton"
+import { Color } from "three/src/math/Color"
 
 useGui().show()
 
@@ -23,30 +22,24 @@ loop3D(() => {
   stats.update()
 })
 
-const resources = useResources()
-const singleton = useSingleton()
 const preferences = usePreferencesStore()
 const environment = useEnvironmentStore()
 
-const guiScaleCss = useCssVar("--gui-scale")
-syncRef(toRef(preferences, "guiScale"), guiScaleCss)
+useSkybox({
+  nr: environment.skybox,
+  compressed: environment.compressed,
+})
 
-const { texture: skyboxTexture, ...skybox } = useSkybox()
-resources.set("Skybox", skyboxTexture)
-singleton.set("SkyboxRefs", skybox)
-
-const { mesh: gridMesh, ...grid } = infiniteGrid({
+useInfiniteGrid({
   size1: environment.size1,
   size2: environment.size2,
-  color: environment.color,
+  color: new Color(environment.color),
   distance: environment.distance,
 })
 
-resources.set("InfiniteGrid", gridMesh)
-singleton.set("InfiniteGridRefs", grid)
+useInfiniteGrid()
 
-exec3D(({ cameraControls, scene }) => {
-  scene.add(gridMesh)
+exec3D(({ cameraControls }) => {
   setupBoundaries(cameraControls, preferences.horizontalLock ? "Full" : "Simple")
 })
 </script>
