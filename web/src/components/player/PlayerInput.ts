@@ -1,7 +1,4 @@
-import { addGuiFolder } from "@depth/dat.gui"
-
 export default defineComponent({
-
   props: {
     ArrowUp: { type: Boolean, require: true },
     ArrowRight: { type: Boolean, require: true },
@@ -10,7 +7,6 @@ export default defineComponent({
     ControlLeft: { type: Boolean, require: true },
   },
   setup(props, { slots }) {
-
     // TODO: state should be just a prop
     const playerState = reactive({
       moveForward: false,
@@ -33,8 +29,7 @@ export default defineComponent({
     syncRef(and(ArrowRight, ControlLeft), moveRight)
     syncRef(and(ArrowRight, not(ControlLeft)), rotateRight)
 
-    return () =>
-      slots.default && slots.default(playerState)
-      // slots.default && slots.default({ moveForward, moveBackward, moveLeft, moveRight, rotateLeft, rotateRight })
+    return () => slots.default && slots.default(playerState)
+    // slots.default && slots.default({ moveForward, moveBackward, moveLeft, moveRight, rotateLeft, rotateRight })
   },
 })

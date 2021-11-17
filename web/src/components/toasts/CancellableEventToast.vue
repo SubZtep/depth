@@ -10,10 +10,11 @@ const props = defineProps<{ message: string; event: Fn }>()
 // eslint-disable-next-line vue/no-setup-props-destructure
 let mayEvent = props.event
 
+/* eslint-disable */
 const cancel = () => {
-  // eslint-disable-next-line
   mayEvent = () => {}
 }
+/* eslint-enable */
 
 onBeforeUnmount(() => {
   mayEvent.call(null)

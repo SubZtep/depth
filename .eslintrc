@@ -13,8 +13,9 @@ overrides:
         filter: false
       parser: "@typescript-eslint/typescript-estree"
     rules:
-      no-unused-vars: warn
       no-undef: warn
+      "@typescript-eslint/no-unused-vars": off
+      indent: off
 
 extends:
   - "eslint:recommended"
@@ -32,6 +33,7 @@ plugins:
   - "@typescript-eslint"
   - "prettier"
   - "eslint-plugin-tsdoc"
+  - "unicorn"
 
 rules:
   prettier/prettier: warn
@@ -62,6 +64,7 @@ rules:
   "@typescript-eslint/no-empty-function": warn
   "@typescript-eslint/no-explicit-any": off
   "tsdoc/syntax": warn
+  vue/prop-name-casing: off
 
 ignorePatterns:
   - "**node_modules/"

@@ -27,14 +27,14 @@ StickmanSimple(
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
-import type { VideoStatePose } from "../../stores/video"
 // import type { Results } from "public/libs/pose"
 
+/* eslint-disable */
 const props = defineProps<{
-  // pose: Results
   pose: VideoStatePose
   position: [number, number, number]
 }>()
+/* eslint-enable */
 
 // const raw = ref(props.pose.value.pose_raw)
 

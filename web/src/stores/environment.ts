@@ -11,6 +11,6 @@ export const useEnvironmentStore: StoreDefinition = defineStore("environment", {
     size1: useStorage<number>("environment.size1", 1),
     size2: useStorage<number>("environment.size2", 10),
     color: useStorage<number>("environment.color", 0),
-    distance: useStorage<number>("environment.color", 8000),
+    distance: useStorage<number>("environment.distance", 8_000),
   }),
 })

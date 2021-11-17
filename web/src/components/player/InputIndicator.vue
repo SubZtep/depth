@@ -16,6 +16,7 @@
 </template>
 
 <script lang="ts" setup>
+/* eslint-disable */
 const props = defineProps<{
   ArrowUp: boolean
   ArrowRight: boolean
@@ -23,6 +24,7 @@ const props = defineProps<{
   ArrowLeft: boolean
   ControlLeft: boolean
 }>()
+/* eslint-disable */
 </script>
 
 <style scoped>

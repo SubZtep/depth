@@ -34,8 +34,10 @@ table(v-if="videos.length > 0" :class="$style.table" v-stop-propagation)
 </template>
 
 <script lang="ts" setup>
+/* eslint no-undef: "off" */
 import { useSupabase } from "@depth/supabase"
 import { useThreeJSEventHook } from "@depth/three.js"
+
 type VideoWithCounts = any & { keyframe: [{ count: number }]; pose: [{ count: number }] }
 // type VideoWithCounts = Required<Db.Video> & { keyframe: [{ count: number }]; pose: [{ count: number }] }
 

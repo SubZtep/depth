@@ -28,12 +28,16 @@ export function useSkybox(initNr: SkyboxNumber = 1, initCompressed = true) {
 
   const texture = ref<CubeTexture | null>(null)
 
-  watch([nr, compressed], async values => {
-    texture.value = await load(values[0], values[1])
-    exec3D(({ scene }) => (scene.background = texture.value))
-  }, {
-    immediate: true
-  })
+  watch(
+    [nr, compressed],
+    async values => {
+      texture.value = await load(values[0], values[1])
+      exec3D(({ scene }) => (scene.background = texture.value))
+    },
+    {
+      immediate: true,
+    }
+  )
 
   return {
     texture,

@@ -9,7 +9,7 @@ import { usePreferencesStore } from "~/stores/preferences"
 import useResources from "~/composables/useResources"
 
 const resources = useResources()
-const light = resources.get<AmbientLight>("GlobalAmbientLight")
+const light = resources.get<AmbientLight>("GlobalAmbientLight") as AmbientLight
 
 const preferences = usePreferencesStore()
 light.color.setHex(preferences.ambientColor)

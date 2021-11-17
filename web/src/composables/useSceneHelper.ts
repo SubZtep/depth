@@ -49,7 +49,7 @@ export default function useSceneHelper() {
   //   )
   // }
   const addForPage = (...obj: Object3D[]): Promise<void> => {
-    const promise: Promise<void> = new Promise((resolve, reject) => {
+    const promise: Promise<void> = new Promise(resolve => {
       tryOnMounted(() =>
         exec3D(({ scene }) => {
           scene.add(...obj)

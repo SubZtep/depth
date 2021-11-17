@@ -39,14 +39,14 @@ watch(
   }
 )
 
-const videoLoaded = (async ({ target }: VideoElementEvent) => {
+const videoLoaded: any = async ({ target }: VideoElementEvent) => {
   emit("loaded", {
     src: props.src,
     duration: target.duration,
     width: target.videoWidth,
     height: target.videoHeight,
   })
-}) as (payload: Event) => Promise<void>
+}
 
 const loadError = (ev: Event) => {
   toast.error(`Load video error ${props.src}`)

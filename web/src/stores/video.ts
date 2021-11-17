@@ -1,14 +1,8 @@
 import type { StoreDefinition } from "pinia"
 import { defineStore } from "pinia"
 import { useSupabase } from "@depth/supabase"
-import type { LandmarkList, NormalizedLandmarkList, Results } from "@depth/mediapipe"
+import type { Results } from "@depth/mediapipe"
 import DbQueries from "../misc/dbqueries"
-
-export interface VideoStatePose {
-  ts: number
-  pose_raw?: LandmarkList
-  pose_normalized: NormalizedLandmarkList
-}
 
 export const useVideoStore: StoreDefinition = defineStore("video", {
   state: () => ({

@@ -10,12 +10,13 @@ StickmanSimple(
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
-import type { NormalizedLandmarkList } from "@depth/mediapipe"
 
+/* eslint-disable */
 const props = defineProps<{
   pose?: NormalizedLandmarkList
   position: [number, number, number]
 }>()
+/* eslint-enable */
 
 const state = reactive({
   scale: 1,

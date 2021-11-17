@@ -3,7 +3,6 @@ import { exec3D, camera } from "@depth/three.js"
 import type { Ref } from "vue"
 import useObjectPool from "~/composables/useObjectPool"
 import { whenever } from "@vueuse/core"
-import useObjectFactory from "~/composables/useObjectFactory"
 import { Group } from "three/src/objects/Group"
 import { BoxGeometry } from "three/src/geometries/BoxGeometry"
 import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
@@ -17,8 +16,6 @@ export default defineComponent({
   },
 
   setup(props) {
-    const factory = useObjectFactory()
-
     const root = new Group()
     exec3D(({ scene }) => scene.add(root))
 
@@ -26,7 +23,7 @@ export default defineComponent({
     const material = new MeshBasicMaterial({ color: 0xcccc22 })
     const pool = useObjectPool({ modelType: "face", creator: () => new Mesh(geometry, material), size: 468 })
 
-    let csss: Ref<string>[] = []
+    const csss: Ref<string>[] = []
     const stop = whenever(
       () => props.cssVarsTarget,
       target => {
