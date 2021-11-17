@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router"
 import type { RouteRecordRaw } from "vue-router"
-import type { GUIExt } from "@depth/dat.gui"
+import type { GUIExtended } from "@depth/dat.gui"
 import { kebabToTitle } from "@depth/misc"
 import { exec3D } from "@depth/three.js"
 
@@ -140,7 +140,7 @@ router.beforeEach(({ name, meta: { position, lookAt } }) => {
   // set gui active class
   if (!folders) folders = document.querySelectorAll(".dg.depth .folder:first-of-type .function")
   const index = (typeof name === "string" && routeNames.indexOf(name)) ?? -1
-  folders.forEach((_el, i) => folders[i].classList[i === index ? "add" : "remove"]("active"))
+  for (const [index_] of folders.entries()) folders[index_].classList[index_ === index ? "add" : "remove"]("active")
 
   // move camera to the desired position
   position &&
@@ -148,10 +148,10 @@ router.beforeEach(({ name, meta: { position, lookAt } }) => {
     exec3D(async ({ cameraControls }) => await cameraControls.setLookAt(...position, ...lookAt, true))
 })
 
-export function navigationGui(gui: GUIExt) {
+export function navigationGui(gui: GUIExtended) {
   const folder = gui.addFolder("⚓ Navigation")
   const btns = Object.fromEntries(routeNames.map(name => [name, () => void router.push({ name })]))
-  routeNames.forEach(name => folder.add(btns, name).name(kebabToTitle(name)))
+  for (const name of routeNames) folder.add(btns, name).name(kebabToTitle(name))
 
   // add github link
   btns["ghpage"] = () => void window.open("https://github.com/SubZtep/depth")

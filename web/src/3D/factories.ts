@@ -13,8 +13,8 @@ interface KeypointFactoryOptions {
 }
 
 const sphereGeometry = new SphereGeometry(0.06, 8, 6)
-export const whiteMaterial = new MeshPhongMaterial({ color: 0x69ffff, flatShading: true })
-export const redMaterial = new MeshPhongMaterial({ color: 0xff0000, flatShading: true })
+export const whiteMaterial = new MeshPhongMaterial({ color: 0x69_ff_ff, flatShading: true })
+export const redMaterial = new MeshPhongMaterial({ color: 0xff_00_00, flatShading: true })
 
 const materials = new Map<ColorRepresentation, MeshPhongMaterial>()
 
@@ -35,8 +35,8 @@ export function keypointFactory(options: KeypointFactoryOptions): KeypointMesh {
   return mesh
 }
 
-export const boneMaterial = new LineBasicMaterial({ color: 0xe3dac9 })
-export const badBoneMaterial = new LineBasicMaterial({ color: 0xcc0033 })
+export const boneMaterial = new LineBasicMaterial({ color: 0xe3_da_c9 })
+export const badBoneMaterial = new LineBasicMaterial({ color: 0xcc_00_33 })
 
 export function lineFactory(name?: string, visible = true, points?: THREE.Vector3[]) {
   const geometry = new BufferGeometry()

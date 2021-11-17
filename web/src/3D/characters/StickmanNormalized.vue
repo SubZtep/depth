@@ -5,18 +5,16 @@ StickmanSimple(
   :z-multi="state.zMulti"
   :color="0xffffff"
   :scale="state.scale"
-  :position="props.position")
+  :position="properties.position")
 </template>
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
 
-/* eslint-disable */
-const props = defineProps<{
+const properties = defineProps<{
   pose?: NormalizedLandmarkList
   position: [number, number, number]
 }>()
-/* eslint-enable */
 
 const state = reactive({
   scale: 1,

@@ -2,11 +2,11 @@
 import { inject, onBeforeUnmount, onMounted, Plugin } from "vue"
 import { addTextInput, addVector3 } from "./extend"
 import type { Fn } from "@vueuse/core"
-import type { extGUI } from "./extend"
+import type { extendedGUI } from "./extend"
 import dat from "./reactive"
 
-export type GUIExt = dat.GUI & extGUI
-type GUIExtFn = (gui: GUIExt) => void
+export type GUIExtended = dat.GUI & extendedGUI
+type GUIExtendedCallback = (gui: GUIExtended) => void
 
 interface PluginOptions extends Omit<dat.GUIParams, "load" | "preset"> {
   /**
@@ -17,14 +17,14 @@ interface PluginOptions extends Omit<dat.GUIParams, "load" | "preset"> {
    * Function list with provided gui instance.
    * (E.g. always visible gui folders.)
    */
-  hooked?: GUIExtFn[]
+  hooked?: GUIExtendedCallback[]
 }
 
 const guiKey = Symbol("dat.gui")
 let folderCounter = 0
 
-export const GuiPlugin: Plugin = function (app, { addClass, hooked, ...params }: PluginOptions = {}) {
-  const gui = new dat.GUI(params) as GUIExt
+export const GuiPlugin: Plugin = function (app, { addClass, hooked, ...parameters }: PluginOptions = {}) {
+  const gui = new dat.GUI(parameters) as GUIExtended
 
   // @ts-ignore
   dat.GUI.prototype.addTextInput = addTextInput
@@ -32,13 +32,15 @@ export const GuiPlugin: Plugin = function (app, { addClass, hooked, ...params }:
   dat.GUI.prototype.addVector3 = addVector3
 
   addClass && gui.domElement.classList.add(addClass)
-  hooked?.forEach(fn => fn.call(null, gui))
-  document.body.appendChild(gui.domElement)
+  for (const callback of hooked || []) {
+    callback(gui)
+  }
+  document.body.append(gui.domElement)
   app.provide(guiKey, gui)
 }
 
 export function useGui() {
-  return inject<GUIExt>(guiKey)!
+  return inject<GUIExtended>(guiKey)!
 }
 
 /**
@@ -46,10 +48,10 @@ export function useGui() {
  * @param init - Initializer function with the folder as argument
  * @returns \{ remove: instantly removes the folder, folder: the instance \}
  */
-export function addGuiFolder(init: GUIExtFn): { remove: Fn; folder: GUIExt } {
+export function addGuiFolder(init: GUIExtendedCallback): { remove: Fn; folder: GUIExtended } {
   const gui = inject<dat.GUI>(guiKey)!
   const folderName = `f${++folderCounter}`
-  const folder = gui.addFolder(folderName) as GUIExt
+  const folder = gui.addFolder(folderName) as GUIExtended
 
   const remove = () => {
     gui.removeFolder(folder)

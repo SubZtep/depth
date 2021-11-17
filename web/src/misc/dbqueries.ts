@@ -4,7 +4,7 @@ import type { Results } from "@depth/mediapipe"
 
 type Logger = any
 
-export default class DbQueries {
+export default class DatabaseQueries {
   #client: SupabaseClient
   #logger?: Logger
 
@@ -39,18 +39,18 @@ export default class DbQueries {
     return data?.[0]?.id
   }
 
-  async insertVideo(obj: Db.Video): Promise<number> {
-    const { data, error } = await this.#client.from<Db.Video>("video").upsert(obj)
+  async insertVideo(object: Db.Video): Promise<number> {
+    const { data, error } = await this.#client.from<Db.Video>("video").upsert(object)
 
     if (error) {
       this.#logger?.error(error.message)
       return Promise.reject(error.message)
     }
 
-    if (data == null || data.length === 0 || data[0].id == null) {
-      const msg = "Insert video error"
-      this.#logger?.error(msg)
-      return Promise.reject(msg)
+    if (data == undefined || data.length === 0 || data[0].id == undefined) {
+      const message = "Insert video error"
+      this.#logger?.error(message)
+      return Promise.reject(message)
     }
 
     return data[0].id
@@ -64,7 +64,7 @@ export default class DbQueries {
       return Promise.reject(error.message)
     }
 
-    if (data == null || data.length === 0) {
+    if (data == undefined || data.length === 0) {
       return undefined
     }
 
@@ -72,8 +72,8 @@ export default class DbQueries {
   }
 
   async insertKeyframes(videoId: number, timestamps: number[]): Promise<void> {
-    const obj: Db.Keyframe[] = timestamps.map(ts => ({ video_id: videoId, ts }))
-    const { error } = await this.#client.from<Db.Keyframe>("keyframe").upsert(obj, { returning: "minimal" })
+    const object: Db.Keyframe[] = timestamps.map(ts => ({ video_id: videoId, ts }))
+    const { error } = await this.#client.from<Db.Keyframe>("keyframe").upsert(object, { returning: "minimal" })
 
     if (error) {
       this.#logger?.error(error.message)
@@ -92,7 +92,7 @@ export default class DbQueries {
       return Promise.reject(error.message)
     }
 
-    if (data == null || data.length === 0) {
+    if (data == undefined || data.length === 0) {
       return undefined
     }
 
@@ -100,8 +100,8 @@ export default class DbQueries {
   }
 
   async insertPoses(videoId: number, poses: VideoStatePose[]): Promise<void> {
-    const obj: Db.Pose[] = poses.map(({ ts, pose_normalized }) => ({ video_id: videoId, ts, pose_normalized }))
-    const { error } = await this.#client.from<Db.Pose>("pose").upsert(obj, { returning: "minimal" })
+    const object: Db.Pose[] = poses.map(({ ts, pose_normalized }) => ({ video_id: videoId, ts, pose_normalized }))
+    const { error } = await this.#client.from<Db.Pose>("pose").upsert(object, { returning: "minimal" })
 
     if (error) {
       this.#logger?.error(error.message)
@@ -110,8 +110,8 @@ export default class DbQueries {
   }
 
   async insertPose(videoId: number, ts: number, results: Results): Promise<void> {
-    const obj: Db.Pose = { video_id: videoId, ts, pose_normalized: results.poseWorldLandmarks }
-    const { error } = await this.#client.from<Db.Pose>("pose").upsert(obj, { returning: "minimal" })
+    const object: Db.Pose = { video_id: videoId, ts, pose_normalized: results.poseWorldLandmarks }
+    const { error } = await this.#client.from<Db.Pose>("pose").upsert(object, { returning: "minimal" })
 
     if (error) {
       this.#logger?.error(error.message)

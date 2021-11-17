@@ -26,7 +26,7 @@ export function grid(x = -7.5) {
 export function plane() {
   const plane = new Mesh(
     new PlaneGeometry(6, 2),
-    new MeshPhongMaterial({ color: 0x001000, specular: 0x000000, shininess: 69, side: DoubleSide })
+    new MeshPhongMaterial({ color: 0x00_10_00, specular: 0x00_00_00, shininess: 69, side: DoubleSide })
   )
   plane.position.setX(-2)
   plane.position.setY(-0.1)
@@ -48,7 +48,7 @@ async function loadLeafMaterial(): Promise<MeshBasicMaterial> {
         texture.mapping = CubeReflectionMapping
         const material = new MeshBasicMaterial({
           map: texture,
-          color: 0x696969,
+          color: 0x69_69_69,
           alphaTest: 0.5,
           side: DoubleSide,
         })
@@ -89,19 +89,19 @@ export async function createDefaultObjects(): Promise<Object3D[]> {
   const preferences = usePreferencesStore()
   const resources = useResources()
 
-  const ambLight = new AmbientLight(preferences.ambientLightColor, preferences.ambientLightIntensity)
-  ambLight.layers.enableAll()
-  resources.set("GlobalAmbientLight", ambLight)
+  const ambientLight = new AmbientLight(preferences.ambientLightColor, preferences.ambientLightIntensity)
+  ambientLight.layers.enableAll()
+  resources.set("GlobalAmbientLight", ambientLight)
 
-  const dirLight = new DirectionalLight(0xffffff, 1)
-  dirLight.layers.enableAll()
-  dirLight.position.set(0, 10, 10)
+  const directionalLight = new DirectionalLight(0xff_ff_ff, 1)
+  directionalLight.layers.enableAll()
+  directionalLight.position.set(0, 10, 10)
   // dirLight.rotation.set(0, 1.6, -30)
   // dirLight.castShadow = true
   // dirLight.target.position.set(-5, 0, 0)
-  resources.set("GlobalDirectionalLight", dirLight)
+  resources.set("GlobalDirectionalLight", directionalLight)
 
-  return [ambLight, dirLight]
+  return [ambientLight, directionalLight]
 }
 
 export async function createVsObjects(): Promise<Object3D[]> {

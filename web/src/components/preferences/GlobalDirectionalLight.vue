@@ -18,16 +18,16 @@ const lightHelper = new DirectionalLightHelper(light, 5)
 addForPage(light.target, lightHelper)
 
 addGuiFolder(folder => {
-  const updateDirLight = () => {
+  const updateDirectionalLight = () => {
     light.target.updateMatrixWorld()
     lightHelper.update()
   }
   folder.name = "🌞 Directional light"
-  folder.addColor(new ColorGUIHelper(light, "color"), "value").name("Color").onChange(updateDirLight)
-  folder.add(light, "castShadow").name("Cast shadow").onChange(updateDirLight)
-  folder.add(light, "intensity", 0, 2, 0.01).name("Intensity").onChange(updateDirLight)
-  makeXYZGUI(folder, light.position, "Position", updateDirLight)
-  makeXYZGUI(folder, light.target.position, "Target", updateDirLight)
+  folder.addColor(new ColorGUIHelper(light, "color"), "value").name("Color").onChange(updateDirectionalLight)
+  folder.add(light, "castShadow").name("Cast shadow").onChange(updateDirectionalLight)
+  folder.add(light, "intensity", 0, 2, 0.01).name("Intensity").onChange(updateDirectionalLight)
+  makeXYZGUI(folder, light.position, "Position", updateDirectionalLight)
+  makeXYZGUI(folder, light.target.position, "Target", updateDirectionalLight)
 })
 
 onBeforeUnmount(() => {

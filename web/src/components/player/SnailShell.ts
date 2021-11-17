@@ -5,19 +5,19 @@ import useSceneHelper from "~/composables/useSceneHelper"
 import useResources from "~/composables/useResources"
 
 export default defineComponent({
-  setup(_props, { slots }) {
+  setup(_properties, { slots }) {
     const hasSlot = slots.default !== undefined
     const snail = ref<Object3D>()
 
     const { start, done, progress } = useNProgress()
     const { addForPage } = useSceneHelper()
     const resources = useResources()
-    let snailObj: Object3D
+    let snailObject: Object3D
 
     if (resources.has("SnailShell")) {
-      snailObj = resources.get("SnailShell")
-      hasSlot && set(snail, snailObj)
-      addForPage(snailObj)
+      snailObject = resources.get("SnailShell")
+      hasSlot && set(snail, snailObject)
+      addForPage(snailObject)
       return
     }
 
@@ -29,17 +29,17 @@ export default defineComponent({
       "SnailShell.glb",
       async gltf => {
         start()
-        snailObj = gltf.scene
-        snailObj.scale.set(0.1, 0.1, 0.1)
-        await addForPage(snailObj)
+        snailObject = gltf.scene
+        snailObject.scale.set(0.1, 0.1, 0.1)
+        await addForPage(snailObject)
         done()
 
-        resources.set("SnailShell", snailObj)
-        hasSlot && set(snail, snailObj)
-        addForPage(snailObj)
+        resources.set("SnailShell", snailObject)
+        hasSlot && set(snail, snailObject)
+        addForPage(snailObject)
       },
       xhr => set(progress, xhr.loaded / xhr.total),
-      e => console.log("An error happened", e)
+      error => console.log("An error happened", error)
     )
 
     return () => hasSlot && slots.default!({ snail })

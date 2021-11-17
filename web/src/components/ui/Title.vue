@@ -5,9 +5,9 @@ transition(name="title")
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{ delay?: number }>()
+const properties = defineProps<{ delay?: number }>()
 // eslint-disable-next-line vue/no-setup-props-destructure
-const { delay = 0 } = props
+const { delay = 0 } = properties
 const ready = useTimeout(delay)
 const go = useTimeout(delay + 1)
 </script>

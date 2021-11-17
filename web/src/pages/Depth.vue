@@ -1,5 +1,5 @@
 <template lang="pug">
-WebcamPlayer(:enabled="false" @mounted="setVideoRef" @streaming="isStreaming => streaming = isStreaming")
+WebcamPlayer(:enabled="false" @mounted="setVideoReference" @streaming="isStreaming => streaming = isStreaming")
 
 ViewportView
 </template>
@@ -30,7 +30,7 @@ const { addForPage, removeForPage, bgForPage } = useSceneHelper()
 // bgForPage(0x000000)
 
 const video = ref<HTMLVideoElement>()
-const setVideoRef = (el?: HTMLVideoElement) => set(video, el)
+const setVideoReference = (element?: HTMLVideoElement) => set(video, element)
 const streaming = ref(false)
 const landmarks = ref<FaceMeshResults["multiFaceLandmarks"]>()
 
@@ -69,9 +69,9 @@ exec3D(({ cameraControls }) => {
   pivotCamera.add(cameraControls.camera)
 })
 
-const handler: FaceMeshResultsListener = res => {
+const handler: FaceMeshResultsListener = result => {
   pivot.position.setX(pos.value.x * 6 - 3)
-  set(landmarks, res.multiFaceLandmarks)
+  set(landmarks, result.multiFaceLandmarks)
 }
 
 const { t } = await useFaceMesh({ video, streaming, handler, stats: useStats() })

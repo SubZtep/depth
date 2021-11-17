@@ -6,35 +6,36 @@ import { Group } from "three/src/objects/Group"
 import { lineFactory, keypointFactory, boneMaterial } from "../factories"
 import { BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS, BLAZEPOSE_KEYPOINTS } from "../../misc/constants"
 
+const lineKey = (index: number, index_: number) => `${index}-${index_}`
+
 export default defineComponent({
   props: {
     keypoints: { type: Object as PropType<LandmarkList>, required: false },
     position: { type: Array as unknown as PropType<THREE.Vector3Tuple>, default: () => [0, 0, 0] },
     scale: { type: Number, default: 1 },
     zMulti: { type: Number, default: 0.5 },
-    color: { type: Number, default: 0xffffff },
+    color: { type: Number, default: 0xff_ff_ff },
     flipVertical: { type: Boolean, default: true },
   },
 
-  setup(props) {
+  setup(properties) {
     const root = new Group()
     exec3D(({ scene }) => scene.add(root))
 
     const stickmanGroup = new Group()
-    stickmanGroup.position.fromArray(props.position)
+    stickmanGroup.position.fromArray(properties.position)
 
-    const lineKey = (i: number, j: number) => `${i}-${j}`
     const joints = new Map<number, KeypointMesh>()
     const lines = new Map<string, THREE.Line>()
 
     stickmanGroup.add(
-      ...BLAZEPOSE_KEYPOINTS.map((v, i) => {
-        const joint = keypointFactory({ name: v, color: props.color })
-        joints.set(i, joint)
+      ...BLAZEPOSE_KEYPOINTS.map((v, index) => {
+        const joint = keypointFactory({ name: v, color: properties.color })
+        joints.set(index, joint)
         return joint
       }),
-      ...BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS.map(([i, j]) => {
-        const key = lineKey(i, j)
+      ...BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS.map(([index, index_]) => {
+        const key = lineKey(index, index_)
         const line = lineFactory(key)
         lines.set(key, line)
         return line
@@ -42,50 +43,50 @@ export default defineComponent({
     )
 
     const mayFlipVertical = (y: number) => {
-      return props.flipVertical ? props.scale - y : y
+      return properties.flipVertical ? properties.scale - y : y
     }
 
     const updateJoints = (points: LandmarkList) => {
-      points.forEach((point, index) => {
+      for (const [index, point] of points.entries()) {
         joints
           .get(index)!
           .position.set(
-            point.x * props.scale,
-            mayFlipVertical(point.y * props.scale),
-            point.z * props.scale * props.zMulti
+            point.x * properties.scale,
+            mayFlipVertical(point.y * properties.scale),
+            point.z * properties.scale * properties.zMulti
           )
-      })
+      }
     }
 
     const lineEnds = [new Vector3(), new Vector3()]
     const updateLines = (points: LandmarkList) => {
-      BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS.forEach(([i, j]) => {
+      for (const [index, index_] of BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS) {
         lineEnds[0].set(
-          points[i].x * props.scale,
-          mayFlipVertical(points[i].y * props.scale),
-          points[i].z * props.scale * props.zMulti
+          points[index].x * properties.scale,
+          mayFlipVertical(points[index].y * properties.scale),
+          points[index].z * properties.scale * properties.zMulti
         )
         lineEnds[1].set(
-          points[j].x * props.scale,
-          mayFlipVertical(points[j].y * props.scale),
-          points[j].z * props.scale * props.zMulti
+          points[index_].x * properties.scale,
+          mayFlipVertical(points[index_].y * properties.scale),
+          points[index_].z * properties.scale * properties.zMulti
         )
 
-        const line = lines.get(lineKey(i, j))!
+        const line = lines.get(lineKey(index, index_))!
         line.geometry.setFromPoints(lineEnds)
         line.material = boneMaterial
-      })
+      }
     }
 
     onMounted(() => {
       root.add(stickmanGroup)
 
       watch(
-        [() => props.keypoints, () => props.scale, () => props.zMulti],
+        [() => properties.keypoints, () => properties.scale, () => properties.zMulti],
         () => {
-          if (props.keypoints !== undefined) {
-            updateJoints(props.keypoints)
-            updateLines(props.keypoints)
+          if (properties.keypoints !== undefined) {
+            updateJoints(properties.keypoints)
+            updateLines(properties.keypoints)
           } else {
             console.warn("Stickman is hidden booo")
           }
@@ -95,12 +96,13 @@ export default defineComponent({
     })
 
     onBeforeUnmount(() => {
-      lines.forEach(line => line.geometry.dispose())
+      for (const line of lines) line.geometry.dispose()
       exec3D(({ scene }) => scene.remove(root))
     })
   },
 
   render() {
+    // eslint-disable-next-line unicorn/no-null
     return () => null
   },
 })

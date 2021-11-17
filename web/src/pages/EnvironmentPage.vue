@@ -35,6 +35,9 @@ addGuiFolder(folder => {
 
 syncRef(toRef(environment, "size1"), grid.size1)
 syncRef(toRef(environment, "size2"), grid.size2)
-watch(() => environment.color, col => grid.color.value.set(col))
+watch(
+  () => environment.color,
+  col => grid.color.value.set(col)
+)
 syncRef(toRef(environment, "distance"), grid.distance)
 </script>

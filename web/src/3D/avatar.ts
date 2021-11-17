@@ -16,11 +16,11 @@ const hat = new SphereGeometry(1.3, 4, 4, 0, 3, 0.3, 2.7)
 const cylinder = new CylinderGeometry(0.5, 0.5, 0.1, 8, 1)
 
 const red = new MeshPhongMaterial({ color: 0x9f1f19 })
-const redy = new MeshPhongMaterial({ color: 0xaa6900 })
-const blue = new MeshPhongMaterial({ color: 0x2e536f })
-const white = new MeshPhongMaterial({ color: 0xffffff })
-const yellow = new MeshPhongMaterial({ color: 0xf7e8a9 })
-const yellower = new MeshPhongMaterial({ color: 0x691300, flatShading: true, transparent: true, opacity: 0.3 })
+const redy = new MeshPhongMaterial({ color: 0xaa_69_00 })
+const blue = new MeshPhongMaterial({ color: 0x2e_53_6f })
+const white = new MeshPhongMaterial({ color: 0xff_ff_ff })
+const yellow = new MeshPhongMaterial({ color: 0xf7_e8_a9 })
+const yellower = new MeshPhongMaterial({ color: 0x69_13_00, flatShading: true, transparent: true, opacity: 0.3 })
 yellower.side = DoubleSide
 
 export function headPart(name: typeof BLAZEPOSE_HEAD_KEYPOINTS[number]): KeypointMesh {

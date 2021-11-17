@@ -20,7 +20,7 @@ addGuiFolder(folder => {
   folder
     .addColor(new ColorGUIHelper(light, "color"), "value")
     .name("Color")
-    .onChange(c => (preferences.ambientColor = parseInt(c.substring(1), 16)))
+    .onChange(c => (preferences.ambientColor = Number.parseInt(c.slice(1), 16)))
   folder
     .add(light, "intensity", 0, 2, 0.01)
     .name("Intensity")

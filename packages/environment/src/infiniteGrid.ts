@@ -41,24 +41,24 @@ void main() {
 }
 `
 
-export interface InfiniteGridParams {
+export interface InfiniteGridParameters {
   size1: number
   size2: number
   color: Color
   distance: number
 }
 
-export function infiniteGrid(params: InfiniteGridParams) {
+export function infiniteGrid(parameters: InfiniteGridParameters) {
   const geometry = new PlaneBufferGeometry(2, 2, 1, 1)
   const material = new ShaderMaterial({
     glslVersion: GLSL3,
     side: DoubleSide,
     transparent: true,
     uniforms: {
-      uSize1: { value: params.size1 },
-      uSize2: { value: params.size2 },
-      uColor: { value: params.color },
-      uDistance: { value: params.distance },
+      uSize1: { value: parameters.size1 },
+      uSize2: { value: parameters.size2 },
+      uColor: { value: parameters.color },
+      uDistance: { value: parameters.distance },
     },
     vertexShader,
     fragmentShader,

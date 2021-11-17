@@ -17,12 +17,12 @@ export default defineComponent({
     position: { type: Array as PropType<number[]>, default: () => [0, 0, 0] },
   },
 
-  setup(props) {
-    const canvasTexture = new CanvasTexture(get(props.image))
+  setup(properties) {
+    const canvasTexture = new CanvasTexture(get(properties.image))
     const videoMaterial = new MeshBasicMaterial({
       side: DoubleSide,
       transparent: true,
-      opacity: props.opacity,
+      opacity: properties.opacity,
       map: canvasTexture,
     })
 
@@ -39,17 +39,21 @@ export default defineComponent({
     // loopFns.add(updateTexture)
 
     watch(
-      () => props.scale,
+      () => properties.scale,
       scale => {
         const width = scale * +get(aspectRatio)
         player.scale.set(width, scale, 1)
-        player.position.set(props.position[0] + width / 2, props.position[1] + scale / 2, props.position[2])
+        player.position.set(
+          properties.position[0] + width / 2,
+          properties.position[1] + scale / 2,
+          properties.position[2]
+        )
       },
       { immediate: true }
     )
 
     watch(
-      () => props.opacity,
+      () => properties.opacity,
       opacity => {
         videoMaterial.opacity = opacity
       }
@@ -65,6 +69,7 @@ export default defineComponent({
   },
 
   render() {
+    // eslint-disable-next-line unicorn/no-null
     return () => null
   },
 })

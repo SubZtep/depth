@@ -3,7 +3,7 @@ VideoPlayer(
   :controls="!isLoading"
   :src="state.src"
   v-visible="state.showVideoTag"
-  @mounted="setVideoRef"
+  @mounted="setVideoReference"
   @loaded="videoStore.replace"
   @error="src => (delete videoOptions[basename(src)])")
 
@@ -44,10 +44,10 @@ const emit = defineEmits<{
   (event: "pose", pose: LandmarkList): void
 }>()
 
-const videoRef = ref<HTMLVideoElement>()
-const setVideoRef = (el?: HTMLVideoElement) => set(videoRef, el)
+const videoReference = ref<HTMLVideoElement>()
+const setVideoReference = (element?: HTMLVideoElement) => set(videoReference, element)
 
-const { currentTime } = useMediaControls(videoRef)
+const { currentTime } = useMediaControls(videoReference)
 
 watchWithFilter(
   currentTime,
@@ -79,7 +79,7 @@ whenever(hasId, async () => {
     let t: number | undefined
 
     const { estimatePose, detectorReady } = useMediapipePose({
-      video: videoRef,
+      video: videoReference,
       options: { modelComplexity: 2 },
       handler: results => {
         videoStore.addPose(get(currentTime), results)
@@ -89,8 +89,8 @@ whenever(hasId, async () => {
     const rollKeyframes = async () => {
       try {
         await estimatePose(get(currentTime))
-      } catch (e: any) {
-        toast.error(e.message)
+      } catch (error: any) {
+        toast.error(error.message)
       }
       t = kf.shift()
       if (t === undefined) {
@@ -102,7 +102,7 @@ whenever(hasId, async () => {
       set(currentTime, t)
     }
 
-    useEventListener<VideoElementEvent>(videoRef, "timeupdate", async ({ target: { currentTime: ct } }) => {
+    useEventListener<VideoElementEvent>(videoReference, "timeupdate", async ({ target: { currentTime: ct } }) => {
       const isPoseTimeAndVideoTimeReallyDifferent = t && t !== ct && compare(round(t, 3), round(ct, 3)) !== 0
       if (isPoseTimeAndVideoTimeReallyDifferent) {
         throw new Error(`Video time update fail [${t} vs ${ct}]`)
@@ -143,10 +143,10 @@ addGuiFolder(folder => {
 <script lang="ts">
 import type { Ref } from "vue"
 
-async function grabKeyframes(src: Ref<string>): Promise<number[]> {
+async function grabKeyframes(source: Ref<string>): Promise<number[]> {
   return new Promise(resolve => {
     const { keyframes, isActive, exit } = useFFmpeg({
-      src,
+      src: source,
       options: { progress: ({ ratio }) => set(progress, ratio), log: false },
     })
     const stop = whenever(isActive, () => {

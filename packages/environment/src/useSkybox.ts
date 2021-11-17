@@ -6,14 +6,16 @@ import { useSingleton } from "@depth/misc"
 
 type SkyboxNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15
 
-interface Props {
+interface SkyboxProperties {
   nr?: SkyboxNumber
   compressed?: boolean
 }
 
-export function useSkybox(props: Props = {}) {
+const onProgress = (event: ProgressEvent) => console.info("downloading skybox", event)
+
+export function useSkybox(properties: SkyboxProperties = {}) {
   const singleton = useSingleton()
-  let { nr: initNr = 1, compressed: initCompressed = true } = props
+  let { nr: initNr = 1, compressed: initCompressed = true } = properties
 
   let texture: CubeTexture | null
   if (singleton.has("Skybox")) {
@@ -22,6 +24,7 @@ export function useSkybox(props: Props = {}) {
     initNr = s.nr
     initCompressed = s.compressed
   } else {
+    // eslint-disable-next-line unicorn/no-null
     texture = null
     singleton.set("Skybox", { texture, nr: initNr, compressed: initCompressed })
   }
@@ -36,8 +39,7 @@ export function useSkybox(props: Props = {}) {
       }
 
       const loader = new CubeTextureLoader()
-      const onError = (err: ErrorEvent) => reject(err)
-      const onProgress = (ev: ProgressEvent) => console.info("downloading skybox", ev)
+      const onError = (error: ErrorEvent) => reject(error)
       const onLoad = (texture: CubeTexture) => resolve(texture)
 
       const path = `/textures/skybox/${String(nr).padStart(2, "0")}/`

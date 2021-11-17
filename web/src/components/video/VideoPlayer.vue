@@ -6,15 +6,15 @@ video.video-border.max-h-300px(
   @loadedmetadata="videoLoaded"
   muted)
   source(
-    v-if="props.src"
+    v-if="properties.src"
     @error="loadError"
-    :src="`${props.src}\#t=0.1`")
+    :src="`${properties.src}\#t=0.1`")
 </template>
 
 <script lang="ts" setup>
 const toast = useToast()
 
-const props = defineProps<{ src: string }>()
+const properties = defineProps<{ src: string }>()
 
 const emit = defineEmits<{
   (e: "mounted", el: HTMLVideoElement): void
@@ -23,33 +23,34 @@ const emit = defineEmits<{
   (e: "timeupdated"): void
 }>()
 
-const videoRef = ref<HTMLVideoElement>()
+const videoReference = ref<HTMLVideoElement>()
 
 onMounted(() => {
-  emit("mounted", get(videoRef)!)
+  emit("mounted", get(videoReference)!)
 })
 
 watch(
-  () => props.src,
+  () => properties.src,
   () => {
-    const el = get(videoRef)
-    if (!el) return
-    el.srcObject = null
-    emit("loaded", undefined)
+    const element = get(videoReference)
+    if (!element) return
+    // eslint-disable-next-line unicorn/no-null
+    element.srcObject = null
+    emit("loaded")
   }
 )
 
 const videoLoaded: any = async ({ target }: VideoElementEvent) => {
   emit("loaded", {
-    src: props.src,
+    src: properties.src,
     duration: target.duration,
     width: target.videoWidth,
     height: target.videoHeight,
   })
 }
 
-const loadError = (ev: Event) => {
-  toast.error(`Load video error ${props.src}`)
-  emit("error", props.src, ev)
+const loadError = (event: Event) => {
+  toast.error(`Load video error ${properties.src}`)
+  emit("error", properties.src, event)
 }
 </script>

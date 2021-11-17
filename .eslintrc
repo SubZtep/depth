@@ -22,9 +22,10 @@ extends:
   - "plugin:vue/vue3-recommended"
   - "plugin:@typescript-eslint/recommended"
   - "prettier"
+  - "plugin:unicorn/recommended"
 
 parserOptions:
-  # ecmaVersion: 12
+  ecmaVersion: 12
   parser: "@typescript-eslint/parser"
   sourceType: module
 
@@ -65,6 +66,9 @@ rules:
   "@typescript-eslint/no-explicit-any": off
   "tsdoc/syntax": warn
   vue/prop-name-casing: off
+  unicorn/filename-case: off
+  unicorn/number-literal-case: off
+  unicorn/numeric-separators-style: off
 
 ignorePatterns:
   - "**node_modules/"

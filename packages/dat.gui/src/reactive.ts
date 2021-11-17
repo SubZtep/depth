@@ -4,7 +4,7 @@ import { watch, isReactive, isRef, unref } from "vue"
 import { MaybeRef, toReactive, watchWithFilter } from "@vueuse/core"
 import { truthyFilter } from "@depth/misc"
 
-type ReactiveGUI = dat.GUI & { _oadd: (...args: any[]) => GUIController }
+type ReactiveGUI = dat.GUI & { _oadd: (...parameters: any[]) => GUIController }
 export type SelectOptionsEntries = [string, string][]
 export type SelectOptions = Record<string, string> | string[]
 
@@ -16,7 +16,7 @@ export function toEntries(list: SelectOptions): SelectOptionsEntries {
 }
 
 export function toKeys(entries: SelectOptionsEntries): string[] {
-  return entries.map(val => val[0])
+  return entries.map(entry => entry[0])
 }
 
 export function getSelected(values: string[]) {
@@ -32,26 +32,25 @@ export function getSelected(values: string[]) {
 }
 
 export function toOptionsTpl(entries: SelectOptionsEntries, selected?: string) {
-  const optionItem = ([key, value]) => {
+  return entries.map(([key, value]) => {
     const sel = key === selected ? " selected" : ""
     return `<option value="${key}"${sel}>${value}</option>`
-  }
-  return entries.map(optionItem)
+  })
 }
 
 function updateDropdown(
   targetCtrl: dat.GUIController,
   list: SelectOptions,
   target: Record<string, any>,
-  propName: string
+  propertyName: string
 ) {
   const items = toEntries(list)
   const keys = toKeys(items)
   const getSel = getSelected(keys)
-  const selected = getSel ? getSel(target[propName]) : undefined
+  const selected = getSel ? getSel(target[propertyName]) : undefined
 
-  if (selected && selected !== target[propName]) {
-    target[propName] = selected
+  if (selected && selected !== target[propertyName]) {
+    target[propertyName] = selected
   }
 
   const html = toOptionsTpl(items, selected).sort().join("")
@@ -65,25 +64,25 @@ function isSelect(options: any) {
 function add(
   this: ReactiveGUI,
   target: Record<string, any>,
-  propName: string,
+  propertyName: string,
   options?: MaybeRef<SelectOptions>,
-  ...args: any[]
+  ...parameters: any[]
 ): dat.GUIController {
-  if (isRef(target[propName])) {
+  if (isRef(target[propertyName])) {
     target = toReactive(target)
   }
 
-  const ctrl: GUIController = this._oadd(unref(target), propName, unref(options), ...args)
+  const ctrl: GUIController = this._oadd(unref(target), propertyName, unref(options), ...parameters)
 
   if (isReactive(target)) {
     watch(
-      () => target[propName],
+      () => target[propertyName],
       () => ctrl.updateDisplay()
     )
   }
 
   if (isRef(options) && isSelect(options.value)) {
-    watchWithFilter(options, newOpts => updateDropdown(ctrl, newOpts, target, propName), {
+    watchWithFilter(options, newOption => updateDropdown(ctrl, newOption, target, propertyName), {
       deep: true,
       immediate: true,
       eventFilter: truthyFilter(options),
@@ -100,4 +99,4 @@ delete dat.GUI.prototype.add
 // @ts-ignore
 dat.GUI.prototype.add = add
 
-export default dat
+export { default } from "dat.gui"

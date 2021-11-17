@@ -12,7 +12,7 @@ interface Pool<T> {
 
 const pools = new Map<string, Pool<unknown>>()
 
-interface ObjectPoolParams<T> {
+interface ObjectPoolParameters<T> {
   /** Name of the pool */
   modelType?: string
   /** Factory that generate a pool item */
@@ -22,8 +22,8 @@ interface ObjectPoolParams<T> {
 }
 
 /** More than pool. */
-export default function useObjectPool<T extends Object3D>(params: ObjectPoolParams<T> = {}) {
-  const { modelType = "base", creator, size } = params
+export default function useObjectPool<T extends Object3D>(parameters: ObjectPoolParameters<T> = {}) {
+  const { modelType = "base", creator, size } = parameters
   let pool: Pool<T>
 
   if (pools.has(modelType)) {
@@ -33,7 +33,7 @@ export default function useObjectPool<T extends Object3D>(params: ObjectPoolPara
     const autoSize = size === undefined
 
     if (!autoSize && creator) {
-      for (let i = 0; i < size; i++) {
+      for (let index = 0; index < size; index++) {
         objects.push(creator())
       }
 
@@ -60,9 +60,9 @@ export default function useObjectPool<T extends Object3D>(params: ObjectPoolPara
       throw new Error("No more pool object")
     }
 
-    const obj = pool.objects[++pool.assigned]
-    exec3D(({ scene }) => scene.add(obj))
-    return obj
+    const object = pool.objects[++pool.assigned]
+    exec3D(({ scene }) => scene.add(object))
+    return object
   }
 
   const release = () => {
@@ -70,8 +70,8 @@ export default function useObjectPool<T extends Object3D>(params: ObjectPoolPara
       throw new Error("Nothing to return")
     }
 
-    const obj = pool.objects[pool.assigned--]
-    exec3D(({ scene }) => scene.remove(obj))
+    const object = pool.objects[pool.assigned--]
+    exec3D(({ scene }) => scene.remove(object))
   }
 
   return {

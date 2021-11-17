@@ -1,8 +1,8 @@
 import type { SelectOptions } from "@depth/dat.gui"
 import type { Landmark, NormalizedLandmark } from "../../public/libs/pose"
 
-export function arrayToObject<T>(arr: T[], key: string): Record<string, T> {
-  return arr.reduce((a, b) => ({ ...a, [b[key]]: b }), {})
+export function arrayToObject<T>(array: T[], key: string): Record<string, T> {
+  return Object.fromEntries(array.map(b => [b[key], b]))
 }
 
 export function flipHorizontal(keypoint: NormalizedLandmark): NormalizedLandmark {
@@ -38,11 +38,11 @@ export function scaleKeypoint(
   return [x, y, z]
 }
 
-export function toSelectOptions(options: string[], transformer: (...args: any[]) => string): SelectOptions {
-  return options.reduce((obj, option) => ({ ...obj, [option]: transformer(option) }), {})
+export function toSelectOptions(options: string[], transformer: (...arguments_: any[]) => string): SelectOptions {
+  return Object.fromEntries(options.map(option => [option, transformer(option)]))
 }
 
 export function normalizeDeviceLabel(label: string) {
-  const res = label.match(/^(.*)\s\([a-z0-9]{4}:[a-z0-9]{4}\)$/)
-  return res !== null ? res.pop()! : label
+  const matches = label.match(/^(.*)\s\([\da-z]{4}:[\da-z]{4}\)$/)
+  return matches !== null ? matches.pop()! : label
 }

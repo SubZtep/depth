@@ -1,18 +1,18 @@
 <template lang="pug">
-img(:src="src")
+img(:src="source")
 </template>
 
 <script lang="ts" setup>
 import type { FFmpeg } from "@ffmpeg/ffmpeg"
 
-const props = defineProps<{ file: string; fs: FFmpeg["FS"] }>()
+const properties = defineProps<{ file: string; fs: FFmpeg["FS"] }>()
 
-const data = props.fs("readFile", props.file)
+const data = properties.fs("readFile", properties.file)
 const blob = new Blob([data.buffer], { type: "image/png" })
-const src = URL.createObjectURL(blob)
+const source = URL.createObjectURL(blob)
 
 onBeforeUnmount(() => {
-  URL.revokeObjectURL(src)
+  URL.revokeObjectURL(source)
 })
 </script>
 

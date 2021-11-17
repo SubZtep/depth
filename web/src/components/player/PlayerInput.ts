@@ -6,7 +6,7 @@ export default defineComponent({
     ArrowLeft: { type: Boolean, require: true },
     ControlLeft: { type: Boolean, require: true },
   },
-  setup(props, { slots }) {
+  setup(properties, { slots }) {
     // TODO: state should be just a prop
     const playerState = reactive({
       moveForward: false,

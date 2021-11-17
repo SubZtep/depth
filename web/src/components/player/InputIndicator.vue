@@ -2,29 +2,27 @@
 .keyHelper
   div
   div
-  .key(:class="{ on: props.ArrowUp }")
+  .key(:class="{ on: properties.ArrowUp }")
     i.fa-regular.fa-up
   div
-  .key(:class="{ on: props.ControlLeft }")
+  .key(:class="{ on: properties.ControlLeft }")
     i.fa-regular.fa-alt
-  .key(:class="{ on: props.ArrowLeft }")
+  .key(:class="{ on: properties.ArrowLeft }")
     i.fa-regular.fa-left
-  .key(:class="{ on: props.ArrowDown }")
+  .key(:class="{ on: properties.ArrowDown }")
     i.fa-regular.fa-down
-  .key(:class="{ on: props.ArrowRight }")
+  .key(:class="{ on: properties.ArrowRight }")
     i.fa-regular.fa-right
 </template>
 
 <script lang="ts" setup>
-/* eslint-disable */
-const props = defineProps<{
+const properties = defineProps<{
   ArrowUp: boolean
   ArrowRight: boolean
   ArrowDown: boolean
   ArrowLeft: boolean
   ControlLeft: boolean
 }>()
-/* eslint-disable */
 </script>
 
 <style scoped>

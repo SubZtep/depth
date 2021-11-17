@@ -14,7 +14,7 @@ export default defineComponent({
     rotateLeft: { type: Boolean, require: true },
     rotateRight: { type: Boolean, require: true },
   },
-  setup(props, { slots }) {
+  setup(properties, { slots }) {
     const state = reactive({
       speed: 100,
     })
@@ -27,24 +27,24 @@ export default defineComponent({
     loop3D(({ clock }) => {
       const delta = clock.getDelta()
 
-      const character = get(props.character)
+      const character = get(properties.character)
 
-      if (props.moveForward) {
+      if (properties.moveForward) {
         character.translateZ(-state.speed * delta)
       }
-      if (props.moveBackward) {
+      if (properties.moveBackward) {
         character.translateZ(state.speed * delta)
       }
-      if (props.moveLeft) {
+      if (properties.moveLeft) {
         character.translateX(-state.speed * delta)
       }
-      if (props.moveRight) {
+      if (properties.moveRight) {
         character.translateX(state.speed * delta)
       }
-      if (props.rotateLeft) {
+      if (properties.rotateLeft) {
         character.rotateOnWorldAxis(new Vector3(0, 1, 0), (Math.PI / 4) * -state.speed * delta)
       }
-      if (props.rotateRight) {
+      if (properties.rotateRight) {
         character.rotateOnWorldAxis(new Vector3(0, 1, 0), (Math.PI / 4) * state.speed * delta)
       }
     })

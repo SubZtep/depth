@@ -1,5 +1,5 @@
 <template lang="pug">
-WebcamPlayer(:enabled="true" @mounted="setVideoRef" @streaming="isStreaming => streaming = isStreaming")
+WebcamPlayer(:enabled="true" @mounted="setVideoReference" @streaming="isStreaming => streaming = isStreaming")
 </template>
 
 <script lang="ts" setup>
@@ -23,7 +23,7 @@ const threeJs = useThreeJSEventHook()
 threeJs.trigger({ cmd: "RenderFrames", param: "All" })
 
 const video = ref<HTMLVideoElement>()
-const setVideoRef = (el?: HTMLVideoElement) => set(video, el)
+const setVideoReference = (element?: HTMLVideoElement) => set(video, element)
 const streaming = ref(false)
 const landmarks = ref<FaceMeshResults["multiFaceLandmarks"]>()
 
@@ -46,9 +46,9 @@ lathe.position.set(0, 0, -10)
 addForPage(lathe)
 threeJs.trigger({ cmd: "RenderFrames", param: "All" })
 
-const handler: FaceMeshResultsListener = res => {
+const handler: FaceMeshResultsListener = result => {
   lathe.setRotationFromQuaternion(q.value)
-  set(landmarks, res.multiFaceLandmarks)
+  set(landmarks, result.multiFaceLandmarks)
 }
 
 const fit = new Box3(new Vector3(-3, -2, -10), new Vector3(3, 2, -10))

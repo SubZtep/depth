@@ -1,10 +1,10 @@
 <template lang="pug">
-WebcamPlayer(@mounted="setVideoRef" @streaming="isStreaming => streaming = isStreaming")
+WebcamPlayer(@mounted="setVideoReference" @streaming="isStreaming => streaming = isStreaming")
 
-.font-mono.text-sm(ref="pointsEl" v-if="state.showIndices")
+.font-mono.text-sm(ref="pointsElement" v-if="state.showIndices")
   .absolute.top-0.left-0(:style="`transform: var(--el-pos-${index})`" v-for="index in 468" :key="index") {{index}}
 
-FaceSimple(:landmarks="landmarks" :css-vars-target="pointsEl")
+FaceSimple(:landmarks="landmarks" :css-vars-target="pointsElement")
 </template>
 
 <script lang="ts" setup>
@@ -13,14 +13,14 @@ import { useStats } from "@depth/stats.js"
 import { useFaceMesh } from "@depth/mediapipe"
 import { addGuiFolder } from "@depth/dat.gui"
 
-const pointsEl = ref()
+const pointsElement = ref()
 const video = ref<HTMLVideoElement>()
-const setVideoRef = (el?: HTMLVideoElement) => set(video, el)
+const setVideoReference = (element?: HTMLVideoElement) => set(video, element)
 const streaming = ref(false)
 const landmarks = ref()
 
-const handler: FaceMeshResultsListener = res => {
-  set(landmarks, res.multiFaceLandmarks)
+const handler: FaceMeshResultsListener = result => {
+  set(landmarks, result.multiFaceLandmarks)
 }
 
 await useFaceMesh({ video, streaming, handler, stats: useStats() })

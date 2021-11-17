@@ -34,8 +34,8 @@ export function useMediapipePose({ video, options, handler }: MediapipePoseOptio
   // }
 
   if (isRef(video)) {
-    watch(video, (_, oldEl) => {
-      if (oldEl && solution) {
+    watch(video, (_, oldElement) => {
+      if (oldElement && solution) {
         set(detectorReady, false)
         solution.reset()
         set(detectorReady, true)
@@ -43,18 +43,18 @@ export function useMediapipePose({ video, options, handler }: MediapipePoseOptio
     })
   }
 
-  const poseResult: ResultsListener = res => {
-    Object.assign(results, res)
+  const poseResult: ResultsListener = result => {
+    Object.assign(results, result)
   }
 
   const estimatePose = async (at?: number) => {
-    const elem = unrefElement(video) as HTMLVideoElement
+    const element = unrefElement(video) as HTMLVideoElement
 
-    if (elem === undefined) {
+    if (element === undefined) {
       return Promise.reject(new Error("no video input"))
     }
 
-    if (elem.readyState === elem.HAVE_NOTHING) {
+    if (element.readyState === element.HAVE_NOTHING) {
       return Promise.reject(new Error("no data"))
     }
 
@@ -66,7 +66,7 @@ export function useMediapipePose({ video, options, handler }: MediapipePoseOptio
     // FIXME: doublecheck `at` parameter
     // https://github.com/google/mediapipe/blob/33d683c67100ef3db37d9752fcf65d30bea440c4/mediapipe/util/filtering/one_euro_filter.cc#L26
     // https://nodatime.org/3.0.x/api/NodaTime.Duration.html#NodaTime_Duration_ToInt64Nanoseconds
-    await solution.send({ image: elem }, at)
+    await solution.send({ image: element }, at)
     // const t1 = performance.now()
 
     // dstat?.update(t1 - t0, 120)

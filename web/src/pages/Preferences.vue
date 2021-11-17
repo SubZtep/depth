@@ -47,10 +47,12 @@ const { folder: fPref } = addGuiFolder(folder => {
 
 const emptyValue = "---"
 const editables = {
+  // eslint-disable-next-line unicorn/no-null
   [emptyValue]: null,
   "Ambient light": GlobalAmbientLight,
   "Directional light": GlobalDirectionalLight,
 }
+// eslint-disable-next-line unicorn/no-null
 const activeObject = shallowRef(null)
 
 addGuiFolder(folder => {

@@ -15,44 +15,44 @@ export default defineComponent({
     cssVarsTarget: { type: Object as PropType<HTMLElement>, required: false },
   },
 
-  setup(props) {
+  setup(properties) {
     const root = new Group()
     exec3D(({ scene }) => scene.add(root))
 
     const geometry = new BoxGeometry(0.08, 0.08, 0.08)
-    const material = new MeshBasicMaterial({ color: 0xcccc22 })
+    const material = new MeshBasicMaterial({ color: 0xcc_cc_22 })
     const pool = useObjectPool({ modelType: "face", creator: () => new Mesh(geometry, material), size: 468 })
 
     const csss: Ref<string>[] = []
     const stop = whenever(
-      () => props.cssVarsTarget,
+      () => properties.cssVarsTarget,
       target => {
-        for (let i = 0; i < 468; i++) {
-          csss[i] = useCssVar(`--el-pos-${i}`, target)
+        for (let index = 0; index < 468; index++) {
+          csss[index] = useCssVar(`--el-pos-${index}`, target)
         }
         stop()
       },
       { immediate: true }
     )
 
-    const tempPos = new Vector3()
+    const temporaryPos = new Vector3()
     let x: number, y: number
     watch(
-      () => props.landmarks,
+      () => properties.landmarks,
       (landmarks: FaceMeshResults["multiFaceLandmarks"]) => {
         if (!landmarks || landmarks.length === 0) return
 
         for (const [index, landmark] of Object.entries(landmarks[0])) {
-          const obj3d = pool.getByIndex(+index)
-          obj3d.position.set(landmark.x * 10 - 5, landmark.y * -10 + 11, landmark.z * -10)
+          const object3d = pool.getByIndex(+index)
+          object3d.position.set(landmark.x * 10 - 5, landmark.y * -10 + 11, landmark.z * -10)
 
-          if (props.cssVarsTarget) {
-            obj3d.updateWorldMatrix(true, false)
-            obj3d.getWorldPosition(tempPos)
-            tempPos.project(camera)
+          if (properties.cssVarsTarget) {
+            object3d.updateWorldMatrix(true, false)
+            object3d.getWorldPosition(temporaryPos)
+            temporaryPos.project(camera)
             // canvas is full without scrollbars, so windows size is just as good
-            x = (tempPos.x * 0.5 + 0.5) * window.innerWidth
-            y = (tempPos.y * -0.5 + 0.5) * window.innerHeight
+            x = (temporaryPos.x * 0.5 + 0.5) * window.innerWidth
+            y = (temporaryPos.y * -0.5 + 0.5) * window.innerHeight
             csss[index].value = `translate(${x}px,${y}px)`
           }
         }
@@ -67,6 +67,7 @@ export default defineComponent({
   },
 
   render() {
+    // eslint-disable-next-line unicorn/no-null
     return null
   },
 })

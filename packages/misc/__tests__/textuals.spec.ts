@@ -17,10 +17,14 @@ describe("device label parse", () => {
 describe("filename from path", () => {
   const paths = ["hello.html", "/var/hello.html", "/var/hello.html?x"]
   it("with extension", () => {
-    paths.forEach(url => void expect(basename(url, true)).toBe("hello.html"))
+    for (const url of paths) {
+      expect(basename(url, true)).toBe("hello.html")
+    }
   })
   it("without extension", () => {
-    paths.forEach(url => void expect(basename(url)).toBe("hello"))
+    for (const url of paths) {
+      expect(basename(url)).toBe("hello")
+    }
   })
   it("empty string", () => {
     expect(basename("")).toBe("")

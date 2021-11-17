@@ -26,13 +26,13 @@ export default defineComponent({
       validator: (v: string) => terrains.includes(v),
     },
   },
-  setup(props, { slots }) {
+  setup(properties, { slots }) {
     const Globe = new ThreeGlobe().showAtmosphere(false)
 
     Globe.rotateY(-Math.PI / 2)
 
     watch(
-      () => props.position,
+      () => properties.position,
       (pos: THREE.Vector3Tuple) => {
         Globe.position.set(...pos)
       },
@@ -40,7 +40,7 @@ export default defineComponent({
     )
 
     watch(
-      () => props.scale,
+      () => properties.scale,
       scale => {
         Globe.scale.set(scale, scale, scale)
       },
@@ -48,13 +48,13 @@ export default defineComponent({
     )
 
     watch(
-      () => props.surface,
+      () => properties.surface,
       v => void Globe.globeImageUrl(`/textures/globe/earth-${v}.jpg`),
       { immediate: true }
     )
 
     watch(
-      () => props.terrain,
+      () => properties.terrain,
       v => void Globe.bumpImageUrl(`/textures/globe/earth-${v}.png`),
       { immediate: true }
     )

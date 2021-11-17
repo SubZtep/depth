@@ -3,17 +3,17 @@ import { watch } from "@vue/runtime-core"
 import { useSingleton } from "@depth/misc"
 import { exec3D } from "@depth/three.js"
 import { Color } from "three/src/math/Color"
-import type { InfiniteGridParams } from "./infiniteGrid"
+import type { InfiniteGridParameters } from "./infiniteGrid"
 import { infiniteGrid } from "./infiniteGrid"
 
-export function useInfiniteGrid(params: Partial<InfiniteGridParams> = {}) {
+export function useInfiniteGrid(parameters: Partial<InfiniteGridParameters> = {}) {
   const singleton = useSingleton()
-  let grid: { mesh: ReturnType<typeof infiniteGrid> } & InfiniteGridParams
+  let grid: { mesh: ReturnType<typeof infiniteGrid> } & InfiniteGridParameters
 
   if (singleton.has("InfiniteGrid")) {
     grid = singleton.get("InfiniteGrid")
   } else {
-    const { size1 = 1, size2 = 10, color = new Color(0x000000), distance = 8_000 } = params
+    const { size1 = 1, size2 = 10, color = new Color(0x00_00_00), distance = 8000 } = parameters
     grid = { mesh: infiniteGrid({ size1, size2, color, distance }), size1, size2, color, distance }
     exec3D(({ scene }) => scene.add(mesh))
     singleton.set("InfiniteGrid", grid)

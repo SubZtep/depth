@@ -12,7 +12,7 @@ export default defineComponent({
     height: { type: Number, default: 240 },
   },
 
-  setup(props) {
+  setup(properties) {
     const instance = getCurrentInstance()
     if (instance === null) {
       throw new Error("Use ViewportView inside a component")
@@ -44,7 +44,7 @@ export default defineComponent({
 
     loop3D(
       ({ renderer, scene }) => {
-        if (vp.width < props.width || vp.height < props.height) {
+        if (vp.width < properties.width || vp.height < properties.height) {
           return
         }
 
@@ -52,8 +52,18 @@ export default defineComponent({
         pivotHelper.position.copy(pivot.position)
         pivotHelper.rotation.copy(pivot.rotation)
 
-        renderer.setScissor(vp.width - props.width, vp.height - props.height, props.width, props.height)
-        renderer.setViewport(vp.width - props.width, vp.height - props.height, props.width, props.height)
+        renderer.setScissor(
+          vp.width - properties.width,
+          vp.height - properties.height,
+          properties.width,
+          properties.height
+        )
+        renderer.setViewport(
+          vp.width - properties.width,
+          vp.height - properties.height,
+          properties.width,
+          properties.height
+        )
         renderer.render(scene, cam)
 
         renderer.setViewport(vp)
@@ -71,6 +81,7 @@ export default defineComponent({
   },
 
   render() {
+    // eslint-disable-next-line unicorn/no-null
     return null
   },
 })

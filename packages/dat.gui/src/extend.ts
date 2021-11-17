@@ -10,30 +10,30 @@ type Vector3 = { x: number; y: number; z: number } // from three.js
 
 type ChangeCallback<T = any> = (value: T) => void
 
-export interface TextInputParams {
+export interface TextInputParameters {
   filter: RegExp
   placeholder?: string
   keepValue?: boolean
 }
 
-export function addTextInput(this: dat.GUI, { filter, placeholder, keepValue }: TextInputParams) {
-  const obj = reactive({ value: "" })
-  const ctrl = this.add(obj, "value")
+export function addTextInput(this: dat.GUI, { filter, placeholder, keepValue }: TextInputParameters) {
+  const filterObject = reactive({ value: "" })
+  const ctrl = this.add(filterObject, "value")
   const input = ctrl.domElement.children[0] as HTMLInputElement
 
   if (placeholder) {
     input.placeholder = placeholder
   }
 
-  let originalChange: ChangeCallback | undefined = undefined
-  let originalFinishChange: ChangeCallback | undefined = undefined
+  let originalChange: ChangeCallback | undefined
+  let originalFinishChange: ChangeCallback | undefined
 
   const { resume, pause } = pausableWatch(
-    () => obj.value,
+    () => filterObject.value,
     value => originalChange!.call(ctrl, value),
     {
       immediate: false,
-      eventFilter: regexpFilter(filter, obj.value),
+      eventFilter: regexpFilter(filter, filterObject.value),
     }
   )
 
@@ -48,8 +48,8 @@ export function addTextInput(this: dat.GUI, { filter, placeholder, keepValue }: 
   ctrl.onFinishChange = (fnc: ChangeCallback) => {
     originalFinishChange = fnc
     dom.bind(input, "blur", () => {
-      if (filter.test(obj.value)) {
-        originalFinishChange!.call(ctrl, obj.value)
+      if (filter.test(filterObject.value)) {
+        originalFinishChange!.call(ctrl, filterObject.value)
         if (!keepValue) {
           input.value = ""
         }
@@ -87,9 +87,9 @@ export class ColorGUIHelper {
   object: any //THREE.Light
   prop: string
 
-  constructor(object: any /* THREE.Light*/, prop: string) {
+  constructor(object: any /* THREE.Light*/, property: string) {
     this.object = object
-    this.prop = prop
+    this.prop = property
   }
 
   get value() {
@@ -105,24 +105,24 @@ export function makeXYZGUI(
   gui: dat.GUI,
   vector3: /*THREE.*/ Vector3,
   name: string,
-  onChangeFn: (value?: unknown) => void,
+  onChangeCallback: (value?: unknown) => void,
   open = false
 ) {
   const folder = gui.addFolder(`🆛 ${name}`)
-  folder.add(vector3, "x", -10, 10).name("X–axis").onChange(onChangeFn)
-  folder.add(vector3, "y", 0, 10).name("Y–axis").onChange(onChangeFn)
-  folder.add(vector3, "z", -10, 10).name("Z–axis").onChange(onChangeFn)
+  folder.add(vector3, "x", -10, 10).name("X–axis").onChange(onChangeCallback)
+  folder.add(vector3, "y", 0, 10).name("Y–axis").onChange(onChangeCallback)
+  folder.add(vector3, "z", -10, 10).name("Z–axis").onChange(onChangeCallback)
   open && folder.open()
 }
 
-export interface extGUI {
+export interface extendedGUI {
   /**
    * Trigger `onChange` and `onFinishChange` callbacks without the object to be manipulated
    * @param filter - Only trigger callbacks when input value matching with it
    * @param placeholder - Text input element placeholder
    * @param keepValue - Keep input element value on blur event
    */
-  addTextInput: (params: TextInputParams) => GUIController
+  addTextInput: (parameters: TextInputParameters) => GUIController
 
   addVector3: (xyz: Vector3Tuple) => dat.GUI
 }

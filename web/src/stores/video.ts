@@ -2,7 +2,7 @@ import type { StoreDefinition } from "pinia"
 import { defineStore } from "pinia"
 import { useSupabase } from "@depth/supabase"
 import type { Results } from "@depth/mediapipe"
-import DbQueries from "../misc/dbqueries"
+import DatabaseQueries from "../misc/dbqueries"
 
 export const useVideoStore: StoreDefinition = defineStore("video", {
   state: () => ({
@@ -22,33 +22,34 @@ export const useVideoStore: StoreDefinition = defineStore("video", {
     hasPoses: state => state.poses !== undefined && state.poses.length > 0,
     closestPose: state => (ts: number) => {
       if (!state.poses) throw new Error("No poses")
-      return state.poses.reduce((prev: VideoStatePose, curr: VideoStatePose) =>
-        Math.abs(curr.ts - ts) < Math.abs(prev.ts - ts) ? curr : prev
+      // eslint-disable-next-line unicorn/no-array-reduce
+      return state.poses.reduce((previous: VideoStatePose, current: VideoStatePose) =>
+        Math.abs(current.ts - ts) < Math.abs(previous.ts - ts) ? current : previous
       )
     },
   },
 
   actions: {
-    async replace(obj: Db.Video) {
+    async replace(object: Db.Video) {
       this.$reset()
-      if (!obj) return
+      if (!object) return
 
       const { supabase } = useSupabase()
-      const db = new DbQueries(supabase, console)
+      const database = new DatabaseQueries(supabase, console)
 
-      let keyframes: number[] | undefined = undefined
-      let poses: VideoStatePose[] | undefined = undefined
-      let id = await db.getVideoId(obj)
+      let keyframes: number[] | undefined
+      let poses: VideoStatePose[] | undefined
+      let id = await database.getVideoId(object)
 
       if (id) {
-        keyframes = await db.getKeyframes(id)
-        poses = await db.getPoses(id)
+        keyframes = await database.getKeyframes(id)
+        poses = await database.getPoses(id)
       } else {
-        id = await db.insertVideo(obj)
+        id = await database.insertVideo(object)
       }
 
       this.$patch({
-        ...obj,
+        ...object,
         id,
         keyframes,
         poses,
@@ -59,24 +60,24 @@ export const useVideoStore: StoreDefinition = defineStore("video", {
       if (!this.id) throw new Error("Unable to set keyframes without video id")
       if (!keyframes) throw new Error("Unable to set keyframes without keyframes")
       const { supabase } = useSupabase()
-      const db = new DbQueries(supabase, console)
-      await db.insertKeyframes(this.id, keyframes)
+      const database = new DatabaseQueries(supabase, console)
+      await database.insertKeyframes(this.id, keyframes)
       this.keyframes = keyframes
     },
 
     async setPoses(poses: VideoStatePose[]) {
       if (!this.id) throw new Error("Unable to set poses without video id")
       const { supabase } = useSupabase()
-      const db = new DbQueries(supabase, console)
-      await db.insertPoses(this.id, poses)
+      const database = new DatabaseQueries(supabase, console)
+      await database.insertPoses(this.id, poses)
       this.poses = poses
     },
 
     async addPose(ts: number, results: Results) {
       if (!this.id) throw new Error("Unable to set poses without video id")
       const { supabase } = useSupabase()
-      const db = new DbQueries(supabase, console)
-      await db.insertPose(this.id, ts, results)
+      const database = new DatabaseQueries(supabase, console)
+      await database.insertPose(this.id, ts, results)
       if (this.poses === undefined) this.poses = []
       this.poses.push({
         ts,

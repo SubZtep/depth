@@ -1,5 +1,6 @@
 import { defineConfig } from "vite-plugin-windicss"
 import plugin from "windicss/plugin"
+import ScrollbarPlugin from "@windicss/plugin-scrollbar"
 import type { DeepNestObject } from "windicss/types/interfaces"
 
 export default defineConfig({
@@ -20,7 +21,7 @@ export default defineConfig({
     "top-right": "absolute top-0 right-0 flex flex-col items-end gap-6",
   },
   plugins: [
-    require("@windicss/plugin-scrollbar"),
+    ScrollbarPlugin,
     plugin(({ addComponents }) => {
       const buttons: DeepNestObject = {
         ".btn": {

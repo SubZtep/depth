@@ -34,6 +34,7 @@ table(v-if="videos.length > 0" :class="$style.table" v-stop-propagation)
 </template>
 
 <script lang="ts" setup>
+/* eslint-disable unicorn/prevent-abbreviations */
 /* eslint no-undef: "off" */
 import { useSupabase } from "@depth/supabase"
 import { useThreeJSEventHook } from "@depth/three.js"

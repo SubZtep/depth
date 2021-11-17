@@ -1,22 +1,21 @@
 <template lang="pug">
 div
-  p {{props.message}}
+  p {{properties.message}}
   button.btn.bg-blue-600.px-3(@click="cancel(); $emit('close-toast')") Cancel
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{ message: string; event: Fn }>()
+const properties = defineProps<{ message: string; event: Fn }>()
 
 // eslint-disable-next-line vue/no-setup-props-destructure
-let mayEvent = props.event
+let mayEvent = properties.event
 
-/* eslint-disable */
 const cancel = () => {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   mayEvent = () => {}
 }
-/* eslint-enable */
 
 onBeforeUnmount(() => {
-  mayEvent.call(null)
+  mayEvent()
 })
 </script>

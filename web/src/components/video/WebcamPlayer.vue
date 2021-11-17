@@ -1,6 +1,6 @@
 <template lang="pug">
 video.video-border.flip-x(
-  ref="videoRef"
+  ref="videoReference"
   v-visible="state.showVideoTag"
   poster="/textures/no-video.png"
   :width="width"
@@ -14,9 +14,9 @@ import { addGuiFolder } from "@depth/dat.gui"
 import { normalizeDeviceLabel } from "@depth/misc"
 import type { Ref } from "vue"
 
-const videoRef = ref() as Ref<HTMLVideoElement>
+const videoReference = ref() as Ref<HTMLVideoElement>
 
-const props = defineProps<{ enabled?: boolean }>()
+const properties = defineProps<{ enabled?: boolean }>()
 
 const emit = defineEmits<{
   (e: "mounted", el: HTMLVideoElement): void
@@ -24,13 +24,13 @@ const emit = defineEmits<{
 }>()
 
 onMounted(() => {
-  emit("mounted", get(videoRef)!)
+  emit("mounted", get(videoReference)!)
 })
 
 const state = reactive({
   showVideoTag: false,
   videoDeviceId: "",
-  enabled: !!props.enabled,
+  enabled: !!properties.enabled,
 })
 
 const { videoInputs } = useDevicesList({ requestPermissions: true })
@@ -50,8 +50,9 @@ const cameras = computed(() =>
 )
 
 watch([videoDeviceId, stream], ([, theStream]) => {
-  const video = get(videoRef)
-  get(videoRef).srcObject = theStream || null
+  const video = get(videoReference)
+  // eslint-disable-next-line unicorn/no-null
+  get(videoReference).srcObject = theStream || null
   if (theStream) {
     const { width: w, height: h } = theStream.getVideoTracks()[0].getSettings()
     set(width, w)
@@ -59,6 +60,7 @@ watch([videoDeviceId, stream], ([, theStream]) => {
     video.srcObject = theStream
     emit("streaming", true)
   } else {
+    // eslint-disable-next-line unicorn/no-null
     video.srcObject = null
     emit("streaming", false)
   }

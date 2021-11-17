@@ -4,18 +4,18 @@
  * @param label - MediaDevideInfo.label
  */
 export function normalizeDeviceLabel(label: MediaDeviceInfo["label"]): string {
-  return label.match(/^(.*)\s\([a-z0-9]{4}:[a-z0-9]{4}\)$/)?.pop() ?? label
+  return label.match(/^(.*)\s\([\da-z]{4}:[\da-z]{4}\)$/)?.pop() ?? label
 }
 
 /**
  * Take the filename from a path
  * @param path - Full path with filename
- * @param ext - Keep extension?
+ * @param extension - Keep extension?
  * @returns Basename or empty string
  */
-export function basename(path: string, ext = false): string {
+export function basename(path: string, extension = false): string {
   let base = path.split("/").pop()?.split("?").shift()
-  if (base && !ext) {
+  if (base && !extension) {
     base = base.split(".").shift()!
   }
   return base || ""
@@ -32,9 +32,12 @@ export function capitalize(word: string): string {
 
 /**
  * Transform kebab case string to title case format.
- * @param str - Kebab case string
+ * @param text - Kebab case string
  * @returns Human readable string
  */
-export function kebabToTitle(str: string): string {
-  return str.split("-").map(capitalize).join(" ")
+export function kebabToTitle(text: string): string {
+  return text
+    .split("-")
+    .map(partial => capitalize(partial))
+    .join(" ")
 }

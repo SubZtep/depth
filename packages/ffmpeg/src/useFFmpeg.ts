@@ -12,22 +12,22 @@ export interface FFmpegOptions {
 }
 
 export function useFFmpeg(options: FFmpegOptions) {
-  const src = toRef(options, "src")
+  const source = toRef(options, "src")
   const ffmpeg = createFFmpeg(options.options)
-  const dir = "/depth/"
+  const directory = "/depth/"
   const isLoaded = computed(() => ffmpeg.isLoaded())
 
-  const memfsNamer = (srcstr: string) => `${dir}${basename(srcstr)}.webm`
-  const memfsSrc = computed(() => memfsNamer(get(src)))
+  const memfsNamer = (srcstr: string) => `${directory}${basename(srcstr)}.webm`
+  const memfsSource = computed(() => memfsNamer(get(source)))
 
   /** keyframe timestamps */
   const keyframes = ref<number[]>([])
 
   /** keyframe preview images */
-  const srcToMemfs = async (newSrc?: string, oldSrc?: string) => {
+  const sourceToMemfs = async (newSource?: string, oldSource?: string) => {
     if (get(isActive)) {
       pause()
-    } else if (oldSrc && ffmpeg.isLoaded()) {
+    } else if (oldSource && ffmpeg.isLoaded()) {
       return exit()
     } else if (!ffmpeg.isLoaded()) {
       await ffmpeg.load()
@@ -35,38 +35,38 @@ export function useFFmpeg(options: FFmpegOptions) {
 
     set(keyframes, [])
 
-    if (oldSrc) {
-      ffmpeg.FS("unlink", memfsNamer(oldSrc))
+    if (oldSource) {
+      ffmpeg.FS("unlink", memfsNamer(oldSource))
     }
 
-    if (newSrc) {
+    if (newSource) {
       await until(isLoaded).toBe(true)
-      ffmpeg.FS("writeFile", get(memfsSrc), await fetchFile(newSrc))
-      await ffmpeg.run(...KEYFRAME_TIMESTAMPS(get(memfsSrc)))
+      ffmpeg.FS("writeFile", get(memfsSource), await fetchFile(newSource))
+      await ffmpeg.run(...KEYFRAME_TIMESTAMPS(get(memfsSource)))
     }
 
     resume()
   }
 
-  const { resume, pause, isActive } = pausableWatch(src, srcToMemfs)
+  const { resume, pause, isActive } = pausableWatch(source, sourceToMemfs)
   pause()
 
   const unlinkAll = () => {
-    const files = ffmpeg.FS("readdir", dir).filter(noDotFiles)
+    const files = ffmpeg.FS("readdir", directory).filter(filename => noDotFiles(filename))
     for (const file of files) {
-      ffmpeg.FS("unlink", `${dir}${file}`)
+      ffmpeg.FS("unlink", `${directory}${file}`)
     }
   }
 
   const exit = () => {
     pause()
     unlinkAll()
-    ffmpeg.FS("rmdir", dir)
+    ffmpeg.FS("rmdir", directory)
 
     try {
       ffmpeg.exit()
-    } catch (e) {
-      console.error("FFmpeg exit", e)
+    } catch (error) {
+      console.error("FFmpeg exit", error)
     }
   }
 
@@ -76,13 +76,13 @@ export function useFFmpeg(options: FFmpegOptions) {
     ffmpeg.setLogger(({ message }) => {
       const found = message.match(KEYFRAME_TIMESTAMPS_LOG)
       if (found === null) return
-      get(keyframes).push(parseFloat(found[1]))
+      get(keyframes).push(Number.parseFloat(found[1]))
     })
 
-    ffmpeg.FS("mkdir", dir)
+    ffmpeg.FS("mkdir", directory)
 
-    if (get(src)) {
-      srcToMemfs(get(src))
+    if (get(source)) {
+      sourceToMemfs(get(source))
     } else {
       resume()
     }

@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{ nr: number; done: MaybeRef<boolean> }>()
+const properties = defineProps<{ nr: number; done: MaybeRef<boolean> }>()
 </script>
 
 <style>

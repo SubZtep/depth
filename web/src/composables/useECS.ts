@@ -39,6 +39,6 @@ export class Entity {
   }
 
   update() {
-    this.systems.forEach(system => system.call(this))
+    for (const system of this.systems) system.call(this)
   }
 }

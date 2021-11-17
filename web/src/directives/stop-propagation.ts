@@ -2,11 +2,11 @@ import { useEventListener } from "@vueuse/core"
 import type { Directive } from "vue"
 
 /** Don't propagate events behind the element (aka no camera control on hud) */
-export default (el => {
-  useEventListener(el, "pointermove", e => {
-    e.stopPropagation()
+export default (element => {
+  useEventListener(element, "pointermove", event => {
+    event.stopPropagation()
   })
-  useEventListener(el, "wheel", e => {
-    e.stopPropagation()
+  useEventListener(element, "wheel", event => {
+    event.stopPropagation()
   })
 }) as Directive

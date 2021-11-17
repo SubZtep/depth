@@ -1,6 +1,6 @@
 <template lang="pug">
 video.video-border.max-h-300px(
-  ref="videoRef"
+  ref="videoReference"
   v-visible="state.showVideoTag"
   poster="/textures/no-video.png"
   autoplay
@@ -14,7 +14,7 @@ import { useMediapipePose } from "@depth/mediapipe"
 import type { LandmarkList } from "@depth/mediapipe"
 import type { Ref } from "vue"
 
-const videoRef = ref() as Ref<HTMLVideoElement>
+const videoReference = ref() as Ref<HTMLVideoElement>
 
 const state = reactive({
   showVideoTag: true,
@@ -42,10 +42,11 @@ const cameras = computed(() =>
 )
 
 watch([videoDeviceId, stream], () => {
-  get(videoRef).srcObject = get(stream) || null
+  // eslint-disable-next-line unicorn/no-null
+  get(videoReference).srcObject = get(stream) || null
 
   const { estimatePose, detectorReady } = useMediapipePose({
-    video: videoRef,
+    video: videoReference,
     options: { modelComplexity: 2 },
     handler: results => {
       emit("pose", results.poseWorldLandmarks)

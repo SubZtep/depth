@@ -2,13 +2,13 @@ import { set } from "@vueuse/core"
 import { ref } from "vue"
 import { useVideoStore } from "../stores/video"
 
-interface Params {
-  onError?: (src: string) => void
+interface Parameters_ {
+  onError?: (source: string) => void
   logger?: Logger
 }
 
 /** Event handlers */
-export default function useVideoHandlers({ onError, logger }: Params) {
+export default function useVideoHandlers({ onError, logger }: Parameters_) {
   const videoStore = useVideoStore()
 
   /** timeupdate event (should) change it */
@@ -21,7 +21,7 @@ export default function useVideoHandlers({ onError, logger }: Params) {
   }
 
   const loadError = (({ target }: VideoElementEvent) => {
-    onError?.call(null, target.src)
+    onError?.(target.src)
     target.removeAttribute("src")
     logger?.error(target.error!.message)
   }) as (payload: Event) => void

@@ -21,9 +21,9 @@ import { useMagicKeys, useToggle, get } from "@vueuse/core"
 const [show, toggle] = useToggle()
 const { f1 } = useMagicKeys({
   passive: false,
-  onEventFired: e => {
+  onEventFired: event => {
     if (get(f1)) {
-      e.preventDefault()
+      event.preventDefault()
     }
   },
 })

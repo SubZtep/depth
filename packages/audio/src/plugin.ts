@@ -2,8 +2,8 @@ import type { Plugin } from "vue"
 import { onAudioPlayable } from "./autoplay"
 import { playUrl } from "./audio"
 
-let play = async (src: string) => {
-  console.warn("Audio context is suspended", src)
+let play = async (source: string) => {
+  console.warn("Audio context is suspended", source)
   return Promise.resolve()
 }
 

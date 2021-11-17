@@ -7,7 +7,7 @@ StickmanSimple(
   :z-multi="state.zMulti"
   :color="0xffffff"
   :scale="state.scale"
-  :position="props.position")
+  :position="properties.position")
 
 //- StickmanSimple(
   v-if="state.showWorldLandmarks"
@@ -29,14 +29,10 @@ StickmanSimple(
 import { addGuiFolder } from "@depth/dat.gui"
 // import type { Results } from "public/libs/pose"
 
-/* eslint-disable */
-const props = defineProps<{
+const properties = defineProps<{
   pose: VideoStatePose
   position: [number, number, number]
 }>()
-/* eslint-enable */
-
-// const raw = ref(props.pose.value.pose_raw)
 
 const state = reactive({
   showLandmarks: true,

@@ -1,4 +1,4 @@
-import path from "path"
+import path from "node:path"
 import { defineConfig } from "vite"
 import Vue from "@vitejs/plugin-vue"
 import Components from "unplugin-vue-components/vite"
@@ -34,6 +34,7 @@ export default defineConfig(({ mode, command }) => {
   return {
     resolve: {
       alias: {
+        // eslint-disable-next-line unicorn/prefer-module
         "~/": `${path.resolve(__dirname, "src")}/`,
       },
     },
@@ -48,7 +49,7 @@ export default defineConfig(({ mode, command }) => {
       }),
       AutoImport({
         // FIXME: https://github.com/antfu/unplugin-auto-import/issues/33
-        include: [/\.[tj]s$/, /\.vue\??/],
+        include: [/\.[jt]s$/, /\.vue\??/],
         exclude: [/node_modules/, /__test__/, /\.d\.ts$/],
         imports: [
           "vue",
