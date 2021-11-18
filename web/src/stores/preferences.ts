@@ -27,9 +27,9 @@ const guiScaleOptions: StorageOptions<number> = {
 
 export const usePreferencesStore: StoreDefinition = defineStore("preferences", {
   state: () => ({
-    guiScale: useStorage("preferences.guiScale", 1, undefined, guiScaleOptions),
-    horizontalLock: useStorage("preferences.horizontalLock", true),
-    ambientColor: useStorage("preferences.ambientColor", 0xbb_bb_bb),
-    ambientIntensity: useStorage("preferences.ambientIntensity", 1),
+    guiScale: 1.4, // useStorage("preferences.guiScale", 1, undefined, guiScaleOptions),
+    horizontalLock: false, // useStorage("preferences.horizontalLock", true),
+    ambientColor: 0xffff00, // useStorage("preferences.ambientColor", 0xbb_bb_bb),
+    ambientIntensity: 0.1, // useStorage("preferences.ambientIntensity", 1),
   }),
 })

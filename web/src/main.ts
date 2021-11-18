@@ -43,7 +43,7 @@ const app = createApp(App)
     closeOnTop: false,
     autoPlace: false,
     width: 285,
-    closeAtStart: isMobile,
+    closeAtStart: true, // isMobile,
   })
   .use(AudioPlugin)
   .use(UserEvents)

@@ -36,8 +36,6 @@ useInfiniteGrid({
   distance: environment.distance,
 })
 
-useInfiniteGrid()
-
 exec3D(({ cameraControls }) => {
   setupBoundaries(cameraControls, preferences.horizontalLock ? "Full" : "Simple")
 })

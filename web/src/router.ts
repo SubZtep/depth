@@ -106,12 +106,22 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: "",
+    path: "/home",
     name: "home",
     component: () => import("./pages/Home.vue"),
     meta: {
       position: [0, camHeight, 0],
       lookAt: [0, 2, 0],
+      order: 1,
+    },
+  },
+  {
+    path: "",
+    name: "game-start",
+    component: () => import("./pages/GameStart.vue"),
+    meta: {
+      position: [0, 2, 5],
+      lookAt: [0, 0, 0],
       order: 1,
     },
   },

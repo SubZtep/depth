@@ -32,8 +32,8 @@ import router from "~/router"
 
 const { nr, compressed } = useSkybox()
 const threeJs = useThreeJSEventHook()
-const { isFullscreen, enter } = useFullscreen()
-const { isSupported, isActive, request, release } = useWakeLock()
+const { isFullscreen, enter: enterFullScreen } = useFullscreen()
+const wakeLock = useWakeLock()
 const { addForPage } = useSceneHelper()
 
 let skyCounter = 1 // SkyboxNumber
@@ -45,25 +45,13 @@ exec3D(({ cameraControls }) => setupBoundaries(cameraControls, "Zero"))
 const toast = useToast()
 const toastContent = (message: string, okay: Fn) =>
   ({ component: OkayEventToast, props: { message }, listeners: { okay } } as ToastContent)
-const toastOptions: ToastOptions = { icon: false, closeButton: false, pauseOnHover: false, type: TYPE.WARNING }
+const toastOptions = { icon: "fas fa-rocket", type: TYPE.WARNING, closeButton: false } as ToastOptions
 
-if (!get(isFullscreen)) {
-  useTimeoutFn(() => toast(toastContent("Should we go full-screen?", enter), toastOptions), 6969)
-}
-
-if (get(isSupported) && !get(isActive)) {
-  useTimeoutFn(
-    () =>
-      toast(
-        toastContent(
-          `Can I prevent your ${new UAParser().getDevice().vendor ?? "precious"} from turning off until you die?`,
-          () => request("screen")
-        ),
-        toastOptions
-      ),
-    16663
-  )
-}
+!get(isFullscreen) && toast(toastContent("Should we try full-screen?", enterFullScreen), toastOptions)
+// prettier-ignore
+wakeLock.isSupported && !get(wakeLock.isActive) && toast(toastContent(
+      `Can I prevent your ${new UAParser().getDevice().vendor ?? "precious"} from turning off until you die?`,
+      () => wakeLock.request("screen")), toastOptions)
 
 const leaf = await leafPlane()
 leaf.position.setZ(-2)
