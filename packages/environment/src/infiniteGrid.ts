@@ -51,11 +51,13 @@ export function infiniteGrid(parameters: InfiniteGridParameters) {
     glslVersion: GLSL3,
     side: DoubleSide,
     transparent: true,
+    // lights: true,
     uniforms: {
       uSize: { value: parameters.size },
       uColor: { value: parameters.color },
       uDistance: { value: parameters.distance },
     },
+    // TODO: receive shadow
     vertexShader,
     fragmentShader,
   })

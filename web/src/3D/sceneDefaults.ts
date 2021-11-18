@@ -12,6 +12,7 @@ import { AmbientLight } from "three/src/lights/AmbientLight"
 import { DirectionalLight } from "three/src/lights/DirectionalLight"
 import { Object3D } from "three/src/core/Object3D"
 import useResources from "~/composables/useResources"
+import { MeshLambertMaterial, MeshStandardMaterial } from "three"
 
 export function grid(x = -7.5) {
   const grid = new GridHelper(5, 5, Color.NAMES.blue, Color.NAMES.blue)
@@ -40,15 +41,15 @@ async function loadLeafMaterial(): Promise<MeshBasicMaterial> {
   return new Promise((resolve, reject) => {
     const loader = new DDSLoader()
     loader.load(
-      "textures/hepatica_dxt3_mip.dds",
+      "/textures/hepatica_dxt3_mip.dds",
       texture => {
         texture.anisotropy = 2
         texture.magFilter = LinearFilter
         texture.minFilter = LinearFilter
         texture.mapping = CubeReflectionMapping
-        const material = new MeshBasicMaterial({
+        const material = new MeshLambertMaterial({
           map: texture,
-          color: 0x69_69_69,
+          color: 0x696969,
           alphaTest: 0.5,
           side: DoubleSide,
         })
@@ -89,16 +90,27 @@ export async function createDefaultObjects(): Promise<Object3D[]> {
   const preferences = usePreferencesStore()
   const resources = useResources()
 
-  const ambientLight = new AmbientLight(preferences.ambientLightColor, preferences.ambientLightIntensity)
+  const ambientLight = new AmbientLight(
+    preferences.ambientLightColor,
+    0.2
+    // preferences.ambientLightIntensity
+  )
   ambientLight.layers.enableAll()
   resources.set("GlobalAmbientLight", ambientLight)
 
-  const directionalLight = new DirectionalLight(0xff_ff_ff, 1)
+  const directionalLight = new DirectionalLight(0xffffcc, 0.8)
   directionalLight.layers.enableAll()
-  directionalLight.position.set(0, 10, 10)
-  // dirLight.rotation.set(0, 1.6, -30)
-  // dirLight.castShadow = true
+  directionalLight.position.set(0, 10, 0)
+  directionalLight.rotateZ(Math.PI / 4)
+  // directionalLight.rotation.set(0, 1.6, -30)
+  directionalLight.castShadow = true
   // dirLight.target.position.set(-5, 0, 0)
+
+  directionalLight.shadow.mapSize.width = 512 // default
+  directionalLight.shadow.mapSize.height = 512 // default
+  directionalLight.shadow.camera.near = 0.5 // default
+  directionalLight.shadow.camera.far = 500 // default
+
   resources.set("GlobalDirectionalLight", directionalLight)
 
   return [ambientLight, directionalLight]
