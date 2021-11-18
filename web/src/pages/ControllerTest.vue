@@ -74,7 +74,7 @@ animate({
   from: -13,
   to: 13,
   elapsed: 666,
-  duration: 1693,
+  duration: 3693,
   stiffness: 1000,
   damping: 50,
   repeat: 14,
