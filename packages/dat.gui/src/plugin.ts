@@ -18,13 +18,22 @@ interface PluginOptions extends Omit<dat.GUIParams, "load" | "preset"> {
    * (E.g. always visible gui folders.)
    */
   hooked?: GUIExtendedCallback[]
+
+  /**
+   * Minimize the gui on app startup.
+   */
+  closeAtStart?: boolean
 }
 
 const guiKey = Symbol("dat.gui")
 let folderCounter = 0
 
-export const GuiPlugin: Plugin = function (app, { addClass, hooked, ...parameters }: PluginOptions = {}) {
+export const GuiPlugin: Plugin = function (app, { addClass, hooked, closeAtStart, ...parameters }: PluginOptions = {}) {
   const gui = new dat.GUI(parameters) as GUIExtended
+
+  if (closeAtStart) {
+    gui.close()
+  }
 
   // @ts-ignore
   dat.GUI.prototype.addTextInput = addTextInput

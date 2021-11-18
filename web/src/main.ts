@@ -1,5 +1,6 @@
 import { createApp } from "vue"
 import { createPinia } from "pinia"
+import UAParser from "ua-parser-js"
 import CssAspectRatio from "./directives/css-aspect-ratio"
 import StopPropagation from "./directives/stop-propagation"
 import { navigationGui } from "./router"
@@ -16,13 +17,15 @@ import router from "./router"
 import "virtual:windi.css"
 import "./styles/main.css"
 
+const isMobile = new UAParser().getDevice().type === "mobile"
+
 const app = createApp(App)
   .use(createPinia())
   .use(router)
   .use(Toast, {
     timeout: 4569,
     maxToasts: 13,
-    position: POSITION.BOTTOM_RIGHT,
+    position: isMobile ? POSITION.TOP_CENTER : POSITION.BOTTOM_RIGHT,
     showCloseButtonOnHover: true,
   })
   .use(SupabasePlugin, {
@@ -40,6 +43,7 @@ const app = createApp(App)
     closeOnTop: false,
     autoPlace: false,
     width: 285,
+    closeAtStart: isMobile,
   })
   .use(AudioPlugin)
   .use(UserEvents)

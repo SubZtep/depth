@@ -168,7 +168,7 @@ importers:
       '@types/node': ^16.11.7
       '@types/three': ^0.134.0
       '@types/ua-parser-js': ^0.7.36
-      '@types/uuid': ^8.3.1
+      '@types/uuid': ^8.3.3
       '@vitejs/plugin-vue': ^1.9.4
       '@vue/compiler-sfc': ^3.2.22
       '@vueuse/core': ^6.9.1
@@ -225,7 +225,7 @@ importers:
       '@types/node': 16.11.7
       '@types/three': 0.134.0
       '@types/ua-parser-js': 0.7.36
-      '@types/uuid': 8.3.2
+      '@types/uuid': 8.3.3
       '@vitejs/plugin-vue': 1.9.4_vite@2.6.14
       '@vue/compiler-sfc': 3.2.22
       '@windicss/plugin-scrollbar': 1.2.3
@@ -1994,8 +1994,8 @@ packages:
     resolution: {integrity: sha512-N1rW+njavs70y2cApeIw1vLMYXRwfBy+7trgavGuuTfOd7j1Yh7QTRc/yqsPl6ncokt72ZXuxEU0PiCp9bSwNQ==}
     dev: true
 
-  /@types/uuid/8.3.2:
-    resolution: {integrity: sha512-u40ViizKDmdl5FhOXn9WQbulpigYCaiD5hD4KqR3xyQww6l3+0ND+A9TeFla8tFpqvR+UAkJdYb/8jdaQG4/nw==}
+  /@types/uuid/8.3.3:
+    resolution: {integrity: sha512-0LbEEx1zxrYB3pgpd1M5lEhLcXjKJnYghvhTRgaBeUivLHMDM1TzF3IJ6hXU2+8uA4Xz+5BA63mtZo5DjVT8iA==}
     dev: true
 
   /@types/websocket/1.0.4:

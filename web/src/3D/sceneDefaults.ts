@@ -12,7 +12,7 @@ import { AmbientLight } from "three/src/lights/AmbientLight"
 import { DirectionalLight } from "three/src/lights/DirectionalLight"
 import { Object3D } from "three/src/core/Object3D"
 import useResources from "~/composables/useResources"
-import { MeshLambertMaterial, MeshStandardMaterial } from "three"
+import { MeshLambertMaterial } from "three"
 
 export function grid(x = -7.5) {
   const grid = new GridHelper(5, 5, Color.NAMES.blue, Color.NAMES.blue)
@@ -41,7 +41,7 @@ async function loadLeafMaterial(): Promise<MeshBasicMaterial> {
   return new Promise((resolve, reject) => {
     const loader = new DDSLoader()
     loader.load(
-      "/textures/hepatica_dxt3_mip.dds",
+      "textures/hepatica_dxt3_mip.dds",
       texture => {
         texture.anisotropy = 2
         texture.magFilter = LinearFilter

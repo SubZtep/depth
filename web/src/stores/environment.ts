@@ -9,7 +9,7 @@ export const useEnvironmentStore: StoreDefinition = defineStore("environment", {
     compressed: useStorage<boolean>("environment.compressed", true),
     // grid
     size: useStorage<number>("environment.size", 1),
-    color: useStorage<number>("environment.color", 0x000000),
-    distance: useStorage<number>("environment.distance", 8000),
+    color: useStorage<number>("environment.color", 0x135113),
+    distance: useStorage<number>("environment.distance", 669),
   }),
 })

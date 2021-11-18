@@ -22,6 +22,7 @@ declare module 'vue' {
     ItemProgress: typeof import('./../components/ui/ItemProgress.vue')['default']
     LoadingScreen: typeof import('./../App/LoadingScreen.vue')['default']
     MainScene: typeof import('./../App/MainScene.vue')['default']
+    OkayEventToast: typeof import('./../components/toasts/OkayEventToast.vue')['default']
     PlayerInput: typeof import('./../components/player/PlayerInput.ts')['default']
     RedSphere: typeof import('./../3D/meshes/red-sphere.ts')['default']
     Resources: typeof import('./../3D/resources.ts')['default']
