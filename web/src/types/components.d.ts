@@ -20,6 +20,7 @@ declare module 'vue' {
     ImgMemfs: typeof import('./../components/ui/ImgMemfs.vue')['default']
     InputIndicator: typeof import('./../components/player/InputIndicator.vue')['default']
     ItemProgress: typeof import('./../components/ui/ItemProgress.vue')['default']
+    LeadPlane: typeof import('./../3D/goodybag/lead-plane.ts')['default']
     LoadingScreen: typeof import('./../App/LoadingScreen.vue')['default']
     MainScene: typeof import('./../App/MainScene.vue')['default']
     OkayEventToast: typeof import('./../components/toasts/OkayEventToast.vue')['default']

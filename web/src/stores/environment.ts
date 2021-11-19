@@ -1,6 +1,6 @@
 // import { useStorage } from "@vueuse/core"
 import type { StoreDefinition } from "pinia"
-import { defineStore } from "pinia"
+import { defineStore, acceptHMRUpdate } from "pinia"
 
 export const useEnvironmentStore: StoreDefinition = defineStore("environment", {
   state: () => ({
@@ -13,3 +13,7 @@ export const useEnvironmentStore: StoreDefinition = defineStore("environment", {
     distance: 666, // useStorage<number>("environment.distance", 669),
   }),
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useEnvironmentStore, import.meta.hot))
+}

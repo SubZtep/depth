@@ -1,5 +1,5 @@
 {
-  "name": "@depth/environment",
+  "name": "@depth/world",
   "version": "0.1.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",

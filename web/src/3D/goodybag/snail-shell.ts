@@ -26,13 +26,6 @@ export default function (): Promise<Group> {
         })
         snailObject.scale.set(0.1, 0.1, 0.1)
         return resolve(snailObject)
-        // snailObject.position.setY(1)
-        // await addForPage(snailObject)
-        // done()
-
-        // resources.set("SnailShell", snailObject)
-        // hasSlot && set(snail, snailObject)
-        // addForPage(snailObject)
       },
       xhr => set(progress, xhr.loaded / xhr.total),
       error => reject(`Load error: ${error.message}`)

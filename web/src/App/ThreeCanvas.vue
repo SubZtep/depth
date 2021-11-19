@@ -8,13 +8,13 @@ MainScene
 <script lang="ts" setup>
 import { useThreeJSEventHook, useCanvas } from "@depth/three.js"
 // import { onVisibility } from "../events"
-import { createDefaultObjects } from "../3D/sceneDefaults"
+// import { createDefaultObjects } from "../3D/sceneDefaults"
 import { sleep } from "@depth/misc"
 
 const wc = ref()
 const threeJs = useThreeJSEventHook()
 
-useCanvas(wc).add(...(await createDefaultObjects()))
+useCanvas(wc) // .add(...(await createDefaultObjects()))
 
 await sleep(69)
 useNProgress().done()

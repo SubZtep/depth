@@ -17,7 +17,7 @@ importers:
       eslint-plugin-prettier: ^4.0.0
       eslint-plugin-tsdoc: ^0.2.14
       eslint-plugin-unicorn: ^38.0.1
-      eslint-plugin-vue: ^8.0.3
+      eslint-plugin-vue: ^8.1.1
       jest: ^27.3.1
       prettier: ^2.4.1
       ts-jest: ^27.0.7
@@ -34,7 +34,7 @@ importers:
       eslint-plugin-prettier: 4.0.0_307f015733298e29da9050ea0cee5b9e
       eslint-plugin-tsdoc: 0.2.14
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
-      eslint-plugin-vue: 8.0.3_eslint@8.2.0
+      eslint-plugin-vue: 8.1.1_eslint@8.2.0
       jest: 27.3.1
       prettier: 2.4.1
       ts-jest: 27.0.7_013ef332172517e974c4b270e59f55f5
@@ -61,27 +61,6 @@ importers:
       vue: 3.2.22
     devDependencies:
       '@types/dat.gui': 0.7.7
-
-  packages/environment:
-    specifiers:
-      '@depth/misc': workspace:*
-      '@depth/three.js': workspace:*
-      '@types/three': ^0.134.0
-      '@vue/reactivity': ^3.2.22
-      '@vue/runtime-core': ^3.2.22
-      three: ^0.134.0
-      vite: ^2.6.14
-      vue: ^3.2.20
-    dependencies:
-      '@depth/misc': link:../misc
-      '@depth/three.js': link:../three.js
-      '@vue/reactivity': 3.2.22
-      '@vue/runtime-core': 3.2.22
-      three: 0.134.0
-      vue: 3.2.22
-    devDependencies:
-      '@types/three': 0.134.0
-      vite: 2.6.14
 
   packages/ffmpeg:
     specifiers:
@@ -154,17 +133,39 @@ importers:
     devDependencies:
       '@types/three': 0.134.0
 
+  packages/world:
+    specifiers:
+      '@depth/misc': workspace:*
+      '@depth/three.js': workspace:*
+      '@types/three': ^0.134.0
+      '@vue/reactivity': ^3.2.22
+      '@vue/runtime-core': ^3.2.22
+      three: ^0.134.0
+      vite: ^2.6.14
+      vue: ^3.2.20
+    dependencies:
+      '@depth/misc': link:../misc
+      '@depth/three.js': link:../three.js
+      '@vue/reactivity': 3.2.22
+      '@vue/runtime-core': 3.2.22
+      three: 0.134.0
+      vue: 3.2.22
+    devDependencies:
+      '@types/three': 0.134.0
+      vite: 2.6.14
+
   web:
     specifiers:
       '@depth/audio': workspace:*
       '@depth/dat.gui': workspace:*
-      '@depth/environment': workspace:*
       '@depth/ffmpeg': workspace:*
       '@depth/mediapipe': workspace:*
       '@depth/misc': workspace:*
       '@depth/stats.js': workspace:*
       '@depth/supabase': workspace:*
       '@depth/three.js': workspace:*
+      '@depth/world': workspace:*
+      '@dimforge/rapier3d-compat': ^0.7.6
       '@types/node': ^16.11.7
       '@types/three': ^0.134.0
       '@types/ua-parser-js': ^0.7.36
@@ -199,13 +200,14 @@ importers:
     dependencies:
       '@depth/audio': link:../packages/audio
       '@depth/dat.gui': link:../packages/dat.gui
-      '@depth/environment': link:../packages/environment
       '@depth/ffmpeg': link:../packages/ffmpeg
       '@depth/mediapipe': link:../packages/mediapipe
       '@depth/misc': link:../packages/misc
       '@depth/stats.js': link:../packages/stats.js
       '@depth/supabase': link:../packages/supabase
       '@depth/three.js': link:../packages/three.js
+      '@depth/world': link:../packages/world
+      '@dimforge/rapier3d-compat': 0.7.6
       '@vueuse/core': 6.9.1_vue@3.2.22
       '@vueuse/integrations': 6.9.1_vue@3.2.22
       '@vueuse/shared': 6.9.1_vue@3.2.22
@@ -1435,6 +1437,10 @@ packages:
     engines: {node: '>=6.0.0'}
     dev: true
 
+  /@dimforge/rapier3d-compat/0.7.6:
+    resolution: {integrity: sha512-A+IZSlkyBXlLKxVi4XTfjvySjZ8Lq7qZ0pE5U+renkQnDOjx+yhRMOhL1awqvLt6SJXId6kx8gaz0O8kxw8LLA==}
+    dev: false
+
   /@drauu/core/0.2.1:
     resolution: {integrity: sha512-5CVvRnGNWjk9KVEhVRpLntEEMw3rgcph+lTx2Z+/X0Dli+PIVyPUEnxiOqtOlf5RYcckXZJujVtco1J6RDbecA==}
     dependencies:
@@ -1801,8 +1807,8 @@ packages:
       '@sinonjs/commons': 1.8.3
     dev: true
 
-  /@supabase/gotrue-js/1.21.1:
-    resolution: {integrity: sha512-WRJqbDZXvwtYy/4nk5UYYWVf/1L42VrZnoS3AGgF8BM3FeulBxcizvqvZeHFNorA8piFN4wm0u99zHnkpszPvA==}
+  /@supabase/gotrue-js/1.21.6:
+    resolution: {integrity: sha512-3UEM0uSufrwAFMXKfr4SDPsrkHkR0nprUlzkzSK6by1Owab6A3bcVChx3yZn7yWqW/cFY2t5CnqWR9ayaw4Pmw==}
     dependencies:
       cross-fetch: 3.1.4
     dev: false
@@ -1829,7 +1835,7 @@ packages:
   /@supabase/supabase-js/1.28.0:
     resolution: {integrity: sha512-dGY8CsS0gYLdQeTW8ueMrR+CC9+LTg/0KuM57ul00FwyqtyJQMNARYePr+IcUF9ML2B6KTNibnKuwSU2BbxnRA==}
     dependencies:
-      '@supabase/gotrue-js': 1.21.1
+      '@supabase/gotrue-js': 1.21.6
       '@supabase/postgrest-js': 0.35.0
       '@supabase/realtime-js': 1.2.1
       '@supabase/storage-js': 1.5.0
@@ -2192,7 +2198,7 @@ packages:
     dependencies:
       '@vue/runtime-core': 3.2.22
       '@vue/shared': 3.2.22
-      csstype: 2.6.18
+      csstype: 2.6.19
 
   /@vue/server-renderer/3.2.22_vue@3.2.22:
     resolution: {integrity: sha512-jCwbQgKPXiXoH9VS9F7K+gyEvEMrjutannwEZD1R8fQ9szmOTqC+RRbIY3Uf2ibQjZtZ8DV9a4FjxICvd9zZlQ==}
@@ -2336,12 +2342,12 @@ packages:
       acorn-walk: 7.2.0
     dev: true
 
-  /acorn-jsx/5.3.2_acorn@8.5.0:
+  /acorn-jsx/5.3.2_acorn@8.6.0:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
-      acorn: 8.5.0
+      acorn: 8.6.0
     dev: true
 
   /acorn-walk/7.2.0:
@@ -2355,8 +2361,8 @@ packages:
     hasBin: true
     dev: true
 
-  /acorn/8.5.0:
-    resolution: {integrity: sha512-yXbYeFy+jUuYd3/CDcg2NkIYE991XYX/bje7LmjJigUciaeO1JR4XxXgCIV1/Zc/dRuFEyw1L0pbA+qynJkW5Q==}
+  /acorn/8.6.0:
+    resolution: {integrity: sha512-U1riIR+lBSNi3IbxtaHOIKdH8sLFv3NYfNv8sg7ZsNhcfl4HF2++BfqqrNAxoCLQW1iiylOj76ecnaUxz+z9yw==}
     engines: {node: '>=0.4.0'}
     hasBin: true
     dev: true
@@ -3003,8 +3009,8 @@ packages:
       cssom: 0.3.8
     dev: true
 
-  /csstype/2.6.18:
-    resolution: {integrity: sha512-RSU6Hyeg14am3Ah4VZEmeX8H7kLwEEirXe6aU2IPfKNvhXwTflK5HQRDNI0ypQXoqmm+QPyG2IaPuQE5zMwSIQ==}
+  /csstype/2.6.19:
+    resolution: {integrity: sha512-ZVxXaNy28/k3kJg0Fou5MiYpp88j7H9hLZp8PDC3jV0WFjfH5E9xHb56L0W59cPbKbcHXeP4qyT8PrHp8t6LcQ==}
 
   /d/1.0.1:
     resolution: {integrity: sha512-m62ShEObQ39CfralilEQRjH6oAMtNCV1xJyEx5LpRYUVN+EviphDgUc/F3hnYbADmkiNs67Y+3ylmlG7Lnu+FA==}
@@ -3642,8 +3648,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-vue/8.0.3_eslint@8.2.0:
-    resolution: {integrity: sha512-Rlhhy5ltzde0sRwSkqHuNePTXLMMaJ5+qsQubM4RYloYsQ8cXlnJT5MDaCzSirkGADipOHtmQXIbbPFAzUrADg==}
+  /eslint-plugin-vue/8.1.1_eslint@8.2.0:
+    resolution: {integrity: sha512-rx64IrlhdfPya6u2V5ukOGiLCTgaCBdMSpczLVqyo8A0l+Vbo+lzvIfEUfAQ2auj+MF6y0TwxLorzdCIzHunnw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
@@ -3759,8 +3765,8 @@ packages:
     resolution: {integrity: sha512-r5EQJcYZ2oaGbeR0jR0fFVijGOcwai07/690YRXLINuhmVeRY4UKSAsQPe/0BNuDgwP7Ophoc1PRsr2E3tkbdQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
-      acorn: 8.5.0
-      acorn-jsx: 5.3.2_acorn@8.5.0
+      acorn: 8.6.0
+      acorn-jsx: 5.3.2_acorn@8.6.0
       eslint-visitor-keys: 3.1.0
     dev: true
 
@@ -5061,7 +5067,7 @@ packages:
         optional: true
     dependencies:
       abab: 2.0.5
-      acorn: 8.5.0
+      acorn: 8.6.0
       acorn-globals: 6.0.0
       cssom: 0.4.4
       cssstyle: 2.3.0
@@ -5809,8 +5815,8 @@ packages:
       postcss: 8.3.11
     dev: true
 
-  /postcss-nesting/10.0.1_postcss@8.3.11:
-    resolution: {integrity: sha512-jC4qU62Cbsaoto8C/gwgHhqTcqT3BXQxgiqqsOczhzYCi6MNitZTSSrm/2DR/6fvUYNsUXLC8sl0INHDwPxUww==}
+  /postcss-nesting/10.0.2_postcss@8.3.11:
+    resolution: {integrity: sha512-FdecapAKIe+kp6uLNW7icw1g1B2HRhAAfsNv/TPzopeM08gpUbnBpqKSVqxrCqLDwzQG854ZJn5I0BiJ35WvmA==}
     engines: {node: '>= 12'}
     peerDependencies:
       postcss: ^8.2
@@ -5877,7 +5883,7 @@ packages:
       postcss-lab-function: 4.0.0_postcss@8.3.11
       postcss-logical: 5.0.0_postcss@8.3.11
       postcss-media-minmax: 5.0.0_postcss@8.3.11
-      postcss-nesting: 10.0.1_postcss@8.3.11
+      postcss-nesting: 10.0.2_postcss@8.3.11
       postcss-overflow-shorthand: 3.0.0_postcss@8.3.11
       postcss-page-break: 3.0.4_postcss@8.3.11
       postcss-place: 7.0.0_postcss@8.3.11

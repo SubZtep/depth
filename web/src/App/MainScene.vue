@@ -9,7 +9,7 @@ router-view(v-slot="{ Component }")
 import { useGui } from "@depth/dat.gui"
 import { useStats } from "@depth/stats.js"
 import { loop3D, exec3D, setupBoundaries } from "@depth/three.js"
-import { useSkybox, useInfiniteGrid } from "@depth/environment"
+import { useSkybox, useInfiniteGrid, useLights } from "@depth/world"
 import { usePreferencesStore } from "~/stores/preferences"
 import { useEnvironmentStore } from "~/stores/environment"
 import { Color } from "three/src/math/Color"
@@ -36,7 +36,10 @@ useInfiniteGrid({
   distance: environment.distance,
 })
 
-exec3D(({ cameraControls }) => {
+const { ambientLight, directionalLight } = useLights()
+
+exec3D(({ scene, cameraControls }) => {
+  scene.add(ambientLight, directionalLight)
   setupBoundaries(cameraControls, preferences.horizontalLock ? "Full" : "Simple")
 })
 </script>

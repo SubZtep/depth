@@ -1,7 +1,7 @@
 import type { StorageOptions } from "@vueuse/core"
 import type { StoreDefinition } from "pinia"
-import { useStorage } from "@vueuse/core"
-import { defineStore } from "pinia"
+// import { useStorage } from "@vueuse/core"
+import { defineStore, acceptHMRUpdate } from "pinia"
 
 function setGuiScaleCSS(scale: string) {
   try {
@@ -33,3 +33,7 @@ export const usePreferencesStore: StoreDefinition = defineStore("preferences", {
     ambientIntensity: 0.1, // useStorage("preferences.ambientIntensity", 1),
   }),
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(usePreferencesStore, import.meta.hot))
+}

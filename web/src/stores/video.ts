@@ -1,5 +1,4 @@
 import type { StoreDefinition } from "pinia"
-import { defineStore } from "pinia"
 import { useSupabase } from "@depth/supabase"
 import type { Results } from "@depth/mediapipe"
 import DatabaseQueries from "../misc/dbqueries"

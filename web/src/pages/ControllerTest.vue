@@ -27,7 +27,7 @@ import { exec3D, setupBoundaries, useThreeJSEventHook } from "@depth/three.js"
 import OkayEventToast from "~/components/toasts/OkayEventToast.vue"
 import type { ToastContent, ToastOptions } from "vue-toastification/dist/types/types"
 import { TYPE } from "vue-toastification"
-import { useSkybox } from "@depth/environment"
+import { useSkybox } from "@depth/world"
 import router from "~/router"
 
 const { nr, compressed } = useSkybox()

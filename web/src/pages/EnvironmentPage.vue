@@ -5,7 +5,7 @@ Title Environment
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
 import { useEnvironmentStore } from "~/stores/environment"
-import { useInfiniteGrid, useSkybox } from "@depth/environment"
+import { useInfiniteGrid, useSkybox } from "@depth/world"
 import { useThreeJSEventHook } from "@depth/three.js"
 
 const threeJs = useThreeJSEventHook()
