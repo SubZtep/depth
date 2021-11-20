@@ -65,7 +65,7 @@ export async function leafPlane() {
   const leaf = await loadLeafMaterial()
   const leafPlane = new Mesh(new PlaneGeometry(4, 4), leaf)
   leafPlane.rotateX(-Math.PI / 2)
-  leafPlane.position.set(-1, -0.05, -20.7)
+  // leafPlane.position.set(-1, -0.05, -20.7)
   leafPlane.receiveShadow = true
   leafPlane.name = "leafPlane"
   return leafPlane

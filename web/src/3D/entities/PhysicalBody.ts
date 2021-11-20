@@ -1,0 +1,46 @@
+import { PhysicalWorld } from "./PhysicalWorld"
+import { ColliderDesc, RigidBody, RigidBodyDesc } from "@dimforge/rapier3d-compat"
+import { exec3D, loop3D } from "@depth/three.js"
+import { Object3D, Quaternion } from "three"
+
+export class PhysicalBody extends PhysicalWorld {
+  rigidBody: RigidBody
+  object3D: Object3D
+  #rotation: Quaternion
+
+  constructor(object3d: Object3D) {
+    super()
+    this.object3D = object3d
+
+    const dimensions = this.object3D.scale
+    const hx = dimensions.x / 2
+    const hy = dimensions.y / 2
+    const hz = dimensions.z / 2
+
+    this.#rotation = new Quaternion()
+
+    // Create a dynamic rigid-body.
+    const rigidBodyDesc = RigidBodyDesc.newDynamic() // .setTranslation(0, 1, 0)
+    this.rigidBody = this.physicalWorld.createRigidBody(rigidBodyDesc)
+
+    // Create a cuboid collider attached to the dynamic rigidBody.
+    const colliderDesc = ColliderDesc.cuboid(hx, hy, hz).setTranslation(0, hy, 0)
+    this.physicalWorld.createCollider(colliderDesc, this.rigidBody.handle)
+
+    // Add to scene
+    exec3D(({ scene, cameraControls }) => {
+      // this.object3D.add(cameraControls.camera)
+      scene.add(this.object3D)
+    })
+
+    // Apply physical simulation
+    loop3D(() => {
+      const pos = this.rigidBody.translation()
+      this.object3D.position.set(pos.x, pos.y, pos.z)
+
+      const rot = this.rigidBody.rotation()
+      this.#rotation.set(rot.x, rot.y, rot.z, rot.w)
+      this.object3D.setRotationFromQuaternion(this.#rotation)
+    })
+  }
+}

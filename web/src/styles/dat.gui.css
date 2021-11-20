@@ -1,6 +1,6 @@
 .depth.dg.main {
   transform: scale(var(--gui-scale, 1));
-  @apply absolute bottom-0 left-0 origin-bottom-left select-none;
+  @apply fixed bottom-0 left-0 origin-bottom-left select-none;
 
   * {
     @apply font-mono text-light-500;
