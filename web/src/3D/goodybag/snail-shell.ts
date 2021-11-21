@@ -1,5 +1,4 @@
 import { Group } from "three/src/objects/Group"
-import type { Mesh } from "three/src/objects/Mesh"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
 

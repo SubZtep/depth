@@ -53,19 +53,6 @@ export default function useSceneHelper() {
     })
   }
 
-  // const addForPage = (...obj: Object3D[]) => {
-  //   onMounted(() =>
-  //     exec3D(({ scene }) => {
-  //       scene.add(...obj)
-  //     })
-  //   )
-  //   onBeforeUnmount(() =>
-  //     exec3D(({ scene }) => {
-  //       scene.remove(...obj)
-  //     })
-  //   )
-  // }
-
   return {
     removeForPage,
     bgForPage,

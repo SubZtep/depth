@@ -13,7 +13,7 @@ export default defineComponent({
 
     // const { start, done, progress } = useNProgress()
     const { addForPage } = useSceneHelper()
-    const resources = useResources()
+    const { resources } = useResources()
     let snailObject: Group
 
     if (resources.has("SnailShell")) {

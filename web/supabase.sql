@@ -30,9 +30,11 @@ CREATE TABLE metasnail (
   uuid uuid PRIMARY KEY NOT NULL,
   inserted_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
   updated_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
+  name varchar NOT NULL,
+  color int4 NOT NULL,
   position json NOT NULL,
   rotation json NOT NULL
-)
+);
 
 create extension if not exists moddatetime schema extensions;
 

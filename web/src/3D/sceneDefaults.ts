@@ -61,11 +61,11 @@ async function loadLeafMaterial(): Promise<MeshBasicMaterial> {
   })
 }
 
-export async function leafPlane() {
+export async function leafPlane(position?: Vector3) {
   const leaf = await loadLeafMaterial()
   const leafPlane = new Mesh(new PlaneGeometry(4, 4), leaf)
   leafPlane.rotateX(-Math.PI / 2)
-  // leafPlane.position.set(-1, -0.05, -20.7)
+  if (position) leafPlane.position.copy(position)
   leafPlane.receiveShadow = true
   leafPlane.name = "leafPlane"
   return leafPlane
@@ -88,7 +88,7 @@ export async function loadNoVideoMaterial(): Promise<MeshBasicMaterial> {
 
 export async function createDefaultObjects(): Promise<Object3D[]> {
   const preferences = usePreferencesStore()
-  const resources = useResources()
+  const { resources } = useResources()
 
   const ambientLight = new AmbientLight(
     preferences.ambientLightColor,

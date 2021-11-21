@@ -15,5 +15,15 @@ export default function useResources() {
     single.set("resources", resources)
   }
 
-  return resources
+  const loader = async <T extends Object3D>(key: string, objectLoader: () => Promise<T>): Promise<T> => {
+    if (!resources.has(key)) {
+      resources.set(key, await objectLoader())
+    }
+    return resources.get(key) as T
+  }
+
+  return {
+    resources,
+    loader,
+  }
 }

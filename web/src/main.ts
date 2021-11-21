@@ -46,7 +46,7 @@ const app = createApp(App)
     closeOnTop: false,
     autoPlace: false,
     width: 285,
-    closeAtStart: true, // isMobile,
+    closeAtStart: isMobile,
   })
   .use(AudioPlugin)
   .use(UserEvents)

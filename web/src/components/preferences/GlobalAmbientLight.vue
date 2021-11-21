@@ -8,7 +8,7 @@ import type { AmbientLight } from "three/src/lights/AmbientLight"
 import { usePreferencesStore } from "~/stores/preferences"
 import useResources from "~/composables/useResources"
 
-const resources = useResources()
+const { resources } = useResources()
 const light = resources.get<AmbientLight>("GlobalAmbientLight") as AmbientLight
 
 const preferences = usePreferencesStore()

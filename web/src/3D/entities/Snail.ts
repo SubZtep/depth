@@ -21,6 +21,15 @@ function syncToStore(store: Store, stateKey: "position" | "rotation", value: Vec
   }
 }
 
+function addVectors(v1: Vector, v2?: Vector) {
+  console.log(v2)
+  return {
+    x: v1.x + (v2?.x ?? 0),
+    y: v1.y + (v2?.y ?? 0),
+    z: v1.z + (v2?.z ?? 0),
+  }
+}
+
 export class Snail extends PhysicalBody {
   private constructor(shell: Group) {
     super(shell)
@@ -30,8 +39,17 @@ export class Snail extends PhysicalBody {
   setInput(input: PlayerInput) {
     const store = usePlayerStore()
     loop3D(() => {
+      // const linvelWorld = this.rigidBody.linvel()
+      // const linvelInput = multiValues<Vector>(input.joystick.value, this.speed)
+      // this.rigidBody.setLinvel(addVectors(linvelInput, linvelWorld), true)
+
+      // console.log([this.rigidBody.isMoving(), this.rigidBody.mass(), linvelWorld])
+
+      // if (!this.rigidBody.isMoving()) {
+      // this.rigidBody.setLinvel(addVectors(linvelInput, linvelWorld), true)
       this.rigidBody.setLinvel(multiValues<Vector>(input.joystick.value, this.speed), true)
       this.rigidBody.setAngvel(input.joystick.value, true)
+      // }
 
       syncToStore(store, "position", this.rigidBody.translation())
       syncToStore(store, "rotation", this.rigidBody.rotation())
@@ -46,8 +64,7 @@ export class Snail extends PhysicalBody {
     this.rigidBody.applyForce({ x: 0, y: 0, z: -0.1 }, true)
   }
 
-  static async initialize() {
-    const snailShell = await getSnailShell()
+  static initialize(snailShell: Group) {
     const { spotLight, spotLightHelper } = getSnailTorch()
     snailShell.add(spotLight)
 

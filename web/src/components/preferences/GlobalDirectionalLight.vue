@@ -11,7 +11,7 @@ import { DirectionalLightHelper } from "three/src/helpers/DirectionalLightHelper
 import useSceneHelper from "~/composables/useSceneHelper"
 
 const { addForPage } = useSceneHelper()
-const resources = useResources()
+const { resources } = useResources()
 const light = resources.get<DirectionalLight>("GlobalDirectionalLight")
 
 const lightHelper = new DirectionalLightHelper(light, 5)

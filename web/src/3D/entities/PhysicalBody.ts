@@ -20,7 +20,7 @@ export class PhysicalBody extends PhysicalWorld {
     this.#rotation = new Quaternion()
 
     // Create a dynamic rigid-body.
-    const rigidBodyDesc = RigidBodyDesc.newDynamic() // .setTranslation(0, 1, 0)
+    const rigidBodyDesc = RigidBodyDesc.newDynamic().setCanSleep(false)
     this.rigidBody = this.physicalWorld.createRigidBody(rigidBodyDesc)
 
     // Create a cuboid collider attached to the dynamic rigidBody.

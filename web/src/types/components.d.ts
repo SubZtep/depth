@@ -9,6 +9,7 @@ declare module 'vue' {
     CancellableEventToast: typeof import('./../components/toasts/CancellableEventToast.vue')['default']
     CanvasInScene: typeof import('./../components/video/CanvasInScene.ts')['default']
     CharacterController: typeof import('./../components/player/CharacterController.ts')['default']
+    ColorBox: typeof import('./../3D/meshes/color-box.ts')['default']
     Debug: typeof import('./../components/ui/Debug.vue')['default']
     FaceSimple: typeof import('./../3D/characters/FaceSimple.ts')['default']
     Factories: typeof import('./../3D/factories.ts')['default']

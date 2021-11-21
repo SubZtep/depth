@@ -117,8 +117,8 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "",
-    name: "game-start",
-    component: () => import("./pages/GameStart.vue"),
+    name: "meta-snail-lobby",
+    component: () => import("./pages/MetaSnailLobby.vue"),
     meta: {
       position: [0, 2, 5],
       lookAt: [0, 0, 0],
