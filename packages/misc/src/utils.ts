@@ -14,3 +14,15 @@ export function sleep(ms: number): Promise<void> {
 export function rand<T = number>(max: number, min = 1): T {
   return Math.floor(Math.random() * (max - min + 1) + min) as unknown as T
 }
+
+export function sumValue(object: any): number {
+  return Object.values<number>(object).reduce((sum, value) => sum + value, 0)
+}
+
+export function multiValues<T>(object: T, multi: number): T {
+  return Object.fromEntries(Object.entries(object).map(([k, v]) => [k, v * multi])) as unknown as T
+}
+
+export function fixedValues<T>(object: T, toFixed: number): T {
+  return Object.fromEntries(Object.entries(object).map(([k, v]) => [k, +v.toFixed(toFixed)])) as unknown as T
+}

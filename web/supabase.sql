@@ -25,3 +25,18 @@ CREATE TABLE pose (
   pose_normalized json NOT NULL,
   CONSTRAINT fk_video FOREIGN KEY(video_id) REFERENCES video(id)
 );
+
+CREATE TABLE metasnail (
+  uuid uuid PRIMARY KEY NOT NULL,
+  inserted_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
+  updated_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
+  position json NOT NULL,
+  rotation json NOT NULL
+)
+
+create extension if not exists moddatetime schema extensions;
+
+create trigger handle_updated_at before update on metasnail
+  for each row execute procedure moddatetime (updated_at);
+
+alter publication supabase_realtime add table metasnail;

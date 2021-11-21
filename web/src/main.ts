@@ -6,7 +6,7 @@ import StopPropagation from "./directives/stop-propagation"
 import { navigationGui } from "./router"
 import { UserEvents } from "./events"
 import Visible from "./directives/visible"
-import { SupabasePlugin } from "@depth/supabase"
+import { SupabasePlugin, piniaToSupabase } from "@depth/supabase"
 import { ThreejsPlugin } from "@depth/three.js"
 import Toast, { POSITION } from "vue-toastification"
 import { AudioPlugin } from "@depth/audio"
@@ -19,8 +19,11 @@ import "./styles/main.css"
 
 const isMobile = new UAParser().getDevice().type === "mobile"
 
+const pinia = createPinia()
+pinia.use(piniaToSupabase)
+
 const app = createApp(App)
-  .use(createPinia())
+  .use(pinia)
   .use(router)
   .use(Toast, {
     timeout: 4569,

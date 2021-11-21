@@ -112,10 +112,12 @@ importers:
   packages/supabase:
     specifiers:
       '@supabase/supabase-js': ^1.28.0
+      pinia: ^2.0.4
       vue: ^3.2.20
     dependencies:
       '@supabase/supabase-js': 1.28.0
     devDependencies:
+      pinia: 2.0.4_typescript@4.5.2+vue@3.2.22
       vue: 3.2.22
 
   packages/three.js:
@@ -2169,7 +2171,6 @@ packages:
 
   /@vue/devtools-api/6.0.0-beta.20.1:
     resolution: {integrity: sha512-R2rfiRY+kZugzWh9ZyITaovx+jpU4vgivAEAiz80kvh3yviiTU3CBuGuyWpSwGz9/C7TkSWVM/FtQRGlZ16n8Q==}
-    dev: false
 
   /@vue/reactivity/3.2.22:
     resolution: {integrity: sha512-xNkLAItjI0xB+lFeDgKCrSItmrHTaAzSnt8LmdSCPQnDyarmzbi/u4ESQnckWvlL7lSRKiEaOvblaNyqAa7OnQ==}
@@ -5595,7 +5596,6 @@ packages:
       typescript: 4.5.2
       vue: 3.2.22
       vue-demi: 0.12.1_vue@3.2.22
-    dev: false
 
   /pirates/4.0.1:
     resolution: {integrity: sha512-WuNqLTbMI3tmfef2TKxlQmAiLHKtFhlsCZnPIpuv2Ow0RDVO8lfy1Opf4NUzlMXLjPl+Men7AuVdX6TA+s+uGA==}
@@ -7246,7 +7246,6 @@ packages:
         optional: true
     dependencies:
       vue: 3.2.22
-    dev: false
 
   /vue-eslint-parser/8.0.1_eslint@8.2.0:
     resolution: {integrity: sha512-lhWjDXJhe3UZw2uu3ztX51SJAPGPey1Tff2RK3TyZURwbuI4vximQLzz4nQfCv8CZq4xx7uIiogHMMoSJPr33A==}
