@@ -1,25 +1,33 @@
-import type { SupabaseRealtimePayload } from "@depth/supabase"
+import type { RealtimeSubscription, SupabaseRealtimePayload } from "@depth/supabase"
 import { useSupabase } from "@depth/supabase"
-import CancellableEventToast from "~/components/toasts/CancellableEventToast.vue"
+import CancellableToast from "~/components/toasts/CancellableToast.vue"
 import { v4 as uuidv4 } from "uuid"
 import { TYPE } from "vue-toastification"
-import { useSingleton } from "@depth/misc"
-import { Object3D } from "@depth/three.js"
-import useSceneHelper from "~/composables/useSceneHelper"
+import { usePlayerStore } from "~/stores/player"
+// import { useSingleton } from "@depth/misc"
+// import { Object3D } from "@depth/three.js"
+// import useSceneHelper from "~/composables/useSceneHelper"
 
-export function useMetaSnails({ uuid }: Pick<MetaSnail, "uuid">) {
-  const { single } = useSingleton()
+// export function useMetaSnails({ uuid }: Pick<MetaSnail, "uuid">) {
+export function useMetaSnails() {
+  // const { single } = useSingleton()
+
+  const playerStore = usePlayerStore()
+
   const { supabase } = useSupabase()
   const toast = useToast()
-  const { addForPage } = useSceneHelper()
+  // const { addForPage } = useSceneHelper()
 
   const metaSnails: MetaSnail[] = reactive([])
 
+  let metasnailSubscription: RealtimeSubscription
+
+  onBeforeUnmount(async () => {
+    metasnailSubscription && (await supabase.removeSubscription(metasnailSubscription))
+  })
+
   const handleRemoteMetaSnail = (metaSnail: MetaSnail) => {
-    // console.log("ERTGBERGRE", metaSnail)
-    // metaSnails.set(uuid, metaSnail)
     metaSnails.push(metaSnail)
-    /* eslint-disable @typescript-eslint/ban-ts-comment */
 
     // if (metaSnails.has(uuid)) {
     //   const metasnail = metaSnails.get(uuid)!
@@ -62,24 +70,20 @@ export function useMetaSnails({ uuid }: Pick<MetaSnail, "uuid">) {
     // FIXME: filter out activa player if possible
     // not working (and it shouldn't): .from(`metasnail:uuid=not_eq.${uuid}`)
     // https://supabase.com/docs/reference/javascript/subscribe#listening-to-row-level-changes
-    const metasnailSubscription = supabase
+    metasnailSubscription = supabase
       .from("metasnail")
       .on("*", (payload: SupabaseRealtimePayload<MetaSnail>) => {
-        if (uuid !== payload.new.uuid) {
+        if (playerStore.uuid !== payload.new.uuid) {
           callback(payload.new)
         }
       })
       .subscribe()
-
-    onBeforeUnmount(async () => {
-      await supabase.removeSubscription(metasnailSubscription)
-    })
   }
 
   /**
    * Query meta table for initial values
    */
-  const metaInit = async () => {
+  const metaInit = async (uuid: string) => {
     const { data, error } = await supabase.from<MetaSnail>("metasnail").select("*").neq("uuid", uuid)
     if (error || !data) throw new Error(`MetaPara - ${error?.message ?? "no data"}`)
     for (const meta of data) {
@@ -88,15 +92,28 @@ export function useMetaSnails({ uuid }: Pick<MetaSnail, "uuid">) {
   }
 
   const validateHappiness = () => {
+    const message = "Are you happy to make Your snail visible to the public?"
+    let uuid = uuidv4()
+
     toast(
       {
-        component: CancellableEventToast,
-        props: {
-          message: "Are you happy to make Your snail visible to the public?\n(source on github)",
-          event: () => (uuid = uuidv4()),
+        component: CancellableToast,
+        props: { message },
+        listeners: {
+          cancel: () => {
+            uuid = ""
+            console.log("LISTENER cancel")
+          },
         },
       },
-      { icon: "fas fa-shield-check", type: TYPE.SUCCESS, timeout: 13666 }
+      {
+        icon: "fas fa-shield-check",
+        type: TYPE.SUCCESS,
+        timeout: 6969,
+        onClose: () => {
+          playerStore.uuid = uuid
+        },
+      }
     )
   }
 

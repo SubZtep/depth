@@ -54,7 +54,7 @@ rules:
     - SwitchCase: 1
   prefer-const: warn
 
-  "no-unused-vars": off
+  no-unused-vars: off
   "@typescript-eslint/no-unused-vars":
     - warn
     - argsIgnorePattern: "^_"
@@ -70,6 +70,9 @@ rules:
   unicorn/number-literal-case: off
   unicorn/numeric-separators-style: off
   unicorn/no-nested-ternary: off
+  unicorn/prevent-abbreviations:
+    - warn
+    - ignore: ["props", "err"]
 
 ignorePatterns:
   - "**node_modules/"

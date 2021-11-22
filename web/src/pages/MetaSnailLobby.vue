@@ -10,7 +10,7 @@ Debug {{playerStore}}
 </template>
 
 <script lang="ts" setup>
-import greenFloor from "~/3D/meshes/green-floor"
+// import greenFloor from "~/3D/meshes/green-floor"
 import { leafPlane } from "~/3D/sceneDefaults"
 import { Snail } from "~/3D/entities/Snail"
 import { addGuiFolder } from "@depth/dat.gui"
@@ -23,11 +23,10 @@ import { usePlayerStore } from "~/stores/player"
 import MetaSnail from "~/components/player/MetaSnail"
 
 const playerStore = usePlayerStore()
-const { metaSubscribe, handleRemoteMetaSnail, validateHappiness, metaSnails, metaInit } = useMetaSnails(
-  playerStore as any
-)
+const { metaSubscribe, handleRemoteMetaSnail, validateHappiness, metaSnails, metaInit } = useMetaSnails()
 const { addForPage } = useSceneHelper()
 const { loader } = useResources()
+const toast = useToast()
 
 const leaf = await leafPlane({ x: 0, y: -0.1, z: 0 })
 // const floor = greenFloor({ opacity: 0.5 })
@@ -40,11 +39,18 @@ const snailShell = await loader("SnailShell", getSnailShell)
 const playerSnail = Snail.initialize(snailShell)
 playerSnail.setInput(useKeyboard())
 
-if (!playerStore.uuid) validateHappiness()
+if (!playerStore.uuid) {
+  validateHappiness()
+}
 
-await metaInit()
-
-metaSubscribe(handleRemoteMetaSnail)
+whenever(
+  () => playerStore.uuid,
+  async uuid => {
+    await metaInit(uuid)
+    metaSubscribe(handleRemoteMetaSnail)
+  },
+  { immediate: true }
+)
 
 addGuiFolder(folder => {
   folder.name = "🐌 Meta Snail"

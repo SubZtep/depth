@@ -1,7 +1,9 @@
 {
   "recommendations": [
+    "octref.vetur",
+    "vscode.pug",
+    "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "voorjaar.windicss-intellisense",
-    "folke.vscode-monorepo-workspace"
+    "voorjaar.windicss-intellisense"
   ]
 }
