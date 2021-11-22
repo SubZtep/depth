@@ -13,7 +13,8 @@
     "noEmitOnError": true,
     "noUnusedLocals": false,
     "noImplicitAny": false,
-    "declarationMap": true
+    "declarationMap": true,
+    "isolatedModules": true
   },
   "references": [
     { "path": "packages/audio" },

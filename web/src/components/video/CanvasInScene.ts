@@ -1,11 +1,8 @@
 import type { GpuBuffer } from "../../../public/libs/pose"
 import { get, useCssVar } from "@vueuse/core"
 import { defineComponent, onBeforeUnmount, watch } from "vue"
-import { CanvasTexture } from "three/src/textures/CanvasTexture"
-import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
-import { DoubleSide } from "three/src/constants"
-import { PlaneBufferGeometry } from "three/src/geometries/PlaneGeometry"
-import { Mesh } from "three/src/objects/Mesh"
+
+import { CanvasTexture, MeshBasicMaterial, DoubleSide, PlaneBufferGeometry, Mesh } from "@depth/three.js"
 // import { singleFns, loopFns } from "@depth/three.js"
 // import type { loopFn } from "@depth/three.js"
 

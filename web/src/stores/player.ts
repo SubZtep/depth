@@ -2,6 +2,8 @@ import type { StoreDefinition } from "pinia"
 import { defineStore, acceptHMRUpdate } from "pinia"
 import { useStorage } from "@vueuse/core"
 
+// export const usePlayerStore: StoreDefinition = defineStore("player", {
+// export const usePlayerStore = defineStore("player", {
 export const usePlayerStore: StoreDefinition = defineStore("player", {
   state: () => ({
     uuid: useStorage("player.uuid", ""),
@@ -13,9 +15,9 @@ export const usePlayerStore: StoreDefinition = defineStore("player", {
   supabase: {
     table: "metasnail",
     fields: ["uuid", "position", "rotation", "name", "color"],
-    notEmptyField: "uuid",
+    truthyField: "uuid",
   },
-})
+}) as StoreDefinition
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(usePlayerStore, import.meta.hot))

@@ -1,7 +1,5 @@
 import { ref, watch } from "vue"
-import { exec3D } from "@depth/three.js"
-import { CubeTexture } from "three/src/textures/CubeTexture"
-import { CubeTextureLoader } from "three/src/loaders/CubeTextureLoader"
+import { exec3D, CubeTexture, CubeTextureLoader } from "@depth/three.js"
 import { useSingleton } from "@depth/misc"
 
 type SkyboxNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15

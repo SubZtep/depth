@@ -1,5 +1,5 @@
 import { exec3D } from "@depth/three.js"
-import type { Object3D } from "three/src/core/Object3D"
+import type { Object3D } from "@depth/three.js"
 
 interface Pool<T> {
   creator?: () => T

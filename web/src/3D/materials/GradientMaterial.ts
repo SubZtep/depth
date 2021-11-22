@@ -1,6 +1,4 @@
-import { DoubleSide, GLSL3 } from "three/src/constants"
-import { ShaderMaterial } from "three/src/materials/ShaderMaterial"
-import { Color } from "three/src/math/Color"
+import { DoubleSide, GLSL3, ShaderMaterial, Color } from "@depth/three.js"
 
 const vertexShader = `
   out vec2 vUv;

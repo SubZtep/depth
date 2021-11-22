@@ -1,8 +1,4 @@
-import { Object3D } from "three"
-import { TorusKnotGeometry } from "three/src/geometries/TorusKnotGeometry"
-import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
-import { Color } from "three/src/math/Color"
-import { Mesh } from "three/src/objects/Mesh"
+import { Object3D, TorusKnotGeometry, MeshPhongMaterial, Color, Mesh } from "@depth/three.js"
 
 export default function (color: number) {
   const geometry = new TorusKnotGeometry(0.12, 0.08, 24, 5, 4, 1)

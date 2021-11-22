@@ -1,6 +1,19 @@
-import "pinia"
 import type { PiniaPluginContext, Store } from "pinia"
 import { useSupabase } from "."
+
+export function piniaToSupabase({ options: { supabase: pluginOptions }, store }: PiniaPluginContext) {
+  if (!pluginOptions) return
+  const { table, fields, truthyField } = pluginOptions
+  if (truthyField && !store[truthyField]) return
+  const { supabase } = useSupabase()
+
+  const tableValues = (store: Store): { [key: typeof fields[number]]: string | number } =>
+    Object.fromEntries(fields.map(field => [field, store[field]]))
+
+  store.$subscribe(async () => {
+    await supabase.from(table).upsert(tableValues(store))
+  })
+}
 
 declare module "pinia" {
   export interface DefineStoreOptions<Id extends string, S extends StateTree, G, A>
@@ -19,7 +32,7 @@ declare module "pinia" {
      *   supabase: {
      *     table: "metasnail",
      *     fields: ["uuid", "position"],
-     *     notEmptyField: "uuid",
+     *     truthyField: "uuid",
      *   },
      * })
      * ```
@@ -28,23 +41,9 @@ declare module "pinia" {
       /** Supabase table name. */
       table: string
       /** Fields to sync. State keys and table names must be identical. */
-      fields: keyof S[]
-      /** If given then the field value is truthy for sync. */
-      truthyField?: keyof S
+      fields: string[]
+      /** If given then the field value must be truthy for sync. */
+      truthyField?: string
     }
   }
-}
-
-export function piniaToSupabase({ options: { supabase: pluginOptions }, store }: PiniaPluginContext) {
-  if (!pluginOptions) return
-  const { table, fields, notEmptyField } = pluginOptions
-  if (notEmptyField && !store[notEmptyField]) return
-  const { supabase } = useSupabase()
-
-  const tableValues = (store: Store): { [key: typeof fields[number]]: string | number } =>
-    Object.fromEntries(fields.map(field => [field, store[field]]))
-
-  store.$subscribe(async () => {
-    await supabase.from(table).upsert(tableValues(store))
-  })
 }

@@ -1,20 +1,15 @@
-import { BufferGeometry } from "three/src/core/BufferGeometry"
-import { SphereGeometry } from "three/src/geometries/SphereGeometry"
-import { LineBasicMaterial } from "three/src/materials/LineBasicMaterial"
-import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
-import { Line } from "three/src/objects/Line"
-import { Mesh } from "three/src/objects/Mesh"
-import type { ColorRepresentation } from "three/src/utils"
+import { BufferGeometry, SphereGeometry, LineBasicMaterial, MeshPhongMaterial, Line, Mesh } from "@depth/three.js"
+import type { ColorRepresentation } from "@depth/three.js"
 
 interface KeypointFactoryOptions {
   name?: string
-  color: ColorRepresentation
+  color: number // FIXME: handle three types ColorRepresentation
   visible?: boolean
 }
 
 const sphereGeometry = new SphereGeometry(0.06, 8, 6)
-export const whiteMaterial = new MeshPhongMaterial({ color: 0x69_ff_ff, flatShading: true })
-export const redMaterial = new MeshPhongMaterial({ color: 0xff_00_00, flatShading: true })
+export const whiteMaterial = new MeshPhongMaterial({ color: 0x69ffff, flatShading: true })
+export const redMaterial = new MeshPhongMaterial({ color: 0xff0000, flatShading: true })
 
 const materials = new Map<ColorRepresentation, MeshPhongMaterial>()
 
@@ -35,8 +30,8 @@ export function keypointFactory(options: KeypointFactoryOptions): KeypointMesh {
   return mesh
 }
 
-export const boneMaterial = new LineBasicMaterial({ color: 0xe3_da_c9 })
-export const badBoneMaterial = new LineBasicMaterial({ color: 0xcc_00_33 })
+export const boneMaterial = new LineBasicMaterial({ color: 0xe3dac9 })
+export const badBoneMaterial = new LineBasicMaterial({ color: 0xcc0033 })
 
 export function lineFactory(name?: string, visible = true, points?: THREE.Vector3[]) {
   const geometry = new BufferGeometry()

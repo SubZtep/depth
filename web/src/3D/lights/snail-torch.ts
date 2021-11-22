@@ -1,4 +1,4 @@
-import { SpotLight, SpotLightHelper } from "three"
+import { SpotLight, SpotLightHelper } from "@depth/three.js"
 
 export default function () {
   const spotLight = new SpotLight(0xffffff, 0.8, 3, 0.3, 0.25, 2)

@@ -1,8 +1,8 @@
 import type { LandmarkList } from "@depth/mediapipe"
 import { exec3D } from "@depth/three.js"
 import { watch, onBeforeUnmount, onMounted, defineComponent } from "vue"
-import { Vector3 } from "three/src/math/Vector3"
-import { Group } from "three/src/objects/Group"
+import { Vector3 } from "@depth/three.js"
+import { Group } from "@depth/three.js"
 import { lineFactory, keypointFactory, boneMaterial } from "../factories"
 import { BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS, BLAZEPOSE_KEYPOINTS } from "../../misc/constants"
 

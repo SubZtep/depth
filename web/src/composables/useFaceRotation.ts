@@ -1,6 +1,5 @@
 import type { FaceMeshResults } from "@depth/mediapipe"
-import { Quaternion } from "three/src/math/Quaternion"
-import { Vector3 } from "three/src/math/Vector3"
+import { Quaternion, Vector3 } from "@depth/three.js"
 import type { Ref } from "vue"
 
 function rotateVectorsSimultaneously(u0: Vector3, v0: Vector3, u2: Vector3, v2: Vector3) {

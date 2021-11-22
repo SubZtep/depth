@@ -1,6 +1,4 @@
-import { SphereGeometry } from "three/src/geometries/SphereGeometry"
-import { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial"
-import { Mesh } from "three/src/Three"
+import { SphereGeometry, MeshStandardMaterial, Mesh } from "@depth/three.js"
 
 export default function () {
   const sphereGeometry = new SphereGeometry(1, 32, 32)

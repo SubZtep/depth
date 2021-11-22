@@ -1,10 +1,9 @@
 // import type { Mesh } from "three/src/objects/Mesh"
 // import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 // import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
-import { Object3D } from "three/src/core/Object3D"
+import { Object3D, Group } from "@depth/three.js"
 import useSceneHelper from "~/composables/useSceneHelper"
 import useResources from "~/composables/useResources"
-import { Group } from "three/src/objects/Group"
 
 export default defineComponent({
   setup(_, { slots }) {

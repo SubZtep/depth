@@ -1,4 +1,4 @@
-import type { Object3D } from "three/src/core/Object3D"
+import type { Object3D } from "@deepth/three.js"
 import { v4 as uuidv4 } from "uuid"
 
 type Component = Object3D

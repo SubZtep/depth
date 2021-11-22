@@ -11,13 +11,18 @@ import { useFaceMesh } from "@depth/mediapipe"
 import { addGuiFolder } from "@depth/dat.gui"
 import useFaceRotation from "~/composables/useFaceRotation"
 import useSceneHelper from "~/composables/useSceneHelper"
-import { exec3D, loop3D, setupBoundaries, useThreeJSEventHook } from "@depth/three.js"
+import {
+  exec3D,
+  loop3D,
+  setupBoundaries,
+  useThreeJSEventHook,
+  Vector2,
+  LatheGeometry,
+  Color,
+  Mesh,
+  Object3D,
+} from "@depth/three.js"
 import GradientMaterial from "~/3D/materials/GradientMaterial"
-import { Vector2 } from "three/src/math/Vector2"
-import { LatheGeometry } from "three/src/geometries/LatheGeometry"
-import { Color } from "three/src/math/Color"
-import { Mesh } from "three/src/objects/Mesh"
-import { Object3D } from "three/src/core/Object3D"
 import { useSingleton } from "@depth/misc"
 
 const threeJs = useThreeJSEventHook()

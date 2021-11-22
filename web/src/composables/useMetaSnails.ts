@@ -3,10 +3,8 @@ import CancellableEventToast from "~/components/toasts/CancellableEventToast.vue
 import { v4 as uuidv4 } from "uuid"
 import { TYPE } from "vue-toastification"
 import { useSingleton } from "@depth/misc"
-import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
-import { Color } from "three/src/math/Color"
+import { MeshPhongMaterial, Color, TorusKnotGeometry } from "@depth/three.js"
 import useSceneHelper from "~/composables/useSceneHelper"
-import { TorusKnotGeometry } from "three"
 // import metaSnail from "~/3D/meshes/meta-snail"
 
 const metaSnails = new Map<string, Object3D>()

@@ -13,11 +13,9 @@
     "@depth/three.js": "workspace:*",
     "@vue/reactivity": "^3.2.22",
     "@vue/runtime-core": "^3.2.22",
-    "three": "^0.134.0",
     "vue": "^3.2.20"
   },
   "devDependencies": {
-    "@types/three": "^0.134.0",
     "vite": "^2.6.14"
   }
 }

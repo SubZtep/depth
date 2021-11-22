@@ -1,6 +1,4 @@
-import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
-import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial"
-import { Mesh } from "three/src/objects/Mesh"
+import { PlaneGeometry, MeshLambertMaterial, Mesh } from "@depth/three.js"
 
 interface Paramerters {
   planeWidth?: number

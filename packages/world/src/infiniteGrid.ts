@@ -1,9 +1,5 @@
 // Based on: Fyrestar https://mevedia.com (https://github.com/Fyrestar/THREE.InfiniteGridHelper)
-import { DoubleSide, GLSL3 } from "three/src/constants"
-import { PlaneBufferGeometry } from "three/src/geometries/PlaneGeometry"
-import { ShaderMaterial } from "three/src/materials/ShaderMaterial"
-import { Color } from "three/src/math/Color"
-import { Mesh } from "three/src/objects/Mesh"
+import { DoubleSide, GLSL3, PlaneBufferGeometry, ShaderMaterial, Color, Mesh } from "@depth/three.js"
 
 const vertexShader = `
 uniform float uDistance;

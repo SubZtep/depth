@@ -1,8 +1,6 @@
 import type { Ref } from "vue"
 import { addGuiFolder } from "@depth/dat.gui"
-import { loop3D } from "@depth/three.js/dist/useRenderLoop"
-import { Object3D } from "three/src/core/Object3D"
-import { Vector3 } from "three/src/math/Vector3"
+import { loop3D, Object3D, Vector3 } from "@depth/three.js"
 
 export default defineComponent({
   props: {

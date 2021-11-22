@@ -1,14 +1,16 @@
 // TODO: should replace src/3D/factories.ts
-import { BufferGeometry } from "three/src/core/BufferGeometry"
-import { Object3D } from "three/src/core/Object3D"
-import { BoxGeometry } from "three/src/geometries/BoxGeometry"
-import { ConeGeometry } from "three/src/geometries/ConeGeometry"
-import { SphereGeometry } from "three/src/geometries/SphereGeometry"
-import { LineBasicMaterial } from "three/src/materials/LineBasicMaterial"
-import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
-import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
-import { Line } from "three/src/objects/Line"
-import { Mesh } from "three/src/objects/Mesh"
+import {
+  BoxGeometry,
+  ConeGeometry,
+  SphereGeometry,
+  LineBasicMaterial,
+  MeshBasicMaterial,
+  MeshPhongMaterial,
+  BufferGeometry,
+  Object3D,
+  Line,
+  Mesh,
+} from "@depth/three.js"
 
 const yellowishMaterial = new LineBasicMaterial({ color: 0xff_ff_66 })
 const redMaterial = new LineBasicMaterial({ color: 0xff_00_00 })

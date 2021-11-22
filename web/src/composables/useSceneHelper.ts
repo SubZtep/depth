@@ -1,7 +1,5 @@
 import { useSingleton } from "@depth/misc"
-import { exec3D } from "@depth/three.js"
-import { Color } from "three/src/math/Color"
-import { Object3D } from "three/src/core/Object3D"
+import { exec3D, Color, Object3D } from "@depth/three.js"
 
 type SceneBackground = THREE.Color | THREE.Texture | null
 

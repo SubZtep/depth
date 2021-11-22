@@ -21,11 +21,13 @@ import useSceneHelper from "~/composables/useSceneHelper"
 import getSnailShell from "~/3D/goodybag/snail-shell-photo"
 import useResources from "~/composables/useResources"
 import { usePlayerStore } from "~/stores/player"
-import { Color, MeshPhongMaterial } from "three"
+import { Color, MeshPhongMaterial } from "@depth/three.js"
 import MetaSnail from "~/components/player/MetaSnail"
 
 const playerStore = usePlayerStore()
-const { metaSubscribe, handleRemoteMetaSnail, validateHappiness, metaSnails, metaInit } = useMetaSnails(playerStore as any)
+const { metaSubscribe, handleRemoteMetaSnail, validateHappiness, metaSnails, metaInit } = useMetaSnails(
+  playerStore as any
+)
 const { addForPage } = useSceneHelper()
 const { loader } = useResources()
 
