@@ -112,10 +112,12 @@ importers:
   packages/supabase:
     specifiers:
       '@supabase/supabase-js': ^1.28.0
+      '@vueuse/core': ^7.0.1
       pinia: ^2.0.4
       vue: ^3.2.20
     dependencies:
       '@supabase/supabase-js': 1.28.0
+      '@vueuse/core': 7.0.1_vue@3.2.22
     devDependencies:
       pinia: 2.0.4_typescript@4.5.2+vue@3.2.22
       vue: 3.2.22

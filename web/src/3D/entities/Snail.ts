@@ -1,29 +1,26 @@
-import getSnailTorch from "~/3D/lights/snail-torch"
-import { PhysicalBody } from "~/3D/entities/PhysicalBody"
+import { useThrottleFn } from "@vueuse/core"
 import { loop3D } from "@depth/three.js"
-import { fixedValues, multiValues } from "@depth/misc"
+import { fixedValues, hasDifferences, multiValues } from "@depth/misc"
+import { PhysicalBody } from "~/3D/entities/PhysicalBody"
+import getSnailTorch from "~/3D/lights/snail-torch"
 import { usePlayerStore } from "~/stores/player"
-import type { Store } from "pinia"
 
 export interface PlayerInput {
   joystick: Ref<Vector>
   action: Ref<boolean>
 }
 
-function syncToStore(store: Store, stateKey: "position" | "rotation", value: Vector | Rotation) {
-  const fix = fixedValues(value, 6)
-  if (Object.keys(value).some(key => fix[key] !== store[stateKey][key])) {
-    store[stateKey] = fix
-  }
+interface PatchPartState {
+  position: Vector
+  rotation: Rotation
 }
 
-// function addVectors(v1: Vector, v2?: Vector) {
-//   return {
-//     x: v1.x + (v2?.x ?? 0),
-//     y: v1.y + (v2?.y ?? 0),
-//     z: v1.z + (v2?.z ?? 0),
-//   }
-// }
+function isDifferrent(oldState: PatchPartState, newState: PatchPartState) {
+  return (
+    hasDifferences<PatchPartState["position"]>(oldState.position, newState.position) ||
+    hasDifferences<PatchPartState["rotation"]>(oldState.rotation, newState.rotation)
+  )
+}
 
 export class Snail extends PhysicalBody {
   private constructor(shell: Group) {
@@ -33,21 +30,37 @@ export class Snail extends PhysicalBody {
 
   setInput(input: PlayerInput) {
     const store = usePlayerStore()
+
+    const oldState: PatchPartState = {
+      position: { x: Number.POSITIVE_INFINITY, y: Number.POSITIVE_INFINITY, z: Number.POSITIVE_INFINITY },
+      rotation: {
+        x: Number.POSITIVE_INFINITY,
+        y: Number.POSITIVE_INFINITY,
+        z: Number.POSITIVE_INFINITY,
+        w: Number.POSITIVE_INFINITY,
+      },
+    }
+
+    const patchState = () => {
+      const newState: PatchPartState = {
+        position: fixedValues(this.rigidBody.translation(), 6),
+        rotation: fixedValues(this.rigidBody.rotation(), 6),
+      }
+      if (isDifferrent(oldState, newState)) {
+        store.$patch(() => newState)
+        oldState.position = newState.position
+        oldState.rotation = newState.rotation
+      }
+    }
+
+    const throttledPatchState = useThrottleFn(patchState, 120)
+
     loop3D(() => {
-      // const linvelWorld = this.rigidBody.linvel()
-      // const linvelInput = multiValues<Vector>(input.joystick.value, this.speed)
-      // this.rigidBody.setLinvel(addVectors(linvelInput, linvelWorld), true)
-
-      // console.log([this.rigidBody.isMoving(), this.rigidBody.mass(), linvelWorld])
-
-      // if (!this.rigidBody.isMoving()) {
-      // this.rigidBody.setLinvel(addVectors(linvelInput, linvelWorld), true)
       this.rigidBody.setLinvel(multiValues<Vector>(input.joystick.value, this.speed), true)
       this.rigidBody.setAngvel(input.joystick.value, true)
-      // }
 
-      syncToStore(store, "position", this.rigidBody.translation())
-      syncToStore(store, "rotation", this.rigidBody.rotation())
+      // FIXME: throttle store perhaps
+      throttledPatchState()
     })
   }
 

@@ -1,26 +1,50 @@
 import "pinia"
-import type { PiniaPlugin } from "pinia"
+import type { PiniaPluginContext, Store } from "pinia"
 import { useSupabase } from "."
 
 declare module "pinia" {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  export interface DefineStoreOptionsBase<S, Store> {
+  export interface DefineStoreOptions<Id extends string, S extends StateTree, G, A>
+    extends DefineStoreOptionsBase<S, Store<Id, S, G, A>> {
+    /**
+     * One-way sync of store data to Supabase.
+     *
+     * @example
+     *
+     * ```js
+     * defineStore("player", {
+     *   state: () => ({
+     *     uuid: useStorage("player.uuid", ""),
+     *     position: { x: 0, y: 0, z: 0 } as Vector,
+     *   }),
+     *   supabase: {
+     *     table: "metasnail",
+     *     fields: ["uuid", "position"],
+     *     notEmptyField: "uuid",
+     *   },
+     * })
+     * ```
+     */
     supabase?: {
+      /** Supabase table name. */
       table: string
-      fields: string[]
-      /** Provided field must have value */
-      notEmptyField?: string
+      /** Fields to sync. State keys and table names must be identical. */
+      fields: keyof S[]
+      /** If given then the field value is truthy for sync. */
+      truthyField?: keyof S
     }
   }
 }
 
-export const piniaToSupabase: PiniaPlugin = ({ options, store }) => {
-  if (!options.supabase) return
-  const { table, fields, notEmptyField } = options.supabase
+export function piniaToSupabase({ options: { supabase: pluginOptions }, store }: PiniaPluginContext) {
+  if (!pluginOptions) return
+  const { table, fields, notEmptyField } = pluginOptions
   if (notEmptyField && !store[notEmptyField]) return
   const { supabase } = useSupabase()
 
+  const tableValues = (store: Store): { [key: typeof fields[number]]: string | number } =>
+    Object.fromEntries(fields.map(field => [field, store[field]]))
+
   store.$subscribe(async () => {
-    await supabase.from(table).upsert(Object.fromEntries(fields.map(field => [field, store[field]])))
+    await supabase.from(table).upsert(tableValues(store))
   })
 }

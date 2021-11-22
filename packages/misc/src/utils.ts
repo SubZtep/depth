@@ -26,3 +26,7 @@ export function multiValues<T>(object: T, multi: number): T {
 export function fixedValues<T>(object: T, toFixed: number): T {
   return Object.fromEntries(Object.entries(object).map(([k, v]) => [k, +v.toFixed(toFixed)])) as unknown as T
 }
+
+export function hasDifferences<T = any>(o1: { [K in keyof T]: T[K] }, o2: { [K in keyof T]: T[K] }): boolean {
+  return Object.keys(o1).some(key => o1[key] !== o2[key])
+}
