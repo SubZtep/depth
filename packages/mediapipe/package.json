@@ -14,7 +14,7 @@
     "@depth/stats.js": "workspace:*",
     "@mediapipe/face_mesh": "^0.4.1633559619",
     "@mediapipe/pose": "^0.5.1635988162",
-    "@vueuse/core": "^7.0.0",
+    "@vueuse/core": "^7.0.1",
     "vue": "^3.2.20"
   }
 }

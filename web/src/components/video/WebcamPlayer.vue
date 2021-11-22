@@ -33,7 +33,7 @@ const state = reactive({
   enabled: !!properties.enabled,
 })
 
-const { videoInputs } = useDevicesList({ requestPermissions: true }) // TODO: request video only
+const { videoInputs } = useDevicesList({ requestPermissions: true, constraints: { audio: false } })
 const { enabled: stateEnabled, videoDeviceId } = toRefs(state)
 const { stream, enabled } = useUserMedia({
   audioDeviceId: false,
