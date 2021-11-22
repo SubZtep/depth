@@ -12,8 +12,15 @@ interface PluginOptions {
 }
 
 export const SupabasePlugin: Plugin = function (_app, options: PluginOptions) {
-  // FIXME: temp until we have a better solution
-  globalThis.supabase = createClient(options.url!, options.key!, options.options)
+  const clientOptions: SupabaseClientOptions = {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true,
+    ...options.options,
+  }
+
+  // FIXME: globalThis is temp until we have a better solution
+  globalThis.supabase = createClient(options.url!, options.key!, clientOptions)
 }
 
 interface SupabaseOptions {

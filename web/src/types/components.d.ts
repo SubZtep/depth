@@ -24,7 +24,7 @@ declare module 'vue' {
     LeadPlane: typeof import('./../3D/goodybag/lead-plane.ts')['default']
     LoadingScreen: typeof import('./../App/LoadingScreen.vue')['default']
     MainScene: typeof import('./../App/MainScene.vue')['default']
-    MetaSnail: typeof import('./../3D/meshes/meta-snail.ts')['default']
+    MetaSnail: typeof import('./../components/player/MetaSnail.ts')['default']
     OkayEventToast: typeof import('./../components/toasts/OkayEventToast.vue')['default']
     PhysicalBody: typeof import('./../3D/entities/PhysicalBody.ts')['default']
     PhysicalWorld: typeof import('./../3D/entities/PhysicalWorld.ts')['default']

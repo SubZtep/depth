@@ -143,7 +143,6 @@ importers:
       '@depth/three.js': workspace:*
       '@vue/reactivity': ^3.2.22
       '@vue/runtime-core': ^3.2.22
-      vite: ^2.6.14
       vue: ^3.2.20
     dependencies:
       '@depth/misc': link:../misc
@@ -151,8 +150,6 @@ importers:
       '@vue/reactivity': 3.2.22
       '@vue/runtime-core': 3.2.22
       vue: 3.2.22
-    devDependencies:
-      vite: 2.6.14
 
   web:
     specifiers:

@@ -1,13 +1,11 @@
+import type { SupabaseRealtimePayload } from "@depth/supabase"
 import { useSupabase } from "@depth/supabase"
 import CancellableEventToast from "~/components/toasts/CancellableEventToast.vue"
 import { v4 as uuidv4 } from "uuid"
 import { TYPE } from "vue-toastification"
 import { useSingleton } from "@depth/misc"
-import { MeshPhongMaterial, Color, TorusKnotGeometry } from "@depth/three.js"
+import { Object3D } from "@depth/three.js"
 import useSceneHelper from "~/composables/useSceneHelper"
-// import metaSnail from "~/3D/meshes/meta-snail"
-
-const metaSnails = new Map<string, Object3D>()
 
 export function useMetaSnails({ uuid }: Pick<MetaSnail, "uuid">) {
   const { single } = useSingleton()
@@ -15,12 +13,8 @@ export function useMetaSnails({ uuid }: Pick<MetaSnail, "uuid">) {
   const toast = useToast()
   const { addForPage } = useSceneHelper()
 
-  // const metaSnails = single("MetaSnails", new Map<string, Object3D>())
-  // const metaSnails = reactive(new Map<string, MetaSnail>())
-  // const metaSnails = new Map<string, Object3D>()
   const metaSnails: MetaSnail[] = reactive([])
 
-  // const handleRemoteMetaSnail = ({ uuid, position, rotation, name, color }: MetaSnail) => {
   const handleRemoteMetaSnail = (metaSnail: MetaSnail) => {
     // console.log("ERTGBERGRE", metaSnail)
     // metaSnails.set(uuid, metaSnail)
@@ -65,11 +59,14 @@ export function useMetaSnails({ uuid }: Pick<MetaSnail, "uuid">) {
    * @param callback - Function that receive the data from the stream.
    */
   const metaSubscribe = (callback: (metasnail: MetaSnail) => void | Promise<void>) => {
+    // FIXME: filter out activa player if possible
+    // not working (and it shouldn't): .from(`metasnail:uuid=not_eq.${uuid}`)
+    // https://supabase.com/docs/reference/javascript/subscribe#listening-to-row-level-changes
     const metasnailSubscription = supabase
       .from("metasnail")
-      .on("*", ({ new: metasnail }: { new: MetaSnail }) => {
-        if (uuid !== metasnail.uuid) {
-          callback(metasnail)
+      .on("*", (payload: SupabaseRealtimePayload<MetaSnail>) => {
+        if (uuid !== payload.new.uuid) {
+          callback(payload.new)
         }
       })
       .subscribe()

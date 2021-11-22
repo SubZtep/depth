@@ -1,9 +1,12 @@
 import { useThrottleFn } from "@vueuse/core"
+import type { Group } from "@depth/three.js"
 import { loop3D } from "@depth/three.js"
 import { fixedValues, hasDifferences, multiValues } from "@depth/misc"
 import { PhysicalBody } from "~/3D/entities/PhysicalBody"
 import getSnailTorch from "~/3D/lights/snail-torch"
 import { usePlayerStore } from "~/stores/player"
+
+const statePatchThrottle = 250
 
 export interface PlayerInput {
   joystick: Ref<Vector>
@@ -46,14 +49,19 @@ export class Snail extends PhysicalBody {
         position: fixedValues(this.rigidBody.translation(), 6),
         rotation: fixedValues(this.rigidBody.rotation(), 6),
       }
+
       if (isDifferrent(oldState, newState)) {
-        store.$patch(() => newState)
+        console.log("PATCH", newState)
+
+        // store.$patch(() => newState)
+        // @ts-ignore
+        store.$patch(newState)
         oldState.position = newState.position
         oldState.rotation = newState.rotation
       }
     }
 
-    const throttledPatchState = useThrottleFn(patchState, 120)
+    const throttledPatchState = useThrottleFn(patchState, statePatchThrottle)
 
     loop3D(() => {
       this.rigidBody.setLinvel(multiValues<Vector>(input.joystick.value, this.speed), true)
