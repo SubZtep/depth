@@ -23,7 +23,7 @@ import { useSingleton } from "@depth/misc"
 const threeJs = useThreeJSEventHook()
 threeJs.trigger({ cmd: "RenderFrames", param: "All" })
 
-const single = useSingleton()
+const { singleton } = useSingleton()
 
 const { addForPage, removeForPage, bgForPage } = useSceneHelper()
 // removeForPage("grid")
@@ -55,7 +55,7 @@ addForPage(lathe)
 const pivot = new Object3D()
 pivot.layers.enableAll()
 pivot.position.set(0, 0, 5)
-single.set("pivot", pivot)
+singleton.set("pivot", pivot)
 
 const pivotCamera = new Object3D()
 pivotCamera.layers.enableAll()

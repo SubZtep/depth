@@ -38,12 +38,12 @@ const addForPage = (...object: Object3D[]): Promise<void> => {
 }
 
 export default function useSceneHelper() {
-  const single = useSingleton()
+  const { singleton } = useSingleton()
 
   const removeForPage = (singletonName: string) => {
-    if (!single.has(singletonName)) return
+    if (!singleton.has(singletonName)) return
 
-    const object = single.get(singletonName)
+    const object = singleton.get(singletonName)
 
     onMounted(() => {
       exec3D(({ scene }) => scene.remove(object))

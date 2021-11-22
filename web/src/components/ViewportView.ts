@@ -14,7 +14,7 @@ export default defineComponent({
       throw new Error("Use ViewportView inside a component")
     }
 
-    const single = useSingleton()
+    const { singleton } = useSingleton()
     const cam = new PerspectiveCamera(90)
 
     const state = reactive({
@@ -48,7 +48,7 @@ export default defineComponent({
     camHelper.layers.enableAll()
     camHelper.layers.set(1)
 
-    const pivot = single.get("pivot")
+    const pivot = singleton.get("pivot")
     const pivotHelper = useObjectFactory().cone()
     pivotHelper.geometry.rotateX(Math.PI / 2)
     pivotHelper.layers.enableAll()

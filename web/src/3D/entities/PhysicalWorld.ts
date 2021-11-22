@@ -9,7 +9,7 @@ export class PhysicalWorld {
   readonly physicalWorld: World
 
   constructor() {
-    const singleton = useSingleton()
+    const { singleton } = useSingleton()
     if (singleton.has("physicalWorld")) {
       this.physicalWorld = singleton.get("physicalWorld")
       return

@@ -16,14 +16,14 @@ export default function (): Promise<Group> {
       async gltf => {
         start()
         const snailObject = gltf.scene
-        snailObject.traverse(node => {
-          // @ts-ignore
+        snailObject.traverse((node: any) => {
           if (node.isMesh) {
             node.castShadow = true
             node.receiveShadow = true
           }
         })
         snailObject.scale.set(0.1, 0.1, 0.1)
+        done()
         return resolve(snailObject)
       },
       xhr => set(progress, xhr.loaded / xhr.total),

@@ -61,11 +61,11 @@ async function loadLeafMaterial(): Promise<MeshBasicMaterial> {
   })
 }
 
-export async function leafPlane(position?: Vector3) {
+export async function leafPlane(position?: Vector) {
   const leaf = await loadLeafMaterial()
   const leafPlane = new Mesh(new PlaneGeometry(4, 4), leaf)
   leafPlane.rotateX(-Math.PI / 2)
-  if (position) leafPlane.position.copy(position)
+  if (position) leafPlane.position.set(position.x, position.y, position.z)
   leafPlane.receiveShadow = true
   leafPlane.name = "leafPlane"
   return leafPlane

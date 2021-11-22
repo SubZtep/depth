@@ -1,4 +1,3 @@
-import type { VideoStatePose } from "../stores/video"
 import type { SupabaseClient } from "@depth/supabase"
 import type { Results } from "@depth/mediapipe"
 
@@ -117,5 +116,20 @@ export default class DatabaseQueries {
       this.#logger?.error(error.message)
       return Promise.reject(error.message)
     }
+  }
+
+  async getAllMetaSnails(playerUuid: string): Promise<MetaSnail[] | undefined> {
+    const { data, error } = await this.#client.from("metasnail").select("*").neq("uuid", playerUuid)
+
+    if (error) {
+      this.#logger?.error(error.message)
+      return Promise.reject(error.message)
+    }
+
+    if (!data) {
+      return undefined
+    }
+
+    return data
   }
 }

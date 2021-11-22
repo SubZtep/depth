@@ -65,7 +65,8 @@ export default function useObjectPool<T extends Object3D>(parameters: ObjectPool
     return object
   }
 
-  const release = () => { // FIXME: rename to dispose (?)
+  const release = () => {
+    // FIXME: rename to dispose (?)
     if (pool.assigned === -1) {
       throw new Error("Nothing to return")
     }

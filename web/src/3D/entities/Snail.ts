@@ -1,11 +1,7 @@
-import getSnailShell from "~/3D/goodybag/snail-shell"
 import getSnailTorch from "~/3D/lights/snail-torch"
-import type { Group } from "three/src/objects/Group"
 import { PhysicalBody } from "~/3D/entities/PhysicalBody"
-import type { Ref } from "vue"
 import { loop3D } from "@depth/three.js"
-import type { Vector, Rotation } from "@dimforge/rapier3d-compat"
-import { fixedValues, multiValues, sumValue } from "@depth/misc"
+import { fixedValues, multiValues } from "@depth/misc"
 import { usePlayerStore } from "~/stores/player"
 import type { Store } from "pinia"
 
@@ -21,14 +17,13 @@ function syncToStore(store: Store, stateKey: "position" | "rotation", value: Vec
   }
 }
 
-function addVectors(v1: Vector, v2?: Vector) {
-  console.log(v2)
-  return {
-    x: v1.x + (v2?.x ?? 0),
-    y: v1.y + (v2?.y ?? 0),
-    z: v1.z + (v2?.z ?? 0),
-  }
-}
+// function addVectors(v1: Vector, v2?: Vector) {
+//   return {
+//     x: v1.x + (v2?.x ?? 0),
+//     y: v1.y + (v2?.y ?? 0),
+//     z: v1.z + (v2?.z ?? 0),
+//   }
+// }
 
 export class Snail extends PhysicalBody {
   private constructor(shell: Group) {
@@ -65,7 +60,7 @@ export class Snail extends PhysicalBody {
   }
 
   static initialize(snailShell: Group) {
-    const { spotLight, spotLightHelper } = getSnailTorch()
+    const { spotLight /*, spotLightHelper*/ } = getSnailTorch()
     snailShell.add(spotLight)
 
     return new Snail(snailShell)

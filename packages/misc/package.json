@@ -9,6 +9,6 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "devDependencies": {
-    "@vueuse/core": "^6.9.2"
+    "@vueuse/core": "^7.0.0"
   }
 }

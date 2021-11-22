@@ -68,7 +68,6 @@ export default defineConfig(({ mode, command }) => {
               "useTimeout",
               "useTimeoutFn",
               "useUserMedia",
-              "useWakeLock",
               "tryOnMounted",
               "tryOnUnmounted",
               "tryOnBeforeUnmount",

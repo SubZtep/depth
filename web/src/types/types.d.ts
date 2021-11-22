@@ -5,3 +5,13 @@ interface Logger {
   error: (message: string) => void
   // success: (message: string) => void
 }
+
+type MetaSnail = {
+  uuid: string
+  name: string
+  color: number
+  position: Vector
+  rotation: Rotation
+  created_at: string
+  updated_at: string
+}

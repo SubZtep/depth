@@ -1,5 +1,3 @@
-import type { Vector, Rotation } from "@dimforge/rapier3d-compat"
-
 export function useKeyboard() {
   const { current } = useMagicKeys()
 

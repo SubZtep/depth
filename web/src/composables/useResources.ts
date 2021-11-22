@@ -2,19 +2,24 @@ import { useSingleton } from "@depth/misc"
 import Resources from "~/3D/resources"
 
 export const resources = new Resources()
-useSingleton().set("resources", resources)
 
 export default function useResources() {
   let resources: Resources
 
-  const single = useSingleton()
-  if (single.has("resources")) {
-    resources = single.get("resources")
+  const { singleton } = useSingleton()
+  if (singleton.has("resources")) {
+    resources = singleton.get("resources")
   } else {
     resources = new Resources()
-    single.set("resources", resources)
+    singleton.set("resources", resources)
   }
 
+  /**
+   * Ensure that the loaded resource is in the resources map.
+   * @param key - Resource ideintifier
+   * @param objectLoader - Asynchronous loader function
+   * @returns resource object
+   */
   const loader = async <T extends Object3D>(key: string, objectLoader: () => Promise<T>): Promise<T> => {
     if (!resources.has(key)) {
       resources.set(key, await objectLoader())

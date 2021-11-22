@@ -7,7 +7,7 @@ import type { InfiniteGridParameters } from "./infiniteGrid"
 import { infiniteGrid } from "./infiniteGrid"
 
 export function useInfiniteGrid(parameters: Partial<InfiniteGridParameters> = {}) {
-  const singleton = useSingleton()
+  const { singleton } = useSingleton()
   let grid: { mesh: ReturnType<typeof infiniteGrid> } & InfiniteGridParameters
 
   if (singleton.has("InfiniteGrid")) {

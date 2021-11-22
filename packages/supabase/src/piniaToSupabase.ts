@@ -3,6 +3,7 @@ import type { PiniaPlugin } from "pinia"
 import { useSupabase } from "."
 
 declare module "pinia" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   export interface DefineStoreOptionsBase<S, Store> {
     supabase?: {
       table: string

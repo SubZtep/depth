@@ -64,7 +64,7 @@ rules:
   "@typescript-eslint/ban-ts-comment": warn
   "@typescript-eslint/no-empty-function": warn
   "@typescript-eslint/no-explicit-any": off
-  "tsdoc/syntax": warn
+  tsdoc/syntax: warn
   vue/prop-name-casing: off
   unicorn/filename-case: off
   unicorn/number-literal-case: off

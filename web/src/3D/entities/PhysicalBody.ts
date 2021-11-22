@@ -28,7 +28,7 @@ export class PhysicalBody extends PhysicalWorld {
     this.physicalWorld.createCollider(colliderDesc, this.rigidBody.handle)
 
     // Add to scene
-    exec3D(({ scene, cameraControls }) => {
+    exec3D(({ scene }) => {
       // this.object3D.add(cameraControls.camera)
       scene.add(this.object3D)
     })

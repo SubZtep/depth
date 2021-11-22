@@ -29,6 +29,7 @@ import type { ToastContent, ToastOptions } from "vue-toastification/dist/types/t
 import { TYPE } from "vue-toastification"
 import { useSkybox } from "@depth/world"
 import router from "~/router"
+import { useWakeLock } from "@vueuse/core"
 
 const { nr, compressed } = useSkybox()
 const threeJs = useThreeJSEventHook()
@@ -80,7 +81,7 @@ animate({
       duration: 666,
       onUpdate: x => red.position.setX(x),
       onComplete: () => {
-        get(isSupported) && release()
+        get(wakeLock.isSupported) && wakeLock.release()
         toast.info("Insert Coin Hahaha.")
         useTimeoutFn(() => router.push({ name: "environment" }), 6969)
       },

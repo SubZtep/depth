@@ -14,7 +14,7 @@ interface SkyboxProperties {
 const onProgress = (event: ProgressEvent) => console.info("downloading skybox", event)
 
 export function useSkybox(properties: SkyboxProperties = {}) {
-  const singleton = useSingleton()
+  const { singleton } = useSingleton()
   let { nr: initNr = 1, compressed: initCompressed = true } = properties
 
   let texture: CubeTexture | null

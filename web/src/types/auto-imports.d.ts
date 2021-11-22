@@ -67,7 +67,6 @@ declare global {
   const useTimeoutFn: typeof import('@vueuse/core')['useTimeoutFn']
   const useToast: typeof import('vue-toastification')['useToast']
   const useUserMedia: typeof import('@vueuse/core')['useUserMedia']
-  const useWakeLock: typeof import('@vueuse/core')['useWakeLock']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
   const watchWithFilter: typeof import('@vueuse/core')['watchWithFilter']

@@ -11,7 +11,7 @@ export default function (parameters: Paramerters = {}) {
   const { planeWidth = 20, opacity = 1 } = parameters
   const geometry = new PlaneGeometry(planeWidth, planeWidth)
   const material = new MeshLambertMaterial({ color: 0x000300 })
-  if (opacity < 1) material.opacity = opacity
+  if (opacity < 1) material.alphaTest = opacity
   const plane = new Mesh(geometry, material)
   plane.position.setY(-0.2)
   plane.rotateX(-Math.PI / 2)
