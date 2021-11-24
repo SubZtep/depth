@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  p {{props.message}}
+  p.mb-2 {{props.message}}
   button.btn.bg-blue-600.px-3(@click="$emit('cancel')") Cancel
 </template>
 

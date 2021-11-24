@@ -23,17 +23,13 @@ import { usePlayerStore } from "~/stores/player"
 import MetaSnail from "~/components/player/MetaSnail"
 
 const playerStore = usePlayerStore()
-const { metaSubscribe, handleRemoteMetaSnail, validateHappiness, metaSnails, metaInit } = useMetaSnails()
+const { metaSubscription, handleRemoteMetaSnail, Me, metaSnails, metaInit } = useMetaSnails()
 const { addForPage } = useSceneHelper()
 const { loader } = useResources()
 const toast = useToast()
 
 const leaf = await leafPlane({ x: 0, y: -0.1, z: 0 })
-// const floor = greenFloor({ opacity: 0.5 })
-addForPage(
-  leaf
-  // floor
-)
+addForPage(leaf)
 
 const snailShell = await loader("SnailShell", getSnailShell)
 const playerSnail = Snail.initialize(snailShell)
@@ -47,13 +43,13 @@ whenever(
   () => playerStore.uuid,
   async uuid => {
     await metaInit(uuid)
-    metaSubscribe(handleRemoteMetaSnail)
+    metaSubscription(handleRemoteMetaSnail)
   },
   { immediate: true }
 )
 
 addGuiFolder(folder => {
-  folder.name = "🐌 Meta Snail"
+  folder.name = "🐌 Meta Snail Lobby"
   folder.add(playerStore, "name").name("Your Name")
   folder.addColor(playerStore, "color").name("Your Colour")
   // folder.add(playerSnail, "jump")

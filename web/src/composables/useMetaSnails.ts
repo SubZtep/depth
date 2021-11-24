@@ -1,37 +1,32 @@
 import type { RealtimeSubscription, SupabaseRealtimePayload } from "@depth/supabase"
 import { useSupabase } from "@depth/supabase"
-import CancellableToast from "~/components/toasts/CancellableToast.vue"
-import { v4 as uuidv4 } from "uuid"
-import { TYPE } from "vue-toastification"
-import { usePlayerStore } from "~/stores/player"
-// import { useSingleton } from "@depth/misc"
-// import { Object3D } from "@depth/three.js"
-// import useSceneHelper from "~/composables/useSceneHelper"
+// import CancellableToast from "~/components/toasts/CancellableToast.vue"
+// import { v4 as uuidv4 } from "uuid"
+// import { TYPE } from "vue-toastification"
+// import { usePlayerStore } from "~/stores/player"
 
-// export function useMetaSnails({ uuid }: Pick<MetaSnail, "uuid">) {
 export function useMetaSnails() {
-  // const { single } = useSingleton()
-
-  const playerStore = usePlayerStore()
-
+  // const playerStore = usePlayerStore()
   const { supabase } = useSupabase()
-  const toast = useToast()
+  // const toast = useToast()
   // const { addForPage } = useSceneHelper()
 
   const metaSnails: MetaSnail[] = reactive([])
 
   let metasnailSubscription: RealtimeSubscription
 
-  onBeforeUnmount(async () => {
+  tryOnBeforeUnmount(async () => {
     metasnailSubscription && (await supabase.removeSubscription(metasnailSubscription))
   })
 
   const handleRemoteMetaSnail = (metaSnail: MetaSnail) => {
-    metaSnails.push(metaSnail)
+    if (!metaSnails.map(({ uuid }) => uuid).includes(metaSnail.uuid)) {
+      metaSnails.push(metaSnail)
+    }
 
     // if (metaSnails.has(uuid)) {
     //   const metasnail = metaSnails.get(uuid)!
-    //   metasnail.position.set(position.x, position.y, position.z)
+    //   metasnail.position.set(poisition.x, position.y, position.z)
     //   metasnail.setRotationFromQuaternion(rotation)
     // } else {
     //   metaSnails.set(uuid, metaSnail)
@@ -66,7 +61,7 @@ export function useMetaSnails() {
    * Subscribe to Supabase table if metasnails stream.
    * @param callback - Function that receive the data from the stream.
    */
-  const metaSubscribe = (callback: (metasnail: MetaSnail) => void | Promise<void>) => {
+  const metaSubscription = (callback: (metasnail: MetaSnail) => void | Promise<void>) => {
     // FIXME: filter out activa player if possible
     // not working (and it shouldn't): .from(`metasnail:uuid=not_eq.${uuid}`)
     // https://supabase.com/docs/reference/javascript/subscribe#listening-to-row-level-changes
@@ -119,7 +114,7 @@ export function useMetaSnails() {
 
   return {
     handleRemoteMetaSnail,
-    metaSubscribe,
+    metaSubscription,
     validateHappiness,
     metaSnails,
     metaInit,
