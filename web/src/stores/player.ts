@@ -2,8 +2,6 @@ import type { StoreDefinition } from "pinia"
 import { defineStore, acceptHMRUpdate } from "pinia"
 import { useStorage } from "@vueuse/core"
 
-// export const usePlayerStore: StoreDefinition = defineStore("player", {
-// export const usePlayerStore = defineStore("player", {
 export const usePlayerStore: StoreDefinition = defineStore("player", {
   state: () => ({
     uuid: useStorage("player.uuid", ""),

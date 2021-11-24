@@ -19,7 +19,7 @@ PlayerInput(
 <script lang="ts" setup>
 import UAParser from "ua-parser-js"
 import { animate } from "popmotion"
-import { leafPlane } from "~/3D/sceneDefaults"
+import { leafPlane } from  "~/3D/goodybag/leaf-plane"
 import useSceneHelper from "~/composables/useSceneHelper"
 import redSphere from "~/3D/meshes/red-sphere"
 import greenFloor from "~/3D/meshes/green-floor"

@@ -1,122 +1,59 @@
 import type { RealtimeSubscription, SupabaseRealtimePayload } from "@depth/supabase"
 import { useSupabase } from "@depth/supabase"
-// import CancellableToast from "~/components/toasts/CancellableToast.vue"
-// import { v4 as uuidv4 } from "uuid"
-// import { TYPE } from "vue-toastification"
-// import { usePlayerStore } from "~/stores/player"
+import { usePlayerStore } from "~/stores/player"
 
-export function useMetaSnails() {
-  // const playerStore = usePlayerStore()
+function onMetaSnail(playerStore: ReturnType<typeof usePlayerStore>, metaSnails: MetaSnail[]) {
+  return (payload: SupabaseRealtimePayload<MetaSnail>) => {
+    // console.log(payload.new.position)
+    if (playerStore.uuid === payload.new.uuid) return
+
+    if (payload.eventType === "INSERT") {
+      metaSnails.push(payload.new)
+    }
+
+    const idx = metaSnails.findIndex(metaSnail => metaSnail.uuid === payload.new.uuid)
+    if (idx < 0) throw new Error(`MetaSnail - ${payload.new.uuid} not found`)
+
+    if (payload.eventType === "DELETE") {
+      metaSnails.splice(idx, 1)
+      return
+    }
+
+    for (const key in payload.new) {
+      metaSnails[idx][key] = payload.new[key]
+    }
+  }
+}
+
+export async function useMetaSnails() {
+  const playerStore = usePlayerStore()
   const { supabase } = useSupabase()
-  // const toast = useToast()
-  // const { addForPage } = useSceneHelper()
 
   const metaSnails: MetaSnail[] = reactive([])
 
-  let metasnailSubscription: RealtimeSubscription
+  // get init data
+  const { data, error } = await supabase.from<MetaSnail>("metasnail").select("*").neq("uuid", playerStore.uuid)
+  if (error || !data) throw new Error(`MetaPara - ${error?.message ?? "no init data"}`)
+  for (const metaSnail of data) {
+    metaSnails.push(metaSnail)
+  }
+
+  // subscribe to updates
+  // FIXME: filter out activa player if possible
+  // not working (and it shouldn't): .from(`metasnail:uuid=not_eq.${uuid}`)
+  // https://supabase.com/docs/reference/javascript/subscribe#listening-to-row-level-changes
+  const metasnailSubscription: RealtimeSubscription = supabase
+    .from("metasnail")
+    .on("*", onMetaSnail(playerStore, metaSnails))
+    .subscribe()
 
   tryOnBeforeUnmount(async () => {
-    metasnailSubscription && (await supabase.removeSubscription(metasnailSubscription))
+    if (metasnailSubscription) {
+      await supabase.removeSubscription(metasnailSubscription)
+    }
   })
 
-  const handleRemoteMetaSnail = (metaSnail: MetaSnail) => {
-    if (!metaSnails.map(({ uuid }) => uuid).includes(metaSnail.uuid)) {
-      metaSnails.push(metaSnail)
-    }
-
-    // if (metaSnails.has(uuid)) {
-    //   const metasnail = metaSnails.get(uuid)!
-    //   metasnail.position.set(poisition.x, position.y, position.z)
-    //   metasnail.setRotationFromQuaternion(rotation)
-    // } else {
-    //   metaSnails.set(uuid, metaSnail)
-    // }
-
-    // if (!metaSnails.has(uuid)) {
-    //   // const metaGeometry = new TorusKnotGeometry(9, 0.8, 24, 5, 4, 1)
-    //   // const metaMaterial = new MeshPhongMaterial({ color: new Color(color), shininess: 150, flatShading: true })
-    //   // const meta = snailShell.clone(true)
-    //   // meta.traverse((node: any) => {
-    //   //   if (node.material) node.material = metaMaterial
-    //   // })
-    //   // meta.scale.set(0.06, 0.06, 0.06)
-    //   // const meta = metaSnail(color)
-    //   // metaSnails.set(uuid, meta)
-    //   // addForPage(meta)
-    //   metaSnails.set(uuid, metaSnail)
-    // } else {
-    //   const metasnail = metaSnails.get(uuid)!
-    //   metasnail.position.set(position.x, position.y, position.z)
-    //   metasnail.setRotationFromQuaternion(rotation)
-    // }
-
-    // const metasnail = metaSnails.get(uuid)!
-    // // TODO: lerp position
-    // // metasnail.position.set(position.x, position.y, position.z)
-    // // @ts-ignore
-    // metasnail.setRotationFromQuaternion(rotation)
-  }
-
-  /**
-   * Subscribe to Supabase table if metasnails stream.
-   * @param callback - Function that receive the data from the stream.
-   */
-  const metaSubscription = (callback: (metasnail: MetaSnail) => void | Promise<void>) => {
-    // FIXME: filter out activa player if possible
-    // not working (and it shouldn't): .from(`metasnail:uuid=not_eq.${uuid}`)
-    // https://supabase.com/docs/reference/javascript/subscribe#listening-to-row-level-changes
-    metasnailSubscription = supabase
-      .from("metasnail")
-      .on("*", (payload: SupabaseRealtimePayload<MetaSnail>) => {
-        if (playerStore.uuid !== payload.new.uuid) {
-          callback(payload.new)
-        }
-      })
-      .subscribe()
-  }
-
-  /**
-   * Query meta table for initial values
-   */
-  const metaInit = async (uuid: string) => {
-    const { data, error } = await supabase.from<MetaSnail>("metasnail").select("*").neq("uuid", uuid)
-    if (error || !data) throw new Error(`MetaPara - ${error?.message ?? "no data"}`)
-    for (const meta of data) {
-      handleRemoteMetaSnail(meta)
-    }
-  }
-
-  const validateHappiness = () => {
-    const message = "Are you happy to make Your snail visible to the public?"
-    let uuid = uuidv4()
-
-    toast(
-      {
-        component: CancellableToast,
-        props: { message },
-        listeners: {
-          cancel: () => {
-            uuid = ""
-            console.log("LISTENER cancel")
-          },
-        },
-      },
-      {
-        icon: "fas fa-shield-check",
-        type: TYPE.SUCCESS,
-        timeout: 6969,
-        onClose: () => {
-          playerStore.uuid = uuid
-        },
-      }
-    )
-  }
-
   return {
-    handleRemoteMetaSnail,
-    metaSubscription,
-    validateHappiness,
     metaSnails,
-    metaInit,
   }
 }

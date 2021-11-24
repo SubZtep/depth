@@ -33,11 +33,12 @@ async function loadLeafMaterial(): Promise<MeshBasicMaterial> {
   })
 }
 
-export async function leafPlane() {
+// eslint-disable-next-line unicorn/no-object-as-default-parameter
+export async function leafPlane(position: Vector = { x: -1, y: -0.05, z: -20.7 }) {
   const leaf = await loadLeafMaterial()
   const leafPlane = new Mesh(new PlaneGeometry(4, 4), leaf)
   leafPlane.rotateX(-Math.PI / 2)
-  leafPlane.position.set(-1, -0.05, -20.7)
+  leafPlane.position.set(position.x, position.y, position.z)
   leafPlane.receiveShadow = true
   leafPlane.name = "leafPlane"
   return leafPlane

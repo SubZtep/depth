@@ -1,5 +1,5 @@
 import useSceneHelper from "~/composables/useSceneHelper"
-import { Object3D, TorusKnotGeometry, MeshPhongMaterial, Color, Mesh } from "@depth/three.js"
+import { Quaternion, Object3D, TorusKnotGeometry, MeshPhongMaterial, Color, Mesh } from "@depth/three.js"
 
 function metaSnailFactory(color: number) {
   const geometry = new TorusKnotGeometry(0.12, 0.08, 24, 5, 4, 1)
@@ -15,13 +15,30 @@ export default defineComponent({
   props: {
     metaSnail: { type: Object as PropType<MetaSnail>, required: true },
   },
-  setup(properties, { slots }) {
+  // eslint-disable-next-line vue/no-setup-props-destructure
+  setup({ metaSnail }, { slots }) {
     const { addForPage } = useSceneHelper()
-    const metaSnail: Ref<MetaSnail> = toRef(properties, "metaSnail")
-    const object3D = metaSnailFactory(metaSnail.value)
+    const object3D = metaSnailFactory(metaSnail.color)
     addForPage(object3D)
+    const quaternion = new Quaternion()
 
-    // return () => slots.default !== undefined && slots.default({ snail })
-    return () => slots.default !== undefined && slots.default({ uuid: metaSnail.value.uuid })
+    watch(
+      () => metaSnail.position,
+      ({ x, y, z }) => {
+        object3D.position.set(x, y, z)
+      },
+      { immediate: true }
+    )
+
+    watch(
+      () => metaSnail.rotation,
+      ({ x, y, z, w }) => {
+        quaternion.set(x, y, z, w)
+        object3D.setRotationFromQuaternion(quaternion)
+      },
+      { immediate: true }
+    )
+
+    return () => slots.default?.({ name: metaSnail.name, uuid: metaSnail.uuid })
   },
 })

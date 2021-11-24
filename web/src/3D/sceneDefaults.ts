@@ -1,18 +1,19 @@
 import { usePreferencesStore } from "~/stores/preferences"
-import { DDSLoader } from "@depth/three.js"
-import { GridHelper } from "@depth/three.js"
-import { Color } from "@depth/three.js"
-import { Mesh } from "@depth/three.js"
-import { PlaneGeometry } from "@depth/three.js"
-import { MeshPhongMaterial } from "@depth/three.js"
-import { CubeReflectionMapping, DoubleSide, LinearFilter } from "@depth/three.js"
-import { MeshBasicMaterial } from "@depth/three.js"
-import { TextureLoader } from "@depth/three.js"
-import { AmbientLight } from "@depth/three.js"
-import { DirectionalLight } from "@depth/three.js"
-import { Object3D } from "@depth/three.js"
+import {
+  Mesh,
+  Color,
+  GridHelper,
+  PlaneGeometry,
+  MeshPhongMaterial,
+  DoubleSide,
+  MeshBasicMaterial,
+  TextureLoader,
+  AmbientLight,
+  DirectionalLight,
+  Object3D,
+} from "@depth/three.js"
 import useResources from "~/composables/useResources"
-import { MeshLambertMaterial } from "@depth/three.js"
+import { leafPlane } from "~/3D/goodybag/leaf-plane"
 
 export function grid(x = -7.5) {
   const grid = new GridHelper(5, 5, Color.NAMES.blue, Color.NAMES.blue)
@@ -35,40 +36,6 @@ export function plane() {
   plane.rotateX(-Math.PI / 2)
   plane.receiveShadow = true
   return plane
-}
-
-async function loadLeafMaterial(): Promise<MeshBasicMaterial> {
-  return new Promise((resolve, reject) => {
-    const loader = new DDSLoader()
-    loader.load(
-      "textures/hepatica_dxt3_mip.dds",
-      texture => {
-        texture.anisotropy = 2
-        texture.magFilter = LinearFilter
-        texture.minFilter = LinearFilter
-        texture.mapping = CubeReflectionMapping
-        const material = new MeshLambertMaterial({
-          map: texture,
-          color: 0x696969,
-          alphaTest: 0.5,
-          side: DoubleSide,
-        })
-        resolve(material)
-      },
-      undefined,
-      reject
-    )
-  })
-}
-
-export async function leafPlane(position?: Vector) {
-  const leaf = await loadLeafMaterial()
-  const leafPlane = new Mesh(new PlaneGeometry(4, 4), leaf)
-  leafPlane.rotateX(-Math.PI / 2)
-  if (position) leafPlane.position.set(position.x, position.y, position.z)
-  leafPlane.receiveShadow = true
-  leafPlane.name = "leafPlane"
-  return leafPlane
 }
 
 export async function loadNoVideoMaterial(): Promise<MeshBasicMaterial> {

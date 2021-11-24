@@ -46,14 +46,13 @@ export class Snail extends PhysicalBody {
 
     const patchState = () => {
       const newState: PatchPartState = {
-        position: fixedValues(this.rigidBody.translation(), 6),
-        rotation: fixedValues(this.rigidBody.rotation(), 6),
+        position: fixedValues(this.rigidBody.translation(), 4),
+        rotation: fixedValues(this.rigidBody.rotation(), 4),
       }
 
       if (isDifferrent(oldState, newState)) {
-        console.log("PATCH", newState)
+        // console.log("PATCH", newState)
 
-        // store.$patch(() => newState)
         // @ts-ignore
         store.$patch(newState)
         oldState.position = newState.position
