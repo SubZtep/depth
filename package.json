@@ -6,7 +6,7 @@
   "scripts": {
     "build": "pnpm recursive run build",
     "wipe": "pnpm recursive exec -- rm -rf node_modules dist coverage tsconfig.tsbuildinfo .pnpm-debug.log",
-    "wiper": "pnpm wipe && rm pnpm-lock.yaml web/src/types/auto-import.d.ts web/src/types/components.d.ts web/public/libs/*/",
+    "wiper": "sh scripts/wipe_all.sh",
     "dev": "pnpm recursive run dev",
     "web": "pnpm run dev watch --filter @depth/web",
     "serve": "pnpm recursive run serve --filter @depth/web",
@@ -32,7 +32,7 @@
     "eslint-plugin-unicorn": "^39.0.0",
     "eslint-plugin-vue": "^8.1.1",
     "jest": "^27.3.1",
-    "prettier": "^2.4.1",
+    "prettier": "^2.5.0",
     "ts-jest": "^27.0.7",
     "typescript": "^4.5.2",
     "vue3-jest": "^27.0.0-alpha.1"
