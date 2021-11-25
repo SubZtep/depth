@@ -1,20 +1,12 @@
 import useSceneHelper from "~/composables/useSceneHelper"
-import {
-  Quaternion,
-  Object3D,
-  TorusKnotGeometry,
-  MeshPhongMaterial,
-  Color,
-  Mesh,
-  Vector3,
-  loop3D,
-} from "@depth/three.js"
+import { Mesh, Color, Vector3, Object3D, TorusKnotGeometry, MeshPhongMaterial, loop3D } from "@depth/three.js"
 
 function metaSnailFactory(color: number) {
   const geometry = new TorusKnotGeometry(0.12, 0.08, 24, 5, 4, 1)
   const material = new MeshPhongMaterial({ color: new Color(color), shininess: 150, flatShading: true })
   const mesh = new Mesh(geometry, material)
-  mesh.position.setY(-0.25)
+  mesh.position.setY(0.25)
+  mesh.rotateY(Math.PI / 2)
   const pivot = new Object3D()
   pivot.add(mesh)
   return pivot
@@ -35,27 +27,29 @@ export default defineComponent({
     const fromPosition = new Vector3()
     const toPosition = new Vector3()
 
-    const fromRotation = new Quaternion()
-    const toRotation = new Quaternion()
-
     let lerpTime = Number.NaN
     let lastUpdate = Number.NaN
     let alpha = Number.POSITIVE_INFINITY
 
     watch(
-      [() => metaSnail.position, () => metaSnail.rotation],
-      ([newPosition, newRotation]) => {
+      () => metaSnail.position,
+      newPosition => {
         if (Number.isNaN(lastUpdate)) {
           object3D.position.set(...newPosition)
-          object3D.quaternion.set(...newRotation)
         } else {
           fromPosition.copy(object3D.position)
           toPosition.set(...newPosition)
-          fromRotation.copy(object3D.quaternion)
-          toRotation.set(...newRotation)
         }
         lastUpdate = performance.now()
         lerpTime = throttled || performance.now() - lastUpdate
+      },
+      { immediate: true }
+    )
+
+    watch(
+      () => metaSnail.rotation,
+      ([x, y, z, w]) => {
+        object3D.quaternion.set(x, y, z, w)
       },
       { immediate: true }
     )
@@ -67,7 +61,6 @@ export default defineComponent({
       alpha = (performance.now() - lastUpdate - deltaTime) / lerpTime
       if (alpha <= 1) {
         object3D.position.lerpVectors(fromPosition, toPosition, alpha)
-        object3D.quaternion.slerpQuaternions(fromRotation, toRotation, alpha)
       } else {
         lerpTime = Number.NaN
       }

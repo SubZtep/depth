@@ -1,9 +1,6 @@
 <template lang="pug">
-Title M̸̧̹̃o̶̥̪̓͝l̵͙̙̓l̸̘͑̅u̵̺̇s̷̡͖̿̌̓c̷͚̥͛o̴͇̘͝p̶̦̆̊͛h̷̢̖̎̕o̵̙̭̝̔͝ḃ̵͕̬̿i̸̥̠̒̈́̚a̵̽ͅ
-
-//- Debug.flex
-  div {{metaSnails.map(snail => ({ name: snail.name, id: snail.position }))}}
-  div {{player}}
+//- Title M̸̧̹̃o̶̥̪̓͝l̵͙̙̓l̸̘͑̅u̵̺̇s̷̡͖̿̌̓c̷͚̥͛o̴͇̘͝p̶̦̆̊͛h̷̢̖̎̕o̵̙̭̝̔͝ḃ̵͕̬̿i̸̥̠̒̈́̚a̵̽ͅ
+Title Metasnail Lobby
 
 MetaSnail(
   v-for="metaSnail in metaSnails" :key="metaSnail.uuid"
@@ -17,9 +14,10 @@ SnailShell(
   :start-position="playerPosition"
   :throttled="throttled")
 
-Debug.flex
+//- Debug.flex
  div {{keyboard}}
  div {{playerStore.position}}
+ div {{playerStore.rotation}}
 
 ValidateHappinessToast(v-slot="{ uuid }")
   p Are you happy to store Your snail data in local storage and make it public?
@@ -37,20 +35,16 @@ import SnailShell from "~/components/player/SnailShell"
 import ValidateHappinessToast from "~/components/player/ValidateHappinessToast"
 import { useKeyboard } from "~/composables/useKeyboard"
 
-const throttled = ref(1000)
+const throttled = ref(500)
 const playerStore = usePlayerStore()
-const { addForPage } = useSceneHelper()
-const leaf = await leafPlane({ x: 0, y: -0.1, z: 0 })
-addForPage(leaf)
+useSceneHelper().addForPage(await leafPlane({ x: 0, y: -0.1, z: 0 }))
 
 const { metaSnails, playerPosition } = await useMetaSnails()
 const keyboard = useKeyboard()
 
 addGuiFolder(folder => {
-  folder.name = "🐌 Meta Snail Lobby"
-  folder.add(playerStore, "name").name("Your Name")
-  folder.addColor(playerStore, "color").name("Your Colour")
-  // folder.add(playerSnail, "jump")
-  // folder.add(playerSnail, "push")
+  folder.name = "🐌 Your Snail"
+  folder.add(playerStore, "name").name("Name")
+  folder.addColor(playerStore, "color").name("Colour")
 })
 </script>

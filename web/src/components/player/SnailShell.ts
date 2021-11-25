@@ -1,8 +1,8 @@
-import { Object3D, loop3D } from "@depth/three.js"
-import useSceneHelper from "~/composables/useSceneHelper"
-import useResources from "~/composables/useResources"
+import { Object3D, Vector3, loop3D, Quaternion } from "@depth/three.js"
 import getSnailShell from "~/3D/goodybag/snail-shell-photo"
 import { PhysicalBody } from "~/3D/entities/PhysicalBody"
+import useSceneHelper from "~/composables/useSceneHelper"
+import useResources from "~/composables/useResources"
 import { usePlayerStore } from "~/stores/player"
 import { useThrottleFn } from "@vueuse/core"
 
@@ -18,25 +18,43 @@ export default defineComponent({
     const { addForPage } = useSceneHelper()
     const { loader } = useResources()
     const playerStore = usePlayerStore()
+    const loaded = ref(false)
+    const rotationHelper = new Quaternion()
+    const hasJoystickInput = computed(() => get(input.joystick).some(v => v !== 0))
 
     let object3D: Object3D
     let physicalBody: PhysicalBody
 
-    const hasJoystickInput = computed(() => get(input.joystick).some(v => v !== 0))
+    // Rotation
+    watch(
+      input.joystick,
+      ([x, _y, z]) => {
+        if (!get(loaded) || !get(hasJoystickInput)) return
 
+        rotationHelper.setFromAxisAngle({ x: 0, y: 1, z: 0 } as Vector3, Math.atan2(x, z))
+        physicalBody.rigidBody.setRotation(
+          { x: rotationHelper.x, y: rotationHelper.y, z: rotationHelper.z, w: rotationHelper.w },
+          true
+        )
+      },
+      { deep: true, immediate: true }
+    )
+
+    // Position
     const handleInput = () => {
       if (get(hasJoystickInput)) {
         const [x, y, z] = get(input.joystick)
         physicalBody.rigidBody.setLinvel({ x, y, z }, true)
-        // TODO: rotate towards joystick direction
       }
     }
 
     const handleStoreSync = () => {
+      const data: { position?: PositionTuple; rotation?: RotationTuple } = {}
       const pos = physicalBody.getPosition(4)
-      if (pos.some((v, index) => playerStore.position[index] !== v)) {
-        playerStore.position = pos
-      }
+      const rot = physicalBody.getRotation(4)
+      if (pos.some((v, index) => playerStore.position[index] !== v)) data.position = pos
+      if (rot.some((v, index) => playerStore.rotation[index] !== v)) data.rotation = rot
+      if (data.position || data.rotation) playerStore.$patch(data as any)
     }
 
     const throttledStoreSync = useThrottleFn(handleStoreSync, throttled)
@@ -46,6 +64,7 @@ export default defineComponent({
       addForPage(object3D)
       physicalBody = new PhysicalBody(object3D)
       physicalBody.rigidBody.setTranslation({ x: startPosition[0], y: startPosition[1], z: startPosition[2] }, true)
+      set(loaded, true)
       loop3D(() => {
         handleInput()
         throttledStoreSync()

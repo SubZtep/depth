@@ -51,4 +51,12 @@ export class PhysicalBody extends PhysicalWorld {
     }
     return [pos.x, pos.y, pos.z]
   }
+
+  getRotation(toFixed?: number): RotationTuple {
+    let rot = this.rigidBody.rotation()
+    if (toFixed !== undefined) {
+      rot = fixedValues(rot, toFixed)
+    }
+    return [rot.x, rot.y, rot.z, rot.w]
+  }
 }
