@@ -16,7 +16,9 @@ interface RenderLoopFnProps {
   cameraControls: CameraControls
   renderer: THREE.WebGLRenderer
   scene: THREE.Scene
+  /** @deprecated */
   clock: THREE.Clock
+  deltaTime: number
 }
 
 type RenderLoopFn = (props: RenderLoopFnProps) => void
@@ -61,16 +63,16 @@ export const loop3D = (fn: RenderLoopFn, params: Loop3DParams = {}) => {
 export function useRenderLoop({ renderer, cameraControls, scene, isRunning, renderFrames }: RenderLoopProps) {
   const clock = new Clock()
   const { camera } = cameraControls
-  let delta: number
+  let deltaTime: number
 
   const gameLoop = async () => {
-    delta = clock.getDelta()
-    const camUpdated = cameraControls.update(delta)
+    deltaTime = clock.getDelta()
+    const camUpdated = cameraControls.update(deltaTime)
 
     try {
-      singleFns.forEach(fn => fn({ scene, renderer, cameraControls, clock }))
+      singleFns.forEach(fn => fn({ scene, renderer, cameraControls, clock, deltaTime}))
       singleFns.clear()
-      loopFns.forEach(fn => fn({ scene, renderer, cameraControls, clock }))
+      loopFns.forEach(fn => fn({ scene, renderer, cameraControls, clock, deltaTime }))
     } catch (e) {
       console.error("ThreeJS Render Loop", e)
     }
@@ -79,9 +81,9 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, rend
     if (camUpdated || get(renderFrames) === "All") renderer.render(scene, camera)
 
     try {
-      renderedSingleFns.forEach(fn => fn({ scene, renderer, cameraControls, clock }))
+      renderedSingleFns.forEach(fn => fn({ scene, renderer, cameraControls, clock, deltaTime }))
       renderedSingleFns.clear()
-      renderedLoopFns.forEach(fn => fn({ scene, renderer, cameraControls, clock }))
+      renderedLoopFns.forEach(fn => fn({ scene, renderer, cameraControls, clock, deltaTime }))
     } catch (e) {
       console.error("ThreeJS rendered loop", e)
     }

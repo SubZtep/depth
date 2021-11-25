@@ -7,7 +7,9 @@ export default defineComponent({
   setup(_, { slots }) {
     const playerStore = usePlayerStore()
     if (playerStore.uuid || !slots.default) {
-      return () => {}
+      return () => {
+        // ignore slots
+      }
     }
 
     const toast = useToast()
@@ -40,6 +42,8 @@ export default defineComponent({
       }
     )
 
-    return () => {}
+    return () => {
+      // ignore slots
+    }
   },
 })

@@ -1,4 +1,5 @@
 import { useSingleton } from "@depth/misc"
+import type { Object3D } from "@depth/three.js"
 import Resources from "~/3D/resources"
 
 export const resources = new Resources()
@@ -22,7 +23,9 @@ export default function useResources() {
    */
   const loader = async <T extends Object3D>(key: string, objectLoader: () => Promise<T>): Promise<T> => {
     if (!resources.has(key)) {
+      const { done } = useNProgress(0.5)
       resources.set(key, await objectLoader())
+      done()
     }
     return resources.get(key) as T
   }

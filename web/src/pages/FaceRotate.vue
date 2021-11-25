@@ -8,7 +8,17 @@ import { useStats } from "@depth/stats.js"
 import { useFaceMesh } from "@depth/mediapipe"
 import useFaceRotation from "~/composables/useFaceRotation"
 import useSceneHelper from "~/composables/useSceneHelper"
-import { exec3D, loop3D, useThreeJSEventHook, Vector2, LatheGeometry, Mesh, Box3, Vector3, Color } from "@depth/three.js"
+import {
+  exec3D,
+  loop3D,
+  useThreeJSEventHook,
+  Vector2,
+  LatheGeometry,
+  Mesh,
+  Box3,
+  Vector3,
+  Color,
+} from "@depth/three.js"
 import GradientMaterial from "~/3D/materials/GradientMaterial"
 
 const { addForPage } = useSceneHelper()

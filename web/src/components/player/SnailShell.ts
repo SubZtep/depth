@@ -1,55 +1,59 @@
-// import type { Mesh } from "three/src/objects/Mesh"
-// import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
-// import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
-import { Object3D, Group } from "@depth/three.js"
+import { Object3D, loop3D } from "@depth/three.js"
 import useSceneHelper from "~/composables/useSceneHelper"
 import useResources from "~/composables/useResources"
+import getSnailShell from "~/3D/goodybag/snail-shell-photo"
+import { PhysicalBody } from "~/3D/entities/PhysicalBody"
+import { usePlayerStore } from "~/stores/player"
+import { useThrottleFn } from "@vueuse/core"
 
 export default defineComponent({
-  setup(_, { slots }) {
-    const hasSlot = slots.default !== undefined
-    const snail = ref<Object3D>()
-
-    // const { start, done, progress } = useNProgress()
+  props: {
+    input: { type: Object as PropType<PlayerInput>, required: true },
+    startPosition: { type: Array as PropType<Array<number>>, default: () => [0, 0, 0] },
+    /** Throttle time in miliseconds */
+    throttled: { type: Number, required: true },
+  },
+  // eslint-disable-next-line vue/no-setup-props-destructure
+  setup({ input, startPosition, throttled }) {
     const { addForPage } = useSceneHelper()
-    const { resources } = useResources()
-    let snailObject: Group
+    const { loader } = useResources()
+    const playerStore = usePlayerStore()
 
-    if (resources.has("SnailShell")) {
-      snailObject = resources.get("SnailShell")
-      hasSlot && set(snail, snailObject)
-      addForPage(snailObject)
-      return
+    let object3D: Object3D
+    let physicalBody: PhysicalBody
+
+    const hasJoystickInput = computed(() => get(input.joystick).some(v => v !== 0))
+
+    const handleInput = () => {
+      if (get(hasJoystickInput)) {
+        const [x, y, z] = get(input.joystick)
+        physicalBody.rigidBody.setLinvel({ x, y, z }, true)
+        // TODO: rotate towards joystick direction
+      }
     }
 
-    // const gltfLoader = new GLTFLoader().setPath("/models/")
-    // const dracoLoader = new DRACOLoader()
-    // dracoLoader.setDecoderPath("/libs/draco/")
-    // gltfLoader.setDRACOLoader(dracoLoader)
-    // gltfLoader.load(
-    //   "SnailShell.glb",
-    //   async gltf => {
-    //     start()
-    //     snailObject = gltf.scene
-    //     snailObject.traverse((node: Mesh) => {
-    //       if (node.isMesh) {
-    //         node.castShadow = true
-    //         node.receiveShadow = true
-    //       }
-    //     })
-    //     snailObject.scale.set(0.1, 0.1, 0.1)
-    //     // snailObject.position.setY(1)
-    //     await addForPage(snailObject)
-    //     done()
+    const handleStoreSync = () => {
+      const pos = physicalBody.getPosition(4)
+      if (pos.some((v, index) => playerStore.position[index] !== v)) {
+        playerStore.position = pos
+      }
+    }
 
-    //     resources.set("SnailShell", snailObject)
-    //     hasSlot && set(snail, snailObject)
-    //     addForPage(snailObject)
-    //   },
-    //   xhr => set(progress, xhr.loaded / xhr.total),
-    //   error => console.log("An error happened", error)
-    // )
+    const throttledStoreSync = useThrottleFn(handleStoreSync, throttled)
 
-    return () => hasSlot && slots.default!({ snail })
+    ;(async () => {
+      object3D = await loader("SnailShell", getSnailShell)
+      addForPage(object3D)
+      physicalBody = new PhysicalBody(object3D)
+      physicalBody.rigidBody.setTranslation({ x: startPosition[0], y: startPosition[1], z: startPosition[2] }, true)
+      loop3D(() => {
+        handleInput()
+        throttledStoreSync()
+      })
+    })()
+
+    return () => {
+      // ignore slots
+    }
   },
 })

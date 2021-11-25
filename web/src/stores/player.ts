@@ -7,8 +7,8 @@ export const usePlayerStore: StoreDefinition = defineStore("player", {
     uuid: useStorage("player.uuid", ""),
     name: useStorage("player.name", ""),
     color: useStorage("player.color", 0xffffff),
-    position: { x: 0, y: 0, z: 0 } as Vector,
-    rotation: { x: 0, y: 0, z: 0, w: 0 } as Rotation,
+    position: [0, 0, 0] as PositionTuple,
+    rotation: [1, 0, 0, 0] as RotationTuple,
   }),
   supabase: {
     table: "metasnail",

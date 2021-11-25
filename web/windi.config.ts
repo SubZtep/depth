@@ -22,7 +22,7 @@ export default defineConfig({
   },
   plugins: [
     ScrollbarPlugin,
-    plugin(({ addComponents, theme }) => {
+    plugin(({ addComponents }) => {
       const buttons: DeepNestObject = {
         ".btn": {
           padding: "2px",

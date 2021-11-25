@@ -1,6 +1,7 @@
 import { PhysicalWorld } from "./PhysicalWorld"
 import { ColliderDesc, RigidBody, RigidBodyDesc } from "@dimforge/rapier3d-compat"
 import { exec3D, loop3D, Object3D, Quaternion } from "@depth/three.js"
+import { fixedValues } from "@depth/misc"
 
 export class PhysicalBody extends PhysicalWorld {
   rigidBody: RigidBody
@@ -41,5 +42,13 @@ export class PhysicalBody extends PhysicalWorld {
       this.#rotation.set(rot.x, rot.y, rot.z, rot.w)
       this.object3D.setRotationFromQuaternion(this.#rotation)
     })
+  }
+
+  getPosition(toFixed?: number): PositionTuple {
+    let pos = this.rigidBody.translation()
+    if (toFixed !== undefined) {
+      pos = fixedValues(pos, toFixed)
+    }
+    return [pos.x, pos.y, pos.z]
   }
 }

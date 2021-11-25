@@ -86,16 +86,6 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: "/controller",
-    name: "controller-test",
-    component: () => import("./pages/ControllerTest.vue"),
-    meta: {
-      position: [0, camHeight, 5],
-      lookAt: [0, 0, 0],
-      order: 22,
-    },
-  },
-  {
     path: "/environment",
     name: "environment",
     component: () => import("./pages/EnvironmentPage.vue"),

@@ -10,7 +10,7 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@vueuse/core": "^7.0.3",
+    "@vueuse/core": "^7.1.1",
     "camera-controls": "^1.33.1",
     "three": "^0.134.0",
     "vue": "^3.2.20"
