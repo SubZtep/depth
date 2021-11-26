@@ -4,11 +4,16 @@
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
+    "dev": "tsc -w",
     "build": "tsc"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
+  "dependencies": {
+    "three": "^0.135.0"
+  },
   "devDependencies": {
+    "@types/three": "^0.134.0",
     "@vueuse/core": "^7.1.2"
   },
   "typedocMain": "src/index.ts"

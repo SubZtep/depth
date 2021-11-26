@@ -1,5 +1,7 @@
 interface ImportMeta {
   env: {
+    /** Supabase sync throttle time in miliseconds. */
+    VITE_SUPABASE_THROTTLE: number
     /** Supabase API URL */
     VITE_SUPABASE_URL: string
     /** Supabase API Key */

@@ -42,8 +42,7 @@ export default defineConfig(({ mode, command }) => {
   return {
     resolve: {
       alias: {
-        // eslint-disable-next-line unicorn/prefer-module
-        "~/": `${path.resolve(__dirname, "src")}/`,
+        "~/": `${path.resolve("./src")}/`,
       },
     },
     plugins: [
@@ -91,8 +90,7 @@ export default defineConfig(({ mode, command }) => {
           { "@vueuse/integrations": ["useNProgress"] },
           { "vue-toastification": ["useToast"] },
           { pinia: ["storeToRefs"] },
-          // { "./src/stores/video": ["useVideoStore"] },
-          // { "./src/events": ["onVisibility"] },
+          // TODO: auto import like this: { "@depth/dat.gui": ["addGuiFolder"] },
         ],
         dts: "src/types/auto-imports.d.ts",
       }),

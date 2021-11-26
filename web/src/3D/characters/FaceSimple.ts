@@ -7,6 +7,7 @@ import { BoxGeometry } from "three/src/geometries/BoxGeometry"
 import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
 import { Mesh } from "three/src/objects/Mesh"
 import { Vector3 } from "three/src/math/Vector3"
+import { object3dTo2d } from "@depth/misc"
 
 // type Res = FaceMeshResults["multiFaceLandmarks"]
 
@@ -37,8 +38,8 @@ export default defineComponent({
       { immediate: true }
     )
 
-    const temporaryPos = new Vector3()
-    let x: number, y: number
+    // const temporaryPos = new Vector3()
+    // let x: number, y: number
     watch(
       () => properties.landmarks,
       (landmarks?: LandmarkList) => {
@@ -51,12 +52,13 @@ export default defineComponent({
           object3d.position.set(landmark.x * 10 - 5, landmark.y * -10 + 11, landmark.z * -10)
 
           if (properties.cssVarsTarget) {
-            object3d.updateWorldMatrix(true, false)
-            object3d.getWorldPosition(temporaryPos)
-            temporaryPos.project(camera)
-            // canvas is full without scrollbars, so windows size is just as good
-            x = (temporaryPos.x * 0.5 + 0.5) * window.innerWidth
-            y = (temporaryPos.y * -0.5 + 0.5) * window.innerHeight
+            const [x, y] = object3dTo2d(object3d, camera)
+            // object3d.updateWorldMatrix(true, false)
+            // object3d.getWorldPosition(temporaryPos)
+            // temporaryPos.project(camera)
+            // // canvas is full without scrollbars, so windows size is just as good
+            // x = (temporaryPos.x * 0.5 + 0.5) * window.innerWidth
+            // y = (temporaryPos.y * -0.5 + 0.5) * window.innerHeight
             csss[index].value = `translate(${x}px,${y}px)`
           }
         }

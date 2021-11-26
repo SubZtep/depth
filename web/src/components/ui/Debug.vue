@@ -5,6 +5,7 @@ UseDraggable(
   :exact="true"
   v-if="exists"
   @dblclick="exists = false"
+  v-stop-propagation
   :class="$style.frame")
   div(:class="$style.debug" ref="el" @dblclick.stop)
     slot
@@ -18,7 +19,7 @@ const exists = ref(true)
 const el = ref()
 
 onMounted(() => {
-  const stored = useStorage("debug-size", { width: 320, height: 240})
+  const stored = useStorage("debug-size", { width: 320, height: 240 })
   const initSize = { width: stored.value.width, height: stored.value.height }
   el.value.style.width = `${initSize.width}px`
   el.value.style.height = `${initSize.height}px`
@@ -31,7 +32,6 @@ onMounted(() => {
 
 <style module>
 .frame {
-  @apply scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300;
   position: fixed;
   cursor: move;
   background-color: #0104;
@@ -47,10 +47,11 @@ onMounted(() => {
 }
 
 .debug {
-  @apply overflow-auto resize p-2;
+  @apply scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300
+    overflow-auto resize p-2;
   border: 1px solid #f003;
   background-color: #0104;
-  cursor: default;
+  cursor: text;
 
   font-family: monospace;
   white-space: pre;

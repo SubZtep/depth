@@ -1,25 +1,24 @@
 <template lang="pug">
-//- Title M̸̧̹̃o̶̥̪̓͝l̵͙̙̓l̸̘͑̅u̵̺̇s̷̡͖̿̌̓c̷͚̥͛o̴͇̘͝p̶̦̆̊͛h̷̢̖̎̕o̵̙̭̝̔͝ḃ̵͕̬̿i̸̥̠̒̈́̚a̵̽ͅ
+Title(:delay="6669") M̸̧̹̃o̶̥̪̓͝l̵͙̙̓l̸̘͑̅u̵̺̇s̷̡͖̿̌̓c̷͚̥͛o̴͇̘͝p̶̦̆̊͛h̷̢̖̎̕o̵̙̭̝̔͝ḃ̵͕̬̿i̸̥̠̒̈́̚a̵̽ͅ
 Title Metasnail Lobby
 
+Debug {{metaSnails}}
+
 MetaSnail(
-  v-for="metaSnail in metaSnails" :key="metaSnail.uuid"
+  v-for="metaSnail in metaSnails"
+  :key="metaSnail.uuid"
   :meta-snail="metaSnail"
-  :throttled="throttled"
-  v-slot="{ name, uuid }")
-  .text-yellow-500 {{name}} - {{uuid}}
+  v-slot="{ pos2d }")
+  UseTimeAgo(:time="metaSnail.updated_at" v-slot="{ timeAgo }")
+    FloatingText.text-yellow-500.text-center(:pos2d="pos2d")
+      .font-bold {{metaSnail.name}}
+      .text-sm {{timeAgo}}
 
 SnailShell(
   :input="keyboard"
-  :start-position="playerPosition"
-  :throttled="throttled")
+  :start-position="playerPosition")
 
-//- Debug.flex
- div {{keyboard}}
- div {{playerStore.position}}
- div {{playerStore.rotation}}
-
-ValidateHappinessToast(v-slot="{ uuid }")
+ValidateHappiness(v-slot="{ uuid }")
   p Are you happy to store Your snail data in local storage and make it public?
   p Your ID will be: {{ uuid }}
 
@@ -27,17 +26,17 @@ component(v-if="dynamicComponent" :is="dynamicComponent")
 </template>
 
 <script lang="ts" setup>
-import { leafPlane } from "~/3D/goodybag/leaf-plane"
 import { addGuiFolder } from "@depth/dat.gui"
-import { useMetaSnails } from "~/composables/useMetaSnails"
-import useSceneHelper from "~/composables/useSceneHelper"
+import { UseTimeAgo } from "@vueuse/components"
 import { usePlayerStore } from "~/stores/player"
-import MetaSnail from "~/components/player/MetaSnail"
-import SnailShell from "~/components/player/SnailShell"
-import ValidateHappinessToast from "~/components/player/ValidateHappinessToast"
+import { leafPlane } from "~/3D/goodybag/leaf-plane"
+import useSceneHelper from "~/composables/useSceneHelper"
 import { useKeyboard } from "~/composables/useKeyboard"
+import { useMetaSnails } from "~/composables/useMetaSnails"
+import SnailShell from "~/components/player/SnailShell"
+import MetaSnail from "~/components/player/MetaSnail"
+import ValidateHappiness from "~/components/player/ValidateHappiness"
 
-const throttled = ref(500)
 const playerStore = usePlayerStore()
 useSceneHelper().addForPage(await leafPlane({ x: 0, y: -0.1, z: 0 }))
 

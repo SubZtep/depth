@@ -13,11 +13,9 @@ export default defineComponent({
   props: {
     input: { type: Object as PropType<PlayerInput>, required: true },
     startPosition: { type: Array as PropType<Array<number>>, default: () => [0, 0, 0] },
-    /** Throttle time in miliseconds */
-    throttled: { type: Number, required: true },
   },
   // eslint-disable-next-line vue/no-setup-props-destructure
-  setup({ input, startPosition, throttled }) {
+  setup({ input, startPosition }) {
     const { addForPage } = useSceneHelper()
     const { loader } = useResources()
     const playerStore = usePlayerStore()
@@ -60,7 +58,7 @@ export default defineComponent({
       if (data.position || data.rotation) playerStore.$patch(data as any)
     }
 
-    const throttledStoreSync = useThrottleFn(handleStoreSync, throttled)
+    const throttledStoreSync = useThrottleFn(handleStoreSync, import.meta.env.VITE_SUPABASE_THROTTLE)
 
     ;(async () => {
       object3D = await loader("SnailShell", getSnailShell)
