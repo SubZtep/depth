@@ -11,8 +11,8 @@
   "dependencies": {
     "@depth/misc": "workspace:*",
     "@depth/three.js": "workspace:*",
-    "@vue/reactivity": "^3.2.22",
-    "@vue/runtime-core": "^3.2.22",
+    "three": "^0.135.0",
     "vue": "^3.2.20"
-  }
+  },
+  "typedocMain": "src/index.ts"
 }

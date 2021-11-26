@@ -9,6 +9,7 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "devDependencies": {
-    "@vueuse/core": "^7.1.1"
-  }
+    "@vueuse/core": "^7.1.2"
+  },
+  "typedocMain": "src/index.ts"
 }

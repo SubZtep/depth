@@ -1,8 +1,11 @@
-import { exec3D, loop3D, camera, PerspectiveCamera, CameraHelper, Vector4 } from "@depth/three.js"
+import { exec3D, loop3D, camera } from "@depth/three.js"
 import { useSingleton } from "@depth/misc"
 import useObjectFactory from "~/composables/useObjectFactory"
 import useSceneHelper from "~/composables/useSceneHelper"
 import { addGuiFolder } from "@depth/dat.gui"
+import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera"
+import { CameraHelper } from "three/src/helpers/CameraHelper"
+import { Vector4 } from "three/src/math/Vector4"
 
 export default defineComponent({
   setup() {

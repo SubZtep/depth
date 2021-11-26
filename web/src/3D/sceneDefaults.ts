@@ -1,17 +1,13 @@
+import { Mesh } from "three/src/objects/Mesh"
+import { Color } from "three/src/math/Color"
+import { GridHelper } from "three/src/helpers/GridHelper"
+import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
+import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
+import { TextureLoader } from "three/src/loaders/TextureLoader"
+import { AmbientLight } from "three/src/lights/AmbientLight"
+import { DirectionalLight } from "three/src/lights/DirectionalLight"
+import { Object3D } from "three/src/core/Object3D"
 import { usePreferencesStore } from "~/stores/preferences"
-import {
-  Mesh,
-  Color,
-  GridHelper,
-  PlaneGeometry,
-  MeshPhongMaterial,
-  DoubleSide,
-  MeshBasicMaterial,
-  TextureLoader,
-  AmbientLight,
-  DirectionalLight,
-  Object3D,
-} from "@depth/three.js"
 import useResources from "~/composables/useResources"
 import { leafPlane } from "~/3D/goodybag/leaf-plane"
 

@@ -49,7 +49,7 @@
   "[postcss]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "workbench.colorTheme": "Cobalt2",
+  "workbench.colorTheme": "Red",
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }

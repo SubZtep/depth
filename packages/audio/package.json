@@ -10,5 +10,6 @@
   "license": "Unlicense",
   "devDependencies": {
     "vue": "^3.2.20"
-  }
+  },
+  "typedocMain": "src/index.ts"
 }

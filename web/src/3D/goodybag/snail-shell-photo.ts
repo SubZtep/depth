@@ -1,4 +1,6 @@
-import { Group, GLTFLoader, DRACOLoader } from "@depth/three.js"
+import { Group } from "three/src/objects/Group"
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
 
 export default function (): Promise<Group> {
   const { start, done, progress } = useNProgress()

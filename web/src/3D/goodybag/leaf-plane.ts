@@ -1,13 +1,9 @@
-import {
-  DDSLoader,
-  CubeReflectionMapping,
-  DoubleSide,
-  LinearFilter,
-  PlaneGeometry,
-  MeshBasicMaterial,
-  MeshLambertMaterial,
-  Mesh,
-} from "@depth/three.js"
+import { DDSLoader } from "three/examples/jsm/loaders/DDSLoader"
+import { CubeReflectionMapping, DoubleSide, LinearFilter } from "three/src/constants"
+import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
+import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
+import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial"
+import { Mesh } from "three/src/objects/Mesh"
 
 async function loadLeafMaterial(): Promise<MeshBasicMaterial> {
   return new Promise((resolve, reject) => {

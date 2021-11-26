@@ -3,7 +3,8 @@ img(:src="source")
 </template>
 
 <script lang="ts" setup>
-import type { FFmpeg } from "@ffmpeg/ffmpeg"
+// import type { FFmpeg } from "@ffmpeg/ffmpeg"
+type FFmpeg = any
 
 const properties = defineProps<{ file: string; fs: FFmpeg["FS"] }>()
 

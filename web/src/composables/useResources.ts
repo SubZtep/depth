@@ -1,5 +1,5 @@
 import { useSingleton } from "@depth/misc"
-import type { Object3D } from "@depth/three.js"
+import type { Object3D } from "three/src/core/Object3D"
 import Resources from "~/3D/resources"
 
 export const resources = new Resources()

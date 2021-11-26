@@ -1,11 +1,12 @@
 import "vue-router"
+import type { Vector3Tuple } from "three/src/math/Vector3"
 
 declare module "vue-router" {
   interface RouteMeta {
     /** Camera position */
-    position?: THREE.Vector3Tuple
+    position?: Vector3Tuple
     /** Camera rotation */
-    lookAt?: THREE.Vector3Tuple
+    lookAt?: Vector3Tuple
     /** Menu order if defined, otherwise not in the menu. */
     order?: number
   }

@@ -1,7 +1,8 @@
 import type CameraControls from "camera-controls"
 import { useIdle, whenever } from "@vueuse/core"
 import { CameraShake } from "./camerashake"
-import { Box3, Vector3 } from "three"
+import { Vector3 } from "three/src/math/Vector3"
+import { Box3 } from "three/src/math/Box3"
 
 export type CameraBoundary = "Full" | "Simple" | "Off" | "Zero"
 const boundaryBox = new Box3(new Vector3(-100, 2, -100), new Vector3(100, 2, 100))

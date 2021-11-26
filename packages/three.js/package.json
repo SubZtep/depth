@@ -11,12 +11,13 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@vueuse/core": "^7.1.1",
+    "@vueuse/core": "^7.1.2",
     "camera-controls": "^1.33.1",
-    "three": "^0.134.0",
+    "three": "^0.135.0",
     "vue": "^3.2.20"
   },
   "devDependencies": {
     "@types/three": "^0.134.0"
-  }
+  },
+  "typedocMain": "src/index.ts"
 }

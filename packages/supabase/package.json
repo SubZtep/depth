@@ -9,11 +9,12 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@supabase/supabase-js": "^1.28.1",
-    "@vueuse/core": "^7.1.1"
+    "@supabase/supabase-js": "^1.28.2",
+    "@vueuse/core": "^7.1.2"
   },
   "devDependencies": {
     "pinia": "^2.0.4",
     "vue": "^3.2.20"
-  }
+  },
+  "typedocMain": "src/index.ts"
 }

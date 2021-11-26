@@ -1,5 +1,7 @@
-import type { SupabaseClient } from "@depth/supabase"
-import type { Results } from "@depth/mediapipe"
+// import type { SupabaseClient } from "@depth/supabase"
+// import type { Results } from "@depth/mediapipe"
+type SupabaseClient = any
+type Results = any
 
 type Logger = any
 

@@ -1,7 +1,9 @@
 import { PhysicalWorld } from "./PhysicalWorld"
 import { ColliderDesc, RigidBody, RigidBodyDesc } from "@dimforge/rapier3d-compat"
-import { exec3D, loop3D, Object3D, Quaternion } from "@depth/three.js"
+import { exec3D, loop3D } from "@depth/three.js"
 import { fixedValues } from "@depth/misc"
+import type { Object3D } from "three/src/core/Object3D"
+import { Quaternion } from "three/src/math/Quaternion"
 
 export class PhysicalBody extends PhysicalWorld {
   rigidBody: RigidBody

@@ -1,6 +1,7 @@
-type PropType<T> = import("@vue/runtime-core").PropType<T>
-type Ref<T = any> = import("@vue/reactivity").Ref
+type PropType<T> = import("vue").PropType<T>
+type Ref<T = any> = import("vue").Ref
 type Fn = import("@VueUse/core").Fn
+type MaybeRef<T> = import("@VueUse/core").MaybeRef
 
 // type Mesh = import("three").Mesh
 // type SphereGeometry = import("three").SphereGeometry
@@ -16,3 +17,13 @@ type KeypointMesh = Mesh<SphereGeometry | ConeGeometry, Material>
 
 type Vector = import("@dimforge/rapier3d-compat").Vector
 type Rotation = import("@dimforge/rapier3d-compat").Rotation
+
+/** From MediaPipe */
+interface Landmark {
+  x: number
+  y: number
+  z: number
+  visibility?: number
+}
+
+type LandmarkList = Landmark[]

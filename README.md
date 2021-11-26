@@ -108,10 +108,23 @@ server {
 3. https://github.com/CesiumGS/gltf-pipeline \
    `$ gltf-pipeline -i scene.gltf -o scene.glb -t -d`
 
-#### May check
+
+## Various links for fictive features
+
+> #### May check
+
+### Optimizations
 
 - [ ] https://github.com/zeux/meshoptimizer
 - [ ] https://www.khronos.org/blog/google-and-binomial-contribute-basis-universal-texture-format-to-khronos-gltf-3d-transmission-open-standard
+
+### 3D Object editor
+
+- [ ] https://github.com/donmccurdy/glTF-Transform
+
+### Real-time code (shadeder) editor
+
+- [ ] https://github.com/egoist/vue-monaco
 
 ###### :trollface:
 

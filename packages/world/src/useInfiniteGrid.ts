@@ -1,9 +1,10 @@
-import { onScopeDispose, effectScope, toRefs, reactive } from "@vue/reactivity"
-import { watch } from "@vue/runtime-core"
+import { onScopeDispose, effectScope, toRefs, reactive } from "vue"
+import { watch } from "vue"
 import { useSingleton } from "@depth/misc"
-import { exec3D, Color } from "@depth/three.js"
+import { exec3D } from "@depth/three.js"
 import type { InfiniteGridParameters } from "./infiniteGrid"
 import { infiniteGrid } from "./infiniteGrid"
+import { Color } from "three/src/math/Color"
 
 export function useInfiniteGrid(parameters: Partial<InfiniteGridParameters> = {}) {
   const { singleton } = useSingleton()

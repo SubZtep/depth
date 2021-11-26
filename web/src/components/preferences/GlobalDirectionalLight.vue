@@ -4,8 +4,9 @@ Title Directional light
 
 <script lang="ts" setup>
 import { addGuiFolder, ColorGUIHelper, makeXYZGUI } from "@depth/dat.gui"
-import { exec3D, DirectionalLightHelper } from "@depth/three.js"
-import type { DirectionalLight } from "@depth/three.js"
+import { exec3D } from "@depth/three.js"
+import type { DirectionalLight } from "three/src/lights/DirectionalLight"
+import { DirectionalLightHelper } from "three/src/helpers/DirectionalLightHelper"
 import useResources from "~/composables/useResources"
 import useSceneHelper from "~/composables/useSceneHelper"
 

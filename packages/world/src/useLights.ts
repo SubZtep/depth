@@ -1,4 +1,5 @@
-import { AmbientLight, DirectionalLight } from "@depth/three.js"
+import { AmbientLight } from "three/src/lights/AmbientLight"
+import { DirectionalLight } from "three/src/lights/DirectionalLight"
 
 export function useLights() {
   const ambientLight = new AmbientLight(0x00ff00, 0.2)

@@ -1,11 +1,10 @@
 import type { SelectOptions } from "@depth/dat.gui"
-import type { Landmark, NormalizedLandmark } from "../../public/libs/pose"
 
 export function arrayToObject<T>(array: T[], key: string): Record<string, T> {
   return Object.fromEntries(array.map(b => [b[key], b]))
 }
 
-export function flipHorizontal(keypoint: NormalizedLandmark): NormalizedLandmark {
+export function flipHorizontal(keypoint: Landmark): Landmark {
   return { ...keypoint, y: 1 - keypoint.y }
 }
 

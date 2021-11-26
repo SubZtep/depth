@@ -1,4 +1,7 @@
-import { BoxGeometry, MeshBasicMaterial, Mesh } from "@depth/three.js"
+import { BoxGeometry } from "three/src/geometries/BoxGeometry"
+import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
+import { Mesh } from "three/src/objects/Mesh"
+
 import useObjectPool from "~/composables/useObjectPool"
 
 export default defineComponent({

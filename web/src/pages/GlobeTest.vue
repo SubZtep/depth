@@ -9,7 +9,7 @@ ThreeGlobe(
 <script lang="ts" setup>
 import { reactive } from "vue"
 import { addGuiFolder } from "@depth/dat.gui"
-import type { Vector3Tuple } from "@depth/three.js"
+import type { Vector3Tuple } from "three/src/math/Vector3"
 import { capitalize, kebabToTitle } from "@depth/misc"
 import { surfaces, terrains } from "../3D/ThreeGlobe"
 import { toSelectOptions } from "../misc/transformers"

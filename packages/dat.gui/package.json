@@ -11,11 +11,12 @@
   "license": "Unlicense",
   "dependencies": {
     "@depth/misc": "workspace:*",
-    "@vueuse/core": "^7.1.1",
+    "@vueuse/core": "^7.1.2",
     "dat.gui": "^0.7.7",
     "vue": "^3.2.20"
   },
   "devDependencies": {
     "@types/dat.gui": "^0.7.7"
-  }
+  },
+  "typedocMain": "src/index.ts"
 }

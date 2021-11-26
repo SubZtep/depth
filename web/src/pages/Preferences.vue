@@ -18,7 +18,7 @@ onMounted(() => threeJs.trigger({ cmd: "RenderFrames", param: "All" }))
 const preferences = usePreferencesStore()
 const threeJs = useThreeJSEventHook()
 
-const ball = keypointFactory({ color: "red" })
+const ball = keypointFactory({ color: 0xff0000 })
 ball.position.set(0, 1.6, 0)
 ball.scale.set(15, 15, 15)
 exec3D(({ scene }) => scene.add(ball))

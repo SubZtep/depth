@@ -1,6 +1,5 @@
 import { defineStore, StoreDefinition } from "pinia"
 import { useSupabase } from "@depth/supabase"
-import type { Results } from "@depth/mediapipe"
 import DatabaseQueries from "../misc/dbqueries"
 
 export const useVideoStore: StoreDefinition = defineStore("video", {
@@ -72,7 +71,7 @@ export const useVideoStore: StoreDefinition = defineStore("video", {
       this.poses = poses
     },
 
-    async addPose(ts: number, results: Results) {
+    async addPose(ts: number, results: any) {
       if (!this.id) throw new Error("Unable to set poses without video id")
       const { supabase } = useSupabase()
       const database = new DatabaseQueries(supabase, console)

@@ -6,15 +6,15 @@ video.video-border.max-h-300px(
   @loadedmetadata="videoLoaded"
   muted)
   source(
-    v-if="properties.src"
+    v-if="props.src"
     @error="loadError"
-    :src="`${properties.src}\#t=0.1`")
+    :src="`${props.src}\#t=0.1`")
 </template>
 
 <script lang="ts" setup>
 const toast = useToast()
 
-const properties = defineProps<{ src: string }>()
+const props = defineProps<{ src: string }>()
 
 const emit = defineEmits<{
   (e: "mounted", el: HTMLVideoElement): void
@@ -30,7 +30,7 @@ onMounted(() => {
 })
 
 watch(
-  () => properties.src,
+  () => props.src,
   () => {
     const element = get(videoReference)
     if (!element) return
@@ -42,7 +42,7 @@ watch(
 
 const videoLoaded: any = async ({ target }: VideoElementEvent) => {
   emit("loaded", {
-    src: properties.src,
+    src: props.src,
     duration: target.duration,
     width: target.videoWidth,
     height: target.videoHeight,
@@ -50,7 +50,7 @@ const videoLoaded: any = async ({ target }: VideoElementEvent) => {
 }
 
 const loadError = (event: Event) => {
-  toast.error(`Load video error ${properties.src}`)
-  emit("error", properties.src, event)
+  toast.error(`Load video error ${props.src}`)
+  emit("error", props.src, event)
 }
 </script>

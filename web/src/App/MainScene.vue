@@ -8,11 +8,12 @@ router-view(v-slot="{ Component }")
 <script lang="ts" setup>
 import { useGui } from "@depth/dat.gui"
 import { useStats } from "@depth/stats.js"
-import { loop3D, exec3D, setupBoundaries, Color } from "@depth/three.js"
+import { loop3D, exec3D, setupBoundaries } from "@depth/three.js"
 import { useSkybox, useInfiniteGrid, useLights } from "@depth/world"
 import { usePreferencesStore } from "~/stores/preferences"
 import { useEnvironmentStore } from "~/stores/environment"
 import useSystemRequirements from "~/composables/useSystemRequirements"
+import { Color } from "three/src/math/Color"
 
 useGui().show()
 useSystemRequirements()

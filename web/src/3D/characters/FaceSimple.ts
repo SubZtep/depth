@@ -2,11 +2,11 @@ import { exec3D, camera } from "@depth/three.js"
 import type { Ref } from "vue"
 import useObjectPool from "~/composables/useObjectPool"
 import { whenever } from "@vueuse/core"
-import { Group } from "@depth/three.js"
-import { BoxGeometry } from "@depth/three.js"
-import { MeshBasicMaterial } from "@depth/three.js"
-import { Mesh } from "@depth/three.js"
-import { Vector3 } from "@depth/three.js"
+import { Group } from "three/src/objects/Group"
+import { BoxGeometry } from "three/src/geometries/BoxGeometry"
+import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
+import { Mesh } from "three/src/objects/Mesh"
+import { Vector3 } from "three/src/math/Vector3"
 
 // type Res = FaceMeshResults["multiFaceLandmarks"]
 

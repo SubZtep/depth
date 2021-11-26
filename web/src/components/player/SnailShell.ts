@@ -1,10 +1,13 @@
-import { Object3D, Vector3, loop3D, Quaternion } from "@depth/three.js"
+import { loop3D } from "@depth/three.js"
 import getSnailShell from "~/3D/goodybag/snail-shell-photo"
 import { PhysicalBody } from "~/3D/entities/PhysicalBody"
 import useSceneHelper from "~/composables/useSceneHelper"
 import useResources from "~/composables/useResources"
 import { usePlayerStore } from "~/stores/player"
 import { useThrottleFn } from "@vueuse/core"
+import { Object3D } from "three/src/core/Object3D"
+import { Vector3 } from "three/src/math/Vector3"
+import { Quaternion } from "three/src/math/Quaternion"
 
 export default defineComponent({
   props: {

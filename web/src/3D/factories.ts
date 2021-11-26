@@ -1,5 +1,10 @@
-import { BufferGeometry, SphereGeometry, LineBasicMaterial, MeshPhongMaterial, Line, Mesh } from "@depth/three.js"
-import type { ColorRepresentation } from "@depth/three.js"
+import { BufferGeometry } from "three/src/core/BufferGeometry"
+import { SphereGeometry } from "three/src/geometries/SphereGeometry"
+import { LineBasicMaterial } from "three/src/materials/LineBasicMaterial"
+import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
+import { Line } from "three/src/objects/Line"
+import { Mesh } from "three/src/objects/Mesh"
+export type { ColorRepresentation } from "three/src/utils"
 
 interface KeypointFactoryOptions {
   name?: string

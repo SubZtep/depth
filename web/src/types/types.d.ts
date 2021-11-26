@@ -15,13 +15,3 @@ interface Logger {
 //   created_at: string
 //   updated_at: string
 // }
-
-/** From MediaPipe */
-interface Landmark {
-  x: number
-  y: number
-  z: number
-  visibility?: number
-}
-
-type LandmarkList = Landmark[]

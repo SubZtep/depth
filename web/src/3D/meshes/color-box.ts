@@ -1,4 +1,7 @@
-import { Object3D, BoxGeometry, MeshLambertMaterial, Mesh } from "@depth/three.js"
+import { Object3D } from "three/src/core/Object3D"
+import { BoxGeometry } from "three/src/geometries/BoxGeometry"
+import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial"
+import { Mesh } from "three/src/objects/Mesh"
 
 interface Parameters {
   edge: number

@@ -1,9 +1,9 @@
 import type CameraControls from "camera-controls"
-import * as THREE from "three"
+import { Vector3 } from "three/src/math/Vector3"
 
 const ONE_SECOND = 1000
 const FPS = 60
-const _vec3b = new THREE.Vector3()
+const _vec3b = new Vector3()
 
 export class CameraShake {
   _cameraControls: CameraControls

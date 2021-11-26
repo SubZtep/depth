@@ -3,7 +3,7 @@ import type CameraControls from "camera-controls"
 import type { RenderFramesParam } from "./events"
 import type { Fn } from "@vueuse/core"
 import { get, tryOnBeforeUnmount, whenever } from "@vueuse/core"
-import { Clock } from "three"
+import { Clock } from "three/src/core/Clock"
 
 interface RenderLoopProps {
   renderer: THREE.WebGLRenderer

@@ -1,6 +1,9 @@
-import type { RealtimeSubscription, SupabaseRealtimePayload } from "@depth/supabase"
+// import type { RealtimeSubscription, SupabaseRealtimePayload } from "@depth/supabase"
 import { useSupabase } from "@depth/supabase"
 import { usePlayerStore } from "~/stores/player"
+
+type RealtimeSubscription = any
+type SupabaseRealtimePayload<T> = any
 
 function onMetaSnail(playerStore: ReturnType<typeof usePlayerStore>, metaSnails: MetaSnail[]) {
   return (payload: SupabaseRealtimePayload<MetaSnail>) => {

@@ -2,7 +2,12 @@ import type { GpuBuffer } from "../../../public/libs/pose"
 import { get, useCssVar } from "@vueuse/core"
 import { defineComponent, onBeforeUnmount, watch } from "vue"
 
-import { CanvasTexture, MeshBasicMaterial, DoubleSide, PlaneBufferGeometry, Mesh } from "@depth/three.js"
+import { CanvasTexture } from "three/src/textures/CanvasTexture"
+import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
+import { DoubleSide } from "three/src/constants"
+import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
+import { Mesh } from "three/src/objects/Mesh"
+
 // import { singleFns, loopFns } from "@depth/three.js"
 // import type { loopFn } from "@depth/three.js"
 
@@ -23,7 +28,7 @@ export default defineComponent({
       map: canvasTexture,
     })
 
-    const playerGeometry = new PlaneBufferGeometry(1, 1)
+    const playerGeometry = new PlaneGeometry(1, 1)
     const player = new Mesh(playerGeometry, videoMaterial)
     const aspectRatio = useCssVar("--video-aspect-ratio")
 

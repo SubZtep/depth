@@ -1,5 +1,11 @@
 import useSceneHelper from "~/composables/useSceneHelper"
-import { Mesh, Color, Vector3, Object3D, TorusKnotGeometry, MeshPhongMaterial, loop3D } from "@depth/three.js"
+import { loop3D } from "@depth/three.js"
+import { Mesh } from "three/src/objects/Mesh"
+import { Color } from "three/src/math/Color"
+import { Vector3 } from "three/src/math/Vector3"
+import { Object3D } from "three/src/core/Object3D"
+import { TorusKnotGeometry } from "three/src/geometries/TorusKnotGeometry"
+import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
 
 function metaSnailFactory(color: number) {
   const geometry = new TorusKnotGeometry(0.12, 0.08, 24, 5, 4, 1)

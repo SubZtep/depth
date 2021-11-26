@@ -1,5 +1,9 @@
 // Based on: Fyrestar https://mevedia.com (https://github.com/Fyrestar/THREE.InfiniteGridHelper)
-import { DoubleSide, GLSL3, PlaneBufferGeometry, ShaderMaterial, Color, Mesh } from "@depth/three.js"
+import { DoubleSide, GLSL3 } from "three/src/constants"
+import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
+import { ShaderMaterial } from "three/src/materials/ShaderMaterial"
+import { Color } from "three/src/math/Color"
+import { Mesh } from "three/src/objects/Mesh"
 
 const vertexShader = `
 uniform float uDistance;
@@ -42,7 +46,7 @@ export interface InfiniteGridParameters {
 }
 
 export function infiniteGrid(parameters: InfiniteGridParameters) {
-  const geometry = new PlaneBufferGeometry(2, 2, 1, 1)
+  const geometry = new PlaneGeometry(2, 2, 1, 1)
   const material = new ShaderMaterial({
     glslVersion: GLSL3,
     side: DoubleSide,

@@ -14,5 +14,6 @@
   },
   "devDependencies": {
     "@types/stats.js": "^0.17.0"
-  }
+  },
+  "typedocMain": "src/index.ts"
 }

@@ -4,7 +4,7 @@ Title Ambient light
 
 <script lang="ts" setup>
 import { addGuiFolder, ColorGUIHelper } from "@depth/dat.gui"
-import type { AmbientLight } from "@depth/three.js"
+import type { AmbientLight } from "three/src/lights/AmbientLight"
 import { usePreferencesStore } from "~/stores/preferences"
 import useResources from "~/composables/useResources"
 
