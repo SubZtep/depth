@@ -174,6 +174,7 @@ importers:
       '@vue/compiler-sfc': ^3.2.22
       '@vue/reactivity': ^3.2.22
       '@vue/runtime-core': ^3.2.22
+      '@vueuse/components': ^7.1.1
       '@vueuse/core': ^7.1.1
       '@vueuse/integrations': ^7.1.1
       '@vueuse/shared': ^7.1.1
@@ -208,6 +209,7 @@ importers:
       '@depth/world': link:../packages/world
       '@dimforge/rapier3d-compat': 0.7.6
       '@vue/runtime-core': 3.2.23
+      '@vueuse/components': 7.1.1_vue@3.2.23
       '@vueuse/core': 7.1.1_vue@3.2.23
       '@vueuse/integrations': 7.1.1_vue@3.2.23
       '@vueuse/shared': 7.1.1_vue@3.2.23
@@ -2221,6 +2223,17 @@ packages:
     peerDependencies:
       vue: ^3.0.1
     dev: true
+
+  /@vueuse/components/7.1.1_vue@3.2.23:
+    resolution: {integrity: sha512-WdkYV8TpEYLvh+s5ILqugjkOyqegAzElmWVg7iGaz8gy6QYQVOMvL3zi8S9EXmU98KbMNoUomZBbY05cxB4DSQ==}
+    dependencies:
+      '@vueuse/core': 7.1.1_vue@3.2.23
+      '@vueuse/shared': 7.1.1_vue@3.2.23
+      vue-demi: 0.12.1_vue@3.2.23
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: false
 
   /@vueuse/core/7.1.1:
     resolution: {integrity: sha512-c1t2uKGARqibJxYBGWsrCF/McDsTXayONBDgDWBpbEjiRX4M1MOHYsWI3Lici4MK6C6XPX2XhUs2vJbKjYPTRw==}

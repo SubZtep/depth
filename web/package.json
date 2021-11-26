@@ -25,6 +25,7 @@
     "@depth/world": "workspace:*",
     "@dimforge/rapier3d-compat": "^0.7.6",
     "@vue/runtime-core": "^3.2.22",
+    "@vueuse/components": "^7.1.1",
     "@vueuse/core": "^7.1.1",
     "@vueuse/integrations": "^7.1.1",
     "@vueuse/shared": "^7.1.1",

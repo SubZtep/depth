@@ -1,5 +1,5 @@
 .Stats {
-  @apply origin-top-right top-0 sm:origin-bottom-right sm:bottom-0 right-0 fixed;
+  @apply origin-top-right <sm:top-0 sm:origin-bottom-right sm:bottom-0 right-0 fixed;
   transition-duration: 80ms;
   cursor: zoom-in;
 }

@@ -1,18 +1,18 @@
 <template lang="pug">
-video.video-border.flip-x(
-  ref="videoReference"
-  v-visible="state.showVideoTag"
-  poster="/textures/no-video.png"
-  :width="width"
-  :height="height"
-  autoplay
-  muted)
+div(:class="$style.frame" v-visible="state.showVideoTag" ref="frame")
+  video.flip-x(
+    ref="videoReference"
+    v-visible="state.showVideoTag"
+    poster="/textures/no-video.png"
+    :width="width"
+    :height="height"
+    autoplay
+    muted)
 </template>
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
 import { normalizeDeviceLabel } from "@depth/misc"
-import type { Ref } from "vue"
 
 const videoReference = ref() as Ref<HTMLVideoElement>
 
@@ -25,6 +25,18 @@ const emit = defineEmits<{
   (e: "mounted", el: HTMLVideoElement): void
   (e: "streaming", isStreaming: boolean): void
 }>()
+
+const width = ref(640)
+const height = ref(480)
+
+const frame = ref()
+const maxWidth = useCssVar("--max-width", frame)
+const aspectRatio = useCssVar("--aspect-ratio", frame)
+
+watchEffect(() => {
+  set(maxWidth, `${get(width)}px`)
+  set(aspectRatio, `${get(width)}/${get(height)}`)
+})
 
 onMounted(() => {
   emit("mounted", get(videoReference)!)
@@ -40,8 +52,6 @@ const { videoInputs } = useDevicesList({ requestPermissions: true, constraints: 
 const { enabled: stateEnabled, videoDeviceId } = toRefs(state)
 const { stream, enabled } = useUserMedia({ audioDeviceId: false, videoDeviceId })
 
-const width = ref(640)
-const height = ref(480)
 
 biSyncRef(stateEnabled, enabled)
 
@@ -74,3 +84,12 @@ addGuiFolder(folder => {
   if (props.folderClosed) folder.close()
 })
 </script>
+
+<style module>
+.frame {
+  @apply video-border resize-x inline-block overflow-hidden;
+  max-width: var(--max-width);
+  aspect-ratio: var(--aspect-ratio);
+  height: auto;
+}
+</style>

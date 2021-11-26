@@ -23,7 +23,6 @@ const { setVideoElement, t } = useHands({
     if (result.multiHandLandmarks.length > 0) {
       set(landmarks, result.multiHandLandmarks[0])
     }
-    console.log(result)
   },
 })
 </script>
