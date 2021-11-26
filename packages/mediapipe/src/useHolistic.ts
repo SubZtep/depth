@@ -1,11 +1,10 @@
-// import typ{ HolisticConfig } from "@mediapipe/holistic"
-import type { Ref } from "@vue/reactivity"
+import type { Ref } from "vue"
 import type { HolisticConfig, Options, ResultsListener } from "@mediapipe/holistic"
-import { watch } from "@vue/runtime-core"
 import { Holistic } from "@mediapipe/holistic"
-import { MaybeRef, unrefElement } from "@vueuse/core"
+import type { MaybeRef } from "@vueuse/core"
+import { useBaseMediaPipe } from "./useBaseMediaPipe"
 
-const options: Options = {
+const baseOptions: Options = {
   // modelComplexity: 1,
   // // smoothLandmarks: true,
   // // enableSegmentation: true,
@@ -39,33 +38,14 @@ interface HolisticOptions {
 
   /** Is camera feed active? */
   streaming: Ref<boolean>
+
+  options?: Options
 }
 
-export function useHolistic({ video, handler, streaming }: HolisticOptions) {
-  const holistic = isDev ? new Holistic(config) : new globalThis.Holistic(config)
-  holistic.setOptions(options)
+export function useHolistic({ video, handler, streaming, options }: HolisticOptions) {
+  const holistic: Holistic = isDev ? new Holistic(config) : new globalThis.Holistic(config)
+  holistic.setOptions(Object.assign(baseOptions, options))
   holistic.onResults(handler)
 
-  // const image = unrefElement(video) as HTMLVideoElement
-  let image: HTMLVideoElement
-
-  const setVideoElement = (el: MaybeRef<HTMLVideoElement>) => {
-    image = unrefElement(el) as HTMLVideoElement
-  }
-
-  if (video) {
-    setVideoElement(video)
-    // image = unrefElement(video) as HTMLVideoElement
-  }
-
-  watch(streaming, active => {
-    if (active) {
-      // holistic.startVideo(el)
-      holistic.send({ image })
-    }
-  })
-
-  return {
-    setVideoElement,
-  }
+  return useBaseMediaPipe({ solution: holistic, video, streaming })
 }

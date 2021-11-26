@@ -12,8 +12,10 @@ import { loop3D, exec3D, setupBoundaries, Color } from "@depth/three.js"
 import { useSkybox, useInfiniteGrid, useLights } from "@depth/world"
 import { usePreferencesStore } from "~/stores/preferences"
 import { useEnvironmentStore } from "~/stores/environment"
+import useSystemRequirements from "~/composables/useSystemRequirements"
 
 useGui().show()
+useSystemRequirements()
 
 const stats = useStats()
 

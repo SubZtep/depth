@@ -2,8 +2,7 @@ import type { MaybeRef } from "@vueuse/core"
 import { set, tryOnUnmounted, unrefElement, tryOnMounted } from "@vueuse/core"
 import type { ResultsListener, Results, Options, PoseConfig } from "@mediapipe/pose"
 import { Pose } from "@mediapipe/pose"
-import { isRef, watch } from "@vue/runtime-core"
-import { reactive, ref } from "@vue/reactivity"
+import { isRef, watch, reactive, ref } from "vue"
 // import { Stats, useStats } from "@depth/stats.js"
 
 interface MediapipePoseOptions {

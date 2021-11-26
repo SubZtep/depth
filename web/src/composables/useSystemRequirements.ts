@@ -9,38 +9,32 @@ function hasWebGL2() {
 }
 
 export default function useSystemRequirements() {
-  const errors: string[] = []
-  const warnings: string[] = []
   const parser = new UAParser()
+  const toast = useToast()
 
   if (!hasWebGL2()) {
-    errors.push("Without WebGL2 the app runs with unpredictable behaviours.")
+    toast.error("Without WebGL2 the app runs with unpredictable behaviours.")
   }
 
   if (globalThis.SharedArrayBuffer === undefined) {
-    warnings.push("`SharedArrayBuffer` is not available, there may be some issues with WebAssambly scripts.")
+    toast.warning("`SharedArrayBuffer` is not available, there may be some issues with WebAssambly scripts.")
   }
 
   if (parser.getEngine().name !== "Blink") {
-    warnings.push("Your browser is not Chromium, there may be some issues with face detection.")
+    toast.warning("Your browser is not Chromium, there may be some issues with camera poser.")
   }
 
   if (parser.getDevice().type) {
-    warnings.push(
-      `The pages are mostly optimized for desktop browsers, there may be some issues on ${
+    toast.warning(
+      `The pages are mostly optimized for desktop browsers and DOWNLOAD BIG ML models, there may be some issues on ${
         parser.getDevice().type
       } device.`
     )
   }
 
   if (process.env.NODE_ENV === "production") {
-    warnings.push(
+    toast.warning(
       "Development (in production environment) build — there may be some unoptimized assets and blue screan of death. ☠"
     )
-  }
-
-  return {
-    errors,
-    warnings,
   }
 }

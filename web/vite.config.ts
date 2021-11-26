@@ -90,6 +90,11 @@ export default defineConfig(({ mode, command }) => {
       }),
       WindiCSS(),
       CrossOriginIsolation(),
+      {
+        name: "vite-plugin-build-skip-public-dirs",
+        apply: "build",
+        // TODO: skip public/libs dir
+      }
     ],
     build,
     server: {

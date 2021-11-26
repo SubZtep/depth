@@ -8,16 +8,6 @@ Suspense
 
 <script lang="ts" setup>
 // import { onVisibility } from "../events"
-import useSystemRequirements from "~/composables/useSystemRequirements"
-const toast = useToast()
-const { errors, warnings } = useSystemRequirements()
-
-for (const message of errors) {
-  toast.error(message)
-}
-for (const message of warnings) {
-  toast.warning(message)
-}
 
 // onVisibility(({ visible, since }) => {
 //   if (visible) {
