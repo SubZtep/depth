@@ -16,7 +16,10 @@ import type { Ref } from "vue"
 
 const videoReference = ref() as Ref<HTMLVideoElement>
 
-const properties = defineProps<{ enabled?: boolean }>()
+const props = defineProps<{
+  enabled?: boolean
+  folderClosed?: boolean
+}>()
 
 const emit = defineEmits<{
   (e: "mounted", el: HTMLVideoElement): void
@@ -30,7 +33,7 @@ onMounted(() => {
 const state = reactive({
   showVideoTag: false,
   videoDeviceId: "",
-  enabled: !!properties.enabled,
+  enabled: !!props.enabled,
 })
 
 const { videoInputs } = useDevicesList({ requestPermissions: true, constraints: { audio: false, video: true } })
@@ -68,6 +71,6 @@ addGuiFolder(folder => {
   folder.add(state, "videoDeviceId", cameras).name("Device")
   folder.add(state, "enabled").name("Camera is ON")
   folder.add(state, "showVideoTag").name("Show video tag")
-  // folder.close()
+  if (props.folderClosed) folder.close()
 })
 </script>

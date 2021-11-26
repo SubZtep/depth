@@ -12,7 +12,7 @@ StickmanSimple(
 import { addGuiFolder } from "@depth/dat.gui"
 
 const properties = defineProps<{
-  pose?: NormalizedLandmarkList
+  pose?: LandmarkList
   position: [number, number, number]
 }>()
 

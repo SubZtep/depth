@@ -1,4 +1,3 @@
-import type { FaceMeshResults } from "@depth/mediapipe"
 import { exec3D, camera } from "@depth/three.js"
 import type { Ref } from "vue"
 import useObjectPool from "~/composables/useObjectPool"
@@ -13,7 +12,7 @@ import { Vector3 } from "@depth/three.js"
 
 export default defineComponent({
   props: {
-    landmarks: { type: Object as PropType<FaceMeshResults["multiFaceLandmarks"]>, required: false },
+    landmarks: { type: Object as PropType<LandmarkList>, required: false },
     // landmarks: { type: Object as PropType<Res>, required: false },
     cssVarsTarget: { type: Object as PropType<HTMLElement>, required: false },
   },
@@ -42,10 +41,12 @@ export default defineComponent({
     let x: number, y: number
     watch(
       () => properties.landmarks,
-      (landmarks: FaceMeshResults["multiFaceLandmarks"]) => {
+      (landmarks?: LandmarkList) => {
         if (!landmarks || landmarks.length === 0) return
 
-        for (const [index, landmark] of Object.entries(landmarks[0])) {
+        let index: string
+        let landmark: Landmark
+        for ([index, landmark] of Object.entries(landmarks[0])) {
           const object3d = pool.getByIndex(+index)
           object3d.position.set(landmark.x * 10 - 5, landmark.y * -10 + 11, landmark.z * -10)
 

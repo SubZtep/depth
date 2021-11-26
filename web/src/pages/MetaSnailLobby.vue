@@ -22,6 +22,8 @@ SnailShell(
 ValidateHappinessToast(v-slot="{ uuid }")
   p Are you happy to store Your snail data in local storage and make it public?
   p Your ID will be: {{ uuid }}
+
+component(v-if="dynamicComponent" :is="dynamicComponent")
 </template>
 
 <script lang="ts" setup>
@@ -42,9 +44,21 @@ useSceneHelper().addForPage(await leafPlane({ x: 0, y: -0.1, z: 0 }))
 const { metaSnails, playerPosition } = await useMetaSnails()
 const keyboard = useKeyboard()
 
+const dynamicComponent = shallowRef()
+
 addGuiFolder(folder => {
   folder.name = "🐌 Your Snail"
   folder.add(playerStore, "name").name("Name")
   folder.addColor(playerStore, "color").name("Colour")
+  const loadHandButton = folder
+    .add(
+      {
+        btn: () =>
+          import("~/components/player/PlayerHands.vue").then(component => set(dynamicComponent, component.default)),
+      },
+      "btn"
+    )
+    .name("Load Player Hand")
+    .onChange(() => loadHandButton.remove())
 })
 </script>

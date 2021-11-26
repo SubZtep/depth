@@ -9,8 +9,15 @@ import WindiCSS from "vite-plugin-windicss"
 import type { BuildOptions } from "vite"
 
 export default defineConfig(({ mode, command }) => {
+  const manualChunks = {
+    "group-hands": ["./src/components/player/PlayerHands.vue"],
+  }
+
   let build: BuildOptions = {
     sourcemap: true,
+    rollupOptions: {
+      manualChunks,
+    },
   }
 
   if (mode === "production" && command === "build") {
@@ -19,6 +26,7 @@ export default defineConfig(({ mode, command }) => {
       cssCodeSplit: false,
       chunkSizeWarningLimit: 1666,
       rollupOptions: {
+        manualChunks,
         output: {
           sourcemap: false,
           manualChunks(id: string) {
@@ -94,9 +102,9 @@ export default defineConfig(({ mode, command }) => {
         name: "vite-plugin-build-skip-public-dirs",
         apply: "build",
         // TODO: skip public/libs dir
-      }
+      },
     ],
-    build,
+    // build,
     server: {
       fs: {
         allow: [".."],

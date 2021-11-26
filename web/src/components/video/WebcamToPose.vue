@@ -11,7 +11,6 @@ video.video-border.max-h-300px(
 import { addGuiFolder } from "@depth/dat.gui"
 import { normalizeDeviceLabel } from "../../misc/transformers"
 import { useMediapipePose } from "@depth/mediapipe"
-import type { LandmarkList } from "@depth/mediapipe"
 import type { Ref } from "vue"
 
 const videoReference = ref() as Ref<HTMLVideoElement>

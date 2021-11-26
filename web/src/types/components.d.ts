@@ -28,6 +28,8 @@ declare module 'vue' {
     OkayEventToast: typeof import('./../components/toasts/OkayEventToast.vue')['default']
     PhysicalBody: typeof import('./../3D/entities/PhysicalBody.ts')['default']
     PhysicalWorld: typeof import('./../3D/entities/PhysicalWorld.ts')['default']
+    PlayerHand: typeof import('./../3D/characters/PlayerHand.ts')['default']
+    PlayerHands: typeof import('./../components/player/PlayerHands.vue')['default']
     RedSphere: typeof import('./../3D/meshes/red-sphere.ts')['default']
     Resources: typeof import('./../3D/resources.ts')['default']
     SceneDefaults: typeof import('./../3D/sceneDefaults.ts')['default']

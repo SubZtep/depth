@@ -1,4 +1,3 @@
-import type { LandmarkList } from "@depth/mediapipe"
 import { exec3D } from "@depth/three.js"
 import { watch, onBeforeUnmount, onMounted, defineComponent } from "vue"
 import { Vector3 } from "@depth/three.js"

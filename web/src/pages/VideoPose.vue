@@ -12,7 +12,6 @@ Title Video Display Pose
 </template>
 
 <script lang="ts" setup>
-import type { LandmarkList } from "@depth/mediapipe"
 import { exec3D } from "@depth/three.js"
 import { createVsObjects } from "~/3D/sceneDefaults"
 
