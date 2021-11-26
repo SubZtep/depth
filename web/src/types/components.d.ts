@@ -45,7 +45,6 @@ declare module 'vue' {
     ThreeGlobe: typeof import('./../3D/ThreeGlobe.ts')['default']
     Title: typeof import('./../components/ui/Title.vue')['default']
     ValidateHappiness: typeof import('./../components/player/ValidateHappiness.ts')['default']
-    ValidateHappinessToast: typeof import('./../components/player/ValidateHappinessToast.ts')['default']
     VideoPlayer: typeof import('./../components/video/VideoPlayer.vue')['default']
     VideoToPose: typeof import('./../components/video/VideoToPose.vue')['default']
     ViewportView: typeof import('./../components/ViewportView.ts')['default']

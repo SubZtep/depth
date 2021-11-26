@@ -3,10 +3,11 @@ import { sleep, hasDifferences } from "../src/utils"
 describe("utility", () => {
   const t = 69
   it(`should wait for ${t} ms`, async () => {
-    const start = Date.now()
+    const t1 = performance.now()
     await sleep(t)
-    const slept = Date.now() - start - t
-    expect(slept).toBeLessThanOrEqual(18)
+    const t2 = performance.now()
+    const slept = t2 - t1 - t
+    expect(slept).toBeLessThanOrEqual(33)
   })
 })
 

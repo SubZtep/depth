@@ -4,8 +4,8 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "test": "jest"
+    "dev": "tsc -w",
+    "build": "tsc"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",

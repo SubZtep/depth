@@ -99,4 +99,4 @@ delete dat.GUI.prototype.add
 // @ts-ignore
 dat.GUI.prototype.add = add
 
-export { default } from "dat.gui"
+// export { default } from "dat.gui"
