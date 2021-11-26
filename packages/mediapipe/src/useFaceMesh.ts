@@ -1,29 +1,24 @@
-import { ref, Ref } from "vue"
-import type { Options, FaceMeshConfig, Results, ResultsListener } from "@mediapipe/face_mesh"
-import { MaybeRef, unrefElement, useRafFn, tryOnMounted, tryOnBeforeUnmount } from "@vueuse/core"
-import { Stats } from "@depth/stats.js"
+import type { Ref } from "@vue/reactivity"
+import type { Options, FaceMeshConfig, ResultsListener } from "@mediapipe/face_mesh"
+import type { Fn } from "@vueuse/core"
+import { MaybeRef, tryOnBeforeUnmount, unrefElement } from "@vueuse/core"
 import { FaceMesh } from "@mediapipe/face_mesh"
-import { sleep } from "@depth/misc"
-import { watch } from "vue"
-
-export type FaceMeshResultsListener = ResultsListener
-export type FaceMeshResults = Results
+import { loop3D, exec3D } from "@depth/three.js"
+import { ref } from "@vue/reactivity"
+import { watch } from "@vue/runtime-core"
 
 interface FaceMeshOptions {
   /** Video element */
-  video: MaybeRef<HTMLVideoElement | undefined>
+  video?: MaybeRef<HTMLVideoElement>
 
   /** Callback function with the latest detected pose */
-  handler: ResultsListener
+  handler?: ResultsListener
 
   /** Is camera feed active? */
   streaming: Ref<boolean>
-
-  /** Add Stats.js panel */
-  stats?: Stats
 }
 
-const solutionOptions: Options = {
+const options: Options = {
   selfieMode: true,
   enableFaceGeometry: false,
   maxNumFaces: 1,
@@ -32,56 +27,61 @@ const solutionOptions: Options = {
   minTrackingConfidence: 0.5,
 }
 
+const isDev = process.env.NODE_ENV === "development"
+
 const config: FaceMeshConfig = {
-  locateFile: file =>
-    process.env.NODE_ENV === "development"
-      ? `/libs/face_mesh/${file}`
-      : `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`,
+  locateFile: file => (isDev ? `/libs/face_mesh/${file}` : `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`),
 }
 
-export async function useFaceMesh({ video, handler, streaming, stats }: FaceMeshOptions) {
-  let faceMesh: FaceMesh
+export function useFaceMesh({ video, handler, streaming }: FaceMeshOptions) {
+  const faceMesh: FaceMesh = isDev ? new FaceMesh(config) : new globalThis.FaceMesh(config)
+  faceMesh.setOptions(options)
+
+  /** ms per detection */
   const t = ref(0)
 
-  tryOnMounted(async () => {
-    faceMesh = process.env.NODE_ENV === "development" ? new FaceMesh(config) : new globalThis.FaceMesh(config)
-    faceMesh.setOptions(solutionOptions)
-    faceMesh.onResults(handler)
-    await faceMesh.initialize()
-  })
+  let image: HTMLVideoElement
 
-  let statPanel: Stats.Panel
-  if (stats) {
-    statPanel = stats.addPanel(new Stats.Panel("ms/face", "#f9d71c", "#191970"))
+  const setVideoElement = (el: MaybeRef<HTMLVideoElement>) => {
+    image = unrefElement(el) as HTMLVideoElement
   }
 
-  const { pause, resume } = useRafFn(
-    async () => {
-      const t0 = performance.now()
-      await faceMesh.send({ image: unrefElement(video) as HTMLVideoElement })
-      const t1 = performance.now()
-      t.value = t1 - t0
-      statPanel?.update(t.value, 60)
-    },
-    { immediate: false }
-  )
+  const setHandler = (fn: ResultsListener) => {
+    faceMesh.onResults(fn)
+  }
 
-  watch(streaming, async isStreaming => {
-    if (isStreaming) {
-      await sleep(100)
-      resume()
+  if (video) setVideoElement(video)
+  if (handler) setHandler(handler)
+
+  let stop: Fn
+
+  watch(streaming, active => {
+    if (active) {
+      exec3D(async () => {
+        await faceMesh.send({ image })
+        stop = loop3D(
+          async () => {
+            if (image.readyState < 3) return
+            const t0 = performance.now()
+            await faceMesh.send({ image })
+            const t1 = performance.now()
+            t.value = t1 - t0
+          },
+          { inject: "rendered" }
+        )
+      })
     } else {
-      pause()
+      stop?.()
     }
   })
 
-  tryOnBeforeUnmount(() => {
-    if (statPanel) {
-      statPanel.dom.parentElement?.removeChild(statPanel.dom)
-    }
+  tryOnBeforeUnmount(async () => {
+    await faceMesh.close()
   })
 
   return {
+    setVideoElement,
+    setHandler,
     t,
   }
 }

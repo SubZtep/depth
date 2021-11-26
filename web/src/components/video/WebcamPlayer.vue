@@ -47,8 +47,9 @@ const cameras = computed(() =>
 )
 
 watch([videoDeviceId, stream], ([, theStream]) => {
+  /* eslint-disable unicorn/no-null */
   const video = get(videoReference)
-  // eslint-disable-next-line unicorn/no-null
+
   get(videoReference).srcObject = theStream || null
   if (theStream) {
     const { width: w, height: h } = theStream.getVideoTracks()[0].getSettings()
@@ -57,7 +58,6 @@ watch([videoDeviceId, stream], ([, theStream]) => {
     video.srcObject = theStream
     emit("streaming", true)
   } else {
-    // eslint-disable-next-line unicorn/no-null
     video.srcObject = null
     emit("streaming", false)
   }

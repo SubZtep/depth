@@ -9,9 +9,12 @@ import { MeshBasicMaterial } from "@depth/three.js"
 import { Mesh } from "@depth/three.js"
 import { Vector3 } from "@depth/three.js"
 
+// type Res = FaceMeshResults["multiFaceLandmarks"]
+
 export default defineComponent({
   props: {
     landmarks: { type: Object as PropType<FaceMeshResults["multiFaceLandmarks"]>, required: false },
+    // landmarks: { type: Object as PropType<Res>, required: false },
     cssVarsTarget: { type: Object as PropType<HTMLElement>, required: false },
   },
 

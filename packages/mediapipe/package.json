@@ -4,6 +4,7 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
+    "dev": "tsc -w",
     "build": "tsc",
     "postinstall": "sh ../../scripts/mediapipe_public.sh"
   },
@@ -11,10 +12,12 @@
   "license": "Unlicense",
   "dependencies": {
     "@depth/misc": "workspace:*",
-    "@depth/stats.js": "workspace:*",
+    "@depth/three.js": "workspace:*",
     "@mediapipe/face_mesh": "^0.4.1633559619",
+    "@mediapipe/holistic": "^0.5.1635989137",
     "@mediapipe/pose": "^0.5.1635988162",
-    "@vueuse/core": "^7.1.1",
-    "vue": "^3.2.20"
+    "@vue/reactivity": "^3.2.22",
+    "@vue/runtime-core": "^3.2.22",
+    "@vueuse/core": "^7.1.1"
   }
 }

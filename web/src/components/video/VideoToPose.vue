@@ -19,8 +19,8 @@ import { addGuiFolder } from "@depth/dat.gui"
 import { toSelectOptions } from "~/misc/transformers"
 import { useFFmpeg } from "@depth/ffmpeg"
 import { useThreeJSEventHook } from "@depth/three.js"
-import { useMediapipePose } from "@depth/mediapipe"
-import type { LandmarkList } from "@depth/mediapipe"
+// import { useMediapipePose } from "@depth/mediapipe"
+// import type { LandmarkList } from "@depth/mediapipe"
 import { round, compare } from "mathjs"
 import { useVideoStore } from "~/stores/video"
 import { sleep, basename } from "@depth/misc"
@@ -71,56 +71,56 @@ whenever(hasId, async () => {
     gui.show()
   }
 
-  if (!get(hasPoses)) {
-    toast.info("Use pose AI")
-    gui.hide()
-    start()
-    const kf: number[] = toRaw(get(videoStore.keyframes)) as number[]
-    let t: number | undefined
+  // if (!get(hasPoses)) {
+  //   toast.info("Use pose AI")
+  //   gui.hide()
+  //   start()
+  //   const kf: number[] = toRaw(get(videoStore.keyframes)) as number[]
+  //   let t: number | undefined
 
-    const { estimatePose, detectorReady } = useMediapipePose({
-      video: videoReference,
-      options: { modelComplexity: 2 },
-      handler: results => {
-        videoStore.addPose(get(currentTime), results)
-      },
-    })
+  //   const { estimatePose, detectorReady } = useMediapipePose({
+  //     video: videoReference,
+  //     options: { modelComplexity: 2 },
+  //     handler: results => {
+  //       videoStore.addPose(get(currentTime), results)
+  //     },
+  //   })
 
-    const rollKeyframes = async () => {
-      try {
-        await estimatePose(get(currentTime))
-      } catch (error: any) {
-        toast.error(error.message)
-      }
-      t = kf.shift()
-      if (t === undefined) {
-        threeJs.trigger({ cmd: "Resume" })
-        done()
-        gui.show()
-        return
-      }
-      set(currentTime, t)
-    }
+  //   const rollKeyframes = async () => {
+  //     try {
+  //       await estimatePose(get(currentTime))
+  //     } catch (error: any) {
+  //       toast.error(error.message)
+  //     }
+  //     t = kf.shift()
+  //     if (t === undefined) {
+  //       threeJs.trigger({ cmd: "Resume" })
+  //       done()
+  //       gui.show()
+  //       return
+  //     }
+  //     set(currentTime, t)
+  //   }
 
-    useEventListener<VideoElementEvent>(videoReference, "timeupdate", async ({ target: { currentTime: ct } }) => {
-      const isPoseTimeAndVideoTimeReallyDifferent = t && t !== ct && compare(round(t, 3), round(ct, 3)) !== 0
-      if (isPoseTimeAndVideoTimeReallyDifferent) {
-        throw new Error(`Video time update fail [${t} vs ${ct}]`)
-      }
-      await rollKeyframes()
-    })
+  //   useEventListener<VideoElementEvent>(videoReference, "timeupdate", async ({ target: { currentTime: ct } }) => {
+  //     const isPoseTimeAndVideoTimeReallyDifferent = t && t !== ct && compare(round(t, 3), round(ct, 3)) !== 0
+  //     if (isPoseTimeAndVideoTimeReallyDifferent) {
+  //       throw new Error(`Video time update fail [${t} vs ${ct}]`)
+  //     }
+  //     await rollKeyframes()
+  //   })
 
-    whenever(detectorReady, async () => {
-      threeJs.trigger({ cmd: "Pause" })
-      await sleep(50)
-      t = kf.shift()
-      if (t === get(currentTime)) {
-        await rollKeyframes()
-      } else {
-        set(currentTime, t)
-      }
-    })
-  }
+  //   whenever(detectorReady, async () => {
+  //     threeJs.trigger({ cmd: "Pause" })
+  //     await sleep(50)
+  //     t = kf.shift()
+  //     if (t === get(currentTime)) {
+  //       await rollKeyframes()
+  //     } else {
+  //       set(currentTime, t)
+  //     }
+  //   })
+  // }
 })
 
 const videoOptions = ref(toSelectOptions(["/videos/extended_leg_pistol_squats.webm", "/videos/yoga2.webm"], basename))

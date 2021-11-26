@@ -1,6 +1,7 @@
 import type { Ref } from "vue"
 import type CameraControls from "camera-controls"
 import type { RenderFramesParam } from "./events"
+import type { Fn } from "@vueuse/core"
 import { get, tryOnBeforeUnmount, whenever } from "@vueuse/core"
 import { Clock } from "three"
 
@@ -40,22 +41,35 @@ interface Loop3DParams {
 // https://github.com/antfu/unocss/blob/main/packages/core/src/config.ts#L20-L24
 // const loop3DDirty = false
 
+/**
+ *
+ * @param fn
+ * @param params
+ * @returns Stop function for remove `fn` from the loop
+ */
 export const loop3D = (fn: RenderLoopFn, params: Loop3DParams = {}) => {
   const { inject = "camupdated" } = params
 
+  let stop: Fn
+
   if (inject === "rendered") {
     renderedLoopFns.add(fn)
+    stop = () => renderedLoopFns.delete(fn)
   } else {
     loopFns.add(fn)
+    stop = () => loopFns.delete(fn)
   }
 
   tryOnBeforeUnmount(() => {
-    if (inject === "rendered") {
-      renderedLoopFns.delete(fn)
-    } else {
-      loopFns.delete(fn)
-    }
+    stop()
+    // if (inject === "rendered") {
+    //   renderedLoopFns.delete(fn)
+    // } else {
+    //   loopFns.delete(fn)
+    // }
   })
+
+  return stop
 }
 
 //TODO: clear FNss on page umount
@@ -70,7 +84,7 @@ export function useRenderLoop({ renderer, cameraControls, scene, isRunning, rend
     const camUpdated = cameraControls.update(deltaTime)
 
     try {
-      singleFns.forEach(fn => fn({ scene, renderer, cameraControls, clock, deltaTime}))
+      singleFns.forEach(fn => fn({ scene, renderer, cameraControls, clock, deltaTime }))
       singleFns.clear()
       loopFns.forEach(fn => fn({ scene, renderer, cameraControls, clock, deltaTime }))
     } catch (e) {

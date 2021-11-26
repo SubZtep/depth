@@ -7,7 +7,7 @@
     "build": "pnpm recursive run build",
     "wipe": "pnpm recursive exec -- rm -rf node_modules dist coverage tsconfig.tsbuildinfo .pnpm-debug.log",
     "wiper": "sh scripts/wipe_all.sh",
-    "dev": "pnpm recursive run dev",
+    "dev": "pnpm --recursive --parallel dev",
     "web": "pnpm run dev watch --filter @depth/web",
     "serve": "pnpm recursive run serve --filter @depth/web",
     "lint": "eslint .",
