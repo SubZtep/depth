@@ -10,5 +10,6 @@ jobs:
 
   steps:
     - uses: SubZtep/tsdoc-to-wiki-action@v0.1
+      id: wiki-doc
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
