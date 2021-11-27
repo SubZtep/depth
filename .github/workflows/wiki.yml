@@ -1,0 +1,14 @@
+name: TSDoc to wiki
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  tsdoc-to-wiki:
+    runs-on: ubuntu-latest
+
+  steps:
+    - uses: SubZtep/tsdoc-to-wiki-action@v0.1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
