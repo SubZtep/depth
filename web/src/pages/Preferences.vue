@@ -12,6 +12,8 @@ import { usePreferencesStore } from "~/stores/preferences"
 import { keypointFactory } from "~/3D/factories"
 import GlobalAmbientLight from "~/components/preferences/GlobalAmbientLight.vue"
 import GlobalDirectionalLight from "~/components/preferences/GlobalDirectionalLight.vue"
+import { useFullscreen } from "@vueuse/core"
+import { shallowRef } from "vue"
 
 onMounted(() => threeJs.trigger({ cmd: "RenderFrames", param: "All" }))
 

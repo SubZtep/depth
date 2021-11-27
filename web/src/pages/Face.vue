@@ -11,6 +11,8 @@ FaceSimple(:landmarks="landmarks" :css-vars-target="pointsElement")
 import { useStats, Stats } from "@depth/stats.js"
 import { useFaceMesh } from "@depth/mediapipe"
 import { addGuiFolder } from "@depth/dat.gui"
+import WebcamPlayer from "~/components/video/WebcamPlayer.vue"
+import FaceSimple from "~/3D/characters/FaceSimple"
 
 const stats = useStats()
 const statPanel = stats.addPanel(new Stats.Panel("ms/face", "#f9d71c", "#191970"))

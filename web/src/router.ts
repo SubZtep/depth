@@ -36,26 +36,26 @@ const routes: RouteRecordRaw[] = [
   //     order: 5,
   //   },
   // },
-  // {
-  //   path: "/face",
-  //   name: "face",
-  //   component: () => import("./pages/Face.vue"),
-  //   meta: {
-  //     position: [0, camHeight, 8],
-  //     lookAt: [0, 2, 0],
-  //     order: 6,
-  //   },
-  // },
-  // {
-  //   path: "/preferences",
-  //   name: "preferences",
-  //   component: () => import("./pages/Preferences.vue"),
-  //   meta: {
-  //     position: [-3, camHeight, -3],
-  //     lookAt: [0, camHeight, 0],
-  //     order: 100,
-  //   },
-  // },
+  {
+    path: "/face",
+    name: "face",
+    component: () => import("./pages/Face.vue"),
+    meta: {
+      position: [0, camHeight, 8],
+      lookAt: [0, 2, 0],
+      order: 6,
+    },
+  },
+  {
+    path: "/preferences",
+    name: "preferences",
+    component: () => import("./pages/Preferences.vue"),
+    meta: {
+      position: [-3, camHeight, -3],
+      lookAt: [0, camHeight, 0],
+      order: 100,
+    },
+  },
   // {
   //   path: "/testes",
   //   name: "testes",

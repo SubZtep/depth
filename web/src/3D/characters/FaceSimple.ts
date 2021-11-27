@@ -1,20 +1,16 @@
 import { exec3D, camera } from "@depth/three.js"
 import type { Ref } from "vue"
 import useObjectPool from "~/composables/useObjectPool"
-import { whenever } from "@vueuse/core"
+import { useCssVar, whenever } from "@vueuse/core"
 import { Group } from "three/src/objects/Group"
 import { BoxGeometry } from "three/src/geometries/BoxGeometry"
 import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
 import { Mesh } from "three/src/objects/Mesh"
-import { Vector3 } from "three/src/math/Vector3"
 import { object3dTo2d } from "@depth/misc"
-
-// type Res = FaceMeshResults["multiFaceLandmarks"]
 
 export default defineComponent({
   props: {
     landmarks: { type: Object as PropType<LandmarkList>, required: false },
-    // landmarks: { type: Object as PropType<Res>, required: false },
     cssVarsTarget: { type: Object as PropType<HTMLElement>, required: false },
   },
 
@@ -23,7 +19,7 @@ export default defineComponent({
     exec3D(({ scene }) => scene.add(root))
 
     const geometry = new BoxGeometry(0.08, 0.08, 0.08)
-    const material = new MeshBasicMaterial({ color: 0xcc_cc_22 })
+    const material = new MeshBasicMaterial({ color: 0xcccc22 })
     const pool = useObjectPool({ modelType: "face", creator: () => new Mesh(geometry, material), size: 468 })
 
     const csss: Ref<string>[] = []
@@ -38,8 +34,6 @@ export default defineComponent({
       { immediate: true }
     )
 
-    // const temporaryPos = new Vector3()
-    // let x: number, y: number
     watch(
       () => properties.landmarks,
       (landmarks?: LandmarkList) => {
@@ -53,12 +47,6 @@ export default defineComponent({
 
           if (properties.cssVarsTarget) {
             const [x, y] = object3dTo2d(object3d, camera)
-            // object3d.updateWorldMatrix(true, false)
-            // object3d.getWorldPosition(temporaryPos)
-            // temporaryPos.project(camera)
-            // // canvas is full without scrollbars, so windows size is just as good
-            // x = (temporaryPos.x * 0.5 + 0.5) * window.innerWidth
-            // y = (temporaryPos.y * -0.5 + 0.5) * window.innerHeight
             csss[index].value = `translate(${x}px,${y}px)`
           }
         }
