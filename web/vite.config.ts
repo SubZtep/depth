@@ -1,45 +1,17 @@
 import path from "node:path"
 import { defineConfig } from "vite"
 import Vue from "@vitejs/plugin-vue"
-import Components from "unplugin-vue-components/vite"
+// import Components from "unplugin-vue-components/vite"
 import CrossOriginIsolation from "vite-plugin-cross-origin-isolation"
 import { VitePWA } from "vite-plugin-pwa"
 import AutoImport from "unplugin-auto-import/vite"
 import WindiCSS from "vite-plugin-windicss"
 import type { BuildOptions } from "vite"
 
-export default defineConfig(({ mode, command }) => {
-  const manualChunks = {
-    "group-hands": ["./src/components/player/PlayerHands.vue"],
-  }
-
-  let build: BuildOptions = {
-    sourcemap: true,
-    rollupOptions: {
-      manualChunks,
-    },
-  }
-
-  if (mode === "production" && command === "build") {
-    build = {
-      sourcemap: false,
-      cssCodeSplit: false,
-      chunkSizeWarningLimit: 1666,
-      rollupOptions: {
-        manualChunks,
-        output: {
-          sourcemap: false,
-          manualChunks(id: string) {
-            if (id.includes("three")) {
-              return "three"
-            }
-          },
-        },
-      },
-    }
-  }
-
+export default defineConfig(({ command }) => {
   return {
+    mode: command === "build" ? "production" : "development",
+
     resolve: {
       alias: {
         "~/": `${path.resolve("./src")}/`,
@@ -48,61 +20,76 @@ export default defineConfig(({ mode, command }) => {
     plugins: [
       Vue(),
       VitePWA(),
-      Components({
-        dirs: ["src/3D", "src/App", "src/components"],
-        extensions: ["vue", "ts"],
-        dts: "src/types/components.d.ts",
-        deep: true,
-      }),
+      // Components({
+      //   // include: [
+      //   //   "src/App/ThreeCanvas.vue",
+      //   //   "src/App/LoadingSreen.vue",
+      //   // ],
+      //   globs: ["src/App/ThreeCanvas.vue"],
+      //   // dirs: ["src/3D", "src/App", "src/components"],
+      //   // extensions: ["vue", "ts"],
+      //   dts: "src/types/components.d.ts",
+      //   // deep: true,
+      // }),
       AutoImport({
         // FIXME: https://github.com/antfu/unplugin-auto-import/issues/33
         include: [/\.[jt]s$/, /\.vue\??/],
         exclude: [/node_modules/, /__test__/, /\.d\.ts$/],
         imports: [
-          "vue",
-          // "@vueuse/core",
+          {
+            vue: ["ref", "reactive", "computed", "watch", "defineComponent", "onMounted", "onBeforeUnmount"],
+          },
           {
             "@vueuse/core": [
-              "biSyncRef",
-              "syncRef",
-              "useCssVar",
-              "useDevicesList",
-              "useEventListener",
-              "useFullscreen",
-              "useIntervalFn",
-              "useMagicKeys",
-              "useMediaControls",
-              "useTimeout",
-              "useTimeoutFn",
-              "useUserMedia",
-              "tryOnMounted",
-              "tryOnUnmounted",
-              "tryOnBeforeUnmount",
-              "watchWithFilter",
-              "whenever",
+              //     "biSyncRef",
+              //     "syncRef",
+              //     "useCssVar",
+              //     "useDevicesList",
+              //     "useEventListener",
+              //     "useFullscreen",
+              //     "useIntervalFn",
+              //     "useMagicKeys",
+              //     "useMediaControls",
+              //     "useTimeout",
+              //     "useTimeoutFn",
+              //     "useUserMedia",
+              //     "tryOnMounted",
+              //     "tryOnUnmounted",
+              //     "tryOnBeforeUnmount",
+              //     "watchWithFilter",
+              //     "whenever",
               "get",
               "set",
-              "and",
-              "not",
-              "invoke",
+              //     "and",
+              //     "not",
+              //     "invoke",
             ],
           },
           { "@vueuse/integrations": ["useNProgress"] },
           { "vue-toastification": ["useToast"] },
-          { pinia: ["storeToRefs"] },
+          // { pinia: ["storeToRefs"] },
           // TODO: auto import like this: { "@depth/dat.gui": ["addGuiFolder"] },
         ],
         dts: "src/types/auto-imports.d.ts",
       }),
       WindiCSS(),
       CrossOriginIsolation(),
-      {
-        name: "vite-plugin-build-skip-public-dirs",
-        apply: "build",
-        // TODO: skip public/libs dir
-      },
+      // {
+      //   name: "vite-plugin-build-skip-public-dirs",
+      //   apply: "build",
+      //   // TODO: skip public/libs dir
+      // },
     ],
-    build,
+    build: {
+      sourcemap: true,
+      cssCodeSplit: false,
+      chunkSizeWarningLimit: 1666,
+      rollupOptions: {
+        manualChunks: {
+          "group-hands": ["./src/components/player/PlayerHands.vue"],
+        },
+      },
+    },
     server: {
       fs: {
         allow: [".."],

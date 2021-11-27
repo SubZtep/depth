@@ -28,7 +28,6 @@ export default defineComponent({
         listeners: {
           cancel: () => {
             uuid = ""
-            console.log("LISTENER cancel")
           },
         },
       },

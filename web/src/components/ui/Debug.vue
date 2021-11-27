@@ -20,10 +20,14 @@ UseDraggable(
 
 <script lang="ts" setup>
 import { UseDraggable } from "@vueuse/components"
-import { useElementSize, useStorage, useMemory } from "@vueuse/core"
+import { useElementSize, useStorage, useMemory, syncRef, whenever } from "@vueuse/core"
+import { toRef, watchEffect } from "vue"
+import { usePreferencesStore } from "~/stores/preferences"
+
+const exists = ref(true)
+syncRef(toRef(usePreferencesStore(), "showDebug"), exists)
 
 const { isSupported, memory } = useMemory()
-const exists = ref(true)
 const el = ref()
 
 const size = (v: number) => {
@@ -31,16 +35,24 @@ const size = (v: number) => {
   return `${kb.toFixed(2)} MB`
 }
 
-onMounted(() => {
-  const stored = useStorage("debug-size", { width: 320, height: 240 })
-  const initSize = { width: stored.value.width, height: stored.value.height }
-  el.value.style.width = `${initSize.width}px`
-  el.value.style.height = `${initSize.height}px`
-  const { width, height } = useElementSize(el, initSize)
-  watchEffect(() => {
+const stored = useStorage("debug-size", { width: 320, height: 240 })
+const initSize = { width: stored.value.width, height: stored.value.height }
+whenever(
+  exists,
+  () => {
+    el.value.style.width = `${initSize.width}px`
+    el.value.style.height = `${initSize.height}px`
+  },
+  { flush: "post" }
+)
+
+const { width, height } = useElementSize(el, initSize)
+watchEffect(
+  () => {
     stored.value = { width: width.value, height: height.value }
-  })
-})
+  },
+  { flush: "post" }
+)
 </script>
 
 <style module>

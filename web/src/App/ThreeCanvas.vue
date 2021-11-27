@@ -6,6 +6,7 @@ MainScene
 </template>
 
 <script lang="ts" setup>
+import MainScene from "~/App/MainScene.vue"
 import { useThreeJSEventHook, useCanvas } from "@depth/three.js"
 // import { onVisibility } from "../events"
 // import { createDefaultObjects } from "../3D/sceneDefaults"

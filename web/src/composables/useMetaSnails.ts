@@ -45,23 +45,26 @@ export async function useMetaSnails() {
     }
   }
 
-  // subscribe to updates
-  // FIXME: filter out activa player if possible
-  // not working (and it shouldn't by docs): .from(`metasnail:uuid=neq.${uuid}`)
-  // https://supabase.com/docs/reference/javascript/subscribe#listening-to-row-level-changes
-  const metasnailSubscription: RealtimeSubscription = supabase
-    .from("metasnail")
-    .on("*", onMetaSnail(playerStore, metaSnails))
-    .subscribe()
+  let metasnailSubscription: RealtimeSubscription
 
-  tryOnBeforeUnmount(async () => {
+  const subscribe = () => {
+    // subscribe to updates
+    // FIXME: filter out activa player if possible
+    // not working (and it shouldn't by docs): .from(`metasnail:uuid=neq.${uuid}`)
+    // https://supabase.com/docs/reference/javascript/subscribe#listening-to-row-level-changes
+    metasnailSubscription = supabase.from("metasnail").on("*", onMetaSnail(playerStore, metaSnails)).subscribe()
+  }
+
+  const unsubscribe = async () => {
     if (metasnailSubscription) {
       await supabase.removeSubscription(metasnailSubscription)
     }
-  })
+  }
 
   return {
     playerPosition,
     metaSnails,
+    subscribe,
+    unsubscribe,
   }
 }

@@ -7,6 +7,8 @@ Suspense
 </template>
 
 <script lang="ts" setup>
+import ThreeCanvas from "~/App/ThreeCanvas.vue"
+import LoadingScreen from "~/App/LoadingScreen.vue"
 // import { onVisibility } from "../events"
 
 // onVisibility(({ visible, since }) => {

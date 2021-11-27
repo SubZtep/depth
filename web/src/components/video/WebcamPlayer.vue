@@ -13,6 +13,8 @@ div(:class="$style.frame" v-visible="state.showVideoTag" ref="frame")
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/dat.gui"
 import { normalizeDeviceLabel } from "@depth/misc"
+import { useCssVar, useDevicesList, useUserMedia, biSyncRef } from "@vueuse/core"
+import { watchEffect, toRefs } from "vue"
 
 const videoReference = ref() as Ref<HTMLVideoElement>
 
@@ -31,11 +33,11 @@ const height = ref(480)
 
 const frame = ref()
 const maxWidth = useCssVar("--max-width", frame)
-const aspectRatio = useCssVar("--aspect-ratio", frame)
+// const aspectRatio = useCssVar("--aspect-ratio", frame)
 
 watchEffect(() => {
   set(maxWidth, `${get(width)}px`)
-  set(aspectRatio, `${get(width)}/${get(height)}`)
+  // set(aspectRatio, `${get(width)}/${get(height)}`)
 })
 
 onMounted(() => {
@@ -89,7 +91,7 @@ addGuiFolder(folder => {
 .frame {
   @apply video-border resize-x inline-block overflow-hidden;
   max-width: var(--max-width);
-  aspect-ratio: var(--aspect-ratio);
+  /* aspect-ratio: var(--aspect-ratio); */
   height: auto;
 }
 </style>

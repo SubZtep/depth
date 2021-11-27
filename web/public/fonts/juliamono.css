@@ -10,7 +10,7 @@
     font-family: JuliaMono;
     font-weight: 400;
     font-style: normal;
-    src: url("JuliaMono-Regular.woff2") format("woff2");
+    src: url("JuliaMono-Regular.woff2") format("woff2" );
     text-rendering: optimizeLegibility;
 }
 

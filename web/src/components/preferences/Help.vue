@@ -1,5 +1,5 @@
 <template lang="pug">
-div(:class="$style.helpModal" v-if="show")
+div(:class="$style.helpModal" v-if="f1")
   h3 Keycodes
   table(border="1")
     tr
@@ -13,26 +13,32 @@ div(:class="$style.helpModal" v-if="show")
       td
         pre h
       td toggle dat.gui
+  small could be better help
 </template>
 
 <script lang="ts" setup>
 import { useMagicKeys, useToggle, get } from "@vueuse/core"
 
-const [show, toggle] = useToggle()
-const { f1 } = useMagicKeys({
-  passive: false,
-  onEventFired: event => {
-    if (get(f1)) {
-      event.preventDefault()
-    }
-  },
-})
+// const [show, toggle] = useToggle()
 
-watchEffect(() => {
-  if (get(f1)) {
-    toggle()
-  }
-})
+const { f1 } = useMagicKeys({}) // FIXME: share listener with other components
+// watch(f1, toggle)
+
+
+// const { f1 } = useMagicKeys({
+//   passive: false,
+//   onEventFired: event => {
+//     if (get(f1)) {
+//       event.preventDefault()
+//     }
+//   },
+// })
+
+// watchEffect(() => {
+//   if (get(f1)) {
+//     toggle()
+//   }
+// })
 </script>
 
 <style lang="postcss" module>

@@ -1,10 +1,14 @@
+import { useMagicKeys } from "@vueuse/core"
+import { onScopeDispose, watchEffect } from "vue"
+
 const enum PositionAxis {
   X = 0,
   Y = 1,
   Z = 2,
 }
 
-export function useKeyboard() {
+/** Keyboard input by player. */
+export function useKeyboard(): PlayerInput {
   const { current } = useMagicKeys()
 
   const joystick = ref<PositionTuple>([0, 0, 0])

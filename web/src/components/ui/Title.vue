@@ -5,6 +5,8 @@ transition(name="title")
 </template>
 
 <script lang="ts" setup>
+import { useTimeout } from "@vueuse/core"
+
 const properties = defineProps<{ delay?: number }>()
 // eslint-disable-next-line vue/no-setup-props-destructure
 const { delay = 0 } = properties
