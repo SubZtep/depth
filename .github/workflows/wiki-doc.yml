@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: SubZtep/tsdoc-to-wiki-action@v0.1
+      - uses: SubZtep/tsdoc-to-wiki-action@v0.1.1
         id: wiki-doc
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
