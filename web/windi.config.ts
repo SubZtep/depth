@@ -1,7 +1,6 @@
 import { defineConfig } from "vite-plugin-windicss"
 import plugin from "windicss/plugin"
 import ScrollbarPlugin from "@windicss/plugin-scrollbar"
-import type { DeepNestObject } from "windicss/types/interfaces"
 
 export default defineConfig({
   theme: {
@@ -23,7 +22,7 @@ export default defineConfig({
   plugins: [
     ScrollbarPlugin,
     plugin(({ addComponents }) => {
-      const buttons: DeepNestObject = {
+      addComponents({
         ".btn": {
           padding: "2px",
           borderWidth: "2px",
@@ -42,8 +41,6 @@ export default defineConfig({
             opacity: "0.65",
           },
         },
-      }
-      const misc: DeepNestObject = {
         ".video-border": {
           borderWidth: "4px",
           borderStyle: "ridge",
@@ -58,8 +55,18 @@ export default defineConfig({
         ".flip-xy": {
           transform: "scale(-1, -1)",
         },
-      }
-      addComponents([buttons, misc])
+        ".outline": {
+          "text-shadow": `
+            -1px -1px 0 #000,
+            0   -1px 0 #000,
+            1px -1px 0 #000,
+            1px  0   0 #000,
+            1px  1px 0 #000,
+            0    1px 0 #000,
+            -1px  1px 0 #000,
+            -1px  0   0 #000`,
+        },
+      })
     }),
   ],
   extract: {

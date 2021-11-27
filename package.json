@@ -14,6 +14,7 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "ncu": "pnpm recursive exec -- ncu -u",
+    "moo": "npx cowsay moo",
     "preinstall": "npx only-allow pnpm"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",

@@ -1,8 +1,8 @@
 <template lang="pug">
 WebcamPlayer(
   @mounted="setVideoElement"
-  @streaming="setStreaming"
-  :folder-closed="true"
+  @streaming="v => streaming = v"
+  :folder-closed="false"
   :enabled="true")
 
 PlayerHand(:landmarks="landmarks")
@@ -13,15 +13,15 @@ import { useHands } from "@depth/mediapipe"
 import WebcamPlayer from "~/components/video/WebcamPlayer.vue"
 
 const streaming = ref(false)
-const setStreaming = (ready: boolean) => set(streaming, ready)
-
-const landmarks: Ref<LandmarkList> = ref()
+const landmarks: Ref<LandmarkList> = ref([])
 
 const { setVideoElement, t } = useHands({
   streaming,
   handler: result => {
-    if (result.multiHandLandmarks.length > 0) {
+    // FIXME: get hand index from handedness and use it to get the landmark
+    if (result.multiHandedness.length > 0) {
       set(landmarks, result.multiHandLandmarks[0])
+      // set(landmarks, result.multiHandWorldLandmarks[0])
     }
   },
 })

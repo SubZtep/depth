@@ -8,15 +8,28 @@ UseDraggable(
   v-stop-propagation
   :class="$style.frame")
   div(:class="$style.debug" ref="el" @dblclick.stop)
+
+    .text-xs(v-if="isSupported && memory")
+      div Used: {{size(memory.usedJSHeapSize)}}
+      div Allocated: {{size(memory.totalJSHeapSize)}}
+      div Limit: {{size(memory.jsHeapSizeLimit)}}
+      hr
+
     slot
 </template>
 
 <script lang="ts" setup>
 import { UseDraggable } from "@vueuse/components"
-import { useElementSize, useStorage } from "@vueuse/core"
+import { useElementSize, useStorage, useMemory } from "@vueuse/core"
 
+const { isSupported, memory } = useMemory()
 const exists = ref(true)
 const el = ref()
+
+const size = (v: number) => {
+  const kb = v / 1024 / 1024
+  return `${kb.toFixed(2)} MB`
+}
 
 onMounted(() => {
   const stored = useStorage("debug-size", { width: 320, height: 240 })
@@ -35,8 +48,8 @@ onMounted(() => {
   position: fixed;
   cursor: move;
   background-color: #0104;
-  padding: 15px !important;
-  border: 1px solid #0f03;
+  padding: 0.8rem;
+  border: 2px outset #0606;
   opacity: 0.6;
   transition: opacity 0.1s ease-in 3s;
 }
@@ -47,9 +60,9 @@ onMounted(() => {
 }
 
 .debug {
-  @apply scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300
+  @apply scrollbar-thin scrollbar-thumb-typepad scrollbar-track-blood
     overflow-auto resize p-2;
-  border: 1px solid #f003;
+  border: 2px inset #3636;
   background-color: #0104;
   cursor: text;
 

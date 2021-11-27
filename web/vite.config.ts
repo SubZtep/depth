@@ -102,7 +102,7 @@ export default defineConfig(({ mode, command }) => {
         // TODO: skip public/libs dir
       },
     ],
-    // build,
+    build,
     server: {
       fs: {
         allow: [".."],

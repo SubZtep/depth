@@ -1,5 +1,5 @@
 <template lang="pug">
-Title(:delay="6669") M̸̧̹̃o̶̥̪̓͝l̵͙̙̓l̸̘͑̅u̵̺̇s̷̡͖̿̌̓c̷͚̥͛o̴͇̘͝p̶̦̆̊͛h̷̢̖̎̕o̵̙̭̝̔͝ḃ̵͕̬̿i̸̥̠̒̈́̚a̵̽ͅ
+Title(:delay="69696") M̸̧̹̃o̶̥̪̓͝l̵͙̙̓l̸̘͑̅u̵̺̇s̷̡͖̿̌̓c̷͚̥͛o̴͇̘͝p̶̦̆̊͛h̷̢̖̎̕o̵̙̭̝̔͝ḃ̵͕̬̿i̸̥̠̒̈́̚a̵̽ͅ
 Title Metasnail Lobby
 
 Debug {{metaSnails}}
@@ -10,7 +10,7 @@ MetaSnail(
   :meta-snail="metaSnail"
   v-slot="{ pos2d }")
   UseTimeAgo(:time="metaSnail.updated_at" v-slot="{ timeAgo }")
-    FloatingText.text-yellow-500.text-center(:pos2d="pos2d")
+    FloatingText.text-yellow-500.text-center.outline(:pos2d="pos2d")
       .font-bold {{metaSnail.name}}
       .text-sm {{timeAgo}}
 
@@ -22,7 +22,7 @@ ValidateHappiness(v-slot="{ uuid }")
   p Are you happy to store Your snail data in local storage and make it public?
   p Your ID will be: {{ uuid }}
 
-component(v-if="dynamicComponent" :is="dynamicComponent")
+component(v-if="dynamicHand" :is="dynamicHand")
 </template>
 
 <script lang="ts" setup>
@@ -42,8 +42,7 @@ useSceneHelper().addForPage(await leafPlane({ x: 0, y: -0.1, z: 0 }))
 
 const { metaSnails, playerPosition } = await useMetaSnails()
 const keyboard = useKeyboard()
-
-const dynamicComponent = shallowRef()
+const dynamicHand = shallowRef()
 
 addGuiFolder(folder => {
   folder.name = "🐌 Your Snail"
@@ -53,11 +52,14 @@ addGuiFolder(folder => {
     .add(
       {
         btn: () =>
-          import("~/components/player/PlayerHands.vue").then(component => set(dynamicComponent, component.default)),
+          import("~/components/player/PlayerHands.vue").then(component => set(dynamicHand, component.default)),
       },
       "btn"
     )
     .name("Load Player Hand")
-    .onChange(() => loadHandButton.remove())
+    .onChange(() => {
+      loadHandButton.remove()
+      folder.close()
+    })
 })
 </script>
