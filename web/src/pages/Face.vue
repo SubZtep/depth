@@ -1,5 +1,5 @@
 <template lang="pug">
-WebcamPlayer(@mounted="setVideoElement" @streaming="setStreaming")
+WebcamPlayer(@mounted="setVideoElement" @streaming="v => streaming = v")
 
 .font-mono.text-sm(ref="pointsElement" v-if="state.showIndices")
   .absolute.top-0.left-0(:style="`transform: var(--el-pos-${index})`" v-for="index in 468" :key="index") {{index}}
@@ -19,9 +19,7 @@ const statPanel = stats.addPanel(new Stats.Panel("ms/face", "#f9d71c", "#191970"
 
 const pointsElement = ref()
 const landmarks = ref()
-
 const streaming = ref(false)
-const setStreaming = (ready: boolean) => set(streaming, ready)
 
 const { setVideoElement, t } = useFaceMesh({
   streaming,

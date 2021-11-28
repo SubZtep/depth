@@ -54,7 +54,6 @@ const { videoInputs } = useDevicesList({ requestPermissions: true, constraints: 
 const { enabled: stateEnabled, videoDeviceId } = toRefs(state)
 const { stream, enabled } = useUserMedia({ audioDeviceId: false, videoDeviceId })
 
-
 biSyncRef(stateEnabled, enabled)
 
 const cameras = computed(() =>

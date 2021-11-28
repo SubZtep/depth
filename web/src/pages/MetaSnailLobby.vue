@@ -10,7 +10,7 @@ MetaSnail(
   :meta-snail="metaSnail"
   v-slot="{ pos2d }")
   UseTimeAgo(:time="metaSnail.updated_at" v-slot="{ timeAgo }")
-    FloatingText.text-yellow-500.text-center.outline(:pos2d="pos2d")
+    FloatingText.opacity-60.text-yellow-500.text-center.outline(:pos2d="pos2d")
       .font-bold {{metaSnail.name}}
       .text-sm {{timeAgo}}
 
@@ -26,7 +26,7 @@ component(v-if="dynamicComponent" :is="dynamicComponent")
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, toRef } from "vue"
+import { shallowRef } from "vue"
 import { addGuiFolder } from "@depth/dat.gui"
 import { UseTimeAgo } from "@vueuse/components"
 import { usePlayerStore } from "~/stores/player"
@@ -73,13 +73,15 @@ addGuiFolder(folder => {
   }
 
   const btns = {
-    hand: () =>
-      import("~/components/player/PlayerHands.vue").then(component => set(dynamicComponent, component.default)),
+    hand: async () => {
+      const component = await import("~/components/player/PlayerHands.vue")
+      set(dynamicComponent, component.default)
+    },
   }
 
-  const handButton = folder
-    .add(btns, "hand")
-    .name("Load Player Hand")
-    .onChange(() => clicked(handButton))
+  const faceButton = folder
+    .add(btns, "face")
+    .name("Load Face Rotate")
+    .onChange(() => clicked(faceButton))
 })
 </script>

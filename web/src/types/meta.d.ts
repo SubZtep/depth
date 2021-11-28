@@ -15,7 +15,7 @@ type PositionTuple = [number, number, number]
 /** Quaternion [x, y, z, w] */
 type RotationTuple = [number, number, number, number]
 
-type PlayerInputMethod = "keyboard" | "device"
+type PlayerInputMethod = "keyboard" | "device" | "face"
 
 interface PlayerInput {
   /** normal vector */

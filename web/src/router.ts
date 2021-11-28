@@ -26,16 +26,6 @@ const routes: RouteRecordRaw[] = [
   //     order: 4,
   //   },
   // },
-  // {
-  //   path: "/db-admin",
-  //   name: "db-admin",
-  //   component: () => import("./pages/DbAdmin.vue"),
-  //   meta: {
-  //     position: [0, camHeight, 0],
-  //     lookAt: [0, camHeight, 10],
-  //     order: 5,
-  //   },
-  // },
   {
     path: "/face",
     name: "face",
@@ -46,23 +36,14 @@ const routes: RouteRecordRaw[] = [
       order: 6,
     },
   },
-  {
-    path: "/preferences",
-    name: "preferences",
-    component: () => import("./pages/Preferences.vue"),
-    meta: {
-      position: [-3, camHeight, -3],
-      lookAt: [0, camHeight, 0],
-      order: 100,
-    },
-  },
   // {
-  //   path: "/testes",
-  //   name: "testes",
-  //   component: () => import("./pages/Testes.vue"),
+  //   path: "/preferences",
+  //   name: "preferences",
+  //   component: () => import("./pages/Preferences.vue"),
   //   meta: {
-  //     position: [-30, camHeight, -30],
-  //     lookAt: [-300, 2, -30],
+  //     position: [-3, camHeight, -3],
+  //     lookAt: [0, camHeight, 0],
+  //     order: 100,
   //   },
   // },
   // {

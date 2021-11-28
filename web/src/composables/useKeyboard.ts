@@ -1,11 +1,5 @@
 import { useMagicKeys } from "@vueuse/core"
-import { onScopeDispose, watchEffect } from "vue"
-
-const enum PositionAxis {
-  X = 0,
-  Y = 1,
-  Z = 2,
-}
+import { watchEffect } from "vue"
 
 /** Keyboard input by player. */
 export function useKeyboard(): PlayerInput {
@@ -15,8 +9,8 @@ export function useKeyboard(): PlayerInput {
   const action = ref<boolean>(false)
 
   watchEffect(() => {
-    joystick.value[PositionAxis.X] = current.has("ArrowLeft") ? -1 : current.has("ArrowRight") ? 1 : 0
-    joystick.value[PositionAxis.Z] = current.has("ArrowUp") ? -1 : current.has("ArrowDown") ? 1 : 0
+    joystick.value[0] = current.has("ArrowLeft") ? -1 : current.has("ArrowRight") ? 1 : 0
+    joystick.value[2] = current.has("ArrowUp") ? -1 : current.has("ArrowDown") ? 1 : 0
     action.value = current.has("ControlLeft")
   })
 
