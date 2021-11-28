@@ -30,6 +30,7 @@ import UAParser from "ua-parser-js"
 export const usePreferencesStore: StoreDefinition = defineStore("preferences", {
   state: () => ({
     isMobile: new UAParser().getDevice().type === "mobile",
+    activeInput: "keyboard" as PlayerInputMethod,
     showDebug: useStorage("preferences.showDebug", true),
     guiScale: 1.4, // useStorage("preferences.guiScale", 1, undefined, guiScaleOptions),
     horizontalLock: false, // useStorage("preferences.horizontalLock", true),

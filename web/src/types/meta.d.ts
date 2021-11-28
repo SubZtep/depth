@@ -15,12 +15,13 @@ type PositionTuple = [number, number, number]
 /** Quaternion [x, y, z, w] */
 type RotationTuple = [number, number, number, number]
 
+type PlayerInputMethod = "keyboard" | "device"
+
 interface PlayerInput {
   /** normal vector */
   joystick: Ref<PositionTuple>
   action: Ref<boolean>
 }
-
 
 interface MetaSnail {
   uuid: string

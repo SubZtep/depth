@@ -7,12 +7,6 @@
 
 A [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) app uses composition API over and above with a full-screen [Three.js](https://threejs.org/) background layer which gains some advantages of its reactivity. This is adequate for trying out concepts and seeing how they could fit into a busy environment.
 
-## Why monorepository
-
-Since purposelessness leads the project, avoiding spaghetti code is essential to keep it alive. Writing self-contained modules is quite effective in isolated packages. However, managing separate repositories for a relatively small platform could hold back the prototyping flow.
-
-A monorepo is moving beyond this problem, only with minimal discomfort shows a return on a higher level of cohesion.
-
 ### Packages
 
 The public [web](./web#readme) frontend is also part of the _pnpm workspace_. 3rd-party packages are wrapped into the Vue plugin interface and mostly extended with handy functionality.
