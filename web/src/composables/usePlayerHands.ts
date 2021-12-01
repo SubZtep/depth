@@ -2,6 +2,5 @@
 
 export function usePlayerHands() {
   // alert("hands juguu")
-
   // useHands()
 }

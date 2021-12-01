@@ -72,7 +72,7 @@ rules:
   unicorn/no-nested-ternary: off
   unicorn/prevent-abbreviations:
     - warn
-    - ignore: ["props", "err"]
+    - ignore: ["props", "err", "el", "isDev"]
 
 ignorePatterns:
   - "**node_modules/"

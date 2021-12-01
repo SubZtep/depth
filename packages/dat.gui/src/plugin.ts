@@ -4,7 +4,7 @@ import { addTextInput, addVector3 } from "./extend"
 import type { Fn } from "@vueuse/core"
 import type { extendedGUI } from "./extend"
 // import dat from "./reactive"
-import dat, { GUIController } from "dat.gui"
+import dat from "dat.gui"
 
 export type GUIExtended = dat.GUI & extendedGUI
 type GUIExtendedCallback = (gui: GUIExtended) => void

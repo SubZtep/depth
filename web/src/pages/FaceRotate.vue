@@ -7,7 +7,7 @@ import { useStats } from "@depth/stats.js"
 import { useFaceMesh } from "@depth/mediapipe"
 import useFaceRotation from "~/composables/useFaceRotation"
 import useSceneHelper from "~/composables/useSceneHelper"
-import lathePyramid from "~/3D/meshes/lathe-pyramis"
+import lathePyramid from "~/3D/meshes/lathe-pyramid"
 import { exec3D, loop3D, useThreeJSEventHook } from "@depth/three.js"
 import { Vector2 } from "three/src/math/Vector2"
 import { LatheGeometry } from "three/src/geometries/LatheGeometry"
@@ -18,7 +18,7 @@ import { Vector3 } from "three/src/math/Vector3"
 
 import GradientMaterial from "~/3D/materials/GradientMaterial"
 
-  const { addForPage } = useSceneHelper()
+const { addForPage } = useSceneHelper()
 
 const threeJs = useThreeJSEventHook()
 threeJs.trigger({ cmd: "RenderFrames", param: "All" })

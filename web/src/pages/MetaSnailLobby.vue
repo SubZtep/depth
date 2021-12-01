@@ -10,7 +10,7 @@ MetaSnail(
   :meta-snail="metaSnail"
   v-slot="{ pos2d }")
   UseTimeAgo(:time="metaSnail.updated_at" v-slot="{ timeAgo }")
-    FloatingText.opacity-60.text-yellow-500.text-center.outline(:pos2d="pos2d")
+    FloatingText.opacity-80.text-yellow-500.text-center.outline(:pos2d="pos2d")
       .font-bold {{metaSnail.name}}
       .text-sm {{timeAgo}}
 
@@ -23,6 +23,8 @@ ValidateHappiness(v-slot="{ uuid }")
   p Your ID will be: {{ uuid }}
 
 component(v-if="dynamicComponent" :is="dynamicComponent")
+
+Debug Player Position: {{playerPosition}}
 </template>
 
 <script lang="ts" setup>
@@ -37,10 +39,8 @@ import useSceneHelper from "~/composables/useSceneHelper"
 import { useMetaSnails } from "~/composables/useMetaSnails"
 import SwitchInputMethod from "~/components/player/SwitchInputMethod.vue"
 import ValidateHappiness from "~/components/player/ValidateHappiness"
-import FloatingText from "~/components/ui/FloatingText.vue"
 import SnailShell from "~/components/player/SnailShell"
 import MetaSnail from "~/components/player/MetaSnail"
-import Title from "~/components/ui/Title.vue"
 
 const dynamicComponent = shallowRef()
 const playerStore = usePlayerStore()
@@ -79,9 +79,9 @@ addGuiFolder(folder => {
     },
   }
 
-  const faceButton = folder
-    .add(btns, "face")
-    .name("Load Face Rotate")
-    .onChange(() => clicked(faceButton))
+  const handButton = folder
+    .add(btns, "hand")
+    .name("Load Hand Detector")
+    .onChange(() => clicked(handButton))
 })
 </script>

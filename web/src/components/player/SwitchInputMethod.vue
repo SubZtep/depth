@@ -32,7 +32,7 @@ watch(
   count,
   index => {
     set(activeInput, inputs[index % inputs.length])
-    stopSyncJoystick() // FIXME: stop listeners inside composables as well
+    stopSyncJoystick?.() // FIXME: stop listeners inside composables as well
     stopSyncJoystick =
       activeInput.value === "keyboard"
         ? syncRef(keyboardInput.joystick, joystick)

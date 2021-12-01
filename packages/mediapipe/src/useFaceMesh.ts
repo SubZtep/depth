@@ -1,5 +1,5 @@
 import type { Ref } from "vue"
-import type { Options, FaceMeshConfig,ResultsListener } from "@mediapipe/face_mesh"
+import type { Options, FaceMeshConfig, ResultsListener } from "@mediapipe/face_mesh"
 import type { MaybeRef } from "@vueuse/core"
 import { FaceMesh } from "@mediapipe/face_mesh"
 import { useBaseMediaPipe } from "./useBaseMediaPipe"

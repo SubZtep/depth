@@ -7,16 +7,14 @@ WebcamPlayer(
 </template>
 
 <script lang="ts" setup>
-import { useStats } from "@depth/stats.js"
 import { useFaceMesh } from "@depth/mediapipe"
 import useFaceRotation from "~/composables/useFaceRotation"
 import useSceneHelper from "~/composables/useSceneHelper"
-import { exec3D, loop3D } from "@depth/three.js"
+import { loop3D } from "@depth/three.js"
 import { Vector2 } from "three/src/math/Vector2"
 import { LatheGeometry } from "three/src/geometries/LatheGeometry"
 import { Color } from "three/src/math/Color"
 import { Mesh } from "three/src/objects/Mesh"
-import { Box3 } from "three/src/math/Box3"
 import { Vector3 } from "three/src/math/Vector3"
 import GradientMaterial from "~/3D/materials/GradientMaterial"
 import WebcamPlayer from "~/components/video/WebcamPlayer.vue"

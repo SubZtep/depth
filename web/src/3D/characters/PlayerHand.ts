@@ -13,7 +13,7 @@ export default defineComponent({
     const material = new MeshBasicMaterial({ color: 0xcccc22 })
     const pool = useObjectPool({ modelType: "hand", creator: () => new Mesh(geometry, material), size: 21 })
 
-    let multi = 2
+    const multi = 2
     let index: string
     let landmark: Landmark
     let object3d: Mesh

@@ -1,5 +1,6 @@
 type PropType<T> = import("vue").PropType<T>
-type Ref<T = any> = import("vue").Ref<T>
+// type Ref<T = any> = import("vue").Ref<T>
+type Ref<T = any> = import("vue").Ref
 type Fn = import("@VueUse/core").Fn
 type MaybeRef<T> = import("@VueUse/core").MaybeRef
 

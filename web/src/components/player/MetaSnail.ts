@@ -57,7 +57,8 @@ export default defineComponent({
 
         lastUpdate = now
         lerpTime = import.meta.env.VITE_SUPABASE_THROTTLE // || now - lastUpdate
-      }
+      },
+      { immediate: true }
     )
 
     watch(

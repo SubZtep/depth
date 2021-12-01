@@ -24,7 +24,6 @@ import { useMagicKeys, useToggle, get } from "@vueuse/core"
 const { f1 } = useMagicKeys({}) // FIXME: share listener with other components
 // watch(f1, toggle)
 
-
 // const { f1 } = useMagicKeys({
 //   passive: false,
 //   onEventFired: event => {

@@ -53,6 +53,6 @@ export function useBaseMediaPipe({ solution, video, streaming }: BaseOptions) {
 
   return {
     setVideoElement,
-    t
+    t,
   }
 }
