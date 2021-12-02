@@ -11,21 +11,21 @@ const routes: RouteRecordRaw[] = [
     name: "meta-snail-lobby",
     component: () => import("./pages/MetaSnailLobby.vue"),
     meta: {
-      position: [0, 2, 5],
+      position: [0, -0.1, 6],
       lookAt: [0, 0, 0],
       order: 1,
     },
   },
-  // {
-  //   path: "/video-pose",
-  //   name: "video-pose",
-  //   component: () => import("./pages/VideoPose.vue"),
-  //   meta: {
-  //     position: [0, camHeight, 0],
-  //     lookAt: [0, camHeight, -10],
-  //     order: 4,
-  //   },
-  // },
+  {
+    path: "/video-pose",
+    name: "video-pose",
+    component: () => import("./pages/VideoPose.vue"),
+    meta: {
+      position: [0, camHeight, 0],
+      lookAt: [0, camHeight, -10],
+      order: 4,
+    },
+  },
   {
     path: "/face",
     name: "face",
@@ -46,16 +46,16 @@ const routes: RouteRecordRaw[] = [
       order: 100,
     },
   },
-  // {
-  //   path: "/globe",
-  //   name: "globe-test",
-  //   component: () => import("./pages/GlobeTest.vue"),
-  //   meta: {
-  //     position: [0, camHeight, 0],
-  //     lookAt: [0, camHeight, 69],
-  //     order: 3,
-  //   },
-  // },
+  {
+    path: "/globe",
+    name: "globe-test",
+    component: () => import("./pages/GlobeTest.vue"),
+    meta: {
+      position: [0, camHeight, 0],
+      lookAt: [0, camHeight, 69],
+      order: 3,
+    },
+  },
   // {
   //   path: "/face-rotate",
   //   name: "face-rotate",

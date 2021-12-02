@@ -10,11 +10,11 @@ export function useInfiniteGrid(parameters: Partial<InfiniteGridParameters> = {}
   const { singleton } = useSingleton()
   let grid: { mesh: ReturnType<typeof infiniteGrid> } & InfiniteGridParameters
 
-  if (singleton.has("InfiniteGrid")) {
+  if (parameters.useSingleton && singleton.has("InfiniteGrid")) {
     grid = singleton.get("InfiniteGrid")
   } else {
-    const { size = 1, color = new Color(0x00_00_00), distance = 8000 } = parameters
-    grid = { mesh: infiniteGrid({ size, color, distance }), size, color, distance }
+    const { size = 1, color = new Color(0x00_00_00), distance = 8000, position = [0, 0, 0] } = parameters
+    grid = { mesh: infiniteGrid({ size, color, distance, position }), size, color, distance, position }
     exec3D(({ scene }) => scene.add(mesh))
     singleton.set("InfiniteGrid", grid)
   }

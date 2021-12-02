@@ -13,6 +13,7 @@
   "dependencies": {
     "@vueuse/core": "^7.1.2",
     "camera-controls": "^1.33.1",
+    "meshwalk": "^0.0.0",
     "three": "^0.135.0",
     "vue": "^3.2.20"
   },

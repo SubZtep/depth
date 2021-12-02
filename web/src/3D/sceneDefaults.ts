@@ -10,6 +10,8 @@ import { Object3D } from "three/src/core/Object3D"
 import { usePreferencesStore } from "~/stores/preferences"
 import useResources from "~/composables/useResources"
 import { leafPlane } from "~/3D/goodybag/leaf-plane"
+import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
+import { DoubleSide } from "three/src/constants"
 
 export function grid(x = -7.5) {
   const grid = new GridHelper(5, 5, Color.NAMES.blue, Color.NAMES.blue)
@@ -47,36 +49,6 @@ export async function loadNoVideoMaterial(): Promise<MeshBasicMaterial> {
       reject
     )
   })
-}
-
-export async function createDefaultObjects(): Promise<Object3D[]> {
-  const preferences = usePreferencesStore()
-  const { resources } = useResources()
-
-  const ambientLight = new AmbientLight(
-    preferences.ambientLightColor,
-    0.2
-    // preferences.ambientLightIntensity
-  )
-  ambientLight.layers.enableAll()
-  resources.set("GlobalAmbientLight", ambientLight)
-
-  const directionalLight = new DirectionalLight(0xffffcc, 0.8)
-  directionalLight.layers.enableAll()
-  directionalLight.position.set(0, 10, 0)
-  directionalLight.rotateZ(Math.PI / 4)
-  // directionalLight.rotation.set(0, 1.6, -30)
-  directionalLight.castShadow = true
-  // dirLight.target.position.set(-5, 0, 0)
-
-  directionalLight.shadow.mapSize.width = 512 // default
-  directionalLight.shadow.mapSize.height = 512 // default
-  directionalLight.shadow.camera.near = 0.5 // default
-  directionalLight.shadow.camera.far = 500 // default
-
-  resources.set("GlobalDirectionalLight", directionalLight)
-
-  return [ambientLight, directionalLight]
 }
 
 export async function createVsObjects(): Promise<Object3D[]> {

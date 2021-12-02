@@ -1,5 +1,4 @@
 <template lang="pug">
-SystemRequirements
 Help
 
 router-view(v-slot="{ Component }")
@@ -9,18 +8,42 @@ router-view(v-slot="{ Component }")
 <script lang="ts" setup>
 import { useGui } from "@depth/dat.gui"
 import { useStats } from "@depth/stats.js"
-import { Color } from "three/src/math/Color"
 import { loop3D, exec3D, setupBoundaries } from "@depth/three.js"
-import { useSkybox, useInfiniteGrid, useLights } from "@depth/world"
-import SystemRequirements from "~/components/preferences/SystemRequirements"
 import Help from "~/components/preferences/Help.vue"
 import { usePreferencesStore } from "~/stores/preferences"
 import { useEnvironmentStore } from "~/stores/environment"
+import { initPhysicsEngine } from "~/3D/entities/PhysicalWorld"
+import { useSkybox, useInfiniteGrid, useLights } from "@depth/world"
+import { Color } from "three/src/math/Color"
+import useSystemRequirements from "~/composables/useSystemRequirements"
+import { Fog } from "three/src/scenes/Fog"
+import { DEG2RAD } from "three/src/math/MathUtils"
 
 useGui().show()
 const stats = useStats()
+const { start, done } = useNProgress()
 const preferences = usePreferencesStore()
 const environment = useEnvironmentStore()
+
+start()
+
+await initPhysicsEngine()
+
+useSystemRequirements()
+
+useSkybox({
+  nr: environment.skybox,
+  compressed: environment.compressed,
+})
+
+for (let i = 0; i < 10; i += 0.5) {
+  useInfiniteGrid({
+    size: 100, //environment.size,
+    color: new Color(environment.color),
+    distance: 8, //environment.distance,
+    position: [0, i, -10 * i],
+  })
+}
 
 let stopStats: Fn
 watch(
@@ -32,21 +55,20 @@ watch(
   { immediate: true }
 )
 
-useSkybox({
-  nr: environment.skybox,
-  compressed: environment.compressed,
-})
-
-useInfiniteGrid({
-  size: environment.size,
-  color: new Color(environment.color),
-  distance: environment.distance,
-})
-
-const { ambientLight, directionalLight } = useLights()
-
 exec3D(({ scene, cameraControls }) => {
+  const { ambientLight, directionalLight } = useLights()
+
+  // scene.fog = new Fog(new Color(environment.color), 8, 20)
+
   scene.add(ambientLight, directionalLight)
   setupBoundaries(cameraControls, preferences.horizontalLock ? "Full" : "Simple")
+
+  // cameraControls.rotateAzimuthTo(-31)
 })
+
+// loop3D(({ cameraControls }) => {
+//   cameraControls.camera.rotateZ(Math.PI * 2)
+// })
+
+done()
 </script>

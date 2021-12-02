@@ -26,13 +26,14 @@ out vec4 myOutputColor;
 
 float getGrid(float size) {
   vec2 r = worldPosition.xz / size;
-  vec2 grid = abs(fract(r - 0.5) - 0.5) / fwidth(r);
+  vec2 grid = abs(fract(r - 10.5) - 0.5) / fwidth(r);
   float line = min(grid.x, grid.y);
   return 1.0 - min(line, 1.0);
 }
 
 void main() {
-  float d = 1.0 - min(distance(cameraPosition.xz, worldPosition.xz) / uDistance, 1.0);
+  // float d = 1.0 - min(distance(cameraPosition.xz, worldPosition.xz) / uDistance, 1.0);
+  float d = 1.0;
   float g = getGrid(uSize);
 
   myOutputColor = vec4(uColor.rgb, g * pow(d, 3.0));
@@ -43,6 +44,8 @@ export interface InfiniteGridParameters {
   size: number
   color: Color
   distance: number
+  position?: [number, number, number]
+  useSingleton?: boolean
 }
 
 export function infiniteGrid(parameters: InfiniteGridParameters) {
@@ -68,6 +71,9 @@ export function infiniteGrid(parameters: InfiniteGridParameters) {
   mesh.layers.set(0)
 
   mesh.frustumCulled = false
+
+  mesh.position.set(...parameters.position || [0, 0, 0])
+  // mesh.position.set(0, 10, 110)
 
   return mesh
 }

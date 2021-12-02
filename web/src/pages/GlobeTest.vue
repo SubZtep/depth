@@ -13,13 +13,14 @@ import type { Vector3Tuple } from "three/src/math/Vector3"
 import { capitalize, kebabToTitle } from "@depth/misc"
 import { surfaces, terrains } from "../3D/ThreeGlobe"
 import { toSelectOptions } from "../misc/transformers"
+import ThreeGlobe from "~/3D/ThreeGlobe"
 
 const state = reactive({
-  position: [0, 1.6, 69] as Vector3Tuple,
-  scale: 0.25,
+  position: [0, -19, -100] as Vector3Tuple,
+  scale: 0.5,
   rotateY: 2,
-  surface: surfaces[0],
-  terrain: terrains[0],
+  surface: "dark", //surfaces[0],
+  terrain: "water", //terrains[0],
 })
 
 addGuiFolder(folder => {
