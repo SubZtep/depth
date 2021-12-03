@@ -15,7 +15,7 @@ import { Raycaster } from "three/src/core/Raycaster"
 import { DEG2RAD, clamp } from "three/src/math/MathUtils"
 import useScene from "./useScene"
 
-export interface Options {
+interface Options {
   /** Media query for html element that will hold the canvas */
   sceneSelector?: string
 }
