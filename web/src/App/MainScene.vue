@@ -37,7 +37,7 @@ onMounted(() => {
 // import { DEG2RAD } from "three/src/math/MathUtils"
 
 useGui().show()
-// const { stats } = useStats()
+const { stats } = useStats()
 // const { start, done } = useNProgress()
 const preferences = usePreferencesStore()
 const environment = useEnvironmentStore()
@@ -53,29 +53,14 @@ const environment = useEnvironmentStore()
 //   compressed: environment.compressed,
 // })
 
-// for (let i = 0; i < 10; i += 0.5) {
-//   useInfiniteGrid({
-//     size: 100, //environment.size,
-//     color: new Color(environment.color),
-//     distance: 8, //environment.distance,
-//     position: [0, i, -10 * i],
-//   })
-// }
-//
-
-
-// loop3D(() => {
-//   console.log("qqq")
-// })
-
-// let stopStats: Fn
-// watch(
-//   () => preferences.showDebug,
-//   visible => {
-//     visible ? stopStats?.() : loop3D(() => stats.update())
-//     stats.dom.classList.toggle("!hidden")
-//   },
-// )
+let stopStats: Fn
+watch(
+  () => preferences.showDebug,
+  visible => {
+    visible ? stopStats?.() : loop3D(() => stats.update())
+    stats.dom.classList.toggle("!hidden")
+  },
+)
 
 // exec3D(({ scene, cameraControls }) => {
 //   // const { ambientLight, directionalLight } = useLights()

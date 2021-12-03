@@ -1,6 +1,8 @@
 import { defineStore, StoreDefinition } from "pinia"
-import { useSupabase } from "@depth/supabase"
+import { useSupabase } from "@depth/database"
 import DatabaseQueries from "../misc/dbqueries"
+
+type VideoStatePose = any
 
 export const useVideoStore: StoreDefinition = defineStore("video", {
   state: () => ({

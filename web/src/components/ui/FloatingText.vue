@@ -5,6 +5,7 @@ div(:class="$style.floating" ref="el")
 
 <script lang="ts" setup>
 import { useCssVar } from "@vueuse/core"
+import type { Ref } from "vue"
 
 // eslint-disable-next-line vue/no-setup-props-destructure
 const { pos2d } = defineProps<{
@@ -16,11 +17,6 @@ const translateCss = useCssVar("--translate", el)
 const durationCss = `${import.meta.env.VITE_SUPABASE_THROTTLE}ms`
 
 watch(pos2d, ([x, y]) => set(translateCss, `translate(${x}px, ${y}px)`), { flush: "post" })
-
-// watchEffect(() => {
-//   const [x, y] = get(pos2d)
-//   set(translateCss, `translate(${x}px, ${y}px)`)
-// })
 </script>
 
 <style module>

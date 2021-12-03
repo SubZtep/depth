@@ -1,11 +1,11 @@
 <template lang="pug">
 Title move for environment
-//- h1 LOLOLOL
+h1.text-4xl 𓀼
 </template>
 
 <script lang="ts" setup>
 import { addGuiFolder } from "@depth/hud"
-import { useFullscreen } from "@vueuse/core"
+import { useFullscreen, useWakeLock } from "@vueuse/core"
 import { useEnvironmentStore } from "../stores/environment"
 import { usePreferencesStore } from "../stores/preferences"
 // import { useInfiniteGrid, useSkybox } from "@depth/world"
@@ -15,6 +15,8 @@ import { usePreferencesStore } from "../stores/preferences"
 // threeJs.trigger({ cmd: "RenderFrames", param: "All" })
 const environment = useEnvironmentStore()
 const preferences = usePreferencesStore()
+const fullscreen = useFullscreen()
+const wakeLock = useWakeLock()
 
 addGuiFolder(folder => {
   folder.name = "⚙ Skybox"
@@ -30,18 +32,23 @@ addGuiFolder(folder => {
 
 addGuiFolder(folder => {
   folder.name = "⚙ Preferences"
-  folder.add(preferences, "showDebug").name("Show debug").onChange(v => {
-    document.querySelector("#scene")?.classList.toggle("paused", v)
-  })
-    // folder
-    // .add({ guiScale: preferences.guiScale }, "guiScale", 0.5, 3, 0.1)
-    // .name("GUI scale")
-    // .onFinishChange(scale => (preferences.guiScale = String(scale)))
+  folder
+    .add(preferences, "showDebug")
+    .name("Show debug")
+    .onChange(v => {
+      // document.querySelector(".Stats")?.classList.toggle("!hidden", !v)
+      // document.querySelector("#scene")?.classList.toggle("paused", v)
+    })
+  // folder
+  // .add({ guiScale: preferences.guiScale }, "guiScale", 0.5, 3, 0.1)
+  // .name("GUI scale")
+  // .onFinishChange(scale => (preferences.guiScale = String(scale)))
   folder
     .add({ fullscreen: false }, "fullscreen")
     .name("Go Fullscreen")
     .onChange(async v => {
-      await useFullscreen()[v ? "enter" : "exit"]()
+      await fullscreen.toggle()
+      await (v ? wakeLock.request("screen") : wakeLock.release())
     })
 })
 </script>
