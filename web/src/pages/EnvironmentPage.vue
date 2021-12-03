@@ -4,7 +4,7 @@ i.text-2xl.fa-duotone.fa-cat-space.m-2.opacity-69
 
 VoxelWorld(:cell-size="48" :cell-height="4" :position="[-24, -4.01, -45]")
 
-ImagePlane(url="textures/no-video.png" :position="[-7, 0.001, -5]" :width="16" :height="16")
+ImagePlane(url="textures/no-video.png" :position="[-7, 0.01, -5]" :width="16" :height="16")
 
 Debug.text-xl
   i.fa-duotone.fa-bug

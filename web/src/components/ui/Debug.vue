@@ -22,7 +22,7 @@ UseDraggable(
 import { UseDraggable } from "@vueuse/components"
 import { useElementSize, useStorage, useMemory, syncRef, whenever } from "@vueuse/core"
 import { toRef, watchEffect } from "vue"
-import { usePreferencesStore } from "~/stores/preferences"
+import { usePreferencesStore } from "../../stores/preferences"
 
 const exists = ref(true)
 syncRef(toRef(usePreferencesStore(), "showDebug"), exists)
