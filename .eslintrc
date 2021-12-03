@@ -70,6 +70,9 @@ rules:
   unicorn/number-literal-case: off
   unicorn/numeric-separators-style: off
   unicorn/no-nested-ternary: off
+  unicorn/consistent-destructuring: off
+  unicorn/no-null: off
+  vue/no-setup-props-destructure: off
   unicorn/prevent-abbreviations:
     - warn
     - ignore: ["props", "err", "el", "isDev"]

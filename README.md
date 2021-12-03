@@ -9,7 +9,7 @@ A [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) app uses composition AP
 
 ## Packages
 
-The public [web](./web#readme) frontend is also part of the — _pnpm workspace_ — monorepo. Many third-party packages are included and extended with handy functionality.
+The [web](./web#readme) frontend is part of the — _pnpm workspace_ — monorepo. Some great third-party open-souce packages are included and extended with handy features.
 
 > Incomplete docs. :pencil2: W.I.P.
 
@@ -27,71 +27,62 @@ The public [web](./web#readme) frontend is also part of the — _pnpm workspace_
 
 ## Setup
 
-Create `web/.env` file with the following content:
+1. Get [pnpm](https://pnpm.io/installation).
 
-```sh
-VITE_SUPABASE_THROTTLE=250 # sync throttle
-VITE_SUPABASE_URL="https://[HASH].supabase.co"
-VITE_SUPABASE_KEY="[LIKE_148_CHARACTERS_HASH]"
-```
+2. Create `web/.env` file with the following content for multi(**meta**)verse:
 
-FFmpeg uses _SharedArrayBuffer_ that requires [cross-origin isolated](https://developer.chrome.com/blog/enabling-shared-array-buffer/) header.
+   ```sh
+   VITE_SUPABASE_THROTTLE=250 # sync throttle
+   VITE_SUPABASE_URL="https://[HASH].supabase.co"
+   VITE_SUPABASE_KEY="[LIKE_148_CHARACTERS_HASH]"
+   ```
 
-> A [Vite plugin](https://github.com/chaosprint/vite-plugin-cross-origin-isolation) is configured in the project for the local server.
+3. FFmpeg uses _SharedArrayBuffer_ that requires [cross-origin isolated](https://developer.chrome.com/blog/enabling-shared-array-buffer/) header.
 
-### Shell commands
+   > A [Vite plugin](https://github.com/chaosprint/vite-plugin-cross-origin-isolation) is configured in the project for the local server.
 
-To build all the packages, [pnpm](https://pnpm.io/installation) is required.
+4. Build.
 
-```sh
-# download dependencies
-$ pnpm install
+   ```sh
+   $ pnpm install
+   $ pnpm build
+   # check github action that deploy the demo page.
+   ```
+   Static files goes to `web/dist`. Also, the _GitHub Action_ deploys the demo page automatically.
 
-# build packages and web (always build after install)
-$ NODE_ENV="development"
-$ pnpm build
+5. CI generates [PM2](https://pm2.keymetrics.io/docs/usage/quick-start/) config to the project root:
 
-# run local server
-$ pnpm dev
-```
+   ```sh
+   $ pm2 start ecosystem.config.js
+   ```
 
-### Server hints
+6. Setup [Nginx](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) for reverse proxy and send _wasm_ header.
 
-[PM2](https://pm2.keymetrics.io/docs/usage/quick-start/) is for Node process management. Deploy action is generating a basic configuration file to the project root.
 
-```sh
-$ pm2 start ecosystem.config.js
-```
+    ```nginx
+    server {
+      # ...usual configs...
 
-[Nginx](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) for reverse proxy. Sending _wasm_ header is required for the TensorFlow script.
+      location ~ \.wasm$ {
+        proxy_set_header Content-Type application/wasm;
+      }
 
-```nginx
-server {
-  # ...usual configs...
+      location / {
+        try_files $uri $uri/ /index.html; # for vue router
+        proxy_pass_header Content-Type;
+        proxy_pass http://localhost:6669; # port from PM2 config
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
 
-  location ~ \.wasm$ {
-    proxy_set_header Content-Type application/wasm;
-  }
+        add_header Cross-Origin-Opener-Policy same-origin;
+        add_header Cross-Origin-Embedder-Policy require-corp;
+      }
+    }
+    ```
 
-  location ~ \.dds$ {
-    # not sure about this, probably overkill
-    proxy_set_header Content-Type image/vnd-ms.dds;
-  }
-
-  location / {
-    try_files $uri $uri/ /index.html; # for vue router
-    proxy_pass_header Content-Type;
-    proxy_pass http://localhost:6669; # port from PM2 config
-    proxy_http_version 1.1; # up to you
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
-
-    add_header Cross-Origin-Opener-Policy same-origin;
-    add_header Cross-Origin-Embedder-Policy require-corp;
-  }
-}
-```
+---
 
 ### 3d hints
 

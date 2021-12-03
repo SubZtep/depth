@@ -15,7 +15,6 @@ import { useStats } from "@depth/stats"
 import type { Fn } from "@vueuse/core"
 import { getCurrentInstance, onMounted, watch } from "vue"
 import Help from "~/components/preferences/Help.vue"
-import { loop3D } from "../../../packages/canvas/src/useLoopInject"
 import { useEnvironmentStore } from "../stores/environment"
 import { usePreferencesStore } from "../stores/preferences"
 // import { useEnvironmentStore } from "~/stores/environment"
@@ -37,9 +36,9 @@ onMounted(() => {
 // import { DEG2RAD } from "three/src/math/MathUtils"
 
 useGui().show()
-const { stats } = useStats()
+// const { stats } = useStats()
 // const { start, done } = useNProgress()
-const preferences = usePreferencesStore()
+// const preferences = usePreferencesStore()
 const environment = useEnvironmentStore()
 
 // start()
@@ -53,14 +52,14 @@ const environment = useEnvironmentStore()
 //   compressed: environment.compressed,
 // })
 
-let stopStats: Fn
-watch(
-  () => preferences.showDebug,
-  visible => {
-    visible ? stopStats?.() : loop3D(() => stats.update())
-    stats.dom.classList.toggle("!hidden")
-  },
-)
+// let stopStats: Fn
+// watch(
+//   () => preferences.showDebug,
+//   visible => {
+//     visible ? stopStats?.() : loop3D(() => stats.update())
+//     stats.dom.classList.toggle("!hidden")
+//   },
+// )
 
 // exec3D(({ scene, cameraControls }) => {
 //   // const { ambientLight, directionalLight } = useLights()

@@ -10,7 +10,7 @@ import { GuiPlugin } from "@depth/hud"
 import { StatsPlugin } from "@depth/stats"
 // import Visible from "./directives/visible"
 // import CssAspectRatio from "./directives/css-aspect-ratio"
-// import StopPropagation from "./directives/stop-propagation"
+import StopPropagation from "./directives/stop-propagation"
 import router, { navigationGui } from "./router"
 // import { UserEvents } from "./events"
 import App from "./App/App.vue"
@@ -48,11 +48,11 @@ const app = createApp(App)
     width: 285,
     closeAtStart: isMobile,
   })
+  .directive("stop-propagation", StopPropagation)
 // .use(AudioPlugin)
 // .use(UserEvents)
 // .directive("visible", Visible)
 // .directive("css-aspect-ratio", CssAspectRatio)
-// .directive("stop-propagation", StopPropagation)
 
 if (process.env.NODE_ENV === "production") {
   app.config.errorHandler = (err, instance, info) => {
