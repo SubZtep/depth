@@ -1,6 +1,6 @@
 <template lang="pug">
 Title move for environment
-h1.text-4xl 𓀼
+i.text-3xl.fa-duotone.fa-cat-space.m-2.opacity-69
 </template>
 
 <script lang="ts" setup>
@@ -8,11 +8,7 @@ import { addGuiFolder } from "@depth/hud"
 import { useFullscreen, useWakeLock } from "@vueuse/core"
 import { useEnvironmentStore } from "../stores/environment"
 import { usePreferencesStore } from "../stores/preferences"
-// import { useInfiniteGrid, useSkybox } from "@depth/world"
-// import { useThreeJSEventHook } from "@depth/three.js"
 
-// const threeJs = useThreeJSEventHook()
-// threeJs.trigger({ cmd: "RenderFrames", param: "All" })
 const environment = useEnvironmentStore()
 const preferences = usePreferencesStore()
 const fullscreen = useFullscreen()
