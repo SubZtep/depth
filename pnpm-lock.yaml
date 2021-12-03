@@ -88,14 +88,14 @@ importers:
       dat.gui: ^0.7.7
       vue: ^3.2.20
     dependencies:
-      '@depth/misc': link:../misc
+      '@depth/misc': link:misc
       '@vueuse/core': 7.1.2_vue@3.2.23
       dat.gui: 0.7.7
       vue: 3.2.23
     devDependencies:
       '@types/dat.gui': 0.7.7
 
-  packages/misc:
+  packages/hud/misc:
     specifiers:
       '@types/three': ^0.134.0
       '@vueuse/core': ^7.1.2
@@ -173,7 +173,7 @@ importers:
       '@depth/canvas': link:../packages/canvas
       '@depth/database': link:../packages/database
       '@depth/hud': link:../packages/hud
-      '@depth/misc': link:../packages/misc
+      '@depth/misc': link:../packages/hud/misc
       '@depth/stats': link:../packages/stats
       '@dimforge/rapier3d-compat': 0.7.6
       '@vueuse/components': 7.1.2_vue@3.2.23
@@ -2631,7 +2631,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001284
-      electron-to-chromium: 1.4.10
+      electron-to-chromium: 1.4.11
       escalade: 3.1.1
       node-releases: 2.0.1
       picocolors: 1.0.0
@@ -3241,8 +3241,8 @@ packages:
       jake: 10.8.2
     dev: true
 
-  /electron-to-chromium/1.4.10:
-    resolution: {integrity: sha512-tFgA40Iq2oy4k2PnZrLJowbgpij+lD6ZLxkw8Ht1NKTYyN8dvSvC5xlo8X0WW2jqhKSzITrbr5mpB4/AZ/8OUA==}
+  /electron-to-chromium/1.4.11:
+    resolution: {integrity: sha512-2OhsaYgsWGhWjx2et8kaUcdktPbBGjKM2X0BReUCKcSCPttEY+hz2zie820JLbttU8jwL92+JJysWwkut3wZgA==}
     dev: true
 
   /emittery/0.8.1:

@@ -7,9 +7,13 @@
 
 A [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) app uses composition API over and above with a full-screen [Three.js](https://threejs.org/) background layer which gains some advantages of its reactivity. This is adequate for trying out concepts and seeing how they could fit into a busy environment.
 
+> I'm not intending to follow existing design patterns for any purpose. This is a solo experiment that tries to see if it is a law like progression when any project filled with day laborers with the only job is to keep rebuilding the same thing over and over again until a compulsory hybris habitually overtake the control of **selfishness**.
+>
+> _Lucky me I just became busy to not overdue this._:hurtrealbad:<sup>!!!</sup>
+
 ## Packages
 
-The [web](./web#readme) frontend is part of the — _pnpm workspace_ — monorepo. Some great third-party open-souce packages are included and extended with handy features.
+The [web](./web#readme) frontend is part of the — _pnpm workspace_ — monorepo. Some great third-party open-source packages are included and extended with handy features.
 
 > Incomplete docs. :pencil2: W.I.P.
 
@@ -48,7 +52,7 @@ The [web](./web#readme) frontend is part of the — _pnpm workspace_ — monorep
    $ pnpm build
    # check github action that deploy the demo page.
    ```
-   Static files goes to `web/dist`. Also, the _GitHub Action_ deploys the demo page automatically.
+   Static files go to `web/dist`. Also, the _GitHub Action_ deploys the demo page automatically.
 
 5. CI generates [PM2](https://pm2.keymetrics.io/docs/usage/quick-start/) config to the project root:
 

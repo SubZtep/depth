@@ -1,4 +1,4 @@
-# `@depth/dat.gui`
+# `@depth/hud`
 
 :link: [Origin](https://github.com/dataarts/dat.gui)
 

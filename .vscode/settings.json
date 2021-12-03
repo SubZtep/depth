@@ -39,10 +39,6 @@
     "**/node_modules": true,
     "**/dist": true
   },
-  "monorepoWorkspace.folders.prefix.custom": [
-    { "regex": "audio", "prefix": "🎧 " },
-    { "regex": "web", "prefix": "⚓ " }
-  ],
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
