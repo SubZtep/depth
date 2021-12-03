@@ -75,7 +75,7 @@ rules:
   vue/no-setup-props-destructure: off
   unicorn/prevent-abbreviations:
     - warn
-    - ignore: ["props", "err", "el", "isDev"]
+    - ignore: ["props", "err", "el", "isDev", "Fn", "fn", "Param", "params", "src", "ext", "Ref"]
 
 ignorePatterns:
   - "**node_modules/"

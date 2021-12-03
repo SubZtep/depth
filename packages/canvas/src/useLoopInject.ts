@@ -32,9 +32,9 @@ interface Loop3DParams {
 // const loop3DDirty = false
 
 /**
- *
- * @param fn
- * @param params
+ * Add to loop
+ * @param fn - Function to add to the loop.
+ * @param params - inject location
  * @returns Stop function for remove `fn` from the loop
  */
 export const loop3D = (fn: RenderLoopFn, params: Loop3DParams = {}) => {

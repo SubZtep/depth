@@ -114,10 +114,12 @@ importers:
 
   packages/stats:
     specifiers:
+      '@depth/canvas': workspace:*
       '@types/stats.js': ^0.17.0
       stats.js: ^0.17.0
       vue: ^3.2.20
     dependencies:
+      '@depth/canvas': link:../canvas
       stats.js: 0.17.0
       vue: 3.2.23
     devDependencies:
@@ -2456,7 +2458,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.18.1
-      caniuse-lite: 1.0.30001283
+      caniuse-lite: 1.0.30001284
       fraction.js: 4.1.2
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -2628,8 +2630,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001283
-      electron-to-chromium: 1.4.9
+      caniuse-lite: 1.0.30001284
+      electron-to-chromium: 1.4.10
       escalade: 3.1.1
       node-releases: 2.0.1
       picocolors: 1.0.0
@@ -2706,8 +2708,8 @@ packages:
       three: 0.135.0
     dev: false
 
-  /caniuse-lite/1.0.30001283:
-    resolution: {integrity: sha512-9RoKo841j1GQFSJz/nCXOj0sD7tHBtlowjYlrqIUS812x9/emfBLBt6IyMz1zIaYc/eRL8Cs6HPUVi2Hzq4sIg==}
+  /caniuse-lite/1.0.30001284:
+    resolution: {integrity: sha512-t28SKa7g6kiIQi6NHeOcKrOrGMzCRrXvlasPwWC26TH2QNdglgzQIRUuJ0cR3NeQPH+5jpuveeeSFDLm2zbkEw==}
     dev: true
 
   /chalk/2.4.2:
@@ -3239,8 +3241,8 @@ packages:
       jake: 10.8.2
     dev: true
 
-  /electron-to-chromium/1.4.9:
-    resolution: {integrity: sha512-7AyB4SiLtGJbLACXezs8BDjDbZizuoiyHTQxbcvzfi5LYWRXVSFdmPvuDjtlWQmsVSONRicZfSBj3xgft0Wvrg==}
+  /electron-to-chromium/1.4.10:
+    resolution: {integrity: sha512-tFgA40Iq2oy4k2PnZrLJowbgpij+lD6ZLxkw8Ht1NKTYyN8dvSvC5xlo8X0WW2jqhKSzITrbr5mpB4/AZ/8OUA==}
     dev: true
 
   /emittery/0.8.1:
@@ -5716,7 +5718,7 @@ packages:
     dependencies:
       autoprefixer: 10.4.0_postcss@8.4.4
       browserslist: 4.18.1
-      caniuse-lite: 1.0.30001283
+      caniuse-lite: 1.0.30001284
       css-blank-pseudo: 2.0.0_postcss@8.4.4
       css-has-pseudo: 2.0.0_postcss@8.4.4
       css-prefers-color-scheme: 5.0.0_postcss@8.4.4
@@ -6567,8 +6569,8 @@ packages:
       three: 0.135.0
     dev: false
 
-  /three-fatline/0.5.2_three@0.135.0:
-    resolution: {integrity: sha512-0ZNi5XUg62rz8h+z9tVlcq7YDK6sdx9cxqZQn75/3WGZwA/8CpcCrwo00yzkmNw3OpYJhosGr3opUlvnic+klg==}
+  /three-fatline/0.5.3_three@0.135.0:
+    resolution: {integrity: sha512-oKpBkodXLim6STcM6mbdZT4i0PwsXnjHzsEo6I0OO7HHkbkV1XJ+mvmuMDwmfAxT5PjJDbQhvrB1lfoGjEQdUg==}
     peerDependencies:
       three: '>=0.84.0'
     dependencies:
@@ -6603,7 +6605,7 @@ packages:
       kapsule: 1.13.5
       three: 0.135.0
       three-conic-polygon-geometry: 1.4.5_three@0.135.0
-      three-fatline: 0.5.2_three@0.135.0
+      three-fatline: 0.5.3_three@0.135.0
       three-geojson-geometry: 1.1.6_three@0.135.0
       tinycolor2: 1.4.2
     dev: false

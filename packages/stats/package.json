@@ -1,7 +1,6 @@
 {
   "name": "@depth/stats",
   "version": "0.1.0",
-  "private": true,
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
@@ -10,6 +9,7 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
+    "@depth/canvas": "workspace:*",
     "stats.js": "^0.17.0",
     "vue": "^3.2.20"
   },

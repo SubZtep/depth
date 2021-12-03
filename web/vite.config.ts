@@ -31,8 +31,17 @@ export default defineConfig(({ command }) => {
         exclude: [/node_modules/, /__test__/, /\.d\.ts$/],
         imports: [
           {
-            vue: ["ref", "reactive", "computed", "watch", "defineComponent", "onMounted", "onBeforeUnmount"],
-          },
+            vue: [
+              "ref",
+              "reactive",
+              "computed",
+              "watch",
+              "defineComponent",
+              "onMounted",
+              "onBeforeUnmount",
+              "getCurrentInstance",
+            ],
+            },
           {
             "@vueuse/core": [
               //     "biSyncRef",

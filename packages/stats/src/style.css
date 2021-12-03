@@ -21,3 +21,7 @@
 .Stats.mosaic > canvas[style] {
   display: block !important;
 }
+
+.Stats.hidden {
+  display: none;
+}

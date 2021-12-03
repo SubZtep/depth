@@ -10,13 +10,10 @@ import { getCurrentInstance, onMounted } from "vue"
 import MainScene from "~/App/MainScene.vue"
 
 const instance = getCurrentInstance()
-if (!instance) {
-  throw new Error("Not in Vue scope")
-}
+if (!instance) throw new Error("Not in Vue scope")
+const { $setCanvas } = instance.appContext.app.config.globalProperties
 
 const wc = ref()
 
-onMounted(() => {
-  instance.appContext.app.config.globalProperties.$setCanvas(wc.value)
-})
+onMounted(() => $setCanvas(wc.value))
 </script>

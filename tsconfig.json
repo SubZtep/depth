@@ -14,7 +14,7 @@
     "noUnusedLocals": false,
     "noImplicitAny": false,
     "declarationMap": true,
-    "isolatedModules": false
+    "isolatedModules": true
   },
   "references": [
     { "path": "packages/canvas" },

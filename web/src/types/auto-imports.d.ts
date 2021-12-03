@@ -4,6 +4,7 @@ declare global {
   const computed: typeof import('vue')['computed']
   const defineComponent: typeof import('vue')['defineComponent']
   const get: typeof import('@vueuse/core')['get']
+  const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const onBeforeUnmount: typeof import('vue')['onBeforeUnmount']
   const onMounted: typeof import('vue')['onMounted']
   const reactive: typeof import('vue')['reactive']

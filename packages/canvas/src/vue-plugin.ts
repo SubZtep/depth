@@ -15,12 +15,12 @@ import { Raycaster } from "three/src/core/Raycaster"
 import { DEG2RAD, clamp } from "three/src/math/MathUtils"
 import useScene from "./useScene"
 
-interface Options {
-  /** Media query for html element that will hold the canvas */
-  sceneSelector?: string
-}
+// interface Options {
+//   /** Media query for html element that will hold the canvas */
+//   sceneSelector?: string
+// }
 
-const CanvasPlugin: Plugin = function (app, { sceneSelector }: Options = {}) {
+const CanvasPlugin: Plugin = function (app /*, { sceneSelector }: Options = {}*/) {
   CameraControls.install({
     THREE: {
       MOUSE,

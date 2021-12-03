@@ -3,7 +3,8 @@
   "compilerOptions": {
     "composite": true,
     "rootDir": "./src",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "typeRoots": ["../node_modules/@types", "../node_modules/@vueuse/core"]
   },
   "include": ["./src"],
   "exclude": ["./dist/**/*"]

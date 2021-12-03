@@ -36,6 +36,7 @@ export default defineComponent({
       instance.appContext.app.config.globalProperties.$scene.background = await load(id)
     }
 
+    // XXX: make a pattern
     if (isReactive(props) || isRef(props.nr)) {
       whenever(
         () => props.nr,
