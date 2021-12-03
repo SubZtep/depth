@@ -1,31 +1,32 @@
 // sound autoplay policy https://goo.gl/7K7WLu
 
-export function onAudioPlayable(callback: () => void) {
-  const context = new AudioContext()
+export function onAudioPlayable(cb: () => void) {
+  const ctx = new AudioContext()
 
   const resumeAudioContext = async () => {
-    context.resume()
+    ctx.resume()
   }
 
-  if (context.state === "suspended") {
+  if (ctx.state === "suspended") {
     console.warn("Audio context is suspended")
 
     document.addEventListener("click", resumeAudioContext, { once: true })
     document.addEventListener("keypress", resumeAudioContext, { once: true })
 
-    context.addEventListener(
+    ctx.addEventListener(
       "statechange",
       async () => {
         document.removeEventListener("click", resumeAudioContext)
         document.removeEventListener("keypress", resumeAudioContext)
-        console.info("Audio context state changed 🎧", context.state)
-        await context.close()
+        console.info("Audio context state changed 🎧", ctx.state)
+        await ctx.close()
 
-        callback()
+        // GOOGOGO
+        cb.call(null)
       },
       { once: true }
     )
-  } else if (context.state === "running") {
-    callback()
+  } else if (ctx.state === "running") {
+    cb.call(null)
   }
 }

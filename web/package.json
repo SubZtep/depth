@@ -14,15 +14,11 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
-    "@depth/audio": "workspace:*",
+    "@depth/canvas": "workspace:*",
     "@depth/dat.gui": "workspace:*",
-    "@depth/ffmpeg": "workspace:*",
-    "@depth/mediapipe": "workspace:*",
     "@depth/misc": "workspace:*",
-    "@depth/stats.js": "workspace:*",
+    "@depth/stats": "workspace:*",
     "@depth/supabase": "workspace:*",
-    "@depth/three.js": "workspace:*",
-    "@depth/world": "workspace:*",
     "@dimforge/rapier3d-compat": "^0.7.6",
     "@vueuse/components": "^7.1.2",
     "@vueuse/core": "^7.1.2",
@@ -52,7 +48,7 @@
     "vite": "^2.6.14",
     "vite-plugin-cross-origin-isolation": "^0.1.1",
     "vite-plugin-pwa": "^0.11.9",
-    "vite-plugin-windicss": "^1.5.3",
+    "vite-plugin-windicss": "^1.5.4",
     "windicss": "^3.2.1"
   }
 }

@@ -1,0 +1,15 @@
+{
+  "name": "@depth/controller",
+  "version": "0.1.0",
+  "private": true,
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "xbuild": "tsc"
+  },
+  "author": "Andras Serfozo <subztep@gmail.com>",
+  "license": "Unlicense",
+  "dependencies": {
+    "camera-controls": "^1.33.1"
+  }
+}

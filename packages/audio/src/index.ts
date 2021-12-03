@@ -1,1 +1,1 @@
-export * from "./plugin"
+export { default as AudioPlugin, useAudio } from "./plugin"

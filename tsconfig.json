@@ -14,18 +14,14 @@
     "noUnusedLocals": false,
     "noImplicitAny": false,
     "declarationMap": true,
-    "isolatedModules": true
+    "isolatedModules": true,
   },
   "references": [
-    { "path": "packages/audio" },
+    { "path": "packages/canvas" },
     { "path": "packages/dat.gui" },
-    { "path": "packages/world" },
-    { "path": "packages/ffmpeg" },
-    { "path": "packages/mediapipe" },
     { "path": "packages/misc" },
-    { "path": "packages/stats.js" },
+    { "path": "packages/stats" },
     { "path": "packages/supabase" },
-    { "path": "packages/three.js" },
     { "path": "web" }
   ]
 }

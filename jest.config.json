@@ -2,6 +2,7 @@
   "verbose": true,
   "preset": "ts-jest",
   "testEnvironment": "jsdom",
+  "extensionsToTreatAsEsm": [".ts"],
   "moduleNameMapper": {
     "^@depth/(.*)$": "<rootDir>packages/$1/src",
     "^~/(.*)$": "<rootDir>web/src/$1"

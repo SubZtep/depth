@@ -15,6 +15,5 @@
   "devDependencies": {
     "@types/three": "^0.134.0",
     "@vueuse/core": "^7.1.2"
-  },
-  "typedocMain": "src/index.ts"
+  }
 }

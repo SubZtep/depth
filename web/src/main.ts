@@ -3,15 +3,16 @@ import { createPinia } from "pinia"
 import UAParser from "ua-parser-js"
 import Toast, { POSITION } from "vue-toastification"
 import { SupabasePlugin, piniaToSupabase } from "@depth/supabase"
-import { ThreejsPlugin } from "@depth/three.js"
-import { AudioPlugin } from "@depth/audio"
+import { CanvasPlugin } from "@depth/canvas"
+// import { ThreejsPlugin } from "@depth/three.js"
+// import { AudioPlugin } from "@depth/audio"
 import { GuiPlugin } from "@depth/dat.gui"
-import { StatsPlugin } from "@depth/stats.js"
-import Visible from "./directives/visible"
-import CssAspectRatio from "./directives/css-aspect-ratio"
-import StopPropagation from "./directives/stop-propagation"
+import { StatsPlugin } from "@depth/stats"
+// import Visible from "./directives/visible"
+// import CssAspectRatio from "./directives/css-aspect-ratio"
+// import StopPropagation from "./directives/stop-propagation"
 import router, { navigationGui } from "./router"
-import { UserEvents } from "./events"
+// import { UserEvents } from "./events"
 import App from "./App/App.vue"
 import "virtual:windi.css"
 import "./styles/main.css"
@@ -38,7 +39,8 @@ const app = createApp(App)
     addClass: "Stats",
     mosaic: true,
   })
-  .use(ThreejsPlugin)
+  // .use(ThreejsPlugin)
+  .use(CanvasPlugin, { sceneSelector: "#scene" })
   .use(GuiPlugin, {
     addClass: "depth",
     hooked: [navigationGui],
@@ -47,11 +49,11 @@ const app = createApp(App)
     width: 285,
     closeAtStart: isMobile,
   })
-  .use(AudioPlugin)
-  .use(UserEvents)
-  .directive("visible", Visible)
-  .directive("css-aspect-ratio", CssAspectRatio)
-  .directive("stop-propagation", StopPropagation)
+// .use(AudioPlugin)
+// .use(UserEvents)
+// .directive("visible", Visible)
+// .directive("css-aspect-ratio", CssAspectRatio)
+// .directive("stop-propagation", StopPropagation)
 
 // if (process.env.NODE_ENV === "production") {
 //   app.config.errorHandler = (err, instance, info) => {

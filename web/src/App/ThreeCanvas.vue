@@ -2,20 +2,21 @@
 Teleport(to="#scene")
   canvas(ref="wc")
 
-MainScene
+MainScene(v-if="wc")
 </template>
 
 <script lang="ts" setup>
+import { getCurrentInstance, onMounted } from "vue"
 import MainScene from "~/App/MainScene.vue"
-import { useThreeJSEventHook, useCanvas } from "@depth/three.js"
-// import { onVisibility } from "../events"
+
+const instance = getCurrentInstance()
+if (!instance) {
+  throw new Error("Not in Vue scope")
+}
 
 const wc = ref()
-const threeJs = useThreeJSEventHook()
-useCanvas(wc)
-threeJs.trigger({ cmd: "Resume" })
 
-// onVisibility(({ visible }) => {
-//   threeJs.trigger(visible ? resumeLoop : pauseLoop)
-// })
+onMounted(() => {
+  instance.appContext.app.config.globalProperties.$setCanvas(wc.value)
+})
 </script>

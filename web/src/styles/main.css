@@ -4,11 +4,16 @@
 @import "nprogress.css";
 @import "toast.css";
 
-body {
-  @apply overflow-hidden;
+/* html, body {
+  width: 100vw;
+  height: 100vh;
+} */
+
+/* body {
+  overflow: hidden;
   background-image: repeating-conic-gradient(from 0deg, transparent 0deg 90deg, #d3d4d6 90deg 180deg);
   background-size: 1rem 1rem;
-}
+} */
 
 #hud, #scene, .loadingScreen {
   top: 0;
@@ -16,6 +21,10 @@ body {
   width: 100vw;
   height: 100vh;
   position: absolute;
+}
+
+#hud {
+  pointer-events: none;
 }
 
 #scene.paused {

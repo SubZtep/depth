@@ -5,10 +5,10 @@
 declare module 'vue' {
   export interface GlobalComponents {
     Debug: typeof import('./../components/ui/Debug.vue')['default']
+    DefaultLights: typeof import('./../components/3d/DefaultLights.ts')['default']
     FloatingText: typeof import('./../components/ui/FloatingText.vue')['default']
-    ImgMemfs: typeof import('./../components/ui/ImgMemfs.vue')['default']
-    ItemProgress: typeof import('./../components/ui/ItemProgress.vue')['default']
-    StepProgressBar: typeof import('./../components/ui/StepProgressBar.vue')['default']
+    InfiniteGrid: typeof import('./../components/3d/InfiniteGrid.ts')['default']
+    SkyBox: typeof import('./../components/3d/SkyBox.ts')['default']
     Title: typeof import('./../components/ui/Title.vue')['default']
   }
 }

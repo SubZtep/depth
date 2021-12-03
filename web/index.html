@@ -6,9 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>ⒹⒺⓅⓉⒽ depth 𓀼</title>
     <style type="text/css">
+      html,
+      body {
+        width: 100vw;
+        height: 100vh;
+      }
       body {
         background-image: repeating-conic-gradient(from 0deg, transparent 0deg 90deg, #d3d4d6 90deg 180deg);
         background-size: 1rem 1rem;
+        overflow: hidden;
       }
     </style>
     <link rel="prefetch stylesheet" href="/fonts/juliamono-regular.css" />
@@ -17,6 +23,14 @@
   <body aria-hidden="true">
     <div id="scene"></div>
     <div id="hud"></div>
+    <!-- <div id="hud" style="background-color: #6666"></div> -->
+    <!-- <div id="scene" style="background-color: #6666"></div> -->
+    <!-- <div id="hud" style="touch-action: none;"></div> -->
+
+    <!-- <div
+      class="ttt"
+      style="position: absolute; top: 10px; left: 10px; width: 100px; height: 100px; background: green"
+    ></div> -->
 
     <script type="module" src="/src/main.ts"></script>
   </body>

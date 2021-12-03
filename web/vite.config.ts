@@ -10,7 +10,6 @@ import WindiCSS from "vite-plugin-windicss"
 export default defineConfig(({ command }) => {
   return {
     mode: command === "build" ? "production" : "development",
-
     resolve: {
       alias: {
         "~/": `${path.resolve("./src")}/`,
@@ -21,7 +20,8 @@ export default defineConfig(({ command }) => {
       VitePWA(),
       Components({
         dts: "src/types/components.d.ts",
-        dirs: ["src/components/ui", "src/3D/components"],
+        // dirs: ["src/components/ui", "src/components/3D", "src/3D/components"],
+        dirs: ["src/components/ui", "src/components/3d"],
         extensions: ["vue", "ts"],
         deep: false,
       }),
@@ -77,12 +77,12 @@ export default defineConfig(({ command }) => {
     build: {
       sourcemap: true,
       cssCodeSplit: false,
-      chunkSizeWarningLimit: 1666,
-      rollupOptions: {
-        manualChunks: {
-          "group-hands": ["./src/components/player/PlayerHands.vue"],
-        },
-      },
+      // chunkSizeWarningLimit: 1666,
+      // rollupOptions: {
+      //   manualChunks: {
+      //     "group-hands": ["./src/components/player/PlayerHands.vue"],
+      //   },
+      // },
     },
     server: {
       fs: {
