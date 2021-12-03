@@ -46,12 +46,14 @@ importers:
 
   packages/canvas:
     specifiers:
+      '@depth/stats': workspace:*
       '@types/three': ^0.134.0
       '@vueuse/core': ^7.1.2
       camera-controls: ^1.33.1
       three: ^0.135.0
       vue: ^3.2.20
     dependencies:
+      '@depth/stats': link:../stats
       '@vueuse/core': 7.1.2_vue@3.2.23
       camera-controls: 1.33.1_three@0.135.0
       three: 0.135.0
@@ -67,12 +69,12 @@ importers:
 
   packages/database:
     specifiers:
-      '@supabase/supabase-js': ^1.28.4
+      '@supabase/supabase-js': ^1.28.5
       '@vueuse/core': ^7.1.2
       pinia: ^2.0.5
       vue: ^3.2.20
     dependencies:
-      '@supabase/supabase-js': 1.28.4
+      '@supabase/supabase-js': 1.28.5
       '@vueuse/core': 7.1.2_vue@3.2.23
     devDependencies:
       pinia: 2.0.5_typescript@4.5.2+vue@3.2.23
@@ -106,9 +108,9 @@ importers:
 
   packages/poser:
     specifiers:
-      '@mediapipe/pose': ^0.4.1633558788
+      '@mediapipe/pose': ^0.5.1635988162
     dependencies:
-      '@mediapipe/pose': 0.4.1633558788
+      '@mediapipe/pose': 0.5.1635988162
 
   packages/stats:
     specifiers:
@@ -132,10 +134,10 @@ importers:
   web:
     specifiers:
       '@depth/canvas': workspace:*
-      '@depth/dat.gui': workspace:*
+      '@depth/database': workspace:*
+      '@depth/hud': workspace:*
       '@depth/misc': workspace:*
       '@depth/stats': workspace:*
-      '@depth/supabase': workspace:*
       '@dimforge/rapier3d-compat': ^0.7.6
       '@types/node': ^16.11.11
       '@types/three': ^0.134.0
@@ -167,10 +169,10 @@ importers:
       windicss: ^3.2.1
     dependencies:
       '@depth/canvas': link:../packages/canvas
-      '@depth/dat.gui': link:../packages/hud
+      '@depth/database': link:../packages/database
+      '@depth/hud': link:../packages/hud
       '@depth/misc': link:../packages/misc
       '@depth/stats': link:../packages/stats
-      '@depth/supabase': link:../packages/database
       '@dimforge/rapier3d-compat': 0.7.6
       '@vueuse/components': 7.1.2_vue@3.2.23
       '@vueuse/core': 7.1.2_vue@3.2.23
@@ -1653,8 +1655,8 @@ packages:
       chalk: 4.1.2
     dev: true
 
-  /@mediapipe/pose/0.4.1633558788:
-    resolution: {integrity: sha512-tD89b08CE6tF3lNNFfFTd8o4E9iOD4uKqQ++AbDv9GOImnUx5iMkMWnadQjav2sYGJ1V3qUtiHLLKfmUAW6WBg==}
+  /@mediapipe/pose/0.5.1635988162:
+    resolution: {integrity: sha512-t0dpl+iG/MTPtPPxEYHyVWo+X7G+qgYUYaB4y9pxavQRNzuQQeHeSmUnT+A8qOKnuB0ccxgyrrFmGUaaL0F3wQ==}
     dev: false
 
   /@microsoft/tsdoc-config/0.15.2:
@@ -1777,8 +1779,8 @@ packages:
       cross-fetch: 3.1.4
     dev: false
 
-  /@supabase/realtime-js/1.3.2:
-    resolution: {integrity: sha512-6U/2Ct0J8z9PIea5gOuTeGjMCwhZWL34hznwUaTjgDOkqKVheTKtvyrbTLJi04yXP4SLIVxju6egjOlA5cI0HQ==}
+  /@supabase/realtime-js/1.3.3:
+    resolution: {integrity: sha512-9D79jlo/56VQf/U7TWhu24epCoj0vWJ7ALkGcqci8Luk/iOcdCxY1NJ76BbS1UnpXEIvQxQGb1R5NSexriKcUA==}
     dependencies:
       '@types/websocket': 1.0.4
       websocket: 1.0.34
@@ -1790,12 +1792,12 @@ packages:
       cross-fetch: 3.1.4
     dev: false
 
-  /@supabase/supabase-js/1.28.4:
-    resolution: {integrity: sha512-Thp9NZTvNx/jLE1Excuqlj0vUZNJDULWO9Uj0EnHMzsQyCAydhXvpNPZlCtdRyS1xSn4/vYTWBefqNKesuXUbw==}
+  /@supabase/supabase-js/1.28.5:
+    resolution: {integrity: sha512-RZFSkj0tC6YppUVOBDldLLko4BgV8ASY+OiXC1ZxpcwmNInPgGiDkv59kVPN1UC96vnRQ/1fbFngPcwTtb1Qjw==}
     dependencies:
       '@supabase/gotrue-js': 1.21.7
       '@supabase/postgrest-js': 0.35.0
-      '@supabase/realtime-js': 1.3.2
+      '@supabase/realtime-js': 1.3.3
       '@supabase/storage-js': 1.5.0
     dev: false
 
@@ -5063,8 +5065,8 @@ packages:
     dev: false
     optional: true
 
-  /kapsule/1.13.4:
-    resolution: {integrity: sha512-WZz+NTLKrnAfOkWw+o94HdlO+6QqBretdr8EcNSRVxFPxxyOnnBdpoczwZxYzGZqLJDCJJm9P0gRyds+FT+UDA==}
+  /kapsule/1.13.5:
+    resolution: {integrity: sha512-9afHwbLgY2FyFtGmSOLvAObv8aGRa+yKqvHSq5yEpuqZ4okXpNtiGc4ykRbQifhGHyq2tY+YAfBBr/6wgyQZXA==}
     dependencies:
       debounce: 1.2.1
     dev: false
@@ -5254,6 +5256,13 @@ packages:
   /node-fetch/2.6.1:
     resolution: {integrity: sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==}
     engines: {node: 4.x || >=6.0.0}
+    dev: false
+
+  /node-fetch/2.6.6:
+    resolution: {integrity: sha512-Z8/6vRlTUChSdIgMa51jxQ4lrw/Jy5SOW10ObaA47/RElsAN2c5Pn8bTgFGWn/ibwzXTE8qwr1Yzx28vsecXEA==}
+    engines: {node: 4.x || >=6.0.0}
+    dependencies:
+      whatwg-url: 5.0.0
     dev: false
 
   /node-gyp-build/4.3.0:
@@ -6591,7 +6600,7 @@ packages:
       frame-ticker: 1.0.3
       h3-js: 3.7.2
       index-array-by: 1.3.1
-      kapsule: 1.13.4
+      kapsule: 1.13.5
       three: 0.135.0
       three-conic-polygon-geometry: 1.4.5_three@0.135.0
       three-fatline: 0.5.2_three@0.135.0
@@ -6639,6 +6648,10 @@ packages:
       punycode: 2.1.1
       universalify: 0.1.2
     dev: true
+
+  /tr46/0.0.3:
+    resolution: {integrity: sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=}
+    dev: false
 
   /tr46/1.0.1:
     resolution: {integrity: sha1-qLE/1r/SSJUZZ0zN5VujaTtwbQk=}
@@ -7140,6 +7153,10 @@ packages:
       makeerror: 1.0.12
     dev: true
 
+  /webidl-conversions/3.0.1:
+    resolution: {integrity: sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=}
+    dev: false
+
   /webidl-conversions/4.0.2:
     resolution: {integrity: sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg==}
     dev: true
@@ -7179,6 +7196,13 @@ packages:
   /whatwg-mimetype/2.3.0:
     resolution: {integrity: sha512-M4yMwr6mAnQz76TbJm914+gPpB/nCwvZbJU28cUD6dR004SAxDLOOSUaB1JDRqLtaOV/vi0IC5lEAGFgrjGv/g==}
     dev: true
+
+  /whatwg-url/5.0.0:
+    resolution: {integrity: sha1-lmRU6HZUYuN2RNNib2dCzotwll0=}
+    dependencies:
+      tr46: 0.0.3
+      webidl-conversions: 3.0.1
+    dev: false
 
   /whatwg-url/7.1.0:
     resolution: {integrity: sha512-WUu7Rg1DroM7oQvGWfOiAK21n74Gg+T4elXEQYkOhtyLeWiJFoOGLXPKI/9gzIie9CtwVLm8wtw6YJdKyxSjeg==}
@@ -7513,7 +7537,7 @@ packages:
     engines: {node: '>=12.16.1'}
     dependencies:
       is-url: 1.2.4
-      node-fetch: 2.6.1
+      node-fetch: 2.6.6
       regenerator-runtime: 0.13.9
       resolve-url: 0.2.1
     dev: false

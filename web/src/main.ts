@@ -2,11 +2,11 @@ import { createApp } from "vue"
 import { createPinia } from "pinia"
 import UAParser from "ua-parser-js"
 import Toast, { POSITION } from "vue-toastification"
-import { SupabasePlugin, piniaToSupabase } from "@depth/supabase"
+import { SupabasePlugin, piniaToSupabase } from "@depth/database"
 import { CanvasPlugin } from "@depth/canvas"
 // import { ThreejsPlugin } from "@depth/three.js"
 // import { AudioPlugin } from "@depth/audio"
-import { GuiPlugin } from "@depth/dat.gui"
+import { GuiPlugin } from "@depth/hud"
 import { StatsPlugin } from "@depth/stats"
 // import Visible from "./directives/visible"
 // import CssAspectRatio from "./directives/css-aspect-ratio"
@@ -39,7 +39,6 @@ const app = createApp(App)
     addClass: "Stats",
     mosaic: true,
   })
-  // .use(ThreejsPlugin)
   .use(CanvasPlugin, { sceneSelector: "#scene" })
   .use(GuiPlugin, {
     addClass: "depth",
@@ -55,10 +54,10 @@ const app = createApp(App)
 // .directive("css-aspect-ratio", CssAspectRatio)
 // .directive("stop-propagation", StopPropagation)
 
-// if (process.env.NODE_ENV === "production") {
-//   app.config.errorHandler = (err, instance, info) => {
-//     console.log("My Error Handler", { err, instance, info })
-//   }
-// }
+if (process.env.NODE_ENV === "production") {
+  app.config.errorHandler = (err, instance, info) => {
+    console.log("My Error Handler", { err, instance, info })
+  }
+}
 
 app.mount("#hud")

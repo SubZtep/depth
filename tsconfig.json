@@ -14,14 +14,14 @@
     "noUnusedLocals": false,
     "noImplicitAny": false,
     "declarationMap": true,
-    "isolatedModules": true,
+    "isolatedModules": false
   },
   "references": [
     { "path": "packages/canvas" },
-    { "path": "packages/dat.gui" },
+    { "path": "packages/hud" },
     { "path": "packages/misc" },
     { "path": "packages/stats" },
-    { "path": "packages/supabase" },
+    { "path": "packages/database" },
     { "path": "web" }
   ]
 }

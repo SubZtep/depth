@@ -11,6 +11,7 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
+    "@depth/stats": "workspace:*",
     "@vueuse/core": "^7.1.2",
     "camera-controls": "^1.33.1",
     "three": "^0.135.0",

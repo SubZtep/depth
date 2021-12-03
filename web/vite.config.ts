@@ -76,13 +76,21 @@ export default defineConfig(({ command }) => {
     ],
     build: {
       sourcemap: true,
-      cssCodeSplit: false,
-      // chunkSizeWarningLimit: 1666,
-      // rollupOptions: {
-      //   manualChunks: {
-      //     "group-hands": ["./src/components/player/PlayerHands.vue"],
-      //   },
-      // },
+      cssCodeSplit: true,
+      chunkSizeWarningLimit: 1_666,
+      rollupOptions: {
+        manualChunks: {
+          "group-hands": ["./src/components/player/PlayerHands.vue"],
+        },
+        output: {
+          sourcemap: true,
+          manualChunks(id: string) {
+            if (id.includes("three")) {
+              return "three"
+            }
+          },
+        },
+      },
     },
     server: {
       fs: {

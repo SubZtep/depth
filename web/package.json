@@ -15,10 +15,10 @@
   "repository": "github:SubZtep/depth",
   "dependencies": {
     "@depth/canvas": "workspace:*",
-    "@depth/dat.gui": "workspace:*",
+    "@depth/hud": "workspace:*",
     "@depth/misc": "workspace:*",
     "@depth/stats": "workspace:*",
-    "@depth/supabase": "workspace:*",
+    "@depth/database": "workspace:*",
     "@dimforge/rapier3d-compat": "^0.7.6",
     "@vueuse/components": "^7.1.2",
     "@vueuse/core": "^7.1.2",

@@ -1,1 +1,1 @@
-# controller
+# `@depth/controller`

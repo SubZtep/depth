@@ -7,29 +7,30 @@
 
 A [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) app uses composition API over and above with a full-screen [Three.js](https://threejs.org/) background layer which gains some advantages of its reactivity. This is adequate for trying out concepts and seeing how they could fit into a busy environment.
 
-### Packages
+## Packages
 
-The public [web](./web#readme) frontend is also part of the _pnpm workspace_. 3rd-party packages are wrapped into the Vue plugin interface and mostly extended with handy functionality.
+The public [web](./web#readme) frontend is also part of the — _pnpm workspace_ — monorepo. Many third-party packages are included and extended with handy functionality.
 
-|                                  Package | Description                                                                                                                                 |
-| ---------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------ |
-|                                  `audio` | Resolve [autoplay policy](https://developer.chrome.com/blog/autoplay/#webaudio), play a single test sound (for now) with the Web Audio API. |
-|     [`dat.gui`](packages/dat.gui#readme) | GUI that handles most of the user inputs. Upgraded with reactivity and additional controls.                                                 |
-|                            `environment` | Skybox and ground grid.                                                                                                                     |
-|       [`ffmpeg`](packages/ffmpeg#readme) | Analise video keyframes and save screenshots in the browser.                                                                                |
-| [`mediapipe`](packages/mediapipe#readme) | Human pose detection.                                                                                                                       |
-|                                   `misc` | Miscellaneous helper scripts and text formatters.                                                                                           |
-|   [`stats.js`](packages/stats.js#readme) | Performance monitor for 3D and heavy calculations.                                                                                          |
-|   [`supabase`](packages/supabase#readme) | Fast and easy to use database for some backend I/O.                                                                                         |
-|   [`three.js`](packages/three.js#readme) | Draw and show the 3D canvas with _game loop_ and camera controls.                                                                           |
+> Incomplete docs. :pencil2: W.I.P.
 
-> Incomplete docs. :pencil2: [TSDoc](https://tsdoc.org/) might be rendered to wiki pages at some point.
+|                            Package | Description                                                                                                                                 |
+| ---------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------ |
+|                            `audio` | Resolve [autoplay policy](https://developer.chrome.com/blog/autoplay/#webaudio), play a single test sound (for now) with the Web Audio API. |
+| [`canvas`](packages/canvas#readme) | Draw and show the 3D canvas with _game loop_ and camera controls.                                                                           |
+|                       `controller` | player input / camera moves.                                                                                                                |
+|                         `database` | Supabase wrapper and Pinia plugin.                                                                                                          |
+|                              `hud` | dat.gui                                                                                                                                     |
+|                             `misc` | Miscellaneous helper scripts and text formatters.                                                                                           |
+|                            `poser` | Mediapipe pose/face/hand detection.                                                                                                         |
+|                            `stats` | Stats.js.                                                                                                                                   |
+|                            `video` | FFmpeg wasm.                                                                                                                                |
 
 ## Setup
 
 Create `web/.env` file with the following content:
 
 ```sh
+VITE_SUPABASE_THROTTLE=250 # sync throttle
 VITE_SUPABASE_URL="https://[HASH].supabase.co"
 VITE_SUPABASE_KEY="[LIKE_148_CHARACTERS_HASH]"
 ```
@@ -101,7 +102,6 @@ server {
 
 3. https://github.com/CesiumGS/gltf-pipeline \
    `$ gltf-pipeline -i scene.gltf -o scene.glb -t -d`
-
 
 ## Various links for fictive features
 

@@ -10,9 +10,15 @@ router-view(v-slot="{ Component }")
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, onMounted } from "vue"
+import { useGui } from "@depth/hud"
+import { useStats } from "@depth/stats"
+import type { Fn } from "@vueuse/core"
+import { getCurrentInstance, onMounted, watch } from "vue"
 import Help from "~/components/preferences/Help.vue"
-import { useEnvironmentStore } from "~/stores/environment"
+import { loop3D } from "../../../packages/canvas/src/useLoopInject"
+import { useEnvironmentStore } from "../stores/environment"
+import { usePreferencesStore } from "../stores/preferences"
+// import { useEnvironmentStore } from "~/stores/environment"
 
 const instance = getCurrentInstance()
 if (!instance) {
@@ -30,10 +36,10 @@ onMounted(() => {
 // import { Fog } from "three/src/scenes/Fog"
 // import { DEG2RAD } from "three/src/math/MathUtils"
 
-// useGui().show()
-// const stats = useStats()
+useGui().show()
+// const { stats } = useStats()
 // const { start, done } = useNProgress()
-// const preferences = usePreferencesStore()
+const preferences = usePreferencesStore()
 const environment = useEnvironmentStore()
 
 // start()
@@ -55,15 +61,20 @@ const environment = useEnvironmentStore()
 //     position: [0, i, -10 * i],
 //   })
 // }
+//
+
+
+// loop3D(() => {
+//   console.log("qqq")
+// })
 
 // let stopStats: Fn
 // watch(
 //   () => preferences.showDebug,
 //   visible => {
 //     visible ? stopStats?.() : loop3D(() => stats.update())
-//     stats.dom.classList[visible ? "remove" : "add"]("!hidden")
+//     stats.dom.classList.toggle("!hidden")
 //   },
-//   { immediate: true }
 // )
 
 // exec3D(({ scene, cameraControls }) => {

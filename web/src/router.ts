@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router"
 import type { RouteRecordRaw } from "vue-router"
-import type { GUIExtended } from "@depth/dat.gui"
+import type { GUIExtended } from "@depth/hud"
 import { kebabToTitle } from "@depth/misc"
 // import { exec3D } from "@depth/three.js"
 

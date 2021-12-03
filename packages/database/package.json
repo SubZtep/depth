@@ -4,12 +4,12 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "xbuild": "tsc"
+    "build": "tsc"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@supabase/supabase-js": "^1.28.4",
+    "@supabase/supabase-js": "^1.28.5",
     "@vueuse/core": "^7.1.2"
   },
   "devDependencies": {

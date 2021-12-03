@@ -10,6 +10,6 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@mediapipe/pose": "^0.4.1633558788"
+    "@mediapipe/pose": "^0.5.1635988162"
   }
 }
