@@ -5,12 +5,14 @@
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "xbuild": "tsc"
+    "build": "tsc"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
     "@ffmpeg/core": "^0.10.0",
-    "@ffmpeg/ffmpeg": "github:SubZtep/ffmpeg.wasm#master"
+    "@ffmpeg/ffmpeg": "github:SubZtep/ffmpeg.wasm#master",
+    "@vueuse/core": "^7.1.2",
+    "vue": "^3.2.20"
   }
 }

@@ -1,15 +1,17 @@
 {
   "name": "@depth/poser",
   "version": "0.1.0",
-  "private": true,
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "xbuild": "tsc"
+    "dev": "tsc -w",
+    "build": "tsc"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@mediapipe/pose": "^0.5.1635988162"
+    "@mediapipe/pose": "^0.5.1635988162",
+    "@vueuse/core": "^7.1.2",
+    "vue": "^3.2.20"
   }
 }
