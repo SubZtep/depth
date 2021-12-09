@@ -11,7 +11,7 @@
   "license": "Unlicense",
   "dependencies": {
     "@mediapipe/pose": "^0.5.1635988162",
-    "@vueuse/core": "^7.1.2",
+    "@vueuse/core": "^7.2.2",
     "vue": "^3.2.20"
   }
 }

@@ -12,7 +12,8 @@ export default defineConfig(({ command }) => {
     mode: command === "build" ? "production" : "development",
     resolve: {
       alias: {
-        "~/": `${path.resolve("./src")}/`,
+        // eslint-disable-next-line unicorn/prefer-module
+        "~/": `${path.resolve(__dirname, "./src")}/`,
       },
     },
     plugins: [
