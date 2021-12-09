@@ -56,6 +56,7 @@ export default defineConfig({
           transform: "scale(-1, -1)",
         },
         ".outline": {
+          color: "#fff",
           "text-shadow": `
             -1px -1px 0 #000,
             0   -1px 0 #000,

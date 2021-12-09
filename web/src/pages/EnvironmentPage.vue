@@ -12,11 +12,11 @@ Debug.text-xl
 </template>
 
 <script lang="ts" setup>
-import { addGuiFolder } from "@depth/hud"
 import { useFullscreen, useMemory, useWakeLock } from "@vueuse/core"
-import { useEnvironmentStore } from "../stores/environment"
-import { usePreferencesStore } from "../stores/preferences"
-import Debug from "../components/ui/Debug.vue"
+import VoxelWorld from "~/components/3d/VoxelWorld"
+import ImagePlane from "~/components/3d/ImagePlane"
+import { useEnvironmentStore } from "~/stores/environment"
+import { usePreferencesStore } from "~/stores/preferences"
 
 const environment = useEnvironmentStore()
 const preferences = usePreferencesStore()

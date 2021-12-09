@@ -1,1 +1,1 @@
-export { StatsPlugin, useStats } from "./vue-plugin"
+export { StatsPlugin } from "./vue-plugin"

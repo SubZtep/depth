@@ -1,4 +1,4 @@
-import path from "node:path"
+import { resolve } from "node:path"
 import { defineConfig } from "vite"
 import Vue from "@vitejs/plugin-vue"
 import Components from "unplugin-vue-components/vite"
@@ -13,7 +13,7 @@ export default defineConfig(({ command }) => {
     resolve: {
       alias: {
         // eslint-disable-next-line unicorn/prefer-module
-        "~/": `${path.resolve(__dirname, "./src")}/`,
+        "~/": `${resolve(__dirname, "src")}/`,
       },
     },
     plugins: [
@@ -21,9 +21,9 @@ export default defineConfig(({ command }) => {
       VitePWA(),
       Components({
         dts: "src/types/components.d.ts",
-        dirs: ["src/components"],
+        dirs: ["src/components/ui"],
         extensions: ["vue", "ts"],
-        deep: true,
+        deep: false,
       }),
       AutoImport({
         // FIXME: https://github.com/antfu/unplugin-auto-import/issues/33
@@ -47,8 +47,8 @@ export default defineConfig(({ command }) => {
           },
           { "@vueuse/integrations": ["useNProgress"] },
           { "vue-toastification": ["useToast"] },
+          { "@depth/hud": ["addGuiFolder"] },
           // { pinia: ["storeToRefs"] },
-          // TODO: auto import like this: { "@depth/dat.gui": ["addGuiFolder"] },
         ],
         dts: "src/types/auto-imports.d.ts",
       }),

@@ -1,4 +1,4 @@
-import type { Plugin, Ref } from "vue"
+import { effectScope, Plugin, Ref } from "vue"
 import { getCurrentInstance, watch } from "vue"
 import { loop3D } from "@depth/canvas"
 import Stats from "stats.js"
@@ -16,6 +16,8 @@ interface Options {
    * Display all the panels next to each other.
    */
   mosaic?: boolean
+
+  visible?: Ref<boolean>
 }
 
 function applyOptions(stats: Stats, options: Options) {
@@ -36,34 +38,19 @@ export const StatsPlugin: Plugin = function (app, options: Options = {}) {
   applyOptions(stats, options)
   app.config.globalProperties.$stats = stats
   document.body.append(stats.dom)
-}
 
-export function useStats(options: Options = {}) {
-  const instance = getCurrentInstance()
-  if (!instance) throw new Error("Not in Vue scope")
-
-  const { $stats } = instance.appContext.app.config.globalProperties
-  applyOptions($stats, options)
-  return {
-    stats: $stats as Stats,
-    toggle: (visible: Ref<boolean>) => {
+  if (options.visible !== undefined) {
+    const scope = effectScope()
+    scope.run(() => {
       let stopStats: Fn
-      // FIXME: do i need to revoke it somewhere?
       watch(
-        visible,
-        v => {
-          v ? (stopStats = loop3D(() => $stats.update())) : stopStats?.()
-          $stats.dom.classList.toggle("hidden", !v)
+        options.visible!,
+        visible => {
+          visible ? (stopStats = loop3D(() => stats.update())) : stopStats?.()
+          stats.dom.classList.toggle("hidden", !visible)
         },
         { immediate: true }
       )
-    },
+    })
   }
 }
-
-// XXX: make a pattern for an updater that handle static and reactive providers.
-// type MaybeReactive<T> = T | Ref<T> | Record<any, T>
-// export function toggleStats(active: MaybeReactive<boolean>) {
-//   const instance = getCurrentInstance()
-//   if (!instance) throw new Error("Not in Vue scope")
-// }

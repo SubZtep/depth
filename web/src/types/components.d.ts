@@ -5,14 +5,9 @@
 declare module 'vue' {
   export interface GlobalComponents {
     Debug: typeof import('./../components/ui/Debug.vue')['default']
-    DefaultLights: typeof import('./../components/3d/DefaultLights.ts')['default']
     FloatingText: typeof import('./../components/ui/FloatingText.vue')['default']
-    Help: typeof import('./../components/preferences/Help.vue')['default']
-    ImagePlane: typeof import('./../components/3d/ImagePlane.ts')['default']
-    InfiniteGrid: typeof import('./../components/3d/InfiniteGrid.ts')['default']
-    SkyBox: typeof import('./../components/3d/SkyBox.ts')['default']
+    MemoryInfo: typeof import('./../components/ui/MemoryInfo.vue')['default']
     Title: typeof import('./../components/ui/Title.vue')['default']
-    VoxelWorld: typeof import('./../components/3d/VoxelWorld.ts')['default']
   }
 }
 

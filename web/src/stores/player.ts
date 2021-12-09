@@ -15,7 +15,7 @@ export const usePlayerStore: StoreDefinition = defineStore("player", {
   //   fields: ["uuid", "position", "rotation", "name", "color"],
   //   truthyField: "uuid",
   // },
-}) as StoreDefinition
+}) // as StoreDefinition
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(usePlayerStore, import.meta.hot))

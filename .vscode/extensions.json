@@ -1,8 +1,8 @@
 {
   "recommendations": [
-    "octref.vetur",
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "voorjaar.windicss-intellisense"
+    "voorjaar.windicss-intellisense",
+    "johnsoncodehk.volar"
   ]
 }

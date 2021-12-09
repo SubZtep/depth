@@ -8,32 +8,19 @@ UseDraggable(
   v-stop-propagation
   :class="$style.frame")
   div(:class="$style.debug" ref="el" @dblclick.stop)
-
-    .text-xs(v-if="isSupported && memory")
-      div Used: {{size(memory.usedJSHeapSize)}}
-      div Allocated: {{size(memory.totalJSHeapSize)}}
-      div Limit: {{size(memory.jsHeapSizeLimit)}}
-      hr
-
     slot
 </template>
 
 <script lang="ts" setup>
 import { UseDraggable } from "@vueuse/components"
-import { useElementSize, useStorage, useMemory, syncRef, whenever } from "@vueuse/core"
+import { useElementSize, useStorage, syncRef, whenever } from "@vueuse/core"
 import { toRef, watchEffect } from "vue"
-import { usePreferencesStore } from "../../stores/preferences"
+import { usePreferencesStore } from "~/stores/preferences"
 
 const exists = ref(true)
 syncRef(toRef(usePreferencesStore(), "showDebug"), exists)
 
-const { isSupported, memory } = useMemory()
 const el = ref()
-
-const size = (v: number) => {
-  const kb = v / 1024 / 1024
-  return `${kb.toFixed(2)} MB`
-}
 
 const stored = useStorage("debug-size", { width: 320, height: 240 })
 const initSize = { width: stored.value.width, height: stored.value.height }

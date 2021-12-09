@@ -16,6 +16,16 @@ const routes: RouteRecordRaw[] = [
       order: 1,
     },
   },
+  {
+    path: "/player",
+    name: "player",
+    component: () => import("./pages/PlayerPage.vue"),
+    meta: {
+      position: [0, camHeight, 6],
+      lookAt: [0, 0, 0],
+      order: 1,
+    },
+  },
   // {
   //   path: "",
   //   name: "meta-snail-lobby",
