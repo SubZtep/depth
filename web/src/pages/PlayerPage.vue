@@ -42,6 +42,9 @@ const btns = {
   bump() {
     body && body.applyForce({ x: 0, y: 1500, z: 0 }, true)
   },
+  roll() {
+    body && body.applyTorque({ x: 30, y: 0, z: 0 }, true)
+  },
   codes() {
     void window.open("https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code/code_values")
   },
@@ -66,5 +69,6 @@ addGuiFolder(folder => {
   folder.add(playerStore, "wireframe").name("Wire Shell")
   folder.add(playerStore, "roughness", 0, 1, 0.001).name("Roughness")
   folder.add(btns, "bump").name("Bump Up")
+  folder.add(btns, "roll").name("Roll")
 })
 </script>

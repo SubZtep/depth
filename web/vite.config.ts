@@ -8,6 +8,7 @@ import AutoImport from "unplugin-auto-import/vite"
 import WindiCSS from "vite-plugin-windicss"
 
 export default defineConfig(({ command }) => {
+  const isDev = command === "serve"
   return {
     mode: command === "build" ? "production" : "development",
     resolve: {
@@ -49,20 +50,14 @@ export default defineConfig(({ command }) => {
           { "@vueuse/integrations": ["useNProgress"] },
           { "vue-toastification": ["useToast"] },
           { "@depth/hud": ["addGuiFolder"] },
-          // { pinia: ["storeToRefs"] },
         ],
         dts: "src/types/auto-imports.d.ts",
       }),
       WindiCSS(),
       CrossOriginIsolation(),
-      // {
-      //   name: "vite-plugin-build-skip-public-dirs",
-      //   apply: "build",
-      //   // TODO: skip public/libs dir
-      // },
     ],
     build: {
-      sourcemap: true,
+      sourcemap: isDev,
       cssCodeSplit: true,
       chunkSizeWarningLimit: 1_666,
       rollupOptions: {
@@ -70,7 +65,7 @@ export default defineConfig(({ command }) => {
           "group-hands": ["./src/components/player/PlayerHands.vue"],
         },
         output: {
-          sourcemap: true,
+          sourcemap: isDev,
           manualChunks(id: string) {
             if (id.includes("three")) {
               return "three"

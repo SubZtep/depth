@@ -8,7 +8,7 @@ export function createGround(width = 10, height = 10) {
 }
 
 interface CuboidBodyOptions {
-  dimensions:  [number, number, number]
+  dimensions: [number, number, number]
   additionalMass?: number
   density?: number
 }
@@ -22,7 +22,7 @@ export function createCuboidBody(options: CuboidBodyOptions) {
   }
   const rigidBody = world.createRigidBody(rigidBodyDesc)
 
-  const colliderDesc = ColliderDesc.cuboid(...options.dimensions) //.setTranslation(0, 0.2, 0.1)
+  const colliderDesc = ColliderDesc.cuboid(...(options.dimensions.map(v => v / 2) as [number, number, number])) //.setTranslation(0, 0.2, 0.1)
   if (options.density) {
     colliderDesc.setDensity(options.density)
   }

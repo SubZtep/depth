@@ -1,9 +1,6 @@
 .Stats {
-  transform-origin: right bottom;
+  @apply origin-top-right <sm:top-0 sm:origin-bottom-right sm:bottom-0 right-0 fixed;
   transition-duration: 80ms;
-  position: fixed;
-  bottom: 0;
-  right: 0;
   cursor: zoom-in;
 }
 
