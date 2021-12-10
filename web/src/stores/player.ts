@@ -7,6 +7,8 @@ export const usePlayerStore: StoreDefinition = defineStore("player", {
     uuid: useStorage("player.uuid", ""),
     name: useStorage("player.name", ""),
     color: useStorage("player.color", 0xffffff),
+    wireframe: useStorage("player.wireframe", false),
+    roughness: useStorage("player.roughness", 0),
     position: [0, 0, 0] as [number, number, number],
     rotation: [1, 0, 0, 0] as [number, number, number, number],
   }),

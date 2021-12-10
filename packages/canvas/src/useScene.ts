@@ -1,4 +1,4 @@
-import { Scene } from "three"
+import { Scene } from "three/src/scenes/Scene"
 
 export default function () {
   return new Scene()
