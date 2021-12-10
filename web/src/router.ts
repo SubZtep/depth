@@ -37,13 +37,23 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    path: "/lobby",
+    name: "lobby",
+    component: () => import("./pages/LobbyPage.vue"),
+    meta: {
+      position: [0, camHeight, 6],
+      lookAt: [0, 0, 0],
+      order: 3,
+    },
+  },
+  {
     path: "/video",
     name: "video",
     component: () => import("./pages/VideoPage.vue"),
     meta: {
       position: [0, camHeight, 6],
       lookAt: [0, 0, 0],
-      order: 3,
+      order: 8,
     },
   },
   // {
