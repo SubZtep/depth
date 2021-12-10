@@ -12,7 +12,7 @@ router-view(v-slot="{ Component }")
 </template>
 
 <script lang="ts" setup>
-import { toRef, getCurrentInstance } from "vue"
+import { getCurrentInstance } from "vue"
 import Help from "~/components/preferences/Help.vue"
 import SkyBox from "~/components/3d/SkyBox"
 import InfiniteGrid from "~/components/3d/InfiniteGrid"
@@ -20,7 +20,6 @@ import DefaultLights from "~/components/3d/DefaultLights"
 import { useEnvironmentStore } from "~/stores/environment"
 import MemoryInfo from "~/components/ui/MemoryInfo.vue"
 import { usePreferencesStore } from "~/stores/preferences"
-import RAPIER from "@dimforge/rapier3d-compat"
 import { storeToRefs } from "pinia"
 
 const instance = getCurrentInstance()
@@ -35,7 +34,5 @@ const environment = useEnvironmentStore()
 const preferences = usePreferencesStore()
 const { showDebug } = storeToRefs(preferences)
 
-RAPIER.init().then(() => RAPIER)
-// await initPhysicsEngine()
 // useSystemRequirements()
 </script>

@@ -2,10 +2,17 @@
   "name": "@depth/physics",
   "version": "0.1.0",
   "main": "dist/index.js",
-  "typings": "dist/types.d.ts",
+  "typings": "dist/index.d.ts",
   "scripts": {
+    "dev": "tsc -w",
     "build": "tsc"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
-  "license": "Unlicense"
+  "license": "Unlicense",
+  "dependencies": {
+    "@depth/misc": "workspace:*",
+    "@depth/canvas": "workspace:*",
+    "@dimforge/rapier3d-compat": "^0.7.6",
+    "vue": "^3.2.20"
+  }
 }

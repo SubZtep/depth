@@ -1,5 +1,5 @@
-import { effectScope, Plugin, Ref } from "vue"
-import { getCurrentInstance, watch } from "vue"
+import type { Plugin, Ref } from "vue"
+import { watch, effectScope } from "vue"
 import { loop3D } from "@depth/canvas"
 import Stats from "stats.js"
 import "./style.css"

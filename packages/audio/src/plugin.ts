@@ -1,10 +1,10 @@
-import type { Plugin } from "vue"
+// import type { Plugin } from "vue"
 import { onAudioPlayable } from "./autoplay"
 import { playUrl } from "./audio"
 
 interface AudioPluginOptions {
   volume?: number
-  samples: AudioSample
+  samples: any // AudioSample
 }
 
 let play = async (src: string) => {
@@ -12,7 +12,7 @@ let play = async (src: string) => {
   return Promise.resolve()
 }
 
-const plugin: Plugin = {
+const plugin = {
   install(_, _options?: AudioPluginOptions) {
     onAudioPlayable(() => {
       play = playUrl

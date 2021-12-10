@@ -2,7 +2,6 @@ import { BackSide, RepeatWrapping } from "three/src/constants"
 import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
 import { TextureLoader } from "three/src/loaders/TextureLoader"
 import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
-import { Vector3 } from "three/src/math/Vector3"
 import { Mesh } from "three/src/objects/Mesh"
 import type { PropType } from "vue"
 import { getCurrentInstance, onScopeDispose } from "vue"
@@ -18,6 +17,7 @@ export default defineComponent({
     const instance = getCurrentInstance()
     if (!instance) throw new Error("Not in Vue scope")
     const { $scene } = instance.appContext.app.config.globalProperties
+    let mesh: Mesh
 
     new TextureLoader().load(url, texture => {
       // texture.wrapS = RepeatWrapping
@@ -32,7 +32,7 @@ export default defineComponent({
       })
 
       // Add Ground
-      const mesh = new Mesh(new PlaneGeometry(width, height, 8), woodMaterial)
+      mesh = new Mesh(new PlaneGeometry(width, height, 8), woodMaterial)
 
       //rotate
       mesh.rotation.x = Math.PI / 2
@@ -42,6 +42,10 @@ export default defineComponent({
       $scene.add(mesh)
     })
 
-    return () => null
+    onScopeDispose(() => {
+      $scene.remove(mesh)
+    })
+
+    return () => {}
   },
 })

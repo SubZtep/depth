@@ -215,6 +215,6 @@ export default defineComponent({
       $scene.remove(mesh)
     })
 
-    return () => null
+    return () => {}
   },
 })

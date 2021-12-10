@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "main": "dist/index.js",
-  "typings": "dist/types.d.ts",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "xbuild": "tsc"
+    "dev": "tsc -w",
+    "build": "tsc"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense"

@@ -8,12 +8,22 @@ const camHeight = 1.6
 const routes: RouteRecordRaw[] = [
   {
     path: "",
+    name: "home",
+    component: () => import("./pages/HomePage.vue"),
+    meta: {
+      position: [0, camHeight, 6],
+      lookAt: [0, 0, 0],
+      order: 1,
+    },
+  },
+  {
+    path: "/environment",
     name: "environment",
     component: () => import("./pages/EnvironmentPage.vue"),
     meta: {
       position: [0, camHeight, 6],
       lookAt: [0, 0, 0],
-      order: 1,
+      order: 10,
     },
   },
   {
@@ -23,7 +33,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       position: [0, camHeight, 6],
       lookAt: [0, 0, 0],
-      order: 1,
+      order: 2,
     },
   },
   // {

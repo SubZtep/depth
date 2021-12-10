@@ -13,17 +13,17 @@ The [web](./web#readme) frontend is part of the — _pnpm workspace_ — monorep
 
 > Incomplete docs. :pencil2: W.I.P.
 
-|                            Package | Description                                                                                                                                 |
-| ---------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------ |
-|                            `audio` | Resolve [autoplay policy](https://developer.chrome.com/blog/autoplay/#webaudio), play a single test sound (for now) with the Web Audio API. |
-| [`canvas`](packages/canvas#readme) | Draw and show the 3D canvas with _game loop_ and camera controls.                                                                           |
-|                       `controller` | player input / camera moves.                                                                                                                |
-|                         `database` | Supabase wrapper and Pinia plugin.                                                                                                          |
-|                              `hud` | dat.gui                                                                                                                                     |
-|                             `misc` | Miscellaneous helper scripts and text formatters.                                                                                           |
-|                            `poser` | Mediapipe pose/face/hand detection.                                                                                                         |
-|                            `stats` | Stats.js.                                                                                                                                   |
-|                            `video` | FFmpeg wasm.                                                                                                                                |
+|                            Package | Description                                                                                                         |
+| ---------------------------------: | :------------------------------------------------------------------------------------------------------------------ |
+|                            `audio` | Resolve [autoplay policy](https://developer.chrome.com/blog/autoplay/#webaudio), play sound with the Web Audio API. |
+| [`canvas`](packages/canvas#readme) | Three.js 3D canvas with _game loop_ and camera controls.                                                            |
+|                       `controller` | player input / camera moves.                                                                                        |
+|                         `database` | Supabase wrapper and Pinia plugin.                                                                                  |
+|                              `hud` | dat.gui                                                                                                             |
+|                             `misc` | Miscellaneous helper scripts and text formatters.                                                                   |
+|                            `poser` | Mediapipe pose/face/hand detection.                                                                                 |
+|                            `stats` | Stats.js.                                                                                                           |
+|                            `video` | FFmpeg wasm.                                                                                                        |
 
 ## Setup
 
@@ -48,6 +48,7 @@ The [web](./web#readme) frontend is part of the — _pnpm workspace_ — monorep
    $ pnpm build
    # check github action that deploy the demo page.
    ```
+
    Static files go to `web/dist`. Also, the _GitHub Action_ deploys the demo page automatically.
 
 5. CI generates [PM2](https://pm2.keymetrics.io/docs/usage/quick-start/) config to the project root:
@@ -58,29 +59,28 @@ The [web](./web#readme) frontend is part of the — _pnpm workspace_ — monorep
 
 6. Setup [Nginx](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) for reverse proxy and send _wasm_ header.
 
+   ```nginx
+   server {
+     # ...usual configs...
 
-    ```nginx
-    server {
-      # ...usual configs...
+     location ~ \.wasm$ {
+       proxy_set_header Content-Type application/wasm;
+     }
 
-      location ~ \.wasm$ {
-        proxy_set_header Content-Type application/wasm;
-      }
+     location / {
+       try_files $uri $uri/ /index.html; # for vue router
+       proxy_pass_header Content-Type;
+       proxy_pass http://localhost:6669; # port from PM2 config
+       proxy_http_version 1.1;
+       proxy_set_header Upgrade $http_upgrade;
+       proxy_set_header Connection 'upgrade';
+       proxy_set_header Host $host;
 
-      location / {
-        try_files $uri $uri/ /index.html; # for vue router
-        proxy_pass_header Content-Type;
-        proxy_pass http://localhost:6669; # port from PM2 config
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-
-        add_header Cross-Origin-Opener-Policy same-origin;
-        add_header Cross-Origin-Embedder-Policy require-corp;
-      }
-    }
-    ```
+       add_header Cross-Origin-Opener-Policy same-origin;
+       add_header Cross-Origin-Embedder-Policy require-corp;
+     }
+   }
+   ```
 
 ---
 

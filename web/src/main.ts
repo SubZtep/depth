@@ -6,6 +6,7 @@ import Toast, { POSITION } from "vue-toastification"
 import { CanvasPlugin } from "@depth/canvas"
 // import { ThreejsPlugin } from "@depth/three.js"
 // import { AudioPlugin } from "@depth/audio"
+import { PhysicsPlugin } from "@depth/physics"
 import { GuiPlugin } from "@depth/hud"
 import { StatsPlugin } from "@depth/stats"
 // import Visible from "./directives/visible"
@@ -50,12 +51,15 @@ const app = createApp(App)
 // .use(UserEvents)
 // .directive("visible", Visible)
 // .directive("css-aspect-ratio", CssAspectRatio)
+// .directive("stop-propagation", StopPropagation)
 
-if (process.env.NODE_ENV === "production") {
-  app.config.errorHandler = (err, instance, info) => {
-    console.log("My Error Handler", { err, instance, info })
-  }
-}
+// if (process.env.NODE_ENV === "production") {
+//   app.config.errorHandler = (err, instance, info) => {
+//     console.log("My Error Handler", { err, instance, info })
+//   }
+// }
+
+app.use(PhysicsPlugin)
 
 const preferences = usePreferencesStore()
 const { showDebug } = storeToRefs(preferences)

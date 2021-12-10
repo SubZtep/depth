@@ -1,8 +1,10 @@
 import { Group } from "three/src/objects/Group"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
-import { exec3D } from "@depth/canvas"
-import type { Mesh } from "three/src/objects/Mesh"
+import { exec3D, loop3D } from "@depth/canvas"
+import { Mesh } from "three/src/objects/Mesh"
+import { createSmallBody } from "@depth/physics"
+import { BoxBufferGeometry, MeshBasicMaterial, Quaternion } from "three/src/Three"
 
 function getModel(): Promise<Group> {
   const { start, done, progress } = useNProgress()
@@ -35,13 +37,24 @@ function getModel(): Promise<Group> {
 
 export default defineComponent({
   async setup() {
-    //
-
     const object3d = await getModel()
-    // console.log("QWW", object3d)
+    const rigidBody = createSmallBody()
+
+    const helper = new Mesh(
+      new BoxBufferGeometry(0.6, 0.4, 0.7), //.translate(0, 0.2, 0.1),
+      new MeshBasicMaterial({ transparent: true, opacity: 0.5 })
+    )
 
     exec3D(({ scene }) => {
-      scene.add(object3d)
+      scene.add(object3d, helper)
+    })
+
+    loop3D(() => {
+      const pos = rigidBody.translation() // TODO: toFixed(5)
+      object3d.position.set(pos.x, pos.y, pos.z)
+
+      // const rot = rigidBody.rotation()
+      // object3d.setRotationFromQuaternion({ x: rot.x, y: rot.y, z: rot.z, w: rot.w } as Quaternion)
     })
 
     return () => {}

@@ -16,12 +16,17 @@
     "declarationMap": true,
     "isolatedModules": true
   },
+  "exclude": ["dist", "node_modules", "__tests__"],
   "references": [
+    { "path": "packages/audio" },
     { "path": "packages/canvas" },
+    { "path": "packages/database" },
     { "path": "packages/hud" },
     { "path": "packages/misc" },
+    { "path": "packages/physics" },
+    { "path": "packages/poser" },
     { "path": "packages/stats" },
-    { "path": "packages/database" },
+    { "path": "packages/video" },
     { "path": "web" }
   ]
 }

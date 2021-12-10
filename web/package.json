@@ -19,7 +19,7 @@
     "@depth/misc": "workspace:*",
     "@depth/stats": "workspace:*",
     "@depth/database": "workspace:*",
-    "@dimforge/rapier3d-compat": "^0.7.6",
+    "@depth/physics": "workspace:*",
     "@vueuse/components": "^7.2.2",
     "@vueuse/core": "^7.2.2",
     "@vueuse/integrations": "^7.2.2",

@@ -1,12 +1,9 @@
 <template lang="pug">
 Title Player’s Snail Setup
 
-Debug {{playerStore}}
-
 SnailShell(ref="snail")
 
-FloorPlane
-
+FloorPlane(:size="10")
 </template>
 
 <script lang="ts" setup>
@@ -16,10 +13,6 @@ import FloorPlane from "~/components/3d/FloorPlane"
 const playerStore = usePlayerStore()
 
 const snail = ref()
-
-onMounted(() => {
-  console.log("SS", snail.value)
-})
 
 addGuiFolder(folder => {
   folder.name = "Snail Settings"

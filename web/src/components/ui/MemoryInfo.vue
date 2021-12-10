@@ -1,5 +1,5 @@
 <template lang="pug">
-.text-xs.outline.fixed.bottom-0.right-21.text-right.text-gray-300(v-if="isSupported && memory")
+.text-xs.outline.fixed.bottom-0.right-21.text-right.text-gray-400(v-if="isSupported && memory")
   div Used: {{size(memory.usedJSHeapSize)}}
   div Allocated: {{size(memory.totalJSHeapSize)}}
   div Limit: {{size(memory.jsHeapSizeLimit)}}
