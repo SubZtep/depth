@@ -1,16 +1,19 @@
 <template lang="pug">
 Title Player’s Snail Setup
 
-SnailBody(@rigid-body="setBody" v-slot="{ position, rotation }")
-  //- pre.bg-white {{position}} - {{rotation}}
-  SnailShell(
-    :position="position"
-    :rotation="rotation"
-    :color="playerStore.color"
-    :wireframe="playerStore.wireframe"
-    :roughness="playerStore.roughness")
+KeyboardInput(v-slot="{ joystick, action }")
+  //- .bg-yellow-300 {{joystick}} {{action}}
+  SnailBody(:player-input="{ joystick, action }" @rigid-body="setBody" v-slot="{ position, rotation }")
+    //- pre.bg-white {{position}} - {{rotation}}
+    SnailShell(
+      :position="position"
+      :rotation="rotation"
+      :color="playerStore.color"
+      :wireframe="playerStore.wireframe"
+      :roughness="playerStore.roughness")
 
-FloorPlane(:size="10")
+LeafPlane(:position="[0, 0.01, 0]")
+FloorPlane(:size="8")
 
 ValidateHappiness(v-slot="{ uuid }")
   p Are you happy to store Your snail data in local storage and make it public?
@@ -19,12 +22,16 @@ ValidateHappiness(v-slot="{ uuid }")
 
 <script lang="ts" setup>
 import { usePlayerStore } from "~/stores/player"
+import KeyboardInput from "~/components/meta/KeyboardInput"
 import SnailShell from "~/components/meta/SnailShell"
 import SnailBody from "~/components/meta/SnailBody"
 import FloorPlane from "~/components/3d/FloorPlane"
+import LeafPlane from "~/components/3d/LeafPlane"
 import ValidateHappiness from "~/components/meta/ValidateHappiness"
+import { usePreferencesStore } from "~/stores/preferences"
 
 const playerStore = usePlayerStore()
+const preferencesStore = usePreferencesStore()
 
 let body: any | undefined
 const setBody = (rigidBody: any) => {
@@ -33,12 +40,27 @@ const setBody = (rigidBody: any) => {
 
 const btns = {
   bump() {
-    body && body.applyForce({ x: 0, y: 300, z: 0 }, true)
+    body && body.applyForce({ x: 0, y: 1500, z: 0 }, true)
+  },
+  codes() {
+    void window.open("https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code/code_values")
   },
 }
 
 addGuiFolder(folder => {
-  folder.name = "Snail Settings"
+  folder.name = "🎮 Input Settings"
+  folder.add({ device: "keyboard" }, "device", ["keyboard"]).name("Device")
+  folder.add(btns, "codes").name("⮚ Open Possible Keycodes")
+  folder.add(preferencesStore, "keyboardUp").name("Up")
+  folder.add(preferencesStore, "keyboardRight").name("Right")
+  folder.add(preferencesStore, "keyboardDown").name("Down")
+  folder.add(preferencesStore, "keyboardLeft").name("Left")
+  folder.add(preferencesStore, "keyboardAction").name("Action")
+  folder.close()
+})
+
+addGuiFolder(folder => {
+  folder.name = "🐌 Your Snail"
   folder.add(playerStore, "name").name("Name")
   folder.addColor(playerStore, "color").name("Colour")
   folder.add(playerStore, "wireframe").name("Wire Shell")

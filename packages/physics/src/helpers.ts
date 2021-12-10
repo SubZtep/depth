@@ -7,14 +7,27 @@ export function createGround(width = 10, height = 10) {
   getWorld().createCollider(ground)
 }
 
-export function createSmallBody() {
+interface CuboidBodyOptions {
+  dimensions:  [number, number, number]
+  additionalMass?: number
+  density?: number
+}
+
+export function createCuboidBody(options: CuboidBodyOptions) {
   const world = getWorld()
 
   const rigidBodyDesc = RigidBodyDesc.newDynamic() //.setCanSleep(false)
+  if (options.additionalMass) {
+    rigidBodyDesc.setAdditionalMass(options.additionalMass)
+  }
   const rigidBody = world.createRigidBody(rigidBodyDesc)
 
-  const colliderDesc = ColliderDesc.cuboid(0.6, 0.4, 0.7) //.setTranslation(0, 0.2, 0.1)
-  const collider = world.createCollider(colliderDesc, rigidBody.handle)
+  const colliderDesc = ColliderDesc.cuboid(...options.dimensions) //.setTranslation(0, 0.2, 0.1)
+  if (options.density) {
+    colliderDesc.setDensity(options.density)
+  }
+  // colliderDesc.setFriction(1)
+  /*const collider =*/ world.createCollider(colliderDesc, rigidBody.handle)
 
   return rigidBody
 }

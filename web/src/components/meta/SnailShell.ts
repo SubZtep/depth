@@ -1,7 +1,7 @@
 import type { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
-import { loop3D, rotationFromQuaternion } from "@depth/canvas"
+import { loop3D, rotationFromQuaternion, useScene } from "@depth/canvas"
 import { Object3D } from "three/src/core/Object3D"
 import { Mesh } from "three/src/objects/Mesh"
 import { useSingleton } from "@depth/misc"
@@ -27,7 +27,7 @@ function getModel(): Promise<Object3D> {
           }
         })
         snailObject.scale.set(0.1, 0.1, 0.1)
-        // snailObject.position.set(0, -0.5, 0)
+        snailObject.position.set(0, -0.5, 0)
         const pivot = new Object3D()
         pivot.add(snailObject)
 
@@ -56,18 +56,16 @@ export default defineComponent({
     color: { type: Number, required: true },
     wireframe: { type: Boolean, required: true },
     roughness: { type: Number, required: true },
-    position: { type: Object as PropType<Ref<[number, number, number]>>, required: true },
-    rotation: { type: Object as PropType<Ref<[number, number, number, number]>>, required: true },
+    position: { type: Object as PropType<Ref<PositionTuple>>, required: true },
+    rotation: { type: Object as PropType<Ref<RotationTuple>>, required: true },
   },
   async setup(props) {
-    const instance = getCurrentInstance()
-    if (!instance) throw new Error("Not in Vue scope")
-    const { $scene } = instance.appContext.app.config.globalProperties
+    const scene = useScene()
 
     const { single } = useSingleton()
 
     const snail = single("SnailShell", await getModel())
-    $scene.add(snail)
+    scene.add(snail)
     const material = getMaterial(snail)
 
     // eslint-disable-next-line vue/no-watch-after-await
@@ -83,7 +81,7 @@ export default defineComponent({
         snail.position.y !== props.position.value[1] ||
         snail.position.z !== props.position.value[2]
       ) {
-        snail.position.set(...(props.position.value as [number, number, number]))
+        snail.position.set(...(props.position.value as PositionTuple))
       }
 
       if (

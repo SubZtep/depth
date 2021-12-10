@@ -13,7 +13,7 @@ export default defineComponent({
   setup({ size }, { slots }) {
     const geometry = new PlaneGeometry()
     geometry.scale(size, size, 1)
-    const material = new MeshLambertMaterial({ color: 0x000300, side: FrontSide })
+    const material = new MeshLambertMaterial({ color: 0x000300, side: FrontSide, transparent: true, opacity: 0.6 })
     const plane = new Mesh(geometry, material)
 
     plane.matrixAutoUpdate = false
@@ -25,7 +25,7 @@ export default defineComponent({
       scene.add(plane)
     })
 
-    createGround(size, size)
+    createGround(size / 2, size / 2)
 
     return () => h("div", {}, slots.default?.())
   },

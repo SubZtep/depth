@@ -9,6 +9,11 @@ export const usePreferencesStore: StoreDefinition = defineStore("preferences", {
   state: () => ({
     isMobile: new UAParser().getDevice().type === "mobile",
     activeInput: "keyboard" as PlayerInputMethod,
+    keyboardUp: useStorage("preferences.keyboardUp", "ArrowUp"),
+    keyboardRight: useStorage("preferences.keyboardRight", "ArrowRight"),
+    keyboardDown: useStorage("preferences.keyboardDown", "ArrowDown"),
+    keyboardLeft: useStorage("preferences.keyboardLeft", "ArrowLeft"),
+    keyboardAction: useStorage("preferences.keyboardAction", "ControlLeft"),
     showDebug: true, // useStorage("preferences.showDebug", true),
     guiScale: 1.4, // useStorage("preferences.guiScale", 1, undefined, guiScaleOptions),
     horizontalLock: true, // useStorage("preferences.horizontalLock", true),

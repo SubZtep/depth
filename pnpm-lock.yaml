@@ -180,7 +180,7 @@ importers:
       three-globe: ^2.21.3
       ua-parser-js: ^1.0.2
       unplugin-auto-import: ^0.5.3
-      unplugin-vue-components: ^0.17.6
+      unplugin-vue-components: ^0.17.8
       uuid: ^8.3.2
       vite: ^2.7.1
       vite-plugin-cross-origin-isolation: ^0.1.1
@@ -221,7 +221,7 @@ importers:
       postcss-preset-env: 7.0.1
       pug: 3.0.2
       unplugin-auto-import: 0.5.3_@vueuse+core@7.2.2+vite@2.7.1
-      unplugin-vue-components: 0.17.6_vite@2.7.1+vue@3.2.24
+      unplugin-vue-components: 0.17.8_vite@2.7.1+vue@3.2.24
       vite: 2.7.1
       vite-plugin-cross-origin-isolation: 0.1.1
       vite-plugin-pwa: 0.11.11_vite@2.7.1
@@ -6891,8 +6891,8 @@ packages:
       - webpack
     dev: true
 
-  /unplugin-vue-components/0.17.6_vite@2.7.1+vue@3.2.24:
-    resolution: {integrity: sha512-Z2XvwKeY7/++MucRKzJihDsbdL8rFb71VfmuhtMtLE8zurjFu57XKFx0RNFUD5zD4g0HEyR9GGTwXu2YI0rang==}
+  /unplugin-vue-components/0.17.8_vite@2.7.1+vue@3.2.24:
+    resolution: {integrity: sha512-biyIE8TQwolK/ii3vu3xJ4w83+bliAgka3AuhU2cX5OOvJP+xuq39Skhf+BkNkZoY8xoeU65WHOgLFl//m3/YQ==}
     engines: {node: '>=14'}
     peerDependencies:
       '@babel/parser': ^7.15.8
