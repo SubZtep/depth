@@ -3,13 +3,25 @@
     "scope": "vue",
     "body": [
       "<template lang=\"pug\">",
-      "</template>",
+
+            "</template>",
       "",
       "<script lang=\"ts\" setup>",
       "</script>",
       "",
       "<style module>",
       "</style>"
+    ]
+  },
+  "Vue Component": {
+    "scope": "vue",
+    "body": [
+      "<template lang=\"pug\">",
+      "Title $0",
+      "</template>",
+      "",
+      "<script lang=\"ts\" setup>",
+      "</script>"
     ]
   },
   "Empty TS Component": {

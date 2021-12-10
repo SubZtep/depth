@@ -11,6 +11,7 @@ declare global {
   const reactive: typeof import('vue')['reactive']
   const ref: typeof import('vue')['ref']
   const set: typeof import('@vueuse/core')['set']
+  const toRef: typeof import('vue')['toRef']
   const useNProgress: typeof import('@vueuse/integrations')['useNProgress']
   const useToast: typeof import('vue-toastification')['useToast']
   const watch: typeof import('vue')['watch']

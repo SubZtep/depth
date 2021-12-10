@@ -161,6 +161,7 @@ importers:
       '@depth/misc': workspace:*
       '@depth/physics': workspace:*
       '@depth/stats': workspace:*
+      '@depth/video': workspace:*
       '@types/node': ^16.11.12
       '@types/three': ^0.135.0
       '@types/ua-parser-js': ^0.7.36
@@ -196,6 +197,7 @@ importers:
       '@depth/misc': link:../packages/misc
       '@depth/physics': link:../packages/physics
       '@depth/stats': link:../packages/stats
+      '@depth/video': link:../packages/video
       '@vueuse/components': 7.2.2_vue@3.2.24
       '@vueuse/core': 7.2.2_vue@3.2.24
       '@vueuse/integrations': 7.2.2_vue@3.2.24

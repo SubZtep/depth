@@ -33,6 +33,7 @@ export default defineConfig(({ command }) => {
           {
             vue: [
               "ref",
+              "toRef",
               "reactive",
               "computed",
               "watch",

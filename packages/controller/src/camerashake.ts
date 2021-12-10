@@ -35,7 +35,7 @@ export class CameraShake {
 
     const anim = () => {
       const elapsedTime = performance.now() - startTime
-      const frameNumber = ((elapsedTime / ONE_SECOND) * FPS) | 0
+      const frameNumber = Math.trunc((elapsedTime / ONE_SECOND) * FPS)
       const progress = elapsedTime / this._duration
       const ease = sineOut(1 - progress)
 
@@ -103,8 +103,8 @@ function makePNoise1D(length: number, step: number) {
   for (let t = 0; t < step; t++) {
     const x = ((length - 1) / (step - 1)) * t
 
-    const i0 = x | 0
-    const i1 = (i0 + 1) | 0
+    const i0 = Math.trunc(x)
+    const i1 = Math.trunc(i0 + 1)
 
     const g0 = gradients[i0]
     const g1 = gradients[i1] || gradients[i0]

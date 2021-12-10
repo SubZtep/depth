@@ -23,7 +23,7 @@ The [web](./web#readme) frontend is part of the — _pnpm workspace_ — monorep
 |                             `misc` | Miscellaneous helper scripts and text formatters.                                                                   |
 |                            `poser` | Mediapipe pose/face/hand detection.                                                                                 |
 |                            `stats` | Stats.js.                                                                                                           |
-|                            `video` | FFmpeg wasm.                                                                                                        |
+|   [`video`](packages/video#readme) | FFmpeg wasm.                                                                                                        |
 
 ## Setup
 

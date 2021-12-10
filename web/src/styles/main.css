@@ -15,7 +15,9 @@
   background-size: 1rem 1rem;
 } */
 
-#hud, #scene, .loadingScreen {
+#hud,
+#scene,
+.loadingScreen {
   top: 0;
   left: 0;
   width: 100vw;
@@ -25,6 +27,10 @@
 
 #hud {
   pointer-events: none;
+}
+
+#hud > * {
+  pointer-events: all;
 }
 
 #scene.paused {
