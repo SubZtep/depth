@@ -49,13 +49,11 @@ importers:
       '@depth/stats': workspace:*
       '@types/three': ^0.135.0
       '@vueuse/core': ^7.2.2
-      camera-controls: ^1.33.1
       three: ^0.135.0
       vue: ^3.2.20
     dependencies:
       '@depth/stats': link:../stats
       '@vueuse/core': 7.2.2_vue@3.2.24
-      camera-controls: 1.33.1_three@0.135.0
       three: 0.135.0
       vue: 3.2.24
     devDependencies:
@@ -63,9 +61,18 @@ importers:
 
   packages/controller:
     specifiers:
+      '@depth/canvas': workspace:*
+      '@types/three': ^0.135.0
       camera-controls: ^1.33.1
+      three: ^0.135.0
+      vue: ^3.2.20
     dependencies:
-      camera-controls: 1.33.1
+      '@depth/canvas': link:../canvas
+      camera-controls: 1.33.1_three@0.135.0
+      three: 0.135.0
+      vue: 3.2.24
+    devDependencies:
+      '@types/three': 0.135.0
 
   packages/database:
     specifiers:
@@ -156,6 +163,7 @@ importers:
   web:
     specifiers:
       '@depth/canvas': workspace:*
+      '@depth/controller': workspace:*
       '@depth/database': workspace:*
       '@depth/hud': workspace:*
       '@depth/misc': workspace:*
@@ -192,6 +200,7 @@ importers:
       windicss: ^3.2.1
     dependencies:
       '@depth/canvas': link:../packages/canvas
+      '@depth/controller': link:../packages/controller
       '@depth/database': link:../packages/database
       '@depth/hud': link:../packages/hud
       '@depth/misc': link:../packages/misc
@@ -2654,7 +2663,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001286
-      electron-to-chromium: 1.4.15
+      electron-to-chromium: 1.4.16
       escalade: 3.1.1
       node-releases: 2.0.1
       picocolors: 1.0.0
@@ -2716,12 +2725,6 @@ packages:
     resolution: {integrity: sha512-tVI4q5jjFV5CavAU8DXfza/TJcZutVKo/5Foskmsqcm0MsL91moHvwiGNnqaa2o6PF/7yT5ikDRcVcl8Rj6LCA==}
     engines: {node: '>=10'}
     dev: true
-
-  /camera-controls/1.33.1:
-    resolution: {integrity: sha512-+l0LgV+w0G4GAtwiSahHLj7rCqzVMSa+/BHE3+aE7vdku2B9QF8CXgDSlCH9cBt2TZeg+WQSkRPeIYwjvtjdPw==}
-    peerDependencies:
-      three: '>=0.126.1'
-    dev: false
 
   /camera-controls/1.33.1_three@0.135.0:
     resolution: {integrity: sha512-+l0LgV+w0G4GAtwiSahHLj7rCqzVMSa+/BHE3+aE7vdku2B9QF8CXgDSlCH9cBt2TZeg+WQSkRPeIYwjvtjdPw==}
@@ -3264,8 +3267,8 @@ packages:
       jake: 10.8.2
     dev: true
 
-  /electron-to-chromium/1.4.15:
-    resolution: {integrity: sha512-WDw2IUL3k4QpbzInV3JZK+Zd1NjWJPDZ28oUSchWb/kf6AVj7/niaAlgcJlvojFa1d7pJSyQ/KSZsEtq5W7aGQ==}
+  /electron-to-chromium/1.4.16:
+    resolution: {integrity: sha512-BQb7FgYwnu6haWLU63/CdVW+9xhmHls3RCQUFiV4lvw3wimEHTVcUk2hkuZo76QhR8nnDdfZE7evJIZqijwPdA==}
     dev: true
 
   /emittery/0.8.1:
@@ -3307,11 +3310,11 @@ packages:
       has-symbols: 1.0.2
       internal-slot: 1.0.3
       is-callable: 1.2.4
-      is-negative-zero: 2.0.1
+      is-negative-zero: 2.0.2
       is-regex: 1.1.4
       is-shared-array-buffer: 1.0.1
       is-string: 1.0.7
-      is-weakref: 1.0.1
+      is-weakref: 1.0.2
       object-inspect: 1.11.1
       object-keys: 1.1.1
       object.assign: 4.1.2
@@ -4314,8 +4317,8 @@ packages:
     resolution: {integrity: sha1-Mlj7afeMFNW4FdZkM2tM/7ZEFZE=}
     dev: true
 
-  /is-negative-zero/2.0.1:
-    resolution: {integrity: sha512-2z6JzQvZRa9A2Y7xC6dQQm4FSTSTNWjKIYYTt4246eMTJmIo0Q+ZyOsU66X8lxK1AbB92dFeglPLrhwpeRKO6w==}
+  /is-negative-zero/2.0.2:
+    resolution: {integrity: sha512-dqJvarLawXsFbNDeJW7zAz8ItJ9cd28YufuuFzh0G8pNHjJMnY08Dv7sYX2uF5UpQOwieAeOExEYAWWfu7ZZUA==}
     engines: {node: '>= 0.4'}
     dev: true
 
@@ -4392,8 +4395,8 @@ packages:
     resolution: {integrity: sha512-ITvGim8FhRiYe4IQ5uHSkj7pVaPDrCTkNd3yq3cV7iZAcJdHTUMPMEHcqSOy9xZ9qFenQCvi+2wjH9a1nXqHww==}
     dev: false
 
-  /is-weakref/1.0.1:
-    resolution: {integrity: sha512-b2jKc2pQZjaeFYWEf7ScFj+Be1I+PXmlu572Q8coTXZ+LD/QQZ7ShPMst8h16riVgyXTQwUsFEl74mDvc/3MHQ==}
+  /is-weakref/1.0.2:
+    resolution: {integrity: sha512-qctsuLZmIQ0+vSSMfoVvyFe2+GSEvnmZ2ezTup1SBse9+twCCeial6EEi3Nc2KFcf6+qz2FBPnjXsk8xhKSaPQ==}
     dependencies:
       call-bind: 1.0.2
     dev: true

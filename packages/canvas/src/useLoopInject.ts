@@ -4,12 +4,9 @@ import type { WebGLRenderer } from "three/src/renderers/WebGLRenderer"
 import type { Scene } from "three/src/scenes/Scene"
 
 interface RenderLoopFnProps {
-  // cameraControls: CameraControls
   renderer: WebGLRenderer
   scene: Scene
   deltaTime: number
-  /** Player (or something) moved the camera. */
-  // cameraControlled: boolean
 }
 
 type RenderLoopFn = (props: RenderLoopFnProps) => void
@@ -52,11 +49,6 @@ export const loop3D = (fn: RenderLoopFn, params: Loop3DParams = {}) => {
 
   tryOnScopeDispose(() => {
     stop()
-    // if (inject === "rendered") {
-    //   renderedLoopFns.delete(fn)
-    // } else {
-    //   loopFns.delete(fn)
-    // }
   })
 
   return stop

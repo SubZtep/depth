@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { inject, onBeforeUnmount, onMounted, Plugin } from "vue"
 import { addTextInput, addVector3 } from "./extend"
-import type { Fn } from "@vueuse/core"
 import type { extendedGUI } from "./extend"
-// import dat from "./reactive"
+import type { Fn } from "@vueuse/core"
 import dat from "dat.gui"
+import "./dat.gui.css"
 
 export type GUIExtended = dat.GUI & extendedGUI
 type GUIExtendedCallback = (gui: GUIExtended) => void

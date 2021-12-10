@@ -5,7 +5,7 @@ import { loop3D } from "@depth/canvas"
 export const gravity = { x: 0, y: -9.81, z: 0 }
 export const loadPhysicsEngine = () => RAPIER.init().then(() => RAPIER)
 
-export const getWorld = () => {
+export const getWorld = (): World => {
   const { singleton } = useSingleton()
 
   if (singleton.has("PhysicalWorld")) {

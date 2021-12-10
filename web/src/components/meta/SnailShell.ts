@@ -6,6 +6,8 @@ import { Object3D } from "three/src/core/Object3D"
 import { Mesh } from "three/src/objects/Mesh"
 import { useSingleton } from "@depth/misc"
 import { watchEffect } from "vue"
+import { BoxGeometry } from "three/src/geometries/BoxGeometry"
+import { BoxHelper } from "three/src/helpers/BoxHelper"
 
 function getModel(): Promise<Object3D> {
   const { start, done, progress } = useNProgress()
@@ -27,7 +29,7 @@ function getModel(): Promise<Object3D> {
           }
         })
         snailObject.scale.set(0.1, 0.1, 0.1)
-        snailObject.position.set(0, -0.5, 0)
+        snailObject.position.set(0, -0.25, 0)
         const pivot = new Object3D()
         pivot.add(snailObject)
 
@@ -67,6 +69,11 @@ export default defineComponent({
     const snail = single("SnailShell", await getModel())
     scene.add(snail)
     const material = getMaterial(snail)
+
+    // const box = new BoxGeometry(0.6, 0.45, 0.7)
+    // const boxMesh = new Mesh(box)
+    // const boxHelper = new BoxHelper(boxMesh, 0xffff00)
+    // snail.add(boxHelper)
 
     // eslint-disable-next-line vue/no-watch-after-await
     watchEffect(() => {

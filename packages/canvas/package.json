@@ -13,7 +13,6 @@
   "dependencies": {
     "@depth/stats": "workspace:*",
     "@vueuse/core": "^7.2.2",
-    "camera-controls": "^1.33.1",
     "three": "^0.135.0",
     "vue": "^3.2.20"
   },

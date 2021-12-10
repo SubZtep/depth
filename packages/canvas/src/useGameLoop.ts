@@ -1,18 +1,17 @@
 import type { Fn } from "@vueuse/core"
-import { useIdle, whenever } from "@vueuse/core"
-import CameraControls from "camera-controls"
-import { Camera } from "three/src/cameras/Camera"
-import { Clock } from "three/src/core/Clock"
+import type { OrthographicCamera } from "three/src/cameras/OrthographicCamera"
+import type { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera"
 import { WebGLRenderer } from "three/src/renderers/WebGLRenderer"
+import { useIdle, whenever } from "@vueuse/core"
 import { Scene } from "three/src/scenes/Scene"
+import { Clock } from "three/src/core/Clock"
 import { ref, watchEffect } from "vue"
 import { runInjectedFunctions } from "./useLoopInject"
 
 interface Options {
   renderer: WebGLRenderer
   scene: Scene
-  camera: Camera
-  cameraControls: CameraControls
+  camera: PerspectiveCamera | OrthographicCamera
 }
 
 export const looping = ref(false)
@@ -25,17 +24,16 @@ watchEffect(() => {
 
 let gameLoop: Fn // TODO: check is singleton practicable
 
-export function initGameLoop({ renderer, scene, camera, cameraControls }: Options) {
+export function initGameLoop({ renderer, scene, camera }: Options) {
   const clock = new Clock()
   let deltaTime: number
 
   gameLoop = () => {
     deltaTime = clock.getDelta()
-    const cameraMoved = cameraControls.update(deltaTime)
     runInjectedFunctions({ scene, renderer, deltaTime }, "camupdated")
 
     requestAnimationFrame(gameLoop)
-    const shouldRenderNextFrame = cameraMoved || !idle.value
+    const shouldRenderNextFrame = !idle.value
     shouldRenderNextFrame && renderer.render(scene, camera)
     runInjectedFunctions({ scene, renderer, deltaTime }, "rendered")
   }

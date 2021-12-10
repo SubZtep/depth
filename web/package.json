@@ -15,6 +15,7 @@
   "repository": "github:SubZtep/depth",
   "dependencies": {
     "@depth/canvas": "workspace:*",
+    "@depth/controller": "workspace:*",
     "@depth/hud": "workspace:*",
     "@depth/misc": "workspace:*",
     "@depth/stats": "workspace:*",

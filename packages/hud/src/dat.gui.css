@@ -1,6 +1,6 @@
 .depth.dg.main {
   transform: scale(var(--gui-scale, 1));
-  @apply fixed bottom-0 left-0 origin-bottom-left select-none;
+  @apply fixed bottom-0 left-0 origin-bottom-left select-none <sm:!w-full;
 
   * {
     @apply font-mono text-light-500;
@@ -116,7 +116,7 @@
   }
 
   .close-button {
-    @apply text-sm;
+    @apply text-sm <sm:!w-full;
     color: #666;
     position: relative !important;
     height: 32px;

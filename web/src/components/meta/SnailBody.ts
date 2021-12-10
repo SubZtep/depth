@@ -16,7 +16,7 @@ export default defineComponent({
     if (!instance) throw new Error("Not in Vue scope")
 
     const rigidBody = createCuboidBody({
-      dimensions: [0.6, 0.4, 0.7],
+      dimensions: [0.6, 0.45, 0.7],
       additionalMass: 0.2,
       density: 2,
     })
@@ -31,7 +31,7 @@ export default defineComponent({
 
     if (props.playerInput) {
       whenever(props.playerInput.action, () => {
-        rigidBody.applyForce({ x: 0, y: 500, z: 0 }, true)
+        rigidBody.applyForce({ x: 0, y: 100, z: 0 }, true)
       })
     }
 
@@ -46,7 +46,7 @@ export default defineComponent({
 
       const pos = rigidBody.translation() // TODO: toFixed(5) if neecessary
 
-      if (pos.y < -10) {
+      if (pos.y < -10) { // reset the fallen
         initPos(rigidBody)
         return
       }

@@ -5,11 +5,18 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "xbuild": "tsc"
+    "dev": "tsc -w",
+    "build": "tsc"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "camera-controls": "^1.33.1"
+    "@depth/canvas": "workspace:*",
+    "camera-controls": "^1.33.1",
+    "three": "^0.135.0",
+    "vue": "^3.2.20"
+  },
+  "devDependencies": {
+    "@types/three": "^0.135.0"
   }
 }

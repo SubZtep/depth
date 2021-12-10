@@ -4,6 +4,7 @@ import UAParser from "ua-parser-js"
 import Toast, { POSITION } from "vue-toastification"
 // import { SupabasePlugin, piniaToSupabase } from "@depth/database"
 import { CanvasPlugin } from "@depth/canvas"
+import { ControllerPlugin } from "@depth/controller"
 // import { ThreejsPlugin } from "@depth/three.js"
 // import { AudioPlugin } from "@depth/audio"
 import { PhysicsPlugin } from "@depth/physics"
@@ -37,7 +38,8 @@ const app = createApp(App)
   //   url: import.meta.env.VITE_SUPABASE_URL,
   //   key: import.meta.env.VITE_SUPABASE_KEY,
   // })
-  .use(CanvasPlugin, { sceneSelector: "#scene" })
+  .use(ControllerPlugin)
+  .use(CanvasPlugin)
   .use(GuiPlugin, {
     addClass: "depth",
     hooked: [navigationGui],

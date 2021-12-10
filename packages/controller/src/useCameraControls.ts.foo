@@ -1,6 +1,6 @@
 import type CameraControls from "camera-controls"
 import { useIdle, whenever } from "@vueuse/core"
-import { CameraShake } from "./camerashake"
+import { CameraShake } from "./camerashake.ts.foo"
 import { Box3, Vector3 } from "three"
 
 export function setupBoundaries(cameraControls: CameraControls, horizontalLock = true) {
