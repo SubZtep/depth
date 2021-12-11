@@ -45,8 +45,8 @@ export default defineComponent({
       Globe.hexBinPointWeight(3)
       Globe.hexBinResolution(2)
       Globe.hexMargin(0.2)
-      Globe.hexTopColor(() => "red")
-      Globe.hexSideColor(() => "rgba(0,255,0,0.8)")
+      Globe.hexTopColor(() => "darkgreen")
+      Globe.hexSideColor(() => "green")
       Globe.hexBinMerge(true)
     }
 
@@ -66,8 +66,8 @@ export default defineComponent({
       lat: (Math.random() - 0.5) * 180,
       lng: (Math.random() - 0.5) * 360,
       alt: Math.random(),
-      radius: Math.random() * 5,
-      color: ["red", "white", "blue", "green"][Math.round(Math.random() * 3)],
+      radius: Math.random() * 3,
+      color: ["red", "black"][Math.round(Math.random())],
     }))
     Globe.customLayerData(gData)
       .customThreeObject(
@@ -80,7 +80,6 @@ export default defineComponent({
       })
 
     loop3D(({ deltaTime }) => {
-      // for (const d of gData) d.lat += 0.2
       for (const d of gData) d.lat += 10 * deltaTime
       Globe.customLayerData(Globe.customLayerData())
     })
