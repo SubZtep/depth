@@ -1,9 +1,9 @@
-import { ColliderDesc, RigidBody, RigidBodyDesc } from "@dimforge/rapier3d-compat"
+import { Collider, ColliderDesc, RigidBody, RigidBodyDesc } from "@dimforge/rapier3d-compat"
 import { getWorld } from "./world"
 
-export function createGround(width = 10, height = 10) {
+export function createGround(width = 10, height = 10): Collider {
   const ground = ColliderDesc.cuboid(width, 0.1, height)
-  getWorld().createCollider(ground)
+  return getWorld().createCollider(ground)
 }
 
 interface CuboidBodyOptions {

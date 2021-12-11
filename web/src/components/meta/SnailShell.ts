@@ -85,6 +85,8 @@ export default defineComponent({
       material.roughness = props.roughness
     })
 
+    // console.log(props.position.value)
+
     loop3D(() => {
       if (
         snail.position.x !== props.position.value[0] ||

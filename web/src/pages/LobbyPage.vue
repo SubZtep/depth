@@ -1,11 +1,15 @@
 <template lang="pug">
 Title Metasnail Lobby
 
-FloorPlane(:size="100")
+//- FloorPlane(:size="100")
+//- Debug {{metaSnails.map(s => s.name)}}
 
-Debug {{metaSnails}}
+UseGeolocation(v-slot="{ coords: { latitude, longitude } }")
+  pre {{latitude}} x {{longitude}}
 
-SnailShell(
+  ThreeGlobe(v-if="latitude && longitude" :scale="0.05" :position="[0, 0.01, -13]" :points="[{ lat: latitude, lng: longitude }]")
+
+//-SnailShell.opacity-50(
   v-for="metaSnail in metaSnails"
   :key="metaSnail.uuid"
   :color="metaSnail.color"
@@ -20,15 +24,25 @@ ValidateUuid
 </template>
 
 <script lang="ts" setup>
-import FloorPlane from "~/components/3d/FloorPlane"
+import { UseGeolocation } from "@vueuse/components"
+import ThreeGlobe from "~/components/3d/ThreeGlobe"
+// import FloorPlane from "~/components/3d/FloorPlane"
 import SnailShell from "~/components/meta/SnailShell"
 import ValidateUuid from "~/components/meta/ValidateUuid"
 import { useMetaSnails } from "~/composables/useMetaSnails"
+import { useEnvironmentStore } from "~/stores/environment"
 import { usePlayerStore } from "~/stores/player"
 
 const playerStore = usePlayerStore()
+const environmentStore = useEnvironmentStore()
 const { metaSnails, playerPosition, subscribe, unsubscribe } = await useMetaSnails()
 
-onMounted(() => subscribe())
-onBeforeUnmount(async () => await unsubscribe())
+environmentStore.distance = 0
+environmentStore.skybox = 1
+subscribe()
+
+onBeforeUnmount(async () => {
+  environmentStore.undo()
+  await unsubscribe()
+})
 </script>

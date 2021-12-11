@@ -5,7 +5,7 @@ import { defineStore, acceptHMRUpdate } from "pinia"
 export const useEnvironmentStore: StoreDefinition = defineStore("environment", {
   state: () => ({
     // skybox
-    skybox: useStorage<number>("environment.skybox", 1),
+    skybox: useStorage<number>("environment.skybox", 15),
     // grid
     size: useStorage<number>("environment.size", 1),
     color: useStorage<number>("environment.color", 0x357335),

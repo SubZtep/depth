@@ -1,5 +1,6 @@
 import { createApp } from "vue"
 import { createPinia, storeToRefs } from "pinia"
+import { PiniaUndo } from "pinia-undo"
 import UAParser from "ua-parser-js"
 import Toast, { POSITION } from "vue-toastification"
 import { SupabasePlugin, piniaToSupabase } from "@depth/database"
@@ -23,6 +24,8 @@ const isMobile = new UAParser().getDevice().type === "mobile"
 
 const pinia = createPinia()
 pinia.use(piniaToSupabase)
+// @ts-ignore
+pinia.use(PiniaUndo)
 
 const app = createApp(App)
   .use(pinia)

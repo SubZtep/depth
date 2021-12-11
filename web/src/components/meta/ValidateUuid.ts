@@ -23,7 +23,7 @@ export default defineComponent({
         },
         listeners: {
           okay: () => {
-            router.push("/player")
+            router.push("")
           },
         },
       },

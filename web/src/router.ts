@@ -8,12 +8,12 @@ const camHeight = 1.6
 const routes: RouteRecordRaw[] = [
   {
     path: "/voxel",
-    name: "home",
-    component: () => import("./pages/HomePage.vue"),
+    name: "vocel",
+    component: () => import("./pages/VoxelWorldPage.vue"),
     meta: {
       position: [0, camHeight, 6],
       lookAt: [0, 0, 0],
-      order: 1,
+      order: 5,
     },
   },
   {

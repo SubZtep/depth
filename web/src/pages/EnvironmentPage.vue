@@ -26,7 +26,7 @@ addGuiFolder(folder => {
   folder.name = "⚙ Grid"
   folder.add(environment, "size", 1, 15, 1)
   folder.addColor(environment, "color")
-  folder.add(environment, "distance", 1, 9_000, 10)
+  folder.add(environment, "distance", 1, 1_000)
 })
 
 addGuiFolder(folder => {
