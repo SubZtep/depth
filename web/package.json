@@ -16,11 +16,11 @@
   "dependencies": {
     "@depth/canvas": "workspace:*",
     "@depth/controller": "workspace:*",
+    "@depth/database": "workspace:*",
     "@depth/hud": "workspace:*",
     "@depth/misc": "workspace:*",
-    "@depth/stats": "workspace:*",
-    "@depth/database": "workspace:*",
     "@depth/physics": "workspace:*",
+    "@depth/stats": "workspace:*",
     "@depth/video": "workspace:*",
     "@vueuse/components": "^7.2.2",
     "@vueuse/core": "^7.2.2",
@@ -37,6 +37,7 @@
     "vue-toastification": "^2.0.0-rc.5"
   },
   "devDependencies": {
+    "@dimforge/rapier3d-compat": "^0.7.6",
     "@types/node": "^16.11.12",
     "@types/three": "^0.135.0",
     "@types/ua-parser-js": "^0.7.36",

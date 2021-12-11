@@ -84,22 +84,12 @@ The [web](./web#readme) frontend is part of the — _pnpm workspace_ — monorep
 
 ---
 
-### 3d hints
-
-1. Resize textures (with Gimp).
-
-2. Convert to WebP \
-   https://developers.google.com/speed/webp/docs/using
-
-3. https://github.com/CesiumGS/gltf-pipeline \
-   `$ gltf-pipeline -i scene.gltf -o scene.glb -t -d`
-
 ## Various links for fictive features
-
-> #### May check
 
 ### Optimizations
 
+- [x] [Convert textures to WebP.](https://developers.google.com/speed/webp/docs/using)
+- [x] [Optimize glTF and apply Draco mesh compression.](https://github.com/CesiumGS/gltf-pipeline) _(loader loaded)_
 - [ ] https://github.com/zeux/meshoptimizer
 - [ ] https://www.khronos.org/blog/google-and-binomial-contribute-basis-universal-texture-format-to-khronos-gltf-3d-transmission-open-standard
 

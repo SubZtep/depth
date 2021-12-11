@@ -5,9 +5,9 @@ import { loop3D, rotationFromQuaternion, useScene } from "@depth/canvas"
 import { Object3D } from "three/src/core/Object3D"
 import { Mesh } from "three/src/objects/Mesh"
 import { useSingleton } from "@depth/misc"
-import { watchEffect } from "vue"
-import { BoxGeometry } from "three/src/geometries/BoxGeometry"
-import { BoxHelper } from "three/src/helpers/BoxHelper"
+import { onScopeDispose, watchEffect } from "vue"
+// import { BoxGeometry } from "three/src/geometries/BoxGeometry"
+// import { BoxHelper } from "three/src/helpers/BoxHelper"
 
 function getModel(): Promise<Object3D> {
   const { start, done, progress } = useNProgress()
@@ -63,8 +63,11 @@ export default defineComponent({
   },
   async setup(props) {
     const scene = useScene()
-
     const { single } = useSingleton()
+
+    onScopeDispose(() => {
+      scene.remove(snail)
+    })
 
     const snail = single("SnailShell", await getModel())
     scene.add(snail)
@@ -88,6 +91,7 @@ export default defineComponent({
         snail.position.y !== props.position.value[1] ||
         snail.position.z !== props.position.value[2]
       ) {
+        // FIXME: lerp position
         snail.position.set(...(props.position.value as PositionTuple))
       }
 
@@ -97,6 +101,7 @@ export default defineComponent({
         snail.quaternion.z !== props.rotation.value[2] ||
         snail.quaternion.w !== props.rotation.value[3]
       ) {
+        // FIXME: lerp rotation
         rotationFromQuaternion(snail, props.rotation.value)
       }
     })

@@ -2,10 +2,9 @@ import { createApp } from "vue"
 import { createPinia, storeToRefs } from "pinia"
 import UAParser from "ua-parser-js"
 import Toast, { POSITION } from "vue-toastification"
-// import { SupabasePlugin, piniaToSupabase } from "@depth/database"
+import { SupabasePlugin, piniaToSupabase } from "@depth/database"
 import { CanvasPlugin } from "@depth/canvas"
 import { ControllerPlugin } from "@depth/controller"
-// import { ThreejsPlugin } from "@depth/three.js"
 // import { AudioPlugin } from "@depth/audio"
 import { PhysicsPlugin } from "@depth/physics"
 import { GuiPlugin } from "@depth/hud"
@@ -23,7 +22,7 @@ import "./styles/main.css"
 const isMobile = new UAParser().getDevice().type === "mobile"
 
 const pinia = createPinia()
-// pinia.use(piniaToSupabase)
+pinia.use(piniaToSupabase)
 
 const app = createApp(App)
   .use(pinia)
@@ -34,10 +33,10 @@ const app = createApp(App)
     position: isMobile ? POSITION.TOP_CENTER : POSITION.BOTTOM_RIGHT,
     showCloseButtonOnHover: true,
   })
-  // .use(SupabasePlugin, {
-  //   url: import.meta.env.VITE_SUPABASE_URL,
-  //   key: import.meta.env.VITE_SUPABASE_KEY,
-  // })
+  .use(SupabasePlugin, {
+    url: import.meta.env.VITE_SUPABASE_URL,
+    key: import.meta.env.VITE_SUPABASE_KEY,
+  })
   .use(ControllerPlugin)
   .use(CanvasPlugin)
   .use(GuiPlugin, {

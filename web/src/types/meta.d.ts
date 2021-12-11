@@ -20,3 +20,15 @@ interface PlayerInput {
   joystick: Ref<PositionTuple>
   action: Ref<boolean>
 }
+
+interface MetaSnail {
+  uuid: string
+  name: string
+  color: number
+  wireframe: boolean
+  roughness: number
+  position: PositionTuple
+  rotation: RotationTuple
+  created_at: string
+  updated_at: string
+}

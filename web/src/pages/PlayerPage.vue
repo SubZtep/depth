@@ -21,20 +21,21 @@ ValidateHappiness(v-slot="{ uuid }")
 </template>
 
 <script lang="ts" setup>
-import { usePlayerStore } from "~/stores/player"
+import type { RigidBody } from "@dimforge/rapier3d-compat"
+import ValidateHappiness from "~/components/meta/ValidateHappiness"
 import KeyboardInput from "~/components/meta/KeyboardInput"
 import SnailShell from "~/components/meta/SnailShell"
 import SnailBody from "~/components/meta/SnailBody"
 import FloorPlane from "~/components/3d/FloorPlane"
 import LeafPlane from "~/components/3d/LeafPlane"
-import ValidateHappiness from "~/components/meta/ValidateHappiness"
+import { usePlayerStore } from "~/stores/player"
 import { usePreferencesStore } from "~/stores/preferences"
 
 const playerStore = usePlayerStore()
 const preferencesStore = usePreferencesStore()
 
-let body: any | undefined
-const setBody = (rigidBody: any) => {
+let body: RigidBody | undefined
+const setBody = (rigidBody: RigidBody) => {
   body = rigidBody
 }
 

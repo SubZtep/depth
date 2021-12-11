@@ -9,14 +9,14 @@ export const usePlayerStore: StoreDefinition = defineStore("player", {
     color: useStorage("player.color", 0xffffff),
     wireframe: useStorage("player.wireframe", false),
     roughness: useStorage("player.roughness", 0),
-    position: [0, 0, 0] as [number, number, number],
-    rotation: [1, 0, 0, 0] as [number, number, number, number],
+    position: [0, 0, 0] as PositionTuple,
+    rotation: [0, 0, 0, 1] as RotationTuple,
   }),
-  // supabase: {
-  //   table: "metasnail",
-  //   fields: ["uuid", "position", "rotation", "name", "color"],
-  //   truthyField: "uuid",
-  // },
+  supabase: {
+    table: "metasnail",
+    fields: ["uuid", "name", "color", "wireframe", "roughness", "position", "rotation"],
+    truthyField: "uuid",
+  },
 }) // as StoreDefinition
 
 if (import.meta.hot) {

@@ -32,6 +32,8 @@ CREATE TABLE metasnail (
   updated_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
   name varchar NOT NULL,
   color int4 NOT NULL,
+  wireframe bool NOT NULL,
+  roughness numeric(4, 3) NOT NULL,
   position json NOT NULL,
   rotation json NOT NULL
 );

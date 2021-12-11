@@ -170,6 +170,7 @@ importers:
       '@depth/physics': workspace:*
       '@depth/stats': workspace:*
       '@depth/video': workspace:*
+      '@dimforge/rapier3d-compat': ^0.7.6
       '@types/node': ^16.11.12
       '@types/three': ^0.135.0
       '@types/ua-parser-js': ^0.7.36
@@ -221,6 +222,7 @@ importers:
       vue-router: 4.0.12_vue@3.2.24
       vue-toastification: 2.0.0-rc.5_vue@3.2.24
     devDependencies:
+      '@dimforge/rapier3d-compat': 0.7.6
       '@types/node': 16.11.12
       '@types/three': 0.135.0
       '@types/ua-parser-js': 0.7.36
@@ -1436,7 +1438,6 @@ packages:
 
   /@dimforge/rapier3d-compat/0.7.6:
     resolution: {integrity: sha512-A+IZSlkyBXlLKxVi4XTfjvySjZ8Lq7qZ0pE5U+renkQnDOjx+yhRMOhL1awqvLt6SJXId6kx8gaz0O8kxw8LLA==}
-    dev: false
 
   /@drauu/core/0.2.1:
     resolution: {integrity: sha512-5CVvRnGNWjk9KVEhVRpLntEEMw3rgcph+lTx2Z+/X0Dli+PIVyPUEnxiOqtOlf5RYcckXZJujVtco1J6RDbecA==}
