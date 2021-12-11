@@ -14,6 +14,9 @@ KeyboardInput(v-slot="{ joystick, action }")
 
 LeafPlane(:position="[0, 0.01, 0]")
 FloorPlane(:size="8")
+UseGeolocation(v-slot="{ coords: { latitude, longitude } }")
+  pre {{latitude}} x {{longitude}} - {{coords}}
+ThreeGlobe(:scale="0.05" :position="[0, 0.01, -13]")
 
 ValidateHappiness(v-slot="{ uuid }")
   p Are you happy to store Your snail data in local storage and make it public?
@@ -22,12 +25,14 @@ ValidateHappiness(v-slot="{ uuid }")
 
 <script lang="ts" setup>
 import type { RigidBody } from "@dimforge/rapier3d-compat"
+import { UseGeolocation } from "@vueuse/components"
 import ValidateHappiness from "~/components/meta/ValidateHappiness"
 import KeyboardInput from "~/components/meta/KeyboardInput"
 import SnailShell from "~/components/meta/SnailShell"
 import SnailBody from "~/components/meta/SnailBody"
 import FloorPlane from "~/components/3d/FloorPlane"
 import LeafPlane from "~/components/3d/LeafPlane"
+import ThreeGlobe from "~/components/3d/ThreeGlobe"
 import { usePlayerStore } from "~/stores/player"
 import { usePreferencesStore } from "~/stores/preferences"
 

@@ -7,7 +7,7 @@ import { kebabToTitle } from "@depth/misc"
 const camHeight = 1.6
 const routes: RouteRecordRaw[] = [
   {
-    path: "",
+    path: "/voxel",
     name: "home",
     component: () => import("./pages/HomePage.vue"),
     meta: {
@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: "/player",
+    path: "",
     name: "player",
     component: () => import("./pages/PlayerPage.vue"),
     meta: {
