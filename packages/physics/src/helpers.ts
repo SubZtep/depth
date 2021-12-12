@@ -23,19 +23,19 @@ interface CuboidBodyOptions {
   density?: number
 }
 
-export function createCuboidBody(options: CuboidBodyOptions): RigidBody {
-  // const rigidBodyDesc = RigidBodyDesc.newDynamic().setCcdEnabled(true)
-  // if (options.additionalMass) {
-  //   rigidBodyDesc.setAdditionalMass(options.additionalMass)
-  // }
-  // const world = getWorld()
-  // const rigidBody = world.createRigidBody(rigidBodyDesc)
+// export function createCuboidBody(options: CuboidBodyOptions): RigidBody {
+//   // const rigidBodyDesc = RigidBodyDesc.newDynamic().setCcdEnabled(true)
+//   // if (options.additionalMass) {
+//   //   rigidBodyDesc.setAdditionalMass(options.additionalMass)
+//   // }
+//   // const world = getWorld()
+//   // const rigidBody = world.createRigidBody(rigidBodyDesc)
 
-  const colliderDesc = ColliderDesc.cuboid(...(options.dimensions.map(v => v / 2) as [number, number, number]))
-  if (options.density) {
-    colliderDesc.setDensity(options.density)
-  }
+//   const colliderDesc = ColliderDesc.cuboid(...(options.dimensions.map(v => v / 2) as [number, number, number]))
+//   if (options.density) {
+//     colliderDesc.setDensity(options.density)
+//   }
 
-  world.createCollider(colliderDesc, rigidBody.handle)
-  return rigidBody
-}
+//   getWorld().createCollider(colliderDesc, rigidBody.handle)
+//   return rigidBody
+// }

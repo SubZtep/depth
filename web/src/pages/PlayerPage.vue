@@ -12,17 +12,17 @@ KeyboardInput(v-slot="{ joystick, action }")
       :wireframe="playerStore.wireframe"
       :roughness="playerStore.roughness")
 
-PhyBox(:position="[0, 11, 0]")
-PhyBox(:position="[1, 11, 0]")
-PhyBox(:position="[2, 11, 0]")
+//- PhyBox(:position="[0, 11, 0]")
+//- PhyBox(:position="[1, 11, 0]")
+//- PhyBox(:position="[2, 11, 0]")
 
-PhyBox(:position="[0, 12, 0]")
-PhyBox(:position="[0, 12, 0]")
-PhyBox(:position="[1, 12, 0]")
+//- PhyBox(:position="[0, 12, 0]")
+//- PhyBox(:position="[0, 12, 0]")
+//- PhyBox(:position="[1, 12, 0]")
 
-PhyBox(:position="[1, 11, 1]")
-PhyBox(:position="[2, 11, 1]")
-PhyBox(:position="[2, 11, 1]")
+//- PhyBox(:position="[1, 11, 1]")
+//- PhyBox(:position="[2, 11, 1]")
+//- PhyBox(:position="[2, 11, 1]")
 
 
 LeafPlane(:position="[0, 0.01, 0]")
