@@ -6,6 +6,8 @@ import { Object3D } from "three/src/core/Object3D"
 import { Mesh } from "three/src/objects/Mesh"
 import { useSingleton } from "@depth/misc"
 import { onScopeDispose, watchEffect } from "vue"
+import { BoxGeometry } from "three/src/geometries/BoxGeometry"
+import { BoxHelper } from "three/src/helpers/BoxHelper"
 // import { BoxGeometry } from "three/src/geometries/BoxGeometry"
 // import { BoxHelper } from "three/src/helpers/BoxHelper"
 
@@ -73,10 +75,10 @@ export default defineComponent({
     scene.add(snail)
     const material = getMaterial(snail)
 
-    // const box = new BoxGeometry(0.6, 0.45, 0.7)
-    // const boxMesh = new Mesh(box)
-    // const boxHelper = new BoxHelper(boxMesh, 0xffff00)
-    // snail.add(boxHelper)
+    const box = new BoxGeometry(0.6, 0.45, 0.7)
+    const boxMesh = new Mesh(box)
+    const boxHelper = new BoxHelper(boxMesh, 0xffff00)
+    snail.add(boxHelper)
 
     // eslint-disable-next-line vue/no-watch-after-await
     watchEffect(() => {

@@ -12,6 +12,19 @@ KeyboardInput(v-slot="{ joystick, action }")
       :wireframe="playerStore.wireframe"
       :roughness="playerStore.roughness")
 
+PhyBox(:position="[0, 11, 0]")
+PhyBox(:position="[1, 11, 0]")
+PhyBox(:position="[2, 11, 0]")
+
+PhyBox(:position="[0, 12, 0]")
+PhyBox(:position="[0, 12, 0]")
+PhyBox(:position="[1, 12, 0]")
+
+PhyBox(:position="[1, 11, 1]")
+PhyBox(:position="[2, 11, 1]")
+PhyBox(:position="[2, 11, 1]")
+
+
 LeafPlane(:position="[0, 0.01, 0]")
 FloorPlane(:size="8")
 
@@ -25,6 +38,7 @@ import type { RigidBody } from "@dimforge/rapier3d-compat"
 import ValidateHappiness from "~/components/meta/ValidateHappiness"
 import KeyboardInput from "~/components/meta/KeyboardInput"
 import SnailShell from "~/components/meta/SnailShell"
+import PhyBox from "~/components/3d/PhyBox"
 import SnailBody from "~/components/meta/SnailBody"
 import FloorPlane from "~/components/3d/FloorPlane"
 import LeafPlane from "~/components/3d/LeafPlane"

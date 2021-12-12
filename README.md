@@ -1,6 +1,7 @@
+[![CodeQL](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml)
+
 # depth 🧘‍♀️ ~~perception~~
 
-[![CodeQL](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml)
 [![Test & Build & Deploy](https://github.com/SubZtep/depth/actions/workflows/deploy.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/deploy.yml)
 
 > Just another _code sandbox_. — **W.I.P.** — _2<sup>3</sup>_ :balloon:
@@ -27,60 +28,18 @@ The [web](./web#readme) frontend is part of the — _pnpm workspace_ — monorep
 
 ## Setup
 
-1. Get [pnpm](https://pnpm.io/installation).
+- [pnpm](https://pnpm.io/installation) monorepo
 
-2. Create `web/.env` file with the following content for multi(**meta**)verse:
+- **meta**:snail:sickrats
 
-   ```sh
-   VITE_SUPABASE_THROTTLE=250 # sync throttle
-   VITE_SUPABASE_URL="https://[HASH].supabase.co"
-   VITE_SUPABASE_KEY="[LIKE_148_CHARACTERS_HASH]"
-   ```
+  - `SUPABASE_URL`
+  - `SUPABASE_SECRET`
+  - `NETLIFY_AUTH_TOKEN`
+  - `NETLIFY_SITE_ID`
 
-3. FFmpeg uses _SharedArrayBuffer_ that requires [cross-origin isolated](https://developer.chrome.com/blog/enabling-shared-array-buffer/) header.
+- build static assets
 
-   > A [Vite plugin](https://github.com/chaosprint/vite-plugin-cross-origin-isolation) is configured in the project for the local server.
-
-4. Build.
-
-   ```sh
-   $ pnpm install
-   $ pnpm build
-   # check github action that deploy the demo page.
-   ```
-
-   Static files go to `web/dist`. Also, the _GitHub Action_ deploys the demo page automatically.
-
-5. CI generates [PM2](https://pm2.keymetrics.io/docs/usage/quick-start/) config to the project root:
-
-   ```sh
-   $ pm2 start ecosystem.config.js
-   ```
-
-6. Setup [Nginx](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) for reverse proxy and send _wasm_ header.
-
-   ```nginx
-   server {
-     # ...usual configs...
-
-     location ~ \.wasm$ {
-       proxy_set_header Content-Type application/wasm;
-     }
-
-     location / {
-       try_files $uri $uri/ /index.html; # for vue router
-       proxy_pass_header Content-Type;
-       proxy_pass http://localhost:6669; # port from PM2 config
-       proxy_http_version 1.1;
-       proxy_set_header Upgrade $http_upgrade;
-       proxy_set_header Connection 'upgrade';
-       proxy_set_header Host $host;
-
-       add_header Cross-Origin-Opener-Policy same-origin;
-       add_header Cross-Origin-Embedder-Policy require-corp;
-     }
-   }
-   ```
+  [![Netlify Status](https://api.netlify.com/api/v1/badges/c2a49805-1f18-4c2a-868c-39bf5595ce26/deploy-status)](https://app.netlify.com/sites/wizardly-ramanujan-a933f2/deploys)
 
 ---
 
