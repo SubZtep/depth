@@ -13,6 +13,9 @@ interface FaceMeshOptions {
 
   /** Is camera feed active? */
   streaming: Ref<boolean>
+
+  /** Throttle detection request */
+  throttle?: number
 }
 
 const options: Options = {
@@ -32,10 +35,10 @@ const config: FaceMeshConfig = {
   // locateFile: file => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`,
 }
 
-export function useFace({ video, handler, streaming }: FaceMeshOptions) {
+export function useFace({ video, handler, streaming, throttle }: FaceMeshOptions) {
   const faceMesh: FaceMesh = isDev ? new FaceMesh(config) : new globalThis.FaceMesh(config)
   faceMesh.setOptions(options)
   faceMesh.onResults(handler)
 
-  return useBaseMediaPipe({ solution: faceMesh, video, streaming })
+  return useBaseMediaPipe({ solution: faceMesh, video, streaming, throttle })
 }

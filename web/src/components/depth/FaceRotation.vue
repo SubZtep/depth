@@ -27,6 +27,7 @@ const pos = ref(new Vector3())
 const face = useFace({
   video: props.video,
   streaming: toRef(props, "streaming"),
+  throttle: 200,
   handler: result => {
     // lathe.setRotationFromQuaternion(q.value)
     // set(landmarks, result.multiFaceLandmarks[0])

@@ -11,9 +11,10 @@ interface BaseOptions {
   solution: Holistic | FaceMesh | Hands
   video?: MaybeRef<HTMLVideoElement>
   streaming: Ref<boolean>
+  throttle?: number
 }
 
-export function useBaseMediaPipe({ solution, video, streaming }: BaseOptions) {
+export function useBaseMediaPipe({ solution, video, streaming, throttle }: BaseOptions) {
   /** ms per detection */
   const t = ref(0)
   let image: HTMLVideoElement
@@ -29,11 +30,15 @@ export function useBaseMediaPipe({ solution, video, streaming }: BaseOptions) {
 
   watch(streaming, active => {
     if (active) {
+      let t_ = 0
       exec3D(async () => {
         await solution.send({ image })
         stop = loop3D(
           async () => {
             if (image.readyState < 3) return
+            if (throttle && performance.now() - t_ < throttle) return
+            t_ = performance.now()
+
             const t0 = performance.now()
             await solution.send({ image })
             const t1 = performance.now()
