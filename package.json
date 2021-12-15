@@ -4,7 +4,6 @@
   "private": true,
   "description": "depth test",
   "scripts": {
-    "prebuild": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skiping pnpm install",
     "build": "pnpm recursive run build",
     "wipe": "pnpm recursive exec -- rm -rf node_modules dist coverage tsconfig.tsbuildinfo .pnpm-debug.log",
     "wiper": "sh scripts/wipe_all.sh",
@@ -34,7 +33,7 @@
     "eslint-plugin-unicorn": "^39.0.0",
     "eslint-plugin-vue": "^8.2.0",
     "jest": "^27.4.5",
-    "pnpm": "^6.24.0",
+    "pnpm": "^6.24.1",
     "prettier": "^2.5.1",
     "ts-jest": "^27.1.1",
     "typescript": "^4.5.4",

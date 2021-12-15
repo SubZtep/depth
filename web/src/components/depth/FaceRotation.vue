@@ -1,6 +1,5 @@
 <template lang="pug">
 //- pre.text-white {{q.w}} {{pos}}
-
 slot(:position="position" :rotation="rotation")
 </template>
 
@@ -71,7 +70,7 @@ watch(and(throttle, lerp, streaming), on => {
 
   stop = loop3D(({ deltaTime }) => {
     diff = performance.now() - p0
-    if (diff >get(throttle)!) p0 = performance.now()
+    if (diff > get(throttle)!) p0 = performance.now()
 
     // FIXME: t seems buggy
     t = Math.min(+(diff / props.throttle!).toFixed(2), 1) + deltaTime
