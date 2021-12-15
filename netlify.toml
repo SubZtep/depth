@@ -1,6 +1,7 @@
 [build.environment]
-  NODE_VERSION = "16"
-  NPM_FLAGS = "--prefix=/dev/null"
+NODE_VERSION = "16"
+NPM_FLAGS = "--prefix=/dev/null"
+
 [build]
-  publish = "public"
-  command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm run build"
+publish = "public"
+command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm run build"
