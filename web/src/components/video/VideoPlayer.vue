@@ -4,6 +4,8 @@ video.video-border.max-h-300px(
   crossorigin="anonymous"
   poster="/textures/no-video.png"
   @loadedmetadata="videoLoaded"
+  autoplay
+  loop
   muted)
   source(
     v-if="props.src"

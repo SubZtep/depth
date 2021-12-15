@@ -8,7 +8,7 @@ export const CanvasPlugin: Plugin = function (app) {
     const { renderer, camera } = useThreeJs(canvas)
     const scene = useScene()
     app.config.globalProperties.$scene = scene
-    app.config.globalProperties.$initCameraControls(camera, canvas)
+    app.config.globalProperties.$initCameraControls?.(camera, canvas)
 
     initGameLoop({ renderer, scene, camera })
     app.config.globalProperties.$looping = looping

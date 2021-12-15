@@ -3,8 +3,7 @@
     "scope": "vue",
     "body": [
       "<template lang=\"pug\">",
-
-            "</template>",
+      "</template>",
       "",
       "<script lang=\"ts\" setup>",
       "</script>",

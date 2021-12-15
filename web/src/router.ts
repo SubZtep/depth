@@ -56,6 +56,26 @@ const routes: RouteRecordRaw[] = [
       order: 8,
     },
   },
+  {
+    path: "/depth",
+    name: "depth",
+    component: () => import("./pages/DepthPage.vue"),
+    meta: {
+      position: [0, camHeight, 6],
+      lookAt: [0, 0, 0],
+      order: 5,
+    },
+  },
+  {
+    path: "/rotation",
+    name: "rotation",
+    component: () => import("./pages/RotationPage.vue"),
+    meta: {
+      position: [0, camHeight, 6],
+      lookAt: [0, 0, 0],
+      order: 5,
+    },
+  },
   // {
   //   path: "",
   //   name: "meta-snail-lobby",

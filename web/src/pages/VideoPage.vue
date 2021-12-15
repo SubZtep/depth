@@ -3,7 +3,7 @@ Title Video
 
 VideoPlayer(v-if="state.src" :src="state.src")
 
-UseVirtualList.w-64.bg-white(v-if="memfsPics.length > 0" :list="memfsPics" :options="{ itemHeight: 66, overscan: 0 }" height="300px")
+//- UseVirtualList.w-64.bg-white(v-if="memfsPics.length > 0" :list="memfsPics" :options="{ itemHeight: 66, overscan: 0 }" height="300px")
   template(#="{ data: filename }")
     ImgMemfs(:src="`${memfsDir}/${filename}`" :FS="ff.FS" :key="`${memfsDir}/${filename}`")
     | {{filename}}
@@ -49,7 +49,7 @@ const btns = {
 
 addGuiFolder(folder => {
   folder.name = "Video Page"
-  folder.add(state, "src", ["", "/videos/yoga2.webm"]).name("Source")
+  folder.add(state, "src", ["", "/videos/yoga2.webm", "/xxx/face_speak.webm"]).name("Source")
   folder.add(btns, "tumbnails").name("Generate Tumbnails")
 })
 </script>

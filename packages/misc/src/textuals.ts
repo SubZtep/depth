@@ -4,7 +4,7 @@
  * @param label - MediaDevideInfo.label
  */
 export function normalizeDeviceLabel(label: MediaDeviceInfo["label"]): string {
-  return label.match(/^(.*)\s\([\da-z]{4}:[\da-z]{4}\)$/)?.pop() ?? label
+  return label.match(/^(.*)\s\([\da-z]{4}:[\da-z]{4}\)$/)?.pop()?.trim() ?? label
 }
 
 /**

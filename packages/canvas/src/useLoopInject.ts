@@ -1,5 +1,7 @@
 import { Fn, tryOnScopeDispose } from "@vueuse/core"
 import { tryOnBeforeUnmount } from "@vueuse/core"
+import type { OrthographicCamera } from "three/src/cameras/OrthographicCamera"
+import type { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera"
 import type { WebGLRenderer } from "three/src/renderers/WebGLRenderer"
 import type { Scene } from "three/src/scenes/Scene"
 
@@ -7,6 +9,7 @@ interface RenderLoopFnProps {
   renderer: WebGLRenderer
   scene: Scene
   deltaTime: number
+  camera: PerspectiveCamera | OrthographicCamera
 }
 
 type RenderLoopFn = (props: RenderLoopFnProps) => void

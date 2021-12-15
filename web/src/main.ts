@@ -12,6 +12,7 @@ import { GuiPlugin } from "@depth/hud"
 import { StatsPlugin } from "@depth/stats"
 // import Visible from "./directives/visible"
 // import CssAspectRatio from "./directives/css-aspect-ratio"
+import Visible from "./directives/visible"
 import StopPropagation from "./directives/stop-propagation"
 import router, { navigationGui } from "./router"
 // import { UserEvents } from "./events"
@@ -53,7 +54,7 @@ const app = createApp(App)
   .directive("stop-propagation", StopPropagation)
 // .use(AudioPlugin)
 // .use(UserEvents)
-// .directive("visible", Visible)
+.directive("visible", Visible)
 // .directive("css-aspect-ratio", CssAspectRatio)
 // .directive("stop-propagation", StopPropagation)
 

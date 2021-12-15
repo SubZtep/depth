@@ -10,7 +10,7 @@
   "license": "Unlicense",
   "dependencies": {
     "@supabase/supabase-js": "^1.28.5",
-    "@vueuse/core": "^7.2.2",
+    "@vueuse/core": "^7.3.0",
     "pinia": "^2.0.6"
   },
   "devDependencies": {

@@ -30,12 +30,12 @@ export function initGameLoop({ renderer, scene, camera }: Options) {
 
   gameLoop = () => {
     deltaTime = clock.getDelta()
-    runInjectedFunctions({ scene, renderer, deltaTime }, "camupdated")
+    runInjectedFunctions({ scene, renderer, deltaTime, camera }, "camupdated")
 
     requestAnimationFrame(gameLoop)
     const shouldRenderNextFrame = !idle.value
     shouldRenderNextFrame && renderer.render(scene, camera)
-    runInjectedFunctions({ scene, renderer, deltaTime }, "rendered")
+    runInjectedFunctions({ scene, renderer, deltaTime, camera }, "rendered")
   }
 }
 
