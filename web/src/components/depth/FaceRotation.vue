@@ -1,6 +1,5 @@
 <template lang="pug">
 //- pre.text-white {{q.w}} {{pos}}
-//- SimpleBox
 
 slot(:position="position" :rotation="rotation")
 </template>
@@ -9,31 +8,28 @@ slot(:position="position" :rotation="rotation")
 import { Quaternion } from "three/src/math/Quaternion"
 import { Vector3 } from "three/src/math/Vector3"
 import { useFace } from "@depth/poser"
-import useFaceRotation from "~/composables/useFaceRotation"
-// const landmarks = ref<LandmarkList>()
+import { loop3D } from "@depth/canvas"
 
 const props = defineProps<{
   video: HTMLVideoElement
   streaming: boolean
 }>()
 
-
 const position = ref<PositionTuple>([0, 0, 0])
 const rotation = ref<RotationTuple>([0, 0, 0, 1])
 
-const q = ref<Quaternion>(new Quaternion())
+const throttle = 100
+
+const rot = new Quaternion()
+let q1 = new Quaternion()
+let q2 = new Quaternion()
 const pos = ref(new Vector3())
 
 const face = useFace({
   video: props.video,
   streaming: toRef(props, "streaming"),
-  throttle: 200,
+  throttle,
   handler: result => {
-    // lathe.setRotationFromQuaternion(q.value)
-    // set(landmarks, result.multiFaceLandmarks[0])
-    // console.log(result)
-    // console.log(useFaceRotation(result.multiFaceLandmarks[0]))
-
     const lm = result.multiFaceLandmarks[0]
 
     if (!lm || !lm[454] || !lm[234] || !lm[10] || !lm[152] || !lm[173]) return
@@ -49,13 +45,21 @@ const face = useFace({
     const vh2o = vh2.clone().sub(vh1.clone()).normalize()
     const vv2o = vv2.clone().sub(vv1.clone()).normalize()
 
-    q.value = rotateVectorsSimultaneously(vh1o, vv1o, vh2o, vv2o)
-    rotation.value = [q.value.x, q.value.y, q.value.z, q.value.w]
+    q1 = q2.clone()
+    q2 = rotateVectorsSimultaneously(vh1o, vv1o, vh2o, vv2o)
 
     pos.value.set(lm[173].x, lm[173].y, lm[173].z)
-
     position.value = [pos.value.x, pos.value.y, pos.value.z]
   },
+})
+
+let p0 = 0
+let diff = 0
+loop3D(() => {
+  diff = performance.now() - p0
+  if (diff > throttle) p0 = performance.now()
+  rot.slerpQuaternions(q1, q2, diff / throttle)
+  rotation.value = [rot.x, rot.y, rot.z, rot.w]
 })
 
 function rotateVectorsSimultaneously(u0: Vector3, v0: Vector3, u2: Vector3, v2: Vector3) {
