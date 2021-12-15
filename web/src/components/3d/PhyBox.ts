@@ -27,9 +27,9 @@ export default defineComponent({
 
     scene.add(boxMesh)
     const boxCollider = createBoxCollider(size / 2, size / 2, size / 2)
-    const boxBody = createBoxBody()
+    // const boxBody = createBoxBody()
 
-    body.applyForce({ x: 0, y: 1500, z: 0 }, true)
+    // body.applyForce({ x: 0, y: 1500, z: 0 }, true)
 
     onScopeDispose(() => {
       scene.remove(boxMesh)

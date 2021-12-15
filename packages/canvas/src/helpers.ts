@@ -7,6 +7,7 @@ export function rotationFromQuaternion(obj: Object3D, rot: [number, number, numb
   obj.setRotationFromQuaternion({ x: rot[0], y: rot[1], z: rot[2], w: rot[3] } as Quaternion)
 }
 
+/** Get Three.js Scene or die */
 export function useScene(): Scene {
   const instance = getCurrentInstance()
   if (!instance) throw new Error("Not in Vue scope")

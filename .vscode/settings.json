@@ -48,5 +48,8 @@
   "workbench.colorTheme": "Hackpot Garden Of Atlantis",
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
   }
 }

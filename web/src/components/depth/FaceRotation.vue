@@ -13,21 +13,24 @@ import { loop3D } from "@depth/canvas"
 const props = defineProps<{
   video: HTMLVideoElement
   streaming: boolean
+  throttle: number
+  lerp: boolean
 }>()
+
+const { throttle = ref(0), lerp = ref(false) } = toRefs(props)
 
 const position = ref<PositionTuple>([0, 0, 0])
 const rotation = ref<RotationTuple>([0, 0, 0, 1])
 
-const throttle = 100
-
-const rot = new Quaternion()
 let q1 = new Quaternion()
 let q2 = new Quaternion()
-const pos = ref(new Vector3())
+let p1 = new Vector3()
+let p2 = new Vector3()
+const streaming = toRef(props, "streaming")
 
-const face = useFace({
+useFace({
   video: props.video,
-  streaming: toRef(props, "streaming"),
+  streaming,
   throttle,
   handler: result => {
     const lm = result.multiFaceLandmarks[0]
@@ -48,20 +51,39 @@ const face = useFace({
     q1 = q2.clone()
     q2 = rotateVectorsSimultaneously(vh1o, vv1o, vh2o, vv2o)
 
-    pos.value.set(lm[173].x, lm[173].y, lm[173].z)
-    position.value = [pos.value.x, pos.value.y, pos.value.z]
+    p1 = p2.clone()
+    p2.set(lm[173].x, lm[173].y, lm[173].z)
+
+    if (!get(throttle) || !get(lerp)) {
+      rotation.value = [q2.x, q2.y, q2.z, q2.w]
+      position.value = [p2.x, p2.y, p2.z]
+    }
   },
 })
 
 let p0 = 0
 let diff = 0
-loop3D(() => {
-  diff = performance.now() - p0
-  if (diff > throttle) p0 = performance.now()
-  rot.slerpQuaternions(q1, q2, diff / throttle)
-  rotation.value = [rot.x, rot.y, rot.z, rot.w]
-})
+let stop: Fn
+let t: number
 
+watch(and(throttle, lerp, streaming), on => {
+  if (!on) return stop?.()
+
+  stop = loop3D(({ deltaTime }) => {
+    diff = performance.now() - p0
+    if (diff >get(throttle)!) p0 = performance.now()
+
+    // FIXME: t seems buggy
+    t = Math.min(+(diff / props.throttle!).toFixed(2), 1) + deltaTime
+    p1.lerp(p2, t)
+    position.value = [p1.x, p1.y, p1.z]
+    q1.slerp(q2, t)
+    rotation.value = [q1.x, q1.y, q1.z, q1.w]
+  })
+})
+</script>
+
+<script lang="ts">
 function rotateVectorsSimultaneously(u0: Vector3, v0: Vector3, u2: Vector3, v2: Vector3) {
   // https://stackoverflow.com/a/55248720/1398275
   const q2 = new Quaternion().setFromUnitVectors(u0, u2)

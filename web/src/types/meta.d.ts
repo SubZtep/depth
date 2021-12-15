@@ -12,6 +12,9 @@ interface ImportMeta {
 /** 3D Vector [x, y, z] */
 type PositionTuple = [number, number, number]
 
+/** 3D Vector [width, height, depth] */
+type SizeTuple = [number, number, number]
+
 /** Quaternion [x, y, z, w] */
 type RotationTuple = [number, number, number, number]
 

@@ -15,7 +15,7 @@ interface FaceMeshOptions {
   streaming: Ref<boolean>
 
   /** Throttle detection request */
-  throttle?: number
+  throttle?: Ref<number>
 }
 
 const options: Options = {

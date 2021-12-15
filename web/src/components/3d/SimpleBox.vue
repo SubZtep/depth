@@ -12,10 +12,12 @@ import { onScopeDispose, watchEffect } from "vue"
 const props = defineProps<{
   position: PositionTuple
   rotation: RotationTuple
+  size?: SizeTuple
+  color?: number
 }>()
 
-const geometry = new BoxGeometry()
-const material = new MeshLambertMaterial({ color: 0x000300 })
+const geometry = new BoxGeometry(props.size?.[0], props.size?.[1], props.size?.[2])
+const material = new MeshLambertMaterial({ color: props.color ?? 0x000300 })
 const mesh = new Mesh(geometry, material)
 
 watchEffect(() => {

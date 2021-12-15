@@ -1,5 +1,5 @@
 import type { MaybeRef, Fn } from "@vueuse/core"
-import type { Ref } from "vue"
+import { Ref, unref } from "vue"
 import { tryOnBeforeUnmount, unrefElement } from "@vueuse/core"
 import { ref, watch } from "vue"
 import { loop3D, exec3D } from "@depth/canvas"
@@ -11,7 +11,7 @@ interface BaseOptions {
   solution: Holistic | FaceMesh | Hands
   video?: MaybeRef<HTMLVideoElement>
   streaming: Ref<boolean>
-  throttle?: number
+  throttle?: MaybeRef<number>
 }
 
 export function useBaseMediaPipe({ solution, video, streaming, throttle }: BaseOptions) {
@@ -31,12 +31,14 @@ export function useBaseMediaPipe({ solution, video, streaming, throttle }: BaseO
   watch(streaming, active => {
     if (active) {
       let t_ = 0
+      let throttleMs = 0
       exec3D(async () => {
         await solution.send({ image })
         stop = loop3D(
           async () => {
             if (image.readyState < 3) return
-            if (throttle && performance.now() - t_ < throttle) return
+            throttleMs = unref(throttle) ?? 0
+            if (throttleMs && performance.now() - t_ < throttleMs) return
             t_ = performance.now()
 
             const t0 = performance.now()

@@ -19,6 +19,7 @@ importers:
       eslint-plugin-unicorn: ^39.0.0
       eslint-plugin-vue: ^8.2.0
       jest: ^27.4.5
+      pnpm: ^6.24.0
       prettier: ^2.5.1
       ts-jest: ^27.1.1
       typescript: ^4.5.4
@@ -36,6 +37,7 @@ importers:
       eslint-plugin-unicorn: 39.0.0_eslint@8.4.1
       eslint-plugin-vue: 8.2.0_eslint@8.4.1
       jest: 27.4.5
+      pnpm: 6.24.0
       prettier: 2.5.1
       ts-jest: 27.1.1_b65cae1b46840061996b6cc0ea16ca56
       typescript: 4.5.4
@@ -5572,6 +5574,12 @@ packages:
     engines: {node: '>=10.13.0'}
     dev: false
     optional: true
+
+  /pnpm/6.24.0:
+    resolution: {integrity: sha512-5JJk+25bRHmD9H1tMElIyh01hYTOZ8/khIY5VnFnj4mKsRyAJO34t6xekKts1loD21f465V0/UpAlhaEVAE9Ow==}
+    engines: {node: '>=12.17'}
+    hasBin: true
+    dev: true
 
   /postcss-attribute-case-insensitive/5.0.0_postcss@8.4.5:
     resolution: {integrity: sha512-b4g9eagFGq9T5SWX4+USfVyjIb3liPnjhHHRMP7FMB2kFVpYyfEscV0wP3eaXhKlcHKUut8lt5BGoeylWA/dBQ==}

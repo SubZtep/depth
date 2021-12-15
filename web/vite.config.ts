@@ -22,7 +22,7 @@ export default defineConfig(({ command }) => {
       VitePWA(),
       Components({
         dts: "src/types/components.d.ts",
-        dirs: ["src/components/ui"],
+        dirs: ["src/components/ui", "src/components/3d"],
         extensions: ["vue", "ts"],
         deep: false,
       }),
@@ -35,9 +35,11 @@ export default defineConfig(({ command }) => {
             vue: [
               "ref",
               "toRef",
+              "toRefs",
               "reactive",
               "computed",
               "watch",
+              "watchEffect",
               "defineComponent",
               "onMounted",
               "onBeforeUnmount",
@@ -45,7 +47,7 @@ export default defineConfig(({ command }) => {
             ],
           },
           {
-            "@vueuse/core": ["get", "set"],
+            "@vueuse/core": ["get", "set", "and"],
           },
           { "@vueuse/integrations": ["useNProgress"] },
           { "vue-toastification": ["useToast"] },

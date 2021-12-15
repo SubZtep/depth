@@ -2,6 +2,7 @@
 // We suggest you to commit this file into source control
 declare global {
   const addGuiFolder: typeof import('@depth/hud')['addGuiFolder']
+  const and: typeof import('@vueuse/core')['and']
   const computed: typeof import('vue')['computed']
   const defineComponent: typeof import('vue')['defineComponent']
   const get: typeof import('@vueuse/core')['get']
@@ -12,8 +13,10 @@ declare global {
   const ref: typeof import('vue')['ref']
   const set: typeof import('@vueuse/core')['set']
   const toRef: typeof import('vue')['toRef']
+  const toRefs: typeof import('vue')['toRefs']
   const useNProgress: typeof import('@vueuse/integrations')['useNProgress']
   const useToast: typeof import('vue-toastification')['useToast']
   const watch: typeof import('vue')['watch']
+  const watchEffect: typeof import('vue')['watchEffect']
 }
 export {}
