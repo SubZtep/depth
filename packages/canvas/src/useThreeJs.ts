@@ -7,6 +7,7 @@ export default function (canvas: HTMLCanvasElement) {
   const { width, height } = useWindowSize()
 
   const renderer = new WebGLRenderer({ canvas, powerPreference: "high-performance", antialias: true })
+  renderer.physicallyCorrectLights = true
   renderer.outputEncoding = sRGBEncoding
   renderer.shadowMap.enabled = true
   renderer.shadowMap.type = PCFSoftShadowMap

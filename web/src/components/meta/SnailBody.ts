@@ -1,5 +1,6 @@
 import { loop3D } from "@depth/canvas"
-import { createBoxBody, createBoxCollider } from "@depth/physics"
+import { createBoxBody, createBoxCollider, getWorld } from "@depth/physics"
+import { ColliderDesc, RigidBodyDesc } from "@dimforge/rapier3d-compat"
 import { whenever } from "@vueuse/core"
 
 function initPos(rigidBody: any) {
@@ -15,8 +16,16 @@ export default defineComponent({
     const instance = getCurrentInstance()
     if (!instance) throw new Error("Not in Vue scope")
 
-    const rigidBody = createBoxBody(0.2)
-    createBoxCollider(rigidBody.handle, [0.6 / 2, 0.46 / 2, 0.7 / 2])
+    const world = getWorld()
+    const rigidBodyDesc = RigidBodyDesc.newDynamic().setCcdEnabled(true)
+    rigidBodyDesc.setAdditionalMass(0.2)
+    const rigidBody = world.createRigidBody(rigidBodyDesc)
+    const colliderDesc = ColliderDesc.cuboid(0.6 / 2, 0.45 / 2, 0.7 / 2)
+    colliderDesc.setDensity(2)
+    world.createCollider(colliderDesc, rigidBody.handle)
+
+    // const rigidBody = createBoxBody(0.2)
+    // createBoxCollider(rigidBody.handle, [0.6 / 2, 0.46 / 2, 0.7 / 2])
     // const collider = createBoxCollider(rigidBody.handle, [0.6, 0.46, 0.7])
     // const rigidBody = createCuboidBody({
     //   dimensions: [0.6, 0.45, 0.7],
@@ -49,7 +58,8 @@ export default defineComponent({
 
       const pos = rigidBody.translation() // TODO: toFixed(5) if neecessary
 
-      if (pos.y < -10) { // reset the fallen
+      if (pos.y < -10) {
+        // reset the fallen
         initPos(rigidBody)
         return
       }

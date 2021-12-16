@@ -12,21 +12,16 @@ KeyboardInput(v-slot="{ joystick, action }")
       :wireframe="playerStore.wireframe"
       :roughness="playerStore.roughness")
 
-//- PhyBox(:position="[0, 11, 0]")
-//- PhyBox(:position="[1, 11, 0]")
-//- PhyBox(:position="[2, 11, 0]")
-
-//- PhyBox(:position="[0, 12, 0]")
-//- PhyBox(:position="[0, 12, 0]")
-//- PhyBox(:position="[1, 12, 0]")
-
-//- PhyBox(:position="[1, 11, 1]")
-//- PhyBox(:position="[2, 11, 1]")
-//- PhyBox(:position="[2, 11, 1]")
-
-
-//- LeafPlane(:position="[0, 0.01, 0]")
-FloorPlane(:size="8")
+LeafPlane(:position="[0, 0.01, 0]")
+FloorPlane(:width="8" :height="8")
+FloorPlane(:width="4" :height="8" :position="[0, 0.01, -10]")
+FloorPlane(:width="9" :height="9" :position="[0, 0.01, -20]" v-slot="{ mesh }")
+  SimpleBox(:parent="mesh" :position="[-3, 3, 0.5]")
+  SimpleBox(:parent="mesh" :position="[-3, 1, 0.5]")
+  SimpleBox(:parent="mesh" :position="[-3, -1, 0.5]")
+  SimpleBox(:parent="mesh" :position="[-1, 3, 0.5]")
+  SimpleBox(:parent="mesh" :position="[-1, 1, 0.5]")
+  SimpleBox(:parent="mesh" :position="[-1, -1, 0.5]")
 
 ValidateHappiness(v-slot="{ uuid }")
   p Are you happy to store Your snail data in local storage and make it public?
@@ -38,9 +33,7 @@ import type { RigidBody } from "@dimforge/rapier3d-compat"
 import ValidateHappiness from "~/components/meta/ValidateHappiness"
 import KeyboardInput from "~/components/meta/KeyboardInput"
 import SnailShell from "~/components/meta/SnailShell"
-import PhyBox from "~/components/3d/PhyBox"
 import SnailBody from "~/components/meta/SnailBody"
-import FloorPlane from "~/components/3d/FloorPlane"
 import LeafPlane from "~/components/3d/LeafPlane"
 import { usePlayerStore } from "~/stores/player"
 import { usePreferencesStore } from "~/stores/preferences"

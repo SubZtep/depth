@@ -14,8 +14,8 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "ncu": "pnpm recursive exec -- ncu -u",
-    "moo": "npx cowsay moo",
-    "preinstall": "npx only-allow pnpm"
+    "moo": "pnpm dlx cowsay moo",
+    "preinstall": "npm add -g pnpm && npx only-allow pnpm"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
@@ -33,7 +33,6 @@
     "eslint-plugin-unicorn": "^39.0.0",
     "eslint-plugin-vue": "^8.2.0",
     "jest": "^27.4.5",
-    "pnpm": "^6.24.1",
     "prettier": "^2.5.1",
     "ts-jest": "^27.1.1",
     "typescript": "^4.5.4",
@@ -49,6 +48,7 @@
     "pnpm": ">=6"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "web"
   ]
 }

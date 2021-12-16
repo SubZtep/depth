@@ -1,7 +1,6 @@
 import { createApp } from "vue"
 import { createPinia, storeToRefs } from "pinia"
 import { PiniaUndo } from "pinia-undo"
-import UAParser from "ua-parser-js"
 import Toast, { POSITION } from "vue-toastification"
 import { SupabasePlugin, piniaToSupabase } from "@depth/database"
 import { CanvasPlugin } from "@depth/canvas"
@@ -21,8 +20,6 @@ import { usePreferencesStore } from "~/stores/preferences"
 import "virtual:windi.css"
 import "./styles/main.css"
 
-const isMobile = new UAParser().getDevice().type === "mobile"
-
 const pinia = createPinia()
 pinia.use(piniaToSupabase)
 // @ts-ignore
@@ -31,30 +28,19 @@ pinia.use(PiniaUndo)
 const app = createApp(App)
   .use(pinia)
   .use(router)
-  .use(Toast, {
-    timeout: 4569,
-    maxToasts: 13,
-    position: isMobile ? POSITION.TOP_CENTER : POSITION.BOTTOM_RIGHT,
-    showCloseButtonOnHover: true,
-  })
+
   .use(SupabasePlugin, {
     url: import.meta.env.VITE_SUPABASE_URL,
     key: import.meta.env.VITE_SUPABASE_KEY,
   })
   .use(ControllerPlugin)
   .use(CanvasPlugin)
-  .use(GuiPlugin, {
-    addClass: "depth",
-    hooked: [navigationGui],
-    closeOnTop: false,
-    autoPlace: false,
-    width: 285,
-    closeAtStart: isMobile,
-  })
+  .use(PhysicsPlugin)
+
   .directive("stop-propagation", StopPropagation)
-// .use(AudioPlugin)
-// .use(UserEvents)
-.directive("visible", Visible)
+  // .use(AudioPlugin)
+  // .use(UserEvents)
+  .directive("visible", Visible)
 // .directive("css-aspect-ratio", CssAspectRatio)
 // .directive("stop-propagation", StopPropagation)
 
@@ -64,11 +50,22 @@ const app = createApp(App)
 //   }
 // }
 
-app.use(PhysicsPlugin)
+const { showDebug, isMobile } = storeToRefs(usePreferencesStore())
 
-const preferences = usePreferencesStore()
-const { showDebug } = storeToRefs(preferences)
-
-app.use(StatsPlugin, { mosaic: true, visible: showDebug })
-
-app.mount("#hud")
+app
+  .use(Toast, {
+    timeout: 4569,
+    maxToasts: 13,
+    position: isMobile ? POSITION.TOP_CENTER : POSITION.BOTTOM_RIGHT,
+    showCloseButtonOnHover: true,
+  })
+  .use(GuiPlugin, {
+    addClass: "depth",
+    hooked: [navigationGui],
+    closeOnTop: false,
+    autoPlace: false,
+    width: 285,
+    closeAtStart: isMobile,
+  })
+  .use(StatsPlugin, { mosaic: true, visible: showDebug })
+  .mount("#hud")

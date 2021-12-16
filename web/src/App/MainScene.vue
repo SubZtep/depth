@@ -14,7 +14,7 @@ router-view(v-slot="{ Component }")
 <script lang="ts" setup>
 import { getCurrentInstance } from "vue"
 import Help from "~/components/preferences/Help.vue"
-import SkyBox from "~/components/3d/SkyBox"
+import SkyBox from "~/3d/components/SkyBox"
 import InfiniteGrid from "~/components/3d/InfiniteGrid"
 import DefaultLights from "~/components/3d/DefaultLights"
 import { useEnvironmentStore } from "~/stores/environment"

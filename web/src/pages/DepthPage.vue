@@ -23,7 +23,6 @@ ViewportView(:camera="cc.camera")
 
 <script lang="ts" setup>
 import { useCameraControls } from "@depth/controller"
-import GradientPyramid from "~/components/3d/GradientPyramid.vue"
 import WebcamPlayer from "~/components/depth/WebcamPlayer.vue"
 import FaceRotation from "~/components/depth/FaceRotation.vue"
 import ViewportView from "~/components/depth/ViewportView.vue"
