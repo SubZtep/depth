@@ -3,5 +3,5 @@ NODE_VERSION = "16"
 # NPM_FLAGS = "--prefix=/dev/null"
 
 [build]
-publish = "dist"
+# publish = "dist"
 command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm run build"
