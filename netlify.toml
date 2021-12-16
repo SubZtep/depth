@@ -5,5 +5,5 @@ NPM_FLAGS = "--prefix=/dev/null"
 [build]
 # publish = "dist"
 # command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm run build"
-# command = "npx pnpm install -r --shamefully-hoist --store=node_modules/.pnpm-store"
-command = "npx pnpm install --store=node_modules/.pnpm-store && npx pnpm run build"
+command = "npx pnpm install -r --shamefully-hoist --store=node_modules/.pnpm-store"
+# command = "npx pnpm install --store=node_modules/.pnpm-store && npx pnpm run build"
