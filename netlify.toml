@@ -1,7 +1,7 @@
 [build.environment]
 NODE_VERSION = "16"
 NPM_FLAGS = "--prefix=/dev/null"
-NETLIFY_BUILD_DEBUG = true
+NETLIFY_BUILD_DEBUG = "true"
 
 [build]
 publish = "web/dist"
