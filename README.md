@@ -10,23 +10,22 @@ A [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) app uses composition AP
 
 ## Packages
 
-:rainbow: Code fluid.
+**The [`web`](./web#readme) frontend** is part of the monorepo. Some great third-party open-source packages are included and extended with handy features. Please follow the links below for extensive feature documentations.
 
-The [web](./web#readme) frontend is part of the — _pnpm workspace_ — monorepo. Some great third-party open-source packages are included and extended with handy features.
+> :pencil2: Incomplete docs. W.I.P.\
+> :rainbow: Code fluid. (File are like liquid :x::spoon:.)
 
-> Incomplete docs. :pencil2: W.I.P.
-
-|                            Package | Description                                                                                                         |
-| ---------------------------------: | :------------------------------------------------------------------------------------------------------------------ |
-|                            `audio` | Resolve [autoplay policy](https://developer.chrome.com/blog/autoplay/#webaudio), play sound with the Web Audio API. |
-| [`canvas`](packages/canvas#readme) | Three.js 3D canvas with _game loop_ and camera controls.                                                            |
-|                       `controller` | player input / camera moves.                                                                                        |
-|                         `database` | Supabase wrapper and Pinia plugin.                                                                                  |
-|                              `hud` | dat.gui                                                                                                             |
-|                             `misc` | Miscellaneous helper scripts and text formatters.                                                                   |
-|                            `poser` | Mediapipe pose/face/hand detection.                                                                                 |
-|                            `stats` | Stats.js.                                                                                                           |
-|   [`video`](packages/video#readme) | FFmpeg wasm.                                                                                                        |
+|                                    Package | Description                                                                                                         |
+| -----------------------------------------: | :------------------------------------------------------------------------------------------------------------------ |
+|                                    `audio` | Resolve [autoplay policy](https://developer.chrome.com/blog/autoplay/#webaudio), play sound with the Web Audio API. |
+|         [`canvas`](packages/canvas#readme) | Three.js 3D canvas with _game loop_ and camera controls.                                                            |
+| [`controller`](packages/controller#readme) | Player input / camera moves.                                                                                        |
+|                                 `database` | Supabase wrapper and Pinia plugin.                                                                                  |
+|                                      `hud` | dat.gui                                                                                                             |
+|                                     `misc` | Miscellaneous helper scripts and text formatters.                                                                   |
+|                                    `poser` | Mediapipe pose/face/hand detection.                                                                                 |
+|                                    `stats` | Stats.js.                                                                                                           |
+|           [`video`](packages/video#readme) | FFmpeg wasm.                                                                                                        |
 
 ## Setup
 
@@ -42,7 +41,6 @@ The [web](./web#readme) frontend is part of the — _pnpm workspace_ — monorep
 - build static assets
 
   [![Netlify Status](https://api.netlify.com/api/v1/badges/c2a49805-1f18-4c2a-868c-39bf5595ce26/deploy-status)](https://app.netlify.com/sites/wizardly-ramanujan-a933f2/deploys)
-
 
 ### Icons helps
 

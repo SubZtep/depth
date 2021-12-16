@@ -63,22 +63,22 @@ export default defineComponent({
     position: { type: Object as PropType<Ref<PositionTuple>>, required: true },
     rotation: { type: Object as PropType<Ref<RotationTuple>>, required: true },
   },
-  async setup(props) {
+  async setup(props, { slots }) {
     const scene = useScene()
     const { single } = useSingleton()
 
     onScopeDispose(() => {
-      scene.remove(snail)
+      scene.remove(mesh)
     })
 
-    const snail = single("SnailShell", await getModel())
-    scene.add(snail)
-    const material = getMaterial(snail)
+    const mesh = single("SnailShell", await getModel())
+    scene.add(mesh)
+    const material = getMaterial(mesh)
 
     const box = new BoxGeometry(0.6, 0.45, 0.7)
     const boxMesh = new Mesh(box)
     const boxHelper = new BoxHelper(boxMesh, 0xffff00)
-    snail.add(boxHelper)
+    mesh.add(boxHelper)
 
     // eslint-disable-next-line vue/no-watch-after-await
     watchEffect(() => {
@@ -91,25 +91,25 @@ export default defineComponent({
 
     loop3D(() => {
       if (
-        snail.position.x !== props.position.value[0] ||
-        snail.position.y !== props.position.value[1] ||
-        snail.position.z !== props.position.value[2]
+        mesh.position.x !== props.position.value[0] ||
+        mesh.position.y !== props.position.value[1] ||
+        mesh.position.z !== props.position.value[2]
       ) {
         // FIXME: lerp position
-        snail.position.set(...(props.position.value as PositionTuple))
+        mesh.position.set(...(props.position.value as PositionTuple))
       }
 
       if (
-        snail.quaternion.x !== props.rotation.value[0] ||
-        snail.quaternion.y !== props.rotation.value[1] ||
-        snail.quaternion.z !== props.rotation.value[2] ||
-        snail.quaternion.w !== props.rotation.value[3]
+        mesh.quaternion.x !== props.rotation.value[0] ||
+        mesh.quaternion.y !== props.rotation.value[1] ||
+        mesh.quaternion.z !== props.rotation.value[2] ||
+        mesh.quaternion.w !== props.rotation.value[3]
       ) {
         // FIXME: lerp rotation
-        rotationFromQuaternion(snail, props.rotation.value)
+        rotationFromQuaternion(mesh, props.rotation.value)
       }
     })
 
-    return () => {}
+    return () => slots.default?.({ mesh })
   },
 })

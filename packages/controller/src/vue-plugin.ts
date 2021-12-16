@@ -14,6 +14,7 @@ import { MOUSE } from "three/src/constants"
 import { loop3D } from "@depth/canvas"
 import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera"
 import { OrthographicCamera } from "three/src/cameras/OrthographicCamera"
+import FollowCamera from "./FollowCamera"
 
 export const ControllerPlugin: Plugin = function (app) {
   CameraControls.install({
@@ -47,4 +48,6 @@ export const ControllerPlugin: Plugin = function (app) {
       cameraControls.update(deltaTime)
     })
   }
+
+  app.component("FollowCamera", FollowCamera)
 }

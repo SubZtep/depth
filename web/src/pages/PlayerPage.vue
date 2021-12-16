@@ -10,7 +10,10 @@ KeyboardInput(v-slot="{ joystick, action }")
       :rotation="rotation"
       :color="playerStore.color"
       :wireframe="playerStore.wireframe"
-      :roughness="playerStore.roughness")
+      :roughness="playerStore.roughness"
+      v-slot="{ mesh }")
+
+      FollowCamera(:parent="mesh")
 
 LeafPlane(:position="[0, 0.01, 0]")
 FloorPlane(:width="8" :height="8")
@@ -37,6 +40,7 @@ import SnailBody from "~/components/meta/SnailBody"
 import LeafPlane from "~/components/3d/LeafPlane"
 import { usePlayerStore } from "~/stores/player"
 import { usePreferencesStore } from "~/stores/preferences"
+// import FollowCamera from "~/components/meta/FollowCamera.vue"
 
 const playerStore = usePlayerStore()
 const preferencesStore = usePreferencesStore()

@@ -13,7 +13,6 @@ declare module 'vue' {
     InfiniteGrid: typeof import('./../components/3d/InfiniteGrid.ts')['default']
     LeafPlane: typeof import('./../components/3d/LeafPlane.ts')['default']
     MemoryInfo: typeof import('./../components/ui/MemoryInfo.vue')['default']
-    PhyBox: typeof import('./../components/3d/PhyBox.ts')['default']
     SimpleBox: typeof import('./../3d/components/SimpleBox.vue')['default']
     SkyBox: typeof import('./../3d/components/SkyBox.ts')['default']
     ThreeGlobe: typeof import('./../components/3d/ThreeGlobe.ts')['default']
