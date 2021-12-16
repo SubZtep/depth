@@ -68,6 +68,8 @@ export default defineConfig(({ command }) => {
       rollupOptions: {
         manualChunks: {
           "depth": ["./src/pages/DepthPage.vue"],
+          "environment": ["./src/pages/EnvironmentPage.vue"],
+          "video": ["./src/pages/VideoPage.vue"],
           "group-hands": ["./src/components/player/PlayerHands.vue"],
         },
         output: {

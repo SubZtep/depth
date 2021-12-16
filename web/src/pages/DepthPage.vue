@@ -18,28 +18,19 @@ WebcamPlayer(v-slot="{ video, streaming }")
 
 GradientPyramid(:position="[0, 3.5, -5]" :rotation="[1, 0, 0, 0]" :levels="5")
 
-Debug YO
-
 ViewportView(:camera="cc.camera")
 </template>
 
 <script lang="ts" setup>
-import SimpleBox from "~/components/3d/SimpleBox.vue"
+import { useCameraControls } from "@depth/controller"
 import GradientPyramid from "~/components/3d/GradientPyramid.vue"
 import WebcamPlayer from "~/components/depth/WebcamPlayer.vue"
 import FaceRotation from "~/components/depth/FaceRotation.vue"
-// import PlayerCamera from "~/components/depth/PlayerCamera.vue"
-import { Euler } from "three/src/math/Euler"
-import { radToDeg } from "three/src/math/MathUtils"
-import { Quaternion } from "three/src/math/Quaternion"
 import ViewportView from "~/components/depth/ViewportView.vue"
-import { useCameraControls } from "@depth/controller"
-import { Box3 } from "three/src/math/Box3"
 import ParallaxCamera from "~/components/depth/ParallaxCamera.vue"
-// import { Vector3 } from "three/src/math/Vector3"
 
 const state = reactive({
-  throttle: 1000,
+  throttle: 100,
   lerp: true,
 })
 

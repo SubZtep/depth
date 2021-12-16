@@ -1,11 +1,11 @@
 <template lang="pug">
 Title Video
 
-VideoPlayer(v-if="state.src" :src="state.src")
+VideoPlayer(:src="state.src" :key="state.src || 'none'" :play="state.showVideo" v-visible="state.showVideo")
 
-//- UseVirtualList.w-64.bg-white(v-if="memfsPics.length > 0" :list="memfsPics" :options="{ itemHeight: 66, overscan: 0 }" height="300px")
+UseVirtualList.bg-gray-200.w-64.resize-x(v-if="memfsPics.length > 0" :list="memfsPics" :options="{ itemHeight: state.thumbHeight, overscan: 0 }" height="300px")
   template(#="{ data: filename }")
-    ImgMemfs(:src="`${memfsDir}/${filename}`" :FS="ff.FS" :key="`${memfsDir}/${filename}`")
+    ImgMemfs(:src="`${memfsDir}/${filename}`" :FS="ff.FS" :key="`${memfsDir}/${filename}`" :height="state.thumbHeight")
     | {{filename}}
 
 </template>
@@ -24,10 +24,14 @@ const memfsFilename = "video.webm"
 
 const state = reactive({
   src: "",
+  showVideo: true,
+  thumbHeight: 128,
 })
 
+const src = toRef(state, "src")
+
 const { ff, files, generateThumbnails } = await useFFmpeg({
-  src: toRef(state, "src"),
+  src,
   memfsDir,
   memfsFilename,
   options: {
@@ -40,16 +44,19 @@ const memfsPics = computed(() => files.value.filter(filename => filename.endsWit
 
 const btns = {
   tumbnails: async () => {
-    if (!ff || !ff.isLoaded()) {
-      toast.warning("Please load video first")
+    if (!get(src) || !ff || !ff.isLoaded()) {
+      toast.warning("Please load a video first.")
+      return
     }
-    generateThumbnails(66)
+    generateThumbnails(state.thumbHeight)
   },
 }
 
 addGuiFolder(folder => {
   folder.name = "Video Page"
-  folder.add(state, "src", ["", "/videos/yoga2.webm", "/xxx/face_speak.webm"]).name("Source")
+  folder.add(state, "src", ["", "/videos/yoga2.webm", "/videos/extended_leg_pistol_squats.webm"]).name("Source")
+  folder.add(state, "showVideo").name("Video tag")
+  folder.add(state, "thumbHeight", 8, 512, 8).name("Video tag")
   folder.add(btns, "tumbnails").name("Generate Tumbnails")
 })
 </script>

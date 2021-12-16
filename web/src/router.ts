@@ -15,6 +15,36 @@ const routes: RouteRecordRaw[] = [
       order: 1,
     },
   },
+  {
+    path: "/player",
+    name: "player",
+    component: () => import("./pages/PlayerPage.vue"),
+    meta: {
+      position: [0, camHeight, 6],
+      lookAt: [0, 0, 0],
+      order: 2,
+    },
+  },
+  {
+    path: "/video",
+    name: "video",
+    component: () => import("./pages/VideoPage.vue"),
+    meta: {
+      position: [0, camHeight, 6],
+      lookAt: [0, 0, 0],
+      order: 8,
+    },
+  },
+  {
+    path: "/environment",
+    name: "environment",
+    component: () => import("./pages/EnvironmentPage.vue"),
+    meta: {
+      position: [0, camHeight, 6],
+      lookAt: [0, 0, 0],
+      order: 10,
+    },
+  },
 ]
 
 const router = createRouter({

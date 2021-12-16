@@ -4,8 +4,8 @@ video.video-border.max-h-300px(
   crossorigin="anonymous"
   poster="/textures/no-video.png"
   @loadedmetadata="videoLoaded"
-  autoplay
-  loop
+  :autoplay="props.play"
+  :loop="props.play"
   muted)
   source(
     v-if="props.src"
@@ -16,7 +16,10 @@ video.video-border.max-h-300px(
 <script lang="ts" setup>
 const toast = useToast()
 
-const props = defineProps<{ src: string }>()
+const props = defineProps<{
+  src: string
+  play?: boolean
+}>()
 
 const emit = defineEmits<{
   (e: "mounted", el: HTMLVideoElement): void
@@ -25,21 +28,20 @@ const emit = defineEmits<{
   (e: "timeupdated"): void
 }>()
 
-const videoReference = ref<HTMLVideoElement>()
+const video = ref<HTMLVideoElement>()
 
 onMounted(() => {
-  emit("mounted", get(videoReference)!)
+  emit("mounted", get(video)!)
 })
 
 watch(
   () => props.src,
   () => {
-    const element = get(videoReference)
-    if (!element) return
-    // eslint-disable-next-line unicorn/no-null
-    element.srcObject = null
+    const el = get(video)!
+    el.srcObject = null
     emit("loaded")
-  }
+  },
+  { flush: "post" }
 )
 
 const videoLoaded: any = async ({ target }: VideoElementEvent) => {

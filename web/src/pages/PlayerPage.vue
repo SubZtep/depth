@@ -25,7 +25,7 @@ KeyboardInput(v-slot="{ joystick, action }")
 //- PhyBox(:position="[2, 11, 1]")
 
 
-LeafPlane(:position="[0, 0.01, 0]")
+//- LeafPlane(:position="[0, 0.01, 0]")
 FloorPlane(:size="8")
 
 ValidateHappiness(v-slot="{ uuid }")

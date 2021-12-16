@@ -6,15 +6,24 @@ export function createGround(width = 10, height = 10): Collider {
   return getWorld().createCollider(ground)
 }
 
-export function createBoxCollider(width = 1, height = 1, depth = 1): Collider {
-  const box = ColliderDesc.cuboid(width, height, depth)
-  return getWorld().createCollider(box)
+/**
+ *
+ * @param rigidBodyHandle - rigidBody.handle
+ * @param dimensions - width, height, depth
+ * @returns
+ */
+export function createBoxCollider(rigidBodyHandle: number, dimensions: [number, number, number]): Collider {
+  const box = ColliderDesc.cuboid(...dimensions)
+  box.setDensity(2)
+  return getWorld().createCollider(box, rigidBodyHandle)
 }
 
 export function createBoxBody(additionalMass?: number): RigidBody {
   const rigidBodyDesc = RigidBodyDesc.newDynamic().setCcdEnabled(true)
   additionalMass && rigidBodyDesc.setAdditionalMass(additionalMass)
-  return getWorld().createRigidBody(rigidBodyDesc)
+  const world = getWorld()
+  const rigidBody = world.createRigidBody(rigidBodyDesc)
+  return rigidBody
 }
 
 interface CuboidBodyOptions {

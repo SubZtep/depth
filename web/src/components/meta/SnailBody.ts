@@ -1,5 +1,5 @@
 import { loop3D } from "@depth/canvas"
-import { createBoxBody } from "@depth/physics"
+import { createBoxBody, createBoxCollider } from "@depth/physics"
 import { whenever } from "@vueuse/core"
 
 function initPos(rigidBody: any) {
@@ -16,6 +16,8 @@ export default defineComponent({
     if (!instance) throw new Error("Not in Vue scope")
 
     const rigidBody = createBoxBody(0.2)
+    createBoxCollider(rigidBody.handle, [0.6 / 2, 0.46 / 2, 0.7 / 2])
+    // const collider = createBoxCollider(rigidBody.handle, [0.6, 0.46, 0.7])
     // const rigidBody = createCuboidBody({
     //   dimensions: [0.6, 0.45, 0.7],
     //   additionalMass: 0.2,

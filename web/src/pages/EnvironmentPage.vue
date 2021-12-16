@@ -1,10 +1,6 @@
 <template lang="pug">
 Title move for environment
 i.text-2xl.fa-duotone.fa-cat-space.m-2.opacity-69
-
-Debug.text-xl
-  i.fa-duotone.fa-bug
-  | 🐌
 </template>
 
 <script lang="ts" setup>

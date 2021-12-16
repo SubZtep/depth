@@ -23,11 +23,11 @@ export default defineComponent({
     plane.receiveShadow = true
 
     scene.add(plane)
-    const groundCollider = createGround(size / 2, size / 2)
+    // const groundCollider = createGround(size / 2, size / 2)
 
     onScopeDispose(() => {
       scene.remove(plane)
-      getWorld().removeCollider(groundCollider, true)
+      // getWorld().removeCollider(groundCollider, true)
     })
 
     return () => slots.default?.()
