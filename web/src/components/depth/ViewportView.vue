@@ -28,7 +28,7 @@ const state = reactive({
   width: 320,
   height: 240,
   elevation: 5,
-  view: "y",
+  // view: "y",
 })
 
 addGuiFolder(folder => {
@@ -38,10 +38,10 @@ addGuiFolder(folder => {
   folder.add(state, "elevation", 1, 100, 1).onChange(value => {
     cam.position.y = value
   })
-  folder.add(state, "view", ["x", "y", "z"]).onChange(value => {
-    // cam.position.set(0, 10, 0)
-    // cam.position[value] = state.elevation * (value === "y" ? 1 : -1)
-  })
+  // folder.add(state, "view", ["x", "y", "z"]).onChange(value => {
+  //   // cam.position.set(0, 10, 0)
+  //   // cam.position[value] = state.elevation * (value === "y" ? 1 : -1)
+  // })
 })
 
 cam.position.set(15, state.elevation, 0)
@@ -58,7 +58,7 @@ if (props.camera) {
   scene.add(camHelper)
 }
 
-const pivot = singleton.get("pivot")
+// const pivot = singleton.get("pivot")
 // const pivotHelper = useObjectFactory().cone()
 // pivotHelper.geometry.rotateX(Math.PI / 2)
 // pivotHelper.layers.enableAll()

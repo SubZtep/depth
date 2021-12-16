@@ -20,5 +20,7 @@ declare global {
   const Vector3: typeof import('three/src/math/Vector3')['Vector3']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
+  const watchPostEffect: typeof import('vue')['watchPostEffect']
+  const whenever: typeof import('@vueuse/core')['whenever']
 }
 export {}

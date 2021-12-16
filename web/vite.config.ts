@@ -41,6 +41,7 @@ export default defineConfig(({ command }) => {
               "computed",
               "watch",
               "watchEffect",
+              "watchPostEffect",
               "defineComponent",
               "onMounted",
               "onBeforeUnmount",
@@ -48,7 +49,7 @@ export default defineConfig(({ command }) => {
             ],
           },
           {
-            "@vueuse/core": ["get", "set", "and"],
+            "@vueuse/core": ["get", "set", "and", "whenever"],
           },
           { "@vueuse/integrations": ["useNProgress"] },
           { "vue-toastification": ["useToast"] },
@@ -66,6 +67,7 @@ export default defineConfig(({ command }) => {
       chunkSizeWarningLimit: 1_666,
       rollupOptions: {
         manualChunks: {
+          "depth": ["./src/pages/DepthPage.vue"],
           "group-hands": ["./src/components/player/PlayerHands.vue"],
         },
         output: {

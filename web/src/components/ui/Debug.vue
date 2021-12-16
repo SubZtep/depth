@@ -1,29 +1,30 @@
 <template lang="pug">
 UseDraggable(
-  storage-key="debug-position"
+  v-if="exists"
+  :storage-key="`${keyPrefix}-position`"
   storage-type="local"
   :exact="true"
-  v-if="exists"
   @dblclick="exists = false"
-  v-stop-propagation
   :class="$style.frame")
+
   div(:class="$style.debug" ref="el" @dblclick.stop)
     slot
 </template>
 
 <script lang="ts" setup>
 import { UseDraggable } from "@vueuse/components"
-import { useElementSize, useStorage, syncRef, whenever } from "@vueuse/core"
-import { toRef, watchEffect } from "vue"
+import { useElementSize, useStorage, syncRef } from "@vueuse/core"
 import { usePreferencesStore } from "~/stores/preferences"
 
-const exists = ref(true)
-syncRef(toRef(usePreferencesStore(), "showDebug"), exists)
-
+const props = defineProps<{ storageKey?: string }>()
+const keyPrefix = ref(props.storageKey ?? "debug")
+const stored = useStorage(`${keyPrefix.value}-size`, { width: 320, height: 240 })
 const el = ref()
 
-const stored = useStorage("debug-size", { width: 320, height: 240 })
+const exists = ref(true)
 const initSize = { width: stored.value.width, height: stored.value.height }
+syncRef(toRef(usePreferencesStore(), "showDebug"), exists)
+
 whenever(
   exists,
   () => {
@@ -34,22 +35,20 @@ whenever(
 )
 
 const { width, height } = useElementSize(el, initSize)
-watchEffect(
-  () => {
-    stored.value = { width: width.value, height: height.value }
-  },
-  { flush: "post" }
-)
+
+watchPostEffect(() => {
+  stored.value = { width: width.value, height: height.value }
+})
 </script>
 
 <style module>
 .frame {
   position: fixed;
+  padding: 8px;
+  opacity: 0.6;
   cursor: move;
   background-color: #0104;
-  padding: 0.8rem;
   border: 2px outset #0606;
-  opacity: 0.6;
   transition: opacity 0.1s ease-in 3s;
 }
 
@@ -64,7 +63,6 @@ watchEffect(
   border: 2px inset #3636;
   background-color: #0104;
   cursor: text;
-
   font-family: monospace;
   white-space: pre;
   color: #4af626;

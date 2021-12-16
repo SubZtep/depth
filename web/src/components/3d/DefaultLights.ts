@@ -1,13 +1,12 @@
 // import { exec3D } from "@depth/three.js/dist/useRenderLoop"
+import { useScene } from "@depth/canvas"
 import { AmbientLight } from "three/src/lights/AmbientLight"
 import { DirectionalLight } from "three/src/lights/DirectionalLight"
 import { getCurrentInstance, onScopeDispose } from "vue"
 
 export default defineComponent({
   setup() {
-    const instance = getCurrentInstance()
-    if (!instance) throw new Error("Not in Vue scope")
-    const { $scene } = instance.appContext.app.config.globalProperties
+    const scene = useScene()
 
     const ambientLight = new AmbientLight(0xffff69, 0.2)
     // ambientLight.layers.enableAll()
@@ -25,10 +24,10 @@ export default defineComponent({
     directionalLight.shadow.camera.near = 0.5 // default
     directionalLight.shadow.camera.far = 500 // default
 
-    $scene.add(ambientLight, directionalLight)
+    scene.add(ambientLight, directionalLight)
 
     onScopeDispose(() => {
-      $scene.remove(ambientLight, directionalLight)
+      scene.remove(ambientLight, directionalLight)
     })
 
     return () => {}

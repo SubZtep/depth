@@ -18,6 +18,8 @@ WebcamPlayer(v-slot="{ video, streaming }")
 
 GradientPyramid(:position="[0, 3.5, -5]" :rotation="[1, 0, 0, 0]" :levels="5")
 
+Debug YO
+
 ViewportView(:camera="cc.camera")
 </template>
 
@@ -47,6 +49,7 @@ addGuiFolder(folder => {
   folder.add(state, "lerp")
 })
 
+// usePage()
 const cc = useCameraControls()
 // cc.setOrbitPoint(0, 5, 1)
 // cc.setPosition(0, 5, 2, false)

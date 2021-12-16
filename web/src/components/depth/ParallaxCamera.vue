@@ -29,8 +29,11 @@ watch(
     cc.azimuthAngle = -degY * DEG2RAD
 
     const degZ = radToDeg(euler.value.z) % 360
+    const degX = radToDeg(euler.value.x) % 360
 
-    cc.camera.up = new Vector3(0, 0, degZ * DEG2RAD)
+    console.log({ degX, degY, degZ })
+
+    // cc.camera.up = new Vector3(0, 0, degZ * DEG2RAD)
   }
 )
 </script>

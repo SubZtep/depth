@@ -10,6 +10,8 @@ A [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) app uses composition AP
 
 ## Packages
 
+:rainbow: Code fluid.
+
 The [web](./web#readme) frontend is part of the — _pnpm workspace_ — monorepo. Some great third-party open-source packages are included and extended with handy features.
 
 > Incomplete docs. :pencil2: W.I.P.
