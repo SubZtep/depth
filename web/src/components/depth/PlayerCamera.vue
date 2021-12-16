@@ -8,19 +8,32 @@ import { Euler } from "three/src/math/Euler"
 import { Quaternion } from "three/src/math/Quaternion"
 import { radToDeg } from "three/src/math/MathUtils"
 import { Object3D } from "three/src/core/Object3D"
-import { useScene } from "@depth/canvas"
+import { exec3D, useScene } from "@depth/canvas"
 import { MathUtils } from "three/src/Three"
 
 const props = defineProps<{
-  position: PositionTuple
-  rotation: RotationTuple
+  parent: Object3D
+  //   position: PositionTuple
+  //   rotation: RotationTuple
 }>()
 
-const cc = useCameraControls()
-// useFpsControls(cc)
-cc.setPosition(0, 2, -5, false)
-const camera = cc.camera
+// const cc = useCameraControls()
+// const camera = cc.camera
+// cc.enabled = false
 // cc.dispose()
+
+// if (props.parent) {
+//   // props.parent.add(camera)
+//   // exec3D({ ca})
+//   //
+// }
+
+
+// const cc = useCameraControls()
+// // useFpsControls(cc)
+// cc.setPosition(0, 2, -5, false)
+// const camera = cc.camera
+// // cc.dispose()
 
 // const o1 = new Object3D()
 // o1.add(camera)

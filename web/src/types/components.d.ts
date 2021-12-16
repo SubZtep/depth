@@ -8,6 +8,7 @@ declare module 'vue' {
     DefaultLights: typeof import('./../components/3d/DefaultLights.ts')['default']
     FloatingText: typeof import('./../components/ui/FloatingText.vue')['default']
     FloorPlane: typeof import('./../components/3d/FloorPlane.ts')['default']
+    GradientPyramid: typeof import('./../components/3d/GradientPyramid.vue')['default']
     ImagePlane: typeof import('./../components/3d/ImagePlane.ts')['default']
     InfiniteGrid: typeof import('./../components/3d/InfiniteGrid.ts')['default']
     LeafPlane: typeof import('./../components/3d/LeafPlane.ts')['default']

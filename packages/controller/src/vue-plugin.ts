@@ -40,6 +40,7 @@ export const ControllerPlugin: Plugin = function (app) {
     canvas: HTMLCanvasElement
   ) => {
     const cameraControls = new CameraControls(camera, canvas)
+    cameraControls.setPosition(0, 2, 5, false) // FIXME: camera controls (bug?), has to move to become interactive
     app.config.globalProperties.$cameraControls = cameraControls
 
     loop3D(({ deltaTime }) => {

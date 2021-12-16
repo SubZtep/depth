@@ -34,6 +34,7 @@ export default defineConfig(({ command }) => {
           {
             vue: [
               "ref",
+              "shallowRef",
               "toRef",
               "toRefs",
               "reactive",
@@ -51,6 +52,7 @@ export default defineConfig(({ command }) => {
           },
           { "@vueuse/integrations": ["useNProgress"] },
           { "vue-toastification": ["useToast"] },
+          { "three/src/math/Vector3": ["Vector3"] },
           { "@depth/hud": ["addGuiFolder"] },
         ],
         dts: "src/types/auto-imports.d.ts",

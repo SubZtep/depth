@@ -184,7 +184,7 @@ importers:
       '@depth/stats': workspace:*
       '@depth/video': workspace:*
       '@dimforge/rapier3d-compat': ^0.7.6
-      '@types/node': ^16.11.13
+      '@types/node': ^17.0.0
       '@types/three': ^0.135.0
       '@types/ua-parser-js': ^0.7.36
       '@types/uuid': ^8.3.3
@@ -207,7 +207,7 @@ importers:
       uuid: ^8.3.2
       vite: ^2.7.2
       vite-plugin-cross-origin-isolation: ^0.1.1
-      vite-plugin-pwa: ^0.11.11
+      vite-plugin-pwa: ^0.11.12
       vite-plugin-windicss: ^1.5.4
       vue: ^3.2.20
       vue-router: ^4.0.12
@@ -239,7 +239,7 @@ importers:
       vue-toastification: 2.0.0-rc.5_vue@3.2.26
     devDependencies:
       '@dimforge/rapier3d-compat': 0.7.6
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       '@types/three': 0.135.0
       '@types/ua-parser-js': 0.7.36
       '@types/uuid': 8.3.3
@@ -251,7 +251,7 @@ importers:
       unplugin-vue-components: 0.17.9_vite@2.7.2+vue@3.2.26
       vite: 2.7.2
       vite-plugin-cross-origin-isolation: 0.1.1
-      vite-plugin-pwa: 0.11.11_vite@2.7.2
+      vite-plugin-pwa: 0.11.12_vite@2.7.2
       vite-plugin-windicss: 1.5.4_vite@2.7.2
       windicss: 3.3.0
 
@@ -1525,7 +1525,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.4.2
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       chalk: 4.1.2
       jest-message-util: 27.4.2
       jest-util: 27.4.2
@@ -1546,7 +1546,7 @@ packages:
       '@jest/test-result': 27.4.2
       '@jest/transform': 27.4.5
       '@jest/types': 27.4.2
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.8.1
@@ -1583,7 +1583,7 @@ packages:
     dependencies:
       '@jest/fake-timers': 27.4.2
       '@jest/types': 27.4.2
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       jest-mock: 27.4.2
     dev: true
 
@@ -1593,7 +1593,7 @@ packages:
     dependencies:
       '@jest/types': 27.4.2
       '@sinonjs/fake-timers': 8.1.0
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       jest-message-util: 27.4.2
       jest-mock: 27.4.2
       jest-util: 27.4.2
@@ -1622,7 +1622,7 @@ packages:
       '@jest/test-result': 27.4.2
       '@jest/transform': 27.4.5
       '@jest/types': 27.4.2
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       chalk: 4.1.2
       collect-v8-coverage: 1.0.1
       exit: 0.1.2
@@ -1706,7 +1706,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.3
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       '@types/yargs': 16.0.4
       chalk: 4.1.2
     dev: true
@@ -1949,7 +1949,7 @@ packages:
   /@types/graceful-fs/4.1.5:
     resolution: {integrity: sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==}
     dependencies:
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
     dev: true
 
   /@types/istanbul-lib-coverage/2.0.3:
@@ -1979,8 +1979,8 @@ packages:
     resolution: {integrity: sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==}
     dev: true
 
-  /@types/node/16.11.13:
-    resolution: {integrity: sha512-eUXZzHLHoZqj1frtUetNkUetYoJ6X55UmrVnFD4DMhVeAmwLjniZhtBmsRiemQh4uq4G3vUra/Ws/hs9vEvL3Q==}
+  /@types/node/17.0.0:
+    resolution: {integrity: sha512-eMhwJXc931Ihh4tkU+Y7GiLzT/y/DBNpNtr4yU9O2w3SYBsr9NaOPhQlLKRmoWtI54uNwuo0IOUFQjVOTZYRvw==}
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -1993,7 +1993,7 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
     dev: true
 
   /@types/stack-utils/2.0.1:
@@ -2035,7 +2035,7 @@ packages:
   /@types/websocket/1.0.4:
     resolution: {integrity: sha512-qn1LkcFEKK8RPp459jkjzsfpbsx36BBt3oC3pITYtkoBw/aVX+EZFa5j3ThCRTNpLFvIMr5dSTD4RaMdilIOpA==}
     dependencies:
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
     dev: false
 
   /@types/yargs-parser/20.2.1:
@@ -4526,7 +4526,7 @@ packages:
       '@jest/environment': 27.4.4
       '@jest/test-result': 27.4.2
       '@jest/types': 27.4.2
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       chalk: 4.1.2
       co: 4.6.0
       dedent: 0.7.0
@@ -4649,7 +4649,7 @@ packages:
       '@jest/environment': 27.4.4
       '@jest/fake-timers': 27.4.2
       '@jest/types': 27.4.2
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       jest-mock: 27.4.2
       jest-util: 27.4.2
       jsdom: 16.7.0
@@ -4667,7 +4667,7 @@ packages:
       '@jest/environment': 27.4.4
       '@jest/fake-timers': 27.4.2
       '@jest/types': 27.4.2
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       jest-mock: 27.4.2
       jest-util: 27.4.2
     dev: true
@@ -4683,7 +4683,7 @@ packages:
     dependencies:
       '@jest/types': 27.4.2
       '@types/graceful-fs': 4.1.5
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       anymatch: 3.1.2
       fb-watchman: 2.0.1
       graceful-fs: 4.2.8
@@ -4706,7 +4706,7 @@ packages:
       '@jest/source-map': 27.4.0
       '@jest/test-result': 27.4.2
       '@jest/types': 27.4.2
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       chalk: 4.1.2
       co: 4.6.0
       expect: 27.4.2
@@ -4761,7 +4761,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.4.2
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
     dev: true
 
   /jest-pnp-resolver/1.2.2_jest-resolve@27.4.5:
@@ -4817,7 +4817,7 @@ packages:
       '@jest/test-result': 27.4.2
       '@jest/transform': 27.4.5
       '@jest/types': 27.4.2
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       chalk: 4.1.2
       emittery: 0.8.1
       exit: 0.1.2
@@ -4879,7 +4879,7 @@ packages:
     resolution: {integrity: sha512-RDhpcn5f1JYTX2pvJAGDcnsNTnsV9bjYPU8xcV+xPwOXnUPOQwf4ZEuiU6G9H1UztH+OapMgu/ckEVwO87PwnQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       graceful-fs: 4.2.8
     dev: true
 
@@ -4920,7 +4920,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.4.2
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       chalk: 4.1.2
       ci-info: 3.3.0
       graceful-fs: 4.2.8
@@ -4945,7 +4945,7 @@ packages:
     dependencies:
       '@jest/test-result': 27.4.2
       '@jest/types': 27.4.2
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       jest-util: 27.4.2
@@ -4956,7 +4956,7 @@ packages:
     resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       merge-stream: 2.0.0
       supports-color: 7.2.0
     dev: true
@@ -4965,7 +4965,7 @@ packages:
     resolution: {integrity: sha512-f2s8kEdy15cv9r7q4KkzGXvlY0JTcmCbMHZBfSQDwW77REr45IDWwd0lksDFeVHH2jJ5pqb90T77XscrjeGzzg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 16.11.13
+      '@types/node': 17.0.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: true
@@ -7083,8 +7083,8 @@ packages:
     resolution: {integrity: sha512-egyW4CSWORimC2NbIJDJ8Ga1eoUBscFDvY9oLYBfiKHdYHMCiOiIeqtXbgv/2V7aYs//KIP34H2eQw1hEBARwg==}
     dev: true
 
-  /vite-plugin-pwa/0.11.11_vite@2.7.2:
-    resolution: {integrity: sha512-/nSLS7VfGN5UrL4a1ALGEQAyga/H0hYZjEkwPehiEFW1PM1DTi1A8GkPCsmevKwR6vt10P+5wS1wrvSgwQemzw==}
+  /vite-plugin-pwa/0.11.12_vite@2.7.2:
+    resolution: {integrity: sha512-XqFmA4y9C4RBb5osSsa26GVwOSwbzf2GNVcT5+06KYYdguqLpuI9FW7iV/akZqg0OUNUpH4tHfme8SnHA4PIXA==}
     peerDependencies:
       vite: ^2.0.0
     dependencies:

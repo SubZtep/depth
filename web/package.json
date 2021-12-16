@@ -1,7 +1,6 @@
 {
   "name": "@depth/web",
   "version": "0.1.0",
-  "private": true,
   "description": "depth test",
   "scripts": {
     "dev": "vite",
@@ -40,7 +39,7 @@
   },
   "devDependencies": {
     "@dimforge/rapier3d-compat": "^0.7.6",
-    "@types/node": "^16.11.13",
+    "@types/node": "^17.0.0",
     "@types/three": "^0.135.0",
     "@types/ua-parser-js": "^0.7.36",
     "@types/uuid": "^8.3.3",
@@ -52,7 +51,7 @@
     "unplugin-vue-components": "^0.17.9",
     "vite": "^2.7.2",
     "vite-plugin-cross-origin-isolation": "^0.1.1",
-    "vite-plugin-pwa": "^0.11.11",
+    "vite-plugin-pwa": "^0.11.12",
     "vite-plugin-windicss": "^1.5.4",
     "windicss": "^3.3.0"
   }

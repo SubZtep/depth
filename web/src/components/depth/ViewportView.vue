@@ -11,16 +11,23 @@ import { CameraHelper } from "three/src/helpers/CameraHelper"
 import { Vector4 } from "three/src/math/Vector4"
 import { useScene } from "@depth/canvas"
 import { onScopeDispose } from "vue"
+import { Camera } from "three/src/cameras/Camera"
 
 const scene = useScene()
 
 const { singleton } = useSingleton()
-const cam = new PerspectiveCamera(90)
+const cam = new PerspectiveCamera(60)
+
+const props = defineProps<{
+  camera?: Camera
+  //   position: PositionTuple
+  //   rotation: RotationTuple
+}>()
 
 const state = reactive({
   width: 320,
   height: 240,
-  elevation: 15,
+  elevation: 5,
   view: "y",
 })
 
@@ -32,20 +39,24 @@ addGuiFolder(folder => {
     cam.position.y = value
   })
   folder.add(state, "view", ["x", "y", "z"]).onChange(value => {
-    cam.position.set(0, 10, 0)
-    cam.position[value] = state.elevation * (value === "y" ? 1 : -1)
+    // cam.position.set(0, 10, 0)
     // cam.position[value] = state.elevation * (value === "y" ? 1 : -1)
   })
 })
 
-cam.position.set(10, state.elevation, 0)
-cam.lookAt(0, 10, 0)
+cam.position.set(15, state.elevation, 0)
+cam.lookAt(0, 5, 0)
 cam.layers.enableAll()
 // cam.layers.set(1)
 
-// const camHelper = new CameraHelper(cam)
-// camHelper.layers.enableAll()
-// camHelper.layers.set(1)
+let camHelper: CameraHelper
+
+if (props.camera) {
+   camHelper = new CameraHelper(props.camera)
+  camHelper.layers.enableAll()
+  camHelper.layers.set(1)
+  scene.add(camHelper)
+}
 
 const pivot = singleton.get("pivot")
 // const pivotHelper = useObjectFactory().cone()
@@ -81,7 +92,7 @@ loop3D(
 )
 
 onScopeDispose(() => {
-  scene.remove(cam)
+  scene.remove(cam, camHelper)
   exec3D(({ renderer }) => {
     renderer.setScissorTest(false)
   })

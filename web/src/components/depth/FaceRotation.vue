@@ -47,11 +47,13 @@ useFace({
     const vh2o = vh2.clone().sub(vh1.clone()).normalize()
     const vv2o = vv2.clone().sub(vv1.clone()).normalize()
 
-    q1 = q2.clone()
-    q2 = rotateVectorsSimultaneously(vh1o, vv1o, vh2o, vv2o)
-
     p1 = p2.clone()
+    position.value = [p1.x, p1.y, p1.z]
     p2.set(lm[173].x, lm[173].y, lm[173].z)
+
+    q1 = q2.clone()
+    rotation.value = [q1.x, q1.y, q1.z, q1.w]
+    q2 = rotateVectorsSimultaneously(vh1o, vv1o, vh2o, vv2o)
 
     if (!get(throttle) || !get(lerp)) {
       rotation.value = [q2.x, q2.y, q2.z, q2.w]
@@ -73,7 +75,9 @@ watch(and(throttle, lerp, streaming), on => {
     if (diff > get(throttle)!) p0 = performance.now()
 
     // FIXME: t seems buggy
-    t = Math.min(+(diff / props.throttle!).toFixed(2), 1) + deltaTime
+    // t = Math.min(+(diff / props.throttle!).toFixed(2), 1) + deltaTime
+    t = Math.min(+(diff / props.throttle!).toFixed(2), 1)
+
     p1.lerp(p2, t)
     position.value = [p1.x, p1.y, p1.z]
     q1.slerp(q2, t)
