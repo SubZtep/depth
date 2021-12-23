@@ -2,7 +2,7 @@
 Title Face
 
 WebcamPlayer(v-slot="{ video, streaming }")
-  FaceMesh(:video="video" :streaming="streaming")
+  FaceMesh(:video="video" :streaming="streaming" :throttle="state.throttle" :lerp="state.lerp")
   //- div {{video}} {{streaming}}
 
 //- WebcamPlayer(v-slot="{ video, streaming }")
@@ -12,13 +12,15 @@ WebcamPlayer(v-slot="{ video, streaming }")
 <script lang="ts" setup>
 import WebcamPlayer from "~/components/depth/WebcamPlayer.vue"
 import FaceMesh from "~/components/3d/FaceMesh.vue"
-// const state = reactive({
-//   src: "",
-//   showVideo: true,
-// })
 
-// addGuiFolder(folder => {
-//   folder.name = "Video Page"
-//   folder.add(state, "src", ["", "/videos/yoga2.webm", "/videos/extended_leg_pistol_squats.webm"]).name("Source")
-// })
+const state = reactive({
+  throttle: 0,
+  lerp: false,
+})
+
+addGuiFolder(folder => {
+  folder.name = "☺ Face Page"
+  folder.add(state, "throttle", 0, 1000, 50)
+  folder.add(state, "lerp")
+})
 </script>

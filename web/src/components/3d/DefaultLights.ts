@@ -11,7 +11,7 @@ export default defineComponent({
 
     const directionalLight = new DirectionalLight(0xffffcc, 0.6)
     directionalLight.layers.enableAll()
-    directionalLight.position.set(0, 10, 0)
+    directionalLight.position.set(0, 10, -5)
     directionalLight.rotateZ(Math.PI / 8)
     directionalLight.rotation.set(0, 10, -30)
     directionalLight.castShadow = true

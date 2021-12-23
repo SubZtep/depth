@@ -16,7 +16,7 @@ import { Camera } from "three/src/cameras/Camera"
 const scene = useScene()
 
 const { singleton } = useSingleton()
-const cam = new PerspectiveCamera(60)
+const cam = new PerspectiveCamera(60) // TODO: use OrthographicCamera
 
 const props = defineProps<{
   camera?: Camera
