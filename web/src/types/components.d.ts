@@ -6,6 +6,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Debug: typeof import('./../components/ui/Debug.vue')['default']
     DefaultLights: typeof import('./../components/3d/DefaultLights.ts')['default']
+    FaceMesh: typeof import('./../components/3d/FaceMesh.vue')['default']
     FloatingText: typeof import('./../components/ui/FloatingText.vue')['default']
     FloorPlane: typeof import('./../3d/components/FloorPlane.vue')['default']
     GradientPyramid: typeof import('./../3d/components/GradientPyramid.vue')['default']

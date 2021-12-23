@@ -16,9 +16,12 @@ interface FaceMeshOptions {
 
   /** Throttle detection request */
   throttle?: Ref<number>
+
+  /** FaceMesh options */
+  options?: Partial<Options>
 }
 
-const options: Options = {
+const defaultOptions: Options = {
   selfieMode: true,
   enableFaceGeometry: false,
   maxNumFaces: 1,
@@ -35,9 +38,9 @@ const config: FaceMeshConfig = {
   // locateFile: file => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`,
 }
 
-export function useFace({ video, handler, streaming, throttle }: FaceMeshOptions) {
+export function useFace({ video, handler, streaming, throttle, options }: FaceMeshOptions) {
   const faceMesh: FaceMesh = isDev ? new FaceMesh(config) : new globalThis.FaceMesh(config)
-  faceMesh.setOptions(options)
+  faceMesh.setOptions({ ...defaultOptions, ...options })
   faceMesh.onResults(handler)
 
   return useBaseMediaPipe({ solution: faceMesh, video, streaming, throttle })
