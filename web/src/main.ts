@@ -13,7 +13,7 @@ import { StatsPlugin } from "@depth/stats"
 // import CssAspectRatio from "./directives/css-aspect-ratio"
 import Visible from "./directives/visible"
 import StopPropagation from "./directives/stop-propagation"
-import router, { navigationGui } from "./router"
+import router, { navigationGui, initRouterMeta } from "./router"
 // import { UserEvents } from "./events"
 import App from "./App/App.vue"
 import { usePreferencesStore } from "~/stores/preferences"
@@ -48,6 +48,8 @@ const app = createApp(App)
 //     console.log("My Error Handler", { err, instance, info })
 //   }
 // }
+
+initRouterMeta(app)
 
 const { showDebug, isMobile } = storeToRefs(usePreferencesStore())
 

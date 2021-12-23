@@ -69,7 +69,7 @@ export default defineComponent({
 
     const mesh = new Mesh(geometry, material)
     mesh.rotateY(Math.PI / 2)
-    mesh.position.setY(-0.1)
+    mesh.position.setY(-0.001)
 
     if (isReactive(props)) {
       // TODO: make props ref properly if necessary

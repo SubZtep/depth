@@ -16,7 +16,7 @@ KeyboardInput(v-slot="{ joystick, action }")
       FollowCamera(:parent="mesh")
 
 LeafPlane(:position="[0, 0.01, 0]")
-FloorPlane(:width="8" :height="8")
+FloorPlane(:width="1" :height="1")
   SensorCollider(:position="[0, 0.5, -3.5]" :dimensions="[3, 1, 1]" :helper="state.helper")
 
 FloorPlane(:width="4" :height="8" :position="[0, 0.01, -10]")

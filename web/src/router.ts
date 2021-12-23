@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router"
 import type { RouteRecordRaw } from "vue-router"
 import type { GUIExtended } from "@depth/hud"
 import { kebabToTitle } from "@depth/misc"
+import { exec3D } from "@depth/canvas"
+import type { App } from "vue"
 
 const camHeight = 1.6
 const routes: RouteRecordRaw[] = [
@@ -16,13 +18,23 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    path: "/blast",
+    name: "blast",
+    component: () => import("./pages/BlastPage.vue"),
+    meta: {
+      position: [0, 4, 6],
+      lookAt: [0, 1, 0],
+      order: 2,
+    },
+  },
+  {
     path: "/player",
     name: "player",
     component: () => import("./pages/PlayerPage.vue"),
     meta: {
       position: [0, camHeight, 6],
       lookAt: [0, 0, 0],
-      order: 2,
+      order: 3,
     },
   },
   {
@@ -75,19 +87,21 @@ function getRouteNames() {
 }
 
 const routeNames = getRouteNames()
-// let folders: NodeListOf<Element>
+let folders: NodeListOf<Element>
 
-// router.beforeEach(({ name, meta: { position, lookAt } }) => {
-//   // set gui active class
-//   if (!folders) folders = document.querySelectorAll(".dg.depth .folder:first-of-type .function")
-//   const index = (typeof name === "string" && routeNames.indexOf(name)) ?? -1
-//   for (const [index_] of folders.entries()) folders[index_].classList[index_ === index ? "add" : "remove"]("active")
+export function initRouterMeta(app: App) {
+  router.beforeEach(({ name, meta: { position, lookAt } }) => {
+    // set gui active class
+    if (!folders) folders = document.querySelectorAll(".dg.depth .folder:first-of-type .function")
+    const index = (typeof name === "string" && routeNames.indexOf(name)) ?? -1
+    for (const [index_] of folders.entries()) folders[index_].classList[index_ === index ? "add" : "remove"]("active")
 
-//   // move camera to the desired position
-//   position &&
-//     lookAt &&
-//     exec3D(async ({ cameraControls }) => await cameraControls.setLookAt(...position, ...lookAt, true))
-// })
+    // move camera to the desired position
+    position &&
+      lookAt &&
+      app.config.globalProperties.$cameraControls.setLookAt(...position, ...lookAt, true)
+  })
+}
 
 export function navigationGui(gui: GUIExtended) {
   const folder = gui.addFolder("⚓ Navigation")

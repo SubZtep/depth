@@ -6,13 +6,18 @@ import { PCFSoftShadowMap, sRGBEncoding } from "three/src/constants"
 export default function (canvas: HTMLCanvasElement) {
   const { width, height } = useWindowSize()
 
-  const renderer = new WebGLRenderer({ canvas, powerPreference: "high-performance", antialias: true })
+  const renderer = new WebGLRenderer({
+    canvas,
+    antialias: true,
+    powerPreference: "high-performance",
+    logarithmicDepthBuffer: true,
+  })
   renderer.physicallyCorrectLights = true
   renderer.outputEncoding = sRGBEncoding
   renderer.shadowMap.enabled = true
   renderer.shadowMap.type = PCFSoftShadowMap
 
-  const camera = new PerspectiveCamera(60, undefined, 0.01, 1000)
+  const camera = new PerspectiveCamera(69, undefined, 0.01, 1000)
 
   debouncedWatch(
     [width, height],
