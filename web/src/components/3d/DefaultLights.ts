@@ -1,8 +1,6 @@
-// import { exec3D } from "@depth/three.js/dist/useRenderLoop"
 import { useScene } from "@depth/canvas"
 import { AmbientLight } from "three/src/lights/AmbientLight"
 import { DirectionalLight } from "three/src/lights/DirectionalLight"
-import { getCurrentInstance, onScopeDispose } from "vue"
 
 export default defineComponent({
   setup() {

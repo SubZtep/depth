@@ -1,7 +1,8 @@
 import { loop3D } from "@depth/canvas"
-import { createBoxBody, createBoxCollider, getWorld } from "@depth/physics"
+import { getWorld } from "@depth/physics"
 import { ColliderDesc, RigidBodyDesc } from "@dimforge/rapier3d-compat"
 import { whenever } from "@vueuse/core"
+import { usePlayerStore } from "~/stores/player"
 
 function initPos(rigidBody: any) {
   rigidBody.setTranslation({ x: 0, y: 1.5, z: 0 }, true)
@@ -16,22 +17,24 @@ export default defineComponent({
     const instance = getCurrentInstance()
     if (!instance) throw new Error("Not in Vue scope")
 
+    const playerStore = usePlayerStore()
+
     const world = getWorld()
     const rigidBodyDesc = RigidBodyDesc.newDynamic().setCcdEnabled(true)
     rigidBodyDesc.setAdditionalMass(0.2)
     const rigidBody = world.createRigidBody(rigidBodyDesc)
     const colliderDesc = ColliderDesc.cuboid(0.6 / 2, 0.45 / 2, 0.7 / 2)
-    colliderDesc.setDensity(2)
-    world.createCollider(colliderDesc, rigidBody.handle)
+      // FIXME: add back(?) .setActiveEvents(ActiveEvents.CONTACT_EVENTS | ActiveEvents.INTERSECTION_EVENTS)
+      .setDensity(2)
+      .setRestitution(0.2)
 
-    // const rigidBody = createBoxBody(0.2)
-    // createBoxCollider(rigidBody.handle, [0.6 / 2, 0.46 / 2, 0.7 / 2])
-    // const collider = createBoxCollider(rigidBody.handle, [0.6, 0.46, 0.7])
-    // const rigidBody = createCuboidBody({
-    //   dimensions: [0.6, 0.45, 0.7],
-    //   additionalMass: 0.2,
-    //   density: 2,
-    // })
+    const collider = world.createCollider(colliderDesc, rigidBody.handle)
+
+    playerStore.$patch({
+      rigidBodyHandle: rigidBody.handle,
+      colliderHandle: collider.handle,
+    } as any)
+
     emit("rigid-body", rigidBody)
 
     initPos(rigidBody)
@@ -49,14 +52,14 @@ export default defineComponent({
 
     loop3D(() => {
       if (props.playerInput) {
-        const [x, _, z] = props.playerInput.joystick.value
+        const [x, _y, z] = props.playerInput.joystick.value
         if (x !== 0 || z !== 0) {
           const { y } = rigidBody.linvel()
           rigidBody.setLinvel({ x, y, z }, true)
         }
       }
 
-      const pos = rigidBody.translation() // TODO: toFixed(5) if neecessary
+      const pos = rigidBody.translation() // FIXME: toFixed(5) if neecessary
 
       if (pos.y < -10) {
         // reset the fallen

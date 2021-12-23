@@ -11,6 +11,8 @@ export const usePlayerStore: StoreDefinition = defineStore("player", {
     roughness: useStorage("player.roughness", 0),
     position: [0, 0, 0] as PositionTuple,
     rotation: [0, 0, 0, 1] as RotationTuple,
+    rigidBodyHandle: null as null | number,
+    colliderHandle: null as null | number,
   }),
   supabase: {
     table: "metasnail",

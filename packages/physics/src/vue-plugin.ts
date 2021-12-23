@@ -1,6 +1,8 @@
-import type { Plugin, Directive } from "vue"
-import { getWorld, loadPhysicsEngine } from "./world"
+import type { Plugin } from "vue"
+import { loadPhysicsEngine } from "./world"
+import SensorCollider from "./components/SensorCollider"
 
-export const PhysicsPlugin: Plugin = async function () {
+export const PhysicsPlugin: Plugin = async function (app) {
+  app.component("SensorCollider", SensorCollider)
   await loadPhysicsEngine()
 }

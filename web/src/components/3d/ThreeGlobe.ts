@@ -1,6 +1,5 @@
 import ThreeGlobe from "three-globe"
-import { exec3D, loop3D, useScene } from "@depth/canvas"
-import { defineComponent, onBeforeUnmount, onMounted, onScopeDispose, watch, watchEffect } from "vue"
+import { loop3D, useScene } from "@depth/canvas"
 import { Mesh } from "three/src/objects/Mesh"
 import { SphereBufferGeometry } from "three/src/geometries/SphereGeometry"
 import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial"

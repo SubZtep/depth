@@ -28,7 +28,6 @@ pinia.use(PiniaUndo)
 const app = createApp(App)
   .use(pinia)
   .use(router)
-
   .use(SupabasePlugin, {
     url: import.meta.env.VITE_SUPABASE_URL,
     key: import.meta.env.VITE_SUPABASE_KEY,

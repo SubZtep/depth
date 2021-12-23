@@ -2,7 +2,7 @@ import { MaybeRef, whenever } from "@vueuse/core"
 import { tryOnScopeDispose } from "@vueuse/core"
 import { CubeTextureLoader } from "three/src/loaders/CubeTextureLoader"
 import { CubeTexture } from "three/src/textures/CubeTexture"
-import { getCurrentInstance, isReactive, isRef, onScopeDispose, PropType, unref } from "vue"
+import { getCurrentInstance, isReactive, isRef, PropType } from "vue"
 
 const onProgress = (event: ProgressEvent) => console.info("downloading skybox", event)
 

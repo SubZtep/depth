@@ -6,4 +6,4 @@ export const KEYFRAME_IMAGES = (memfsFilename: string, outDir: string, height = 
     " "
   )
 
-export const KEYFRAME_TIMESTAMPS_LOG = /^.*pts_time:([0-9]+\.?[0-9]*).*$/
+export const KEYFRAME_TIMESTAMPS_LOG = /^.*pts_time:(\d+\.?\d*).*$/

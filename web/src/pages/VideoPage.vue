@@ -5,7 +5,7 @@ VideoPlayer(:src="state.src" :key="state.src || 'none'" :play="state.showVideo" 
 
 UseVirtualList.bg-gray-200.w-64.resize-x(v-if="memfsPics.length > 0" :list="memfsPics" :options="{ itemHeight: state.thumbHeight, overscan: 0 }" height="300px")
   template(#="{ data: filename }")
-    ImgMemfs(:src="`${memfsDir}/${filename}`" :FS="ff.FS" :key="`${memfsDir}/${filename}`" :height="state.thumbHeight")
+    ImgMemfs(:src="`${memfsDirectory}/${filename}`" :FS="ff.FS" :key="`${memfsDirectory}/${filename}`" :height="state.thumbHeight")
     | {{filename}}
 
 </template>
@@ -19,7 +19,7 @@ import { useFFmpeg } from "@depth/video"
 const toast = useToast()
 const { progress } = useNProgress()
 
-const memfsDir = "/depth"
+const memfsDirectory = "/depth"
 const memfsFilename = "video.webm"
 
 const state = reactive({
@@ -32,7 +32,7 @@ const src = toRef(state, "src")
 
 const { ff, files, generateThumbnails } = await useFFmpeg({
   src,
-  memfsDir,
+  memfsDirectory,
   memfsFilename,
   options: {
     progress: ({ ratio }) => set(progress, ratio),

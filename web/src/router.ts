@@ -65,7 +65,7 @@ function getRouteNames() {
 }
 
 const routeNames = getRouteNames()
-let folders: NodeListOf<Element>
+// let folders: NodeListOf<Element>
 
 // router.beforeEach(({ name, meta: { position, lookAt } }) => {
 //   // set gui active class

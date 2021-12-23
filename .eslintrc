@@ -73,9 +73,10 @@ rules:
   unicorn/consistent-destructuring: off
   unicorn/no-null: off
   vue/no-setup-props-destructure: off
+  unicorn/no-object-as-default-parameter: off
   unicorn/prevent-abbreviations:
     - warn
-    - ignore: ["props", "err", "el", "isDev", "Fn", "fn", "Param", "params", "src", "ext", "Ref"]
+    - ignore: ["props", "err", "el", "isDev", "Fn", "fn", "Param", "params", "src", "ext", "Ref", "obj", "i"]
 
 ignorePatterns:
   - "**node_modules/"

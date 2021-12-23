@@ -1,6 +1,6 @@
 # `@depth/controller`
 
-## Global Property
+## Global Properties
 
 `app.config.globalProperties.`:jigsaw:
 
@@ -10,7 +10,7 @@
 
 ## Components
 
-Installing packages Vue plugin create global component.
+Installing the Vue plugin of this package create global component.
 
 | Name                                    |     Test      | Description          |
 | --------------------------------------- | :-----------: | -------------------- |

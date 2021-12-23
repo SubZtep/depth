@@ -1,5 +1,4 @@
 import type { PropType } from "vue"
-import { getCurrentInstance, onScopeDispose } from "vue"
 import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
 import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
 import { TextureLoader } from "three/src/loaders/TextureLoader"

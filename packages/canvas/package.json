@@ -12,7 +12,7 @@
   "license": "Unlicense",
   "dependencies": {
     "@depth/stats": "workspace:*",
-    "@vueuse/core": "^7.3.0",
+    "@vueuse/core": "^7.4.0",
     "three": "^0.135.0",
     "vue": "^3.2.20"
   },

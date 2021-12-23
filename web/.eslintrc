@@ -1,12 +1,16 @@
 globals:
+  addGuiFolder: true
+  and: true
   biSyncRef: true
   computed: true
   defineEmits: true
   defineProps: true
   get: true
   not: true
+  Object3D: true
   onBeforeUnmount: true
   onMounted: true
+  onScopeDispose: true
   reactive: true
   ref: true
   set: true
@@ -28,6 +32,7 @@ globals:
   useTimeoutFn: true
   useToast: true
   useUserMedia: true
+  Vector3: true
   watch: true
   watchEffect: true
   watchWithFilter: true

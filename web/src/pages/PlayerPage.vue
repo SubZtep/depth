@@ -17,6 +17,8 @@ KeyboardInput(v-slot="{ joystick, action }")
 
 LeafPlane(:position="[0, 0.01, 0]")
 FloorPlane(:width="8" :height="8")
+  SensorCollider(:position="[0, 0.5, -3.5]" :dimensions="[3, 1, 1]" :helper="state.helper")
+
 FloorPlane(:width="4" :height="8" :position="[0, 0.01, -10]")
 FloorPlane(:width="9" :height="9" :position="[0, 0.01, -20]" v-slot="{ mesh }")
   SimpleBox(:parent="mesh" :position="[-3, 3, 0.5]")
@@ -50,6 +52,10 @@ const setBody = (rigidBody: RigidBody) => {
   body = rigidBody
 }
 
+const state = reactive({
+  helper: false,
+})
+
 const btns = {
   bump() {
     body && body.applyForce({ x: 0, y: 1500, z: 0 }, true)
@@ -82,5 +88,10 @@ addGuiFolder(folder => {
   folder.add(playerStore, "roughness", 0, 1, 0.001).name("Roughness")
   folder.add(btns, "bump").name("Bump Up")
   folder.add(btns, "roll").name("Roll")
+})
+
+addGuiFolder(folder => {
+  folder.name = "x Playground"
+  folder.add(state, "helper")
 })
 </script>
