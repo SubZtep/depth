@@ -8,7 +8,7 @@ export default function (canvas: HTMLCanvasElement) {
 
   const renderer = new WebGLRenderer({
     canvas,
-    antialias: true,
+    antialias: false,
     powerPreference: "high-performance",
     logarithmicDepthBuffer: true,
   })
