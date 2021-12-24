@@ -4,7 +4,6 @@
   "private": true,
   "description": "depth test",
   "scripts": {
-    "prebuild": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
     "build": "pnpm recursive run build",
     "wipe": "pnpm recursive exec -- rm -rf node_modules dist coverage tsconfig.tsbuildinfo .pnpm-debug.log",
     "wiper": "sh scripts/wipe_all.sh",
