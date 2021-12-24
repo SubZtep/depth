@@ -34,7 +34,8 @@ float getGrid(float size) {
 
 void main() {
   float d = 1.0 - min(distance(cameraPosition.xz, worldPosition.xz) / uDistance, 1.0);
-  float g = getGrid(uSize);
+  // float g = getGrid(uSize);
+  float g = uSize;
 
   myOutputColor = vec4(uColor.rgb, g * pow(d, 3.0));
 }
@@ -42,9 +43,9 @@ void main() {
 
 export default defineComponent({
   props: {
-    size: { type: Number, default: 1 },
-    color: { type: Number, default: 0x00ff00 },
-    distance: { type: Number, default: 100 },
+    size: { type: Number, default: 0.9 },
+    color: { type: Number, default: 0x003300 },
+    distance: { type: Number, default: 400 },
   },
   setup(props) {
     const scene = useScene()
@@ -71,7 +72,7 @@ export default defineComponent({
 
     const mesh = new Mesh(geometry, material)
     mesh.rotateY(Math.PI / 2)
-    mesh.position.setY(-0.001)
+    mesh.position.setY(-0.01)
 
     if (isReactive(props)) {
       // TODO: make props ref properly if necessary

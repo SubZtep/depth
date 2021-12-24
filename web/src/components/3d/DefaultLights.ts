@@ -7,7 +7,7 @@ export default defineComponent({
     const scene = useScene()
 
     const ambientLight = new AmbientLight(0xffff69, 0.2)
-    // ambientLight.layers.enableAll()
+    ambientLight.layers.enableAll()
 
     const directionalLight = new DirectionalLight(0xffffcc, 0.6)
     directionalLight.layers.enableAll()

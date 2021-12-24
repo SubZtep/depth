@@ -22,8 +22,8 @@ const routes: RouteRecordRaw[] = [
     name: "blast",
     component: () => import("./pages/BlastPage.vue"),
     meta: {
-      position: [0, 4, 6],
-      lookAt: [0, 1, 0],
+      position: [0, 3, 8],
+      lookAt: [0, 2, -15],
       order: 2,
     },
   },

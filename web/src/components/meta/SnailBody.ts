@@ -21,6 +21,7 @@ export default defineComponent({
 
     const world = getWorld()
     const rigidBodyDesc = RigidBodyDesc.newDynamic().setCcdEnabled(true)
+    rigidBodyDesc.principalAngularInertia = { x: 0.3, y: 0, z: 0.4 }
     rigidBodyDesc.setAdditionalMass(0.2)
     const rigidBody = world.createRigidBody(rigidBodyDesc)
     const colliderDesc = ColliderDesc.cuboid(0.6 / 2, 0.45 / 2, 0.7 / 2)
