@@ -5,4 +5,4 @@ command = "pnpm run build || ( npm install pnpm && pnpm run build )"
 NODE_VERSION = "16"
 
 [[plugins]]
-package = "/.netlify/netlify-plugin-pnpm"
+package = "/scripts/netlify-plugin-pnpm"
