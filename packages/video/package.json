@@ -14,7 +14,7 @@
     "@depth/canvas": "workspace:*",
     "@ffmpeg/core": "^0.10.0",
     "@ffmpeg/ffmpeg": "github:SubZtep/ffmpeg.wasm#master",
-    "@vueuse/core": "^7.4.0",
+    "@vueuse/core": "^7.4.1",
     "vue": "^3.2.20"
   }
 }
