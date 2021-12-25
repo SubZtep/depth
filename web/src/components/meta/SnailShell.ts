@@ -77,7 +77,7 @@ export default defineComponent({
 
     const box = new BoxGeometry(0.6, 0.45, 0.7)
     const boxMesh = new Mesh(box)
-    const boxHelper = new BoxHelper(boxMesh, 0xffff00)
+    const boxHelper = new BoxHelper(boxMesh, 0xe4e41b)
     mesh.add(boxHelper)
 
     // eslint-disable-next-line vue/no-watch-after-await

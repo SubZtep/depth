@@ -12,34 +12,31 @@ A [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) app uses composition AP
 
 **The [`web`](./web#readme) frontend** is part of the monorepo. Some great third-party open-source packages are included and extended with handy features. Please follow the links below for extensive feature documentations.
 
-> :pencil2: Incomplete docs. W.I.P.\
-> :rainbow: Code fluid. (File are like liquid :x::spoon:.)
-
-|                                    Package | Description                                                                                                         |
-| -----------------------------------------: | :------------------------------------------------------------------------------------------------------------------ |
-|                                    `audio` | Resolve [autoplay policy](https://developer.chrome.com/blog/autoplay/#webaudio), play sound with the Web Audio API. |
-|         [`canvas`](packages/canvas#readme) | Three.js 3D canvas with _game loop_ and camera controls.                                                            |
+| Package                                    | Description                                                                                                         |
+| ------------------------------------------:|:------------------------------------------------------------------------------------------------------------------- |
+| `audio`                                    | Resolve [autoplay policy](https://developer.chrome.com/blog/autoplay/#webaudio), play sound with the Web Audio API. |
+| [`canvas`](packages/canvas#readme)         | Three.js 3D canvas with _game loop_ and camera controls.                                                            |
 | [`controller`](packages/controller#readme) | Player input / camera moves.                                                                                        |
-|                                 `database` | Supabase wrapper and Pinia plugin.                                                                                  |
-|                                      `hud` | dat.gui                                                                                                             |
-|                                     `misc` | Miscellaneous helper scripts and text formatters.                                                                   |
-|                                    `poser` | Mediapipe pose/face/hand detection.                                                                                 |
-|                                    `stats` | Stats.js.                                                                                                           |
-|           [`video`](packages/video#readme) | FFmpeg wasm.                                                                                                        |
+| `database`                                 | Supabase wrapper and Pinia plugin.                                                                                  |
+| `hud`                                      | dat.gui                                                                                                             |
+| `misc`                                     | Miscellaneous helper scripts and text formatters.                                                                   |
+| `poser`                                    | Mediapipe pose/face/hand detection.                                                                                 |
+| `stats`                                    | Stats.js.                                                                                                           |
+| [`video`](packages/video#readme)           | FFmpeg wasm.                                                                                                        |
 
 ## Setup
 
 - [pnpm](https://pnpm.io/installation) monorepo
 
 - **meta**:snail:sickrats
-
+  
   - `SUPABASE_URL`
   - `SUPABASE_SECRET`
   - `NETLIFY_AUTH_TOKEN`
   - `NETLIFY_SITE_ID`
 
 - build static assets
-
+  
   [![Netlify Status](https://api.netlify.com/api/v1/badges/c2a49805-1f18-4c2a-868c-39bf5595ce26/deploy-status)](https://app.netlify.com/sites/wizardly-ramanujan-a933f2/deploys)
 
 ### Icons helps
@@ -62,11 +59,11 @@ Pictograms across the repository:
 
 ### 3D Object editor
 
-- [ ] https://github.com/donmccurdy/glTF-Transform
+- [x] https://github.com/donmccurdy/glTF-Transform
 
 ### Real-time code (shadeder) editor
 
-- [ ] https://github.com/egoist/vue-monaco
+- [x] https://github.com/egoist/vue-monaco
 
 ###### :trollface:
 

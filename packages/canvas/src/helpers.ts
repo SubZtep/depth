@@ -3,7 +3,11 @@ import type { Quaternion } from "three/src/math/Quaternion"
 import { Scene } from "three/src/scenes/Scene"
 import { getCurrentInstance } from "vue"
 
-export function rotationFromQuaternion(obj: Object3D, rot: [number, number, number, number]) {
+type PositionTuple = [number, number, number]
+type RotationTuple = [number, number, number, number]
+type Vector = { x: number; y: number; z: number }
+
+export function rotationFromQuaternion(obj: Object3D, rot: RotationTuple) {
   obj.setRotationFromQuaternion({ x: rot[0], y: rot[1], z: rot[2], w: rot[3] } as Quaternion)
 }
 
@@ -13,4 +17,8 @@ export function useScene(): Scene {
   if (!instance) throw new Error("Not in Vue scope")
   const { $scene } = instance.appContext.app.config.globalProperties
   return $scene
+}
+
+export function toVector(position: PositionTuple): Vector {
+  return { x: position[0], y: position[1], z: position[2] }
 }

@@ -4,13 +4,14 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    BlastBox: typeof import('./../components/3d/BlastBox.vue')['default']
+    BlastBoxes: typeof import('./../components/3d/BlastBoxes.vue')['default']
     Debug: typeof import('./../components/ui/Debug.vue')['default']
     DefaultLights: typeof import('./../components/3d/DefaultLights.ts')['default']
     FaceMesh: typeof import('./../components/3d/FaceMesh.vue')['default']
     FloatingText: typeof import('./../components/ui/FloatingText.vue')['default']
     FloorPlane: typeof import('./../3d/components/FloorPlane.vue')['default']
     GradientPyramid: typeof import('./../3d/components/GradientPyramid.vue')['default']
+    GrassPlane: typeof import('./../components/3d/GrassPlane.vue')['default']
     ImagePlane: typeof import('./../components/3d/ImagePlane.ts')['default']
     InfiniteFloor: typeof import('./../components/3d/InfiniteFloor.ts')['default']
     InfiniteGrid: typeof import('./../components/3d/InfiniteGrid.ts')['default']

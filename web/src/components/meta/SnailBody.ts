@@ -1,10 +1,11 @@
 import { loop3D } from "@depth/canvas"
 import { getWorld } from "@depth/physics"
+import type { RigidBody } from "@dimforge/rapier3d-compat"
 import { ColliderDesc, RigidBodyDesc } from "@dimforge/rapier3d-compat"
 import { whenever } from "@vueuse/core"
 import { usePlayerStore } from "~/stores/player"
 
-function initPos(rigidBody: any) {
+function initPos(rigidBody: RigidBody) {
   rigidBody.setTranslation({ x: 0, y: 1.5, z: 0 }, true)
 }
 
@@ -20,15 +21,16 @@ export default defineComponent({
     const playerStore = usePlayerStore()
 
     const world = getWorld()
-    const rigidBodyDesc = RigidBodyDesc.newDynamic().setCcdEnabled(true)
-    rigidBodyDesc.principalAngularInertia = { x: 0.3, y: 0, z: 0.4 }
-    rigidBodyDesc.setAdditionalMass(0.2)
-    const rigidBody = world.createRigidBody(rigidBodyDesc)
+    const rigidBodyDesc = RigidBodyDesc.newDynamic()
+      .setCcdEnabled(true)
+      .setAdditionalMass(0.2)
+      .setAdditionalPrincipalAngularInertia({ x: 0.3, y: 0, z: 0.4 })
     const colliderDesc = ColliderDesc.cuboid(0.6 / 2, 0.45 / 2, 0.7 / 2)
       // FIXME: add back(?) .setActiveEvents(ActiveEvents.CONTACT_EVENTS | ActiveEvents.INTERSECTION_EVENTS)
       .setDensity(2)
       .setRestitution(0.2)
 
+    const rigidBody = world.createRigidBody(rigidBodyDesc)
     const collider = world.createCollider(colliderDesc, rigidBody.handle)
 
     playerStore.$patch({
@@ -53,7 +55,7 @@ export default defineComponent({
 
     loop3D(() => {
       if (props.playerInput) {
-        const [x, _y, z] = props.playerInput.joystick.value
+        const [x, , z] = props.playerInput.joystick.value
         if (x !== 0 || z !== 0) {
           const { y } = rigidBody.linvel()
           rigidBody.setLinvel({ x, y, z }, true)

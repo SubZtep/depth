@@ -6,14 +6,16 @@ export default defineComponent({
   setup() {
     const scene = useScene()
 
-    const ambientLight = new AmbientLight(0xffff69, 0.2)
-    ambientLight.layers.enableAll()
+    // const ambientLight = new AmbientLight(0xffff69, 0.2)
+    // ambientLight.layers.enableAll()
 
-    const directionalLight = new DirectionalLight(0xffffcc, 0.6)
+    const directionalLight = new DirectionalLight(0xffffff, 1)
     directionalLight.layers.enableAll()
-    directionalLight.position.set(0, 10, -5)
-    directionalLight.rotateZ(Math.PI / 8)
-    directionalLight.rotation.set(0, 10, -30)
+    directionalLight.position.set(8, 20, 4)
+    directionalLight.target.position.set(0, 2, 0)
+    // directionalLight.position.set(0, 10, -5)
+    // directionalLight.rotateZ(Math.PI / 8)
+    // directionalLight.rotation.set(0, 10, -30)
     directionalLight.castShadow = true
     // dirLight.target.position.set(-5, 0, 0)
 
@@ -22,10 +24,16 @@ export default defineComponent({
     directionalLight.shadow.camera.near = 0.5 // default
     directionalLight.shadow.camera.far = 500 // default
 
-    scene.add(ambientLight, directionalLight)
+    scene.add(
+      // ambientLight,
+      directionalLight
+    )
 
     onScopeDispose(() => {
-      scene.remove(ambientLight, directionalLight)
+      scene.remove(
+        // ambientLight,
+        directionalLight
+      )
     })
 
     return () => {}

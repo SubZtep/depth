@@ -66,7 +66,7 @@ app
     closeOnTop: false,
     autoPlace: false,
     width: 285,
-    closeAtStart: isMobile,
+    closeAtStart: false, //isMobile,
   })
   .use(StatsPlugin, { mosaic: true, visible: showDebug })
   .mount("#hud")

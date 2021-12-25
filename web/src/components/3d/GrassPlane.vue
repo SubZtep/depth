@@ -6,40 +6,39 @@ slot(:mesh="mesh")
 import { useScene } from "@depth/canvas"
 import { getWorld } from "@depth/physics"
 import { ColliderDesc } from "@dimforge/rapier3d-compat"
-import type { ColorRepresentation } from "three"
-import { FrontSide, DoubleSide } from "three/src/constants"
+import { FrontSide, DoubleSide, RepeatWrapping, sRGBEncoding } from "three/src/constants"
 import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
-import type { MeshLambertMaterialParameters } from "three/src/materials/MeshLambertMaterial"
-import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial"
+import { TextureLoader } from "three/src/loaders/TextureLoader"
+import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
 import { Mesh } from "three/src/objects/Mesh"
-import { onScopeDispose } from "vue"
 
 const props = defineProps<{
   width: number
   height: number
   position?: PositionTuple
-  color?: ColorRepresentation
-  opacity?: number
 }>()
 
-const scene = useScene()
-const geometry = new PlaneGeometry()
-geometry.scale(props.width, props.height, 1)
+const geometry = new PlaneGeometry(props.width, props.height)
 
-const materialParameters: MeshLambertMaterialParameters = {
-  color: props.color ?? 0x000300,
-  side: DoubleSide,
-}
-
-if (props.opacity) {
-  Object.assign(materialParameters, {
-    transparent: true,
-    opacity: props.opacity,
-  })
-}
-
-const material = new MeshLambertMaterial(materialParameters)
+const material = new MeshPhongMaterial({
+  color: 0xffffff,
+  side: FrontSide,
+  map: new TextureLoader().load("/textures/terrain/grasslight-big.webp"),
+  shininess: 0,
+})
 const mesh = new Mesh(geometry, material)
+mesh.material.map!.repeat.set(2, 2)
+mesh.material.map!.wrapS = RepeatWrapping
+mesh.material.map!.wrapT = RepeatWrapping
+mesh.material.map!.encoding = sRGBEncoding
+mesh.receiveShadow = true
+
+mesh.matrixAutoUpdate = false
+mesh.rotateX(-Math.PI / 2)
+mesh.updateMatrix()
+
+const scene = useScene()
+scene.add(mesh)
 
 const colliderHeight = 0.1
 
@@ -50,12 +49,6 @@ if (props.position) {
 } else {
   translateCollider = { x: 0, y: -colliderHeight, z: 0 }
 }
-
-mesh.matrixAutoUpdate = false
-mesh.rotateX(-Math.PI / 2)
-mesh.updateMatrix()
-mesh.receiveShadow = true
-scene.add(mesh)
 
 const world = getWorld()
 const groundColliderDesc = ColliderDesc.cuboid(props.width / 2, colliderHeight, props.height / 2)
