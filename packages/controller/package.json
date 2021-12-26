@@ -13,7 +13,7 @@
   "dependencies": {
     "@depth/canvas": "workspace:*",
     "camera-controls": "^1.33.1",
-    "three": "^0.135.0",
+    "three": "^0.136.0",
     "vue": "^3.2.20"
   },
   "devDependencies": {

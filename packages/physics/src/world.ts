@@ -14,13 +14,13 @@ function createWorld(gravity: Vector = { x: 0, y: -9.81, z: 0 }) {
   loop3D(() => {
     world.step(eventQueue)
 
-    eventQueue.drainContactEvents((handle1, handle2, started) => {
-      console.log("CONTACT EVENT", { handle1, handle2, started })
-    })
+    // eventQueue.drainContactEvents((handle1, handle2, started) => {
+    //   console.log("CONTACT EVENT", { handle1, handle2, started })
+    // })
 
-    eventQueue.drainIntersectionEvents((handle1, handle2, intersecting) => {
-      console.log("INTERSECTION EVENT", { handle1, handle2, intersecting })
-    })
+    // eventQueue.drainIntersectionEvents((handle1, handle2, intersecting) => {
+    //   console.log("INTERSECTION EVENT", { handle1, handle2, intersecting })
+    // })
   })
 
   return world

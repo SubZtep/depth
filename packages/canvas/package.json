@@ -13,7 +13,7 @@
   "dependencies": {
     "@depth/stats": "workspace:*",
     "@vueuse/core": "^7.4.1",
-    "three": "^0.135.0",
+    "three": "^0.136.0",
     "vue": "^3.2.20"
   },
   "devDependencies": {

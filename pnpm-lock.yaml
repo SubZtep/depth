@@ -49,12 +49,12 @@ importers:
       '@depth/stats': workspace:*
       '@types/three': ^0.135.0
       '@vueuse/core': ^7.4.1
-      three: ^0.135.0
+      three: ^0.136.0
       vue: ^3.2.20
     dependencies:
       '@depth/stats': link:../stats
       '@vueuse/core': 7.4.1_vue@3.2.26
-      three: 0.135.0
+      three: 0.136.0
       vue: 3.2.26
     devDependencies:
       '@types/three': 0.135.0
@@ -64,12 +64,12 @@ importers:
       '@depth/canvas': workspace:*
       '@types/three': ^0.135.0
       camera-controls: ^1.33.1
-      three: ^0.135.0
+      three: ^0.136.0
       vue: ^3.2.20
     dependencies:
       '@depth/canvas': link:../canvas
-      camera-controls: 1.33.1_three@0.135.0
-      three: 0.135.0
+      camera-controls: 1.33.1_three@0.136.0
+      three: 0.136.0
       vue: 3.2.26
     devDependencies:
       '@types/three': 0.135.0
@@ -78,12 +78,12 @@ importers:
     specifiers:
       '@supabase/supabase-js': ^1.29.1
       '@vueuse/core': ^7.4.1
-      pinia: ^2.0.8
+      pinia: ^2.0.9
       vue: ^3.2.20
     dependencies:
       '@supabase/supabase-js': 1.29.1
       '@vueuse/core': 7.4.1_vue@3.2.26
-      pinia: 2.0.8_typescript@4.5.4+vue@3.2.26
+      pinia: 2.0.9_typescript@4.5.4+vue@3.2.26
     devDependencies:
       vue: 3.2.26
 
@@ -106,9 +106,9 @@ importers:
     specifiers:
       '@types/three': ^0.135.0
       '@vueuse/core': ^7.4.1
-      three: ^0.135.0
+      three: ^0.136.0
     dependencies:
-      three: 0.135.0
+      three: 0.136.0
     devDependencies:
       '@types/three': 0.135.0
       '@vueuse/core': 7.4.1
@@ -118,13 +118,13 @@ importers:
       '@depth/canvas': workspace:*
       '@depth/misc': workspace:*
       '@dimforge/rapier3d-compat': ^0.7.6
-      three: ^0.135.0
+      three: ^0.136.0
       vue: ^3.2.20
     dependencies:
       '@depth/canvas': link:../canvas
       '@depth/misc': link:../misc
       '@dimforge/rapier3d-compat': 0.7.6
-      three: 0.135.0
+      three: 0.136.0
       vue: 3.2.26
 
   packages/poser:
@@ -195,15 +195,15 @@ importers:
       '@vueuse/shared': ^7.4.1
       '@windicss/plugin-scrollbar': ^1.2.3
       nprogress: ^0.2.0
-      pinia: ^2.0.8
+      pinia: ^2.0.9
       pinia-undo: ^0.0.5
       postcss-preset-env: ^7.1.0
       pug: ^3.0.2
-      three: ^0.135.0
+      three: ^0.136.0
       three-globe: ^2.21.3
       ua-parser-js: ^1.0.2
       unplugin-auto-import: ^0.5.4
-      unplugin-vue-components: ^0.17.9
+      unplugin-vue-components: ^0.17.10
       uuid: ^8.3.2
       vite: ^2.7.6
       vite-plugin-cross-origin-isolation: ^0.1.1
@@ -228,10 +228,10 @@ importers:
       '@vueuse/integrations': 7.4.1_vue@3.2.26
       '@vueuse/shared': 7.4.1_vue@3.2.26
       nprogress: 0.2.0
-      pinia: 2.0.8_typescript@4.5.4+vue@3.2.26
+      pinia: 2.0.9_typescript@4.5.4+vue@3.2.26
       pinia-undo: 0.0.5_typescript@4.5.4+vue@3.2.26
-      three: 0.135.0
-      three-globe: 2.21.3_three@0.135.0
+      three: 0.136.0
+      three-globe: 2.21.3_three@0.136.0
       ua-parser-js: 1.0.2
       uuid: 8.3.2
       vue: 3.2.26
@@ -248,7 +248,7 @@ importers:
       postcss-preset-env: 7.1.0
       pug: 3.0.2
       unplugin-auto-import: 0.5.4_@vueuse+core@7.4.1+vite@2.7.6
-      unplugin-vue-components: 0.17.9_vite@2.7.6+vue@3.2.26
+      unplugin-vue-components: 0.17.10_vite@2.7.6+vue@3.2.26
       vite: 2.7.6
       vite-plugin-cross-origin-isolation: 0.1.1
       vite-plugin-pwa: 0.11.12_vite@2.7.6
@@ -2766,12 +2766,12 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /camera-controls/1.33.1_three@0.135.0:
+  /camera-controls/1.33.1_three@0.136.0:
     resolution: {integrity: sha512-+l0LgV+w0G4GAtwiSahHLj7rCqzVMSa+/BHE3+aE7vdku2B9QF8CXgDSlCH9cBt2TZeg+WQSkRPeIYwjvtjdPw==}
     peerDependencies:
       three: '>=0.126.1'
     dependencies:
-      three: 0.135.0
+      three: 0.136.0
     dev: false
 
   /caniuse-lite/1.0.30001292:
@@ -5529,8 +5529,8 @@ packages:
       vue-demi: 0.12.1_vue@3.2.26
     dev: false
 
-  /pinia/2.0.8_typescript@4.5.4+vue@3.2.26:
-    resolution: {integrity: sha512-g8EC+RNrusQTxdOWLJBBmr3I0W1U+nm0ZJRMTG///xyWKhoeJ19KVD/LEWb6InVWPoBUtHmGwjNcUMg8cEq2Xw==}
+  /pinia/2.0.9_typescript@4.5.4+vue@3.2.26:
+    resolution: {integrity: sha512-iuYdxLJKQ07YPyOHYH05wNG9eKWqkP/4y4GE8+RqEYtz5fwHgPA5kr6zQbg/DoEJGnR2XCm1w1vdt6ppzL9ATg==}
     peerDependencies:
       '@vue/composition-api': ^1.4.0
       typescript: '>=4.4.4'
@@ -6599,7 +6599,7 @@ packages:
     resolution: {integrity: sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=}
     dev: true
 
-  /three-conic-polygon-geometry/1.4.5_three@0.135.0:
+  /three-conic-polygon-geometry/1.4.5_three@0.136.0:
     resolution: {integrity: sha512-yhreRuX3GnJ7T0xizEgG5r6IU/hXxdWiKNwWdWUgdHLz+qnFvwk3qCwSkgXn6p9eBluQrpMNnvtU3Kv4u93w4g==}
     peerDependencies:
       three: '>=0.72.0'
@@ -6610,28 +6610,28 @@ packages:
       d3-geo-voronoi: 1.6.0
       delaunator: 5.0.0
       earcut: 2.2.3
-      three: 0.135.0
+      three: 0.136.0
     dev: false
 
-  /three-fatline/0.5.3_three@0.135.0:
+  /three-fatline/0.5.3_three@0.136.0:
     resolution: {integrity: sha512-oKpBkodXLim6STcM6mbdZT4i0PwsXnjHzsEo6I0OO7HHkbkV1XJ+mvmuMDwmfAxT5PjJDbQhvrB1lfoGjEQdUg==}
     peerDependencies:
       three: '>=0.84.0'
     dependencies:
-      three: 0.135.0
+      three: 0.136.0
     dev: false
 
-  /three-geojson-geometry/1.1.6_three@0.135.0:
+  /three-geojson-geometry/1.1.6_three@0.136.0:
     resolution: {integrity: sha512-q5KTcvzMMiWZ46ly8hOLv2GxT10vayYB9VaWU1Vf8pX1YlYHuY/3n7In4KQ7EaYYQc0zI6TI1Mopd55IdoQ6Zw==}
     peerDependencies:
       three: '>=0.72.0'
     dependencies:
       d3-geo: 3.0.1
       earcut: 2.2.3
-      three: 0.135.0
+      three: 0.136.0
     dev: false
 
-  /three-globe/2.21.3_three@0.135.0:
+  /three-globe/2.21.3_three@0.136.0:
     resolution: {integrity: sha512-ueMHVmpyutqgrgjZQe3VHutOlfveCwYB71cTuAu4zC3mnJAIy7A4/kLW8xz5ka3l1Pxa8+Avr50A7b5abW0CkQ==}
     peerDependencies:
       three: '>=0.109.0'
@@ -6647,15 +6647,15 @@ packages:
       h3-js: 3.7.2
       index-array-by: 1.3.1
       kapsule: 1.13.5
-      three: 0.135.0
-      three-conic-polygon-geometry: 1.4.5_three@0.135.0
-      three-fatline: 0.5.3_three@0.135.0
-      three-geojson-geometry: 1.1.6_three@0.135.0
+      three: 0.136.0
+      three-conic-polygon-geometry: 1.4.5_three@0.136.0
+      three-fatline: 0.5.3_three@0.136.0
+      three-geojson-geometry: 1.1.6_three@0.136.0
       tinycolor2: 1.4.2
     dev: false
 
-  /three/0.135.0:
-    resolution: {integrity: sha512-kuEpuuxRzLv0MDsXai9huCxOSQPZ4vje6y0gn80SRmQvgz6/+rI0NAvCRAw56zYaWKMGMfqKWsxF9Qa2Z9xymQ==}
+  /three/0.136.0:
+    resolution: {integrity: sha512-+fEMX7nYLz2ZesVP/dyifli5Jf8gR3XPAnFJveQ80aMhibFduzrADnjMbARXh8+W9qLK7rshJCjAIL/6cDxC+A==}
     dev: false
 
   /throat/6.0.1:
@@ -6920,8 +6920,8 @@ packages:
       - webpack
     dev: true
 
-  /unplugin-vue-components/0.17.9_vite@2.7.6+vue@3.2.26:
-    resolution: {integrity: sha512-SZrK3T/uEoP2g2bH+8DwBznoqlS0dI7kQvCmHmL8HmTXdM78kh5P/9SN5IwuNpfbmXoGXWJPB8Pr8Ke8zsgpmA==}
+  /unplugin-vue-components/0.17.10_vite@2.7.6+vue@3.2.26:
+    resolution: {integrity: sha512-7FXgLcDl+ZOFqezlSVPs+t4vP7hV3FhR+nOJs6IpkX7zBWHKNy1YeHSBn+By1p8vBbLLDRYDxL11KQqjrwPK3Q==}
     engines: {node: '>=14'}
     peerDependencies:
       '@babel/parser': ^7.15.8

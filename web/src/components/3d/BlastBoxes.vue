@@ -8,7 +8,7 @@ import InfinitePlane from "~/components/3d/InfinitePlane"
 import { useScene } from "@depth/canvas"
 import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial"
 import { Mesh } from "three/src/objects/Mesh"
-import { ActiveEvents, ColliderDesc, RigidBodyDesc } from "@dimforge/rapier3d-compat"
+import { ActiveEvents, ColliderDesc, RigidBody, RigidBodyDesc } from "@dimforge/rapier3d-compat"
 import { Group } from "three/src/objects/Group"
 import type { Quaternion } from "three/src/math/Quaternion"
 import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
@@ -19,19 +19,31 @@ const props = defineProps<{
   pieces: [number, number, number]
 }>()
 
+// const bodies = new Map<PositionTuple, RigidBody>()
+const bodies: number[] = []
+
+const emit = defineEmits<{
+  (e: "loaded", bodyHandlers: number[]): void
+}>()
+
 const group = new Group()
 
 for (let i = 0; i < props.pieces[0]; i++) {
   for (let j = 0; j < props.pieces[1]; j++) {
     for (let k = 0; k < props.pieces[2]; k++) {
-      const { boxMesh } = createBox([i + (i + 1) * 0.1, k + 1.5, j + (j + 1) * 0.1])
+      // const { boxMesh, rigidBody } = createBox([i + (i + 1) * 0.1, k + 1.5, j + (j + 1) * 0.1])
+      const { boxMesh, rigidBody } = createBox([i - (props.pieces[0] - 1) / 2, k + 1.5, j - (props.pieces[2] - 1) / 2])
       group.add(boxMesh)
-      // scene.add(boxMesh)
+      bodies.push(rigidBody.handle)
     }
   }
 }
 
+// group.position.set(-props.pieces[0] / 2, 1.5, -props.pieces[2] / 2)
+
 const scene = useScene().add(group)
+
+emit("loaded", bodies)
 
 // setTimeout(() => {
 //   const { boxMesh, rigidBody } = createBox([0, 0, 0])
@@ -40,13 +52,6 @@ const scene = useScene().add(group)
 //   rigidBody.applyImpulse({ x: 0.1, y: 2, z: 10.05 }, true)
 // }, 1000)
 
-const state = reactive({
-  mass: 2,
-})
-
-addGuiFolder(folder => {
-  folder.name = "Blast Box"
-})
 </script>
 
 <script lang="ts">
@@ -58,18 +63,18 @@ import { getWorld } from "@depth/physics"
 const world = getWorld()
 
 const boxGeometry = new BoxGeometry(1, 1, 1)
-// const boxMaterial = new MeshLambertMaterial({ color: 0x001300 })
+
 const boxMaterial = new MeshPhongMaterial({
   color: 0xffffff,
   map: new TGALoader().load("/textures/crate_color8.tga"),
   shininess: 0,
 })
+boxMaterial.map!.encoding = sRGBEncoding
 
 function createBox(startPosition: PositionTuple = [0, 0, 0]) {
   const boxMesh = new Mesh(boxGeometry, boxMaterial)
   boxMesh.receiveShadow = true
   boxMesh.castShadow = true
-  boxMesh.material.map!.encoding = sRGBEncoding
 
   const rigidBodyDesc = RigidBodyDesc.newDynamic()
     // .setCcdEnabled(true)
@@ -94,11 +99,13 @@ function createBox(startPosition: PositionTuple = [0, 0, 0]) {
     boxMesh.setRotationFromQuaternion({ x: rot.x, y: rot.y, z: rot.z, w: rot.w } as Quaternion)
   })
 
-  onScopeDispose(() => {
-    scene.remove(boxMesh)
-    world.removeCollider(collider, false)
-    world.removeRigidBody(rigidBody)
-  })
+  // onScopeDispose(() => {
+  //   scene.remove(boxMesh)
+  //   boxGeometry.dispose()
+  //   boxMaterial.dispose()
+  //   world.removeCollider(collider, false)
+  //   world.removeRigidBody(rigidBody)
+  // })
 
   return { boxMesh, rigidBody }
 }

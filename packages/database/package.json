@@ -11,7 +11,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^1.29.1",
     "@vueuse/core": "^7.4.1",
-    "pinia": "^2.0.8"
+    "pinia": "^2.0.9"
   },
   "devDependencies": {
     "vue": "^3.2.20"
