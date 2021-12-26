@@ -6,10 +6,17 @@ slot(:mesh="mesh")
 import { useScene } from "@depth/canvas"
 import { getWorld } from "@depth/physics"
 import { ColliderDesc } from "@dimforge/rapier3d-compat"
-import { FrontSide, DoubleSide, RepeatWrapping, sRGBEncoding } from "three/src/constants"
+import {
+  FrontSide,
+  DoubleSide,
+  RepeatWrapping,
+  sRGBEncoding,
+  ObjectSpaceNormalMap,
+  TangentSpaceNormalMap,
+} from "three/src/constants"
 import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
 import { TextureLoader } from "three/src/loaders/TextureLoader"
-import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
+import { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial"
 import { Mesh } from "three/src/objects/Mesh"
 
 const props = defineProps<{
@@ -20,19 +27,24 @@ const props = defineProps<{
 
 const geometry = new PlaneGeometry(props.width, props.height)
 
-const material = new MeshPhongMaterial({
-  color: 0xffffff,
-  side: FrontSide,
-  map: new TextureLoader().load("/textures/terrain/grasslight-big.webp"),
-  shininess: 0,
-})
-const mesh = new Mesh(geometry, material)
-mesh.material.map!.repeat.set(2, 2)
-mesh.material.map!.wrapS = RepeatWrapping
-mesh.material.map!.wrapT = RepeatWrapping
-mesh.material.map!.encoding = sRGBEncoding
-mesh.receiveShadow = true
+const loader = new TextureLoader().setPath("/textures/terrain/Tiles_045_SD/")
 
+const material = new MeshStandardMaterial({
+  aoMap: loader.load("Tiles_045_ambientOcclusion.webp"),
+  map: loader.load("Tiles_045_basecolor.webp"),
+  bumpMap: loader.load("Tiles_045_height.webp"),
+  normalMap: loader.load("Tiles_045_normal.webp"),
+  roughnessMap: loader.load("Tiles_045_roughness.webp"),
+  side: FrontSide,
+})
+material.map!.encoding = sRGBEncoding
+material.map!.repeat.set(2, 2)
+material.map!.wrapS = RepeatWrapping
+material.map!.wrapT = RepeatWrapping
+
+const mesh = new Mesh(geometry, material)
+
+mesh.receiveShadow = true
 mesh.matrixAutoUpdate = false
 mesh.rotateX(-Math.PI / 2)
 mesh.updateMatrix()

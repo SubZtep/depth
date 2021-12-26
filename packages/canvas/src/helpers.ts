@@ -22,3 +22,11 @@ export function useScene(): Scene {
 export function toVector(position: PositionTuple): Vector {
   return { x: position[0], y: position[1], z: position[2] }
 }
+
+export function degToRad(deg: number): number {
+  return (deg * Math.PI) / 180
+}
+
+export function radToDeg(rad: number): number {
+  return (rad * 180) / Math.PI
+}

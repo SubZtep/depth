@@ -2,17 +2,14 @@
 </template>
 
 <script lang="ts" setup>
-import { useEnvironmentStore } from "~/stores/environment"
-import PlayerSnail from "~/components/meta/PlayerSnail.vue"
-import InfinitePlane from "~/components/3d/InfinitePlane"
 import { useScene } from "@depth/canvas"
-import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial"
 import { Mesh } from "three/src/objects/Mesh"
 import { ActiveEvents, ColliderDesc, RigidBody, RigidBodyDesc } from "@dimforge/rapier3d-compat"
 import { Group } from "three/src/objects/Group"
 import type { Quaternion } from "three/src/math/Quaternion"
-import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
 import { sRGBEncoding } from "three/src/constants"
+import { TextureLoader } from "three/src/loaders/TextureLoader"
+import { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial"
 
 const props = defineProps<{
   /** Number of generated boxes on 3 axes. */
@@ -44,30 +41,25 @@ for (let i = 0; i < props.pieces[0]; i++) {
 const scene = useScene().add(group)
 
 emit("loaded", bodies)
-
-// setTimeout(() => {
-//   const { boxMesh, rigidBody } = createBox([0, 0, 0])
-//   scene.add(boxMesh)
-
-//   rigidBody.applyImpulse({ x: 0.1, y: 2, z: 10.05 }, true)
-// }, 1000)
-
 </script>
 
 <script lang="ts">
 import { loop3D, toVector } from "@depth/canvas"
 import { BoxGeometry } from "three/src/geometries/BoxGeometry"
-import { TGALoader } from "three/examples/jsm/loaders/TGALoader"
 import { getWorld } from "@depth/physics"
 
 const world = getWorld()
 
 const boxGeometry = new BoxGeometry(1, 1, 1)
 
-const boxMaterial = new MeshPhongMaterial({
-  color: 0xffffff,
-  map: new TGALoader().load("/textures/crate_color8.tga"),
-  shininess: 0,
+const loader = new TextureLoader().setPath("/textures/things/Wood_Crate_001_SD/")
+const boxMaterial = new MeshStandardMaterial({
+  aoMap: loader.load("Wood_Crate_001_ambientOcclusion.webp"),
+  map: loader.load("Wood_Crate_001_basecolor.webp"),
+  bumpMap: loader.load("Wood_Crate_001_height.webp"),
+  normalMap: loader.load("Wood_Crate_001_normal.webp"),
+  roughnessMap: loader.load("Wood_Crate_001_roughness.webp"),
+  metalness: 0,
 })
 boxMaterial.map!.encoding = sRGBEncoding
 
@@ -84,9 +76,6 @@ function createBox(startPosition: PositionTuple = [0, 0, 0]) {
   // .setRestitution(1)
   const rigidBody = world.createRigidBody(rigidBodyDesc)
   const collider = world.createCollider(colliderDesc, rigidBody.handle)
-
-  // boxMesh.position.setY(1)
-  // rigidBody.setTranslation({ x: 0, y: 4, z: 0 }, true)
 
   boxMesh.position.set(...startPosition)
   rigidBody.setTranslation(toVector(startPosition), true)

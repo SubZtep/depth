@@ -1,20 +1,26 @@
 <template lang="pug">
 Title Blast
-InfinitePlane
+InfinitePlane(:color="0x000900")
 
-GrassPlane(:width="6" :height="6")
+TilePlane(:width="8" :height="8")
 
 BlastBoxes(:pieces="[3, 3, 3]" @loaded="boxesLoaded")
 </template>
 
 <script lang="ts" setup>
 import { useEnvironmentStore } from "~/stores/environment"
-import GrassPlane from "~/components/3d/GrassPlane.vue"
+import TilePlane from "~/components/3d/TilePlane.vue"
 import InfinitePlane from "~/components/3d/InfinitePlane"
 import BlastBoxes from "~/components/3d/BlastBoxes.vue"
 import { useCameraControls } from "@depth/controller"
-import { RigidBody } from "@dimforge/rapier3d-compat"
 import { getWorld } from "@depth/physics"
+import { degToRad, useScene } from "@depth/canvas"
+import { HemisphereLight } from "three/src/lights/HemisphereLight"
+
+const scene = useScene()
+
+const light = new HemisphereLight(0x93a5bc, 0x6a866f, 1)
+scene.add(light)
 
 useEnvironmentStore().$patch({
   skybox: 13,
@@ -26,43 +32,50 @@ useEnvironmentStore().$patch({
 const cc = useCameraControls()
 cc.setPosition(0, 3, 8)
 cc.setTarget(0, 1, 0)
-cc.minPolarAngle = Math.PI / 6
-cc.maxPolarAngle = Math.PI / 2.1
+cc.minPolarAngle = degToRad(15)
+cc.maxPolarAngle = degToRad(89)
 cc.minDistance = 5
-cc.maxDistance = 25
+cc.maxDistance = 15
 
 const world = getWorld()
+const rigidBodyHandlers: number[] = []
+const boxOriginals = new Map<number, any>()
 
-// eslint-disable-next-line unicorn/consistent-function-scoping
-const blaster = (bodyHandlers: number[]) => () => {
-  const body = world.getRigidBody(bodyHandlers[0])
-  // console.log("BLAASAS", rigidBodies./get([0, 0, 0]))
-  // const body = rigidBodies.get(rigidBodies.keys().next().value)!
-  // const body = rigidBodies.get([1, 1, 1])!
-  console.log("BLAASAS", body)
-
+const blast = () => {
+  const body = world.getRigidBody(rigidBodyHandlers[0])
   body.applyImpulse({ x: 100.1, y: 200, z: 100.05 }, true)
-  // body.applyImpulse({ x: 0.1, y: 2, z: 10.05 }, true)
 }
 
-let blast: ReturnType<typeof blaster>
+const resetBoxPositions = () => {
+  for (const handler of rigidBodyHandlers) {
+    const body = world.getRigidBody(handler)
+    const origin = boxOriginals.get(handler)
+    body.setLinvel({ x: 0, y: 0, z: 0 }, true)
+    body.setAngvel({ x: 0, y: 0, z: 0 }, true)
+    body.setTranslation(origin.position, true)
+    body.setRotation(origin.rotation, true)
+  }
+}
 
 const boxesLoaded = (bodyHandlers: number[]) => {
-  blast = blaster(bodyHandlers)
+  Object.assign(rigidBodyHandlers, bodyHandlers)
+
+  for (const handler of rigidBodyHandlers) {
+    const body = world.getRigidBody(handler)
+    boxOriginals.set(Number(handler), {
+      position: body.translation(),
+      rotation: body.rotation(),
+    })
+  }
 }
 
 const state = reactive({
   mass: 2,
 })
 
-const btns = {
-  blast: () => {
-    blast?.()
-  },
-}
-
 addGuiFolder(folder => {
   folder.name = "💥 Blast Page"
   folder.add({ blast }, "blast").name("Blast!!!")
+  folder.add({ resetBoxPositions }, "resetBoxPositions").name("Reset boxes")
 })
 </script>

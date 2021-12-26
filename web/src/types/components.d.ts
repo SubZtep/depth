@@ -11,7 +11,6 @@ declare module 'vue' {
     FloatingText: typeof import('./../components/ui/FloatingText.vue')['default']
     FloorPlane: typeof import('./../3d/components/FloorPlane.vue')['default']
     GradientPyramid: typeof import('./../3d/components/GradientPyramid.vue')['default']
-    GrassPlane: typeof import('./../components/3d/GrassPlane.vue')['default']
     ImagePlane: typeof import('./../components/3d/ImagePlane.ts')['default']
     InfiniteFloor: typeof import('./../components/3d/InfiniteFloor.ts')['default']
     InfiniteGrid: typeof import('./../components/3d/InfiniteGrid.ts')['default']
@@ -21,6 +20,7 @@ declare module 'vue' {
     SimpleBox: typeof import('./../3d/components/SimpleBox.vue')['default']
     SkyBox: typeof import('./../3d/components/SkyBox.ts')['default']
     ThreeGlobe: typeof import('./../components/3d/ThreeGlobe.ts')['default']
+    TilePlane: typeof import('./../components/3d/TilePlane.vue')['default']
     Title: typeof import('./../components/ui/Title.vue')['default']
     VoxelWorld: typeof import('./../components/3d/VoxelWorld.ts')['default']
   }
