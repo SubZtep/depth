@@ -3,6 +3,7 @@ import { loop3D, useScene } from "@depth/canvas"
 import { Mesh } from "three/src/objects/Mesh"
 import { SphereBufferGeometry } from "three/src/geometries/SphereGeometry"
 import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial"
+import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
 
 export const terrains = ["topology", "water"]
 export const surfaces = ["blue-marble", "day", "night", "dark"]
@@ -33,8 +34,13 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    const Globe = new ThreeGlobe() //.showAtmosphere(false)
+    const Globe = new ThreeGlobe().showAtmosphere(false)
     Globe.rotateY(-Math.PI / 2)
+    Globe.castShadow = true
+    Globe.receiveShadow = true
+    // @ts-ignore
+    // Globe.globeMaterial().shininess = 0
+    Globe.updateMatrix()
 
     const scene = useScene()
     scene.add(Globe)
@@ -68,11 +74,22 @@ export default defineComponent({
       radius: Math.random() * 3,
       color: ["red", "black"][Math.round(Math.random())],
     }))
+
     Globe.customLayerData(gData)
-      .customThreeObject(
+    .customThreeObject((d, globeRadius) => {
         // @ts-ignore
-        d => new Mesh(new SphereBufferGeometry(d.radius), new MeshLambertMaterial({ color: d.color }))
-      )
+        const mesh = new Mesh(new SphereBufferGeometry(d.radius, 5, 4), new MeshPhongMaterial({ color: d.color, shininess: 1 }))
+        // const mesh = new Mesh(new SphereBufferGeometry(d.radius), new MeshLambertMaterial({ color: d.color }))
+        mesh.castShadow = true
+        mesh.receiveShadow = true
+        mesh.material.needsUpdate = true
+
+        loop3D(() => {
+          mesh.rotateY(Math.random() * 0.01)
+        })
+
+        return mesh
+      })
       .customThreeObjectUpdate((obj, d) => {
         // @ts-ignore
         Object.assign(obj.position, Globe.getCoords(d.lat, d.lng, d.alt))

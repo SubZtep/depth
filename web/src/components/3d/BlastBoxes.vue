@@ -14,6 +14,7 @@ import { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial"
 const props = defineProps<{
   /** Number of generated boxes on 3 axes. */
   pieces: [number, number, number]
+  position: [number, number, number]
 }>()
 
 // const bodies = new Map<PositionTuple, RigidBody>()
@@ -29,7 +30,8 @@ for (let i = 0; i < props.pieces[0]; i++) {
   for (let j = 0; j < props.pieces[1]; j++) {
     for (let k = 0; k < props.pieces[2]; k++) {
       // const { boxMesh, rigidBody } = createBox([i + (i + 1) * 0.1, k + 1.5, j + (j + 1) * 0.1])
-      const { boxMesh, rigidBody } = createBox([i - (props.pieces[0] - 1) / 2, k + 1.5, j - (props.pieces[2] - 1) / 2])
+      // const { boxMesh, rigidBody } = createBox([i - (props.pieces[0] - 1) / 2, k + 1.5, j - (props.pieces[2] - 1) / 2])
+      const { boxMesh, rigidBody } = createBox([i - (props.pieces[0] - 1) / 2, k, j - (props.pieces[2] - 1) / 2])
       group.add(boxMesh)
       bodies.push(rigidBody.handle)
     }
@@ -37,6 +39,10 @@ for (let i = 0; i < props.pieces[0]; i++) {
 }
 
 // group.position.set(-props.pieces[0] / 2, 1.5, -props.pieces[2] / 2)
+
+if (props.position) {
+  group.position.set(...props.position)
+}
 
 const scene = useScene().add(group)
 

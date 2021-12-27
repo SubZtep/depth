@@ -7,11 +7,11 @@ export default defineComponent({
     const scene = useScene()
 
     const ambientLight = new AmbientLight(0xffffff, 1)
-    ambientLight.layers.enableAll()
+    // ambientLight.layers.enableAll()
 
     const directionalLight = new DirectionalLight(0xffffff, 0.8)
     directionalLight.layers.enableAll()
-    directionalLight.position.set(8, 20, 2)
+    directionalLight.position.set(8, 10, 2)
     directionalLight.target.position.set(0, 2, 0)
     // directionalLight.position.set(0, 10, -5)
     // directionalLight.rotateZ(Math.PI / 8)

@@ -36,6 +36,8 @@ void main() {
   float d = 1.0 - min(distance(cameraPosition.xz, worldPosition.xz) / uDistance, 1.0);
   float g = getGrid(uSize);
 
+  // if(length(worldPosition.xz) > 10.) discard;
+
   myOutputColor = vec4(uColor.rgb, g * pow(d, 3.0));
 }
 `

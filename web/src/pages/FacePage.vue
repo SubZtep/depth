@@ -12,12 +12,19 @@ WebcamPlayer(v-slot="{ video, streaming }")
 <script lang="ts" setup>
 import WebcamPlayer from "~/components/depth/WebcamPlayer.vue"
 import FaceMesh from "~/components/3d/FaceMesh.vue"
+import { DirectionalLight } from "three/src/lights/DirectionalLight"
+import { useScene } from "@depth/canvas"
 
 const state = reactive({
   throttle: 0,
   lerp: false,
 })
 
+
+    const directionalLight = new DirectionalLight(0xffffff, 0.8)
+    directionalLight.position.set(0, 10, -5)
+    directionalLight.rotateZ(Math.PI / 8)
+useScene().add(directionalLight)
 addGuiFolder(folder => {
   folder.name = "☺ Face Page"
   folder.add(state, "throttle", 0, 1000, 50)

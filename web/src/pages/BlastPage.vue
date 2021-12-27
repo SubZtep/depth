@@ -1,21 +1,33 @@
 <template lang="pug">
 Title Blast
+
+LensFlare(:position="[100, 60, 20]")
 InfinitePlane(:color="0x000900")
 
-TilePlane(:width="8" :height="8")
+Tile1Material(v-slot="{ material }")
+  TilePlane(:width="8" :height="8" :position="[4, 0, 0]" :material="material")
 
-BlastBoxes(:pieces="[3, 3, 3]" @loaded="boxesLoaded")
+Tile2Material(v-slot="{ material }")
+  TilePlane(:width="8" :height="8" :position="[-4, 0, 0]" :material="material")
+
+ThreeGlobe(:scale="0.01" :position="[-4, 2, 0]")
+
+BlastBoxes(:pieces="[3, 3, 3]" :position="[4, 0, 0]" @loaded="boxesLoaded")
 </template>
 
 <script lang="ts" setup>
 import { useEnvironmentStore } from "~/stores/environment"
 import TilePlane from "~/components/3d/TilePlane.vue"
+import Tile2Material from "~/components/3d/Tile2Material"
 import InfinitePlane from "~/components/3d/InfinitePlane"
 import BlastBoxes from "~/components/3d/BlastBoxes.vue"
 import { useCameraControls } from "@depth/controller"
 import { getWorld } from "@depth/physics"
-import { degToRad, useScene } from "@depth/canvas"
+import { degToRad, loop3D, useScene } from "@depth/canvas"
 import { HemisphereLight } from "three/src/lights/HemisphereLight"
+import LensFlare from "~/components/3d/LensFlare.vue"
+import { DirectionalLight } from "three/src/lights/DirectionalLight"
+import ThreeGlobe from "~/components/3d/ThreeGlobe"
 
 const scene = useScene()
 
@@ -31,11 +43,25 @@ useEnvironmentStore().$patch({
 
 const cc = useCameraControls()
 cc.setPosition(0, 3, 8)
-cc.setTarget(0, 1, 0)
-cc.minPolarAngle = degToRad(15)
-cc.maxPolarAngle = degToRad(89)
-cc.minDistance = 5
-cc.maxDistance = 15
+cc.setTarget(0, 1.8, 0)
+// cc.minPolarAngle = degToRad(15)
+cc.maxPolarAngle = degToRad(89.9)
+// cc.minDistance = 5
+// cc.maxDistance = 15
+const directionalLight = new DirectionalLight(0xffffff, 1)
+// directionalLight.position.set(...cc.camera.position.toArray())
+// directionalLight.target.position.set(0, 1, 0)
+directionalLight.castShadow = true
+directionalLight.shadow.mapSize.width = 512 // default
+directionalLight.shadow.mapSize.height = 512 // default
+directionalLight.shadow.camera.near = 0.5 // default
+directionalLight.shadow.camera.far = 100 // default
+// scene.add(directionalLight)
+
+loop3D(() => {
+  directionalLight.position.set(...cc.camera.position.toArray())
+  directionalLight.target.position.set(-4, 2, 0)
+})
 
 const world = getWorld()
 const rigidBodyHandlers: number[] = []
