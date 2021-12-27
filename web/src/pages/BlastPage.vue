@@ -10,6 +10,9 @@ Tile1Material(v-slot="{ material }")
 Tile2Material(v-slot="{ material }")
   TilePlane(:width="8" :height="8" :position="[-4, 0, 0]" :material="material")
 
+GrassMaterial(v-slot="{ material }")
+  TilePlane(:width="8" :height="8" :position="[4, 0, 8]" :material="material")
+
 ThreeGlobe(:scale="0.01" :position="[-4, 2, 0]")
 
 BlastBoxes(:pieces="[3, 3, 3]" :position="[4, 0, 0]" @loaded="boxesLoaded")
@@ -19,6 +22,7 @@ BlastBoxes(:pieces="[3, 3, 3]" :position="[4, 0, 0]" @loaded="boxesLoaded")
 import { useEnvironmentStore } from "~/stores/environment"
 import TilePlane from "~/components/3d/TilePlane.vue"
 import Tile2Material from "~/components/3d/Tile2Material"
+import GrassMaterial from "~/components/3d/GrassMaterial"
 import InfinitePlane from "~/components/3d/InfinitePlane"
 import BlastBoxes from "~/components/3d/BlastBoxes.vue"
 import { useCameraControls } from "@depth/controller"
