@@ -35,7 +35,7 @@ export default defineComponent({
       // envMapIntensity: 1,
       // displacementScale: 1,
       bumpScale: 15,
-      normalMap: loader.load("T_SNP_Grass_A_normal.jpg"),
+      normalMap: loader.load("T_SNP_Grass_A_normal.webp"),
       // normalScale: new Vector2(2, 2),
       roughnessMap: loader.load("T_SNP_Grass_A_roughness.webp"),
       metalnessMap: loader.load("T_SNP_Grass_A_metallic.webp"),

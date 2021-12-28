@@ -23,7 +23,6 @@ import ThreeGlobe from "three-globe"
 import { loop3D, toVector, useScene } from "@depth/canvas"
 import { Mesh } from "three/src/objects/Mesh"
 import { SphereBufferGeometry } from "three/src/geometries/SphereGeometry"
-import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial"
 import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
 import { Collider, ColliderDesc, RigidBodyDesc, RigidBodyType } from "@dimforge/rapier3d-compat"
 import { getWorld } from "@depth/physics"
@@ -68,10 +67,6 @@ if (props.points) {
   Globe.hexBinMerge(true)
 }
 
-onScopeDispose(() => {
-  scene.remove(Globe)
-})
-
 watchEffect(() => {
   Globe.position.set(...state.position)
   Globe.scale.set(state.scale, state.scale, state.scale)
@@ -79,7 +74,7 @@ watchEffect(() => {
   Globe.bumpImageUrl(`/textures/globe/earth-${state.terrain}.png`)
 })
 
-const N = 1 // 300
+const N = 300
 const gData = [...Array.from({ length: N }).keys()].map(() => ({
   lat: (Math.random() - 0.5) * 180,
   lng: (Math.random() - 0.5) * 360,
@@ -89,14 +84,13 @@ const gData = [...Array.from({ length: N }).keys()].map(() => ({
 }))
 
 Globe.customLayerData(gData)
-  .customThreeObject((d, globeRadius) => {
+  .customThreeObject((d, _globeRadius) => {
     const mesh = new Mesh(
       // @ts-ignore
       new SphereBufferGeometry(d.radius, 5, 4),
       // @ts-ignore
       new MeshPhongMaterial({ color: d.color, shininess: 1 })
     )
-    // const mesh = new Mesh(new SphereBufferGeometry(d.radius), new MeshLambertMaterial({ color: d.color }))
     mesh.castShadow = true
     mesh.receiveShadow = true
     mesh.material.needsUpdate = true
@@ -118,7 +112,7 @@ loop3D(({ deltaTime }) => {
 })
 
 const world = getWorld()
-const rigidBodyDesc = new RigidBodyDesc(RigidBodyType.Dynamic)
+const rigidBodyDesc = new RigidBodyDesc(RigidBodyType.Dynamic).setGravityScale(0)
 const rigidBody = world.createRigidBody(rigidBodyDesc)
 let collider: Collider
 
@@ -138,13 +132,16 @@ emit("loaded", rigidBody.handle)
 
 loop3D(() => {
   const pos = rigidBody.translation()
-  if (state.position[0] !== pos.x || state.position[1] !== pos.y || state.position[2] !== pos.z) {
-    state.position = [pos.x, pos.y, pos.z]
+  const globePos = Globe.position
+  if (globePos.x !== pos.x || globePos.y !== pos.y || globePos.z !== pos.z) {
+    Globe.position.set(pos.x, pos.y, pos.z)
+    // state.position = [pos.x, pos.y, pos.z]
   }
 })
 
 onScopeDispose(() => {
   world.removeCollider(collider, false)
   world.removeRigidBody(rigidBody)
+  scene.remove(Globe)
 })
 </script>

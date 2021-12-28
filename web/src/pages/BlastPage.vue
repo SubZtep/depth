@@ -9,7 +9,7 @@ Tile1Material(v-slot="{ material }")
 
 Tile2Material(v-slot="{ material }")
   TilePlane(:width="8" :height="8" :position="[-4, 0, 0]" :material="material")
-ThreeGlobe(:scale="0.01" :position="[-4, 2, 0]" @loaded="globeLoaded")
+ThreeGlobe(:scale="0.005" :position="[-4, 2, 0]" @loaded="globeLoaded")
 
 GrassMaterial(v-slot="{ material }")
   TilePlane(:width="8" :height="8" :position="[4, 0, -8]" :material="material")
@@ -26,11 +26,10 @@ import InfinitePlane from "~/components/3d/InfinitePlane"
 import BlastBoxes from "~/components/3d/BlastBoxes.vue"
 import { useCameraControls } from "@depth/controller"
 import { getWorld } from "@depth/physics"
-import { degToRad, loop3D, useScene } from "@depth/canvas"
+import { loop3D, useScene } from "@depth/canvas"
 import { HemisphereLight } from "three/src/lights/HemisphereLight"
 import LensFlare from "~/components/3d/LensFlare.vue"
 import { DirectionalLight } from "three/src/lights/DirectionalLight"
-// import ThreeGlobe from "~/components/3d/ThreeGlobe"
 import ThreeGlobe from "~/components/3d/ThreeGlobe.vue"
 import { RigidBody } from "@dimforge/rapier3d-compat"
 
@@ -61,7 +60,7 @@ directionalLight.shadow.mapSize.width = 512 // default
 directionalLight.shadow.mapSize.height = 512 // default
 directionalLight.shadow.camera.near = 0.5 // default
 directionalLight.shadow.camera.far = 100 // default
-// scene.add(directionalLight)
+scene.add(directionalLight)
 
 loop3D(() => {
   directionalLight.position.set(...cc.camera.position.toArray())
@@ -101,23 +100,33 @@ const boxesLoaded = (bodyHandlers: number[]) => {
 }
 
 let globeRigidBody: RigidBody
+let globeOrigin: any
 
 const globeLoaded = (bodyHandler: number) => {
   globeRigidBody = world.getRigidBody(bodyHandler)
+  globeOrigin = {
+    position: globeRigidBody.translation(),
+    rotation: globeRigidBody.rotation(),
+  }
+}
+
+const resetGlobe = () => {
+  globeRigidBody.setLinvel({ x: 0, y: 0, z: 0 }, true)
+  globeRigidBody.setAngvel({ x: 0, y: 0, z: 0 }, true)
+  globeRigidBody.setTranslation(globeOrigin.position, true)
+  globeRigidBody.setRotation(globeOrigin.rotation, true)
 }
 
 const blastGlobe = () => {
-  globeRigidBody.applyImpulse({ x: 300, y: 0, z: 0 }, true)
+  // globeRigidBody.applyImpulse({ x: 300, y: 0, z: 0 }, true)
+  globeRigidBody.applyForce({ x: 10000, y: 0, z: 0 }, true)
 }
-
-const state = reactive({
-  mass: 2,
-})
 
 addGuiFolder(folder => {
   folder.name = "💥 Blast Page"
   folder.add({ blastGlobe }, "blastGlobe").name("Blast Globe!!!")
   folder.add({ blast }, "blast").name("Blast!!!")
   folder.add({ resetBoxPositions }, "resetBoxPositions").name("Reset boxes")
+  folder.add({ resetGlobe }, "resetGlobe").name("Reset globe")
 })
 </script>
