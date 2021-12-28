@@ -53,6 +53,6 @@
     "vite-plugin-cross-origin-isolation": "^0.1.1",
     "vite-plugin-pwa": "^0.11.12",
     "vite-plugin-windicss": "^1.6.1",
-    "windicss": "^3.4.0"
+    "windicss": "^3.4.1"
   }
 }

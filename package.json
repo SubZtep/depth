@@ -21,9 +21,9 @@
   "repository": "github:SubZtep/depth",
   "devDependencies": {
     "@types/jest": "^27.0.3",
-    "@typescript-eslint/eslint-plugin": "^5.8.0",
-    "@typescript-eslint/parser": "^5.8.0",
-    "@typescript-eslint/typescript-estree": "^5.8.0",
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
+    "@typescript-eslint/typescript-estree": "^5.8.1",
     "@vue/test-utils": "^2.0.0-rc.16",
     "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",

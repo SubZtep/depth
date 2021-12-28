@@ -22,7 +22,7 @@ export default defineConfig(({ command }) => {
       VitePWA(),
       Components({
         dts: "src/types/components.d.ts",
-        dirs: ["src/components/ui", "src/components/3d", "src/3d/components"],
+        dirs: ["src/components/ui", "src/components/3d", "src/3d/components", "src/components/panel"],
         extensions: ["vue", "ts"],
         deep: false,
       }),
@@ -69,9 +69,9 @@ export default defineConfig(({ command }) => {
       chunkSizeWarningLimit: 1_666,
       rollupOptions: {
         manualChunks: {
-          "depth": ["./src/pages/DepthPage.vue"],
-          "environment": ["./src/pages/EnvironmentPage.vue"],
-          "video": ["./src/pages/VideoPage.vue"],
+          depth: ["./src/pages/DepthPage.vue"],
+          environment: ["./src/pages/EnvironmentPage.vue"],
+          video: ["./src/pages/VideoPage.vue"],
           "group-hands": ["./src/components/player/PlayerHands.vue"],
         },
         output: {

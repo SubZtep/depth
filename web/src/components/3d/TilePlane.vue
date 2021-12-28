@@ -1,14 +1,29 @@
 <template lang="pug">
+Teleport(to="#panel")
+  .bg-black.border-red-500.text-green-300
+    h1.text-center
+      | Tile Plane
+    .form
+      div Width
+      input(type="range" min="1" max="10" v-model="state.width")
+      div Height
+      input(type="range" min="1" max="10" v-model="state.height")
+
+      div Position X
+      input(type="range" min="-10" max="10" v-model="state.position[0]")
+      div Position Y
+      input(type="range" min="-10" max="10" v-model="state.position[1]")
+      div Position Z
+      input(type="range" min="-10" max="10" v-model="state.position[2]")
+
 slot(:mesh="mesh")
 </template>
 
 <script lang="ts" setup>
 import { useScene } from "@depth/canvas"
 import { getWorld } from "@depth/physics"
-import { ColliderDesc } from "@dimforge/rapier3d-compat"
-import { FrontSide, RepeatWrapping, sRGBEncoding } from "three/src/constants"
+import { Collider, ColliderDesc, RigidBodyDesc, RigidBodyType } from "@dimforge/rapier3d-compat"
 import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
-import { TextureLoader } from "three/src/loaders/TextureLoader"
 import { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial"
 import { Mesh } from "three/src/objects/Mesh"
 
@@ -19,51 +34,42 @@ const props = defineProps<{
   position?: PositionTuple
 }>()
 
-const geometry = new PlaneGeometry(props.width, props.height)
+const state = reactive({
+  width: props.width,
+  height: props.height,
+  position: props.position ?? [0, 0, 0],
+})
 
-// const loader = new TextureLoader().setPath("/textures/terrain/Tiles_045_SD/")
-
-// const material = new MeshStandardMaterial({
-//   aoMap: loader.load("Tiles_045_ambientOcclusion.webp"),
-//   map: loader.load("Tiles_045_basecolor.webp"),
-//   bumpMap: loader.load("Tiles_045_height.webp"),
-//   normalMap: loader.load("Tiles_045_normal.webp"),
-//   roughnessMap: loader.load("Tiles_045_roughness.webp"),
-//   side: FrontSide,
-// })
-// material.map!.encoding = sRGBEncoding
-// material.map!.repeat.set(2, 2)
-// material.map!.wrapS = RepeatWrapping
-// material.map!.wrapT = RepeatWrapping
-
-const mesh = new Mesh(geometry, props.material)
-
+const mesh = new Mesh(undefined, props.material)
+mesh.material.needsUpdate = true
 mesh.receiveShadow = true
 mesh.matrixAutoUpdate = false
 mesh.rotateX(-Math.PI / 2)
-mesh.material.needsUpdate = true
-// mesh.material.
-mesh.updateMatrix()
 
 const scene = useScene()
+const world = getWorld()
+
 scene.add(mesh)
 
-const colliderHeight = 0.1
+const rigidBodyDesc = new RigidBodyDesc(RigidBodyType.KinematicPositionBased)
+const rigidBody = world.createRigidBody(rigidBodyDesc)
+let groundCollider: Collider
 
-let translateCollider: Vector
-if (props.position) {
-  mesh.position.set(...props.position)
-  translateCollider = { x: props.position[0], y: props.position[1] - colliderHeight, z: props.position[2] }
-} else {
-  translateCollider = { x: 0, y: -colliderHeight, z: 0 }
-}
+watchEffect(() => {
+  mesh.geometry?.dispose()
+  mesh.geometry = new PlaneGeometry(state.width, state.height, 1, 1)
+  mesh.position.set(...state.position)
+  mesh.updateMatrix()
 
-mesh.updateMatrix()
+  if (groundCollider) {
+    world.removeCollider(groundCollider, false)
+  }
 
-const world = getWorld()
-const groundColliderDesc = ColliderDesc.cuboid(props.width / 2, colliderHeight, props.height / 2)
-const groundCollider = world.createCollider(groundColliderDesc)
-groundCollider.setTranslation(translateCollider)
+  const groundColliderDesc = ColliderDesc.cuboid(state.width / 2, 0.1, state.height / 2)
+  groundCollider = world.createCollider(groundColliderDesc, rigidBody.handle)
+
+  rigidBody.setNextKinematicTranslation({ x: state.position[0], y: state.position[1] - 0.1, z: state.position[2] })
+})
 
 onScopeDispose(() => {
   scene.remove(mesh)

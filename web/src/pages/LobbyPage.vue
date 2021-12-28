@@ -26,6 +26,7 @@ ValidateUuid
 <script lang="ts" setup>
 import { UseGeolocation } from "@vueuse/components"
 import ThreeGlobe from "~/components/3d/ThreeGlobe"
+// import ThreeGlobe from "~/components/3d/ThreeGlobex.vue"
 import SnailShell from "~/components/meta/SnailShell"
 import ValidateUuid from "~/components/meta/ValidateUuid"
 import { useMetaSnails } from "~/composables/useMetaSnails"

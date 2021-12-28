@@ -9,13 +9,12 @@ Tile1Material(v-slot="{ material }")
 
 Tile2Material(v-slot="{ material }")
   TilePlane(:width="8" :height="8" :position="[-4, 0, 0]" :material="material")
+ThreeGlobe(:scale="0.01" :position="[-4, 2, 0]" @loaded="globeLoaded")
 
 GrassMaterial(v-slot="{ material }")
-  TilePlane(:width="8" :height="8" :position="[4, 0, 8]" :material="material")
+  TilePlane(:width="8" :height="8" :position="[4, 0, -8]" :material="material")
 
-ThreeGlobe(:scale="0.01" :position="[-4, 2, 0]")
-
-BlastBoxes(:pieces="[3, 3, 3]" :position="[4, 0, 0]" @loaded="boxesLoaded")
+BlastBoxes(:pieces="[3, 3, 3]" :position="[4, 0.5, 0]" @loaded="boxesLoaded")
 </template>
 
 <script lang="ts" setup>
@@ -31,7 +30,9 @@ import { degToRad, loop3D, useScene } from "@depth/canvas"
 import { HemisphereLight } from "three/src/lights/HemisphereLight"
 import LensFlare from "~/components/3d/LensFlare.vue"
 import { DirectionalLight } from "three/src/lights/DirectionalLight"
-import ThreeGlobe from "~/components/3d/ThreeGlobe"
+// import ThreeGlobe from "~/components/3d/ThreeGlobe"
+import ThreeGlobe from "~/components/3d/ThreeGlobe.vue"
+import { RigidBody } from "@dimforge/rapier3d-compat"
 
 const scene = useScene()
 
@@ -46,10 +47,10 @@ useEnvironmentStore().$patch({
 } as any)
 
 const cc = useCameraControls()
-cc.setPosition(0, 3, 8)
-cc.setTarget(0, 1.8, 0)
+cc.setPosition(0, 4, 10)
+cc.setTarget(0, 2, 0)
 // cc.minPolarAngle = degToRad(15)
-cc.maxPolarAngle = degToRad(89.9)
+// cc.maxPolarAngle = degToRad(89.9)
 // cc.minDistance = 5
 // cc.maxDistance = 15
 const directionalLight = new DirectionalLight(0xffffff, 1)
@@ -99,12 +100,23 @@ const boxesLoaded = (bodyHandlers: number[]) => {
   }
 }
 
+let globeRigidBody: RigidBody
+
+const globeLoaded = (bodyHandler: number) => {
+  globeRigidBody = world.getRigidBody(bodyHandler)
+}
+
+const blastGlobe = () => {
+  globeRigidBody.applyImpulse({ x: 300, y: 0, z: 0 }, true)
+}
+
 const state = reactive({
   mass: 2,
 })
 
 addGuiFolder(folder => {
   folder.name = "💥 Blast Page"
+  folder.add({ blastGlobe }, "blastGlobe").name("Blast Globe!!!")
   folder.add({ blast }, "blast").name("Blast!!!")
   folder.add({ resetBoxPositions }, "resetBoxPositions").name("Reset boxes")
 })

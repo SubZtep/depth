@@ -26,25 +26,22 @@ const emit = defineEmits<{
 
 const group = new Group()
 
-for (let i = 0; i < props.pieces[0]; i++) {
-  for (let j = 0; j < props.pieces[1]; j++) {
-    for (let k = 0; k < props.pieces[2]; k++) {
-      // const { boxMesh, rigidBody } = createBox([i + (i + 1) * 0.1, k + 1.5, j + (j + 1) * 0.1])
-      // const { boxMesh, rigidBody } = createBox([i - (props.pieces[0] - 1) / 2, k + 1.5, j - (props.pieces[2] - 1) / 2])
-      const { boxMesh, rigidBody } = createBox([i - (props.pieces[0] - 1) / 2, k, j - (props.pieces[2] - 1) / 2])
+const toCenterVector = ([x, y, z]: PositionTuple): PositionTuple => {
+  return [x - ((props.pieces[0] - 1) / 2) + props.position[0], y + props.position[1], z - ((props.pieces[2] - 1) / 2) + props.position[2]]
+}
+
+for (let x = 0; x < props.pieces[0]; x++) {
+  for (let y = 0; y < props.pieces[1]; y++) {
+    for (let z = 0; z < props.pieces[2]; z++) {
+      const { boxMesh, rigidBody } = createBox(toCenterVector([x, y, z]))
       group.add(boxMesh)
       bodies.push(rigidBody.handle)
     }
   }
 }
 
-// group.position.set(-props.pieces[0] / 2, 1.5, -props.pieces[2] / 2)
-
-if (props.position) {
-  group.position.set(...props.position)
-}
-
-const scene = useScene().add(group)
+const scene = useScene()
+scene.add(group)
 
 emit("loaded", bodies)
 </script>
