@@ -1,3 +1,4 @@
 export * from "./useLoopInject"
 export * from "./vue-plugin"
-export * from "./helpers"
+export * from "./lib/helpers"
+export * from "./lib/createMesh"

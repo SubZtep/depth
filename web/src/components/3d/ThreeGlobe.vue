@@ -1,9 +1,12 @@
 <template lang="pug">
-ParaPanel(title="Three Globe jol")
+ParaPanel(title="Three Globe")
   .form
     div Surface
     select(v-model="state.surface")
       option.capitalize(v-for="v in surfaces" :key="v" :value="v") {{v}}
+
+    div Atmosphere
+    input(type="checkbox" v-model="state.atmosphere")
 
     div Scale
     .flex.justify-between.max-w-200px.gap-2
@@ -43,13 +46,14 @@ const emit = defineEmits<{
 }>()
 
 const state = reactive({
+  atmosphere: true,
   position: props.position ?? [0, 0, 0],
   scale: props.scale ?? 0.01,
   terrain: props.terrain ?? terrains[0],
   surface: props.surface ?? surfaces[0],
 })
 
-const Globe = new ThreeGlobe() //.showAtmosphere(false)
+const Globe = new ThreeGlobe()
 Globe.rotateY(-Math.PI / 2)
 Globe.castShadow = true
 Globe.receiveShadow = true
@@ -72,6 +76,7 @@ watchEffect(() => {
   Globe.scale.set(state.scale, state.scale, state.scale)
   Globe.globeImageUrl(`/textures/globe/earth-${state.surface}.jpg`)
   Globe.bumpImageUrl(`/textures/globe/earth-${state.terrain}.png`)
+  Globe.showAtmosphere(state.atmosphere)
 })
 
 const N = 300

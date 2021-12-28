@@ -1,4 +1,6 @@
+import { BufferGeometry } from "three/src/core/BufferGeometry"
 import type { Object3D } from "three/src/core/Object3D"
+import { Material } from "three/src/materials/Material"
 import type { Quaternion } from "three/src/math/Quaternion"
 import { Scene } from "three/src/scenes/Scene"
 import { getCurrentInstance } from "vue"
@@ -29,4 +31,15 @@ export function degToRad(deg: number): number {
 
 export function radToDeg(rad: number): number {
   return (rad * 180) / Math.PI
+}
+
+export function disposeMesh(mesh: { geometry: BufferGeometry; material: Material | Material[] }) {
+  mesh.geometry.dispose()
+  if (Array.isArray(mesh.material)) {
+    for (const m of mesh.material) {
+      m.dispose()
+    }
+  } else {
+    mesh.material.dispose()
+  }
 }

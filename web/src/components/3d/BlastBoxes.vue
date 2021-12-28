@@ -7,9 +7,6 @@ import { Mesh } from "three/src/objects/Mesh"
 import { ActiveEvents, ColliderDesc, RigidBody, RigidBodyDesc } from "@dimforge/rapier3d-compat"
 import { Group } from "three/src/objects/Group"
 import type { Quaternion } from "three/src/math/Quaternion"
-import { sRGBEncoding } from "three/src/constants"
-import { TextureLoader } from "three/src/loaders/TextureLoader"
-import { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial"
 
 const props = defineProps<{
   /** Number of generated boxes on 3 axes. */
@@ -17,7 +14,6 @@ const props = defineProps<{
   position: [number, number, number]
 }>()
 
-// const bodies = new Map<PositionTuple, RigidBody>()
 const bodies: number[] = []
 
 const emit = defineEmits<{
@@ -50,24 +46,14 @@ emit("loaded", bodies)
 import { loop3D, toVector } from "@depth/canvas"
 import { BoxGeometry } from "three/src/geometries/BoxGeometry"
 import { getWorld } from "@depth/physics"
+import { woodCrateMaterial } from "~/3d/materials/WoodCrateMaterial"
 
 const world = getWorld()
 
 const boxGeometry = new BoxGeometry(1, 1, 1)
 
-const loader = new TextureLoader().setPath("/textures/things/Wood_Crate_001_SD/")
-const boxMaterial = new MeshStandardMaterial({
-  aoMap: loader.load("Wood_Crate_001_ambientOcclusion.webp"),
-  map: loader.load("Wood_Crate_001_basecolor.webp"),
-  bumpMap: loader.load("Wood_Crate_001_height.webp"),
-  normalMap: loader.load("Wood_Crate_001_normal.webp"),
-  roughnessMap: loader.load("Wood_Crate_001_roughness.webp"),
-  metalness: 0,
-})
-boxMaterial.map!.encoding = sRGBEncoding
-
 function createBox(startPosition: PositionTuple = [0, 0, 0]) {
-  const boxMesh = new Mesh(boxGeometry, boxMaterial)
+  const boxMesh = new Mesh(boxGeometry, woodCrateMaterial)
   boxMesh.receiveShadow = true
   boxMesh.castShadow = true
 

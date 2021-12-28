@@ -7,6 +7,7 @@ declare module 'vue' {
     BlastBoxes: typeof import('./../components/3d/BlastBoxes.vue')['default']
     Debug: typeof import('./../components/ui/Debug.vue')['default']
     DefaultLights: typeof import('./../components/3d/DefaultLights.ts')['default']
+    DirLight: typeof import('./../components/3d/DirLight.vue')['default']
     FaceMesh: typeof import('./../components/3d/FaceMesh.vue')['default']
     FloatingText: typeof import('./../components/ui/FloatingText.vue')['default']
     FloorPlane: typeof import('./../3d/components/FloorPlane.vue')['default']

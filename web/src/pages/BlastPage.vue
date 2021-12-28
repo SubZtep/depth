@@ -1,15 +1,17 @@
 <template lang="pug">
 Title Blast
 
-LensFlare(:position="[100, 60, 20]")
+LensFlare(:position="[200, 120, 35]")
 InfinitePlane(:color="0x000900")
+
+DirLight
 
 Tile1Material(v-slot="{ material }")
   TilePlane(:width="8" :height="8" :position="[4, 0, 0]" :material="material")
 
 Tile2Material(v-slot="{ material }")
   TilePlane(:width="8" :height="8" :position="[-4, 0, 0]" :material="material")
-ThreeGlobe(:scale="0.005" :position="[-4, 2, 0]" @loaded="globeLoaded")
+ThreeGlobe(:scale="0.01" :position="[-4, 2, 0]" @loaded="globeLoaded")
 
 GrassMaterial(v-slot="{ material }")
   TilePlane(:width="8" :height="8" :position="[4, 0, -8]" :material="material")
@@ -26,12 +28,15 @@ import InfinitePlane from "~/components/3d/InfinitePlane"
 import BlastBoxes from "~/components/3d/BlastBoxes.vue"
 import { useCameraControls } from "@depth/controller"
 import { getWorld } from "@depth/physics"
-import { loop3D, useScene } from "@depth/canvas"
+import { loop3D, useScene, createOutlinedMesh } from "@depth/canvas"
 import { HemisphereLight } from "three/src/lights/HemisphereLight"
 import LensFlare from "~/components/3d/LensFlare.vue"
 import { DirectionalLight } from "three/src/lights/DirectionalLight"
 import ThreeGlobe from "~/components/3d/ThreeGlobe.vue"
 import { RigidBody } from "@dimforge/rapier3d-compat"
+import { BoxGeometry } from "three/src/geometries/BoxGeometry"
+import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
+import { useCameraFit } from "~/composables/useCameraFit"
 
 const scene = useScene()
 
@@ -45,27 +50,13 @@ useEnvironmentStore().$patch({
   size: 1,
 } as any)
 
-const cc = useCameraControls()
-cc.setPosition(0, 4, 10)
-cc.setTarget(0, 2, 0)
+// const cc = useCameraControls()
+// cc.setPosition(0, 4, 10)
+// cc.setTarget(0, 2, 0)
 // cc.minPolarAngle = degToRad(15)
 // cc.maxPolarAngle = degToRad(89.9)
 // cc.minDistance = 5
 // cc.maxDistance = 15
-const directionalLight = new DirectionalLight(0xffffff, 1)
-// directionalLight.position.set(...cc.camera.position.toArray())
-// directionalLight.target.position.set(0, 1, 0)
-directionalLight.castShadow = true
-directionalLight.shadow.mapSize.width = 512 // default
-directionalLight.shadow.mapSize.height = 512 // default
-directionalLight.shadow.camera.near = 0.5 // default
-directionalLight.shadow.camera.far = 100 // default
-scene.add(directionalLight)
-
-loop3D(() => {
-  directionalLight.position.set(...cc.camera.position.toArray())
-  directionalLight.target.position.set(-4, 2, 0)
-})
 
 const world = getWorld()
 const rigidBodyHandlers: number[] = []
@@ -128,5 +119,9 @@ addGuiFolder(folder => {
   folder.add({ blast }, "blast").name("Blast!!!")
   folder.add({ resetBoxPositions }, "resetBoxPositions").name("Reset boxes")
   folder.add({ resetGlobe }, "resetGlobe").name("Reset globe")
+})
+
+onMounted(() => {
+  useCameraFit().fit(new Vector3(0, 11, 0))
 })
 </script>

@@ -11,8 +11,10 @@
   z-index: 200;
 
   .form {
+    padding: 4px 8px;
     display: grid;
     grid-template-columns: 1fr 2fr;
     @apply font-mono text-sm;
+    row-gap: 4px;
   }
 }
