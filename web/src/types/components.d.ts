@@ -33,6 +33,7 @@ declare module 'vue' {
     TilePlane: typeof import('./../components/3d/TilePlane.vue')['default']
     Title: typeof import('./../components/ui/Title.vue')['default']
     UseDirectionalLight: typeof import('./../components/3d/UseDirectionalLight.vue')['default']
+    UseFace: typeof import('./../components/3d/UseFace.vue')['default']
     VoxelWorld: typeof import('./../components/3d/VoxelWorld.ts')['default']
   }
 }

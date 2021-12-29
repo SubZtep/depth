@@ -47,6 +47,10 @@ addGuiFolder(folder => {
   folder.add(state, "showVideoTag").name("Show video tag")
   folder.add(media, "enabled").name("Camera is ON")
 })
+
+onScopeDispose(() => {
+  media.stop()
+})
 </script>
 
 <style module>

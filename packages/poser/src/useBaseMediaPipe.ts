@@ -20,6 +20,8 @@ export function useBaseMediaPipe({ solution, video, streaming, throttle }: BaseO
   let image: HTMLVideoElement
   let stop: Fn
 
+  const oldDimensions = [0, 0]
+
   const setVideoElement = (el: MaybeRef<HTMLVideoElement>) => {
     image = unrefElement(el) as HTMLVideoElement
   }
@@ -28,6 +30,27 @@ export function useBaseMediaPipe({ solution, video, streaming, throttle }: BaseO
     setVideoElement(video)
   }
 
+  watch(streaming, v => {
+    if (v) {
+      if (oldDimensions[0] !== image.videoWidth || oldDimensions[1] !== image.videoHeight) {
+        solution.reset()
+      }
+    } else {
+      oldDimensions[0] = image.videoWidth
+      oldDimensions[1] = image.videoHeight
+    }
+  })
+
+  // watch(
+  //   video,
+  //   el => {
+  //     console.log("VIDEO CHANGE", el)
+  //     image = el
+  //   },
+  //   { immediate: true }
+  // )
+
+  // FIXME: error if video element is deleted ("Cannot pass deleted object as a pointer of type SolutionWasm")
   watch(streaming, active => {
     if (active) {
       let t_ = 0
