@@ -29,14 +29,14 @@ A [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) app uses composition AP
 - [pnpm](https://pnpm.io/installation) monorepo
 
 - **meta**:snail:sickrats
-  
+
   - `SUPABASE_URL`
   - `SUPABASE_SECRET`
   - `NETLIFY_AUTH_TOKEN`
   - `NETLIFY_SITE_ID`
 
 - build static assets
-  
+
   [![Netlify Status](https://api.netlify.com/api/v1/badges/c2a49805-1f18-4c2a-868c-39bf5595ce26/deploy-status)](https://app.netlify.com/sites/wizardly-ramanujan-a933f2/deploys)
 
 ### Icons helps
@@ -49,6 +49,12 @@ Pictograms across the repository:
 ---
 
 ## Various links for fictive features
+
+### 3D
+
+- [ ] https://github.com/mattatz/THREE.Tree
+- [ ] https://hofk.de/main/discourse.threejs/2019/LogarithmicShell/LogarithmicShell.html
+- [ ] https://davideprati.com/demo/grass/
 
 ### Optimizations
 

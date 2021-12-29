@@ -5,7 +5,7 @@ ParaPanel(title="Three Globe")
     option.capitalize(v-for="v in surfaces" :key="v" :value="v") {{v}}
 
   div Atmosphere
-  InputCheckbox(v-model="state.atmosphere")
+  InputBoolean(v-model="state.atmosphere")
 
   div Scale
   InputNumber(v-model="state.scale" :min="0.001" :max="0.1" :step="0.001")

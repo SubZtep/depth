@@ -72,7 +72,8 @@ onScopeDispose(() => {
 <style module>
 .frame {
   @apply video-border resize-x inline-block overflow-hidden;
-  max-width: var(--max-width);
+  width: 285px;
+  /* max-width: var(--max-width); */
   /* aspect-ratio: var(--aspect-ratio); */
   height: auto;
 }

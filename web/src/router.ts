@@ -8,7 +8,17 @@ import type { App } from "vue"
 const camHeight = 1.6
 const routes: RouteRecordRaw[] = [
   {
-    path: "",
+    path: "/",
+    name: "home",
+    component: () => import("./pages/HomePage.vue"),
+    meta: {
+      position: [0, camHeight, 6],
+      lookAt: [0, 0, 0],
+      order: 1,
+    },
+  },
+  {
+    path: "/depth",
     name: "depth",
     component: () => import("./pages/DepthPage.vue"),
     meta: {

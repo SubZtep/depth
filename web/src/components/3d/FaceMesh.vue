@@ -14,25 +14,31 @@ import { BufferGeometry } from "three/src/core/BufferGeometry"
 import { Mesh } from "three/src/objects/Mesh"
 import { DoubleSide, DynamicDrawUsage } from "three/src/constants"
 import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial"
+import { Material } from "three/src/materials/Material"
 
 const props = defineProps<{
-  position: [number, number, number]
-  scale?: number
   keypoints: { x: number; y: number; z: number }[]
+  position?: [number, number, number]
+  scale?: number
+  material?: Material
 }>()
 
 const state = reactive({
-  position: props.position,
+  position: props.position ?? [0, 0, 0],
   scale: props.scale ?? 1,
 })
 
 const scene = useScene()
 
 const geometry = new BufferGeometry()
-const material = new MeshLambertMaterial({
-  side: DoubleSide,
-  color: 0xff0000,
-})
+
+const material = props.material
+  ? props.material
+  : new MeshLambertMaterial({
+      side: DoubleSide,
+      color: 0xff0000,
+      // wireframe: true,
+    })
 
 const vertices = new Float32Array(TRIANGULATION.length * 3)
 const positionAttribute = new BufferAttribute(vertices, 3)
@@ -45,6 +51,7 @@ scene.add(mesh)
 
 watchEffect(() => {
   mesh.position.set(...state.position)
+  mesh.scale.set(state.scale, -state.scale, state.scale)
 })
 
 watch(
@@ -56,15 +63,24 @@ watch(
       const p3 = keypoints[TRIANGULATION[i + 2]]
       vertices.set(
         [
-          p1.x * state.scale,
-          state.position[1] - p1.y * state.scale,
-          p1.z * state.scale,
-          p2.x * state.scale,
-          state.position[1] - p2.y * state.scale,
-          p2.z * state.scale,
-          p3.x * state.scale,
-          state.position[1] - p3.y * state.scale,
-          p3.z * state.scale,
+          p1.x,
+          p1.y,
+          p1.z,
+          p2.x,
+          p2.y,
+          p2.z,
+          p3.x,
+          p3.y,
+          p3.z,
+          // p1.x * state.scale,
+          // state.position[1] - p1.y * state.scale,
+          // p1.z * state.scale,
+          // p2.x * state.scale,
+          // state.position[1] - p2.y * state.scale,
+          // p2.z * state.scale,
+          // p3.x * state.scale,
+          // state.position[1] - p3.y * state.scale,
+          // p3.z * state.scale,
         ],
         i * 3
       )
@@ -72,7 +88,8 @@ watch(
 
     geometry.computeVertexNormals()
     positionAttribute.needsUpdate = true
-  }
+  },
+  { immediate: true }
 )
 
 onScopeDispose(() => {
