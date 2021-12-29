@@ -46,7 +46,7 @@ emit("loaded", bodies)
 import { loop3D, toVector } from "@depth/canvas"
 import { BoxGeometry } from "three/src/geometries/BoxGeometry"
 import { getWorld } from "@depth/physics"
-import { woodCrateMaterial } from "~/3d/materials/WoodCrateMaterial"
+import { woodCrateMaterial } from "~/3d/materials/woodCrateMaterial"
 
 const world = getWorld()
 
