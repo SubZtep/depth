@@ -1,6 +1,9 @@
 <template lang="pug">
-//- pre.text-white {{q.w}} {{pos}}
-//- slot(:position="position" :rotation="rotation")
+ParaPanel(title="Face Mesh")
+  div Position
+  InputXYZ(v-model="state.position" :min="-100" :max="100" :step="0.1")
+  div Scale
+  InputNumber( v-model.number="state.scale" :min="0" :max="100" :step="0.1")
 </template>
 
 <script lang="ts" setup>
@@ -10,23 +13,32 @@ import { BufferAttribute } from "three/src/core/BufferAttribute"
 import { BufferGeometry } from "three/src/core/BufferGeometry"
 import { Mesh } from "three/src/objects/Mesh"
 import { lerp as linearLerp } from "three/src/math/MathUtils"
-import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
 import { DoubleSide, DynamicDrawUsage } from "three/src/constants"
+import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial"
 
 const props = defineProps<{
+  position: [number, number, number]
+  scale?: number
   video: HTMLVideoElement
   streaming: boolean
   throttle: number
   lerp: boolean
 }>()
 
+const state = reactive({
+  position: props.position,
+  scale: props.scale ?? 1,
+})
+
+const scene = useScene()
+
 const { throttle = ref(0), lerp = ref(false), streaming = ref(false) } = toRefs(props)
 
 const geometry = new BufferGeometry()
-const material = new MeshPhongMaterial({
+
+const material = new MeshLambertMaterial({
   side: DoubleSide,
   color: 0xff0000,
-  shininess: 100,
 })
 
 const prevVertices = new Float32Array(TRIANGULATION.length * 3)
@@ -37,9 +49,12 @@ positionAttribute.setUsage(DynamicDrawUsage)
 geometry.setAttribute("position", positionAttribute)
 
 const mesh = new Mesh(geometry, material)
-useScene().add(mesh)
+mesh.frustumCulled = false
+scene.add(mesh)
 
-const height = 1.5
+watchEffect(() => {
+  mesh.position.set(...state.position)
+})
 
 useFace({
   throttle,
@@ -54,7 +69,20 @@ useFace({
       const p1 = keypoints[TRIANGULATION[i]]
       const p2 = keypoints[TRIANGULATION[i + 1]]
       const p3 = keypoints[TRIANGULATION[i + 2]]
-      nextVertices.set([p1.x, height - p1.y, p1.z, p2.x, height - p2.y, p2.z, p3.x, height - p3.y, p3.z], i * 3)
+      nextVertices.set(
+        [
+          p1.x * state.scale,
+          state.position[1] - p1.y * state.scale,
+          p1.z * state.scale,
+          p2.x * state.scale,
+          state.position[1] - p2.y * state.scale,
+          p2.z * state.scale,
+          p3.x * state.scale,
+          state.position[1] - p3.y * state.scale,
+          p3.z * state.scale,
+        ],
+        i * 3
+      )
     }
 
     if (!get(throttle) || !get(lerp)) {
@@ -96,5 +124,11 @@ watch(and(throttle, lerp, streaming), on => {
     geometry.computeVertexNormals()
     positionAttribute.needsUpdate = true
   })
+})
+
+onScopeDispose(() => {
+  scene.remove(mesh)
+  geometry.dispose()
+  material.dispose()
 })
 </script>

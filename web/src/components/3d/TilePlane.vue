@@ -1,17 +1,12 @@
 <template lang="pug">
 ParaPanel(title="Tile Plane" @hover="toggleOutline")
-  .form
-    div Width
-    input(type="range" min="1" max="10" v-model="state.width")
-    div Height
-    input(type="range" min="1" max="10" v-model="state.height")
+  div Width
+  InputNumber(v-model="state.width" :min="1" :max="10")
+  div Height
+  InputNumber(v-model="state.height" :min="1" :max="10")
 
-    div Position X
-    input(type="range" min="-10" max="10" v-model="state.position[0]")
-    div Position Y
-    input(type="range" min="-10" max="10" v-model="state.position[1]")
-    div Position Z
-    input(type="range" min="-10" max="10" v-model="state.position[2]")
+  div Position
+  InputXYZ(v-model="state.position")
 
 slot(:mesh="mesh")
 </template>
@@ -21,7 +16,7 @@ import { useScene, createOutlinedMesh, disposeMesh } from "@depth/canvas"
 import { getWorld } from "@depth/physics"
 import { Collider, ColliderDesc, RigidBodyDesc, RigidBodyType } from "@dimforge/rapier3d-compat"
 import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
-import { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial"
+import { Material } from "three/src/materials/Material"
 import { LineSegments } from "three/src/objects/LineSegments"
 import { Mesh } from "three/src/objects/Mesh"
 import { useCameraFit } from "~/composables/useCameraFit"
@@ -29,7 +24,7 @@ import { useCameraFit } from "~/composables/useCameraFit"
 const props = defineProps<{
   width: number
   height: number
-  material: MeshStandardMaterial
+  material?: Material
   position?: PositionTuple
 }>()
 
@@ -50,8 +45,6 @@ mesh.rotateX(-Math.PI / 2)
 
 scene.add(mesh)
 
-// const { add, fit } = useCameraFit()
-// add(mesh)
 useCameraFit().add(mesh)
 
 const rigidBodyDesc = new RigidBodyDesc(RigidBodyType.KinematicPositionBased)
@@ -79,7 +72,6 @@ watchEffect(() => {
   mesh.geometry = new PlaneGeometry(state.width, state.height, 1, 1)
   mesh.position.set(...state.position)
   mesh.updateMatrix()
-  // fit()
 
   toggleOutline(!!outline)
 

@@ -1,24 +1,17 @@
 <template lang="pug">
 ParaPanel(title="Three Globe")
-  .form
-    div Surface
-    select(v-model="state.surface")
-      option.capitalize(v-for="v in surfaces" :key="v" :value="v") {{v}}
+  div Surface
+  select(v-model="state.surface")
+    option.capitalize(v-for="v in surfaces" :key="v" :value="v") {{v}}
 
-    div Atmosphere
-    input(type="checkbox" v-model="state.atmosphere")
+  div Atmosphere
+  InputCheckbox(v-model="state.atmosphere")
 
-    div Scale
-    .flex.justify-between.max-w-200px.gap-2
-      input.flex-grow(type="range" min="0.001" max="0.1" step="0.001" v-model="state.scale")
-      input.w-12(type="text" v-model="state.scale")
+  div Scale
+  InputNumber(v-model="state.scale" :min="0.001" :max="0.1" :step="0.001")
 
-    div Position X
-    input(type="range" min="-10" max="10" v-model="state.position[0]")
-    div Position Y
-    input(type="range" min="-10" max="10" v-model="state.position[1]")
-    div Position Z
-    input(type="range" min="-10" max="10" v-model="state.position[2]")
+  div Position
+  InputXYZ(v-model="state.position" :min="-10" :max="10" :step="0.1")
 </template>
 
 <script lang="ts" setup>

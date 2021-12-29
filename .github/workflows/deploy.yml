@@ -2,7 +2,7 @@ name: Test & Build & Deploy
 
 on:
   push:
-    branches: [ moo ]
+    branches: [ main ]
 
 jobs:
   deploy:

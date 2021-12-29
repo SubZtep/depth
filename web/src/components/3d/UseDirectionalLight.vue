@@ -1,19 +1,9 @@
 <template lang="pug">
-//- ParaPanel(title="Tile Plane" @hover="toggleOutline")
-//-   .form
-//-     div Width
-//-     input(type="range" min="1" max="10" v-model="state.width")
-//-     div Height
-//-     input(type="range" min="1" max="10" v-model="state.height")
-
-//-     div Position X
-//-     input(type="range" min="-10" max="10" v-model="state.position[0]")
-//-     div Position Y
-//-     input(type="range" min="-10" max="10" v-model="state.position[1]")
-//-     div Position Z
-//-     input(type="range" min="-10" max="10" v-model="state.position[2]")
-
-//- slot(:mesh="mesh")
+ParaPanel(title="Directional Light")
+  div Color
+  InputColor(v-model="state.color")
+  div Intensity
+  InputNumber(v-model="state.intensity" :min="0" :max="10" :step="0.1")
 </template>
 
 <script lang="ts" setup>
@@ -24,27 +14,34 @@ import { Collider, ColliderDesc, RigidBodyDesc, RigidBodyType } from "@dimforge/
 import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
 import { DirectionalLight } from "three/src/lights/DirectionalLight"
 import { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial"
+import { Color } from "three/src/math/Color"
 import { LineSegments } from "three/src/objects/LineSegments"
 import { Mesh } from "three/src/objects/Mesh"
 
-// const props = defineProps<{
-//   width: number
-//   height: number
-//   material: MeshStandardMaterial
-//   position?: PositionTuple
-// }>()
+const props = defineProps<{
+  //   width: number
+  //   height: number
+  //   material: MeshStandardMaterial
+  //   position?: PositionTuple
+  linkCameraPosition?: boolean
+}>()
 
-// const state = reactive({
-//   width: props.width,
-//   height: props.height,
-//   position: props.position ?? [0, 0, 0],
-// })
+const state = reactive({
+  color: "#ffffff",
+  intensity: 1,
+  //   width: props.width,
+  //   height: props.height,
+  //   position: props.position ?? [0, 0, 0],
+})
 
 const scene = useScene()
 // const world = getWorld()
-const cc = useCameraControls()
 
-const directionalLight = new DirectionalLight(0xffffff, 1)
+// const color = new Color()
+
+// const directionalLight = new DirectionalLight(color, 1)
+const directionalLight = new DirectionalLight()
+// directionalLight.color
 // directionalLight.position.set(...cc.camera.position.toArray())
 // directionalLight.target.position.set(0, 1, 0)
 directionalLight.castShadow = true
@@ -52,13 +49,22 @@ directionalLight.shadow.mapSize.width = 512 // default
 directionalLight.shadow.mapSize.height = 512 // default
 directionalLight.shadow.camera.near = 0.5 // default
 directionalLight.shadow.camera.far = 100 // default
-scene.add(directionalLight)
+scene.add(directionalLight, directionalLight.target)
 
-loop3D(() => {
-  directionalLight.position.set(...cc.camera.position.toArray())
-  directionalLight.target.position.set(-4, 2, 0)
+if (props.linkCameraPosition) {
+  const cc = useCameraControls()
+  loop3D(() => {
+    directionalLight.position.set(...cc.camera.position.toArray())
+    directionalLight.target.position.set(-4, 2, 0)
+  })
+}
+
+watchEffect(() => {
+  directionalLight.color.set(state.color)
+  directionalLight.intensity = state.intensity
+  // color.set(state.color)
+  // directionalLight.updateMatrix()
 })
-
 
 // const mesh = new Mesh(undefined, props.material)
 // mesh.material.needsUpdate = true
@@ -105,7 +111,7 @@ loop3D(() => {
 // })
 
 onScopeDispose(() => {
-  scene.remove(directionalLight)
+  scene.remove(directionalLight, directionalLight.target)
   directionalLight.dispose()
   //   toggleOutline(false)
   //   scene.remove(mesh)

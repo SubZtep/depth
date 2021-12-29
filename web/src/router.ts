@@ -52,7 +52,7 @@ const routes: RouteRecordRaw[] = [
     name: "face",
     component: () => import("./pages/FacePage.vue"),
     meta: {
-      position: [0, camHeight, 6],
+      position: [0, camHeight, -6],
       lookAt: [0, 1, 0],
       order: 8,
     },

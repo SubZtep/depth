@@ -1,8 +1,9 @@
 <template lang="pug">
 Teleport(to="#panel")
-  .panel(@mouseover="hovered = true" @mouseleave="hovered = false")
+  div(:class="$style.panel" @mouseover="hovered = true" @mouseleave="hovered = false")
     h3(@click="open = !open") {{props.title}}
-    slot(v-if="open")
+    .form(v-if="open")
+      slot
 </template>
 
 <script lang="ts" setup>
@@ -20,7 +21,7 @@ const hovered = ref(false)
 watch(hovered, hover => emit("hover", hover), { immediate: true })
 </script>
 
-<style scoped>
+<style module>
 .panel {
   @apply bg-black border-red-500 text-green-300;
   border-top-left-radius: 4px;

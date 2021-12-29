@@ -4,7 +4,7 @@ Title Blast
 LensFlare(:position="[200, 120, 35]")
 InfinitePlane(:color="0x000900")
 
-DirLight
+UseDirectionalLight(:link-camera-position="true")
 
 Tile1Material(v-slot="{ material }")
   TilePlane(:width="8" :height="8" :position="[4, 0, 0]" :material="material")
