@@ -5,9 +5,10 @@ Title Face
 BlastBox(:position="[0, 5, 0]")
 
 Tile1Material(v-slot="{ material }")
-  TilePlane(:width="8" :height="8" :dimensions="[8, 8]" :material="material" v-slot="{ mesh, updated }")
-    MeshOutline(:mesh="mesh" :updated="updated")
-    //- KinematicRigidBody(:mesh="mesh" :updated="updated")
+  TilePlane(:dimensions="[8, 8]" :material="material" v-slot="{ mesh }")
+    MeshOutline(:mesh="mesh")
+    //- KinematicRigidBody(:mesh="mesh")
+
     //- pre .text-white UUU {{mesh}}
 
 //- Tile1Material(v-slot="{ material }")

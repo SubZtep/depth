@@ -2,36 +2,41 @@
 //- ParaPanel(title="Tile Plane" @hover="toggleOutline")
 ParaPanel(title="Tile Plane")
   div Dimensions
-  InputXY(v-model="state.dimensions" :labels="['Width', 'Height']")
+  InputXY(v-model="dimensions" :labels="['Width', 'Height']")
 
   div Position
-  InputXYZ(v-model="state.position")
+  InputXYZ(v-model="position")
 
+slot(:mesh="mesh")
 //- slot(v-if="ready" :mesh="mesh")
-slot(:mesh="mesh" :updated="updated")
+//- slot(:mesh="mesh" :updated="updated")
 </template>
 
 <script lang="ts" setup>
 import { useScene, createOutlinedMesh, disposeMesh } from "@depth/canvas"
+import { useTimeout } from "@vueuse/core"
 import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
 import { Material } from "three/src/materials/Material"
 import { Mesh } from "three/src/objects/Mesh"
+import { provide } from "vue"
 import { useCameraFit } from "~/composables/useCameraFit"
 
 const props = defineProps<{
-  width: number
-  height: number
   dimensions?: [number, number]
   material?: Material
   position?: PositionTuple
 }>()
 
-const state = reactive({
-  width: props.width,
-  height: props.height,
-  position: props.position ?? [0, 0, 0],
-  dimensions: props.dimensions ?? [1, 1],
-})
+const position = reactive(props.position ?? [0, 0, 0])
+const dimensions = reactive(props.dimensions ?? [1, 1])
+
+provide("position", position)
+provide("dimensions", dimensions)
+
+// const state = reactive({
+//   // position: props.position ?? [0, 0, 0],
+//   dimensions: props.dimensions ?? [1, 1],
+// })
 
 const scene = useScene()
 
@@ -47,18 +52,16 @@ scene.add(mesh)
 useCameraFit().add(mesh)
 
 // const { ready, start } = useTimeout(1000, { controls: true })
-const updated = ref(false)
 
 watchEffect(() => {
-  const helperPlane = new PlaneGeometry(...state.dimensions)
+  const helperPlane = new PlaneGeometry(...dimensions as [number, number])
   mesh.geometry.copy(helperPlane)
   helperPlane.dispose()
 
-  mesh.position.set(...state.position)
+  mesh.position.set(...position as PositionTuple)
   mesh.updateMatrix()
 
   // start()
-  set(updated, !get(updated))
 })
 
 onScopeDispose(() => {

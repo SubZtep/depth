@@ -8,10 +8,13 @@
 import { useScene, createOutlinedMesh, disposeMesh } from "@depth/canvas"
 import { LineSegments } from "three/src/objects/LineSegments"
 import { Mesh } from "three/src/objects/Mesh"
+import { inject } from "vue"
+
+const position = inject<[number, number, number]>("position")
+const dimensions = inject<[number, number]>("dimensions")
 
 const props = defineProps<{
   mesh: Mesh
-  updated?: boolean
 }>()
 
 const scene = useScene()
@@ -27,26 +30,17 @@ const dispose = () => {
 }
 
 const create = () => {
+  dispose()
   outline = createOutlinedMesh(props.mesh.geometry, "yellow")
   outline.rotation.copy(props.mesh.rotation)
   outline.position.copy(props.mesh.position)
   scene.add(outline)
 }
 
-if (props.updated === undefined) {
-  create()
-} else {
-  watch(() => props.updated, () => {
-    dispose()
-    create()
-  }, { immediate: true })
-}
+watch(dimensions!, () => create(), { immediate: true })
+watch(position!, pos => outline?.position.set(...position!), { immediate: true })
 
 onScopeDispose(() => {
   dispose()
-  // console.log("END")
-  // toggleOutline(false)
-  // scene.remove(mesh)
-  // world.removeCollider(groundCollider, true)
 })
 </script>

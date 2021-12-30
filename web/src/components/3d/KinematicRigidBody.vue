@@ -22,16 +22,24 @@ import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
 import { Material } from "three/src/materials/Material"
 import { LineSegments } from "three/src/objects/LineSegments"
 import { Mesh } from "three/src/objects/Mesh"
+import { inject } from "vue"
 import { useCameraFit } from "~/composables/useCameraFit"
 
 const props = defineProps<{
   mesh: Mesh
-  updated?: boolean
+  // updated?: boolean
   // width: number
   // height: number
   // material?: Material
   // position?: PositionTuple
 }>()
+
+const position = inject<[number, number, number]>("position")
+const dimensions = inject<[number, number]>("dimensions")
+
+if (!position || !dimensions) {
+  throw new Error("Missing injects")
+}
 
 // const state = reactive({
 //   width: props.width,
@@ -39,12 +47,12 @@ const props = defineProps<{
 //   position: props.position ?? [0, 0, 0],
 // })
 
-const scene = useScene()
+// const scene = useScene()
 const world = getWorld()
 
 const rigidBodyDesc = new RigidBodyDesc(RigidBodyType.KinematicPositionBased)
 const rigidBody = world.createRigidBody(rigidBodyDesc)
-let groundCollider: Collider
+// let groundCollider: Collider
 let collider: Collider
 
 const dispose = () => {
@@ -52,33 +60,42 @@ const dispose = () => {
     world.removeCollider(collider, false)
   }
 }
+
 const create = () => {
   const meshData = props.mesh.geometry.toJSON()
-  const groundColliderDesc = ColliderDesc.cuboid(meshData.width / 2, 0.1, meshData.height / 2)
-  groundCollider = world.createCollider(groundColliderDesc, rigidBody.handle)
+  const colliderDesc = ColliderDesc.cuboid(meshData.width / 2, 0.1, meshData.height / 2)
+  collider = world.createCollider(colliderDesc, rigidBody.handle)
 
-  rigidBody.setNextKinematicTranslation({ x: props.mesh.position[0], y: props.mesh.position[1] - 0.1, z: props.mesh.position[2] })
-
+  rigidBody.setNextKinematicTranslation({
+    x: props.mesh.position[0],
+    y: props.mesh.position[1],
+    z: props.mesh.position[2],
+  })
+  // rigidBody.setNextKinematicTranslation({ x: props.mesh.position[0], y: props.mesh.position[1] - 0.1, z: props.mesh.position[2] })
 }
 
-watch(() => props.updated, () => {
-  // if (updated) {
-  dispose()
-  create()
-  // }
+// watch(() => props.updated, () => {
+//   // if (updated) {
+//   create()
+//   // }
+// })
+
+watch(dimensions, () => create(), { immediate: true })
+watch(position, () => rigidBody.setNextKinematicTranslation({ x: position[0], y: position[1], z: position[2] }), {
+  immediate: true,
 })
+// create()
 
-watchEffect(() => {
-  console.log("KIN", props.mesh.geometry.toJSON().width)
+// watchEffect(() => {
+//   console.log("KIN", props.mesh.geometry.toJSON().width)
 
-
-  // const groundColliderDesc = ColliderDesc.cuboid(props.mesh.geometry state.width / 2, 0.1, state.height / 2)
-  // groundCollider = world.createCollider(groundColliderDesc, rigidBody.handle)
-  // rigidBody.setNextKinematicTranslation({ x: props.mesh.position[0], y: props.mesh.position[1] - 0.1, z: props.mesh.position[2] })
-})
-
+//   // const groundColliderDesc = ColliderDesc.cuboid(props.mesh.geometry state.width / 2, 0.1, state.height / 2)
+//   // groundCollider = world.createCollider(groundColliderDesc, rigidBody.handle)
+//   // rigidBody.setNextKinematicTranslation({ x: props.mesh.position[0], y: props.mesh.position[1] - 0.1, z: props.mesh.position[2] })
+// })
 
 onScopeDispose(() => {
-  world.removeCollider(groundCollider, false)
+  dispose()
+  world.removeRigidBody(rigidBody)
 })
 </script>
