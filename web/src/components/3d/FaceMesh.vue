@@ -4,6 +4,8 @@ ParaPanel(title="Face Mesh")
   InputXYZ(v-model="state.position" :min="-50" :max="50" :step="0.1")
   div Scale
   InputNumber(v-model.number="state.scale" :min="0" :max="100" :step="0.1")
+
+slot(:mesh="mesh")
 </template>
 
 <script lang="ts" setup>

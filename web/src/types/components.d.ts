@@ -4,6 +4,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BlastBox: typeof import('./../components/3d/BlastBox.vue')['default']
     BlastBoxes: typeof import('./../components/3d/BlastBoxes.vue')['default']
     Debug: typeof import('./../components/ui/Debug.vue')['default']
     DefaultLights: typeof import('./../components/3d/DefaultLights.ts')['default']
@@ -23,10 +24,12 @@ declare module 'vue' {
     InputNumber: typeof import('./../components/panel/InputNumber.vue')['default']
     InputXY: typeof import('./../components/panel/InputXY.vue')['default']
     InputXYZ: typeof import('./../components/panel/InputXYZ.vue')['default']
+    KinematicRigidBody: typeof import('./../components/3d/KinematicRigidBody.vue')['default']
     LeafPlane: typeof import('./../components/3d/LeafPlane.ts')['default']
     Leather5Material: typeof import('./../components/3d/Leather5Material.vue')['default']
     LensFlare: typeof import('./../components/3d/LensFlare.vue')['default']
     MemoryInfo: typeof import('./../components/ui/MemoryInfo.vue')['default']
+    MeshOutline: typeof import('./../components/3d/MeshOutline.vue')['default']
     ParaPanel: typeof import('./../components/panel/ParaPanel.vue')['default']
     SimpleBox: typeof import('./../3d/components/SimpleBox.vue')['default']
     SkyBox: typeof import('./../3d/components/SkyBox.ts')['default']
@@ -35,6 +38,7 @@ declare module 'vue' {
     Tile2Material: typeof import('./../components/3d/Tile2Material.ts')['default']
     TilePlane: typeof import('./../components/3d/TilePlane.vue')['default']
     Title: typeof import('./../components/ui/Title.vue')['default']
+    UseDimensions: typeof import('./../components/3d/UseDimensions.vue')['default']
     UseFace: typeof import('./../components/3d/UseFace.vue')['default']
     VoxelWorld: typeof import('./../components/3d/VoxelWorld.ts')['default']
   }

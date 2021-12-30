@@ -1,20 +1,27 @@
 <template lang="pug">
 Title Face
 
-DirectionalLight3D(:link-camera-position="true")
+//- DirectionalLight3D(:link-camera-position="true")
+BlastBox(:position="[0, 5, 0]")
 
 Tile1Material(v-slot="{ material }")
-  TilePlane(:width="8" :height="8" :material="material")
+  TilePlane(:width="8" :height="8" :dimensions="[8, 8]" :material="material" v-slot="{ mesh, updated }")
+    MeshOutline(:mesh="mesh" :updated="updated")
+    //- KinematicRigidBody(:mesh="mesh" :updated="updated")
+    //- pre .text-white UUU {{mesh}}
 
-Tile1Material(v-slot="{ material }")
-  TilePlane(:width="8" :height="8" :position="[1, 0, 9]" :material="material")
+//- Tile1Material(v-slot="{ material }")
+  TilePlane(:width="8" :height="8" :position="[1, 0, 9]" :material="material" v-slot="{ mesh }")
+    MeshOutline(:mesh="mesh")
 
-component(v-if="state.player" :is="player" v-slot="{ video, streaming }")
-  UseFace(:video="video" :streaming="streaming" v-slot="{ keypoints }")
-    FaceMesh(:keypoints="keypoints" :position="[-5, 5, -1]" :scale="10")
-template(v-else)
-  FaceMaterial(v-slot="{ material }")
-    FaceMesh(:keypoints="FaceKeypoints" :position="[-5, 8.6, 0]" :scale="9" :material="material")
+//- template(v-if="state.player")
+//-   component(:is="player" v-slot="{ video, streaming }")
+//-     UseFace(:video="video" :streaming="streaming" v-slot="{ keypoints }")
+//-       FaceMesh(:keypoints="keypoints" :position="[-5, 5, -1]" :scale="10")
+//- template(v-else)
+//-   FaceMaterial(v-slot="{ material }")
+//-     FaceMesh(:keypoints="FaceKeypoints" :position="[-5, 8.6, 0]" :scale="9" :material="material" v-slot="{ mesh }")
+//-       MeshOutline(:mesh="mesh")
 </template>
 
 <script lang="ts" setup>

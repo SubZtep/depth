@@ -26,6 +26,7 @@ function createWorld(gravity: Vector = { x: 0, y: -9.81, z: 0 }) {
   return world
 }
 
+// TODO: rename to `getPhysicalWorld`
 export function getWorld(singletonName = "PhysicalWorld"): World {
   const { singleton } = useSingleton()
 
