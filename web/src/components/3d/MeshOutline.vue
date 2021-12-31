@@ -1,21 +1,20 @@
 <template lang="pug">
 //- ParaPanel(title="Mesh Outline" @hover="toggleOutline")
-
-//- slot(:mesh="mesh")
+//- .text-white {{position}}, {{ dimensions }}
 </template>
 
 <script lang="ts" setup>
 import { useScene, createOutlinedMesh, disposeMesh } from "@depth/canvas"
 import { LineSegments } from "three/src/objects/LineSegments"
 import { Mesh } from "three/src/objects/Mesh"
-import { inject } from "vue"
-
-const position = inject<[number, number, number]>("position")
-const dimensions = inject<[number, number]>("dimensions")
 
 const props = defineProps<{
+  dimensions: [number, number]
+  position: [number, number, number]
   mesh: Mesh
 }>()
+
+const { position, dimensions } = toRefs(props)
 
 const scene = useScene()
 
@@ -37,8 +36,8 @@ const create = () => {
   scene.add(outline)
 }
 
-watch(dimensions!, () => create(), { immediate: true })
-watch(position!, pos => outline?.position.set(...position!), { immediate: true })
+watch(dimensions, () => create(), { immediate: true, deep: true })
+watch(position, pos => outline?.position.set(...pos), { immediate: true, deep: true })
 
 onScopeDispose(() => {
   dispose()

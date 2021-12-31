@@ -38,7 +38,6 @@ declare module 'vue' {
     Tile2Material: typeof import('./../components/3d/Tile2Material.ts')['default']
     TilePlane: typeof import('./../components/3d/TilePlane.vue')['default']
     Title: typeof import('./../components/ui/Title.vue')['default']
-    UseDimensions: typeof import('./../components/3d/UseDimensions.vue')['default']
     UseFace: typeof import('./../components/3d/UseFace.vue')['default']
     VoxelWorld: typeof import('./../components/3d/VoxelWorld.ts')['default']
   }
