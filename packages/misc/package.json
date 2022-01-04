@@ -13,7 +13,7 @@
     "three": "^0.136.0"
   },
   "devDependencies": {
-    "@types/three": "^0.135.0",
-    "@vueuse/core": "^7.4.1"
+    "@types/three": "^0.136.0",
+    "@vueuse/core": "^7.5.1"
   }
 }

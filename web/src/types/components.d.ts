@@ -6,9 +6,11 @@ declare module 'vue' {
   export interface GlobalComponents {
     BlastBox: typeof import('./../components/3d/BlastBox.vue')['default']
     BlastBoxes: typeof import('./../components/3d/BlastBoxes.vue')['default']
+    CameraFit: typeof import('./../components/3d/CameraFit.vue')['default']
     Debug: typeof import('./../components/ui/Debug.vue')['default']
     DefaultLights: typeof import('./../components/3d/DefaultLights.ts')['default']
     DirectionalLight3D: typeof import('./../components/3d/DirectionalLight3D.vue')['default']
+    EntityPanel: typeof import('./../components/panel/EntityPanel.vue')['default']
     FaceMaterial: typeof import('./../components/3d/FaceMaterial.vue')['default']
     FaceMesh: typeof import('./../components/3d/FaceMesh.vue')['default']
     FloatingText: typeof import('./../components/ui/FloatingText.vue')['default']
@@ -38,6 +40,7 @@ declare module 'vue' {
     Tile2Material: typeof import('./../components/3d/Tile2Material.ts')['default']
     TilePlane: typeof import('./../components/3d/TilePlane.vue')['default']
     Title: typeof import('./../components/ui/Title.vue')['default']
+    TransitionExpand: typeof import('./../components/ui/TransitionExpand.vue')['default']
     UseFace: typeof import('./../components/3d/UseFace.vue')['default']
     VoxelWorld: typeof import('./../components/3d/VoxelWorld.ts')['default']
   }

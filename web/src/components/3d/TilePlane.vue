@@ -3,10 +3,7 @@ ParaPanel(title="Tile Plane" @hover="v => panelHovered = v")
   div Dimensions
   InputXY(v-model="dimensions" :labels="['Width', 'Height']")
 
-  div Position
-  InputXYZ(v-model="position")
-
-slot(:mesh="mesh" :position="position" :dimensions="dimensions" :panel-hovered="panelHovered")
+slot(:mesh="mesh" :dimensions="dimensions" :panel-hovered="panelHovered")
 </template>
 
 <script lang="ts" setup>
@@ -25,7 +22,6 @@ const props = defineProps<{
 const panelHovered = ref(false)
 
 const dimensions = ref(props.dimensions ?? [0, 0])
-const position = ref(props.position ?? [0, 0, 0])
 
 const scene = useScene()
 
@@ -45,7 +41,7 @@ watchEffect(() => {
   mesh.geometry.copy(helperPlane)
   helperPlane.dispose()
 
-  mesh.position.set(...(position.value as PositionTuple))
+  mesh.position.set(...props.position)
   mesh.updateMatrix()
 })
 

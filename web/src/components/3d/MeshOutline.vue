@@ -1,6 +1,6 @@
 <template lang="pug">
 //- ParaPanel(title="Mesh Outline" @hover="toggleOutline")
-//- .text-white {{position}}, {{ dimensions }}
+.text-white {{scale}}
 </template>
 
 <script lang="ts" setup>
@@ -9,12 +9,14 @@ import { LineSegments } from "three/src/objects/LineSegments"
 import { Mesh } from "three/src/objects/Mesh"
 
 const props = defineProps<{
-  dimensions: [number, number]
+  // dimensions: [number, number]
+  scale: number
   position: [number, number, number]
   mesh: Mesh
 }>()
 
-const { position, dimensions } = toRefs(props)
+// const { position, dimensions, scale } = toRefs(props)
+const { position, scale } = toRefs(props)
 
 const scene = useScene()
 
@@ -36,8 +38,14 @@ const create = () => {
   scene.add(outline)
 }
 
-watch(dimensions, () => create(), { immediate: true, deep: true })
+create()
+
+// watch(dimensions, () => create(), { immediate: true, deep: true })
 watch(position, pos => outline?.position.set(...pos), { immediate: true, deep: true })
+watch(scale, () => {
+  void outline?.scale.copy(props.mesh.scale)
+  console.log(props.mesh.scale)
+}, { immediate: true })
 
 onScopeDispose(() => {
   dispose()
