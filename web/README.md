@@ -1,5 +1,17 @@
 # `web`
 
+## Setup
+
+Create `/web/.env` file with the following content:
+
+```sh
+VITE_SUPABASE_THROTTLE=250
+VITE_SUPABASE_URL="SECRET_URL"
+VITE_SUPABASE_KEY="SECRET_KEY"
+
+VITE_WSS="SECRETLESS_URL"
+```
+
 ## Pages
 
 | Name                                              | Description                           |

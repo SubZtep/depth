@@ -95,6 +95,7 @@ export default defineConfig(({ command }) => {
       fs: {
         allow: [".."],
       },
+      // https: true,
     },
   }
 })
