@@ -37,3 +37,16 @@ interface MetaSnail {
   created_at: string
   updated_at: string
 }
+
+interface MetaLogin {
+  cmd: "login"
+  uuid: string
+}
+
+interface MetaUsers {
+  cmd: "users"
+  count: number
+}
+
+type MessageToMeta = MetaLogin
+type MessageFromMeta = MetaUsers

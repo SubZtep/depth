@@ -20,6 +20,7 @@ declare module 'vue' {
     ImagePlane: typeof import('./../components/3d/ImagePlane.ts')['default']
     InfiniteFloor: typeof import('./../components/3d/InfiniteFloor.ts')['default']
     InfiniteGrid: typeof import('./../components/3d/InfiniteGrid.ts')['default']
+    InfiniteHalu: typeof import('./../components/3d/InfiniteHalu.ts')['default']
     InfinitePlane: typeof import('./../components/3d/InfinitePlane.ts')['default']
     InputBoolean: typeof import('./../components/panel/InputBoolean.vue')['default']
     InputColor: typeof import('./../components/panel/InputColor.vue')['default']
@@ -35,7 +36,6 @@ declare module 'vue' {
     ParaPanel: typeof import('./../components/panel/ParaPanel.vue')['default']
     SimpleBox: typeof import('./../3d/components/SimpleBox.vue')['default']
     SkyBox: typeof import('./../3d/components/SkyBox.ts')['default']
-    SocketTest: typeof import('./../components/_server/SocketTest.vue')['default']
     StickmanPose: typeof import('./../components/_poser/StickmanPose.vue')['default']
     ThreeGlobe: typeof import('./../components/3d/ThreeGlobe.vue')['default']
     Tile1Material: typeof import('./../components/3d/Tile1Material.vue')['default']
@@ -46,6 +46,7 @@ declare module 'vue' {
     UseFace: typeof import('./../components/_poser/UseFace.vue')['default']
     UsePose: typeof import('./../components/_poser/UsePose.vue')['default']
     VoxelWorld: typeof import('./../components/3d/VoxelWorld.ts')['default']
+    WebSocketPoser: typeof import('./../components/_server/WebSocketPoser.vue')['default']
   }
 }
 

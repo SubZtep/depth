@@ -1,7 +1,7 @@
 <template lang="pug">
 Title Pose
 
-SocketTest
+WebSocketPoser
 
 component(v-if="state.input" :is="inputComponent" :selfie="state.selfie" v-slot="{ video, streaming }")
   EntityPanel(title="First Panel" :position="[0, 0, 0]" :scale="1" v-slot="{ hover, position, scale }")

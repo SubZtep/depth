@@ -56,6 +56,13 @@ Pictograms across the repository:
 - [ ] https://hofk.de/main/discourse.threejs/2019/LogarithmicShell/LogarithmicShell.html
 - [ ] https://davideprati.com/demo/grass/
 
+#### Grass
+- [ ] https://discourse.threejs.org/t/grass-shader-confusion/2521/4
+- [ ] https://stackoverflow.com/questions/49951177/three-js-get-local-position-of-vertex-in-shader-is-that-even-what-i-need
+- [ ] https://davideprati.com/demo/grass/
+- [ ] https://codepen.io/al-ro/pen/GRJzYQK
+- [ ] https://aerotwist.com/tutorials/an-introduction-to-shaders-part-2/
+
 ### Optimizations
 
 - [x] [Convert textures to WebP.](https://developers.google.com/speed/webp/docs/using)
