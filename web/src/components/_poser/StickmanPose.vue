@@ -1,7 +1,9 @@
 <template lang="pug">
 ParaPanel(title="Stickman")
+  div Stick color
+  InputColor(v-model="state.color")
 
-slot
+slot(:color="state.color")
 </template>
 
 <script lang="ts" setup>
@@ -23,11 +25,12 @@ const props = defineProps<{
   scale: number
   position: [number, number, number]
   keypoints: Keypoint[]
+  selfie: boolean
 }>()
 
 const scene = useScene()
 
-const { normalized, scale, position, keypoints } = toRefs(props)
+const { normalized, scale, position, keypoints, selfie } = toRefs(props)
 
 const BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS: [number, number][] = [
   [0, 1],
@@ -68,6 +71,10 @@ const BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS: [number, number][] = [
   [30, 32],
 ]
 
+const state = reactive({
+  color: "#e3dac9"
+})
+
 const sphereGeometry = new SphereGeometry(0.03, 8, 6)
 const whiteMaterial = new MeshPhongMaterial({ color: 0x69ffff, flatShading: true })
 const boneMaterial = new LineBasicMaterial({ color: 0xe3dac9 })
@@ -93,18 +100,21 @@ for (const pairs of BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS) {
   root.add(line)
 }
 
-const pKeypoint = ({ x, y, z }: Keypoint, normalized: boolean) => {
+const pKeypoint = ({ x, y, z }: Keypoint, normalized: boolean, selfie: boolean) => {
   if (normalized) {
+    if (selfie) {
+      x = 1 - x
+    }
     y = 1 - y
   }
   return { x, y, z } as Vector3
 }
 
 watch(
-  [keypoints, normalized],
-  ([newKeypoints, newNormalized]) => {
+  [keypoints, normalized, selfie],
+  ([newKeypoints, newNormalized, newSelfie]) => {
     for (const [i, keypoint] of newKeypoints.entries()) {
-      const kp = pKeypoint(keypoint, newNormalized)
+      const kp = pKeypoint(keypoint, newNormalized, newSelfie)
       joints[i].position.set(kp.x, kp.y, kp.z)
     }
 
@@ -112,8 +122,8 @@ watch(
       lines
         .get(`${pairs[0]}-${pairs[1]}`)!
         .geometry.setFromPoints([
-          pKeypoint(newKeypoints[pairs[0]], newNormalized),
-          pKeypoint(newKeypoints[pairs[1]], newNormalized),
+          pKeypoint(newKeypoints[pairs[0]], newNormalized, newSelfie),
+          pKeypoint(newKeypoints[pairs[1]], newNormalized, newSelfie),
         ])
     }
   },
@@ -135,6 +145,10 @@ watch(
   },
   { immediate: true, deep: true }
 )
+
+watchEffect(() => {
+  boneMaterial.color.set(state.color)
+})
 
 onScopeDispose(() => {
   scene.remove(root)

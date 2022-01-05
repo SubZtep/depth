@@ -15,14 +15,14 @@ import { useCameraFit } from "~/composables/useCameraFit"
 
 const props = defineProps<{
   scale?: number
-  dimensions: [number, number]
+  dimensions?: [number, number]
   position: PositionTuple
   material?: Material
 }>()
 
 const panelHovered = ref(false)
 
-const dimensions = ref(props.dimensions ?? [0, 0])
+const dimensions = ref(props.dimensions ?? [1, 1])
 
 const scene = useScene()
 
@@ -37,15 +37,18 @@ scene.add(mesh)
 
 useCameraFit().add(mesh)
 
+watch(
+  dimensions,
+  newDimensions => {
+    const helperPlane = new PlaneGeometry(...newDimensions)
+    mesh.geometry.copy(helperPlane)
+    helperPlane.dispose()
+  },
+  { immediate: true, deep: true }
+)
+
 watchEffect(() => {
-  const helperPlane = new PlaneGeometry(...(dimensions.value as [number, number]))
-  mesh.geometry.copy(helperPlane)
-  helperPlane.dispose()
-
-  if (props.scale) {
-    mesh.scale.set(props.scale, props.scale, props.scale)
-  }
-
+  mesh.scale.setScalar(props.scale ?? 1)
   mesh.position.set(...props.position)
   mesh.updateMatrix()
 })

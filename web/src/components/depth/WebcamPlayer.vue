@@ -1,6 +1,7 @@
 <template lang="pug">
 div(:class="$style.frame" v-visible="state.showVideoTag" ref="frame")
-  video.flip-x(
+  video(
+    :class="{ 'flip-x': !!props.selfie }"
     ref="video"
     v-visible="state.showVideoTag"
     poster="/textures/no-video.png"
@@ -24,6 +25,10 @@ const state = reactive({
   width: 640,
   height: 480,
 })
+
+const props = defineProps<{
+  selfie?: boolean
+}>()
 
 const { videoInputs } = useDevicesList({ requestPermissions: true, constraints: { audio: false, video: true } })
 const cameras = computed(() =>

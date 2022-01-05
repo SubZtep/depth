@@ -32,10 +32,12 @@ slot(:keypoints="keypoints" :normalized="state.normalized")
 
 <script lang="ts" setup>
 import { usePose } from "@depth/poser"
+import PoseKeypoints from "~/3d/pose.json"
 
 const props = defineProps<{
   video: HTMLVideoElement
   streaming: boolean
+  selfie?: boolean
 }>()
 
 const { video, streaming } = toRefs(props)
@@ -47,14 +49,12 @@ const state = reactive({
 
 const throttle = toRef(state, "throttle")
 
-const keypoints = ref([] as { x: number; y: number; z: number }[])
+const keypoints = ref(PoseKeypoints)
 
 const options = reactive({
-  selfieMode: true,
+  selfieMode: !!props.selfie,
   modelComplexity: 2 as 0 | 1 | 2,
   smoothLandmarks: true,
-  enableSegmentation: false,
-  smoothSegmentation: false,
   minDetectionConfidence: 0.5,
   minTrackingConfidence: 0.5,
 })
@@ -66,7 +66,7 @@ usePose({
   throttle,
   handler: result => {
     if (!result) return
-    const landmarks = state.normalized ? result.poseLandmarks : result.poseWorldLandmarks
+    const landmarks = state.normalized ? result.poseWorldLandmarks : result.poseLandmarks
     if (!landmarks || landmarks.length === 0) return
     set(keypoints, landmarks)
   },

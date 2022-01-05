@@ -22,10 +22,12 @@ interface PoseOptions {
 }
 
 const defaultOptions: Options = {
-  selfieMode: true,
+  // selfieMode: true,
   // enableFaceGeometry: false,
   // maxNumFaces: 1,
   // refineLandmarks: false,
+  enableSegmentation: false,
+  smoothSegmentation: false,
   minDetectionConfidence: 0.5,
   minTrackingConfidence: 0.5,
 }

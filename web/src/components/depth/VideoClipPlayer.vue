@@ -1,7 +1,7 @@
 <template lang="pug">
 div(:class="$style.frame" v-visible="state.showVideoTag" ref="frame")
-  //- video.flip-x(
   video(
+    :class="{ 'flip-x': !!props.selfie }"
     ref="video"
     v-visible="state.showVideoTag"
     poster="/textures/no-video.png"
@@ -27,6 +27,10 @@ const clips = [
   "/videos/extended_leg_pistol_squats.mp4",
   "/videos/yoga2.webm",
 ]
+
+const props = defineProps<{
+  selfie?: boolean
+}>()
 
 const state = reactive({
   showVideoTag: false,

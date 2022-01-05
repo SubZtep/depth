@@ -55,7 +55,7 @@ const entity = reactive({
 })
 provide("entity", entity)
 
-const open = ref(false)
+const open = ref(true)
 </script>
 
 <style module>

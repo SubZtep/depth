@@ -72,7 +72,7 @@ const routes: RouteRecordRaw[] = [
     name: "pose",
     component: () => import("./pages/PosePage.vue"),
     meta: {
-      position: [0, camHeight, 6],
+      position: [0, camHeight, 4],
       lookAt: [0, 1, 0],
       order: 8,
     },

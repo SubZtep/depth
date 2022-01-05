@@ -2,7 +2,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 350px;
+  width: 450px;
   padding: 4px;
   border-radius: 2px;
   /* height: 100vh; */
@@ -13,8 +13,10 @@
   .form {
     padding: 4px 8px;
     display: grid;
+    /* grid-template-columns: 1fr; */
     grid-template-columns: 1fr 2fr;
     @apply font-mono text-sm;
-    row-gap: 4px;
+    row-gap: 6px;
+
   }
 }

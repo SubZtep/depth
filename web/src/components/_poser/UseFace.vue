@@ -1,25 +1,25 @@
 <template lang="pug">
 ParaPanel(title="Face Detection")
-  div Camera near
-  InputNumber(v-model="options.cameraNear")
+  //- div Camera near
+  //- InputNumber(v-model="options.cameraNear")
 
-  div Camera far
-  InputNumber(v-model="options.cameraFar")
+  //- div Camera far
+  //- InputNumber(v-model="options.cameraFar")
 
-  div Camera vertical fov degrees
-  InputNumber(v-model="options.cameraVerticalFovDegrees")
+  //- div Camera vertical fov degrees
+  //- InputNumber(v-model="options.cameraVerticalFovDegrees")
 
   //- div Enable face geometry
   //- InputBoolean(v-model="options.enableFaceGeometry")
 
-  div Selfie Mode
-  InputBoolean(v-model="options.selfieMode")
+  //- div Selfie Mode
+  //- InputBoolean(v-model="options.selfieMode")
 
-  div Max num faces
-  InputNumber(v-model="options.maxNumFaces" :min="1" :max="4")
+  //- div Max num faces
+  //- InputNumber(v-model="options.maxNumFaces" :min="1" :max="4")
 
-  div Refine landmarks
-  InputBoolean(v-model="options.refineLandmarks")
+  //- div Refine landmarks
+  //- InputBoolean(v-model="options.refineLandmarks")
 
   div Min detection confidence
   InputNumber(v-model="options.minDetectionConfidence" :min="0" :max="1" :step="0.01")
@@ -32,20 +32,22 @@ slot(:keypoints="keypoints")
 
 <script lang="ts" setup>
 import { useFace } from "@depth/poser"
+import FaceKeypoints from "~/3d/face.json"
 
 const props = defineProps<{
   video: HTMLVideoElement
   streaming: boolean
+  selfie?: boolean
 }>()
 
-const keypoints = ref([] as { x: number; y: number; z: number }[])
+const keypoints = ref(FaceKeypoints)
 
 const options = reactive({
-  cameraNear: 0,
-  cameraFar: 1,
-  cameraVerticalFovDegrees: 0,
+  // cameraNear: 0,
+  // cameraFar: 1,
+  // cameraVerticalFovDegrees: 0,
   // enableFaceGeometry: false,
-  selfieMode: false,
+  selfieMode: !!props.selfie,
   maxNumFaces: 1,
   refineLandmarks: true,
   minDetectionConfidence: 0.5,
@@ -56,9 +58,7 @@ useFace({
   streaming: toRef(props, "streaming"),
   video: toRef(props, "video"),
   options,
-  // options: { refineLandmarks: true, selfieMode: false },
   handler: result => {
-    // console.log(result)
     if (!result || result.multiFaceLandmarks.length === 0) return
 
     set(keypoints, result.multiFaceLandmarks[0])
