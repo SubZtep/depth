@@ -22,7 +22,13 @@ export default defineConfig(({ command }) => {
       VitePWA(),
       Components({
         dts: "src/types/components.d.ts",
-        dirs: ["src/components/ui", "src/components/3d", "src/3d/components", "src/components/panel"],
+        dirs: [
+          "src/components/ui",
+          "src/components/3d",
+          "src/3d/components",
+          "src/components/panel",
+          "src/components/_poser",
+        ],
         extensions: ["vue", "ts"],
         deep: false,
       }),

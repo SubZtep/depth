@@ -1,6 +1,6 @@
 <template lang="pug">
 //- ParaPanel(title="Mesh Outline" @hover="toggleOutline")
-.text-white {{scale}}
+//- .text-white  {{scale}}
 </template>
 
 <script lang="ts" setup>
@@ -44,7 +44,7 @@ create()
 watch(position, pos => outline?.position.set(...pos), { immediate: true, deep: true })
 watch(scale, () => {
   void outline?.scale.copy(props.mesh.scale)
-  console.log(props.mesh.scale)
+  // console.log(props.mesh.scale)
 }, { immediate: true })
 
 onScopeDispose(() => {

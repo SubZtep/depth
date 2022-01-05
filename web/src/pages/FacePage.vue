@@ -10,7 +10,7 @@ EntityPanel(title="First Floor Panel" :position="[0, 0, 0]" v-slot="{ hover, pos
       MeshOutline(v-if="hover" :mesh="mesh" :position="position" :scale="1" :dimensions="dimensions")
       KinematicRigidBody(:mesh="mesh" :position="position" :dimensions="dimensions")
 
-EntityPanel(title="Second Floor Panel" :position="[1, 0, 9]" v-slot="{ hover, position }")
+//- EntityPanel(title="Second Floor Panel" :position="[1, 0, 9]" v-slot="{ hover, position }")
   Tile1Material(v-slot="{ material }")
     TilePlane(:dimensions="[8, 8]" :position="position" :material="material" v-slot="{ mesh, dimensions }")
       MeshOutline(v-if="hover" :mesh="mesh" :position="position" :scale="1" :dimensions="dimensions")
@@ -32,12 +32,12 @@ EntityPanel(v-else title="Empty Face" :position="[-5, 5, 0]" :scale="1" v-slot="
 </template>
 
 <script lang="ts" setup>
-import FaceMesh from "~/components/3d/FaceMesh.vue"
+import FaceMesh from "~/components/_poser/FaceMesh.vue"
 import { useEnvironmentStore } from "~/stores/environment"
 import VideoClipPlayer from "~/components/depth/VideoClipPlayer.vue"
 import WebcamPlayer from "~/components/depth/WebcamPlayer.vue"
 import FaceKeypoints from "~/3d/face.json"
-import EntityPanel from "~/components/panel/EntityPanel.vue"
+// import EntityPanel from "~/components/panel/EntityPanel.vue"
 
 useEnvironmentStore().$patch({
   skybox: 15,
@@ -46,7 +46,7 @@ useEnvironmentStore().$patch({
 const state = reactive({
   throttle: 0,
   lerp: false,
-  player: "",
+  player: "Video Clip",
 })
 
 const player = shallowRef(VideoClipPlayer)

@@ -1,6 +1,7 @@
 <template lang="pug">
 div(:class="$style.frame" v-visible="state.showVideoTag" ref="frame")
-  video.flip-x(
+  //- video.flip-x(
+  video(
     ref="video"
     v-visible="state.showVideoTag"
     poster="/textures/no-video.png"
@@ -23,6 +24,8 @@ const clips = [
   "/clips/MellowFewLacewing-mobile.mp4",
   "/clips/WeirdShockedAtlanticsharpnosepuffer-mobile.mp4",
   "/clips/WindySecondaryLark-mobile.mp4",
+  "/videos/extended_leg_pistol_squats.mp4",
+  "/videos/yoga2.webm",
 ]
 
 const state = reactive({
@@ -53,6 +56,14 @@ watch(
 useEventListener(video, "loadedmetadata", () => {
   state.width = video.value.videoWidth
   state.height = video.value.videoHeight
+  streaming.value = true
+})
+
+useEventListener(video, "seeking", () => {
+  streaming.value = false
+})
+
+useEventListener(video, "seeked", () => {
   streaming.value = true
 })
 

@@ -14,6 +14,7 @@ import { Mesh } from "three/src/objects/Mesh"
 import { useCameraFit } from "~/composables/useCameraFit"
 
 const props = defineProps<{
+  scale?: number
   dimensions: [number, number]
   position: PositionTuple
   material?: Material
@@ -40,6 +41,10 @@ watchEffect(() => {
   const helperPlane = new PlaneGeometry(...(dimensions.value as [number, number]))
   mesh.geometry.copy(helperPlane)
   helperPlane.dispose()
+
+  if (props.scale) {
+    mesh.scale.set(props.scale, props.scale, props.scale)
+  }
 
   mesh.position.set(...props.position)
   mesh.updateMatrix()

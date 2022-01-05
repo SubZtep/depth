@@ -25,8 +25,12 @@ import { LoadingManager } from "three/src/loaders/LoadingManager"
 import { TextureLoader } from "three/src/loaders/TextureLoader"
 import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
 
+const props = defineProps<{
+  repeat?: [number, number],
+}>()
+
 const state = reactive({
-  repeat: [2, 2] as [number, number],
+  repeat: props.repeat ?? [2, 2] as [number, number],
   shininess: 15,
   bumpScale: 15,
 })

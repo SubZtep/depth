@@ -1,4 +1,4 @@
-import type { Ref } from "vue"
+import { Ref, watch } from "vue"
 import type { Options, FaceMeshConfig, ResultsListener } from "@mediapipe/face_mesh"
 import type { MaybeRef } from "@vueuse/core"
 import { FaceMesh } from "@mediapipe/face_mesh"
@@ -40,8 +40,13 @@ const config: FaceMeshConfig = {
 
 export function useFace({ video, handler, streaming, throttle, options }: FaceMeshOptions) {
   const faceMesh: FaceMesh = isDev ? new FaceMesh(config) : new globalThis.FaceMesh(config)
-  faceMesh.setOptions({ ...defaultOptions, ...options })
+  // faceMesh.setOptions({ ...defaultOptions, ...options })
   faceMesh.onResults(handler)
+
+  watch(() => options, newOptions => {
+    // console.log("NEW", newOptions)
+    faceMesh.setOptions({ ...defaultOptions, ...newOptions })
+  }, { immediate: true, deep: true })
 
   return useBaseMediaPipe({ solution: faceMesh, video, streaming, throttle })
 }

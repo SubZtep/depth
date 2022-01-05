@@ -6,9 +6,10 @@ import { loop3D, exec3D } from "@depth/canvas"
 import type { Holistic } from "@mediapipe/holistic"
 import type { FaceMesh } from "@mediapipe/face_mesh"
 import type { Hands } from "@mediapipe/hands"
+import type { Pose } from "@mediapipe/pose"
 
 interface BaseOptions {
-  solution: Holistic | FaceMesh | Hands
+  solution: Holistic | FaceMesh | Hands | Pose
   video?: MaybeRef<HTMLVideoElement>
   streaming: Ref<boolean>
   throttle?: MaybeRef<number>
