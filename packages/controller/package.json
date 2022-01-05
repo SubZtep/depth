@@ -17,6 +17,6 @@
     "vue": "^3.2.20"
   },
   "devDependencies": {
-    "@types/three": "^0.136.0"
+    "@types/three": "^0.136.1"
   }
 }

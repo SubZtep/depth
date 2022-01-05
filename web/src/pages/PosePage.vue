@@ -1,6 +1,8 @@
 <template lang="pug">
 Title Pose
 
+SocketTest
+
 component(v-if="state.input" :is="inputComponent" :selfie="state.selfie" v-slot="{ video, streaming }")
   EntityPanel(title="First Panel" :position="[0, 0, 0]" :scale="1" v-slot="{ hover, position, scale }")
     Tile1Material(:repeat="[1, 1]" v-slot="{ material }")
@@ -23,7 +25,7 @@ const camera = usePermission("camera")
 const state = reactive({
   input: "" as "" | "camera" | "clip",
   selfie: true,
-  detect: "pose" as "pose" | "face",
+  detect: "face" as "pose" | "face",
 })
 
 const stop = watch(camera, permission => {

@@ -35,6 +35,7 @@ declare module 'vue' {
     ParaPanel: typeof import('./../components/panel/ParaPanel.vue')['default']
     SimpleBox: typeof import('./../3d/components/SimpleBox.vue')['default']
     SkyBox: typeof import('./../3d/components/SkyBox.ts')['default']
+    SocketTest: typeof import('./../components/_server/SocketTest.vue')['default']
     StickmanPose: typeof import('./../components/_poser/StickmanPose.vue')['default']
     ThreeGlobe: typeof import('./../components/3d/ThreeGlobe.vue')['default']
     Tile1Material: typeof import('./../components/3d/Tile1Material.vue')['default']

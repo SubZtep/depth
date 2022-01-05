@@ -28,6 +28,7 @@ export default defineConfig(({ command }) => {
           "src/3d/components",
           "src/components/panel",
           "src/components/_poser",
+          "src/components/_server",
         ],
         extensions: ["vue", "ts"],
         deep: false,

@@ -6,6 +6,8 @@ interface ImportMeta {
     VITE_SUPABASE_URL: string
     /** Supabase API Key */
     VITE_SUPABASE_KEY: string
+    /** Socket.io connect url, eg. http://localhost:1337 */
+    VITE_SOCKETIO: string
   }
 }
 

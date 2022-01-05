@@ -15,7 +15,7 @@
     "@mediapipe/hands": "^0.4.1635986972",
     "@mediapipe/holistic": "^0.5.1635989137",
     "@mediapipe/pose": "^0.5.1635988162",
-    "@vueuse/core": "^7.5.1",
+    "@vueuse/core": "^7.5.3",
     "vue": "^3.2.20"
   }
 }
