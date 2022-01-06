@@ -70,3 +70,4 @@ app
   })
   .use(StatsPlugin, { mosaic: true, visible: showDebug })
   .mount("#hud")
+

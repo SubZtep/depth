@@ -24,6 +24,7 @@ declare module 'vue' {
     ImgMemfs: typeof import('./../components/video/ImgMemfs.ts')['default']
     InfiniteFloor: typeof import('./../components/3d/InfiniteFloor.ts')['default']
     InfiniteGrid: typeof import('./../components/3d/InfiniteGrid.ts')['default']
+    InfiniteHalu: typeof import('./../components/3d/InfiniteHalu.ts')['default']
     InfinitePlane: typeof import('./../components/3d/InfinitePlane.ts')['default']
     InputBoolean: typeof import('./../components/panel/InputBoolean.vue')['default']
     InputColor: typeof import('./../components/panel/InputColor.vue')['default']

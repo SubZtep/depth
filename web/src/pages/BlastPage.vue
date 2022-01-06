@@ -4,17 +4,17 @@ Title Blast
 LensFlare(:position="[200, 120, 35]")
 InfinitePlane(:color="0x000900")
 
-UseDirectionalLight(:link-camera-position="true")
+DirectionalLight(:link-camera-position="true")
 
 Tile1Material(v-slot="{ material }")
-  TilePlane(:width="8" :height="8" :position="[4, 0, 0]" :material="material")
+  TilePlane(:dimensions="[8, 8]" :position="[4, 0, 0]" :material="material")
 
 Tile2Material(v-slot="{ material }")
-  TilePlane(:width="8" :height="8" :position="[-4, 0, 0]" :material="material")
+  TilePlane(:dimensions="[8, 8]" :position="[-4, 0, 0]" :material="material")
 ThreeGlobe(:scale="0.01" :position="[-4, 2, 0]" @loaded="globeLoaded")
 
 GrassMaterial(v-slot="{ material }")
-  TilePlane(:width="8" :height="8" :position="[4, 0, -8]" :material="material")
+  TilePlane(:dimensions="[8, 8]" :position="[4, 0, -8]" :material="material")
 
 BlastBoxes(:pieces="[3, 3, 3]" :position="[4, 0.5, 0]" @loaded="boxesLoaded")
 </template>
@@ -31,7 +31,6 @@ import { getWorld } from "@depth/physics"
 import { loop3D, useScene, createOutlinedMesh } from "@depth/canvas"
 import { HemisphereLight } from "three/src/lights/HemisphereLight"
 import LensFlare from "~/components/3d/LensFlare.vue"
-import { DirectionalLight } from "three/src/lights/DirectionalLight"
 import ThreeGlobe from "~/components/3d/ThreeGlobe.vue"
 import { RigidBody } from "@dimforge/rapier3d-compat"
 import { BoxGeometry } from "three/src/geometries/BoxGeometry"

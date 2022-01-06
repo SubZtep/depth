@@ -7,6 +7,7 @@ declare global {
   const defineComponent: typeof import('vue')['defineComponent']
   const get: typeof import('@vueuse/core')['get']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
+  const inject: typeof import('vue')['inject']
   const Object3D: typeof import('three/src/core/Object3D')['Object3D']
   const onBeforeUnmount: typeof import('vue')['onBeforeUnmount']
   const onMounted: typeof import('vue')['onMounted']

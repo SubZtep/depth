@@ -7,7 +7,7 @@ EntityPanel(title="Default lights")
   AmbientLight(color="#ffffff" :intensity="1")
   DirectionalLight(color="#ffffff" :intensity="0.8" :position="[8, 10, 2]" :target="[0, 2, 0]")
 
-MemoryInfo(v-if="showDebug")
+MemoryInfo(v-if="edit")
 
 router-view(v-slot="{ Component }")
   component(:is="Component")
@@ -35,7 +35,14 @@ onMounted(() => {
 
 const environment = useEnvironmentStore()
 const preferences = usePreferencesStore()
-const { showDebug } = storeToRefs(preferences)
+// const { showDebug } = storeToRefs(preferences)
 
+const edit = inject("edit")
+const panel = document.querySelector("#panel") as HTMLDivElement
+const stats = document.querySelector(".Stats") as HTMLDivElement
+watchEffect(() => {
+  panel.style.display = edit.value ? "block" : "none"
+  stats.style.display = edit.value ? "block" : "none"
+})
 // useSystemRequirements()
 </script>

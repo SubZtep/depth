@@ -9,4 +9,12 @@ Suspense
 <script lang="ts" setup>
 import ThreeCanvas from "~/App/ThreeCanvas.vue"
 import LoadingScreen from "~/App/LoadingScreen.vue"
+import { provide } from "vue"
+
+// temporary global edit switch
+const edit = ref(true)
+provide("edit", edit)
+document.querySelector(".dg.main.depth > .close-button")?.addEventListener("click", () => {
+  edit.value = !edit.value
+})
 </script>

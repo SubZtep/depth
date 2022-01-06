@@ -14,7 +14,7 @@ export const usePreferencesStore: StoreDefinition = defineStore("preferences", {
     keyboardDown: useStorage("preferences.keyboardDown", "ArrowDown"),
     keyboardLeft: useStorage("preferences.keyboardLeft", "ArrowLeft"),
     keyboardAction: useStorage("preferences.keyboardAction", "ControlLeft"),
-    showDebug: true, // useStorage("preferences.showDebug", true),
+    showDebug: true, // useStorage("preferences.showDebug", true), // TODO: torolni
     guiScale: 1.4, // useStorage("preferences.guiScale", 1, undefined, guiScaleOptions),
     horizontalLock: true, // useStorage("preferences.horizontalLock", true),
     ambientColor: 0xffff00, // useStorage("preferences.ambientColor", 0xbb_bb_bb),

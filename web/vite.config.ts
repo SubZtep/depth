@@ -43,6 +43,7 @@ export default defineConfig(({ command }) => {
           {
             vue: [
               "ref",
+              "inject",
               "shallowRef",
               "toRef",
               "toRefs",
