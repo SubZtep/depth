@@ -1,15 +1,8 @@
 <template lang="pug">
 Teleport(to="#panel")
   div(:entity-id="entity.id" :class="$style.panel" @mouseenter="entity.hover = true" @mouseleave="entity.hover = false")
-    .flex.gap-1.items-center.px-2.py-1.bg-true-gray-800
-      .w-3.perspect-origin-top-right.transform.duration-150(:class="{ 'rotate-90': open }")
-        i.fa-solid.fa-caret-right
-      h3(@click="open = !open") {{props.title}}
-      //-button(@click="entity.save = !entity.save" title="Save Properties")
-        span(v-if="entity.save")
-          i.fa-duotone.fa-floppy-disk
-        span(v-else)
-          i.fa-duotone.fa-floppy-disk-circle-xmark
+
+    PanelHeader.bg-true-gray-800(:title="props.title" v-model="open")
 
     .flex.flex-col(v-show="open")
       .form(v-if="hasForm")
@@ -30,8 +23,9 @@ import { provide } from "vue"
 
 const props = defineProps<{
   title: string
-  position?: PositionTuple
+  position?: [number, number, number]
   scale?: number
+  open?: boolean
 }>()
 
 const hasForm = computed(() => props.position !== undefined || props.scale !== undefined)
@@ -48,20 +42,14 @@ const entity = reactive({
 })
 provide("entity", entity)
 
-const open = ref(true)
+const open = ref(props.open ?? true)
 </script>
 
 <style module>
 .panel {
-  @apply bg-black border-red-500 text-green-300;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-width: 2px 2px 1px 2px;
-  h3 {
-    @apply cursor-pointer flex-grow;
-    user-select: none;
-    font-weight: 600;
-    letter-spacing: 1px;
-  }
+  @apply bg-black border-red-800 text-green-300;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-width: 1px 2px 1px 2px;
 }
 </style>

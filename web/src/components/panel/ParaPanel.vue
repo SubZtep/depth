@@ -1,7 +1,7 @@
 <template lang="pug">
 mixin panel
   div(:class="$style.panel" @mouseover="hovered = true" @mouseleave="hovered = false")
-    h3(@click="open = !open") {{props.title}}
+    PanelHeader(:title="props.title" v-model="open" caret-style="regular")
     .form(v-if="open")
       slot
 
@@ -26,7 +26,7 @@ const emit = defineEmits<{
   (e: "hover", hover: boolean): void
 }>()
 
-const open = ref(props.open ?? false)
+const open = ref(props.open ?? true)
 const hovered = ref(false)
 
 watch(hovered, hover => emit("hover", hover), { immediate: true })
@@ -34,13 +34,13 @@ watch(hovered, hover => emit("hover", hover), { immediate: true })
 
 <style module>
 .panel {
-  @apply bg-black border-green-500 text-green-300;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-width: 1px;
-  /* border-width: 2px 2px 1px 2px; */
+  @apply bg-black border-green-900 text-green-300;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-width: 1px 1px 0 1px;
+
   h3 {
-    @apply text-center cursor-pointer p-1 bg-true-gray-800;
+    @apply cursor-pointer px-1 py-0.3;
     font-weight: 600;
     letter-spacing: 1px;
   }

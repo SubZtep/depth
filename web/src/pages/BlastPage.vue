@@ -1,20 +1,26 @@
 <template lang="pug">
 Title Blast
 
-LensFlare(:position="[200, 120, 35]")
-InfinitePlane(:color="0x000900")
+EntityPanel(title="Page gadgets")
+  LensFlare(:position="[200, 120, 35]")
+  InfinitePlane(:color="0x000900")
+  DirectionalLight(:link-camera-position="true")
+  //- ThreeGlobe(:scale="0.01" :position="[-4, 2, 0]" @loaded="globeLoaded")
 
-DirectionalLight(:link-camera-position="true")
+EntityPanel(title="First panel" :position="[4, 0, 0]" :scale="1" v-slot="{ hover, position, scale }")
+  Tile1Material(v-slot="{ material }")
+    TilePlane(:dimensions="[8, 8]" v-bind="{ position, material, scale }" v-slot="{ mesh, dimensions }")
+      PanelCollider(v-bind="{ position, dimensions, scale }")
+      MeshOutline(v-if="hover" v-bind="{ mesh, position, scale, dimensions }")
 
-Tile1Material(v-slot="{ material }")
-  TilePlane(:dimensions="[8, 8]" :position="[4, 0, 0]" :material="material")
+EntityPanel(title="Second panel" :open="false" v-slot="{ hover }")
+  Tile2Material(v-slot="{ material }")
+    TilePlane(:dimensions="[8, 8]" :position="[-4, 0, 0]" :material="material" v-slot="{ mesh, dimensions, position }")
+      MeshOutline(v-if="hover" v-bind="{ mesh, position, dimensions }")
 
-Tile2Material(v-slot="{ material }")
-  TilePlane(:dimensions="[8, 8]" :position="[-4, 0, 0]" :material="material")
-ThreeGlobe(:scale="0.01" :position="[-4, 2, 0]" @loaded="globeLoaded")
-
-GrassMaterial(v-slot="{ material }")
-  TilePlane(:dimensions="[8, 8]" :position="[4, 0, -8]" :material="material")
+EntityPanel(title="Third panel" :open="false")
+  GrassMaterial(v-slot="{ material }")
+    TilePlane(:dimensions="[8, 8]" :position="[4, 0, -8]" :material="material")
 
 BlastBoxes(:pieces="[3, 3, 3]" :position="[4, 0.5, 0]" @loaded="boxesLoaded")
 </template>
@@ -36,6 +42,7 @@ import { RigidBody } from "@dimforge/rapier3d-compat"
 import { BoxGeometry } from "three/src/geometries/BoxGeometry"
 import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
 import { useCameraFit } from "~/composables/useCameraFit"
+import TileCollider from "~/components/_physics/PanelCollider.vue"
 
 const scene = useScene()
 

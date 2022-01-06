@@ -1,5 +1,5 @@
 <template lang="pug">
-input.mt-1(type="checkbox" v-model="state.modelValue")
+input.mt-1(type="checkbox" v-model="modelValue")
 </template>
 
 <script lang="ts" setup>
@@ -11,11 +11,7 @@ const emit = defineEmits<{
   (e: "update:modelValue", modelValue: boolean): void
 }>()
 
-const state = reactive({
-  modelValue: props.modelValue,
-})
+const modelValue = ref(props.modelValue)
 
-watchEffect(() => {
-  emit("update:modelValue", state.modelValue)
-})
+watch(modelValue, v => emit("update:modelValue", v))
 </script>

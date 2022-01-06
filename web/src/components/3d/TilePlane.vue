@@ -2,7 +2,8 @@
 ParaPanel(title="Tile Plane")
   div Dimensions
   InputXY(v-model="dimensions" :labels="['Width', 'Height']")
-slot(:mesh="mesh" :dimensions="dimensions")
+
+slot(v-bind="{ mesh, dimensions, position }")
 </template>
 
 <script lang="ts" setup>
@@ -14,6 +15,8 @@ import { Material } from "three/src/materials/Material"
 import { Mesh } from "three/src/objects/Mesh"
 import { useCameraFit } from "~/composables/useCameraFit"
 
+const scene = useScene()
+
 const props = defineProps<{
   scale?: number
   dimensions?: [number, number]
@@ -22,8 +25,8 @@ const props = defineProps<{
   collider?: boolean
 }>()
 
-const scene = useScene()
 const dimensions = ref(props.dimensions ?? [1, 1])
+
 const geometry = new PlaneGeometry()
 const mesh = new Mesh(geometry, props.material)
 mesh.material.needsUpdate = true

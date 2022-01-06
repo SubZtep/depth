@@ -8,12 +8,12 @@ import { Mesh } from "three/src/objects/Mesh"
 
 const props = defineProps<{
   dimensions?: [number, number]
-  scale: number
+  scale?: number
   position: [number, number, number]
   mesh: Mesh
 }>()
 
-const { position, scale, dimensions = ref([1, 1] as [number, number]) } = toRefs(props)
+const { position, scale = ref(1), dimensions = ref([1, 1] as [number, number]) } = toRefs(props)
 let outline: LineSegments | undefined
 const scene = useScene()
 
