@@ -2,6 +2,14 @@
 
 ## Install on server
 
+### Environment file
+
+Create `/server/.env` file with the following content:
+
+```sh
+VITE_WSS_PORT=1337 # your port
+```
+
 ### Nginx
 
 _tba._
@@ -9,9 +17,5 @@ _tba._
 ### PM2
 
 ```sh
-$ npm remove -g pm2
-# $ npm install -g @socket.io/pm2
 $ pm2 start ecosystem.config.js
 ```
-
-<!-- :link: https://socket.io/docs/v4/pm2 -->

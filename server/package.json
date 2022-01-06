@@ -3,19 +3,30 @@
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "typesVersions": {
+    "*": {
+      "index.d.ts": [
+        "dist/index.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc",
-    "start": "nodemon dist/index.js"
+    "start": "nodemon --require dotenv/config dist/index.js"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "devDependencies": {
+    "@types/node": "^17.0.8",
     "@types/ws": "^8.2.2",
     "nodemon": "^2.0.15"
   },
   "dependencies": {
+    "dotenv": "^10.0.0",
     "ws": "^8.4.0"
   },
   "optionalDependencies": {

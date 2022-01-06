@@ -19,13 +19,14 @@ const entity = inject("entity", null)
 
 const props = defineProps<{
   title: string
+  open?: boolean
 }>()
 
 const emit = defineEmits<{
   (e: "hover", hover: boolean): void
 }>()
 
-const open = ref(false)
+const open = ref(props.open ?? false)
 const hovered = ref(false)
 
 watch(hovered, hover => emit("hover", hover), { immediate: true })

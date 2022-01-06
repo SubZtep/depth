@@ -1,11 +1,6 @@
-import { WebSocketServer } from "ws"
+// export type { MessageFromMeta, MessageToMeta, MetaLogin, MetaUsers } from "./types/meta.d"
+export type { MessageFromMeta, MessageToMeta } from "./types/meta.d"
 
-const wss = new WebSocketServer({ port: 1337 })
+import { doServerStuff } from "./server.js"
 
-wss.on("connection", function connection(ws) {
-  ws.on("message", function message(data) {
-    console.log("received: %s", data)
-  })
-
-  ws.send("something")
-})
+doServerStuff()

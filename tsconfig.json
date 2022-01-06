@@ -15,7 +15,7 @@
     "declarationMap": true,
     "isolatedModules": true
   },
-  "exclude": ["dist", "node_modules", "__tests__"],
+  "exclude": ["dist", "public", "node_modules", "__tests__"],
   "references": [
     { "path": "packages/audio" },
     { "path": "packages/canvas" },
@@ -27,6 +27,7 @@
     { "path": "packages/poser" },
     { "path": "packages/stats" },
     { "path": "packages/video" },
+    { "path": "server" },
     { "path": "web" }
   ]
 }

@@ -1,9 +1,9 @@
 <template lang="pug">
-ParaPanel(title="Server Connection")
-
-pre.text-white
-  p Status: {{status}}
-  p Data: {{data}}
+ParaPanel(title="Server Connection" :open="true")
+  div Status:
+  div {{status}}
+  div Data:
+  div {{data}}
 
 ValidateHappiness(v-if="!hasUuid" v-slot="{ uuid }")
   p Are you happy to keep Your generated ID in local your storage?
@@ -20,6 +20,8 @@ function commandToMeta<T extends MessageToMeta>(message: T) {
 </script>
 
 <script lang="ts" setup>
+// import type { MessageFromMeta, MessageToMeta, MetaLogin } from "@depth/server"
+import type { MessageFromMeta, MessageToMeta } from "@depth/server"
 import { storeToRefs } from "pinia"
 import { useWebSocket } from "@vueuse/core"
 import { usePlayerStore } from "~/stores/player"
@@ -31,7 +33,7 @@ const playerStore = usePlayerStore()
 const { uuid } = storeToRefs(playerStore)
 const hasUuid = computed(() => !!uuid.value)
 
-const { open, close, send, status, data } = useWebSocket(import.meta.env.VITE_WSS, {
+const { open, close, send, status, data } = useWebSocket(import.meta.env.VITE_WSS_URL, {
   immediate: false,
   // heartbeat: true,
   autoReconnect: {
@@ -47,12 +49,11 @@ const { open, close, send, status, data } = useWebSocket(import.meta.env.VITE_WS
     console.error("WS Error", { ws, event })
   },
   onConnected() {
-    toast.success("WebSocket connected.")
-    send(commandToMeta({ cmd: "login", uuid: get(uuid) }))
+    toast.success("WS connected.")
+    send(commandToMeta<MetaLogin>({ cmd: "login", uuid: get(uuid) }))
   },
   onDisconnected(ws, event) {
     console.log("WS Disconnected", { ws, event })
-    toast.warning("WebSocket disconnected.")
   },
   onMessage(_ws, { data }: MessageEvent<MessageFromMeta>) {
     console.log("FROM Meta", data)
@@ -74,17 +75,20 @@ watch(
 watch(
   status,
   (v, ov) => {
-    if (v === "OPEN") {
-      console.log("STATUS", { v, ov })
-      send("Hello server")
+    console.log("STATUS", { v, ov })
+    // if (v === "OPEN") {
+    //   send("Hello server")
+    // }
+    if (v === "CLOSED" && ov === "OPEN") {
+      toast.warning("WS Disconnected")
     }
   },
   { immediate: true }
 )
 
-watch(data, v => {
-  console.log("data", v)
-})
+// watch(data, v => {
+//   console.log("data", v)
+// })
 
 onScopeDispose(() => {
   close()

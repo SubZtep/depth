@@ -1,16 +1,3 @@
-interface ImportMeta {
-  env: {
-    /** Supabase sync throttle time in miliseconds. */
-    VITE_SUPABASE_THROTTLE: number
-    /** Supabase API URL */
-    VITE_SUPABASE_URL: string
-    /** Supabase API Key */
-    VITE_SUPABASE_KEY: string
-    /** Websocket server url, eg. wss://depth.demo.land/ws */
-    VITE_WSS: string
-  }
-}
-
 /** 3D Vector [x, y, z] */
 type PositionTuple = [number, number, number]
 
@@ -38,15 +25,15 @@ interface MetaSnail {
   updated_at: string
 }
 
-interface MetaLogin {
-  cmd: "login"
-  uuid: string
-}
+// interface MetaLogin {
+//   cmd: "login"
+//   uuid: string
+// }
 
-interface MetaUsers {
-  cmd: "users"
-  count: number
-}
+// interface MetaUsers {
+//   cmd: "users"
+//   count: number
+// }
 
-type MessageToMeta = MetaLogin
-type MessageFromMeta = MetaUsers
+// type MessageToMeta = MetaLogin
+// type MessageFromMeta = MetaUsers
