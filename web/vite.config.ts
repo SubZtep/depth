@@ -23,15 +23,17 @@ export default defineConfig(({ command }) => {
       Components({
         dts: "src/types/components.d.ts",
         dirs: [
-          "src/components/ui",
-          "src/components/3d",
-          "src/3d/components",
-          "src/components/panel",
-          "src/components/_poser",
-          "src/components/_server",
+          // "src/components/ui",
+          // "src/components/3d",
+          // "src/3d/components",
+          // "src/components/panel",
+          // "src/components/_poser",
+          // "src/components/_server",
+          "src/components",
         ],
         extensions: ["vue", "ts"],
-        deep: false,
+        // deep: false,
+        deep: true,
       }),
       AutoImport({
         // FIXME: https://github.com/antfu/unplugin-auto-import/issues/33

@@ -3,6 +3,7 @@ import { TYPE } from "vue-toastification"
 import { usePlayerStore } from "~/stores/player"
 import CancellableToast from "~/components/toasts/CancellableToast.vue"
 
+/** Generates UUID4 */
 export default defineComponent({
   setup(_, { slots }) {
     const playerStore = usePlayerStore()

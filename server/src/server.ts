@@ -2,19 +2,21 @@ import WebSocket, { WebSocketServer } from "ws"
 import type { MessageToMeta, MessageFromMeta } from "./types/meta.d"
 import * as state from "./state.js"
 
+let received: MessageToMeta
+let toSend: MessageFromMeta
+
 export function doServerStuff() {
   const wss = new WebSocketServer({ port: process.env.WSS_PORT })
-
-  let received: MessageToMeta
-  let toSend: MessageFromMeta
-
   wss.on("connection", ws => {
+    ws.on("open", () => {
+      //
+    })
+
     ws.on("message", (data, isBinary) => {
       if (isBinary) {
         console.log("Cool binary stuff, quantum meta.")
       } else {
         received = JSON.parse(String(data))
-        console.log("Received something readable: %s", received.cmd)
 
         if (received.cmd === "login") {
           const reentrant = state.addToState(received.uuid)

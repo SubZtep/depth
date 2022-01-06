@@ -1,8 +1,6 @@
 <template lang="pug">
 Title Pose
 
-WebSocketPoser
-
 component(v-if="state.input" :is="inputComponent" :selfie="state.selfie" v-slot="{ video, streaming }")
   EntityPanel(title="First Panel" :position="[0, 0, 0]" :scale="1" v-slot="{ hover, position, scale }")
     Tile1Material(:repeat="[1, 1]" v-slot="{ material }")
@@ -13,7 +11,6 @@ component(v-if="state.input" :is="inputComponent" :selfie="state.selfie" v-slot=
     UseFace(v-if="detectFace" v-bind="{ video, streaming }" v-slot="{ keypoints }")
       FaceMaterial(v-slot="{ material }")
         FaceMesh(v-bind="{ keypoints, position, scale, material, selfie }")
-
 </template>
 
 <script lang="ts" setup>

@@ -19,19 +19,16 @@ import { LineSegments } from "three/src/objects/LineSegments"
 import { Mesh } from "three/src/objects/Mesh"
 
 const props = defineProps<{
-  //   width: number
-  //   height: number
-  //   material: MeshStandardMaterial
-  //   position?: PositionTuple
+  position?: PositionTuple
+  target?: PositionTuple
   linkCameraPosition?: boolean
 }>()
 
 const state = reactive({
   color: "#ffffff",
   intensity: 1,
-  //   width: props.width,
-  //   height: props.height,
-  //   position: props.position ?? [0, 0, 0],
+  position: props.position ?? [0, 0, 0],
+  target: props.target ?? [0, 0, 0],
 })
 
 const scene = useScene()

@@ -28,3 +28,16 @@ export function addToState(uuid: string) {
   }
   return false
 }
+
+/**
+ * All real-time user states.
+ * @returns List of users with details.
+ */
+export function activeStates() {
+  // TODO: MAKE BINARY
+  const states = []
+  for (const [uuid, userState] of state) {
+    states[uuid] = userState
+  }
+  return states
+}

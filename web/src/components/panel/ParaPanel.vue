@@ -41,7 +41,7 @@ watch(hovered, hover => emit("hover", hover), { immediate: true })
   /* border-width: 2px 2px 1px 2px; */
   h3 {
     @apply text-center cursor-pointer p-1 bg-true-gray-800;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 1px;
   }
 }

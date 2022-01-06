@@ -1,7 +1,7 @@
 <template lang="pug">
 Title Face
 
-DirectionalLight3D(:link-camera-position="true")
+DirectionalLight(:link-camera-position="true")
 //- BlastBox(:position="[0, 5, 0]")
 
 EntityPanel(title="First Floor Panel" :position="[0, 0, 0]" v-slot="{ hover, position }")

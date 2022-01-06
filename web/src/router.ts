@@ -68,6 +68,16 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    path: "/meta",
+    name: "meta",
+    component: () => import("./pages/MetaPage.vue"),
+    meta: {
+      position: [0, camHeight, 4],
+      lookAt: [0, 1, 0],
+      order: 8,
+    },
+  },
+  {
     path: "/pose",
     name: "pose",
     component: () => import("./pages/PosePage.vue"),
