@@ -34,6 +34,7 @@ const { uuid } = storeToRefs(playerStore)
 const hasUuid = computed(() => !!uuid.value)
 
 const { open, close, send, status, data } = useWebSocket(import.meta.env.VITE_WSS_URL, {
+  perMessageDeflate: false,
   immediate: false,
   // heartbeat: true,
   autoReconnect: {

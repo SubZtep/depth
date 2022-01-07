@@ -1,14 +1,14 @@
 import type { StoreDefinition } from "pinia"
 import { defineStore, acceptHMRUpdate } from "pinia"
-import { useStorage } from "@vueuse/core"
+import { useStorage, useSessionStorage } from "@vueuse/core"
 
 export const usePlayerStore: StoreDefinition = defineStore("player", {
   state: () => ({
-    uuid: useStorage("player.uuid", ""),
-    name: useStorage("player.name", ""),
-    color: useStorage("player.color", 0xffffff),
-    wireframe: useStorage("player.wireframe", false),
-    roughness: useStorage("player.roughness", 0),
+    uuid: useSessionStorage("player.uuid", ""),
+    name: useSessionStorage("player.name", ""),
+    color: useSessionStorage("player.color", 0xffffff),
+    wireframe: useSessionStorage("player.wireframe", false),
+    roughness: useSessionStorage("player.roughness", 0),
     position: [0, 0, 0] as PositionTuple,
     rotation: [0, 0, 0, 1] as RotationTuple,
     rigidBodyHandle: null as null | number,

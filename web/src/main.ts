@@ -1,6 +1,6 @@
 import { createApp } from "vue"
 import { createPinia, storeToRefs } from "pinia"
-import { PiniaUndo } from "pinia-undo"
+// import { PiniaUndo } from "pinia-undo"
 import Toast, { POSITION } from "vue-toastification"
 import { SupabasePlugin, piniaToSupabase } from "@depth/database"
 import { CanvasPlugin } from "@depth/canvas"
@@ -23,7 +23,7 @@ import "./styles/main.css"
 const pinia = createPinia()
 pinia.use(piniaToSupabase)
 // @ts-ignore
-pinia.use(PiniaUndo)
+// pinia.use(PiniaUndo)
 
 const app = createApp(App)
   .use(pinia)
@@ -55,7 +55,8 @@ const { showDebug, isMobile } = storeToRefs(usePreferencesStore())
 
 app
   .use(Toast, {
-    timeout: 4569,
+    // timeout: 4569,
+    timeout: 1669,
     maxToasts: 13,
     position: isMobile ? POSITION.TOP_CENTER : POSITION.BOTTOM_RIGHT,
     showCloseButtonOnHover: true,
@@ -70,4 +71,3 @@ app
   })
   .use(StatsPlugin, { mosaic: true, visible: showDebug })
   .mount("#hud")
-
