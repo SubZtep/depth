@@ -1,9 +1,9 @@
 <template lang="pug">
 .flex.gap-1
-  .flex-2
-    input.w-full(type="range" :min="props.min" :max="props.max" :step="props.step" v-model.number="state.modelValue")
   .flex-1
-    input.w-full(type="text" v-model.number="state.modelValue")
+    input.w-full.filter(type="text" v-model.number="state.modelValue" :class="{ 'invert': !props.hover }")
+  .flex-grow(v-if="props.hover")
+    input.w-full.filter(type="range" :min="props.min" :max="props.max" :step="props.step" v-model.number="state.modelValue" v-visible="props.hover")
 </template>
 
 <script lang="ts" setup>
@@ -12,6 +12,7 @@ const props = defineProps<{
   min?: number
   max?: number
   step?: number
+  hover?: boolean
 }>()
 
 const emit = defineEmits<{

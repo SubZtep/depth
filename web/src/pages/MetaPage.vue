@@ -1,60 +1,36 @@
 <template lang="pug">
-Title
-  template(v-if="hasUuid") Your UUID: {{uuid}}
-  template(v-else) Meta
+Title(v-if="hasUuid") Your UUID: {{uuid}}
+Title(v-else) Meta
+InfinitePlane(:color="0x000900" :pos-y="-10")
 
 ValidateHappiness(v-if="!hasUuid" v-slot="{ uuid }")
   p Are you happy to keep Your generated ID in local your storage?
   p This is required for connect and meta.
   p
   p {{uuid}}
+
+EntityPanel(title="Voxel terrain" :position="[0, 0, 0]" v-slot="{ hover, position }" :open="true")
+  FresnelShaderMaterial(v-bind="{ hover }" v-slot="{ material }")
+    VoxelTerrain(:cell-size="10" :cell-height="1" v-bind="{ hover, position, material }" v-slot="{ mesh }")
+      MeshOutline(v-if="hover" v-bind="{ mesh, position }")
+
 </template>
 
 <script lang="ts" setup>
 import { storeToRefs } from "pinia"
-import { useWebSocket } from "@vueuse/core"
 import { usePlayerStore } from "~/stores/player"
 import ValidateHappiness from "~/components/meta/ValidateHappiness"
 import { useEnvironmentStore } from "~/stores/environment"
 
 const toast = useToast()
-const playerStore = usePlayerStore()
-
-const { uuid } = storeToRefs(playerStore)
+const { uuid } = storeToRefs(usePlayerStore())
 const hasUuid = computed(() => !!uuid.value)
 
 useEnvironmentStore().$patch({
   skybox: 3,
+  color: 0xffff00,
   distance: 100,
-  color: 0x001300,
   size: 1,
 } as any)
 
-// import VideoClipPlayer from "~/components/depth/VideoClipPlayer.vue"
-// import WebcamPlayer from "~/components/depth/WebcamPlayer.vue"
-// import { usePermission } from "@vueuse/core"
-
-// const camera = usePermission("camera")
-// const state = reactive({
-//   input: "" as "" | "camera" | "clip",
-//   selfie: true,
-//   detect: "face" as "pose" | "face",
-// })
-
-// const stop = watch(camera, permission => {
-//   state.input = permission === "granted" ? "camera" : "clip"
-//   stop()
-// })
-
-// const inputComponent = computed(() => (state.input === "camera" ? WebcamPlayer : VideoClipPlayer))
-// const detectPose = computed(() => state.detect === "pose")
-// const detectFace = computed(() => state.detect === "face")
-// const selfie = toRef(state, "selfie")
-
-// addGuiFolder(folder => {
-//   folder.name = "☺ Page Settings"
-//   folder.add(state, "input", ["camera", "clip"])
-//   folder.add(state, "selfie")
-//   folder.add(state, "detect", ["pose", "face"])
-// })
 </script>

@@ -44,9 +44,9 @@ Ready to use WebGL objects, mostly cached and with physics.
 
 ### 3D
 
-| Name                                             |     Test      | Description                     |
-| ------------------------------------------------ | :-----------: | ------------------------------- |
-| [`DefaultLights`](./src/components/ui/Debug.vue) | :latin_cross: | Ambient and directional lights. |
+| Name                                             |     Test      | Description                         |
+| ------------------------------------------------ | :-----------: | ----------------------------------- |
+| [`DefaultLights`](./src/components/ui/Debug.vue) | :latin_cross: | ~~Ambient and directional lights.~~ |
 
 ### UI
 

@@ -1,5 +1,4 @@
 <template lang="pug">
-//- .flex.gap-1.items-center.px-2.py-1.bg-true-gray-800
 .flex.gap-1.items-center.px-2.py-1.rounded-lg
 
   .w-3.perspect-origin-top-right.transform.duration-250(:class="{ 'rotate-90': modelValue }")

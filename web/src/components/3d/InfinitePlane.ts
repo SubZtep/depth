@@ -46,6 +46,7 @@ export default defineComponent({
     size: { type: Number, default: 0.9 },
     color: { type: Number, default: 0x003300 },
     distance: { type: Number, default: 400 },
+    posY: { type: Number, default: -0.02 },
   },
   setup(props) {
     const scene = useScene()
@@ -72,7 +73,7 @@ export default defineComponent({
 
     const mesh = new Mesh(geometry, material)
     mesh.rotateY(Math.PI / 2)
-    mesh.position.setY(-0.02)
+    mesh.position.setY(props.posY)
 
     if (isReactive(props)) {
       // TODO: make props ref properly if necessary

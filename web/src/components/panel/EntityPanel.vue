@@ -1,6 +1,6 @@
 <template lang="pug">
 Teleport(to="#panel")
-  div(:entity-id="entity.id" :class="$style.panel" @mouseenter="entity.hover = true" @mouseleave="entity.hover = false")
+  div(:entity-id="entity.id" :class="{ 'slight': !entity.hover, 'panel': true }" @mouseenter="entity.hover = true" @mouseleave="entity.hover = false")
 
     PanelHeader.bg-true-gray-800(:title="props.title" v-model="open")
 
@@ -8,7 +8,7 @@ Teleport(to="#panel")
       .form(v-if="hasForm")
         template(v-if="props.position")
           div Position
-          InputXYZ(v-model="entity.position" :step="0.1")
+          InputXYZ(v-model="entity.position" :step="0.1" :hover="entity.hover")
 
         template(v-if="props.scale")
           div Scale
@@ -44,12 +44,3 @@ provide("entity", entity)
 
 const open = ref(props.open ?? true)
 </script>
-
-<style module>
-.panel {
-  @apply bg-black border-red-800 text-green-300;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-  border-width: 1px 2px 1px 2px;
-}
-</style>

@@ -1,7 +1,7 @@
 <template lang="pug">
 ParaPanel(v-if="!loaded" title="Tile 1 Material")
   div Repeat
-  InputXY(v-model="state.repeat")
+  InputXY(v-model="state.repeat" :max="1000" :hover="props.hover")
 
   div shininess
   input(type="range" min="0" max="50" v-model="state.shininess")
@@ -27,6 +27,7 @@ import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
 
 const props = defineProps<{
   repeat?: [number, number],
+  hover?: boolean
 }>()
 
 const state = reactive({
