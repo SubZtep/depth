@@ -1,44 +1,43 @@
 <template lang="pug">
-ParaPanel(title="Heatmap Terrain")
+ParaPanel(title="Heatmap terrain")
+  div Position
+  InputXYZ(v-model="position" :hover="props.hover")
+
   div Dimensions
-  InputXY(v-model="dimensions" :labels="['Width', 'Height']" :hover="props.hover")
+  InputXY(v-model="dimensions" :labels="['Width', 'Height']" :max="200" :hover="props.hover")
+
+  div Segments
+  InputXY(v-model="segments" :labels="['Width', 'Height']" :max="2000" :hover="props.hover")
 
   div Height ratio
-  InputNumber(v-model="mesh.material.uniforms.heightRatio.value" :min="0" :max="100" :hover="props.hover")
-
-  //- div Cell height
-  //- InputNumber(v-model="state.cellHeight" :min="0" :max="100" :hover="props.hover")
-
-  //- div tileSize
-  //- InputNumber(v-model="state.tileSize" :min="0" :max="100" :step="0.1" :hover="props.hover")
-
-  //- div tileTextureWidth
-  //- InputNumber(v-model="state.tileTextureWidth" :min="0" :max="512" :step="0.1" :hover="props.hover")
-
-  //- div tileTextureHeight
-  //- InputNumber(v-model="state.tileTextureHeight" :min="0" :max="512" :step="0.1" :hover="props.hover")
+  InputNumber(v-model="mesh.material.uniforms.heightRatio.value" :min="0" :max="100" :step="0.1" :hover="props.hover")
 
 slot(:mesh="mesh")
 </template>
 
 <script lang="ts" setup>
-import { Mesh } from "three/src/objects/Mesh"
 import { useScene } from "@depth/canvas"
+import { Mesh } from "three/src/objects/Mesh"
+import { throttledWatch } from "@vueuse/core"
 import { CanvasTexture } from "three/src/textures/CanvasTexture"
-import { PlaneBufferGeometry } from "three/src/geometries/PlaneGeometry"
+import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
 import { ShaderMaterial } from "three/src/materials/ShaderMaterial"
 
 const scene = useScene()
 
 const props = defineProps<{
+  position?: [number, number, number]
   dimensions?: [number, number]
+  segments?: [number, number]
   scale?: number
   hover?: boolean
 }>()
 
-const dimensions = ref<[number, number]>(props.dimensions ?? [1, 1])
+const position = ref<[number, number, number]>(props.position ?? [0, 0, 0])
+const dimensions = ref<[number, number]>(props.dimensions ?? [50, 50])
+const segments = ref<[number, number]>(props.segments ?? [1000, 1000])
 
-const heatVertex = `
+const vertexShader = `
   uniform sampler2D heightMap;
   uniform float heightRatio;
   varying vec2 vUv;
@@ -52,7 +51,7 @@ const heatVertex = `
   }
 `
 
-const heatFragment = `
+const fragmentShader = `
   varying float hValue;
 
   vec3 heatmapGradient(float t) {
@@ -88,19 +87,16 @@ function createHeightMap() {
   return new CanvasTexture(canvas)
 }
 
-const geometry = new PlaneBufferGeometry(50, 50, 1000, 1000)
-geometry.rotateX(-Math.PI * 0.5)
-
 const mesh = new Mesh(
-  geometry,
+  undefined,
   new ShaderMaterial({
+    transparent: true,
     uniforms: {
       heightMap: { value: heightMap },
       heightRatio: { value: 10 },
     },
-    vertexShader: heatVertex,
-    fragmentShader: heatFragment,
-    transparent: true,
+    vertexShader,
+    fragmentShader,
   })
 )
 
@@ -110,22 +106,20 @@ watchEffect(() => {
   if (props.scale !== undefined) {
     mesh.scale.setScalar(props.scale)
   }
+  mesh.position.set(...position.value)
 })
-//   mesh.position.set(...props.position)
 
-//   world.cellSize = state.cellSize
-//   world.cellSliceSize = state.cellSize * state.cellSize
-//   world.cell = new Uint8Array(state.cellSize * state.cellSize * state.cellSize)
-//   world.tileSize = state.tileSize
-//   world.tileTextureWidth = state.tileTextureWidth
-//   world.tileTextureHeight = state.tileTextureHeight
-//   setVoxelHeights(state.cellSize, state.cellHeight)
-
-//   const worldData = world.generateGeometryDataForCell(0, 0, 0)
-//   geometry.setAttribute("position", new BufferAttribute(new Float32Array(worldData.positions), 3))
-//   geometry.setAttribute("normal", new BufferAttribute(new Float32Array(worldData.normals), 3))
-//   geometry.setIndex(worldData.indices)
-// })
+throttledWatch(
+  [dimensions, segments],
+  () => {
+    mesh.geometry.dispose()
+    const geometry = new PlaneGeometry(dimensions.value[0], dimensions.value[1], segments.value[0], segments.value[1])
+    geometry.rotateX(-Math.PI * 0.5)
+    mesh.geometry = geometry
+    mesh.updateMatrix()
+  },
+  { immediate: true, deep: true, throttle: 100 }
+)
 
 onScopeDispose(() => {
   scene.remove(mesh)
