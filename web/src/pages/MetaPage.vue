@@ -1,13 +1,16 @@
 <template lang="pug">
 Title(v-if="hasUuid") Your UUID: {{uuid}}
 Title(v-else) Meta
-InfinitePlane(:color="0x000900" :pos-y="-10")
 
 ValidateHappiness(v-if="!hasUuid" v-slot="{ uuid }")
   p Are you happy to keep Your generated ID in local your storage?
   p This is required for connect and meta.
   p
   p {{uuid}}
+
+EntityPanel(title="Random terrains" :scale="1" v-slot="{ hover, scale }")
+  InfinitePlane(:color="0x000900" :pos-y="-10")
+  HeatmapTerrain(v-bind="{ hover, scale }")
 
 EntityPanel(title="Voxel terrain" :position="[0, 0, 0]" v-slot="{ hover, position }" :open="true")
   FresnelShaderMaterial(v-bind="{ hover }" v-slot="{ material }")
@@ -32,5 +35,4 @@ useEnvironmentStore().$patch({
   distance: 100,
   size: 1,
 } as any)
-
 </script>

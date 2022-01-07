@@ -1,9 +1,9 @@
 <template lang="pug">
 .flex.gap-1.w-full
   .flex-1
-    input.w-full(type="color" v-model="state.modelValue")
-  .flex-1(v-if="props.hover")
-    input.w-full(type="text" v-model="state.modelValue")
+    input.w-full(type="color" v-model="modelValue")
+  .flex-1(v-if="props.hover !== false")
+    input.w-full(type="text" v-model="modelValue")
 </template>
 
 <script lang="ts" setup>
@@ -16,11 +16,6 @@ const emit = defineEmits<{
   (e: "update:modelValue", modelValue: string): void
 }>()
 
-const state = reactive({
-  modelValue: props.modelValue,
-})
-
-watchEffect(() => {
-  emit("update:modelValue", state.modelValue)
-})
+const modelValue = ref(props.modelValue)
+watch(modelValue, v => emit("update:modelValue", v))
 </script>

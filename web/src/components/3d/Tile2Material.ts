@@ -1,14 +1,6 @@
-import { useScene } from "@depth/canvas"
-import { getWorld } from "@depth/physics"
-import { ColliderDesc } from "@dimforge/rapier3d-compat"
-import { FrontSide, RepeatWrapping, sRGBEncoding } from "three/src/constants"
-import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
+import { RepeatWrapping, sRGBEncoding } from "three/src/constants"
 import { TextureLoader } from "three/src/loaders/TextureLoader"
 import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
-import { MeshPhysicalMaterial } from "three/src/materials/MeshPhysicalMaterial"
-import { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial"
-import { Vector2 } from "three/src/math/Vector2"
-import { Mesh } from "three/src/objects/Mesh"
 
 export default defineComponent({
   setup(_, { slots }) {
@@ -48,31 +40,10 @@ export default defineComponent({
     })
 
 
-    // const material = new MeshStandardMaterial({
-    //   // aoMap: loader.load("Terracotta_Tiles_006_ambientOcclusion.jpg"),
-    //   map: loader.load("Terracotta_Tiles_006_basecolor.jpg"),
-    //   // bumpMap: loader.load("Terracotta_Tiles_006_height.png"),
-    //   envMap: loader.load("Terracotta_Tiles_006_height.png"),
-    //   // displacementScale: 1,
-    //   // bumpScale: 12,
-    //   // normalMap: loader.load("Terracotta_Tiles_006_normal.jpg"),
-    //   // roughnessMap: loader.load("Terracotta_Tiles_006_roughness.jpg"),
-    //   // roughness: 15,
-    //   side: FrontSide,
-    //   // roughness: 0.5,
-    //   // metalness: 0.5,
-    //   // envMapIntensity: 10,
-    // })
-    // material.bumpScale = 10
     material.map!.encoding = sRGBEncoding
     material.map!.repeat.set(4, 4)
     material.map!.wrapS = RepeatWrapping
     material.map!.wrapT = RepeatWrapping
-
-    // material.map!.
-
-    // material.map!.updateMatrix()
-    // material.needsUpdate = true
 
     return () => slots.default?.({ material })
   },

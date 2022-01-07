@@ -1,4 +1,5 @@
 <template lang="pug">
+slot
 </template>
 
 <script lang="ts" setup>
@@ -35,7 +36,7 @@ const create = () => {
 }
 
 watch(dimensions, () => create(), { immediate: true, deep: true })
-watch(scale, v => void outline?.scale.setScalar(v), { immediate: true })
+watch(scale, v => v && void outline?.scale.setScalar(v), { immediate: true })
 watch(position, v => void outline?.position.set(...v), { immediate: true, deep: true })
 
 onScopeDispose(() => {

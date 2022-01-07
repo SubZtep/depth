@@ -1,7 +1,7 @@
 <template lang="pug">
 ParaPanel(title="Tile Plane")
   div Dimensions
-  InputXY(v-model="dimensions" :labels="['Width', 'Height']")
+  InputXY(v-model="dimensions" :labels="['Width', 'Height']" :hover="props.hover")
 
 slot(v-bind="{ mesh, dimensions, position }")
 </template>
@@ -23,6 +23,7 @@ const props = defineProps<{
   position: [number, number, number]
   material?: Material
   collider?: boolean
+  hover?: boolean
 }>()
 
 const dimensions = ref(props.dimensions ?? [1, 1])

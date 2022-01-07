@@ -3,32 +3,26 @@
   top: 0;
   right: 0;
   width: 450px;
-  /* padding: 4px; */
-  /* border-radius: 2px; */
-  /* height: 100vh; */
-  /* background-color: #333; */
-  /* background-color: rgba(0, 0, 0, 0.5); */
   z-index: 200;
 
   .form {
+    @apply font-mono text-sm;
+    border-bottom-left-radius: 6px;
+    grid-template-columns: 1fr 1.9fr;
     padding: 4px 8px;
     display: grid;
-    /* grid-template-columns: 1fr; */
-    grid-template-columns: 1fr 2fr;
-    @apply font-mono text-sm;
     row-gap: 6px;
-    border-bottom-left-radius: 6px;
   }
 
   .slight {
-    @apply opacity-55 transform origin-top-right scale-85;
+    @apply opacity-55 transform origin-right scale-x-93 scale-y-95;
     border-bottom-left-radius: 6px;
   }
 
   .panel {
-    @apply bg-black border-red-800 text-green-300 duration-150;
+    @apply bg-black border-red-800 text-green-300 duration-250 ease-out;
+    border-width: 1px 2px 1px 2px;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
-    border-width: 1px 2px 1px 2px;
   }
 }

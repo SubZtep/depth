@@ -10,7 +10,6 @@ declare module 'vue' {
     CameraFit: typeof import('./../components/3d/CameraFit.vue')['default']
     CancellableToast: typeof import('./../components/toasts/CancellableToast.vue')['default']
     Debug: typeof import('./../components/ui/Debug.vue')['default']
-    DefaultLights: typeof import('./../components/3d/DefaultLights.ts')['default']
     DirectionalLight: typeof import('./../components/_canvas/DirectionalLight.vue')['default']
     EntityPanel: typeof import('./../components/panel/EntityPanel.vue')['default']
     FaceMaterial: typeof import('./../components/3d/FaceMaterial.vue')['default']
@@ -20,6 +19,7 @@ declare module 'vue' {
     FollowCamera: typeof import('./../components/meta/FollowCamera.vue')['default']
     FresnelShaderMaterial: typeof import('./../components/3d/FresnelShaderMaterial.vue')['default']
     GrassMaterial: typeof import('./../components/3d/GrassMaterial.ts')['default']
+    HeatmapTerrain: typeof import('./../components/3d/HeatmapTerrain.vue')['default']
     Help: typeof import('./../components/preferences/Help.vue')['default']
     ImagePlane: typeof import('./../components/3d/ImagePlane.ts')['default']
     ImgMemfs: typeof import('./../components/video/ImgMemfs.ts')['default']
@@ -63,7 +63,6 @@ declare module 'vue' {
     VideoPlayer: typeof import('./../components/video/VideoPlayer.vue')['default']
     ViewportView: typeof import('./../components/depth/ViewportView.vue')['default']
     VoxelTerrain: typeof import('./../components/3d/VoxelTerrain.vue')['default']
-    VoxelWorld: typeof import('./../components/3d/VoxelWorld.ts')['default']
     WebcamPlayer: typeof import('./../components/depth/WebcamPlayer.vue')['default']
     WebSocketPoser: typeof import('./../components/_server/WebSocketPoser.vue')['default']
   }

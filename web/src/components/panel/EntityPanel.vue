@@ -1,6 +1,10 @@
 <template lang="pug">
 Teleport(to="#panel")
-  div(:entity-id="entity.id" :class="{ 'slight': !entity.hover, 'panel': true }" @mouseenter="entity.hover = true" @mouseleave="entity.hover = false")
+  .panel(
+    :entity-id="entity.id"
+    :class="{ 'slight': !entity.hover }"
+    @mouseenter="entity.hover = true"
+    @mouseleave="entity.hover = false")
 
     PanelHeader.bg-true-gray-800(:title="props.title" v-model="open")
 
@@ -12,7 +16,7 @@ Teleport(to="#panel")
 
         template(v-if="props.scale")
           div Scale
-          InputNumber(v-model.number="entity.scale" :min="0" :max="10" :step="0.01")
+          InputNumber(v-model="entity.scale" :min="0" :max="10" :step="0.01" :hover="entity.hover")
 
       slot(:hover="entity.hover" :position="entity.position" :scale="entity.scale")
 </template>
