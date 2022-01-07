@@ -1,7 +1,7 @@
 <template lang="pug">
 ParaPanel(title="Heatmap terrain")
   div Position
-  InputXYZ(v-model="position" :hover="props.hover")
+  InputXYZ(v-model="position" :min="-20" :hover="props.hover")
 
   div Dimensions
   InputXY(v-model="dimensions" :labels="['Width', 'Height']" :max="200" :hover="props.hover")
@@ -29,6 +29,7 @@ const props = defineProps<{
   position?: [number, number, number]
   dimensions?: [number, number]
   segments?: [number, number]
+  heightRatio?: number
   scale?: number
   hover?: boolean
 }>()
@@ -93,7 +94,7 @@ const mesh = new Mesh(
     transparent: true,
     uniforms: {
       heightMap: { value: heightMap },
-      heightRatio: { value: 10 },
+      heightRatio: { value: props.heightRatio ?? 10 },
     },
     vertexShader,
     fragmentShader,
@@ -118,7 +119,7 @@ throttledWatch(
     mesh.geometry = geometry
     mesh.updateMatrix()
   },
-  { immediate: true, deep: true, throttle: 100 }
+  { immediate: true, deep: true, throttle: 500 }
 )
 
 onScopeDispose(() => {

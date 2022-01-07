@@ -15,7 +15,7 @@ ParaPanel(title="Voxel Terrain")
   //- div tileTextureHeight
   //- InputNumber(v-model="state.tileTextureHeight" :min="0" :max="512" :step="0.1" :hover="props.hover")
 
-slot(:mesh="mesh")
+slot(:mesh="mesh" :cell-size="state.cellSize" :cell-height="state.cellHeight")
 </template>
 
 <script lang="ts" setup>
