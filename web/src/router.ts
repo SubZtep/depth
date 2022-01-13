@@ -150,7 +150,7 @@ export function initRouterMeta(app: App) {
 
     useEnvironmentStore().$patch({
         skybox: meta.skybox ?? 13,
-        distance: 25,
+        distance: 20,
         color: meta.grid ?? 0x001300,
         size: 1,
       } as any)

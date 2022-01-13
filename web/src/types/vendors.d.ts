@@ -1,5 +1,7 @@
-type PropType<T> = import("@vue/runtime-core").PropType<T>
-type Ref<T = any> = import("@vue/reactivity").Ref
+// type PropType<T> = import("@vue/runtime-core").PropType
+// type Ref<T = any> = import("@vue/reactivity").Ref
+type PropType<T> = import("vue").PropType<T>
+type Ref<T = any> = import("vue").Ref
 type Fn = import("@vueuse/core").Fn
 
 // type Mesh = import("three").Mesh

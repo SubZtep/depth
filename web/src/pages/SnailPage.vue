@@ -5,13 +5,13 @@ Title
     .text-right — SO🐌
 
 EntityPanel(title="Page gadgets")
-  LensFlare(:position="[i, 4, 5]" v-for="i in [...Array(2).keys()]" :key="i")
-  LensFlare(:position="[i - 1, 3, 5]" v-for="i in [...Array(3).keys()]" :key="i")
-  LensFlare(:position="[i - 1, 2, 5]" v-for="i in [...Array(3).keys()]" :key="i")
-  LensFlare(:position="[i, 1, 5]" v-for="i in [...Array(1).keys()]" :key="i")
+  //- LensFlare(:position="[i, 4, 5]" v-for="i in [...Array(2).keys()]" :key="i")
+  //- LensFlare(:position="[i - 1, 3, 5]" v-for="i in [...Array(3).keys()]" :key="i")
+  //- LensFlare(:position="[i - 1, 2, 5]" v-for="i in [...Array(3).keys()]" :key="i")
+  //- LensFlare(:position="[i, 1, 5]" v-for="i in [...Array(1).keys()]" :key="i")
   //- InfinitePlane(:color="0x000900")
-  DirectionalLight(:link-camera-position="true")
   //- ThreeGlobe(:scale="0.01" :position="[0, 2, 2]")
+  DirectionalLight(:link-camera-position="true")
 
 LogarithmicShell(:position="[0, 2, 200]")
 </template>

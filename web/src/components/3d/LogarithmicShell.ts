@@ -1,4 +1,4 @@
-import { useScene } from "@depth/canvas"
+import { degToRad, useScene } from "@depth/canvas"
 import * as THREE from "three"
 
 export {}
@@ -18,24 +18,26 @@ const curve = new THREE.EllipseCurve(
   false, // aClockwise
   0 // aRotation
 )
-let profilePoints: THREE.Vector3[] = curve.getPoints(12)
+// let profilePoints: THREE.Vector3[] = curve.getPoints(12)
 
-profilePoints = profilePoints.map(p => {
-  return new THREE.Vector3().copy(p).setZ(0)
+const profilePoints = curve.getPoints(12).map(p => {
+  return new THREE.Vector3(...p.toArray(), 0)
+  // return new THREE.Vector3().copy(p).setZ(0)
 })
 for (const p of profilePoints) {
-  p.applyEuler(new THREE.Euler(THREE.Math.degToRad(90), 0, 0))
+  // p.applyEuler(new THREE.Euler(THREE.Math.degToRad(90), 0, 0))
+  p.applyEuler(new THREE.Euler(degToRad(90), 0, 0))
 }
 
 // spiral
 const shellPoints: THREE.Vector3[] = []
-const shellIndex = []
+const shellIndex: number[] = []
 
 const spiralPoints: THREE.Vector3[] = []
 spiralPoints.push(new THREE.Vector3())
 const sResolution = 150
 const sTurns = 3.14
-const alpha = THREE.Math.degToRad(80)
+const alpha = degToRad(80)
 const radiusVector = new THREE.Vector3(1, 0, 0)
 const axis = new THREE.Vector3(0, 0, 1)
 const euler = new THREE.Euler()
@@ -94,14 +96,13 @@ const shellMat = new THREE.MeshStandardMaterial({ color: "magenta", flatShading:
 const shell = new THREE.Mesh(shellGeom, shellMat)
 
 //wireframe for awesomeness
-const shellWireframe = new THREE.Mesh(shellGeom, new THREE.MeshBasicMaterial({ color: "pink", wireframe: true }))
+// const shellWireframe = new THREE.Mesh(shellGeom, new THREE.MeshBasicMaterial({ color: "pink", wireframe: true }))
 
 export default defineComponent({
   props: {
-    // position: { type: Array as PropType<PositionTuple>, default: () => [0, 0, 0] },
-    position: { type: Array as PropType<PositionTuple>, default: () => [0, 0, 0] },
+    position: { type: Array as unknown as PropType<[number, number, number]>, default: () => [0, 0, 0] },
   },
-  async setup({ position } , { slots }) {
+  setup({ position }, { slots }) {
     const scene = useScene()
 
     // scene.add(
@@ -112,7 +113,7 @@ export default defineComponent({
     // )
 
     // scene.add(spiral)
-    shell.position.set(...position as [number, number, number])
+    shell.position.set(...position)
     scene.add(shell)
     // scene.add(shellWireframe)
 
