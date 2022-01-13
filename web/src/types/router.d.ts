@@ -7,6 +7,9 @@ declare module "vue-router" {
     position?: Vector3Tuple
     /** Camera rotation */
     lookAt?: Vector3Tuple
+    /** Skybox number */
+    skybox?: number
+    grid?: number
     /** Menu order if defined, otherwise not in the menu. */
     order?: number
   }

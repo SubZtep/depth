@@ -26,9 +26,9 @@
     "@types/ws": "^8.2.2"
   },
   "dependencies": {
-    "dotenv": "^10.0.0",
+    "dotenv": "^11.0.0",
     "nodemon": "^2.0.15",
-    "ws": "^8.4.0"
+    "ws": "^8.4.1"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.6",
