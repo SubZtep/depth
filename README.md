@@ -1,5 +1,11 @@
 [![CodeQL](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/codeql-analysis.yml)
 
+---
+
+> # :warning: This file is super out-of-date.
+
+---
+
 # depth 🧘‍♀️ ~~perception~~
 
 [![Test & Build & Deploy](https://github.com/SubZtep/depth/actions/workflows/deploy.yml/badge.svg)](https://github.com/SubZtep/depth/actions/workflows/deploy.yml)
@@ -12,17 +18,17 @@ A [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) app uses composition AP
 
 **The [`web`](./web#readme) frontend** is part of the monorepo. Some great third-party open-source packages are included and extended with handy features. Please follow the links below for extensive feature documentations.
 
-| Package                                    | Description                                                                                                         |
-| ------------------------------------------:|:------------------------------------------------------------------------------------------------------------------- |
-| `audio`                                    | Resolve [autoplay policy](https://developer.chrome.com/blog/autoplay/#webaudio), play sound with the Web Audio API. |
-| [`canvas`](packages/canvas#readme)         | Three.js 3D canvas with _game loop_ and camera controls.                                                            |
+|                                ~~Package~~ | Description                                                                                                         |
+| -----------------------------------------: | :------------------------------------------------------------------------------------------------------------------ |
+|                                    `audio` | Resolve [autoplay policy](https://developer.chrome.com/blog/autoplay/#webaudio), play sound with the Web Audio API. |
+|         [`canvas`](packages/canvas#readme) | Three.js 3D canvas with _game loop_ and camera controls.                                                            |
 | [`controller`](packages/controller#readme) | Player input / camera moves.                                                                                        |
-| `database`                                 | Supabase wrapper and Pinia plugin.                                                                                  |
-| `hud`                                      | dat.gui                                                                                                             |
-| `misc`                                     | Miscellaneous helper scripts and text formatters.                                                                   |
-| `poser`                                    | Mediapipe pose/face/hand detection.                                                                                 |
-| `stats`                                    | Stats.js.                                                                                                           |
-| [`video`](packages/video#readme)           | FFmpeg wasm.                                                                                                        |
+|                                 `database` | Supabase wrapper and Pinia plugin.                                                                                  |
+|                                      `hud` | dat.gui                                                                                                             |
+|                                     `misc` | Miscellaneous helper scripts and text formatters.                                                                   |
+|                                    `poser` | Mediapipe pose/face/hand detection.                                                                                 |
+|                                    `stats` | Stats.js.                                                                                                           |
+|           [`video`](packages/video#readme) | FFmpeg wasm.                                                                                                        |
 
 ## Setup
 
@@ -57,6 +63,7 @@ Pictograms across the repository:
 - [ ] https://davideprati.com/demo/grass/
 
 #### Grass
+
 - [ ] https://discourse.threejs.org/t/grass-shader-confusion/2521/4
 - [ ] https://stackoverflow.com/questions/49951177/three-js-get-local-position-of-vertex-in-shader-is-that-even-what-i-need
 - [ ] https://davideprati.com/demo/grass/

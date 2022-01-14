@@ -1,5 +1,7 @@
-type PropType<T> = import("@vue/runtime-core").PropType<T>
-type Ref<T = any> = import("@vue/reactivity").Ref
+// type PropType<T> = import("@vue/runtime-core").PropType
+// type Ref<T = any> = import("@vue/reactivity").Ref
+type PropType<T> = import("vue").PropType<T>
+type Ref<T = any> = import("vue").Ref
 type Fn = import("@vueuse/core").Fn
 
 // type Mesh = import("three").Mesh
@@ -10,7 +12,7 @@ type KeypointMesh = Mesh<SphereGeometry | ConeGeometry, Material>
 type Object3D = import("three").Object3D
 // type Quaternion = import("three").Quaternion
 // type Group = import("three").Group
-// type Vector3 = import("three").Vector3
+type Vector3 = import("three").Vector3
 // type Quaternion = import("three").Quaternion
 // type Color = import("three").Color
 

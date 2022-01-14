@@ -36,6 +36,7 @@ declare module 'vue' {
     LeafPlane: typeof import('./../components/3d/LeafPlane.ts')['default']
     Leather5Material: typeof import('./../components/3d/Leather5Material.vue')['default']
     LensFlare: typeof import('./../components/3d/LensFlare.vue')['default']
+    LogarithmicShell: typeof import('./../components/3d/LogarithmicShell.vue')['default']
     MemoryInfo: typeof import('./../components/ui/MemoryInfo.vue')['default']
     MeshOutline: typeof import('./../components/3d/MeshOutline.vue')['default']
     OkayToast: typeof import('./../components/toasts/OkayToast.vue')['default']

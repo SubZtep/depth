@@ -10,9 +10,11 @@ import { PointLight } from "three/src/lights/PointLight"
 
 const props = defineProps<{
   position?: PositionTuple
+  color?: number | string
+  intensity?: number
 }>()
 
-const light = new PointLight(0xffffff, 1.5, 2000)
+const light = new PointLight(props.color ?? 0xffffff, props.intensity ?? 1.5, 2000)
 if (props.position) {
   light.position.set(...props.position)
   // light.position.set(50, 30, 20)
