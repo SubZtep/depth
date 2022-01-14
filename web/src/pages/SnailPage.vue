@@ -13,15 +13,34 @@ EntityPanel(title="Page gadgets")
   //- ThreeGlobe(:scale="0.01" :position="[0, 2, 2]")
   DirectionalLight(:link-camera-position="true")
 
-LogarithmicShell(:position="[0, 2, 200]")
+//- LogarithmicShell(:position="[0, 2, 200]")
+LogarithmicShell
 </template>
 
 <script lang="ts" setup>
-import { useCameraControls } from "@depth/controller"
-import LogarithmicShell from "~/components/3d/LogarithmicShell"
+// import { useCameraControls } from "@depth/controller"
+import LogarithmicShell from "~/components/3d/LogarithmicShell.vue"
+import * as crate from "~/3d/entities/woodCrate"
+import { useScene } from "@depth/canvas"
 
-const cc = useCameraControls()
+// const cc = useCameraControls()
 // cc.zoomTo(-10, false)
 // setTimeout(() => cc.zoomTo(1, true), 3000)
-cc.dollyTo(10, true)
+// cc.dollyTo(10, true)
+
+const scene = useScene()
+scene.add(crate.mesh)
+
+crate.rigidBody.setGravityScale(0.1, false)
+
+const pushCrate = () => {
+  crate.setPosition(0, 2, 2)
+  crate.rigidBody.setLinvel({ x: 0, y: 0, z: 0 }, true)
+  crate.rigidBody.applyImpulse({ x: 0, y: 0, z: 15 }, true)
+}
+
+addGuiFolder(folder => {
+  folder.name = "♖ Playground"
+  folder.add({ pushCrate }, "pushCrate")
+})
 </script>

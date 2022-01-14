@@ -13,7 +13,7 @@ template(v-else)
 </template>
 
 <script lang="ts" setup>
-import { inject } from "vue"
+import { inject, provide } from "vue"
 
 const entity = inject("entity", null)
 
@@ -29,7 +29,9 @@ const emit = defineEmits<{
 const open = ref(props.open ?? true)
 const hovered = ref(false)
 
-watch(hovered, hover => emit("hover", hover), { immediate: true })
+provide("hover", hovered)
+
+// watch(hovered, hover => emit("hover", hover), { immediate: true })
 </script>
 
 <style module>

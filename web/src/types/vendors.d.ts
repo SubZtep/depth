@@ -12,7 +12,7 @@ type KeypointMesh = Mesh<SphereGeometry | ConeGeometry, Material>
 type Object3D = import("three").Object3D
 // type Quaternion = import("three").Quaternion
 // type Group = import("three").Group
-// type Vector3 = import("three").Vector3
+type Vector3 = import("three").Vector3
 // type Quaternion = import("three").Quaternion
 // type Color = import("three").Color
 

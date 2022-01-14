@@ -1,8 +1,3 @@
-import { useScene } from "@depth/canvas"
-import { Mesh } from "three/src/objects/Mesh"
-import { ActiveEvents, ColliderDesc, RigidBody, RigidBodyDesc } from "@dimforge/rapier3d-compat"
-import { Group } from "three/src/objects/Group"
-import type { Quaternion } from "three/src/math/Quaternion"
 import { sRGBEncoding } from "three/src/constants"
 import { TextureLoader } from "three/src/loaders/TextureLoader"
 import { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial"
