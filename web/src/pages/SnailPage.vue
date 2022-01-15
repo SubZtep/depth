@@ -14,14 +14,34 @@ EntityPanel(title="Page gadgets")
   DirectionalLight(:link-camera-position="true")
 
 //- LogarithmicShell(:position="[0, 2, 200]")
-LogarithmicShell
+//- LogarithmicShell
+  //- MeshOutline(v-if="hover" v-bind="{ mesh, position, dimensions }")
+
+LogShell(:state="shellStore")
+StatePanel(:state="shellStore")
+
+//- pre.text-white {{ shellStore }}
+
 </template>
 
 <script lang="ts" setup>
 // import { useCameraControls } from "@depth/controller"
-import LogarithmicShell from "~/components/3d/LogarithmicShell.vue"
+// import LogarithmicShell from "~/components/3d/LogarithmicShell.vue"
+import LogShell from "~/components/stateless3d/LogShell"
 import * as crate from "~/3d/entities/woodCrate"
 import { useScene } from "@depth/canvas"
+import { useShellStore } from "~/stores/snail"
+// import { useStorage } from "@vueuse/core"
+
+const shellStore = useShellStore()
+// const store = useStorage("snail:shell", shellStore)
+// shellStore.$patch(store.value)
+
+// shellStore.$subscribe((mutation, state) => {
+//   // console.log([mutation, state])
+//   // @ts-ignore
+//   store.value = state
+// })
 
 // const cc = useCameraControls()
 // cc.zoomTo(-10, false)
@@ -43,4 +63,5 @@ addGuiFolder(folder => {
   folder.name = "♖ Playground"
   folder.add({ pushCrate }, "pushCrate")
 })
+
 </script>

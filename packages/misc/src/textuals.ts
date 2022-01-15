@@ -4,7 +4,12 @@
  * @param label - MediaDevideInfo.label
  */
 export function normalizeDeviceLabel(label: MediaDeviceInfo["label"]): string {
-  return label.match(/^(.*)\s\([\da-z]{4}:[\da-z]{4}\)$/)?.pop()?.trim() ?? label
+  return (
+    label
+      .match(/^(.*)\s\([\da-z]{4}:[\da-z]{4}\)$/)
+      ?.pop()
+      ?.trim() ?? label
+  )
 }
 
 /**
@@ -40,4 +45,11 @@ export function kebabToTitle(text: string): string {
     .split("-")
     .map(partial => capitalize(partial))
     .join(" ")
+}
+
+/** helloWorld -> Hello world */
+export function camelToHuman(s: string) {
+  if (s.length <= 1) return s
+  const h = s.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase()
+  return `${h.charAt(0).toUpperCase()}${h.slice(1)}`
 }

@@ -11,32 +11,30 @@ import { BoxHelper } from "three/src/helpers/BoxHelper"
 // import { BoxGeometry } from "three/src/geometries/BoxGeometry"
 // import { BoxHelper } from "three/src/helpers/BoxHelper"
 
-function getModel(): Promise<Object3D> {
-  const { start, done, progress } = useNProgress()
-  const gltfLoader = new GLTFLoader().setPath("/models/")
-  const dracoLoader = new DRACOLoader()
-  dracoLoader.setDecoderPath("/libs/draco/")
-  gltfLoader.setDRACOLoader(dracoLoader)
+const gltfLoader = new GLTFLoader().setPath("/models/")
+gltfLoader.setDRACOLoader(new DRACOLoader().setDecoderPath("/libs/draco/"))
+
+let model: Object3D
+
+function getModel(scale = 0.1): Promise<Object3D> {
+  const { progress } = useNProgress()
 
   return new Promise((resolve, reject) => {
     gltfLoader.load(
       "SnailShell.glb",
       async gltf => {
-        start()
-        const snailObject = gltf.scene
-        snailObject.traverse(node => {
+        const group = gltf.scene
+        group.scale.set(scale, scale, scale)
+        group.position.set(0, -scale * 4, 0)
+        group.traverse(node => {
           if ((node as Mesh).isMesh) {
             node.castShadow = true
             node.receiveShadow = true
           }
         })
-        snailObject.scale.set(0.1, 0.1, 0.1)
-        snailObject.position.set(0, -0.25, 0)
-        const pivot = new Object3D()
-        pivot.add(snailObject)
-
-        done()
-        return resolve(pivot)
+        return gltf
+        // const pivot = new Object3D().add(group)
+        // return resolve(pivot)
       },
       xhr => set(progress, xhr.loaded / xhr.total),
       error => reject(`Load error: ${error.message}`)
@@ -44,15 +42,13 @@ function getModel(): Promise<Object3D> {
   })
 }
 
-function getMaterial(obj: Object3D): MeshStandardMaterial {
-  let mat: MeshStandardMaterial | undefined
-  obj.traverse((child: any) => {
-    if (!mat && child.material) {
-      mat = Array.isArray(child.material) ? child.material[0] : child.material
+function searchMaterial(group: Object3D): MeshStandardMaterial {
+  group.traverse((child: any) => {
+    if (child.material) {
+      return [child.material].flat().pop()
     }
   })
-  if (!mat) throw new Error("No material found")
-  return mat
+  throw new Error("No material found")
 }
 
 export default defineComponent({
@@ -62,6 +58,7 @@ export default defineComponent({
     roughness: { type: Number, required: true },
     position: { type: Object as PropType<Ref<PositionTuple>>, required: true },
     rotation: { type: Object as PropType<Ref<RotationTuple>>, required: true },
+    id: { type: String, required: false },
   },
   async setup(props, { slots }) {
     const scene = useScene()
@@ -71,9 +68,10 @@ export default defineComponent({
       scene.remove(mesh)
     })
 
-    const mesh = single("SnailShell", await getModel())
-    scene.add(mesh)
-    const material = getMaterial(mesh)
+    if (!model) await getModel()
+    const material = searchMaterial(model)
+
+    const mesh = single(`${props.id}_SnailShell`, new Mesh(model.associations, material))
 
     const box = new BoxGeometry(0.6, 0.45, 0.7)
     const boxMesh = new Mesh(box)

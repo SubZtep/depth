@@ -14,14 +14,14 @@ ParaPanel(title="Logarithmic Shell" :open="false")
     InputXY(v-model="state.a" :min="-25" :max="25" :step="0.1")
     div Radius
     InputXY(v-model="state.radius" :min="-25" :max="25" :step="0.1")
-    div Start angle
-    InputNumber(v-model="state.startAngle" :min="0" :max="2 * Math.PI" :step="0.1")
-    div End angle
-    InputNumber(v-model="state.endAngle" :min="0" :max="2 * Math.PI" :step="0.1")
-    div Clockwise
-    InputBoolean(v-model="state.clockwise")
-    div Rotation
-    InputNumber(v-model="state.rotation" :min="0" :max="2 * Math.PI" :step="0.1")
+    //- div Start angle
+    //- InputNumber(v-model="state.startAngle" :min="0" :max="2 * Math.PI" :step="0.1")
+    //- div End angle
+    //- InputNumber(v-model="state.endAngle" :min="0" :max="2 * Math.PI" :step="0.1")
+    //- div Clockwise
+    //- InputBoolean(v-model="state.clockwise")
+    //- div Rotation
+    //- InputNumber(v-model="state.rotation" :min="0" :max="2 * Math.PI" :step="0.1")
     div Turns
     InputNumber(v-model="state.turns" :min="0" :max="100" :step="0.1")
 </template>
@@ -55,8 +55,8 @@ const state = reactive({
   startAngle: 0,
   endAngle: 2 * Math.PI,
   clockwise: false,
-  rotation: 0,
-  turns: 1 // 3.14,
+  // rotation: 0,
+  turns: 1, // 3.14,
 })
 
 const world = getWorld()
@@ -83,7 +83,7 @@ watchEffect(() => {
     startAngle: state.startAngle,
     endAngle: state.endAngle,
     clockwise: state.clockwise,
-    rotation: state.rotation,
+    // rotation: state.rotation,
     turns: state.turns,
   })
   profilePoints = ls.profilePoints
@@ -156,7 +156,7 @@ interface ShellArgs {
   startAngle?: number
   endAngle?: number
   clockwise?: boolean
-  rotation?: number
+  // rotation?: number
   turns?: number
 }
 
@@ -169,9 +169,11 @@ function logarithmicShell(args: ShellArgs = {}) {
     startAngle = 0,
     endAngle = 2 * Math.PI,
     clockwise = false,
-    rotation = 0,
+    // rotation = 0,
     turns = 3.14,
   } = args
+
+  const rotation = 0
 
   // profile
   const curve = new EllipseCurve(aX, aY, xRadius, yRadius, startAngle, endAngle, clockwise, rotation)

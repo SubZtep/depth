@@ -19,9 +19,11 @@ import App from "./App/App.vue"
 import { usePreferencesStore } from "~/stores/preferences"
 import "virtual:windi.css"
 import "./styles/main.css"
+import { stateToLocalStorage } from "./stores/piniaPlugin"
 
 const pinia = createPinia()
 pinia.use(piniaToSupabase)
+pinia.use(stateToLocalStorage)
 // @ts-ignore
 // pinia.use(PiniaUndo)
 
