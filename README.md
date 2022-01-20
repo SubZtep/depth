@@ -107,4 +107,8 @@ Pictograms across the repository:
 
 ---
 
+- [ ] use as skybox video texture, vr https://www.youtube.com/watch?v=hUhaUEyZoNo
+
+---
+
 _tbc._

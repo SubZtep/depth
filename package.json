@@ -19,22 +19,28 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
+  "dependencies": {
+    "@vueuse/core": "^7.5.3",
+    "three": "^0.136.0",
+    "vue": "^3.2.20"
+  },
   "devDependencies": {
     "@types/jest": "^27.4.0",
-    "@typescript-eslint/eslint-plugin": "^5.9.1",
-    "@typescript-eslint/parser": "^5.9.1",
-    "@typescript-eslint/typescript-estree": "^5.9.1",
+    "@types/three": "^0.136.1",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "@typescript-eslint/typescript-estree": "^5.10.0",
     "@vue/test-utils": "^2.0.0-rc.16",
-    "eslint": "^8.6.0",
+    "eslint": "^8.7.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-tsdoc": "^0.2.14",
-    "eslint-plugin-unicorn": "^40.0.0",
+    "eslint-plugin-unicorn": "^40.1.0",
     "eslint-plugin-vue": "^8.3.0",
     "jest": "^27.4.7",
     "prettier": "^2.5.1",
     "ts-jest": "^27.1.3",
-    "typescript": "^4.5.4",
+    "typescript": "^4.5.5",
     "vue3-jest": "^27.0.0-alpha.1"
   },
   "pnpm": {
@@ -51,7 +57,7 @@
     "web"
   ],
   "optionalDependencies": {
-    "@babel/core": "^7.16.7",
+    "@babel/core": "^7.16.10",
     "babel-jest": "^27.4.6",
     "vue": "^3.2.20"
   }

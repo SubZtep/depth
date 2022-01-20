@@ -13,7 +13,8 @@
     "noUnusedLocals": false,
     "noImplicitAny": false,
     "declarationMap": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "removeComments": false
   },
   "exclude": ["dist", "public", "__tests__"],
   "references": [
@@ -21,6 +22,7 @@
     { "path": "packages/canvas" },
     { "path": "packages/controller" },
     { "path": "packages/database" },
+    { "path": "packages/editor" },
     { "path": "packages/hud" },
     { "path": "packages/misc" },
     { "path": "packages/physics" },

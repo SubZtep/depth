@@ -21,6 +21,7 @@ const { state } = defineProps<{ state: Store }>()
 
 const properties = Object.keys(state)
   .filter(key => key && !["$", "_"].includes(key.at(0)!))
+  .filter(key => key.startsWith("turns"))
   .map(key => {
     // const component = InputNumber
     return {

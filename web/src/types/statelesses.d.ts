@@ -12,3 +12,15 @@ interface LogShellState {
   /** spiral turn counter that could represent its length */
   turns: number
 }
+
+interface Entity {
+  id: string
+  title: string
+  component?: any
+  order?: number
+  children?: Entity[]
+}
+
+interface SceneState {
+  hierarchy: Entity[]
+}

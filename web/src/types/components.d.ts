@@ -21,6 +21,7 @@ declare module 'vue' {
     GrassMaterial: typeof import('./../components/3d/GrassMaterial.ts')['default']
     HeatmapTerrain: typeof import('./../components/3d/HeatmapTerrain.vue')['default']
     Help: typeof import('./../components/preferences/Help.vue')['default']
+    HierarchyPanel: typeof import('./../components/panel/HierarchyPanel.vue')['default']
     ImagePlane: typeof import('./../components/3d/ImagePlane.ts')['default']
     ImgMemfs: typeof import('./../components/video/ImgMemfs.ts')['default']
     InfiniteFloor: typeof import('./../components/3d/InfiniteFloor.ts')['default']

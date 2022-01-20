@@ -26,3 +26,11 @@
     border-bottom-left-radius: 6px;
   }
 }
+
+#hierarchy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 450px;
+  z-index: 200;
+}

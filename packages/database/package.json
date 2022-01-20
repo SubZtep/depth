@@ -9,7 +9,7 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@supabase/supabase-js": "^1.29.1",
+    "@supabase/supabase-js": "^1.29.2",
     "@vueuse/core": "^7.5.3",
     "pinia": "^2.0.9"
   },

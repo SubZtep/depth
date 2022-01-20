@@ -22,8 +22,8 @@ import InputXYZW from "~/components/panel/InputXYZW.vue"
 
 const props = defineProps<{ modelValue: any }>()
 // const prop = toRef(props, "modelValue")
-// const prop = ref(props.modelValue)
-const prop = ref(1)
+const prop = ref(props.modelValue)
+// const prop = ref(1)
 const emit = defineEmits<{ (e: "update:modelValue", modelValue: typeof prop.value): void }>()
 const hover = inject<Ref<boolean>>("hover")
 

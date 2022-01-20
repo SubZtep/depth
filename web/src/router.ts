@@ -19,6 +19,22 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    path: "/editor",
+    name: "editor",
+    component: () => import("./pages/EditorPage.vue"),
+    meta: {
+      skybox: 15,
+      // cc - 8a = 42
+      // 42 + 03 = 45
+      grid: 0xcc4503,
+      // grid: 0x8a0303,
+      // grid: 0xff7803,
+      position: [0, 2, -1],
+      lookAt: [0, 2, 0],
+      order: 1,
+    },
+  },
+  {
     path: "/snail",
     name: "snail",
     component: () => import("./pages/SnailPage.vue"),

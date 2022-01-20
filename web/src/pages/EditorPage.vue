@@ -4,6 +4,11 @@ Title
     .text-left.italic Snail, Snailer, Snalest
     .text-right — SO🐌
 
+//-Teleport(to="#hierarchy")
+  HierarchyPanel(:hierarchy="sceneStore.hierarchy")
+
+EditorPanel
+
 EntityPanel(title="Page gadgets")
   //- LensFlare(:position="[i, 4, 5]" v-for="i in [...Array(2).keys()]" :key="i")
   //- LensFlare(:position="[i - 1, 3, 5]" v-for="i in [...Array(3).keys()]" :key="i")
@@ -29,8 +34,11 @@ import LogShell from "~/components/stateless3d/LogShell"
 import * as crate from "~/3d/entities/woodCrate"
 import { useScene } from "@depth/canvas"
 import { useShellStore } from "~/stores/snail"
+import { useSceneStore } from "~/stores/scene"
 // import { useStorage } from "@vueuse/core"
+// import { EditorPanel } from "@depth/editor"
 
+const sceneStore = useSceneStore()
 const shellStore = useShellStore()
 // const store = useStorage("snail:shell", shellStore)
 // shellStore.$patch(store.value)

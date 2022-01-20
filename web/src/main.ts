@@ -9,6 +9,7 @@ import { ControllerPlugin } from "@depth/controller"
 import { PhysicsPlugin } from "@depth/physics"
 import { GuiPlugin } from "@depth/hud"
 import { StatsPlugin } from "@depth/stats"
+import { EditorPlugin } from "@depth/editor"
 // import Visible from "./directives/visible"
 // import CssAspectRatio from "./directives/css-aspect-ratio"
 import Visible from "./directives/visible"
@@ -30,6 +31,7 @@ pinia.use(stateToLocalStorage)
 const app = createApp(App)
   .use(pinia)
   .use(router)
+  .use(EditorPlugin)
   .use(SupabasePlugin, {
     url: import.meta.env.VITE_SUPABASE_URL,
     key: import.meta.env.VITE_SUPABASE_KEY,
