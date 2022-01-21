@@ -26,6 +26,14 @@
   pointer-events: none;
 }
 
+#editor > #playback {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
 #editor > #components {
   position: absolute;
   right: 0;
@@ -36,11 +44,7 @@
   justify-content: center;
 }
 
-/* #editor > #components > * {
-  background-color: lime;
-} */
-
-#editor > #components > * {
+#editor > #playback > *, #editor > #components > * {
   pointer-events: all;
 }
 

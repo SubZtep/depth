@@ -32,7 +32,7 @@ export default defineComponent({
   },
   template: `
     <label>{{label}}</label>
-    <div class="flex">
+    <div class="flex gap-1">
       <div className=${form}>
         <InputNumber label="X" v-model="model[0]" :min="min" :max="max" :step="step" />
       </div>

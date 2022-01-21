@@ -38,7 +38,6 @@ export default defineComponent({
     edit: { default: ref(false) },
   },
   setup(props) {
-    console.log("SEDFWE", props)
     const open = ref(props.open ?? false)
     const hover = ref(false)
 

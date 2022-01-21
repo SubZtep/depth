@@ -5,7 +5,7 @@ import { WebGLRenderer } from "three/src/renderers/WebGLRenderer"
 import { useIdle, whenever } from "@vueuse/core"
 import { Scene } from "three/src/scenes/Scene"
 import { Clock } from "three/src/core/Clock"
-import { ref, watchEffect } from "vue"
+import { ref, watch } from "vue"
 import { runInjectedFunctions } from "./useLoopInject"
 
 interface Options {
@@ -16,11 +16,13 @@ interface Options {
 
 export const looping = ref(false)
 
-const { idle } = useIdle(13_666) // ms
-
-watchEffect(() => {
-  document.querySelector("#scene")?.classList.toggle("paused", idle.value)
-})
+watch(
+  looping,
+  v => {
+    document.querySelector("#scene")?.classList.toggle("paused", !v)
+  },
+  { immediate: true }
+)
 
 let gameLoop: Fn // TODO: check is singleton practicable
 
@@ -32,11 +34,16 @@ export function initGameLoop({ renderer, scene, camera }: Options) {
     deltaTime = clock.getDelta()
     runInjectedFunctions({ scene, renderer, clock, deltaTime, camera }, "camupdated")
 
-    requestAnimationFrame(gameLoop)
-    const shouldRenderNextFrame = !idle.value
-    shouldRenderNextFrame && renderer.render(scene, camera)
+    if (looping.value) {
+      requestAnimationFrame(gameLoop)
+    }
+
+    renderer.render(scene, camera)
     runInjectedFunctions({ scene, renderer, clock, deltaTime, camera }, "rendered")
   }
 }
 
 whenever(looping, () => gameLoop?.())
+
+const { idle } = useIdle(13_666) // ms
+watch(idle, v => (looping.value = !v))

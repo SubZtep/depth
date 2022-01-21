@@ -1,24 +1,27 @@
 <template lang="pug">
 Suspense
   template(#default)
-    //- ThreeCanvas
     template
       ThreeCanvas
-      Teleport(v-if="edit" to="#editor")
-        EditorMain
+      Teleport(v-if="edit" to="#editor > #playback")
+        EditorPlayback
   template(#fallback)
     LoadingScreen
 </template>
 
 <script lang="ts" setup>
-import { EditorMain } from "@depth/editor"
 import ThreeCanvas from "~/App/ThreeCanvas.vue"
 import LoadingScreen from "~/App/LoadingScreen.vue"
-import { provide } from "vue"
+import { provide, onMounted } from "vue"
 
 // temporary global edit switch
-const edit = ref(true)
+const edit = ref(false)
 provide("edit", edit)
+
+onMounted(() => {
+  edit.value = true
+})
+
 document.querySelector(".dg.main.depth > .close-button")?.addEventListener("click", () => {
   edit.value = !edit.value
 })
