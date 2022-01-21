@@ -14,10 +14,10 @@ InputNumber(v-model="prop")
 </template>
 
 <script lang="ts" setup>
-import InputNumber from "~/components/panel/InputNumber.vue"
-import InputBoolean from "~/components/panel/InputBoolean.vue"
+import InputNumber from "~/components/panel/InputNumberDelme.vue"
+import InputBoolean from "~/components/panel/InputBooleanDelme.vue"
 import InputXY from "~/components/panel/InputXY.vue"
-import InputXYZ from "~/components/panel/InputXYZ.vue"
+import InputXYZ from "~/components/panel/InputXYZDelme.vue"
 import InputXYZW from "~/components/panel/InputXYZW.vue"
 
 const props = defineProps<{ modelValue: any }>()

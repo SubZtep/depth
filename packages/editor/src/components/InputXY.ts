@@ -1,12 +1,20 @@
+import type { PropType } from "vue"
 import { defineComponent, ref, watch } from "vue"
+import { css } from "@emotion/css"
+
+const form = css`
+  .flex {
+    display: block;
+  }
+`
 
 export default defineComponent({
   props: {
-    modelValue: { type: Number, required: true },
+    modelValue: { type: Array as unknown as PropType<[number, number]>, required: true },
     min: { type: Number, required: false },
     max: { type: Number, required: false },
     step: { type: Number, required: false },
-    label: { type: String, default: "number" },
+    label: { type: String, default: "xy" },
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
@@ -20,21 +28,16 @@ export default defineComponent({
 
     watch(model, v => emit("update:modelValue", v))
 
-    return {
-      hover,
-      model,
-      rangeProps,
-      label: props.label,
-    }
+    return { hover, model, rangeProps, label: props.label }
   },
   template: `
     <label>{{label}}</label>
-    <div class="flex gap-1" @mouseover="hover = true" @mouseleave="hover = false">
-      <div class="flex-1">
-        <input class="w-full filter" type="text" v-model.number="model" :class="{ 'invert': !hover }" />
+    <div class="flex">
+      <div className=${form}>
+        <InputNumber label="X" v-model="model[0]" :min="min" :max="max" :step="step" />
       </div>
-      <div class="flex-grow" v-if="hover">
-        <input class="w-full filter" type="range" v-model.number="model" v-bind="rangeProps" />
+      <div className=${form}>
+        <InputNumber label="Y" v-model="model[1]" :min="min" :max="max" :step="step" />
       </div>
     </div>
   `,

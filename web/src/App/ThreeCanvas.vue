@@ -6,7 +6,10 @@ MainScene(v-if="wc")
 </template>
 
 <script lang="ts" setup>
+// import { sleep } from "@depth/misc"
 import MainScene from "~/App/MainScene.vue"
+
+// await sleep(500)
 
 const wc = ref()
 

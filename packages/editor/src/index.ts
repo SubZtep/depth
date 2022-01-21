@@ -1,2 +1,2 @@
 export * from "./plugin"
-// export { default as EditorPanel } from "./components/EditorPanel"
+export { default as EditorMain } from "./components/EditorMain"

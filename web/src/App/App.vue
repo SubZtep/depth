@@ -1,12 +1,17 @@
 <template lang="pug">
 Suspense
   template(#default)
-    ThreeCanvas
+    //- ThreeCanvas
+    template
+      ThreeCanvas
+      Teleport(v-if="edit" to="#editor")
+        EditorMain
   template(#fallback)
     LoadingScreen
 </template>
 
 <script lang="ts" setup>
+import { EditorMain } from "@depth/editor"
 import ThreeCanvas from "~/App/ThreeCanvas.vue"
 import LoadingScreen from "~/App/LoadingScreen.vue"
 import { provide } from "vue"

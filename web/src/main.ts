@@ -1,4 +1,5 @@
-import { createApp } from "vue"
+// import { createApp } from "vue"
+import { createApp } from "vue/dist/vue.esm-bundler.js"
 import { createPinia, storeToRefs } from "pinia"
 // import { PiniaUndo } from "pinia-undo"
 import Toast, { POSITION } from "vue-toastification"
@@ -52,6 +53,8 @@ const app = createApp(App)
 //     console.log("My Error Handler", { err, instance, info })
 //   }
 // }
+
+app.config.unwrapInjectedRef = true
 
 initRouterMeta(app)
 

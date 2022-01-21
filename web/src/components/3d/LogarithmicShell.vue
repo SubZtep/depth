@@ -1,29 +1,18 @@
 <template lang="pug">
-ParaPanel(title="Logarithmic Shell" :open="false")
-  div Position
-  InputXYZ(v-model="state.position" :min="-500" :max="500")
-  ParaPanel(title="Visible elements")
-    div Show shell
-    InputBoolean(v-model="state.showShell")
-    div Show spiral
-    InputBoolean(v-model="state.showSpiral")
-    div Show wireframe
-    InputBoolean(v-model="state.showWireframe")
-  ParaPanel(title="Shell attributes")
-    div a
-    InputXY(v-model="state.a" :min="-25" :max="25" :step="0.1")
-    div Radius
-    InputXY(v-model="state.radius" :min="-25" :max="25" :step="0.1")
-    //- div Start angle
-    //- InputNumber(v-model="state.startAngle" :min="0" :max="2 * Math.PI" :step="0.1")
-    //- div End angle
-    //- InputNumber(v-model="state.endAngle" :min="0" :max="2 * Math.PI" :step="0.1")
-    //- div Clockwise
-    //- InputBoolean(v-model="state.clockwise")
-    //- div Rotation
-    //- InputNumber(v-model="state.rotation" :min="0" :max="2 * Math.PI" :step="0.1")
-    div Turns
-    InputNumber(v-model="state.turns" :min="0" :max="100" :step="0.1")
+ComponentPanel(title="Logarithmic Shell" :open="true")
+  InputXYZ(label="Position" v-model="state.position" :min="-200" :max="200")
+  ComponentPanel(title="Visible elements" :inner="true")
+    InputBoolean(label="Shell" v-model="state.showShell")
+    InputBoolean(label="Spiral" v-model="state.showSpiral")
+    InputBoolean(label="Wireframe" v-model="state.showWireframe")
+  ComponentPanel(title="Shell attributes" :inner="true")
+    InputXY(label="a" v-model="state.a" :min="-25" :max="25" :step="0.1")
+    InputXY(label="Radius" v-model="state.radius" :min="-25" :max="25" :step="0.1")
+    InputNumber(label="Start angle" v-model="state.startAngle" :min="0" :max="2 * Math.PI" :step="0.1")
+    InputNumber(label="End angle" v-model="state.endAngle" :min="0" :max="2 * Math.PI" :step="0.1")
+    InputBoolean(label="Clockwise" v-model="state.clockwise")
+    //- InputNumber(label="Rotation" v-model="state.rotation" :min="0" :max="2 * Math.PI" :step="0.1")
+    InputNumber(label="Turns" v-model="state.turns" :min="0" :max="100" :step="0.1")
 </template>
 
 <script lang="ts" setup>
@@ -57,6 +46,7 @@ const state = reactive({
   clockwise: false,
   // rotation: 0,
   turns: 1, // 3.14,
+  c: "#ff0000",
 })
 
 const world = getWorld()

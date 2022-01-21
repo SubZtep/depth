@@ -20,6 +20,7 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
+    "@emotion/css": "^11.7.1",
     "@vueuse/core": "^7.5.3",
     "three": "^0.136.0",
     "vue": "^3.2.20"
