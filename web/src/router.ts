@@ -8,18 +8,19 @@ import { useEnvironmentStore } from "~/stores/environment"
 
 const camHeight = 1.6
 const routes: RouteRecordRaw[] = [
+  // {
+  //   path: "/",
+  //   name: "home",
+  //   component: () => import("./pages/HomePage.vue"),
+  //   meta: {
+  //     position: [0, camHeight, 6],
+  //     lookAt: [0, 0, 0],
+  //     order: 1,
+  //   },
+  // },
   {
+    // path: "/editor",
     path: "/",
-    name: "home",
-    component: () => import("./pages/HomePage.vue"),
-    meta: {
-      position: [0, camHeight, 6],
-      lookAt: [0, 0, 0],
-      order: 1,
-    },
-  },
-  {
-    path: "/editor",
     name: "editor",
     component: () => import("./pages/EditorPage.vue"),
     meta: {

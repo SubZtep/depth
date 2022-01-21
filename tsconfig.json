@@ -14,7 +14,7 @@
     "noImplicitAny": false,
     "declarationMap": true,
     "isolatedModules": true,
-    "removeComments": false
+    "removeComments": false,
   },
   "exclude": ["dist", "public", "__tests__"],
   "references": [

@@ -1,4 +1,6 @@
-import { defineComponent, PropType, ref, WatchStopHandle } from "vue"
+// import { defineComponent, PropType, ref, WatchStopHandle } from "vue"
+import type { PropType, WatchStopHandle } from "vue"
+import { defineComponent, ref } from "vue"
 import { css } from "@emotion/css"
 import { syncRef } from "@vueuse/core"
 

@@ -12,8 +12,6 @@
   "dependencies": {
     "@depth/canvas": "workspace:*",
     "@depth/misc": "workspace:*",
-    "@dimforge/rapier3d-compat": "^0.7.6",
-    "three": "^0.136.0",
-    "vue": "^3.2.20"
+    "@dimforge/rapier3d-compat": "^0.7.6"
   }
 }

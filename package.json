@@ -23,7 +23,7 @@
     "@emotion/css": "^11.7.1",
     "@vueuse/core": "^7.5.3",
     "three": "^0.136.0",
-    "vue": "^3.2.20"
+    "vue": "^3.2.27"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
@@ -59,7 +59,6 @@
   ],
   "optionalDependencies": {
     "@babel/core": "^7.16.10",
-    "babel-jest": "^27.4.6",
-    "vue": "^3.2.20"
+    "babel-jest": "^27.4.6"
   }
 }

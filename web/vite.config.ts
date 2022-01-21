@@ -82,7 +82,9 @@ export default defineConfig(({ command }) => {
           depth: ["./src/pages/DepthPage.vue"],
           environment: ["./src/pages/EnvironmentPage.vue"],
           video: ["./src/pages/VideoPage.vue"],
-          "group-hands": ["./src/components/player/PlayerHands.vue"],
+          // "group-hands": ["./src/components/player/PlayerHands.vue"],
+          // "LogarithmicShell": ["./src/components/3d/LogarithmicShell.vue"],
+          // "HeatmapTerrain": ["./src/components/3d/HeatmapTerrain.vue"],
         },
         output: {
           sourcemap: isDev,

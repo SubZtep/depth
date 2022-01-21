@@ -11,12 +11,6 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@depth/stats": "workspace:*",
-    "@vueuse/core": "^7.5.3",
-    "three": "^0.136.0",
-    "vue": "^3.2.20"
-  },
-  "devDependencies": {
-    "@types/three": "^0.136.1"
+    "@depth/stats": "workspace:*"
   }
 }

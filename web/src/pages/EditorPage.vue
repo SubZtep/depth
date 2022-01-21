@@ -19,7 +19,17 @@ Title
   //- ThreeGlobe(:scale="0.01" :position="[0, 2, 2]")
   DirectionalLight(:link-camera-position="true")
 
-LogarithmicShell(:position="[0, 2, 200]")
+//- component(:is="LogarithmicShell" :position="[0, 2, 200]")
+//- component(:is="comp" :position="[0, 2, 200]")
+//- component(:is="comp" :position="[0, 2, 2]")
+
+//- comps
+//- component(:is="acomp(name)" v-for="name in comps" :key="name" :position="[0, 2, 200]")
+
+component(:is="comp" v-for="comp in compis" :position="[0, 2, 200]")
+
+
+//- LogarithmicShell(:position="[0, 2, 200]")
 //- LogarithmicShell
   //- MeshOutline(v-if="hover" v-bind="{ mesh, position, dimensions }")
 
@@ -29,8 +39,43 @@ LogarithmicShell(:position="[0, 2, 200]")
 </template>
 
 <script lang="ts" setup>
+import type { ShallowRef } from "vue"
+import { shallowRef, defineAsyncComponent } from "vue"
+// import { defineAsyncComponent } from "vue/dist/vue.esm-browser.js"
+// import { createApp, defineAsyncComponent } from "./vue.esm-browser";
+const comps = ["HeatmapTerrain", "LogarithmicShell"]
+
+const acomp = name => defineAsyncComponent(() => import(`../components/3d/${name}.vue`))
+// const acomp = name => defineAsyncComponent(() => import(`./src/components/3d/${name}.vue`))
+
+const compis = ref([] as ShallowRef[])
+
+onMounted(() => {
+  for (const name of comps) {
+    compis.value.push(acomp(name))
+    // compis.value.push(shallowRef(acomp(name)))
+  }
+})
+
+// defineAsyncComponent({
+//   // loader: () => import(`./components/3d/${name}.vue`),
+//   // loader: () => import(`./components/3d/${name}.js`),
+// })
+
+// setTimeout(() => {
+//   // comp.value = defineAsyncComponent(() => import("~/components/3d/LogarithmicShell.vue"))
+
+//   // const url = "~/components/3d/LogarithmicShell.vue"
+//   // comp.value = defineAsyncComponent(() => import(url))
+
+//   const url = name => `/src/components/3d/${name}.vue`
+//   comp.value = defineAsyncComponent({
+//     loader: () => import(url("HeatmapTerrain")),
+//   })
+// }, 3000)
+
 // // import { useCameraControls } from "@depth/controller"
-// // import LogarithmicShell from "~/components/3d/LogarithmicShell.vue"
+// import LogarithmicShell from "~/components/3d/LogarithmicShell.vue"
 // import LogShell from "~/components/stateless3d/LogShell"
 // import * as crate from "~/3d/entities/woodCrate"
 // import { useScene } from "@depth/canvas"
@@ -70,5 +115,4 @@ LogarithmicShell(:position="[0, 2, 200]")
 //   folder.name = "♖ Playground"
 //   folder.add({ pushCrate }, "pushCrate")
 // })
-
 </script>

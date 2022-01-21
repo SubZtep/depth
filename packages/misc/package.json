@@ -8,12 +8,5 @@
     "build": "tsc"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
-  "license": "Unlicense",
-  "dependencies": {
-    "three": "^0.136.0"
-  },
-  "devDependencies": {
-    "@types/three": "^0.136.1",
-    "@vueuse/core": "^7.5.3"
-  }
+  "license": "Unlicense"
 }

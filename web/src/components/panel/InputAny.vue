@@ -4,7 +4,7 @@
 //- div {{prop}}
 
 .text-white LOL {{prop}}
-InputNumber(v-model="prop")
+//- InputNumber(v-model="prop")
 //- input.w-full.filter(type="range" v-model.number="prop")
 
 //- component(v-if="editor" :is="editor" v-model="prop")
@@ -14,11 +14,11 @@ InputNumber(v-model="prop")
 </template>
 
 <script lang="ts" setup>
-import InputNumber from "~/components/panel/InputNumberDelme.vue"
-import InputBoolean from "~/components/panel/InputBooleanDelme.vue"
-import InputXY from "~/components/panel/InputXY.vue"
-import InputXYZ from "~/components/panel/InputXYZDelme.vue"
-import InputXYZW from "~/components/panel/InputXYZW.vue"
+// import InputNumber from "~/components/panel/InputNumberDelme.vue"
+// import InputBoolean from "~/components/panel/InputBooleanDelme.vue"
+// import InputXY from "~/components/panel/InputXY.vue"
+// import InputXYZ from "~/components/panel/InputXYZDelme.vue"
+// import InputXYZW from "~/components/panel/InputXYZW.vue"
 
 const props = defineProps<{ modelValue: any }>()
 // const prop = toRef(props, "modelValue")
@@ -34,7 +34,7 @@ let editor
 switch (propType) {
   // case "string"
   case "number":
-    editor = InputNumber
+    // editor = InputNumber
     break
   // case "boolean":
   //   editor = InputBoolean
