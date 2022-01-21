@@ -1,11 +1,5 @@
 // ^o.O https://codepen.io/calebgannon/pen/vYXMazq
-import { ShaderMaterial } from "three/src/materials/ShaderMaterial"
-import { DoubleSide } from "three/src/constants"
-import { Mesh } from "three/src/objects/Mesh"
-import { BufferGeometry } from "three/src/core/BufferGeometry"
-import { Vector3 } from "three/src/math/Vector3"
 import { useScene } from "@depth/canvas"
-import { Float32BufferAttribute, Uint8BufferAttribute } from "three/src/core/BufferAttribute"
 // Initialize Scene parameters
 // const frequency_samples = 128 // Y resolution
 // const DATA = new Uint8Array(frequency_samples) // for later
@@ -24,7 +18,7 @@ export default defineComponent({
   setup() {
     const scene = useScene()
 
-    const geometry = new BufferGeometry()
+    const geometry = new THREE.BufferGeometry()
     const indices: number[] = []
     const heights: number[] = []
     const vertices: number[] = []
@@ -32,14 +26,14 @@ export default defineComponent({
     // generate vertices for a simple grid geometry
     for (let i = 0; i <= xsegments; i++) {
       const x = i * xsegmentSize - xhalfSize //midpoint of mesh is 0,0
-      for (let j = 0; j <= ysegments; j++) {
-        const y = j * ysegmentSize - yhalfSize
+      for (let index = 0; index <= ysegments; index++) {
+        const y = index * ysegmentSize - yhalfSize
         vertices.push(x, y, 0)
         heights.push(Math.random() * 255) // for now our mesh is flat, so heights are zero
       }
     }
     // Add the position data to the geometry buffer
-    geometry.setAttribute("position", new Float32BufferAttribute(vertices, 3))
+    geometry.setAttribute("position", new THREE.Float32BufferAttribute(vertices, 3))
 
     for (let i = 0; i < xsegments; i++) {
       for (let index = 0; index < ysegments; index++) {
@@ -58,16 +52,20 @@ export default defineComponent({
     for (let n = 0; n < 1; n++) {
       //Fill out LUT with the color information
       lut.push(
-        new Vector3((string[n][0] * 255 - 49) / 206, (string[n][1] * 255 - 19) / 236, (string[n][2] * 255 - 50) / 190)
+        new THREE.Vector3(
+          (string[n][0] * 255 - 49) / 206,
+          (string[n][1] * 255 - 19) / 236,
+          (string[n][2] * 255 - 50) / 190
+        )
       )
     }
 
-    geometry.setAttribute("displacement", new Uint8BufferAttribute(heights, 1))
+    geometry.setAttribute("displacement", new THREE.Uint8BufferAttribute(heights, 1))
 
     // const geometry = new PlaneGeometry(2, 2, 1, 1)
-    const material = new ShaderMaterial({
+    const material = new THREE.ShaderMaterial({
       // glslVersion: GLSL3,
-      side: DoubleSide,
+      side: THREE.DoubleSide,
       // transparent: true,
       // lights: true,
       // TODO: receive shadow
@@ -111,7 +109,7 @@ export default defineComponent({
         `,
     })
 
-    const mesh = new Mesh(geometry, material)
+    const mesh = new THREE.Mesh(geometry, material)
     mesh.rotateX(Math.PI / 2)
     mesh.position.setY(0.1001)
     mesh.matrixAutoUpdate = true

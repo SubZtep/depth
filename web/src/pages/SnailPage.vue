@@ -61,5 +61,4 @@ addGuiFolder(folder => {
   folder.name = "♖ Playground"
   folder.add({ pushCrate }, "pushCrate")
 })
-
 </script>

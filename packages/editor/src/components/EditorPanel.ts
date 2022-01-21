@@ -17,7 +17,7 @@ export default defineComponent({
     // return () => slots.default?.()
     // return () => h("h1", {}, [slots.default?.()])
     // return () => h("h1", "lolka")
-    return { }
+    return {}
   },
   // template() {
   //   return `<h1>aaaa</h1>`

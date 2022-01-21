@@ -17,14 +17,12 @@
 <script lang="ts" setup>
 import { getWorld } from "@depth/physics"
 import { Collider, ColliderDesc, RigidBodyDesc, RigidBodyType } from "@dimforge/rapier3d-compat"
-import { Mesh } from "three/src/objects/Mesh"
 
 const props = defineProps<{
   dimensions: [number, number]
   position: [number, number, number]
-  mesh: Mesh
+  mesh: THREE.Mesh
 }>()
-
 
 const { position, dimensions } = toRefs(props)
 
@@ -48,7 +46,10 @@ const create = (newDimensions: [number, number]) => {
 }
 
 watch(dimensions, v => create(v), { immediate: true, deep: true })
-watch(position, pos => rigidBody.setNextKinematicTranslation({ x: pos[0], y: pos[1] - 0.1, z: pos[2] }), { immediate: true, deep: true })
+watch(position, pos => rigidBody.setNextKinematicTranslation({ x: pos[0], y: pos[1] - 0.1, z: pos[2] }), {
+  immediate: true,
+  deep: true,
+})
 
 onScopeDispose(() => {
   dispose()

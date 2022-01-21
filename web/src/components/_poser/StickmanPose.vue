@@ -8,14 +8,6 @@ slot(:color="state.color")
 
 <script lang="ts" setup>
 import { useScene } from "@depth/canvas"
-import { Vector3 } from "three"
-import { BufferGeometry } from "three/src/core/BufferGeometry"
-import { SphereGeometry } from "three/src/geometries/SphereGeometry"
-import { LineBasicMaterial } from "three/src/materials/LineBasicMaterial"
-import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
-import { Group } from "three/src/objects/Group"
-import { Line } from "three/src/objects/Line"
-import { Mesh } from "three/src/objects/Mesh"
 
 type Keypoint = { x: number; y: number; z: number }
 
@@ -72,20 +64,20 @@ const BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS: [number, number][] = [
 ]
 
 const state = reactive({
-  color: "#e3dac9"
+  color: "#e3dac9",
 })
 
-const sphereGeometry = new SphereGeometry(0.03, 8, 6)
-const whiteMaterial = new MeshPhongMaterial({ color: 0x69ffff, flatShading: true })
-const boneMaterial = new LineBasicMaterial({ color: 0xe3dac9 })
+const sphereGeometry = new THREE.SphereGeometry(0.03, 8, 6)
+const whiteMaterial = new THREE.MeshPhongMaterial({ color: 0x69ffff, flatShading: true })
+const boneMaterial = new THREE.LineBasicMaterial({ color: 0xe3dac9 })
 
-const root = new Group()
+const root = new THREE.Group()
 scene.add(root)
-const joints: Mesh[] = []
-const lines = new Map<string, Line>()
+const joints: THREE.Mesh[] = []
+const lines = new Map<string, THREE.Line>()
 
 for (let i = 0; i < props.keypoints.length; i++) {
-  const mesh = new Mesh(sphereGeometry, whiteMaterial)
+  const mesh = new THREE.Mesh(sphereGeometry, whiteMaterial)
   // mesh.receiveShadow = true
   mesh.castShadow = true
   joints.push(mesh)
@@ -93,8 +85,8 @@ for (let i = 0; i < props.keypoints.length; i++) {
 }
 
 for (const pairs of BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS) {
-  const geometry = new BufferGeometry()
-  const line = new Line(geometry, boneMaterial)
+  const geometry = new THREE.BufferGeometry()
+  const line = new THREE.Line(geometry, boneMaterial)
   line.frustumCulled = false
   lines.set(`${pairs[0]}-${pairs[1]}`, line)
   root.add(line)

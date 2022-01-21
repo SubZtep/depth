@@ -4,18 +4,16 @@ slot
 
 <script lang="ts" setup>
 import { useScene, createOutlinedMesh, disposeMesh } from "@depth/canvas"
-import { LineSegments } from "three/src/objects/LineSegments"
-import { Mesh } from "three/src/objects/Mesh"
 
 const props = defineProps<{
   dimensions?: [number, number]
   scale?: number
   position: [number, number, number]
-  mesh: Mesh
+  mesh: THREE.Mesh
 }>()
 
 const { position, scale = ref(1), dimensions = ref([1, 1] as [number, number]) } = toRefs(props)
-let outline: LineSegments | undefined
+let outline: THREE.LineSegments | undefined
 const scene = useScene()
 
 const dispose = () => {

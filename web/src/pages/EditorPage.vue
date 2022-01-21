@@ -23,16 +23,9 @@ Title
 //- component(:is="comp" :position="[0, 2, 200]")
 //- component(:is="comp" :position="[0, 2, 2]")
 
-//- comps
-//- component(:is="acomp(name)" v-for="name in comps" :key="name" :position="[0, 2, 200]")
+//- component(:is="comp.value" v-for="[key, comp] in Object.entries(assets)" :key="key")
 
-//- component(:is="comp" v-for="comp in compis" :position="[0, 2, 200]")
-//- component(:is="comp" v-for="comp in compis")
-//- component(:is="loadAsset(name)" v-for="name in comps" :key="name")
-//- component(:is="loadAsset(name)" v-for="asset in assets" :key="name")
-component(:is="comp.value" v-for="[key, comp] in Object.entries(assets)" :key="key")
-//- component(:is="comp" v-for="[key, comp] in Object.entries(assets)" :key="key")
-
+LogarithmicShell
 
 //- LogarithmicShell(:position="[0, 2, 200]")
 //- LogarithmicShell
@@ -46,13 +39,16 @@ component(:is="comp.value" v-for="[key, comp] in Object.entries(assets)" :key="k
 </template>
 
 <script lang="ts" setup>
+import * as THREE from "three"
 import type { DefineComponent, ShallowRef } from "vue"
 import { shallowRef, defineAsyncComponent } from "vue"
+import { LogarithmicShell } from "@depth/assets"
+import { useScene } from "@depth/canvas/dist/lib/helpers"
 // import HeatmapTerrain from "@depth/assets"
 // import { defineAsyncComponent } from "vue/dist/vue.esm-browser.js"
 // import { createApp, defineAsyncComponent } from "./vue.esm-browser";
-// const comps = ["HeatmapTerrain", "LogarithmicShell"]
-const comps = ["HeatmapTerrain"]
+const comps = ["HeatmapTerrain", "LogarithmicShell"]
+// const comps = ["HeatmapTerrain"]
 
 // const acomp = name => defineAsyncComponent(() => import("@depth/assets"))
 // const acomp = name => defineAsyncComponent(() => import("@depth/assets")[name])
@@ -83,6 +79,7 @@ const loadAsset = (name: string) =>
 
 const assets = {
   HeatmapTerrain: shallowRef(loadAsset("HeatmapTerrain")),
+  LogarithmicShell: shallowRef(loadAsset("LogarithmicShell")),
   // HeatmapTerrain: shallowRef(loadAsset("HeatmapTerrain")),
   // HeatmapTerrain: loadAsset("HeatmapTerrain"),
 }
@@ -103,7 +100,8 @@ const assets = {
 // // setTimeout(() => cc.zoomTo(1, true), 3000)
 // // cc.dollyTo(10, true)
 
-// const scene = useScene()
+const scene = useScene()
+scene.background = new THREE.Color(0x8a0303)
 // scene.add(crate.mesh)
 
 // crate.rigidBody.setGravityScale(0.1, false)

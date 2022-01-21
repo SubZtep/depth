@@ -11,8 +11,16 @@ export function useKeyboard(): PlayerInput {
   const action = ref<boolean>(false)
 
   watchEffect(() => {
-    joystick.value[0] = current.has(preferencesStore.keyboardLeft) ? -1 : current.has(preferencesStore.keyboardRight) ? 1 : 0
-    joystick.value[2] = current.has(preferencesStore.keyboardUp) ? -1 : current.has(preferencesStore.keyboardDown) ? 1 : 0
+    joystick.value[0] = current.has(preferencesStore.keyboardLeft)
+      ? -1
+      : current.has(preferencesStore.keyboardRight)
+        ? 1
+        : 0
+    joystick.value[2] = current.has(preferencesStore.keyboardUp)
+      ? -1
+      : current.has(preferencesStore.keyboardDown)
+        ? 1
+        : 0
     action.value = current.has(preferencesStore.keyboardAction)
   })
 

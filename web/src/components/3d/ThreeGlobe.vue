@@ -17,9 +17,6 @@ ParaPanel(title="Three Globe")
 <script lang="ts" setup>
 import ThreeGlobe from "three-globe"
 import { loop3D, toVector, useScene } from "@depth/canvas"
-import { Mesh } from "three/src/objects/Mesh"
-import { SphereBufferGeometry } from "three/src/geometries/SphereGeometry"
-import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
 import { Collider, ColliderDesc, RigidBodyDesc, RigidBodyType } from "@dimforge/rapier3d-compat"
 import { getWorld } from "@depth/physics"
 
@@ -83,11 +80,11 @@ const gData = [...Array.from({ length: N }).keys()].map(() => ({
 
 Globe.customLayerData(gData)
   .customThreeObject((d, _globeRadius) => {
-    const mesh = new Mesh(
+    const mesh = new THREE.Mesh(
       // @ts-ignore
-      new SphereBufferGeometry(d.radius, 5, 4),
+      new THREE.SphereBufferGeometry(d.radius, 5, 4),
       // @ts-ignore
-      new MeshPhongMaterial({ color: d.color, shininess: 1 })
+      new THREE.MeshPhongMaterial({ color: d.color, shininess: 1 })
     )
     mesh.castShadow = true
     mesh.receiveShadow = true

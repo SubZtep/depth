@@ -1,6 +1,6 @@
 <template lang="pug">
-SkyBox(:nr="environment.skybox")
-InfiniteGrid(:size="environment.size" :color="environment.color" :distance="environment.distance")
+//- SkyBox(:nr="environment.skybox")
+//- InfiniteGrid(:size="environment.size" :color="environment.color" :distance="environment.distance")
 
 //- EntityPanel(title="Default lights")
   AmbientLight(color="#ffffff" :intensity="1")
@@ -14,8 +14,8 @@ router-view(v-slot="{ Component }")
 
 <script lang="ts" setup>
 import { getCurrentInstance } from "vue"
-import SkyBox from "~/3d/components/SkyBox"
-import InfiniteGrid from "~/components/3d/InfiniteGrid"
+// import SkyBox from "~/3d/components/SkyBox"
+// import InfiniteGrid from "~/components/3d/InfiniteGrid"
 import { useEnvironmentStore } from "~/stores/environment"
 import MemoryInfo from "~/components/ui/MemoryInfo.vue"
 // import { usePreferencesStore } from "~/stores/preferences"

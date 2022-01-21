@@ -7,7 +7,7 @@ globals:
   defineProps: true
   get: true
   not: true
-  Object3D: true
+  # Object3D: true
   onBeforeUnmount: true
   onMounted: true
   onScopeDispose: true
@@ -32,7 +32,7 @@ globals:
   useTimeoutFn: true
   useToast: true
   useUserMedia: true
-  Vector3: true
+  # Vector3: true
   watch: true
   watchEffect: true
   watchWithFilter: true

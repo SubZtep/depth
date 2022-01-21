@@ -162,15 +162,15 @@ export function initRouterMeta(app: App) {
 
     // move camera to the desired position
     meta.position &&
-    meta.lookAt &&
+      meta.lookAt &&
       app.config.globalProperties.$cameraControls?.setLookAt(...meta.position, ...meta.lookAt, true)
 
     useEnvironmentStore().$patch({
-        skybox: meta.skybox ?? 13,
-        distance: 20,
-        color: meta.grid ?? 0x001300,
-        size: 1,
-      } as any)
+      skybox: meta.skybox ?? 13,
+      distance: 20,
+      color: meta.grid ?? 0x001300,
+      size: 1,
+    } as any)
   })
 }
 

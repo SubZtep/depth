@@ -1,11 +1,11 @@
-import type { Object3D } from "three/src/core/Object3D"
+import * as THREE from "three"
 import type { PropType } from "vue"
 import { defineComponent } from "vue"
 import { useCameraControls } from "../helpers"
 
 export default defineComponent({
   props: {
-    parent: { type: Object as PropType<Object3D>, required: false },
+    parent: { type: Object as PropType<THREE.Object3D>, required: false },
   },
   setup(_props, { slots }) {
     // const props = defineProps<{

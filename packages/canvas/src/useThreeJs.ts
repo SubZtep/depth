@@ -1,23 +1,21 @@
 import { debouncedWatch, useWindowSize } from "@vueuse/core"
-import { WebGLRenderer } from "three/src/renderers/WebGLRenderer"
-import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera"
-import { PCFSoftShadowMap, sRGBEncoding } from "three/src/constants"
+import * as THREE from "three"
 
 export default function (canvas: HTMLCanvasElement) {
   const { width, height } = useWindowSize()
 
-  const renderer = new WebGLRenderer({
+  const renderer = new THREE.WebGLRenderer({
     canvas,
     antialias: true,
     powerPreference: "high-performance",
     logarithmicDepthBuffer: true,
   })
   renderer.physicallyCorrectLights = true
-  renderer.outputEncoding = sRGBEncoding
+  renderer.outputEncoding = THREE.sRGBEncoding
   renderer.shadowMap.enabled = true
-  renderer.shadowMap.type = PCFSoftShadowMap
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
-  const camera = new PerspectiveCamera(69, undefined, 0.01, 1000)
+  const camera = new THREE.PerspectiveCamera(69, undefined, 0.01, 1000)
 
   debouncedWatch(
     [width, height],

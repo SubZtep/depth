@@ -1,18 +1,7 @@
-import { degToRad, toVector, useScene } from "@depth/canvas"
-import { getWorld } from "@depth/physics"
-import { Collider, ColliderDesc, RigidBodyDesc } from "@dimforge/rapier3d-compat"
-import { DoubleSide } from "three/src/constants"
-import { BufferGeometry } from "three/src/core/BufferGeometry"
-import { EllipseCurve } from "three/src/extras/curves/EllipseCurve"
-import { LineBasicMaterial } from "three/src/materials/LineBasicMaterial"
-import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
-import { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial"
-import { Euler } from "three/src/math/Euler"
-import { Line } from "three/src/objects/Line"
-import { Mesh } from "three/src/objects/Mesh"
+import { degToRad, useScene } from "@depth/canvas"
 
-function map(val: number, r1start: number, r1end: number, r2start: number, r2end: number) {
-  return r2start + (r2end - r2start) * ((val - r1start) / (r1end - r1start))
+function map(value: number, r1start: number, r1end: number, r2start: number, r2end: number) {
+  return r2start + (r2end - r2start) * ((value - r1start) / (r1end - r1start))
 }
 
 interface ShellArgs {
@@ -27,7 +16,7 @@ interface ShellArgs {
   turns?: number
 }
 
-function logarithmicShell(args: ShellArgs = {}) {
+function logarithmicShell(arguments_: ShellArgs = {}) {
   const {
     aX = 0,
     aY = 0,
@@ -38,26 +27,26 @@ function logarithmicShell(args: ShellArgs = {}) {
     clockwise = false,
     // rotation = 0,
     turns = 3.14,
-  } = args
+  } = arguments_
 
   // profile
-  const curve = new EllipseCurve(aX, aY, xRadius, yRadius, startAngle, endAngle, clockwise, /*rotation*/ 0)
+  const curve = new THREE.EllipseCurve(aX, aY, xRadius, yRadius, startAngle, endAngle, clockwise, /*rotation*/ 0)
 
-  const profilePoints = curve.getPoints(12).map(p => new Vector3(...p.toArray(), 0))
+  const profilePoints = curve.getPoints(12).map(p => new THREE.Vector3(...p.toArray(), 0))
   for (const p of profilePoints) {
-    p.applyEuler(new Euler(degToRad(90), 0, 0))
+    p.applyEuler(new THREE.Euler(degToRad(90), 0, 0))
   }
 
   // spiral
-  const spiralPoints = [new Vector3()]
-  const shellPoints: Vector3[] = []
+  const spiralPoints = [new THREE.Vector3()]
+  const shellPoints: THREE.Vector3[] = []
   const shellIndex: number[] = []
   const sResolution = 150
   const sTurns = turns // 3.14
   const alpha = degToRad(80)
-  const radiusVector = new Vector3(1, 0, 0)
-  const axis = new Vector3(0, 0, 1)
-  const euler = new Euler()
+  const radiusVector = new THREE.Vector3(1, 0, 0)
+  const axis = new THREE.Vector3(0, 0, 1)
+  const euler = new THREE.Euler()
 
   for (let i = 0; i <= sResolution; i++) {
     const theta = map(i, 0, sResolution, 0, Math.PI * 2 * sTurns)
@@ -67,16 +56,16 @@ function logarithmicShell(args: ShellArgs = {}) {
     const midRad = (rad + rad2) * 0.5
     const scale = rad2 - rad
 
-    const p = new Vector3().copy(radiusVector).multiplyScalar(rad).applyAxisAngle(axis, theta)
+    const p = new THREE.Vector3().copy(radiusVector).multiplyScalar(rad).applyAxisAngle(axis, theta)
     spiralPoints.push(p)
 
-    const c = new Vector3().copy(p).setLength(midRad)
+    const c = new THREE.Vector3().copy(p).setLength(midRad)
 
     const segCurrent = i * profilePoints.length
     const segNext = (i + 1) * profilePoints.length
 
     for (const [idx, p] of profilePoints.entries()) {
-      const pShell = new Vector3()
+      const pShell = new THREE.Vector3()
         .copy(p)
         .setX(p.x * scale)
         .setZ(p.z * scale * 0.6)
@@ -107,14 +96,14 @@ function logarithmicShell(args: ShellArgs = {}) {
 
 // const world = getWorld()
 
-let profilePoints: Vector3[] = []
-let spiralPoints: Vector3[] = []
-let shellPoints: Vector3[] = []
+let profilePoints: THREE.Vector3[] = []
+let spiralPoints: THREE.Vector3[] = []
+let shellPoints: THREE.Vector3[] = []
 let shellIndex: number[] = []
 
-const spiralGeometry = new BufferGeometry()
-const profileGeometry = new BufferGeometry()
-const shellGeometry = new BufferGeometry()
+const spiralGeometry = new THREE.BufferGeometry()
+const profileGeometry = new THREE.BufferGeometry()
+const shellGeometry = new THREE.BufferGeometry()
 
 // const rigidBodyDesc = RigidBodyDesc.newStatic()
 // const rigidBody = world.createRigidBody(rigidBodyDesc)
@@ -197,19 +186,19 @@ export default defineComponent({
   setup({ state }) {
     const scene = useScene()
 
-    const spiral = new Line(spiralGeometry, new LineBasicMaterial({ color: "yellow" }))
-    spiral.add(new Line(profileGeometry, new LineBasicMaterial({ color: "red" })))
+    const spiral = new THREE.Line(spiralGeometry, new THREE.LineBasicMaterial({ color: "yellow" }))
+    spiral.add(new THREE.Line(profileGeometry, new THREE.LineBasicMaterial({ color: "red" })))
 
-    const shell = new Mesh(
+    const shell = new THREE.Mesh(
       shellGeometry,
-      new MeshStandardMaterial({ color: "sandybrown", flatShading: true, side: DoubleSide })
+      new THREE.MeshStandardMaterial({ color: "sandybrown", flatShading: true, side: THREE.DoubleSide })
     )
-    const wireframe = new Mesh(shellGeometry, new MeshBasicMaterial({ color: "green", wireframe: true }))
+    const wireframe = new THREE.Mesh(shellGeometry, new THREE.MeshBasicMaterial({ color: "green", wireframe: true }))
 
     shell.castShadow = true
     shell.receiveShadow = true
 
-    const root = new Object3D()
+    const root = new THREE.Object3D()
     root.add(shell, spiral, wireframe)
     scene.add(root)
 

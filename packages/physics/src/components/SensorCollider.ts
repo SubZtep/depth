@@ -1,16 +1,14 @@
-import { Mesh } from "three/src/objects/Mesh"
-import { BoxHelper } from "three/src/helpers/BoxHelper"
+import * as THREE from "three"
 import { ColliderDesc, ActiveEvents } from "@dimforge/rapier3d-compat"
-import { BoxGeometry } from "three/src/geometries/BoxGeometry"
 import { onScopeDispose, PropType, toRefs, watch, defineComponent } from "vue"
 import { useScene } from "@depth/canvas"
 import { getWorld } from "../world"
 
-function createBoxHelper(dimensions: [number, number, number], position: [number, number, number]): BoxHelper {
-  const box = new BoxGeometry(...dimensions)
-  const boxMesh = new Mesh(box)
+function createBoxHelper(dimensions: [number, number, number], position: [number, number, number]): THREE.BoxHelper {
+  const box = new THREE.BoxGeometry(...dimensions)
+  const boxMesh = new THREE.Mesh(box)
   boxMesh.position.set(...position)
-  return new BoxHelper(boxMesh, 0xffff00)
+  return new THREE.BoxHelper(boxMesh, 0xffff00)
 }
 
 export default defineComponent({

@@ -22,16 +22,16 @@
 
 const props = defineProps<{ modelValue: any }>()
 // const prop = toRef(props, "modelValue")
-const prop = ref(props.modelValue)
+const property = ref(props.modelValue)
 // const prop = ref(1)
 const emit = defineEmits<{ (e: "update:modelValue", modelValue: typeof prop.value): void }>()
 const hover = inject<Ref<boolean>>("hover")
 
-const propType = typeof prop.value
+const propertyType = typeof property.value
 // console.log("PROP", )
 let editor
 
-switch (propType) {
+switch (propertyType) {
   // case "string"
   case "number":
     // editor = InputNumber
@@ -58,5 +58,5 @@ switch (propType) {
   //   }
 }
 
-watch(prop, v => emit("update:modelValue", v))
+watch(property, v => emit("update:modelValue", v))
 </script>

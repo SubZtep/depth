@@ -1,9 +1,4 @@
 import type { PropType } from "vue"
-import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
-import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
-import { TextureLoader } from "three/src/loaders/TextureLoader"
-import { FrontSide } from "three/src/constants"
-import { Mesh } from "three/src/objects/Mesh"
 import { useScene } from "@depth/canvas"
 
 export default defineComponent({
@@ -15,17 +10,17 @@ export default defineComponent({
   },
   setup({ url, width, height, position }) {
     const scene = useScene()
-    let mesh: Mesh
+    let mesh: THREE.Mesh
 
-    new TextureLoader().load(url, texture => {
+    new THREE.TextureLoader().load(url, texture => {
       // texture.wrapS = RepeatWrapping
       // texture.wrapT = RepeatWrapping
       // texture.offset.x = 90 / (2 * Math.PI)
 
-      const woodMaterial = new MeshPhongMaterial({
+      const woodMaterial = new THREE.MeshPhongMaterial({
         alphaTest: 0.5,
         map: texture,
-        side: FrontSide,
+        side: THREE.FrontSide,
         color: 0xff0000,
         emissive: 0x8a0303,
       })
@@ -38,7 +33,7 @@ export default defineComponent({
       // })
 
       // Add Ground
-      mesh = new Mesh(new PlaneGeometry(width, height, 8), woodMaterial)
+      mesh = new THREE.Mesh(new THREE.PlaneGeometry(width, height, 8), woodMaterial)
       mesh.receiveShadow = true
 
       //rotate

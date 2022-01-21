@@ -17,11 +17,7 @@ slot(:mesh="mesh")
 
 <script lang="ts" setup>
 import { useScene } from "@depth/canvas"
-import { Mesh } from "three/src/objects/Mesh"
 import { throttledWatch } from "@vueuse/core"
-import { CanvasTexture } from "three/src/textures/CanvasTexture"
-import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
-import { ShaderMaterial } from "three/src/materials/ShaderMaterial"
 
 const scene = useScene()
 
@@ -71,26 +67,26 @@ function createHeightMap() {
   const canvas = document.createElement("canvas")
   canvas.width = 256
   canvas.height = 256
-  const ctx = canvas.getContext("2d")!
-  ctx.fillStyle = "black"
-  ctx.fillRect(0, 0, 256, 256)
+  const context = canvas.getContext("2d")!
+  context.fillStyle = "black"
+  context.fillRect(0, 0, 256, 256)
   for (let i = 0; i < 100; i++) {
     const x = Math.floor(Math.random() * 255)
     const y = Math.floor(Math.random() * 255)
     const radius = 50
-    const grd = ctx.createRadialGradient(x, y, 1, x, y, radius)
+    const grd = context.createRadialGradient(x, y, 1, x, y, radius)
     const h8 = Math.floor(Math.random() * 255)
     grd.addColorStop(0, "rgb(" + h8 + "," + h8 + "," + h8 + ")")
     grd.addColorStop(1, "transparent")
-    ctx.fillStyle = grd
-    ctx.fillRect(0, 0, 256, 256)
+    context.fillStyle = grd
+    context.fillRect(0, 0, 256, 256)
   }
-  return new CanvasTexture(canvas)
+  return new THREE.CanvasTexture(canvas)
 }
 
-const mesh = new Mesh(
+const mesh = new THREE.Mesh(
   undefined,
-  new ShaderMaterial({
+  new THREE.ShaderMaterial({
     transparent: true,
     uniforms: {
       heightMap: { value: heightMap },
@@ -114,7 +110,12 @@ throttledWatch(
   [dimensions, segments],
   () => {
     mesh.geometry.dispose()
-    const geometry = new PlaneGeometry(dimensions.value[0], dimensions.value[1], segments.value[0], segments.value[1])
+    const geometry = new THREE.PlaneGeometry(
+      dimensions.value[0],
+      dimensions.value[1],
+      segments.value[0],
+      segments.value[1]
+    )
     geometry.rotateX(-Math.PI * 0.5)
     mesh.geometry = geometry
     mesh.updateMatrix()

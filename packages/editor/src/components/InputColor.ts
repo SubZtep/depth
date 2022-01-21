@@ -1,32 +1,44 @@
-import { defineComponent, ref, watch } from "vue"
+import { defineComponent, ref, h } from "vue"
 
 export default defineComponent({
   props: {
     modelValue: { type: String, required: true },
-    label: { type: String, default: "colour" },
+    label: { type: String, required: true },
   },
   emits: ["update:modelValue"],
-  setup(props, { emit }) {
+  setup() {
     const hover = ref(false)
-    const model = ref(props.modelValue)
-
-    watch(model, v => emit("update:modelValue", v))
-
-    return {
-      hover,
-      model,
-      label: props.label,
-    }
+    const setHover = (v: boolean) => (hover.value = v)
+    return { hover, setHover }
   },
-  template: `
-    <label>{{label}}</label>
-    <div class="flex gap-1" @mouseover="hover = true" @mouseleave="hover = false">
-      <div class="flex-1">
-        <input class="w-full filter" type="text" v-model="model" :class="{ 'invert': !hover }" />
-      </div>
-      <div class="flex-grow" v-if="hover">
-        <input type="color" v-model="model" />
-      </div>
-    </div>
-  `,
+  render({ label, modelValue, $emit, hover, setHover }) {
+    const inputProps = {
+      value: modelValue,
+      onInput: ({ target }) => $emit("update:modelValue", target.value),
+    }
+    return [
+      h("label", label),
+      h("div", { class: "flex gap-1", onMouseover: () => setHover(true), onMouseleave: () => setHover(false) }, [
+        h(
+          "div",
+          { class: "flex-1" },
+          h("input", {
+            type: "text",
+            class: `w-full filter${hover ? "" : " invert"}`,
+            ...inputProps,
+          })
+        ),
+        hover &&
+          h(
+            "div",
+            { class: "flex-grow" },
+            h("input", {
+              type: "color",
+              class: "w-grow",
+              ...inputProps,
+            })
+          ),
+      ]),
+    ]
+  },
 })

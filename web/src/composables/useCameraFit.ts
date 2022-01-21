@@ -1,18 +1,16 @@
 import { useCameraControls } from "@depth/controller"
-import { Vector3 } from "three"
-import { Box3 } from "three/src/math/Box3"
 
-const objects = new Set<Object3D>()
+const objects = new Set<THREE.Object3D>()
 
 /**
  * Bounding box of objects
  * @param objects 3D objects
  * @returns bounding box
  */
-function boundingBox(objects: Object3D[] | Set<Object3D>): Box3 {
-  const box = new Box3()
+function boundingBox(objects: THREE.Object3D[] | Set<THREE.Object3D>): THREE.Box3 {
+  const box = new THREE.Box3()
   for (const obj of objects) {
-    const obox = new Box3().setFromObject(obj)
+    const obox = new THREE.Box3().setFromObject(obj)
     box.union(obox)
   }
   return box
@@ -36,11 +34,11 @@ export function useCameraFit() {
   }
 
   return {
-    add(obj: Object3D, fitting = false) {
+    add(obj: THREE.Object3D, fitting = false) {
       objects.add(obj)
       if (fitting) fit()
     },
-    remove(obj: Object3D, fitting = false) {
+    remove(obj: THREE.Object3D, fitting = false) {
       objects.delete(obj)
       if (fitting) fit()
     },

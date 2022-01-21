@@ -9,12 +9,6 @@ slot(:mesh="mesh")
 <script lang="ts" setup>
 import { useScene } from "@depth/canvas"
 import { TRIANGULATION } from "@depth/poser"
-import { BufferAttribute } from "three/src/core/BufferAttribute"
-import { BufferGeometry } from "three/src/core/BufferGeometry"
-import { Mesh } from "three/src/objects/Mesh"
-import { DoubleSide, DynamicDrawUsage } from "three/src/constants"
-import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial"
-import { Material } from "three/src/materials/Material"
 
 type Keypoint = { x: number; y: number; z: number }
 
@@ -22,7 +16,7 @@ const props = defineProps<{
   keypoints: Keypoint[]
   position: PositionTuple
   scale: number
-  material?: Material
+  material?: THREE.Material
   selfie?: boolean
 }>()
 
@@ -30,23 +24,23 @@ const { keypoints, position, scale } = toRefs(props)
 
 const scene = useScene()
 
-const geometry = new BufferGeometry()
+const geometry = new THREE.BufferGeometry()
 
 const normalized = ref(true)
 
 const material = props.material
   ? props.material
-  : new MeshLambertMaterial({
-      side: DoubleSide,
+  : new THREE.MeshLambertMaterial({
+      side: THREE.DoubleSide,
       color: 0xff0000,
     })
 
 const vertices = new Float32Array(TRIANGULATION.length * 3)
-const positionAttribute = new BufferAttribute(vertices, 3)
-positionAttribute.setUsage(DynamicDrawUsage)
+const positionAttribute = new THREE.BufferAttribute(vertices, 3)
+positionAttribute.setUsage(THREE.DynamicDrawUsage)
 geometry.setAttribute("position", positionAttribute)
 
-const mesh = new Mesh(geometry, material)
+const mesh = new THREE.Mesh(geometry, material)
 mesh.frustumCulled = false
 scene.add(mesh)
 

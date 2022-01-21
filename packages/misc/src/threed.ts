@@ -1,6 +1,4 @@
-import type { Object3D } from "three/src/core/Object3D"
-import { Camera } from "three/src/cameras/Camera"
-import { Vector3 } from "three/src/math/Vector3"
+import * as THREE from "three"
 
 /**
  * Get the window position of an object from the 3D space.
@@ -9,8 +7,12 @@ import { Vector3 } from "three/src/math/Vector3"
  * @param canvasSize - WebGL canvas width and height (defaults to window size)
  * @returns 2D position tuple
  */
-export function object3dTo2d(object3d: Object3D, camera: Camera, canvasSize?: [number, number]): [number, number] {
-  const temporaryPos = new Vector3()
+export function object3dTo2d(
+  object3d: THREE.Object3D,
+  camera: THREE.Camera,
+  canvasSize?: [number, number]
+): [number, number] {
+  const temporaryPos = new THREE.Vector3()
   object3d.updateWorldMatrix(true, false)
   object3d.getWorldPosition(temporaryPos)
   temporaryPos.project(camera)

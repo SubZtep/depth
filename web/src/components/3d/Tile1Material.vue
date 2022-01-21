@@ -13,16 +13,10 @@ slot(:material="material")
 </template>
 
 <script lang="ts">
-let material: MeshBasicMaterial | MeshPhongMaterial | undefined
+let material: THREE.MeshBasicMaterial | THREE.MeshPhongMaterial | undefined
 </script>
 
 <script lang="ts" setup>
-import { RepeatWrapping, sRGBEncoding } from "three/src/constants"
-import { LoadingManager } from "three/src/loaders/LoadingManager"
-import { TextureLoader } from "three/src/loaders/TextureLoader"
-import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial"
-import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
-
 const props = defineProps<{
   repeat?: [number, number]
   hover?: boolean
@@ -34,9 +28,9 @@ const state = reactive({
   bumpScale: 15,
 })
 
-const loadManager = new LoadingManager()
+const loadManager = new THREE.LoadingManager()
 
-const loader = new TextureLoader(loadManager).setPath("/textures/terrain/Tiles_045_SD/")
+const loader = new THREE.TextureLoader(loadManager).setPath("/textures/terrain/Tiles_045_SD/")
 
 // loadManager.onProgress = (url, loaded, total) => {
 //   console.log(`${url}: ${loaded}/${total}`)
@@ -45,7 +39,7 @@ const loader = new TextureLoader(loadManager).setPath("/textures/terrain/Tiles_0
 const loaded = ref(!!material)
 
 if (!material) {
-  material = new MeshBasicMaterial({
+  material = new THREE.MeshBasicMaterial({
     aoMap: loader.load("Tiles_045_ambientOcclusion.webp"),
     map: loader.load("Tiles_045_basecolor.webp"),
     envMap: loader.load("Tiles_045_height.webp"),
@@ -64,11 +58,11 @@ if (!material) {
   //   // metalness: 5,
   //   // depthTest: true,
   // })
-  material.map!.encoding = sRGBEncoding
+  material.map!.encoding = THREE.sRGBEncoding
   // material.map!.minFilter = LinearMipmapLinearFilter
   // material.map!.repeat.set(2, 2)
-  material.map!.wrapS = RepeatWrapping
-  material.map!.wrapT = RepeatWrapping
+  material.map!.wrapS = THREE.RepeatWrapping
+  material.map!.wrapT = THREE.RepeatWrapping
 }
 
 watchEffect(() => {

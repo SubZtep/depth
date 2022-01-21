@@ -1,8 +1,9 @@
 import type { PropType } from "vue"
-import { defineComponent, ref, watch } from "vue"
+import { defineComponent, h } from "vue"
 import { css } from "@emotion/css"
+import InputNumber from "./InputNumber"
 
-const form = css`
+const className = css`
   .flex {
     display: block;
   }
@@ -11,34 +12,38 @@ const form = css`
 export default defineComponent({
   props: {
     modelValue: { type: Array as unknown as PropType<[number, number]>, required: true },
-    min: { type: Number, required: false },
-    max: { type: Number, required: false },
-    step: { type: Number, required: false },
-    label: { type: String, default: "xy" },
+    min: { type: Number, required: false, default: -10 },
+    max: { type: Number, required: false, default: 10 },
+    step: { type: Number, required: false, default: 0.01 },
+    label: { type: String, required: true },
   },
   emits: ["update:modelValue"],
-  setup(props, { emit }) {
-    const hover = ref(false)
-    const model = ref(props.modelValue)
-    const min = props.min ?? -10
-    const max = props.max ?? 10
-    const step = props.step ?? 0.01
-
-    const rangeProps = { min, max, step }
-
-    watch(model, v => emit("update:modelValue", v))
-
-    return { hover, model, rangeProps, label: props.label }
+  render({ label, min, max, step, modelValue: [x, y], $emit }) {
+    const inputProps = { min, max, step }
+    return [
+      h("label", label),
+      h("div", { class: "flex gap-1" }, [
+        h(
+          "div",
+          { className },
+          h(InputNumber, {
+            label: "X",
+            modelValue: x,
+            ...inputProps,
+            "onUpdate:modelValue": v => $emit("update:modelValue", [v, y]),
+          })
+        ),
+        h(
+          "div",
+          { className },
+          h(InputNumber, {
+            label: "Y",
+            modelValue: y,
+            ...inputProps,
+            "onUpdate:modelValue": v => $emit("update:modelValue", [x, v]),
+          })
+        ),
+      ]),
+    ]
   },
-  template: `
-    <label>{{label}}</label>
-    <div class="flex gap-1">
-      <div className=${form}>
-        <InputNumber label="X" v-model="model[0]" :min="min" :max="max" :step="step" />
-      </div>
-      <div className=${form}>
-        <InputNumber label="Y" v-model="model[1]" :min="min" :max="max" :step="step" />
-      </div>
-    </div>
-  `,
 })

@@ -1,20 +1,19 @@
 import { MaybeRef, whenever } from "@vueuse/core"
 import { tryOnScopeDispose } from "@vueuse/core"
-import { CubeTextureLoader } from "three/src/loaders/CubeTextureLoader"
-import { CubeTexture } from "three/src/textures/CubeTexture"
 import { getCurrentInstance, isReactive, isRef, PropType } from "vue"
+import * as THREE from "three"
 
 const onProgress = (event: ProgressEvent) => console.info("downloading skybox", event)
 
-const load = (nr: number, compressed = true): Promise<CubeTexture> => {
+const load = (nr: number, compressed = true): Promise<THREE.CubeTexture> => {
   return new Promise((resolve, reject) => {
     if (nr < 1 || nr > 15) {
       return reject("a valid skybox number is between 1 and 15")
     }
 
-    const loader = new CubeTextureLoader()
+    const loader = new THREE.CubeTextureLoader()
     const onError = (error: ErrorEvent) => reject(error)
-    const onLoad = (texture: CubeTexture) => resolve(texture)
+    const onLoad = (texture: THREE.CubeTexture) => resolve(texture)
 
     const path = `/textures/skybox/${String(nr).padStart(2, "0")}/`
     const urls = ["RT", "LF", "UP", "DN", "BK", "FR"].map(side => `sky${nr}_${side}.${compressed ? "webp" : "jpg"}`)

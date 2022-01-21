@@ -19,13 +19,7 @@ slot(:mesh="mesh" :cell-size="state.cellSize" :cell-height="state.cellHeight")
 </template>
 
 <script lang="ts" setup>
-import { BufferAttribute } from "three/src/core/BufferAttribute"
-import { BufferGeometry } from "three/src/core/BufferGeometry"
-import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial"
-import { euclideanModulo } from "three/src/math/MathUtils"
-import { Mesh } from "three/src/objects/Mesh"
 import { useScene } from "@depth/canvas"
-import { Material } from "three/src/materials/Material"
 
 const scene = useScene()
 
@@ -33,7 +27,7 @@ const props = defineProps<{
   position: [number, number, number]
   cellSize: number
   cellHeight: number
-  material?: Material
+  material?: THREE.Material
   hover?: boolean
 }>()
 
@@ -171,9 +165,9 @@ class VoxelWorld {
   }
 
   computeVoxelOffset(x: number, y: number, z: number) {
-    const voxelX = Math.trunc(euclideanModulo(x, this.cellSize))
-    const voxelY = Math.trunc(euclideanModulo(y, this.cellSize))
-    const voxelZ = Math.trunc(euclideanModulo(z, this.cellSize))
+    const voxelX = Math.trunc(THREE.MathUtils.euclideanModulo(x, this.cellSize))
+    const voxelY = Math.trunc(THREE.MathUtils.euclideanModulo(y, this.cellSize))
+    const voxelZ = Math.trunc(THREE.MathUtils.euclideanModulo(z, this.cellSize))
     return voxelY * this.cellSliceSize + voxelZ * this.cellSize + voxelX
   }
 
@@ -271,10 +265,10 @@ const setVoxelHeights = (cellSize: number, cellHeight: number) => {
   }
 }
 
-const geometry = new BufferGeometry()
+const geometry = new THREE.BufferGeometry()
 const material =
   props.material ??
-  new MeshLambertMaterial({
+  new THREE.MeshLambertMaterial({
     color: "darkgreen",
     emissive: "darkred",
     emissiveIntensity: 0.001,
@@ -282,7 +276,7 @@ const material =
     reflectivity: 1,
   })
 
-const mesh = new Mesh(geometry, material)
+const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
 watchEffect(() => {
@@ -297,8 +291,8 @@ watchEffect(() => {
   setVoxelHeights(state.cellSize, state.cellHeight)
 
   const worldData = world.generateGeometryDataForCell(0, 0, 0)
-  geometry.setAttribute("position", new BufferAttribute(new Float32Array(worldData.positions), 3))
-  geometry.setAttribute("normal", new BufferAttribute(new Float32Array(worldData.normals), 3))
+  geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(worldData.positions), 3))
+  geometry.setAttribute("normal", new THREE.BufferAttribute(new Float32Array(worldData.normals), 3))
   geometry.setIndex(worldData.indices)
 })
 

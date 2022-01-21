@@ -1,22 +1,15 @@
-import type { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
 import { loop3D, rotationFromQuaternion, useScene } from "@depth/canvas"
-import { Object3D } from "three/src/core/Object3D"
-import { Mesh } from "three/src/objects/Mesh"
 import { useSingleton } from "@depth/misc"
 import { onScopeDispose, watchEffect } from "vue"
-import { BoxGeometry } from "three/src/geometries/BoxGeometry"
-import { BoxHelper } from "three/src/helpers/BoxHelper"
-// import { BoxGeometry } from "three/src/geometries/BoxGeometry"
-// import { BoxHelper } from "three/src/helpers/BoxHelper"
 
 const gltfLoader = new GLTFLoader().setPath("/models/")
 gltfLoader.setDRACOLoader(new DRACOLoader().setDecoderPath("/libs/draco/"))
 
-let model: Object3D
+let model: THREE.Object3D
 
-function getModel(scale = 0.1): Promise<Object3D> {
+function getModel(scale = 0.1): Promise<THREE.Object3D> {
   const { progress } = useNProgress()
 
   return new Promise((resolve, reject) => {
@@ -27,7 +20,7 @@ function getModel(scale = 0.1): Promise<Object3D> {
         group.scale.set(scale, scale, scale)
         group.position.set(0, -scale * 4, 0)
         group.traverse(node => {
-          if ((node as Mesh).isMesh) {
+          if ((node as THREE.Mesh).isMesh) {
             node.castShadow = true
             node.receiveShadow = true
           }
@@ -42,7 +35,7 @@ function getModel(scale = 0.1): Promise<Object3D> {
   })
 }
 
-function searchMaterial(group: Object3D): MeshStandardMaterial {
+function searchMaterial(group: THREE.Object3D): THREE.MeshStandardMaterial {
   group.traverse((child: any) => {
     if (child.material) {
       return [child.material].flat().pop()
@@ -71,11 +64,12 @@ export default defineComponent({
     if (!model) await getModel()
     const material = searchMaterial(model)
 
-    const mesh = single(`${props.id}_SnailShell`, new Mesh(model.associations, material))
+    // @ts-ignore
+    const mesh = single(`${props.id}_SnailShell`, new THREE.Mesh(model.associations, material))
 
-    const box = new BoxGeometry(0.6, 0.45, 0.7)
-    const boxMesh = new Mesh(box)
-    const boxHelper = new BoxHelper(boxMesh, 0xe4e41b)
+    const box = new THREE.BoxGeometry(0.6, 0.45, 0.7)
+    const boxMesh = new THREE.Mesh(box)
+    const boxHelper = new THREE.BoxHelper(boxMesh, 0xe4e41b)
     mesh.add(boxHelper)
 
     // eslint-disable-next-line vue/no-watch-after-await

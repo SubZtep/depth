@@ -8,7 +8,6 @@ ParaPanel(title="Ambient Light")
 
 <script lang="ts" setup>
 import { useScene } from "@depth/canvas"
-import { AmbientLight } from "three/src/lights/AmbientLight"
 
 const props = defineProps<{
   color?: string
@@ -21,7 +20,7 @@ const state = reactive({
 })
 
 const scene = useScene()
-const light = new AmbientLight(state.color, state.intensity)
+const light = new THREE.AmbientLight(state.color, state.intensity)
 scene.add(light)
 
 watchEffect(() => {

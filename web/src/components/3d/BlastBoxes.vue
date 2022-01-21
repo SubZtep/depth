@@ -3,10 +3,7 @@
 
 <script lang="ts" setup>
 import { useScene } from "@depth/canvas"
-import { Mesh } from "three/src/objects/Mesh"
-import { ActiveEvents, ColliderDesc, RigidBody, RigidBodyDesc } from "@dimforge/rapier3d-compat"
-import { Group } from "three/src/objects/Group"
-import type { Quaternion } from "three/src/math/Quaternion"
+import { ActiveEvents, ColliderDesc, RigidBodyDesc } from "@dimforge/rapier3d-compat"
 
 const props = defineProps<{
   /** Number of generated boxes on 3 axes. */
@@ -20,10 +17,14 @@ const emit = defineEmits<{
   (e: "loaded", bodyHandlers: number[]): void
 }>()
 
-const group = new Group()
+const group = new THREE.Group()
 
 const toCenterVector = ([x, y, z]: PositionTuple): PositionTuple => {
-  return [x - ((props.pieces[0] - 1) / 2) + props.position[0], y + props.position[1], z - ((props.pieces[2] - 1) / 2) + props.position[2]]
+  return [
+    x - (props.pieces[0] - 1) / 2 + props.position[0],
+    y + props.position[1],
+    z - (props.pieces[2] - 1) / 2 + props.position[2],
+  ]
 }
 
 for (let x = 0; x < props.pieces[0]; x++) {
@@ -44,16 +45,15 @@ emit("loaded", bodies)
 
 <script lang="ts">
 import { loop3D, toVector } from "@depth/canvas"
-import { BoxGeometry } from "three/src/geometries/BoxGeometry"
 import { getWorld } from "@depth/physics"
 import { woodCrateMaterial } from "~/3d/materials/woodCrateMaterial"
 
 const world = getWorld()
 
-const boxGeometry = new BoxGeometry(1, 1, 1)
+const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
 
 function createBox(startPosition: PositionTuple = [0, 0, 0]) {
-  const boxMesh = new Mesh(boxGeometry, woodCrateMaterial)
+  const boxMesh = new THREE.Mesh(boxGeometry, woodCrateMaterial)
   boxMesh.receiveShadow = true
   boxMesh.castShadow = true
 
@@ -74,7 +74,7 @@ function createBox(startPosition: PositionTuple = [0, 0, 0]) {
     const rot = rigidBody.rotation()
 
     boxMesh.position.set(pos.x, pos.y, pos.z)
-    boxMesh.setRotationFromQuaternion({ x: rot.x, y: rot.y, z: rot.z, w: rot.w } as Quaternion)
+    boxMesh.setRotationFromQuaternion({ x: rot.x, y: rot.y, z: rot.z, w: rot.w } as THREE.Quaternion)
   })
 
   // onScopeDispose(() => {

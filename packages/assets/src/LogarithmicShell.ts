@@ -1,8 +1,9 @@
-import type { PropType } from "vue"
-import { defineComponent, onScopeDispose, reactive, watchEffect } from "vue"
+import { PropType, ref } from "vue"
+import { defineComponent, onScopeDispose, reactive, watchEffect, h } from "vue"
 import * as THREE from "three"
 import { toVector, useScene } from "@depth/canvas"
 import { getWorld, Collider, ColliderDesc, RigidBodyDesc } from "@depth/physics"
+import { ComponentPanel, InputXYZ, InputBoolean, InputColor } from "@depth/editor"
 
 function map(value: number, r1start: number, r1end: number, r2start: number, r2end: number) {
   return r2start + (r2end - r2start) * ((value - r1start) / (r1end - r1start))
@@ -206,7 +207,37 @@ export default defineComponent({
       wireframe.material.dispose()
     })
 
-    return {}
+    return { state }
   },
-  template: "<p>QQ</p>",
+  render({ state }) {
+    return h(ComponentPanel, { title: "Logarithmic Shell", open: true }, () => [
+      h(InputXYZ, {
+        label: "Position",
+        modelValue: state.position,
+        "onUpdate:modelValue": v => (state.position = v),
+      }),
+      h(InputColor, {
+        label: "Color",
+        modelValue: state.c,
+        "onUpdate:modelValue": v => (state.c = v),
+      }),
+      h(ComponentPanel, { title: "Visible elements", inner: true, open: true }, () => [
+        h(InputBoolean, {
+          label: "Shell",
+          modelValue: state.showShell,
+          "onUpdate:modelValue": v => (state.showShell = v),
+        }),
+        h(InputBoolean, {
+          label: "Spiral",
+          modelValue: state.showSpiral,
+          "onUpdate:modelValue": v => (state.showSpiral = v),
+        }),
+        h(InputBoolean, {
+          label: "Wireframe",
+          modelValue: state.showWireframe,
+          "onUpdate:modelValue": v => (state.showWireframe = v),
+        }),
+      ]),
+    ])
+  },
 })

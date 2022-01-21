@@ -1,9 +1,4 @@
 import { getCurrentInstance, isReactive, onScopeDispose, watchEffect } from "vue"
-import { ShaderMaterial } from "three/src/materials/ShaderMaterial"
-import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
-import { DoubleSide, GLSL3 } from "three/src/constants"
-import { Mesh } from "three/src/objects/Mesh"
-import { Color } from "three/src/math/Color"
 import { useScene } from "@depth/canvas"
 
 const vertexShader = `
@@ -55,15 +50,15 @@ export default defineComponent({
       throw new Error("Not in Vue sciope")
     }
 
-    const geometry = new PlaneGeometry(2, 2, 1, 1)
-    const material = new ShaderMaterial({
-      glslVersion: GLSL3,
-      side: DoubleSide,
+    const geometry = new THREE.PlaneGeometry(2, 2, 1, 1)
+    const material = new THREE.ShaderMaterial({
+      glslVersion: THREE.GLSL3,
+      side: THREE.DoubleSide,
       transparent: true,
       // lights: true,
       uniforms: {
         uSize: { value: props.size },
-        uColor: { value: new Color(props.color) },
+        uColor: { value: new THREE.Color(props.color) },
         uDistance: { value: props.distance },
       },
       // TODO: receive shadow
@@ -71,7 +66,7 @@ export default defineComponent({
       fragmentShader,
     })
 
-    const mesh = new Mesh(geometry, material)
+    const mesh = new THREE.Mesh(geometry, material)
     mesh.rotateY(Math.PI / 2)
     mesh.position.setY(props.posY)
 
@@ -79,7 +74,7 @@ export default defineComponent({
       // TODO: make props ref properly if necessary
       watchEffect(() => {
         material.uniforms.uSize.value = props.size
-        material.uniforms.uColor.value = new Color(props.color)
+        material.uniforms.uColor.value = new THREE.Color(props.color)
         material.uniforms.uDistance.value = props.distance
         material.needsUpdate = true
       })

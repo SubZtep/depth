@@ -37,24 +37,24 @@ plugins:
   - "unicorn"
 
 rules:
-  prettier/prettier: warn
-  linebreak-style:
+  "prettier/prettier": warn
+  "linebreak-style":
     - error
     - unix
-  quotes:
+  "quotes":
     - error
     - double
-  semi:
+  "semi":
     - error
     - never
   "vue/require-default-prop": off
-  indent:
+  "indent":
     - warn
     - 2
     - SwitchCase: 1
-  prefer-const: warn
+  "prefer-const": warn
 
-  no-unused-vars: off
+  "no-unused-vars": off
   "@typescript-eslint/no-unused-vars":
     - warn
     - argsIgnorePattern: "^_"
@@ -64,17 +64,17 @@ rules:
   "@typescript-eslint/ban-ts-comment": warn
   "@typescript-eslint/no-empty-function": warn
   "@typescript-eslint/no-explicit-any": off
-  tsdoc/syntax: warn
-  vue/prop-name-casing: off
-  unicorn/filename-case: off
-  unicorn/number-literal-case: off
-  unicorn/numeric-separators-style: off
-  unicorn/no-nested-ternary: off
-  unicorn/consistent-destructuring: off
-  unicorn/no-null: off
-  vue/no-setup-props-destructure: off
-  unicorn/no-object-as-default-parameter: off
-  unicorn/prevent-abbreviations:
+  "tsdoc/syntax": warn
+  "vue/prop-name-casing": off
+  "unicorn/filename-case": off
+  "unicorn/number-literal-case": off
+  "unicorn/numeric-separators-style": off
+  "unicorn/no-nested-ternary": off
+  "unicorn/consistent-destructuring": off
+  "unicorn/no-null": off
+  "vue/no-setup-props-destructure": off
+  "unicorn/no-object-as-default-parameter": off
+  "unicorn/prevent-abbreviations":
     - warn
     - ignore: ["props", "err", "el", "isDev", "Fn", "fn", "Param", "params", "src", "ext", "Ref", "obj", "i"]
 

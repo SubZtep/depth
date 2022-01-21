@@ -12,21 +12,15 @@ slot(:material="material")
 </template>
 
 <script lang="ts" setup>
-import { DoubleSide, LinearMipmapLinearFilter, RepeatWrapping, sRGBEncoding } from "three/src/constants"
-import { LoadingManager } from "three/src/loaders/LoadingManager"
-import { TextureLoader } from "three/src/loaders/TextureLoader"
-import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial"
-import { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial"
-
 const state = reactive({
   repeat: [2, 2] as [number, number],
   shininess: 15,
   bumpScale: 15,
 })
 
-const loadManager = new LoadingManager()
+const loadManager = new THREE.LoadingManager()
 
-const loader = new TextureLoader(loadManager).setPath("/textures/things/Leather_005_SD/")
+const loader = new THREE.TextureLoader(loadManager).setPath("/textures/things/Leather_005_SD/")
 
 loadManager.onProgress = (url, loaded, total) => {
   console.log(`${url}: ${loaded}/${total}`)
@@ -45,24 +39,24 @@ loadManager.onProgress = (url, loaded, total) => {
 //   // depthTest: true,
 // })
 
-const material = new MeshStandardMaterial({
+const material = new THREE.MeshStandardMaterial({
   aoMap: loader.load("Leather_005_ambientOcclusion.jpg"),
   map: loader.load("Leather_005_basecolor.jpg"),
   bumpMap: loader.load("Leather_005_height.jpg"),
   normalMap: loader.load("Leather_005_normal.jpg"),
   roughnessMap: loader.load("Leather_005_roughness.jpg"),
-  side: DoubleSide,
+  side: THREE.DoubleSide,
   // bumpScale: 15,
   // shininess: 15,
   // roughness: 15,
   // metalness: 5,
   // depthTest: true,
 })
-material.map!.encoding = sRGBEncoding
-material.map!.minFilter = LinearMipmapLinearFilter
+material.map!.encoding = THREE.sRGBEncoding
+material.map!.minFilter = THREE.LinearMipmapLinearFilter
 // material.map!.repeat.set(2, 2)
-material.map!.wrapS = RepeatWrapping
-material.map!.wrapT = RepeatWrapping
+material.map!.wrapS = THREE.RepeatWrapping
+material.map!.wrapT = THREE.RepeatWrapping
 
 watchEffect(() => {
   material!.map!.repeat.set(state.repeat[0], state.repeat[1])

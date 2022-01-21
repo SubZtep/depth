@@ -9,7 +9,6 @@ ParaPanel(title="Directional Light")
 <script lang="ts" setup>
 import { useScene, loop3D } from "@depth/canvas"
 import { useCameraControls } from "@depth/controller"
-import { DirectionalLight } from "three/src/lights/DirectionalLight"
 
 const props = defineProps<{
   position?: PositionTuple
@@ -27,7 +26,7 @@ const state = reactive({
 
 const scene = useScene()
 
-const directionalLight = new DirectionalLight()
+const directionalLight = new THREE.DirectionalLight()
 directionalLight.castShadow = true
 directionalLight.shadow.mapSize.width = 512 // default
 directionalLight.shadow.mapSize.height = 512 // default

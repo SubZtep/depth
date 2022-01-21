@@ -1,9 +1,5 @@
-import { sRGBEncoding } from "three/src/constants"
-import { TextureLoader } from "three/src/loaders/TextureLoader"
-import { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial"
-
-const loader = new TextureLoader().setPath("/textures/things/Wood_Crate_001_SD/")
-export const woodCrateMaterial = new MeshStandardMaterial({
+const loader = new THREE.TextureLoader().setPath("/textures/things/Wood_Crate_001_SD/")
+export const woodCrateMaterial = new THREE.MeshStandardMaterial({
   aoMap: loader.load("Wood_Crate_001_ambientOcclusion.webp"),
   map: loader.load("Wood_Crate_001_basecolor.webp"),
   bumpMap: loader.load("Wood_Crate_001_height.webp"),
@@ -11,4 +7,4 @@ export const woodCrateMaterial = new MeshStandardMaterial({
   roughnessMap: loader.load("Wood_Crate_001_roughness.webp"),
   metalness: 0,
 })
-woodCrateMaterial.map!.encoding = sRGBEncoding
+woodCrateMaterial.map!.encoding = THREE.sRGBEncoding

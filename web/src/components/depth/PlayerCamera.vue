@@ -3,16 +3,10 @@
 </template>
 
 <script lang="ts" setup>
-import { useCameraControls, useFpsControls } from "@depth/controller"
-import { Euler } from "three/src/math/Euler"
-import { Quaternion } from "three/src/math/Quaternion"
-import { radToDeg } from "three/src/math/MathUtils"
-import { Object3D } from "three/src/core/Object3D"
 import { exec3D, useScene } from "@depth/canvas"
-import { MathUtils } from "three/src/Three"
 
 const props = defineProps<{
-  parent: Object3D
+  parent: THREE.Object3D
   //   position: PositionTuple
   //   rotation: RotationTuple
 }>()
@@ -27,7 +21,6 @@ const props = defineProps<{
 //   // exec3D({ ca})
 //   //
 // }
-
 
 // const cc = useCameraControls()
 // // useFpsControls(cc)

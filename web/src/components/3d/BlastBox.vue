@@ -3,12 +3,8 @@
 
 <script lang="ts" setup>
 import { useScene } from "@depth/canvas"
-import { Mesh } from "three/src/objects/Mesh"
-import { ActiveEvents, ColliderDesc, RigidBody, RigidBodyDesc } from "@dimforge/rapier3d-compat"
-import { Group } from "three/src/objects/Group"
-import type { Quaternion } from "three/src/math/Quaternion"
+import { ActiveEvents, ColliderDesc, RigidBodyDesc } from "@dimforge/rapier3d-compat"
 import { loop3D, toVector } from "@depth/canvas"
-import { BoxGeometry } from "three/src/geometries/BoxGeometry"
 import { getWorld } from "@depth/physics"
 import { woodCrateMaterial } from "~/3d/materials/woodCrateMaterial"
 
@@ -41,12 +37,11 @@ const emit = defineEmits<{
 const scene = useScene()
 // scene.add(group)
 
-
 const world = getWorld()
 
-const boxGeometry = new BoxGeometry(1, 1, 1)
+const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
 
-const mesh = new Mesh(boxGeometry, woodCrateMaterial)
+const mesh = new THREE.Mesh(boxGeometry, woodCrateMaterial)
 mesh.position.set(...props.position)
 mesh.receiveShadow = true
 mesh.castShadow = true
@@ -73,7 +68,7 @@ loop3D(() => {
   const rot = rigidBody.rotation()
 
   mesh.position.set(pos.x, pos.y, pos.z)
-  mesh.setRotationFromQuaternion({ x: rot.x, y: rot.y, z: rot.z, w: rot.w } as Quaternion)
+  mesh.setRotationFromQuaternion({ x: rot.x, y: rot.y, z: rot.z, w: rot.w } as THREE.Quaternion)
 })
 
 onScopeDispose(() => {

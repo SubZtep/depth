@@ -1,41 +1,50 @@
-import { defineComponent, ref, watch } from "vue"
+import { defineComponent, ref, h } from "vue"
 
 export default defineComponent({
   props: {
     modelValue: { type: Number, required: true },
-    min: { type: Number, required: false },
-    max: { type: Number, required: false },
-    step: { type: Number, required: false },
-    label: { type: String, default: "number" },
+    min: { type: Number, required: false, default: -10 },
+    max: { type: Number, required: false, default: 10 },
+    step: { type: Number, required: false, default: 0.01 },
+    label: { type: String, required: true },
   },
   emits: ["update:modelValue"],
-  setup(props, { emit }) {
+  setup() {
     const hover = ref(false)
-    const model = ref(props.modelValue)
-    const min = props.min ?? -10
-    const max = props.max ?? 10
-    const step = props.step ?? 0.01
-
-    const rangeProps = { min, max, step }
-
-    watch(model, v => emit("update:modelValue", v))
-
-    return {
-      hover,
-      model,
-      rangeProps,
-      label: props.label,
-    }
+    const setHover = (v: boolean) => (hover.value = v)
+    return { hover, setHover }
   },
-  template: `
-    <label>{{label}}</label>
-    <div class="flex gap-1" @mouseover="hover = true" @mouseleave="hover = false">
-      <div class="flex-1">
-        <input class="w-full filter" type="text" v-model.number="model" :class="{ 'invert': !hover }" />
-      </div>
-      <div class="flex-grow" v-if="hover">
-        <input class="w-full filter" type="range" v-model.number="model" v-bind="rangeProps" />
-      </div>
-    </div>
-  `,
+  render({ label, min, max, step, modelValue, $emit, hover, setHover }) {
+    const inputProps = {
+      min,
+      max,
+      step,
+      value: modelValue,
+      onInput: ({ target }) => $emit("update:modelValue", Number(target.value)),
+    }
+    return [
+      h("label", label),
+      h("div", { class: "flex gap-1", onMouseover: () => setHover(true), onMouseleave: () => setHover(false) }, [
+        h(
+          "div",
+          { class: "flex-1" },
+          h("input", {
+            type: "number",
+            class: `w-full filter${hover ? "" : " invert"}`,
+            ...inputProps,
+          })
+        ),
+        hover &&
+          h(
+            "div",
+            { class: "flex-grow" },
+            h("input", {
+              type: "range",
+              class: "w-full filter",
+              ...inputProps,
+            })
+          ),
+      ]),
+    ]
+  },
 })

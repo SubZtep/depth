@@ -1,18 +1,14 @@
 import { Fn, tryOnScopeDispose } from "@vueuse/core"
-import type { OrthographicCamera } from "three/src/cameras/OrthographicCamera"
-import type { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera"
-import { Clock } from "three/src/core/Clock"
-import type { WebGLRenderer } from "three/src/renderers/WebGLRenderer"
-import type { Scene } from "three/src/scenes/Scene"
+import * as THREE from "three"
 
 interface RenderLoopFnProps {
-  renderer: WebGLRenderer
-  scene: Scene
+  renderer: THREE.WebGLRenderer
+  scene: THREE.Scene
   /** Three.js internal clock. */
-  clock: Clock
+  clock: THREE.Clock
   /** Get delta from clock at frame start. */
   deltaTime: number
-  camera: PerspectiveCamera | OrthographicCamera
+  camera: THREE.PerspectiveCamera | THREE.OrthographicCamera
 }
 
 type RenderLoopFn = (props: RenderLoopFnProps) => void

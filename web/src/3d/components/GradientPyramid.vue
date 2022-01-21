@@ -2,19 +2,13 @@
 </template>
 
 <script lang="ts" setup>
-import type { Object3D } from "three/src/core/Object3D"
-import { LatheGeometry } from "three/src/geometries/LatheGeometry"
-import { Vector2 } from "three/src/math/Vector2"
-import { Mesh } from "three/src/objects/Mesh"
-import { Color } from "three/src/math/Color"
 import GradientMaterial from "~/3d/materials/GradientMaterial"
 import { useScene } from "@depth/canvas"
-import { onScopeDispose } from "vue"
-import { Quaternion } from "three"
+import * as THREE from "three"
 
 const props = defineProps<{
   /** Add to a parent object instead of `Scene` */
-  parent?: Object3D
+  parent?: THREE.Object3D
   position?: PositionTuple
   rotation?: RotationTuple
   levels?: number
@@ -31,30 +25,30 @@ const props = defineProps<{
 //   new Vector2(4, 3),
 //   new Vector2(4, 4),
 // ]
-const points: Vector2[] = []
+const points: THREE.Vector2[] = []
 const levels = props.levels ?? 5
 for (let i = 0; i < levels + 1; i++) {
-  points.push(new Vector2(i, i))
+  points.push(new THREE.Vector2(i, i))
   if (i < levels) {
-    points.push(new Vector2(i + 1, i))
+    points.push(new THREE.Vector2(i + 1, i))
   }
 
   // points.push(new Vector2(i, 0))
 }
 
-const geometry = new LatheGeometry(points, 4)
+const geometry = new THREE.LatheGeometry(points, 4)
 geometry.rotateX(-Math.PI / 2)
 geometry.rotateZ(Math.PI / 4)
-const material = new GradientMaterial(new Color("red"), new Color("black"))
+const material = new GradientMaterial(new THREE.Color("red"), new THREE.Color("black"))
 
-const mesh = new Mesh(geometry, material)
+const mesh = new THREE.Mesh(geometry, material)
 
 if (props.position) {
   mesh.position.set(...props.position)
 }
 
 if (props.rotation) {
-  mesh.setRotationFromQuaternion(new Quaternion().fromArray(props.rotation))
+  mesh.setRotationFromQuaternion(new THREE.Quaternion().fromArray(props.rotation))
 }
 
 const scene = useScene()

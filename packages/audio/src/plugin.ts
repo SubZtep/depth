@@ -9,7 +9,7 @@ interface AudioPluginOptions {
 
 let play = async (src: string) => {
   console.warn("Audio context is suspended", src)
-  return Promise.resolve()
+  return
 }
 
 const plugin = {

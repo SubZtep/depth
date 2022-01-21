@@ -1,21 +1,17 @@
-import { BufferGeometry } from "three/src/core/BufferGeometry"
-import type { Object3D } from "three/src/core/Object3D"
-import { Material } from "three/src/materials/Material"
-import type { Quaternion } from "three/src/math/Quaternion"
-import { Scene } from "three/src/scenes/Scene"
+import * as THREE from "three"
 import { getCurrentInstance } from "vue"
 
 type PositionTuple = [number, number, number]
 type RotationTuple = [number, number, number, number]
 type Vector = { x: number; y: number; z: number }
 
-export function rotationFromQuaternion(obj: Object3D, rot: RotationTuple) {
-  obj.setRotationFromQuaternion({ x: rot[0], y: rot[1], z: rot[2], w: rot[3] } as Quaternion)
+export function rotationFromQuaternion(obj: THREE.Object3D, rot: RotationTuple) {
+  obj.setRotationFromQuaternion({ x: rot[0], y: rot[1], z: rot[2], w: rot[3] } as THREE.Quaternion)
 }
 
 // TODO: reaname to `get3DScene`
 /** Get Three.js Scene or die */
-export function useScene(): Scene {
+export function useScene(): THREE.Scene {
   const instance = getCurrentInstance()
   if (!instance) throw new Error("Not in Vue scope")
   const { $scene } = instance.appContext.app.config.globalProperties
@@ -34,7 +30,7 @@ export function radToDeg(rad: number): number {
   return (rad * 180) / Math.PI
 }
 
-export function disposeMesh(mesh: { geometry: BufferGeometry; material: Material | Material[] }) {
+export function disposeMesh(mesh: { geometry: THREE.BufferGeometry; material: THREE.Material | THREE.Material[] }) {
   mesh.geometry.dispose()
   if (Array.isArray(mesh.material)) {
     for (const m of mesh.material) {

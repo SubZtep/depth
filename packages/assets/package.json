@@ -1,7 +1,6 @@
 {
   "name": "@depth/assets",
   "version": "0.1.0",
-  "sideEffects": false,
   "type": "module",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",

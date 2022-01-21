@@ -1,0 +1,2 @@
+rules:
+  "vue/no-dupe-keys": off

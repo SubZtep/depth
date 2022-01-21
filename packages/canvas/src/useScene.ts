@@ -1,5 +1,5 @@
-import { Scene } from "three/src/scenes/Scene"
+import * as THREE from "three"
 
 export default function () {
-  return new Scene()
+  return new THREE.Scene()
 }

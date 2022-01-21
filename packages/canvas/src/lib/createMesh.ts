@@ -1,9 +1,4 @@
-import { BufferGeometry } from "three/src/core/BufferGeometry"
-import { EdgesGeometry } from "three/src/geometries/EdgesGeometry"
-import { ShaderMaterial } from "three/src/materials/ShaderMaterial"
-import { Color } from "three/src/math/Color"
-import { LineSegments } from "three/src/objects/LineSegments"
-import { ColorRepresentation } from "three/src/utils"
+import * as THREE from "three"
 
 const outlineVertexShader = /* glsl */ `
 attribute vec3 control0;
@@ -79,14 +74,14 @@ void main() {
 `
 
 // based on https://codepen.io/prisoner849/pen/wvMEQzm?editors=1010
-export function createOutlinedMesh(geometry: BufferGeometry, color: ColorRepresentation) {
-  let eg = new EdgesGeometry(geometry)
-  let m = new ShaderMaterial({
+export function createOutlinedMesh(geometry: THREE.BufferGeometry, color: THREE.ColorRepresentation) {
+  const eg = new THREE.EdgesGeometry(geometry)
+  const m = new THREE.ShaderMaterial({
     vertexShader: outlineVertexShader,
     fragmentShader: outlineFragmentShader,
     uniforms: {
       diffuse: {
-        value: new Color(color),
+        value: new THREE.Color(color),
       },
       opacity: {
         value: 0,
@@ -94,7 +89,7 @@ export function createOutlinedMesh(geometry: BufferGeometry, color: ColorReprese
     },
     transparent: false,
   })
-  let o = new LineSegments(eg, m)
+  const o = new THREE.LineSegments(eg, m)
 
   return o
 }

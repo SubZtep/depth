@@ -3,10 +3,7 @@
 
 <script lang="ts" setup>
 import { useScene } from "@depth/canvas"
-import { sRGBEncoding } from "three/src/constants"
-import { TextureLoader } from "three/src/loaders/TextureLoader"
 import { Lensflare, LensflareElement } from "three/examples/jsm/objects/Lensflare"
-import { PointLight } from "three/src/lights/PointLight"
 
 const props = defineProps<{
   position?: PositionTuple
@@ -14,21 +11,21 @@ const props = defineProps<{
   intensity?: number
 }>()
 
-const light = new PointLight(props.color ?? 0xffffff, props.intensity ?? 1.5, 2000)
+const light = new THREE.PointLight(props.color ?? 0xffffff, props.intensity ?? 1.5, 2000)
 if (props.position) {
   light.position.set(...props.position)
   // light.position.set(50, 30, 20)
 }
 
-const textureLoader = new TextureLoader()
+const textureLoader = new THREE.TextureLoader()
 
 const textureFlare0 = textureLoader.load("textures/lensflare/lensflare0.webp")
 const textureFlare1 = textureLoader.load("textures/lensflare/lensflare2.webp")
 const textureFlare2 = textureLoader.load("textures/lensflare/lensflare3.webp")
 
-textureFlare0.encoding = sRGBEncoding
-textureFlare1.encoding = sRGBEncoding
-textureFlare2.encoding = sRGBEncoding
+textureFlare0.encoding = THREE.sRGBEncoding
+textureFlare1.encoding = THREE.sRGBEncoding
+textureFlare2.encoding = THREE.sRGBEncoding
 
 const lensflare = new Lensflare()
 

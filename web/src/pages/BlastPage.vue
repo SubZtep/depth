@@ -35,7 +35,6 @@ import InfinitePlane from "~/components/3d/InfinitePlane"
 import BlastBoxes from "~/components/3d/BlastBoxes.vue"
 import { getWorld } from "@depth/physics"
 import { useScene } from "@depth/canvas"
-import { HemisphereLight } from "three/src/lights/HemisphereLight"
 import LensFlare from "~/components/3d/LensFlare.vue"
 import ThreeGlobe from "~/components/3d/ThreeGlobe.vue"
 import { RigidBody } from "@dimforge/rapier3d-compat"
@@ -43,7 +42,7 @@ import { useCameraFit } from "~/composables/useCameraFit"
 
 const scene = useScene()
 
-const light = new HemisphereLight(0x93a5bc, 0x6a866f, 1)
+const light = new THREE.HemisphereLight(0x93a5bc, 0x6a866f, 1)
 scene.add(light)
 
 useEnvironmentStore().$patch({
@@ -125,6 +124,6 @@ addGuiFolder(folder => {
 })
 
 onMounted(() => {
-  useCameraFit().fit(new Vector3(0, 11, 0))
+  useCameraFit().fit(new THREE.Vector3(0, 11, 0))
 })
 </script>

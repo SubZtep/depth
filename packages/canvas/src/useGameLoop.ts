@@ -1,17 +1,13 @@
 import type { Fn } from "@vueuse/core"
-import type { OrthographicCamera } from "three/src/cameras/OrthographicCamera"
-import type { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera"
-import { WebGLRenderer } from "three/src/renderers/WebGLRenderer"
 import { useIdle, whenever } from "@vueuse/core"
-import { Scene } from "three/src/scenes/Scene"
-import { Clock } from "three/src/core/Clock"
 import { ref, watch } from "vue"
 import { runInjectedFunctions } from "./useLoopInject"
+import * as THREE from "three"
 
 interface Options {
-  renderer: WebGLRenderer
-  scene: Scene
-  camera: PerspectiveCamera | OrthographicCamera
+  renderer: THREE.WebGLRenderer
+  scene: THREE.Scene
+  camera: THREE.PerspectiveCamera | THREE.OrthographicCamera
 }
 
 export const looping = ref(false)
@@ -27,7 +23,7 @@ watch(
 let gameLoop: Fn // TODO: check is singleton practicable
 
 export function initGameLoop({ renderer, scene, camera }: Options) {
-  const clock = new Clock()
+  const clock = new THREE.Clock()
   let deltaTime: number
 
   gameLoop = () => {

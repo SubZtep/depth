@@ -6,29 +6,24 @@ slot(:mesh="mesh")
 import { useScene } from "@depth/canvas"
 import { getWorld } from "@depth/physics"
 import { ColliderDesc } from "@dimforge/rapier3d-compat"
-import type { ColorRepresentation } from "three"
-import { DoubleSide } from "three/src/constants"
-import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
-import type { MeshLambertMaterialParameters } from "three/src/materials/MeshLambertMaterial"
-import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial"
-import { Mesh } from "three/src/objects/Mesh"
 import { onScopeDispose } from "vue"
+import * as THREE from "three"
 
 const props = defineProps<{
   width: number
   height: number
   position?: PositionTuple
-  color?: ColorRepresentation
+  color?: THREE.ColorRepresentation
   opacity?: number
 }>()
 
 const scene = useScene()
-const geometry = new PlaneGeometry()
+const geometry = new THREE.PlaneGeometry()
 geometry.scale(props.width, props.height, 1)
 
-const materialParameters: MeshLambertMaterialParameters = {
+const materialParameters: THREE.MeshLambertMaterialParameters = {
   color: props.color ?? 0x000300,
-  side: DoubleSide,
+  side: THREE.DoubleSide,
 }
 
 if (props.opacity) {
@@ -38,8 +33,8 @@ if (props.opacity) {
   })
 }
 
-const material = new MeshLambertMaterial(materialParameters)
-const mesh = new Mesh(geometry, material)
+const material = new THREE.MeshLambertMaterial(materialParameters)
+const mesh = new THREE.Mesh(geometry, material)
 
 const colliderHeight = 0.1
 

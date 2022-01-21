@@ -44,12 +44,12 @@ export async function useFFmpeg(options: Options) {
 
   watch(
     src,
-    async (newSrc, oldSrc) => {
-      if (oldSrc) {
+    async (newSource, oldSource) => {
+      if (oldSource) {
         unlinkAll()
       }
-      if (newSrc) {
-        ff.FS("writeFile", memfsPath, await fetchFile(newSrc))
+      if (newSource) {
+        ff.FS("writeFile", memfsPath, await fetchFile(newSource))
       }
       refreshFiles()
     },

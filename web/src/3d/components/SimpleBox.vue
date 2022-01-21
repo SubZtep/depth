@@ -3,17 +3,14 @@ slot(:mesh="mesh")
 </template>
 
 <script lang="ts" setup>
-import { Mesh } from "three/src/objects/Mesh"
 import { Collider, ColliderDesc, RigidBody, RigidBodyDesc, World } from "@dimforge/rapier3d-compat"
-import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial"
-import { BoxGeometry } from "three/src/geometries/BoxGeometry"
 import { rotationFromQuaternion, useScene } from "@depth/canvas"
 import { getWorld } from "@depth/physics"
-import type { Object3D } from "three/src/core/Object3D"
+import * as THREE from "three"
 
 const props = defineProps<{
   /** Add to a parent object instead of `Scene` */
-  parent?: Object3D
+  parent?: THREE.Object3D
   position?: PositionTuple
   rotation?: RotationTuple
   size?: SizeTuple
@@ -21,9 +18,9 @@ const props = defineProps<{
   physics?: boolean
 }>()
 
-const geometry = new BoxGeometry(props.size?.[0], props.size?.[1], props.size?.[2])
-const material = new MeshLambertMaterial({ color: props.color ?? 0x000300 })
-const mesh = shallowRef(new Mesh(geometry, material))
+const geometry = new THREE.BoxGeometry(props.size?.[0], props.size?.[1], props.size?.[2])
+const material = new THREE.MeshLambertMaterial({ color: props.color ?? 0x000300 })
+const mesh = shallowRef(new THREE.Mesh(geometry, material))
 
 let world: World
 let rigidBody: RigidBody

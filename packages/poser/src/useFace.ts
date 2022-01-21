@@ -43,10 +43,14 @@ export function useFace({ video, handler, streaming, throttle, options }: FaceMe
   // faceMesh.setOptions({ ...defaultOptions, ...options })
   faceMesh.onResults(handler)
 
-  watch(() => options, newOptions => {
-    // console.log("NEW", newOptions)
-    faceMesh.setOptions({ ...defaultOptions, ...newOptions })
-  }, { immediate: true, deep: true })
+  watch(
+    () => options,
+    newOptions => {
+      // console.log("NEW", newOptions)
+      faceMesh.setOptions({ ...defaultOptions, ...newOptions })
+    },
+    { immediate: true, deep: true }
+  )
 
   return useBaseMediaPipe({ solution: faceMesh, video, streaming, throttle })
 }

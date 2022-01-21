@@ -1,7 +1,4 @@
-import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
-import { Mesh } from "three/src/objects/Mesh"
-
-export default function usePlaneResizer(mesh: Mesh, dimensions: Ref<[number, number]>, segments = ref([1, 1])) {
+export default function usePlaneResizer(mesh: THREE.Mesh, dimensions: Ref<[number, number]>, segments = ref([1, 1])) {
   // watch(
   //   [dimensions, segments],
   //   ([dv], [sv]) => {

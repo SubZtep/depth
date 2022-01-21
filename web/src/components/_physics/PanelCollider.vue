@@ -10,12 +10,6 @@ slot
 import { useScene } from "@depth/canvas"
 import { getWorld } from "@depth/physics"
 import { ColliderDesc } from "@dimforge/rapier3d-compat"
-import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
-import { Box3Helper } from "three/src/helpers/Box3Helper"
-import { Material } from "three/src/materials/Material"
-import { Box3 } from "three/src/math/Box3"
-import { Mesh } from "three/src/objects/Mesh"
-import { useCameraFit } from "~/composables/useCameraFit"
 
 const props = defineProps<{
   scale?: number
@@ -33,15 +27,18 @@ const groundColliderDesc = ColliderDesc.cuboid(props.dimensions[0] / 2, height, 
 const groundCollider = world.createCollider(groundColliderDesc)
 
 const scene = useScene()
-let helper: Box3Helper
+let helper: THREE.Box3Helper
 
 watch(
   () => state.helper,
   show => {
     if (show) {
-      const box = new Box3()
-      box.setFromCenterAndSize(new Vector3(1, 1, 1), new Vector3(props.dimensions[0], height * 2, props.dimensions[0]))
-      helper = new Box3Helper(box)
+      const box = new THREE.Box3()
+      box.setFromCenterAndSize(
+        new THREE.Vector3(1, 1, 1),
+        new THREE.Vector3(props.dimensions[0], height * 2, props.dimensions[0])
+      )
+      helper = new THREE.Box3Helper(box)
       scene.add(helper)
     } else {
       scene.remove(helper)

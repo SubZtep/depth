@@ -2,13 +2,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { Object3D } from "three/src/core/Object3D"
-import { onScopeDispose } from "vue"
 import { useCameraControls } from "@depth/controller/src/helpers"
 
 const props = defineProps<{
-  parent?: Object3D
-  follow?: Object3D
+  parent?: THREE.Object3D
+  follow?: THREE.Object3D
 }>()
 
 // const cc = useCameraControls()

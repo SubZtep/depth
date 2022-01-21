@@ -39,9 +39,6 @@ const fragmentShader = `
 </script>
 
 <script lang="ts" setup>
-import { ShaderMaterial } from "three/src/materials/ShaderMaterial"
-import { Color } from "three/src/math/Color"
-
 const props = defineProps<{
   hover?: boolean
 }>()
@@ -52,9 +49,9 @@ const state = reactive({
   color: "#ffffff",
 })
 
-const material = new ShaderMaterial({
+const material = new THREE.ShaderMaterial({
   uniforms: {
-    uColor: { value: new Color(state.color) },
+    uColor: { value: new THREE.Color(state.color) },
   },
   vertexShader,
   fragmentShader,
@@ -65,7 +62,7 @@ const material = new ShaderMaterial({
 watchEffect(() => {
   material.wireframe = state.wireframe
   material.wireframeLinewidth = state.wireframeLinewidth
-  material.uniforms.uColor.value = new Color(state.color)
+  material.uniforms.uColor.value = new THREE.Color(state.color)
   // material.needsUpdate = true
 })
 </script>

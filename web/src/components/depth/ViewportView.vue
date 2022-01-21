@@ -6,20 +6,16 @@ import { exec3D, loop3D } from "@depth/canvas"
 import { useSingleton } from "@depth/misc"
 // import useObjectFactory from "~/composables/useObjectFactory"
 
-import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera"
-import { CameraHelper } from "three/src/helpers/CameraHelper"
-import { Vector4 } from "three/src/math/Vector4"
 import { useScene } from "@depth/canvas"
 import { onScopeDispose } from "vue"
-import { Camera } from "three/src/cameras/Camera"
 
 const scene = useScene()
 
 const { singleton } = useSingleton()
-const cam = new PerspectiveCamera(60) // TODO: use OrthographicCamera
+const cam = new THREE.PerspectiveCamera(60) // TODO: use OrthographicCamera
 
 const props = defineProps<{
-  camera?: Camera
+  camera?: THREE.Camera
   //   position: PositionTuple
   //   rotation: RotationTuple
 }>()
@@ -49,10 +45,10 @@ cam.lookAt(0, 5, 0)
 cam.layers.enableAll()
 // cam.layers.set(1)
 
-let camHelper: CameraHelper
+let camHelper: THREE.CameraHelper
 
 if (props.camera) {
-   camHelper = new CameraHelper(props.camera)
+  camHelper = new THREE.CameraHelper(props.camera)
   camHelper.layers.enableAll()
   camHelper.layers.set(1)
   scene.add(camHelper)
@@ -64,7 +60,7 @@ if (props.camera) {
 // pivotHelper.layers.enableAll()
 
 scene.add(cam)
-const viewPort = new Vector4()
+const viewPort = new THREE.Vector4()
 exec3D(({ renderer }) => {
   renderer.setScissorTest(true)
   renderer.getViewport(viewPort)
@@ -97,5 +93,4 @@ onScopeDispose(() => {
     renderer.setScissorTest(false)
   })
 })
-
 </script>

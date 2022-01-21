@@ -1,16 +1,14 @@
 import { loop3D } from "@depth/canvas"
 import { getWorld } from "@depth/physics"
 import { ActiveEvents, ColliderDesc, RigidBodyDesc } from "@dimforge/rapier3d-compat"
-import { BoxGeometry } from "three/src/geometries/BoxGeometry"
-import { Quaternion } from "three/src/math/Quaternion"
-import { Mesh } from "three/src/objects/Mesh"
 import { woodCrateMaterial } from "../materials/woodCrateMaterial"
+import * as THREE from "three"
 
 const world = getWorld()
 
-const boxGeometry = new BoxGeometry(1, 1, 1)
+const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
 
-const mesh = new Mesh(boxGeometry, woodCrateMaterial)
+const mesh = new THREE.Mesh(boxGeometry, woodCrateMaterial)
 mesh.receiveShadow = true
 mesh.castShadow = true
 
@@ -18,10 +16,8 @@ const rigidBodyDesc = RigidBodyDesc.newDynamic()
   .setCcdEnabled(true)
   .setAdditionalMass(2)
   .setAdditionalPrincipalAngularInertia({ x: 1, y: 1, z: 1 })
-const colliderDesc = ColliderDesc.cuboid(0.5, 0.5, 0.5)
-  .setActiveEvents(ActiveEvents.CONTACT_EVENTS)
-  .setDensity(2)
-  // .setRestitution(1)
+const colliderDesc = ColliderDesc.cuboid(0.5, 0.5, 0.5).setActiveEvents(ActiveEvents.CONTACT_EVENTS).setDensity(2)
+// .setRestitution(1)
 const rigidBody = world.createRigidBody(rigidBodyDesc)
 const collider = world.createCollider(colliderDesc, rigidBody.handle)
 
@@ -35,7 +31,7 @@ loop3D(() => {
   const rot = rigidBody.rotation()
 
   mesh.position.set(pos.x, pos.y, pos.z)
-  mesh.setRotationFromQuaternion({ x: rot.x, y: rot.y, z: rot.z, w: rot.w } as Quaternion)
+  mesh.setRotationFromQuaternion({ x: rot.x, y: rot.y, z: rot.z, w: rot.w } as THREE.Quaternion)
 })
 
 export { mesh, rigidBody, setPosition }

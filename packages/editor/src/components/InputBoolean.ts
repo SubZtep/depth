@@ -1,23 +1,20 @@
-import { defineComponent, ref, watch } from "vue"
+import { defineComponent, h } from "vue"
 
 export default defineComponent({
   props: {
     modelValue: { type: Boolean, required: true },
-    label: { type: String, default: "boolean" },
+    label: { type: String, required: true },
   },
   emits: ["update:modelValue"],
-  setup(props, { emit }) {
-    const model = ref(props.modelValue)
-
-    watch(model, v => emit("update:modelValue", v))
-
-    return {
-      model,
-      label: props.label,
-    }
+  render({ label, modelValue, $emit }) {
+    return [
+      h("label", label),
+      h("input", {
+        type: "checkbox",
+        class: "mt-1",
+        checked: modelValue,
+        onClick: ({ target }) => $emit("update:modelValue", target.checked),
+      }),
+    ]
   },
-  template: `
-    <label>{{label}}</label>
-    <input class="mt-1" type="checkbox" v-model="model" />
-  `,
 })

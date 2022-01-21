@@ -10,9 +10,6 @@ slot(v-bind="{ mesh, dimensions, position }")
 import { useScene } from "@depth/canvas"
 import { getWorld } from "@depth/physics"
 import { ColliderDesc } from "@dimforge/rapier3d-compat"
-import { PlaneGeometry } from "three/src/geometries/PlaneGeometry"
-import { Material } from "three/src/materials/Material"
-import { Mesh } from "three/src/objects/Mesh"
 import { useCameraFit } from "~/composables/useCameraFit"
 
 const scene = useScene()
@@ -21,15 +18,15 @@ const props = defineProps<{
   scale?: number
   dimensions?: [number, number]
   position: [number, number, number]
-  material?: Material
+  material?: THREE.Material
   collider?: boolean
   hover?: boolean
 }>()
 
 const dimensions = ref(props.dimensions ?? [1, 1])
 
-const geometry = new PlaneGeometry()
-const mesh = new Mesh(geometry, props.material)
+const geometry = new THREE.PlaneGeometry()
+const mesh = new THREE.Mesh(geometry, props.material)
 mesh.material.needsUpdate = true
 mesh.receiveShadow = true
 mesh.matrixAutoUpdate = false
@@ -46,7 +43,7 @@ const groundCollider = world.createCollider(groundColliderDesc)
 watch(
   dimensions,
   newDimensions => {
-    const helperPlane = new PlaneGeometry(...newDimensions)
+    const helperPlane = new THREE.PlaneGeometry(...newDimensions)
     mesh.geometry.copy(helperPlane)
     helperPlane.dispose()
   },
