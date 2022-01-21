@@ -26,7 +26,12 @@ Title
 //- comps
 //- component(:is="acomp(name)" v-for="name in comps" :key="name" :position="[0, 2, 200]")
 
-component(:is="comp" v-for="comp in compis" :position="[0, 2, 200]")
+//- component(:is="comp" v-for="comp in compis" :position="[0, 2, 200]")
+//- component(:is="comp" v-for="comp in compis")
+//- component(:is="loadAsset(name)" v-for="name in comps" :key="name")
+//- component(:is="loadAsset(name)" v-for="asset in assets" :key="name")
+component(:is="comp.value" v-for="[key, comp] in Object.entries(assets)" :key="key")
+//- component(:is="comp" v-for="[key, comp] in Object.entries(assets)" :key="key")
 
 
 //- LogarithmicShell(:position="[0, 2, 200]")
@@ -36,53 +41,51 @@ component(:is="comp" v-for="comp in compis" :position="[0, 2, 200]")
 //- LogShell(:state="shellStore")
 //- StatePanel(:state="shellStore")
 //- pre.text-white {{ shellStore }}
+
+//- HeatmapTerrain
 </template>
 
 <script lang="ts" setup>
-import type { ShallowRef } from "vue"
+import type { DefineComponent, ShallowRef } from "vue"
 import { shallowRef, defineAsyncComponent } from "vue"
+// import HeatmapTerrain from "@depth/assets"
 // import { defineAsyncComponent } from "vue/dist/vue.esm-browser.js"
 // import { createApp, defineAsyncComponent } from "./vue.esm-browser";
-const comps = ["HeatmapTerrain", "LogarithmicShell"]
+// const comps = ["HeatmapTerrain", "LogarithmicShell"]
+const comps = ["HeatmapTerrain"]
 
-const acomp = name => defineAsyncComponent(() => import(`../components/3d/${name}.vue`))
+// const acomp = name => defineAsyncComponent(() => import("@depth/assets"))
+// const acomp = name => defineAsyncComponent(() => import("@depth/assets")[name])
+// const acomp = name => defineAsyncComponent(() => import(`../components/3d/${name}.vue`))
 // const acomp = name => defineAsyncComponent(() => import(`./src/components/3d/${name}.vue`))
 
-const compis = ref([] as ShallowRef[])
+// const compis = shallowRef([] as any[])
+// const compis = ref([] as any[])
+// const loadAsset = (name: string) => defineAsyncComponent(() => import("@depth/assets/"+name+".js"))
+// const loadAsset = (name: string) => defineAsyncComponent(() => import("@depth/assets"))[name]()
 
-onMounted(() => {
-  for (const name of comps) {
-    compis.value.push(acomp(name))
-    // compis.value.push(shallowRef(acomp(name)))
-  }
-})
-
-// defineAsyncComponent({
-//   // loader: () => import(`./components/3d/${name}.vue`),
-//   // loader: () => import(`./components/3d/${name}.js`),
+// const loadAsset = (name: string) => defineAsyncComponent(async () => {
+//   const module = await import("@depth/assets")
+//   return module[name]
 // })
+const loadAsset = (name: string) =>
+  defineAsyncComponent(
+    () =>
+      new Promise<DefineComponent>((resolve, reject) => {
+        import("@depth/assets").then(package_ => {
+          if (typeof package_[name] !== "undefined") {
+            return resolve(package_[name] as DefineComponent)
+          }
+          reject()
+        })
+      })
+  )
 
-// setTimeout(() => {
-//   // comp.value = defineAsyncComponent(() => import("~/components/3d/LogarithmicShell.vue"))
-
-//   // const url = "~/components/3d/LogarithmicShell.vue"
-//   // comp.value = defineAsyncComponent(() => import(url))
-
-//   const url = name => `/src/components/3d/${name}.vue`
-//   comp.value = defineAsyncComponent({
-//     loader: () => import(url("HeatmapTerrain")),
-//   })
-// }, 3000)
-
-// // import { useCameraControls } from "@depth/controller"
-// import LogarithmicShell from "~/components/3d/LogarithmicShell.vue"
-// import LogShell from "~/components/stateless3d/LogShell"
-// import * as crate from "~/3d/entities/woodCrate"
-// import { useScene } from "@depth/canvas"
-// import { useShellStore } from "~/stores/snail"
-// import { useSceneStore } from "~/stores/scene"
-// // import { useStorage } from "@vueuse/core"
-// // import { EditorPanel } from "@depth/editor"
+const assets = {
+  HeatmapTerrain: shallowRef(loadAsset("HeatmapTerrain")),
+  // HeatmapTerrain: shallowRef(loadAsset("HeatmapTerrain")),
+  // HeatmapTerrain: loadAsset("HeatmapTerrain"),
+}
 
 // const sceneStore = useSceneStore()
 // const shellStore = useShellStore()

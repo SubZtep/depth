@@ -18,6 +18,7 @@
   },
   "exclude": ["dist", "public", "__tests__"],
   "references": [
+    { "path": "packages/assets" },
     { "path": "packages/audio" },
     { "path": "packages/canvas" },
     { "path": "packages/controller" },

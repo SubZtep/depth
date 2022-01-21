@@ -13,6 +13,7 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
+    "@depth/assets": "workspace:*",
     "@depth/canvas": "workspace:*",
     "@depth/controller": "workspace:*",
     "@depth/database": "workspace:*",
