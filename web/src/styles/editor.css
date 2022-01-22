@@ -1,0 +1,28 @@
+:root {
+  --editor-bg-color: #332211; /* ${colors.teal[900]} */
+  --editor-border-color: #443322; /* ${colors.teal[800]} */
+  --editor-text-color: #ffffff; /* ${colors.white} */
+}
+
+#editor > * > .panel {
+  h3 {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    font-weight: 500;
+    letter-spacing: 0.23px;
+    font-family: JuliaMono;
+  }
+  background-color: var(--editor-bg-color);
+  color: var(--editor-text-color);
+  font-family: JuliaMono;
+  padding: 0.5rem 1rem;
+  border: 2px outset var(--editor-border-color);
+
+  label:hover {
+    text-shadow: -2px 3px #000, 2px 2px #000;
+  }
+
+  input {
+    accent-color: var(--editor-bg-color);
+  }
+}

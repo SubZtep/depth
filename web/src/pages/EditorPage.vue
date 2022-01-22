@@ -11,11 +11,12 @@ Title
       i.fa-solid.fa-square-info.cursor-help.opacity-85(title="Radio select below for component details. (panel on the right side) -->>>")
 
 template(v-for="{ assetComponent, name, category } in assets" :key="name")
-  Teleport(to="#editor > #hierarchy")
+  Teleport(to="#editor > #hierarchy > .panel")
     label.block.my-1.cursor-pointer
       input.mr-2(type="radio" name="activeComponent" :value="name")
       | {{name}}
-      .inline.text-xs.bg-yellow-500.rounded.px-1.mx-1(v-for="(cat in category" :key="cat") {{ cat }}
+      .ml-5
+        .inline.text-xs.bg-yellow-500.rounded.px-1.mx-1(v-for="(cat in category" :key="cat") {{ cat }}
   component(:is="assetComponent")
 
 //- HierarchyPanel(:hierarchy="sceneStore.hierarchy")
@@ -37,26 +38,26 @@ import colors from "windicss/colors"
 import { useScene } from "@depth/canvas"
 import { defineAsyncComponent, shallowRef } from "vue"
 
-const panelStyle = css`
-  h3 {
-    font-size: 1.25rem;
-    line-height: 1.5;
-    font-weight: 500;
-    letter-spacing: 0.23px;
-    font-family: JuliaMono;
-  }
-  background-color: ${colors.teal[900]};
-  color: ${colors.white};
-  font-family: JuliaMono;
-  padding: 0.5rem 1rem;
-  border: 2px outset ${colors.teal[800]};
-  label:hover {
-    text-shadow: -2px 3px #000, 2px 2px #000;
-  }
-  input {
-    accent-color: ${colors.teal[800]};
-  }
-`
+// const panelStyle = css`
+//   h3 {
+//     font-size: 1.25rem;
+//     line-height: 1.5;
+//     font-weight: 500;
+//     letter-spacing: 0.23px;
+//     font-family: JuliaMono;
+//   }
+//   background-color: ${colors.teal[900]};
+//   color: ${colors.white};
+//   font-family: JuliaMono;
+//   padding: 0.5rem 1rem;
+//   border: 2px outset ${colors.teal[800]};
+//   label:hover {
+//     text-shadow: -2px 3px #000, 2px 2px #000;
+//   }
+//   input {
+//     accent-color: ${colors.teal[800]};
+//   }
+// `
 
 const scene = useScene()
 scene.background = new THREE.Color(0x8a0303)

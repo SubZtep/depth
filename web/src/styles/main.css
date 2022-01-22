@@ -2,6 +2,7 @@
 @import "transitions.css";
 @import "nprogress.css";
 @import "toast.css";
+@import "editor.css";
 
 #hud,
 #scene,
