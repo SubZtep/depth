@@ -12,11 +12,13 @@ Title
 
 template(v-for="{ assetComponent, name, category } in assets" :key="name")
   Teleport(to="#editor > #hierarchy > .panel")
-    label.block.my-1.cursor-pointer
-      input.mr-2(type="radio" name="activeComponent" :value="name")
-      | {{name}}
-      .ml-5
-        .inline.text-xs.bg-yellow-500.rounded.px-1.mx-1(v-for="(cat in category" :key="cat") {{ cat }}
+    .entity
+      input(type="radio" name="activeComponent" :value="name")
+      label
+        | {{name}}
+        .flex.opacity-65.gap-1
+          .tag(v-for="(cat in category" :key="cat") {{ cat }}
+
   component(:is="assetComponent")
 
 //- HierarchyPanel(:hierarchy="sceneStore.hierarchy")
