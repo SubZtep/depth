@@ -1,4 +1,6 @@
 <template lang="pug">
+.text-center.mt-12.text-24xl
+  i.fa-duotone.fa-face-shush
 div(:class="$style.loadingScreen")
 </template>
 

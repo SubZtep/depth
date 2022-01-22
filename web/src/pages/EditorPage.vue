@@ -4,85 +4,71 @@ Title
     .text-left.italic Snail, Snailer, Snalest
     .text-right — SO🐌
 
-//-Teleport(to="#hierarchy")
-  HierarchyPanel(:hierarchy="sceneStore.hierarchy")
+Teleport(to="#editor > #hierarchy")
+  //- .bg-teal-900.text-white.font-mono.px-2.py-1.border-3.border-teal-500.border-double
+  div(:className="panelStyle")
+    .flex.justify-between.items-center
+      h3 Page Entities
+      i.fa-solid.fa-square-info.cursor-help.opacity-85(title="Radio select below for component details. (panel on the right side) -->>>")
+    label.block.my-1.cursor-pointer(v-for="cmp in comps" :key="cmp")
+      input.mr-2(type="radio" name="activeComponent" :value="cmp")
+      | {{cmp}}
+  //- HierarchyPanel(:hierarchy="sceneStore.hierarchy")
 
-//- EditorPanel
-  p q
+component(:is="comp.value" v-for="[key, comp] in Object.entries(assets)" :key="key")
 
-//- EntityPanel(title="Page gadgets")
-  //- LensFlare(:position="[i, 4, 5]" v-for="i in [...Array(2).keys()]" :key="i")
-  //- LensFlare(:position="[i - 1, 3, 5]" v-for="i in [...Array(3).keys()]" :key="i")
-  //- LensFlare(:position="[i - 1, 2, 5]" v-for="i in [...Array(3).keys()]" :key="i")
-  //- LensFlare(:position="[i, 1, 5]" v-for="i in [...Array(1).keys()]" :key="i")
-  //- InfinitePlane(:color="0x000900")
-  //- ThreeGlobe(:scale="0.01" :position="[0, 2, 2]")
-  DirectionalLight(:link-camera-position="true")
-
-//- component(:is="LogarithmicShell" :position="[0, 2, 200]")
-//- component(:is="comp" :position="[0, 2, 200]")
-//- component(:is="comp" :position="[0, 2, 2]")
-
-//- component(:is="comp.value" v-for="[key, comp] in Object.entries(assets)" :key="key")
-
-LogarithmicShell
-
-//- LogarithmicShell(:position="[0, 2, 200]")
 //- LogarithmicShell
   //- MeshOutline(v-if="hover" v-bind="{ mesh, position, dimensions }")
 
-//- LogShell(:state="shellStore")
-//- StatePanel(:state="shellStore")
-//- pre.text-white {{ shellStore }}
-
-//- HeatmapTerrain
 </template>
 
 <script lang="ts" setup>
 import * as THREE from "three"
-import type { DefineComponent, ShallowRef } from "vue"
+import { css } from "@emotion/css"
+import colors from "windicss/colors"
+import type { DefineComponent } from "vue"
 import { shallowRef, defineAsyncComponent } from "vue"
-import { LogarithmicShell } from "@depth/assets"
 import { useScene } from "@depth/canvas/dist/lib/helpers"
-// import HeatmapTerrain from "@depth/assets"
-// import { defineAsyncComponent } from "vue/dist/vue.esm-browser.js"
-// import { createApp, defineAsyncComponent } from "./vue.esm-browser";
-const comps = ["HeatmapTerrain", "LogarithmicShell"]
-// const comps = ["HeatmapTerrain"]
 
-// const acomp = name => defineAsyncComponent(() => import("@depth/assets"))
-// const acomp = name => defineAsyncComponent(() => import("@depth/assets")[name])
-// const acomp = name => defineAsyncComponent(() => import(`../components/3d/${name}.vue`))
-// const acomp = name => defineAsyncComponent(() => import(`./src/components/3d/${name}.vue`))
+const panelStyle = css`
+  h3 {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    font-weight: 500;
+    letter-spacing: 0.23px;
+    font-family: JuliaMono;
+  }
+  background-color: ${colors.teal[900]};
+  color: ${colors.white};
+  font-family: JuliaMono;
+  padding: 0.5rem 1rem;
+  border: 2px outset ${colors.teal[800]};
+  label:hover {
+    text-shadow: -2px 3px #000, 2px 2px #000;
+  }
+  input {
+    accent-color: ${colors.teal[800]};
+  }
+`
 
-// const compis = shallowRef([] as any[])
-// const compis = ref([] as any[])
-// const loadAsset = (name: string) => defineAsyncComponent(() => import("@depth/assets/"+name+".js"))
-// const loadAsset = (name: string) => defineAsyncComponent(() => import("@depth/assets"))[name]()
+const scene = useScene()
+scene.background = new THREE.Color(0x8a0303)
 
-// const loadAsset = (name: string) => defineAsyncComponent(async () => {
-//   const module = await import("@depth/assets")
-//   return module[name]
-// })
 const loadAsset = (name: string) =>
   defineAsyncComponent(
     () =>
       new Promise<DefineComponent>((resolve, reject) => {
-        import("@depth/assets").then(package_ => {
-          if (typeof package_[name] !== "undefined") {
-            return resolve(package_[name] as DefineComponent)
+        import("@depth/assets").then(pkg => {
+          if (pkg[name] === undefined) {
+            return reject(new Error(`Asset ${name} not found`))
           }
-          reject()
+          return resolve(pkg[name] as DefineComponent)
         })
       })
   )
 
-const assets = {
-  HeatmapTerrain: shallowRef(loadAsset("HeatmapTerrain")),
-  LogarithmicShell: shallowRef(loadAsset("LogarithmicShell")),
-  // HeatmapTerrain: shallowRef(loadAsset("HeatmapTerrain")),
-  // HeatmapTerrain: loadAsset("HeatmapTerrain"),
-}
+const comps = ["HeatmapTerrain", "LogarithmicShell"]
+const assets = Object.fromEntries(comps.map(name => [name, shallowRef(loadAsset(name))]))
 
 // const sceneStore = useSceneStore()
 // const shellStore = useShellStore()
@@ -100,8 +86,6 @@ const assets = {
 // // setTimeout(() => cc.zoomTo(1, true), 3000)
 // // cc.dollyTo(10, true)
 
-const scene = useScene()
-scene.background = new THREE.Color(0x8a0303)
 // scene.add(crate.mesh)
 
 // crate.rigidBody.setGravityScale(0.1, false)

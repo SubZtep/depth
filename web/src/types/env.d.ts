@@ -8,5 +8,8 @@ interface ImportMeta {
     VITE_SUPABASE_KEY: string
     /** Websocket server url, eg. wss://depth.demo.land/ws */
     VITE_WSS_URL: string
+
+    /** Intro waiting time in ms. */
+    VITE_DELAY_TIME: number
   }
 }
