@@ -5,6 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     AmbientLight: typeof import('./../components/_canvas/AmbientLight.vue')['default']
+    AssetEntries: typeof import('./../components/AssetEntries.ts')['default']
     BlastBox: typeof import('./../components/3d/BlastBox.vue')['default']
     BlastBoxes: typeof import('./../components/3d/BlastBoxes.vue')['default']
     CameraFit: typeof import('./../components/3d/CameraFit.vue')['default']
