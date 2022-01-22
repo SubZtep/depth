@@ -59,6 +59,8 @@ rules:
     - warn
     - argsIgnorePattern: "^_"
 
+
+  "@typescript-eslint/no-inferrable-types": [true, "ignore-params", "ignore-properties"],
   "@typescript-eslint/explicit-module-boundary-types": off
   "@typescript-eslint/no-non-null-assertion": off
   "@typescript-eslint/ban-ts-comment": warn
