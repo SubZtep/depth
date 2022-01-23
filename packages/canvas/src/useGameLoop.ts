@@ -41,5 +41,5 @@ export function initGameLoop({ renderer, scene, camera }: Options) {
 
 whenever(looping, () => gameLoop?.())
 
-const { idle } = useIdle(13_666) // ms
+const { idle } = useIdle(666_666) // ms
 watch(idle, v => (looping.value = !v))

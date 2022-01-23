@@ -9,6 +9,7 @@ slot
 <script lang="ts" setup>
 import { useCameraControls } from "@depth/controller"
 import { debouncedWatch } from "@vueuse/core"
+import * as THREE from "three"
 
 const props = defineProps<{
   mesh: THREE.Mesh

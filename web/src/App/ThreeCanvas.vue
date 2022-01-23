@@ -9,7 +9,7 @@ MainScene(v-if="wc")
 import { sleep } from "@depth/misc"
 import MainScene from "~/App/MainScene.vue"
 
-await sleep(import.meta.env.VITE_DELAY_TIME)
+// await sleep(Number(import.meta.env.VITE_DELAY_TIME))
 
 const wc = ref()
 

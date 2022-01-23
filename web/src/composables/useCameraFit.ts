@@ -1,4 +1,5 @@
 import { useCameraControls } from "@depth/controller"
+import * as THREE from "three"
 
 const objects = new Set<THREE.Object3D>()
 

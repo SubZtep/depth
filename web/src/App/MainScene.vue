@@ -6,7 +6,7 @@
   AmbientLight(color="#ffffff" :intensity="1")
   DirectionalLight(color="#ffffff" :intensity="0.8" :position="[8, 10, 2]" :target="[0, 2, 0]")
 
-MemoryInfo(v-if="edit")
+//- MemoryInfo(v-if="edit")
 
 router-view(v-slot="{ Component }")
   component(:is="Component")
@@ -17,7 +17,7 @@ import { getCurrentInstance } from "vue"
 // import SkyBox from "~/3d/components/SkyBox"
 // import InfiniteGrid from "~/components/3d/InfiniteGrid"
 import { useEnvironmentStore } from "~/stores/environment"
-import MemoryInfo from "~/components/ui/MemoryInfo.vue"
+// import MemoryInfo from "~/components/ui/MemoryInfo.vue"
 // import { usePreferencesStore } from "~/stores/preferences"
 // import { storeToRefs } from "pinia"
 // import AmbientLight from "~/components/_canvas/AmbientLight.vue"

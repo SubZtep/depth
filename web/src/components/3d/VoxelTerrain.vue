@@ -1,5 +1,5 @@
 <template lang="pug">
-ParaPanel(title="Voxel Terrain")
+//-ParaPanel(title="Voxel Terrain")
   div Cell size
   InputNumber(v-model="state.cellSize" :min="0" :max="100" :hover="props.hover")
 
@@ -15,10 +15,11 @@ ParaPanel(title="Voxel Terrain")
   //- div tileTextureHeight
   //- InputNumber(v-model="state.tileTextureHeight" :min="0" :max="512" :step="0.1" :hover="props.hover")
 
-slot(:mesh="mesh" :cell-size="state.cellSize" :cell-height="state.cellHeight")
+//- slot(:mesh="mesh" :cell-size="state.cellSize" :cell-height="state.cellHeight")
 </template>
 
 <script lang="ts" setup>
+import * as THREE from "three"
 import { useScene } from "@depth/canvas"
 
 const scene = useScene()

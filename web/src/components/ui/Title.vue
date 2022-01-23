@@ -12,6 +12,7 @@ const properties = defineProps<{ delay?: number }>()
 const { delay = 0 } = properties
 const ready = useTimeout(delay)
 const go = useTimeout(delay + 1)
+
 </script>
 
 <style module>

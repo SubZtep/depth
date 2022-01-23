@@ -1,5 +1,5 @@
 <template lang="pug">
-ParaPanel(title="Directional Light")
+//- ParaPanel(title="Directional Light")
   div Color
   InputColor(v-model="state.color" :hover="props.hover === true")
   div Intensity
@@ -7,6 +7,7 @@ ParaPanel(title="Directional Light")
 </template>
 
 <script lang="ts" setup>
+import * as THREE from "three"
 import { useScene, loop3D } from "@depth/canvas"
 import { useCameraControls } from "@depth/controller"
 

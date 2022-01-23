@@ -19,8 +19,8 @@ const routes: RouteRecordRaw[] = [
   //   },
   // },
   {
-    // path: "/editor",
-    path: "/",
+    // path: "/",
+    path: "/editor",
     name: "editor",
     component: () => import("./pages/EditorPage.vue"),
     meta: {
@@ -32,6 +32,23 @@ const routes: RouteRecordRaw[] = [
       // grid: 0xff7803,
       position: [0, 2, -1],
       lookAt: [0, 2, 0],
+      order: 1,
+    },
+  },
+  {
+    // path: "/story",
+    path: "/",
+    name: "story",
+    component: () => import("./pages/StoryPage.vue"),
+    meta: {
+      skybox: 15,
+      // cc - 8a = 42
+      // 42 + 03 = 45
+      grid: 0xcc4503,
+      // grid: 0x8a0303,
+      // grid: 0xff7803,
+      position: [0, 6, -35],
+      lookAt: [0, 6, 0],
       order: 1,
     },
   },

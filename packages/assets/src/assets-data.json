@@ -1,5 +1,10 @@
 [
   {
+    "id": "HeatmapTerrain",
+    "name": "Heatmap",
+    "category": ["terrain"]
+  },
+  {
     "id": "LogarithmicShell",
     "name": "Logarithmic Shell",
     "category": ["model", "generative"]

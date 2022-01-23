@@ -1,5 +1,5 @@
 <template lang="pug">
-ParaPanel(title="Fresnel Shader Material")
+//-ParaPanel(title="Fresnel Shader Material")
   div Color
   InputColor(v-model="state.color" :hover="props.hover")
 
@@ -39,6 +39,7 @@ const fragmentShader = `
 </script>
 
 <script lang="ts" setup>
+import * as THREE from "three"
 const props = defineProps<{
   hover?: boolean
 }>()

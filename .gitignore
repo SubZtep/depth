@@ -1,6 +1,7 @@
 node_modules
 dist
 coverage
+/web/public/story/
 /web/public/libs/
 !/web/public/libs/.gitkeep
 /web/public/models/origin/
