@@ -10,7 +10,7 @@
     "declaration": true,
     "skipLibCheck": true,
     "noEmitOnError": true,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "noImplicitAny": false,
     "declarationMap": true,
     "isolatedModules": true,

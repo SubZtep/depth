@@ -14,7 +14,7 @@ overrides:
       parser: "@typescript-eslint/typescript-estree"
     rules:
       no-undef: warn
-      "@typescript-eslint/no-unused-vars": off
+      # "@typescript-eslint/no-unused-vars": off
       indent: off
 
 extends:
@@ -54,7 +54,7 @@ rules:
     - SwitchCase: 1
   "prefer-const": warn
 
-  "no-unused-vars": off
+  # "no-unused-vars": off
   "@typescript-eslint/no-unused-vars":
     - warn
     - argsIgnorePattern: "^_"
