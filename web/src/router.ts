@@ -2,22 +2,22 @@ import { createRouter, createWebHistory } from "vue-router"
 import type { RouteRecordRaw } from "vue-router"
 import type { GUIExtended } from "@depth/hud"
 import { kebabToTitle } from "@depth/misc"
-import { exec3D } from "@depth/canvas"
+// import { exec3D } from "@depth/canvas"
 import type { App } from "vue"
 import { useEnvironmentStore } from "~/stores/environment"
 
 const camHeight = 1.6
 const routes: RouteRecordRaw[] = [
-  // {
-  //   path: "/",
-  //   name: "home",
-  //   component: () => import("./pages/HomePage.vue"),
-  //   meta: {
-  //     position: [0, camHeight, 6],
-  //     lookAt: [0, 0, 0],
-  //     order: 1,
-  //   },
-  // },
+  {
+    path: "/",
+    name: "home",
+    component: () => import("./pages/HomePage.vue"),
+    meta: {
+      position: [0, camHeight, 6],
+      lookAt: [0, 0, 0],
+      order: 1,
+    },
+  },
   {
     // path: "/",
     path: "/editor",
@@ -36,8 +36,7 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    // path: "/story",
-    path: "/",
+    path: "/story",
     name: "story",
     component: () => import("./pages/StoryPage.vue"),
     meta: {

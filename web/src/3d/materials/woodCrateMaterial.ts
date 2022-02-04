@@ -1,3 +1,5 @@
+import * as THREE from "three"
+
 const loader = new THREE.TextureLoader().setPath("/textures/things/Wood_Crate_001_SD/")
 export const woodCrateMaterial = new THREE.MeshStandardMaterial({
   aoMap: loader.load("Wood_Crate_001_ambientOcclusion.webp"),

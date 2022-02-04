@@ -1,6 +1,7 @@
 {
   "name": "@depth/database",
   "version": "0.1.0",
+  "type": "module",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
@@ -9,7 +10,7 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@supabase/supabase-js": "^1.29.3",
-    "pinia": "^2.0.9"
+    "@supabase/supabase-js": "^1.30.0",
+    "pinia": "^2.0.11"
   }
 }

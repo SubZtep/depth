@@ -3,7 +3,7 @@ import { defineConfig } from "vite"
 import Vue from "@vitejs/plugin-vue"
 import Components from "unplugin-vue-components/vite"
 import CrossOriginIsolation from "vite-plugin-cross-origin-isolation"
-import { VitePWA } from "vite-plugin-pwa"
+// import { VitePWA } from "vite-plugin-pwa"
 import AutoImport from "unplugin-auto-import/vite"
 import WindiCSS from "vite-plugin-windicss"
 
@@ -19,7 +19,7 @@ export default defineConfig(({ command }) => {
     },
     plugins: [
       Vue(),
-      VitePWA(),
+      // VitePWA(),
       Components({
         dts: "src/types/components.d.ts",
         dirs: [

@@ -47,7 +47,7 @@
   "[postcss]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "workbench.colorTheme": "Hackpot Poisoned Garden",
+  "workbench.colorTheme": "Cobalt2",
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },

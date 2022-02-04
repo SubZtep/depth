@@ -22,11 +22,11 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "devDependencies": {
-    "@types/node": "^17.0.10",
+    "@types/node": "^17.0.14",
     "@types/ws": "^8.2.2"
   },
   "dependencies": {
-    "dotenv": "^14.2.0",
+    "dotenv": "^16.0.0",
     "nodemon": "^2.0.15",
     "ws": "^8.4.2"
   },

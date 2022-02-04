@@ -1,6 +1,7 @@
 {
   "name": "@depth/physics",
   "version": "0.1.0",
+  "type": "module",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {

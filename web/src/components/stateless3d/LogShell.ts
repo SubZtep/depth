@@ -1,4 +1,5 @@
 import { degToRad, useScene } from "@depth/canvas"
+import * as THREE from "three"
 
 function map(value: number, r1start: number, r1end: number, r2start: number, r2end: number) {
   return r2start + (r2end - r2start) * ((value - r1start) / (r1end - r1start))

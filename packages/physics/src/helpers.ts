@@ -26,11 +26,11 @@ export function createBoxBody(additionalMass?: number): RigidBody {
   return rigidBody
 }
 
-interface CuboidBodyOptions {
-  dimensions: [number, number, number]
-  additionalMass?: number
-  density?: number
-}
+// interface CuboidBodyOptions {
+//   dimensions: [number, number, number]
+//   additionalMass?: number
+//   density?: number
+// }
 
 // export function createCuboidBody(options: CuboidBodyOptions): RigidBody {
 //   // const rigidBodyDesc = RigidBodyDesc.newDynamic().setCcdEnabled(true)

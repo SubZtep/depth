@@ -1,4 +1,4 @@
-import { PropType, ref } from "vue"
+import { PropType } from "vue"
 import { defineComponent, onScopeDispose, reactive, watchEffect, h } from "vue"
 import * as THREE from "three"
 import { toVector, useScene } from "@depth/canvas"

@@ -1,8 +1,8 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "composite": true,
+    "baseUrl": ".",
     "outDir": "./dist",
     "resolveJsonModule": true,
     "types": ["vite/client"],

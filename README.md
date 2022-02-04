@@ -34,7 +34,7 @@ A [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) app uses composition AP
 
 ---
 
-###### :link: **`(^_^)` [~~README~~](README.md) `[o_o]` [COVER](COVER.md) `(^.^)` [LINKS](LINKS.md) `(".")` [SETUP](SETUP.md) `($.$)`:gun:`(<>..<>)`**
+###### :link: **`(^_^)` [~~README~~](README.md) `[o_o]` [COVER](docs/COVER.md) `(^.^)` [LINKS](docs/LINKS.md) `(".")` [SETUP](docs/SETUP.md) `($.$)`:gun:`(<>..<>)`**
 
 ---
 

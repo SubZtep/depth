@@ -15,9 +15,10 @@
 ### 3D
 
 - [ ] https://github.com/mattatz/THREE.Tree
-- [ ] https://hofk.de/main/discourse.threejs/2019/LogarithmicShell/LogarithmicShell.html
+- [x] https://hofk.de/main/discourse.threejs/2019/LogarithmicShell/LogarithmicShell.html
 - [ ] https://davideprati.com/demo/grass/
 - [ ] https://math.hws.edu/eck/js/edge-of-chaos/CA-info.html
+- [ ] http://oos.moxiecode.com/js_webgl/spring/
 
 #### Grass
 
