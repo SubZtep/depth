@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "lib": ["ESNext", "DOM", "DOM.Iterable", "WebWorker"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable", "WebWorker", "Webworker.Iterable"],
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -21,6 +21,7 @@
   "exclude": ["node_modules", "dist", "public"],
   "references": [
     { "path": "packages/canvas" },
+    { "path": "packages/misc" },
     { "path": "web" }
   ]
 }

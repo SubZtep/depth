@@ -66,7 +66,7 @@ rules:
     # "ignore-properties": "warn"
   "@typescript-eslint/explicit-module-boundary-types": off
   "@typescript-eslint/no-non-null-assertion": off
-  "@typescript-eslint/ban-ts-comment": warn
+  "@typescript-eslint/ban-ts-comment": off
   "@typescript-eslint/no-empty-function": warn
   "@typescript-eslint/no-explicit-any": off
   "tsdoc/syntax": warn
@@ -79,9 +79,10 @@ rules:
   "unicorn/no-null": off
   # "vue/no-setup-props-destructure": off
   "unicorn/no-object-as-default-parameter": off
+  "unicorn/no-await-expression-member": off
   "unicorn/prevent-abbreviations":
     - warn
-    - ignore: ["props", "err", "el", "isDev", "Fn", "fn", "Param", "params", "src", "ext", "Ref", "obj", "i"]
+    - ignore: ["props", "err", "el", "isDev", "Fn", "fn", "Param", "params", "src", "ext", "Ref", "obj", "i", "ev"]
 
 ignorePatterns:
   - "server"

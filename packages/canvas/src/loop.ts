@@ -1,16 +1,13 @@
-import { init, state } from "./sharender"
 // @ts-ignore
-import OffscreenWorker from "./offscreen?worker&inline"
+import OffscreenWorker from "./offscreen.js?worker&inline"
+import { init, state } from "./sharender"
 
 function startWorker(canvas: HTMLCanvasElement) {
-  const offscreen = canvas.transferControlToOffscreen()
-  // const worker = new Worker("/offscreen.ts", { type: "module" })
-  const worker = new OffscreenWorker()
-  // worker.
-  // console.log({ worker })
+  const offscreen = canvas.transferControlToOffscreen!()
+  const worker: Worker = new OffscreenWorker()
   worker.postMessage({ type: "init", canvas: offscreen }, [offscreen])
 
-  function sendSize() {
+  return () => {
     worker.postMessage({
       type: "size",
       width: canvas.clientWidth,
@@ -18,31 +15,29 @@ function startWorker(canvas: HTMLCanvasElement) {
     })
   }
 
-  window.addEventListener("resize", sendSize)
-  sendSize()
-
-  console.log("using OffscreenCanvas")
+  // window.addEventListener("resize", sendSize)
+  // sendSize()
 }
 
 function startMainPage(canvas: HTMLCanvasElement) {
   init({ canvas, type: "init" })
 
-  function sendSize() {
+  return () => {
     state.width = canvas.clientWidth
     state.height = canvas.clientHeight
   }
-
-  window.addEventListener("resize", sendSize)
-  sendSize()
-
-  console.log("using regular canvas")
 }
 
-export function startLooping(canvas: HTMLCanvasElement, tryOffscreen = true) {
-  // @ts-ignore
-  if (tryOffscreen && canvas.transferControlToOffscreen) {
-    startWorker(canvas)
-  } else {
-    startMainPage(canvas)
-  }
+export function startLooping(canvas: HTMLCanvasElement, preferOffscreen = true) {
+
+  const hasWorker = preferOffscreen && canvas.transferControlToOffscreen
+  const sendSize = hasWorker ? startWorker(canvas) : startMainPage(canvas)
+  console.log("ENV", hasWorker ? "Worker" : "Main thread")
+  // sendSize.call(canvas)
+
+  window.addEventListener("resize", sendSize, true)
+  // window.addEventListener("resize", () => sendSize.call(null, canvas), true)
+  // window.dispatchEvent(new Event("resize"))
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // const stop = sendSize(canvas)
 }

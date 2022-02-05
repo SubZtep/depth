@@ -11,6 +11,9 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
+    "@depth/misc": "workspace:*"
+  },
+  "optionalDependencies": {
     "stats.js": "^0.17.0"
   },
   "devDependencies": {

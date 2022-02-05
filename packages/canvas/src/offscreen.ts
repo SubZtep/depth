@@ -10,22 +10,9 @@ const handlers = {
   size,
 }
 
-// self.addEventListener("message", function (ev: MessageEvent<CanvasMessage>) {
-
-//   )
-
-// ;(self as unknown as Worker).onmessage = function (ev: MessageEvent<CanvasMessage>) {
-//   // @ts-ignore
-//   const fn: CanvasCallback = handlers[ev.data.type]
-//   if (typeof fn !== "function") {
-//     throw new TypeError("Unknows message type: " + ev.data.type)
-//   }
-//   fn(ev.data)
-// }
-
 function handleMessage(ev: MessageEvent<CanvasMessage>) {
-  // @ts-ignore
-  const fn: CanvasCallback = handlers[ev.data.type]
+  console.log("WIIWIIW", ev)
+  const fn = handlers[ev.data.type] as CanvasCallback<typeof ev.data.type>
   if (typeof fn !== "function") {
     throw new TypeError("Unknows message type: " + ev.data.type)
   }

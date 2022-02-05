@@ -14,7 +14,8 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
-    "@depth/canvas": "workspace:*"
+    "@depth/canvas": "workspace:*",
+    "@depth/misc": "workspace:*"
   },
   "devDependencies": {
     "@windicss/plugin-scrollbar": "^1.2.3",

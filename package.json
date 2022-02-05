@@ -10,6 +10,7 @@
     "dev": "pnpm --recursive --parallel dev",
     "web": "pnpm run dev --filter @depth/web",
     "canvas": "pnpm run dev --filter @depth/canvas",
+    "misc": "pnpm run dev --filter @depth/misc",
     "serve": "pnpm recursive run serve --filter @depth/web",
     "lint": "eslint .",
     "test": "jest",
@@ -21,6 +22,7 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
+    "@vue/reactivity": "^3.2.29",
     "three": "^0.137.5"
   },
   "devDependencies": {
@@ -48,6 +50,7 @@
   },
   "workspaces": [
     "packages/canvas",
+    "packages/misc",
     "web"
   ]
 }

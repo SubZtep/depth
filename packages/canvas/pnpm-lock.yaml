@@ -5,7 +5,7 @@ specifiers:
   '@types/stats.js': ^0.17.0
   stats.js: ^0.17.0
 
-dependencies:
+optionalDependencies:
   stats.js: 0.17.0
 
 devDependencies:
@@ -24,4 +24,6 @@ packages:
 
   /stats.js/0.17.0:
     resolution: {integrity: sha1-scPcRtlEmLV4t/05hbgaznExzH0=}
+    requiresBuild: true
     dev: false
+    optional: true

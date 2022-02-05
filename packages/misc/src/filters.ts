@@ -1,4 +1,8 @@
-import type { EventFilter, Fn } from "@vueuse/core"
+// import { typeEventFilter } from '@vueuse/core';
+// import type { EventFilter, Fn } from "@vueuse/core"
+
+type Fn = () => void
+type EventFilter = (invoke: Fn) => any
 
 /** Map filter to show png files only. */
 export function pngOnly(filename: string) {
