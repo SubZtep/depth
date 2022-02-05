@@ -3,23 +3,23 @@ root: true
 env:
   browser: true
   node: true
-  jest: true
+  # jest: true
 
-overrides:
-  - files: ["*.vue"]
-    parser: "vue-eslint-parser"
-    parserOptions:
-      vueFeatures:
-        filter: false
-      parser: "@typescript-eslint/typescript-estree"
-    rules:
-      no-undef: warn
-      # "@typescript-eslint/no-unused-vars": off
-      indent: off
+# overrides:
+#   - files: ["*.vue"]
+#     parser: "vue-eslint-parser"
+#     parserOptions:
+#       vueFeatures:
+#         filter: false
+#       parser: "@typescript-eslint/typescript-estree"
+#     rules:
+#       no-undef: warn
+#       # "@typescript-eslint/no-unused-vars": off
+#       indent: off
 
 extends:
   - "eslint:recommended"
-  - "plugin:vue/vue3-recommended"
+  # - "plugin:vue/vue3-recommended"
   - "plugin:@typescript-eslint/recommended"
   - "prettier"
   - "plugin:unicorn/recommended"
@@ -30,7 +30,7 @@ parserOptions:
   sourceType: module
 
 plugins:
-  - "vue"
+  # - "vue"
   - "@typescript-eslint"
   - "prettier"
   - "eslint-plugin-tsdoc"
@@ -47,7 +47,7 @@ rules:
   "semi":
     - error
     - never
-  "vue/require-default-prop": off
+  # "vue/require-default-prop": off
   "indent":
     - warn
     - 2
@@ -60,27 +60,34 @@ rules:
     - argsIgnorePattern: "^_"
 
 
-  "@typescript-eslint/no-inferrable-types": [true, "ignore-params", "ignore-properties"],
+  "@typescript-eslint/no-inferrable-types":
+    - warn
+    # "ignore-params": "warn"
+    # "ignore-properties": "warn"
   "@typescript-eslint/explicit-module-boundary-types": off
   "@typescript-eslint/no-non-null-assertion": off
   "@typescript-eslint/ban-ts-comment": warn
   "@typescript-eslint/no-empty-function": warn
   "@typescript-eslint/no-explicit-any": off
   "tsdoc/syntax": warn
-  "vue/prop-name-casing": off
+  # "vue/prop-name-casing": off
   "unicorn/filename-case": off
   "unicorn/number-literal-case": off
   "unicorn/numeric-separators-style": off
   "unicorn/no-nested-ternary": off
   "unicorn/consistent-destructuring": off
   "unicorn/no-null": off
-  "vue/no-setup-props-destructure": off
+  # "vue/no-setup-props-destructure": off
   "unicorn/no-object-as-default-parameter": off
   "unicorn/prevent-abbreviations":
     - warn
     - ignore: ["props", "err", "el", "isDev", "Fn", "fn", "Param", "params", "src", "ext", "Ref", "obj", "i"]
 
 ignorePatterns:
+  - "server"
+  - "web.old"
+  - "packages/*"
+  - "!packages/canvas"
   - "**node_modules/"
   - "**public/"
   - "**types/"

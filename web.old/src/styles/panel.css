@@ -1,0 +1,36 @@
+#panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 450px;
+  z-index: 200;
+
+  .form {
+    @apply font-mono text-sm;
+    border-bottom-left-radius: 6px;
+    grid-template-columns: 1fr 1.9fr;
+    padding: 4px 8px;
+    display: grid;
+    row-gap: 6px;
+  }
+
+  .slight {
+    @apply opacity-55 transform origin-right scale-x-93 scale-y-95;
+    border-bottom-left-radius: 6px;
+  }
+
+  .panel {
+    @apply bg-black border-red-800 text-green-300 duration-250 ease-out;
+    border-width: 1px 2px 1px 2px;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
+}
+
+#hierarchy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 450px;
+  z-index: 200;
+}

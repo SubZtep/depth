@@ -11,6 +11,10 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@depth/stats": "workspace:*"
+    "stats.js": "^0.17.0"
+  },
+  "devDependencies": {
+    "@types/offscreencanvas": "^2019.6.4",
+    "@types/stats.js": "^0.17.0"
   }
 }

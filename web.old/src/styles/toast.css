@@ -1,0 +1,58 @@
+@import "vue-toastification/dist/index.css";
+
+@keyframes spincol {
+  0% {
+    transform: rotateY(0deg);
+    color: #ff0;
+  }
+  25% {
+    transform: rotateY(360deg);
+    color: #ff0;
+  }
+  50% {
+    transform: rotateY(0deg);
+    color: #ff0;
+  }
+  69% {
+    transform: rotateY(360deg);
+    color: #ff0;
+  }
+  88% {
+    color: #ff0;
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+.Vue-Toastification__toast {
+  margin-bottom: 0.69rem;
+  padding: 14px 12px;
+  min-height: 0;
+  max-height: none;
+  border-radius: 4px;
+  background-image: linear-gradient(45deg, #0000 25%, #000);
+}
+
+.Vue-Toastification__icon {
+  margin: 0 12px 0 0;
+  animation-name: spincol;
+  animation-duration: 3.8s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+}
+.Vue-Toastification__icon:hover {
+  display: none;
+}
+
+.Vue-Toastification__toast-body {
+  text-shadow: 0 0 3px #111;
+}
+
+.Vue-Toastification__progress-bar {
+  background-color: #8a0303;
+}
+
+.Vue-Toastification__info-toast {
+  background-color: 33660069;
+}
