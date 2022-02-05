@@ -1,5 +1,6 @@
 import { exec3D, loop3D } from "@depth/canvas"
 import * as THREE from "three"
+import { singleState } from "@depth/statem"
 
 // console.log("page")
 
@@ -41,7 +42,6 @@ function rotateObject(cube: THREE.Mesh, time: number, speed = 0.05) {
 let cubes: THREE.Mesh[]
 
 const startwithme = ({ scene }: any) => {
-  console.log("EXEEE")
   const light = new THREE.DirectionalLight(0xff0000, 0.2)
   light.position.set(0, 10, 0)
   light.target.position.set(-5, 0, 0)
@@ -58,6 +58,8 @@ const loopWithMe = ({ time, deltaTime }: any) => {
 export default () => {
   console.log("hello")
 
+  console.log("PAGEEEE xxx" + singleState.xxx.value)
+  console.log("PAGEEEE 333" + singleState.find("three").precision)
   exec3D.call(null, startwithme)
   loop3D.call(null, loopWithMe)
 }

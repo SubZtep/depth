@@ -1,0 +1,23 @@
+lockfileVersion: 5.3
+
+specifiers:
+  '@depth/misc': workspace:*
+  '@types/dat.gui': ^0.7.7
+  dat.gui: ^0.7.7
+
+dependencies:
+  '@depth/misc': link:../misc
+  dat.gui: 0.7.7
+
+devDependencies:
+  '@types/dat.gui': 0.7.7
+
+packages:
+
+  /@types/dat.gui/0.7.7:
+    resolution: {integrity: sha512-CxLCme0He5Jk3uQwfO/fGZMyNhb/ypANzqX0yU9lviBQMlen5SOvQTBQ/Cd9x5mFlUAK5Tk8RgvTyLj1nYkz+w==}
+    dev: true
+
+  /dat.gui/0.7.7:
+    resolution: {integrity: sha512-sRl/28gF/XRC5ywC9I4zriATTsQcpSsRG7seXCPnTkK8/EQMIbCu5NPMpICLGxX9ZEUvcXR3ArLYCtgreFoMDw==}
+    dev: false

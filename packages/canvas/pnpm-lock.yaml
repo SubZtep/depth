@@ -1,9 +1,15 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@depth/misc': workspace:*
+  '@depth/statem': workspace:*
   '@types/offscreencanvas': ^2019.6.4
   '@types/stats.js': ^0.17.0
   stats.js: ^0.17.0
+
+dependencies:
+  '@depth/misc': link:../misc
+  '@depth/statem': link:../statem
 
 optionalDependencies:
   stats.js: 0.17.0

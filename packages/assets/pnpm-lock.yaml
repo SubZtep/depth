@@ -1,0 +1,11 @@
+lockfileVersion: 5.3
+
+specifiers:
+  '@depth/canvas': workspace:*
+  '@depth/editor': workspace:*
+  '@depth/physics': workspace:*
+
+dependencies:
+  '@depth/canvas': link:../canvas
+  '@depth/editor': link:../editor
+  '@depth/physics': link:../physics

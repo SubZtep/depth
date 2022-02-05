@@ -34,7 +34,7 @@ interface Loop3DParams {
  * @returns Stop function for remove `fn` from the loop
  */
 export const loop3D = (fn: CanvasInjectedFn, { inject }: Loop3DParams = {}) => {
-  console.log("i am loop3D")
+  console.log("i am loop3D", loopFns)
   if (inject) {
     renderedLoopFns.add(fn)
     return () => renderedLoopFns.delete(fn)

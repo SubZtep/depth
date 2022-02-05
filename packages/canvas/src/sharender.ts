@@ -9,7 +9,7 @@ export const state = reactive<Dimensions>({
 })
 
 export function init(data: InitMessage) {
-  console.log("INIT")
+  console.log("useLoopInject init")
   const { canvas } = data
 
   let stats: Stats | undefined

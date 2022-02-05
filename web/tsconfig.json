@@ -13,6 +13,7 @@
   },
   "include": ["./src/**/*.ts", "./src/**/*.vue", "./src/**/*.json"],
   "references": [
-    { "path": "../packages/canvas", "prepend": true }
+    { "path": "../packages/canvas" },
+    { "path": "../packages/statem" }
   ]
 }

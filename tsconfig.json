@@ -15,13 +15,16 @@
     // "noImplicitAny": false,
     "declarationMap": true,
     "isolatedModules": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false // should be true but lit-element isn't support that
     // "removeComments": false
   },
   // "include": ["src/*.ts"],
   "exclude": ["node_modules", "dist", "public"],
   "references": [
-    { "path": "packages/canvas" },
+    { "path": "packages/statem" },
     { "path": "packages/misc" },
+    { "path": "packages/canvas" },
     { "path": "web" }
   ]
 }
