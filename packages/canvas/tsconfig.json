@@ -1,11 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "./types",
     "composite": true,
-    "rootDir": "src",
-    "outDir": "dist",
-    "typeRoots": ["node_modules/@types", "./src/types"]
+    "rootDir": "."
   },
-  // "include": ["src/*.ts"]
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*", "typeings.d.ts"]
 }

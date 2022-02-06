@@ -6,14 +6,9 @@
     "outDir": "./dist",
     "resolveJsonModule": true,
     // "types": ["vite/client"],
-    "typeRoots": ["node_modules/@types", "./src/types"],
     "paths": {
       "~/*": ["src/*"]
     }
   },
-  "include": ["./src/**/*.ts", "./src/**/*.vue", "./src/**/*.json"],
-  "references": [
-    { "path": "../packages/canvas" },
-    { "path": "../packages/statem" }
-  ]
+  "include": ["./src/**/*", "typeings.d.ts"]
 }

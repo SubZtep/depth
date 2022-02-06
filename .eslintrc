@@ -3,23 +3,9 @@ root: true
 env:
   browser: true
   node: true
-  # jest: true
-
-# overrides:
-#   - files: ["*.vue"]
-#     parser: "vue-eslint-parser"
-#     parserOptions:
-#       vueFeatures:
-#         filter: false
-#       parser: "@typescript-eslint/typescript-estree"
-#     rules:
-#       no-undef: warn
-#       # "@typescript-eslint/no-unused-vars": off
-#       indent: off
 
 extends:
   - "eslint:recommended"
-  # - "plugin:vue/vue3-recommended"
   - "plugin:@typescript-eslint/recommended"
   - "prettier"
   - "plugin:unicorn/recommended"
@@ -30,7 +16,6 @@ parserOptions:
   sourceType: module
 
 plugins:
-  # - "vue"
   - "@typescript-eslint"
   - "prettier"
   - "eslint-plugin-tsdoc"
@@ -47,7 +32,6 @@ rules:
   "semi":
     - error
     - never
-  # "vue/require-default-prop": off
   "indent":
     - warn
     - 2
@@ -77,7 +61,6 @@ rules:
   "unicorn/no-nested-ternary": off
   "unicorn/consistent-destructuring": off
   "unicorn/no-null": off
-  # "vue/no-setup-props-destructure": off
   "unicorn/no-object-as-default-parameter": off
   "unicorn/no-await-expression-member": off
   "unicorn/prevent-abbreviations":

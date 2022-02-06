@@ -23,3 +23,29 @@ export function truthyFilter(source: any): EventFilter {
 export function regexpFilter(filter: RegExp, value: string) {
   return (invoke: Fn) => filter.test(value) && invoke()
 }
+
+/**
+ * Usage:
+ * - ```
+ *   function saveInput(){
+ *     console.log('Saving data');
+ *   }
+ *   const processChange = debounce(() => saveInput());
+ *   ```
+ * - ```js
+ *    <button onclick="processChange()">Click me</button>
+ *    ```
+ * - ```js
+ *    window.addEventListener("scroll", processChange);
+ *    ```
+ */
+export function debounce(func: Fn, timeout = 300) {
+  let timer: NodeJS.Timeout
+  return (...args: any[]) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      // @ts-ignore
+      func.apply(this, args)
+    }, timeout)
+  }
+}
