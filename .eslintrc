@@ -70,8 +70,7 @@ rules:
 ignorePatterns:
   - "server"
   - "web.old"
-  - "packages/*"
-  - "!packages/canvas"
+  - "lib/*"
   - "**node_modules/"
   - "**public/"
   - "**types/"

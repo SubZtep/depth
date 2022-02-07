@@ -1,16 +1,13 @@
 {
   "extends": "./tsconfig.base.json",
   "files": [],
-  "include": [],
+  "include": ["typings.d.ts"],
   "references": [
     {
-      "path": "./packages/statem"
+      "path": "./lib/misc"
     },
     {
-      "path": "./packages/misc"
-    },
-    {
-      "path": "./packages/canvas"
+      "path": "./lib/canvas"
     }
   ]
 }

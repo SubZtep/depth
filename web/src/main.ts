@@ -1,23 +1,20 @@
-import { startLooping } from "../../packages/canvas/src/loop"
-import Page from "./pages/testplay"
+import { startLooping } from "../../lib/canvas/src/startup"
+// import Page from "./pages/testplay"
+import store from "./store"
 import { sleep } from "@depth/misc"
-import { singleState } from "@depth/statem"
 import "./main.css"
 
-singleState.xxx.value = 13
+console.log("AAA", store.state.useOffscreen)
+startLooping({
+  canvas: document.querySelector<HTMLCanvasElement>("#scene canvas")!,
+  // preferOffscreen: false,
+  state: store.state,
+})
 
-// setTimeout(() => {
-//   console.log("MAIN", JSON.stringify(singleState.find("three")))
-// }, 5000)
+console.log("BBB")
 
-const canvas = document.querySelector<HTMLCanvasElement>("#scene canvas")!
+await sleep(1100)
+console.log("CCC")
+// Page()
 
-// console.log("hhh")
-// ;(await import("../../packages/canvas/src/loop")).
-
-startLooping(canvas)
-
-console.log("MAINxxx", singleState.xxx.value)
-
-await sleep(5000)
-Page()
+console.log("Local Store", store.state.useOffscreen)

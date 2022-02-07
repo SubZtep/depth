@@ -8,4 +8,4 @@ pnpm wipe
 
 # Recursive, Only if exists
 # rm -rf .pnpm-debug.log pnpm-lock.yaml web/src/types/auto-imports.d.ts web/src/types/components.d.ts web/public/libs/*/
-rm -rf .pnpm-debug.log pnpm-lock.yaml web/src/types/auto-imports.d.ts web/src/types/components.d.ts
+rm .pnpm-debug.log pnpm-lock.yaml

@@ -31,7 +31,7 @@
     "**/*.js": true,
     "**/*.d.ts": true,
     "**/*.spec.ts": true,
-    "**/dist": true,
+    "**/build": true,
     "**/node_modules": true
   },
   // "files.exclude": {
@@ -41,7 +41,7 @@
   // },
   "files.watcherExclude": {
     "**/node_modules": true,
-    "**/dist": true
+    "**/build": true
   },
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"

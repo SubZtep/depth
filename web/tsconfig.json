@@ -1,14 +1,12 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "composite": true,
     "baseUrl": ".",
-    "outDir": "./dist",
+    "outDir": "build",
     "resolveJsonModule": true,
-    // "types": ["vite/client"],
-    "paths": {
-      "~/*": ["src/*"]
-    }
+    "declaration": false,
+    "declarationMap": false,
+    "types": ["vite/client", "three"]
   },
-  "include": ["./src/**/*", "typeings.d.ts"]
+  "include": ["src/**/*", "typings.d.ts", "../typings.d.ts", "../lib/canvas/typings.d.ts"]
 }

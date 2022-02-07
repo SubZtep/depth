@@ -1,0 +1,13 @@
+{
+  "name": "@depth/misc",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "build/src/index.js",
+  "typings": "build/src/index.d.ts",
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "tsc"
+  },
+  "author": "Andras Serfozo <subztep@gmail.com>",
+  "license": "Unlicense"
+}

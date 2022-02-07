@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "types",
+    "composite": true,
+    "rootDir": ".",
+    "outDir": "build",
+    "paths": {
+      "@depth/misc": ["../misc"],
+    }
+  },
+  "include": ["src/**/*", "typings.d.ts", "../../typings.d.ts"]
+}

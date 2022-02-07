@@ -5,7 +5,7 @@
   "description": "depth test",
   "type": "module",
   "scripts": {
-    "wipe": "pnpm recursive exec -- rm -rf node_modules dist coverage tsconfig.tsbuildinfo .pnpm-debug.log",
+    "wipe": "pnpm recursive exec -- rm -rf node_modules build types tsconfig.tsbuildinfo pnpm-lock.yaml",
     "wiper": "sh scripts/wipe_all.sh",
     "dev": "pnpm --recursive --parallel dev",
     "build": "pnpm --recursive build --if-present",
@@ -22,10 +22,11 @@
   "repository": "github:SubZtep/depth",
   "dependencies": {
     "@vue/reactivity": "^3.2.29",
+    "comlink": "^4.3.1",
     "three": "^0.137.5"
   },
   "devDependencies": {
-    "@types/node": "^17.0.14",
+    "@types/node": "^17.0.15",
     "@types/three": "^0.137.0",
     "@typescript-eslint/eslint-plugin": "^5.10.2",
     "@typescript-eslint/parser": "^5.10.2",
@@ -48,9 +49,8 @@
     "pnpm": ">=6"
   },
   "workspaces": [
-    "packages/canvas",
-    "packages/misc",
-    "packages/statem",
+    "lib/canvas",
+    "lib/misc",
     "web"
   ]
 }

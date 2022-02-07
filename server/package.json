@@ -15,14 +15,14 @@
   },
   "scripts": {
     "dev": "tsc -w",
-    "build": "tsc",
+    "_build": "tsc",
     "start": "nodemon --require dotenv/config dist/index.js",
     "broadcast": "nodemon --require dotenv/config src/broadcast.mjs"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "devDependencies": {
-    "@types/node": "^17.0.14",
+    "@types/node": "^17.0.15",
     "@types/ws": "^8.2.2"
   },
   "dependencies": {

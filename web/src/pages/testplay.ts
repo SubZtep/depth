@@ -1,8 +1,9 @@
-import { exec3D, loop3D } from "@depth/canvas"
+// import { exec3D, loop3D } from "@depth/canvas"
+import { exec3D, loop3D } from "../../../lib/canvas"
 import * as THREE from "three"
-import { singleState } from "@depth/statem"
+// import { singleState } from "@depth/statem"
 
-// console.log("page")
+console.log("page")
 
 const numberOfCubes = 25
 
@@ -58,8 +59,23 @@ const loopWithMe = ({ time, deltaTime }: any) => {
 export default () => {
   console.log("hello")
 
-  console.log("PAGEEEE xxx" + singleState.xxx.value)
-  console.log("PAGEEEE 333" + singleState.find("three").precision)
+  // console.log("PAGEEEE xxx" + singleState.xxx.value)
+  // console.log("PAGEEEE 333" + singleState.find("three").precision)
+  // exec3D(startwithme)
   exec3D.call(null, startwithme)
+  // exec3D(startwithme)
   loop3D.call(null, loopWithMe)
+  // loop3D(loopWithMe)
+  // loop3D(() => 1)
+  // loop3D(() => 2)
+  // loop3D(() => 3)
+  // loop3D(() => 3)
+  // loop3D(() => 3)
+  // loop3D(() => 3)
+  // loop3D(() => 3)
+  // loop3D(() => 3)
+  // loop3D(() => 3)
+  // loop3D(() => 3)
+  // loop3D(() => {}, { inject: "rendered" })
+
 }
