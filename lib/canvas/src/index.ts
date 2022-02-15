@@ -3,4 +3,4 @@ export * from "./inject"
 // export * from "./lib/helpers"
 // export * from "./lib/createMesh"
 
-export * from "./startup"
+export { startLooping } from "./startup"

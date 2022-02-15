@@ -1,4 +1,5 @@
 // import { resolve } from "node:path"
+// import { resolve } from "node:path"
 import { defineConfig } from "vite"
 // import WindiCSS from "vite-plugin-windicss"
 
@@ -9,8 +10,7 @@ export default defineConfig(({ command }) => {
     mode: "development",
     // resolve: {
     //   alias: {
-    //     // eslint-disable-next-line unicorn/prefer-module
-    //     "~/": `${resolve(__dirname, "src")}/`,
+    //     "~/": `${resolve(import.meta.url, "src")}/`,
     //   },
     // },
     // plugins: [

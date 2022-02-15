@@ -2,8 +2,8 @@
   "name": "@depth/canvas",
   "version": "0.1.0",
   "type": "module",
-  "main": "build/src/index.js",
-  "typings": "build/src/index.d.ts",
+  "main": "build/index",
+  "types": "types/index",
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc"
@@ -11,7 +11,7 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@depth/misc": "workspace:*",
+    "@depth/misc": "^0.1.0",
     "stats.js": "^0.17.0"
   },
   "devDependencies": {

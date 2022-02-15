@@ -1,9 +1,9 @@
 {
-  "name": "@depth/misc",
+  "name": "@depth/statem",
   "version": "0.1.0",
   "type": "module",
   "main": "build/index",
-  "typings": "build/index",
+  "types": "types/index",
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc"

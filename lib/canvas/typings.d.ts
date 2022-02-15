@@ -1,3 +1,8 @@
+interface HTMLCanvasElement {
+  /** https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/transferControlToOffscreen */
+  transferControlToOffscreen?: () => OffscreenCanvas & MessagePort
+}
+
 interface InitMessage {
   type: "init"
   canvas: HTMLCanvasElement | OffscreenCanvas
@@ -19,4 +24,9 @@ interface RendererState {
   /** Render Three.js in Worker or Main thread. */
   readonly useOffscreen?: boolean
   antialias?: import("three").WebGLRendererParameters["antialias"]
+}
+
+interface Dimensions {
+  width: number
+  height: number
 }

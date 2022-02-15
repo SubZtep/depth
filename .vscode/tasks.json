@@ -5,7 +5,7 @@
       "label": "Outdated packages",
       "detail": "Looking for depdendency updates",
       "type": "shell",
-      "command": "pnpm recursive up",
+      // "command": "pnpm recursive up",
       "presentation": {
         "echo": true,
         "reveal": "always",

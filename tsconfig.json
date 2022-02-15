@@ -1,13 +1,16 @@
 {
-  "extends": "./tsconfig.base.json",
+  "exclude": ["node_modules", "server"],
   "files": [],
-  "include": ["typings.d.ts"],
+  "include": [],
   "references": [
     {
       "path": "./lib/misc"
     },
     {
       "path": "./lib/canvas"
+    },
+    {
+      "path": "./web",
     }
   ]
 }

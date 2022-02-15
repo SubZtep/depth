@@ -1,7 +1,5 @@
 {
-  // "javascript.preferences.importModuleSpecifierEnding": "js",
-  // "typescript.preferences.importModuleSpecifierEnding": "js",
-  // "deno.enable": false,
+  "deno.enable": false,
   "typescript.tsdk": "node_modules/typescript/lib",
   "windicss.enableCodeFolding": true,
   "windicss.foldByLength": true,
@@ -49,7 +47,7 @@
   "[postcss]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "workbench.colorTheme": "Cobalt2",
+  "workbench.colorTheme": "Plastic",
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },

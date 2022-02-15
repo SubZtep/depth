@@ -29,8 +29,11 @@ Object.freeze(singleton)
  * @param object Object to be stored in singleton map
  * @returns Stored object
  */
-function single<T = any>(key: string, object: T): T {
+function single<T = any>(key: string, object?: T): T | undefined {
   if (!singleton.has(key)) {
+    if (object === undefined) {
+      return undefined
+    }
     singleton.set(key, object)
   }
   return singleton.get(key)
