@@ -2,7 +2,7 @@
   "name": "@depth/statem",
   "version": "0.1.0",
   "type": "module",
-  "main": "build/index",
+  "main": "dist/index",
   "types": "types/index",
   "scripts": {
     "dev": "tsc -w",

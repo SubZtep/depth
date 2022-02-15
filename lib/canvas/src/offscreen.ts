@@ -15,6 +15,7 @@ const handlers = {
 // let ss: any = null
 
 function handleMessage(ev: MessageEvent<CanvasMessage>) {
+  // console.log("Offscreen statem", ev)
   // console.log("Offscreen statem", singleState.find("three").precision)
   // console.log("Offscreen statem", singleState)
   // ss = singleState.xxx
@@ -32,7 +33,7 @@ function handleMessage(ev: MessageEvent<CanvasMessage>) {
   // }, 4000)
   // singleState.precision
 
-  // console.log("Offscreen handleMessage", ev)
+  console.log("Offscreen handleMessage", ev)
   const fn = handlers[ev.data.type] as CanvasCallback<typeof ev.data.type>
   if (typeof fn !== "function") {
     throw new TypeError("Unknows message type: " + ev.data.type)

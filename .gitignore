@@ -3,7 +3,7 @@
 .pnpm-debug.log
 coverage
 dist
-lib/build
+build
 node_modules
 tsconfig.tsbuildinfo
 web/public/libs/

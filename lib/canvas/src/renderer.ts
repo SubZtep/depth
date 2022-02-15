@@ -1,13 +1,14 @@
 import * as THREE from "three"
 import Stats from "stats.js"
 import { runInjectedFunctions } from "./inject"
+// import { runInjectedFunctions } from "./inject" // going to be microfunction
 
 export const state: Dimensions = {
   width: 320,
   height: 200,
 }
 
-let renderer: THREE.WebGLRenderer
+// let renderer: THREE.WebGLRenderer
 
 export function init(data: InitMessage) {
   console.log("Renderer init")
@@ -20,6 +21,7 @@ export function init(data: InitMessage) {
     ;(canvas as HTMLCanvasElement).parentElement?.append(stats.dom)
   }
 
+  // renderer = new THREE.WebGLRenderer({
   const renderer = new THREE.WebGLRenderer({
     canvas,
     antialias: true,
@@ -35,18 +37,25 @@ export function init(data: InitMessage) {
   state.height = (canvas as HTMLCanvasElement).height
 
   const camera = new THREE.PerspectiveCamera(90, state.width / state.height, 1, 2000)
-  camera.position.z = 690
+  camera.position.z = 300
 
   const scene = new THREE.Scene()
   scene.background = new THREE.Color(0x666600)
 
   const clock = new THREE.Clock()
 
+  const cube = new THREE.Mesh(
+    new THREE.BoxGeometry(10, 10, 10, 10, 10, 10),
+    new THREE.MeshPhongMaterial({ color: 0x669913 })
+  )
+  scene.add(cube)
+
   function resizeRendererToDisplaySize(renderer: THREE.WebGLRenderer) {
     const canvas = renderer.domElement
     const width = state.width
     const height = state.height
     const needResize = canvas.width !== width || canvas.height !== height
+    // console.log(needResize, [canvas.width, width, canvas.height, height])
     if (needResize) {
       renderer.setSize(width, height, false)
     }
@@ -54,17 +63,18 @@ export function init(data: InitMessage) {
   }
 
   async function render(time: number) {
+    console.log("RENDER")
+    camera.rotateY(0.1)
     stats?.begin()
     time *= 0.001
     const deltaTime = clock.getDelta()
     const runner = runInjectedFunctions({ scene, renderer, clock, deltaTime, time, camera })
-
     await runner()
 
     renderer.render(scene, camera)
     requestAnimationFrame(render)
 
-    await runner("rendered")
+    // await runner("rendered")
     if (resizeRendererToDisplaySize(renderer)) {
       camera.aspect = state.width / state.height
       camera.updateProjectionMatrix()

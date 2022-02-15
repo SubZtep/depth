@@ -1,4 +1,5 @@
 interface State extends RendererState {
+  antialias?: boolean
   preferOffscreen?: boolean
 }
 

@@ -4,7 +4,7 @@
     "baseUrl": ".",
     "composite": true,
     "rootDir": "./src",
-    "outDir": "./build",
+    "outDir": "./dist",
     "isolatedModules": false,
     "typeRoots": ["node_modules/@types", "./src/types"],
     "module": "ES2020",

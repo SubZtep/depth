@@ -13,10 +13,8 @@
     "insta": "env-cmd yarn install",
     "wipe": "pnpm recursive exec -- rm -rf node_modules build types tsconfig.tsbuildinfo pnpm-lock.yaml",
     "wiper": "sh scripts/wipe_all.sh",
-    "dev": "yarn workspaces run dev",
-    "dev-old": "pnpm --recursive --parallel dev",
-    "build": "yarn workspaces run build",
-    "build-old": "pnpm --recursive build --if-present",
+    "dev": "pnpm --recursive --parallel dev",
+    "build": "pnpm --recursive build --if-present",
     "web": "pnpm run dev --filter @depth/web",
     "canvas": "pnpm run dev --filter @depth/canvas",
     "misc": "pnpm run dev --filter @depth/misc",
@@ -33,12 +31,12 @@
     "three": "^0.137.5"
   },
   "devDependencies": {
-    "@types/node": "^17.0.17",
+    "@types/node": "^17.0.18",
     "@types/three": "^0.137.0",
-    "@typescript-eslint/eslint-plugin": "^5.11.0",
-    "@typescript-eslint/parser": "^5.11.0",
-    "@typescript-eslint/typescript-estree": "^5.11.0",
-    "cypress": "^9.4.1",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "@typescript-eslint/typescript-estree": "^5.12.0",
+    "cypress": "^9.5.0",
     "env-cmd": "^10.1.0",
     "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.3.0",
@@ -53,6 +51,6 @@
   },
   "engines": {
     "node": ">=16",
-    "yarn": ">=1.22.15"
+    "pnpm": ">=6"
   }
 }

@@ -2,7 +2,7 @@ import Store from "beedle"
 
 const initialState: State = {
   antialias: false,
-  // preferOffscreen: true,
+  preferOffscreen: true,
 }
 
 const actions = {

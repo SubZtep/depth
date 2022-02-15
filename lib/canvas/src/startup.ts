@@ -5,6 +5,7 @@ import OffscreenWorker from "./offscreen?worker&inline"
 function startWorker(canvas: HTMLCanvasElement) {
   const offscreen = canvas.transferControlToOffscreen!()
   const worker: Worker = new OffscreenWorker()
+
   worker.postMessage({ type: "init", canvas: offscreen }, [offscreen])
 
   return () => {
@@ -16,8 +17,18 @@ function startWorker(canvas: HTMLCanvasElement) {
     worker.postMessage(msg)
   }
 
-  // // window.addEventListener("resize", sendSize)
-  // // sendSize()
+  // function sendSize() {
+  //   worker.postMessage({
+  //     type: "size",
+  //     width: canvas.clientWidth,
+  //     height: canvas.clientHeight,
+  //   })
+  // }
+
+  // window.addEventListener("resize", sendSize)
+  // sendSize()
+
+  // return sendSize
 }
 
 function startMainPage(canvas: HTMLCanvasElement) {
