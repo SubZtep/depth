@@ -10,7 +10,7 @@
       "path": "./lib/canvas"
     },
     {
-      "path": "./web",
+      "path": "./web"
     }
   ]
 }

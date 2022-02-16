@@ -1,7 +1,7 @@
 // import Store from "beedle"
 import Store from "@depth/statem"
 
-const initialState: State = {
+const initialState = {
   antialias: false,
   preferOffscreen: true,
 }

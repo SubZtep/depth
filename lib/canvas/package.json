@@ -11,6 +11,7 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
+    "@depth/statem": "^0.1.0",
     "@depth/misc": "^0.1.0",
     "stats.js": "^0.17.0"
   },

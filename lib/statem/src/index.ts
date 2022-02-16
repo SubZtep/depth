@@ -1,32 +1,31 @@
-export default class Store {
+type Fn = () => void
+
+type IStore = {
+  actions: Record<string, Fn>
+  mutations: Record<string, Fn>
+  state: Record<string, any>
+  status: "resting" | "action" | "mutation"
+  callbacks: Array<Fn>
+}
+
+export default class Store implements IStore {
+  actions: any //: Record<string, string> = ""
+  // actions: Record<string, Fn> = {}
+  mutations: Record<string, Fn> = {}
+  state: Record<string, any> = {}
+  status: "resting" | "action" | "mutation" = "resting"
+  callbacks: Fn[] = []
+
   constructor(params) {
     const self = this
+    params.hasOwnProperty("actions") && (self.actions = params.actions)
+    params.hasOwnProperty("mutations") && (self.mutations = params.mutations)
 
-    // Add some default objects to hold our actions, mutations and state
-    self.actions = {}
-    self.mutations = {}
-    self.state = {}
-
-    // A status enum to set during actions and mutations
-    self.status = "resting"
-
-    // We store callbacks for when the state changes in here
-    self.callbacks = []
-
-    // Look in the passed params object for actions and mutations
-    // that might have been passed in
-    if (params.hasOwnProperty("actions")) {
-      self.actions = params.actions
-    }
-
-    if (params.hasOwnProperty("mutations")) {
-      self.mutations = params.mutations
-    }
 
     // Set our state to be a Proxy. We are setting the default state by
     // checking the params and defaulting to an empty object if no default
     // state is passed in
-    self.state = new Proxy(params.initialState || {}, {
+    self.state = new Proxy(params.initialState = {}, {
       set(state, key, value) {
         // Set the value as we would normally
         state[key] = value
@@ -52,7 +51,7 @@ export default class Store {
    * @returns {boolean}
    * @memberof Store
    */
-  dispatch(actionKey, payload) {
+  dispatch(actionKey: Store["actions"][number], payload) {
     const self = this
 
     // Run a quick check to see if the action actually exists

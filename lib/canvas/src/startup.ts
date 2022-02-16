@@ -1,6 +1,9 @@
 import { init, state } from "./renderer"
 // @ts-ignore
 import OffscreenWorker from "./offscreen?worker&inline"
+import Statem from "@depth/statem"
+
+const state = new Statem()
 
 function startWorker(canvas: HTMLCanvasElement) {
   const offscreen = canvas.transferControlToOffscreen!()
@@ -16,19 +19,6 @@ function startWorker(canvas: HTMLCanvasElement) {
     }
     worker.postMessage(msg)
   }
-
-  // function sendSize() {
-  //   worker.postMessage({
-  //     type: "size",
-  //     width: canvas.clientWidth,
-  //     height: canvas.clientHeight,
-  //   })
-  // }
-
-  // window.addEventListener("resize", sendSize)
-  // sendSize()
-
-  // return sendSize
 }
 
 function startMainPage(canvas: HTMLCanvasElement) {
@@ -40,27 +30,20 @@ function startMainPage(canvas: HTMLCanvasElement) {
   }
 }
 
-export function startLooping({
-  canvas,
-  preferOffscreen = true,
-  state,
-}: {
+interface LoopProps {
   canvas: HTMLCanvasElement
   preferOffscreen?: boolean
   state: RendererState
-}) {
-  console.log([preferOffscreen, "transferControlToOffscreen" in canvas])
+}
+
+export function startLooping({ canvas, preferOffscreen = true, state }: LoopProps) {
   const hasWorker = preferOffscreen && "transferControlToOffscreen" in canvas
   const sendSize = hasWorker ? startWorker(canvas) : startMainPage(canvas)
   console.log("ENV", hasWorker ? "Worker" : "Main thread")
 
-  // hack to mutate readonly property
-  Object.assign(state, { useOffscreen: hasWorker })
+  Object.assign(state, { useOffscreen: hasWorker }) // hack to mutate readonly property
 
-  sendSize.call(canvas)
-
-  // window.addEventListener("resize", sendSize, true)
-  // window.addEventListener("resize", () => sendSize.call(null, canvas), true)
-  // window.dispatchEvent(new Event("resize"))˛
+  // sendSize.call(canvas)
+  window.addEventListener("resize", sendSize, true)
   const stop = sendSize()
 }

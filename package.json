@@ -9,6 +9,7 @@
     "lib/*"
   ],
   "scripts": {
+    "ins": "pnpm --recursive install",
     "cy:open": "cypress open",
     "insta": "env-cmd yarn install",
     "wipe": "pnpm recursive exec -- rm -rf node_modules build types tsconfig.tsbuildinfo pnpm-lock.yaml",
@@ -21,7 +22,8 @@
     "statem": "pnpm run dev --filter @depth/statem",
     "serve": "pnpm recursive run serve --filter @depth/web",
     "lint": "eslint .",
-    "ncu": "pnpm recursive exec -- ncu -u"
+    "ncu": "pnpm recursive exec -- ncu -u",
+    "test": "cypress run --config video=false --spec ./cypress/integration/statem/**/*"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",

@@ -1,6 +1,7 @@
 import * as THREE from "three"
 import Stats from "stats.js"
 import { runInjectedFunctions } from "./inject"
+import { range, sleep } from "@depth/misc"
 // import { runInjectedFunctions } from "./inject" // going to be microfunction
 
 export const state: Dimensions = {
@@ -10,7 +11,7 @@ export const state: Dimensions = {
 
 // let renderer: THREE.WebGLRenderer
 
-export function init(data: InitMessage) {
+export async function init(data: InitMessage) {
   console.log("Renderer init")
   const { canvas } = data
 
@@ -37,25 +38,29 @@ export function init(data: InitMessage) {
   state.height = (canvas as HTMLCanvasElement).height
 
   const camera = new THREE.PerspectiveCamera(90, state.width / state.height, 1, 2000)
-  camera.position.z = 300
+  camera.position.z = 100
 
   const scene = new THREE.Scene()
   scene.background = new THREE.Color(0x666600)
 
   const clock = new THREE.Clock()
 
-  const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(10, 10, 10, 10, 10, 10),
+  const cube = (y = 10) => new THREE.Mesh(
+    new THREE.BoxGeometry(10, y, 10, 10, 10, 10),
     new THREE.MeshPhongMaterial({ color: 0x669913 })
   )
-  scene.add(cube)
+
+  for (const i of range(10, 100)) {
+    scene.add(cube(i * 2))
+    await sleep(100)
+  }
+
 
   function resizeRendererToDisplaySize(renderer: THREE.WebGLRenderer) {
     const canvas = renderer.domElement
     const width = state.width
     const height = state.height
     const needResize = canvas.width !== width || canvas.height !== height
-    // console.log(needResize, [canvas.width, width, canvas.height, height])
     if (needResize) {
       renderer.setSize(width, height, false)
     }
@@ -63,8 +68,7 @@ export function init(data: InitMessage) {
   }
 
   async function render(time: number) {
-    console.log("RENDER")
-    camera.rotateY(0.1)
+    camera.rotateY(0.05)
     stats?.begin()
     time *= 0.001
     const deltaTime = clock.getDelta()

@@ -2,6 +2,7 @@ export { default as useSingleton } from "./useSingleton"
 // export * from "./textuals"
 export * from "./filters"
 // export * from "./threed"
+export * from "./generators"
 export * from "./utils"
 
 // declare module "@depth/misc" {
