@@ -1,3 +1,5 @@
+
+#ui,
 #hud,
 #scene,
 #editor,
@@ -7,6 +9,14 @@
   width: 100vw;
   height: 100vh;
   position: absolute;
+}
+
+#ui {
+  pointer-events: none;
+}
+
+#ui > * {
+  pointer-events: all;
 }
 
 #hud {
@@ -62,4 +72,10 @@
 #scene > canvas {
   width: inherit;
   height: inherit;
+}
+
+#ui {
+  button {
+    border: 1px solid #000;
+  }
 }

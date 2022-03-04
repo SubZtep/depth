@@ -1,9 +1,20 @@
+import { useSingleton } from "@depth/misc"
 import { init, state } from "./renderer"
 // @ts-ignore
 import OffscreenWorker from "./offscreen?worker&inline"
-import Statem from "@depth/statem"
+// import Statem from "@depth/statem"
 
-const state = new Statem()
+// const statem = new Statem()
+
+
+const { singleton } = useSingleton()
+setTimeout(() => {
+  const store = singleton.get("rendererState")
+  store.subscribe(state => {
+    console.log("state changed", state)
+  })
+}, 1000)
+
 
 function startWorker(canvas: HTMLCanvasElement) {
   const offscreen = canvas.transferControlToOffscreen!()

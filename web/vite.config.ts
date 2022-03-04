@@ -1,7 +1,9 @@
 // import { resolve } from "node:path"
 // import { resolve } from "node:path"
 import { defineConfig } from "vite"
-// import WindiCSS from "vite-plugin-windicss"
+import WindiCSS from "vite-plugin-windicss"
+// import Pug from "vite-plugin-pug"
+import Pug from "./pug/index"
 
 export default defineConfig(({ command }) => {
   // const isDev = command === "serve"
@@ -13,9 +15,10 @@ export default defineConfig(({ command }) => {
     //     "~/": `${resolve(import.meta.url, "src")}/`,
     //   },
     // },
-    // plugins: [
-    //   WindiCSS(),
-    // ],
+    plugins: [
+      Pug(),
+      // WindiCSS(),
+    ],
     build: {
       target: ["edge90", "chrome90", "firefox90", "safari15"], // for top-level await
       //   sourcemap: isDev,

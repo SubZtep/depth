@@ -2,6 +2,7 @@
 import Store from "@depth/statem"
 
 const initialState = {
+  running: false,
   antialias: false,
   preferOffscreen: true,
 }

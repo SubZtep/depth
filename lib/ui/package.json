@@ -1,0 +1,20 @@
+{
+  "name": "@depth/ui",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index",
+  "typings": "dist/index",
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "tsc"
+  },
+  "author": "Andras Serfozo <subztep@gmail.com>",
+  "license": "Unlicense",
+  "dependencies": {
+    "lit": "^2.2.0"
+  },
+  "devDependencies": {
+    "ts-lit-plugin": "^1.2.1",
+    "tslib": "^2.3.1"
+  }
+}

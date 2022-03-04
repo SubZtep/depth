@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index",
-  "types": "types/index",
+  "types": "dist/index",
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc"

@@ -18,14 +18,15 @@ export default class Store implements IStore {
 
   constructor(params) {
     const self = this
+    // console.log("PPP", params)
     params.hasOwnProperty("actions") && (self.actions = params.actions)
     params.hasOwnProperty("mutations") && (self.mutations = params.mutations)
-
 
     // Set our state to be a Proxy. We are setting the default state by
     // checking the params and defaulting to an empty object if no default
     // state is passed in
-    self.state = new Proxy(params.initialState = {}, {
+    // @ts-ignore
+    self.state = new Proxy((params.initialState = {}), {
       set(state, key, value) {
         // Set the value as we would normally
         state[key] = value
@@ -51,7 +52,7 @@ export default class Store implements IStore {
    * @returns {boolean}
    * @memberof Store
    */
-  dispatch(actionKey: Store["actions"][number], payload) {
+  dispatch(actionKey: Store["actions"][number], payload?: any) {
     const self = this
 
     // Run a quick check to see if the action actually exists
@@ -77,7 +78,7 @@ export default class Store implements IStore {
    * @returns {boolean}
    * @memberof Store
    */
-  commit(mutationKey, payload) {
+  commit(mutationKey: string, payload?: any) {
     const self = this
 
     // Run a quick check to see if this mutation actually exists
@@ -91,9 +92,11 @@ export default class Store implements IStore {
     self.status = "mutation"
 
     // Get a new version of the state by running the mutation and storing the result of it
+    // @ts-ignore
     let newState = self.mutations[mutationKey](self.state, payload)
 
     // Update the old state with the new state returned from our mutation
+    // @ts-ignore
     self.state = newState
 
     return true
@@ -115,6 +118,7 @@ export default class Store implements IStore {
     }
 
     // We've got callbacks, so loop each one and fire it off
+    // @ts-ignore
     self.callbacks.forEach(callback => callback(data))
 
     return true

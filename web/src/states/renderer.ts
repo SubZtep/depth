@@ -1,7 +1,12 @@
-// import Store from "beedle"
 import Statem from "@depth/statem"
 
-const initialState: State = {
+interface RendererState {
+  running: boolean;
+  antialias?: boolean
+  preferOffscreen?: boolean
+}
+
+const initialState: RendererState = {
   running: false,
   antialias: false,
   preferOffscreen: true,
@@ -17,9 +22,9 @@ const actions = {
 }
 
 const mutations = {
-  setRunning(state, payload) {
-    // console.log("STAT$E", state)
+  setRunning(state: RendererState, payload: boolean) {
     if (state.running !== payload) {
+      // TODO: move this check to the store core
       state.running = payload
     }
     return state
