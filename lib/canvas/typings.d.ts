@@ -19,12 +19,12 @@ type CanvasMessage<T = any> = T extends InitMessage["type"]
   : InitMessage | SizeMessage
 type CanvasCallback<T = InitMessage["type"] | SizeMessage["type"] | any> = (data: CanvasMessage<T>) => void
 
-/** Three.js settings */
-interface RendererState {
-  /** Render Three.js in Worker or Main thread. */
-  readonly useOffscreen?: boolean
-  antialias?: import("three").WebGLRendererParameters["antialias"]
-}
+// /** Three.js settings */
+// interface RendererState {
+//   /** Render Three.js in Worker or Main thread. */
+//   readonly useOffscreen?: boolean
+//   antialias?: import("three").WebGLRendererParameters["antialias"]
+// }
 
 interface Dimensions {
   width: number

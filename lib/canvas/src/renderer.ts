@@ -11,9 +11,14 @@ export const state: Dimensions = {
 
 // let renderer: THREE.WebGLRenderer
 
-export async function init(data: InitMessage) {
+let renderRunning = false
+
+// export async function init(data: InitMessage) {
+export function init(data: InitMessage) {
   console.log("Renderer init")
   const { canvas } = data
+
+  renderRunning = true
 
   let stats: Stats | undefined
   if (typeof document !== "undefined") {
@@ -52,9 +57,8 @@ export async function init(data: InitMessage) {
 
   for (const i of range(10, 100)) {
     scene.add(cube(i * 2))
-    await sleep(100)
+    // await sleep(100)
   }
-
 
   function resizeRendererToDisplaySize(renderer: THREE.WebGLRenderer) {
     const canvas = renderer.domElement
@@ -63,11 +67,24 @@ export async function init(data: InitMessage) {
     const needResize = canvas.width !== width || canvas.height !== height
     if (needResize) {
       renderer.setSize(width, height, false)
+      console.log("RESIZE", [width, height])
     }
     return needResize
   }
 
+  function clearContext() {
+    scene.clear()
+    renderer.clear()
+    const gl = renderer.getContext()
+    gl.clearColor(0.6, 0.6, 0, 0.6)
+    gl.clear(gl.COLOR_BUFFER_BIT)
+  }
+
   async function render(time: number) {
+    if (!renderRunning) {
+      return clearContext()
+    }
+
     camera.rotateY(0.05)
     stats?.begin()
     time *= 0.001
@@ -87,4 +104,8 @@ export async function init(data: InitMessage) {
   }
 
   requestAnimationFrame(render)
+}
+
+export function stopLooping() {
+  renderRunning = false
 }

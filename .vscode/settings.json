@@ -5,7 +5,7 @@
   "windicss.foldByLength": true,
   "css.validate": false,
   "css.lint.emptyRules": "ignore",
-  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  // "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "files.associations": {
     ".prettierrc": "yaml",
     ".eslintrc": "yaml"

@@ -2,7 +2,7 @@
 // type Action<T extends object> = (context: Store<T>, payload?: any) => void
 type Action<T extends object> = (context: Store<T>, payload?: any) => void
 type Mutation<T> = (state: T, payload?: any) => T
-type Callback<T> = (data: T) => void
+type Callback<T> = (data: T, oldData: T) => void
 
 export interface StoreProps<State extends object> {
   initialState: State
@@ -16,14 +16,17 @@ export class Store<State extends object> {
   mutations: Record<string, Mutation<State>> = {}
   state!: State
   status: "resting" | "action" | "mutation" = "resting"
-  callbacks: Callback<State>[] = []
+  // callbacks: Callback<State>[] = []
+  callbacks = new Map<keyof State | "all", Callback<State | any>[]>()
 
   constructor(params: StoreProps<State>) {
     const self = this
     params.hasOwnProperty("actions") && (self.actions = params.actions!)
     params.hasOwnProperty("mutations") && (self.mutations = params.mutations!)
 
-    // TODO: types
+    this.callbacks.set("all", [])
+
+    // Nain object property helpers (skip actions and mutations)
     for (const key in params.initialState) {
       Object.defineProperty(self, key, {
         set(v: any) {
@@ -35,17 +38,15 @@ export class Store<State extends object> {
       })
     }
 
-    // Set our state to be a Proxy. We are setting the default state by
-    // checking the params and defaulting to an empty object if no default
-    // state is passed in
+    // The state is a Proxy.
     self.state = new Proxy<State>((params.initialState), {
       set(state, key, value) {
-        // Set the value as we would normally
-        state[key] = value
-
-        // Fire off our callback processor because if there's listeners,
-        // they're going to want to know that something has changed
-        self.processCallbacks(self.state)
+        // don't update (and callback) for an existing value
+        if (state[key] !== value) {
+          const oldState = { ...state }
+          state[key] = value
+          self.processCallbacks(self.state, oldState, key)
+        }
 
         // Reset the status ready for the next operation
         self.status = "resting"
@@ -106,31 +107,29 @@ export class Store<State extends object> {
    * We pass in some data as the one and only parameter.
    * Returns a boolean depending if callbacks were found or not
    */
-  processCallbacks(data: State) {
+  processCallbacks(data: State, oldData: State, keyUpdated: keyof State | string | symbol) {
     const self = this
 
-    // if (!self.callbacks.length) {
-    //   return false
-    // }
-
-    // We've got callbacks, so loop each one and fire it off
-    self.callbacks.forEach(callback => callback(data))
+    for (const [key, fns] of self.callbacks.entries()) {
+      if (key === "all" || key === keyUpdated) {
+        fns.forEach(callback => key === "all" ? callback(data, oldData) : callback(data[key], oldData[key]))
+      }
+    }
   }
 
   /**
    * Allow an outside entity to subscribe to state changes with a valid callback.
    * Returns boolean based on wether or not the callback was added to the collection
    */
-  subscribe(callback: Callback<State>) {
+  subscribe(callback: Callback<State>, keyOnly: keyof State | "all" = "all") {
     const self = this
 
-    // if (typeof callback !== "function") {
-    //   console.error("You can only subscribe to Store changes with a valid function")
-    //   return false
-    // }
+    if (!self.callbacks.has(keyOnly)) {
+      self.callbacks.set(keyOnly, [])
+    }
 
     // A valid function, so it belongs in our collection
-    self.callbacks.push(callback)
+    self.callbacks.get(keyOnly)!.push(callback)
   }
 }
 

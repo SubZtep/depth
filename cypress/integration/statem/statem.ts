@@ -1,66 +1,40 @@
-// import { expect } from "chai"
-// import Store from "../../src/beedle.js"
-import Store from "../../../lib/statem/src/index"
+import type { StoreProps } from "../../../lib/statem/src/store"
+import { stateMake } from "../../../lib/statem/src/index"
 
-// Create shared state objects. One that is initial, and one that is an updated version of the initial state
-const initialState = {
-  topLevel: "Hi, I am at the top",
-  nested: {
-    secondLevel: "Hello, I am nested at the second level",
+
+interface State {
+  running: boolean
+  txt: string
+}
+
+const initialState: State = {
+  running: false,
+  txt: "test"
+}
+
+const actions: StoreProps<State>["actions"] = {
+  startLoop(context) {
+    context.commit("setRunning", true)
+  },
+  stopLoop(context) {
+    context.commit("setRunning", false)
   },
 }
 
-const updatedState = {
-  topLevel: "Hi, I am at the top, m8",
-  nested: {
-    secondLevel: "Hello, I am nested at the 2nd level",
+const mutations: StoreProps<State>["mutations"] = {
+  setRunning(state, payload) {
+    if (state.running !== payload) {
+      state.running = payload
+    }
+    return state
   },
 }
 
-// Create a shared store instance that all tests can use
-const storeInstance = new Store({
-  initialState,
-  actions: {
-    runUpdate(context, payload) {
-      return context.commit("updateState", payload)
-    },
-  },
-  mutations: {
-    updateState(state, payload) {
-      Object.assign(state, payload)
-      return state
-    },
-  },
-})
+const state = stateMake<State>({ initialState, actions, mutations })
 
-describe("src/beedle.js", () => {
-  it("Dispatch returns true if action was found", () => {
-    expect(storeInstance.dispatch("runUpdate", updatedState)).to.equal(true)
-  })
-
-  it("Dispatch returns false if action wasn't found", () => {
-    expect(storeInstance.dispatch("nonExistentAction", { state: "uh, oh" })).to.equal(false)
-  })
-
-  it("Commit returns true if mutation was found", () => {
-    expect(storeInstance.commit("updateState", updatedState)).to.equal(true)
-  })
-
-  it("commit returns false if mutation wasn't found", () => {
-    expect(storeInstance.commit("nonExistentMutation", updatedState)).to.equal(false)
-  })
-
-  it("Subscribe returns true if valid function passed in", () => {
-    expect(storeInstance.subscribe(() => {})).to.equal(true)
-  })
-
-  it("Subscribe returns false if non-valid function passed in", () => {
-    expect(storeInstance.subscribe(null)).to.equal(false)
-  })
-
-  it("Mutation overrides state", () => {
-    storeInstance.commit("updateState", updatedState)
-
-    expect(storeInstance.state).to.deep.equal(updatedState)
+describe("Statem", () => {
+  it("set and get with property", () => {
+    state.txt = "test2"
+    expect(state.txt).to.equal("test2")
   })
 })

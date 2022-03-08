@@ -6,7 +6,7 @@
 // store.subscribe(state => {
 //   console.log("state changed", state)
 // })
-import { useSingleton } from "@depth/misc"
+// import { useSingleton } from "@depth/misc"
 
 export * from "./inject"
 // export * from "./vue-plugin"
@@ -14,6 +14,8 @@ export * from "./inject"
 // export * from "./lib/createMesh"
 
 export { startLooping } from "./startup"
+export { stopLooping } from "./renderer"
+
 // import { startLooping } from "./startup"
 export * from "./inject"
 
