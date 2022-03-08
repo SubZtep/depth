@@ -13,10 +13,10 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
-    "@depth/canvas": "^0.1.0",
-    "@depth/misc": "^0.1.0",
-    "@depth/statem": "^0.1.0",
-    "@depth/ui": "^0.1.0",
+    "@depth/canvas": "workspace:*",
+    "@depth/misc": "workspace:*",
+    "@depth/statem": "workspace:*",
+    "@depth/ui": "workspace:*",
     "comlink": "^4.3.1"
   },
   "devDependencies": {

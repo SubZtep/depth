@@ -11,6 +11,8 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
+    "@depth/statem": "workspace:*",
+    "@depth/misc": "workspace:*",
     "lit": "^2.2.0"
   },
   "devDependencies": {

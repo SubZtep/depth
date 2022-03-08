@@ -1,6 +1,14 @@
+// type Action<T> = any
+// type Action<T extends object> = (context: Store<T>, payload?: any) => void
 type Action<T extends object> = (context: Store<T>, payload?: any) => void
 type Mutation<T> = (state: T, payload?: any) => T
 type Callback<T> = (data: T) => void
+
+export interface StoreProps<State extends object> {
+  initialState: State
+  actions?: Record<string, Action<State>>
+  mutations?: Record<string, Mutation<State>>
+}
 
 /** Store class */
 export class Store<State extends object> {
@@ -10,7 +18,7 @@ export class Store<State extends object> {
   status: "resting" | "action" | "mutation" = "resting"
   callbacks: Callback<State>[] = []
 
-  constructor(params: { initialState: State, actions?: Record<string, Action<State>>, mutations?: Record<string, Mutation<State>> }) {
+  constructor(params: StoreProps<State>) {
     const self = this
     params.hasOwnProperty("actions") && (self.actions = params.actions!)
     params.hasOwnProperty("mutations") && (self.mutations = params.mutations!)
@@ -20,6 +28,9 @@ export class Store<State extends object> {
       Object.defineProperty(self, key, {
         set(v: any) {
           self.state[key] = v
+        },
+        get() {
+          return self.state[key]
         }
       })
     }
@@ -122,3 +133,8 @@ export class Store<State extends object> {
     self.callbacks.push(callback)
   }
 }
+
+
+export type IStore<T extends object> = {
+  [key in keyof T]: T[key]
+} & Store<T>

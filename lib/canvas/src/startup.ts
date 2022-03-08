@@ -1,4 +1,4 @@
-import { useSingleton } from "@depth/misc"
+// import { useSingleton } from "@depth/misc"
 import { init, state } from "./renderer"
 // @ts-ignore
 import OffscreenWorker from "./offscreen?worker&inline"
@@ -7,13 +7,13 @@ import OffscreenWorker from "./offscreen?worker&inline"
 // const statem = new Statem()
 
 
-const { singleton } = useSingleton()
-setTimeout(() => {
-  const store = singleton.get("rendererState")
-  store.subscribe(state => {
-    console.log("state changed", state)
-  })
-}, 1000)
+// const { singleton } = useSingleton()
+// setTimeout(() => {
+//   const store = singleton.get("rendererState")
+//   store.subscribe(state => {
+//     console.log("state changed", state)
+//   })
+// }, 1000)
 
 
 function startWorker(canvas: HTMLCanvasElement) {
@@ -57,4 +57,5 @@ export function startLooping({ canvas, preferOffscreen = true, state }: LoopProp
   // sendSize.call(canvas)
   window.addEventListener("resize", sendSize, true)
   const stop = sendSize()
+  // return stop
 }

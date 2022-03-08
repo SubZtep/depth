@@ -1,18 +1,21 @@
-import Statem from "@depth/statem"
+import type { StoreProps } from  "@depth/statem"
+import { stateMake } from  "@depth/statem"
 
 interface CanvasState {
   running: boolean
   antialias: boolean
   preferOffscreen: boolean
+  txt: string
 }
 
 const initialState: CanvasState = {
   running: false,
   antialias: false,
   preferOffscreen: true,
+  txt: "test"
 }
 
-const actions = {
+const actions: StoreProps<CanvasState>["actions"] = {
   startLoop(context) {
     context.commit("setRunning", true)
   },
@@ -21,7 +24,7 @@ const actions = {
   },
 }
 
-const mutations = {
+const mutations: StoreProps<CanvasState>["mutations"] = {
   setRunning(state, payload) {
     if (state.running !== payload) {
       state.running = payload
@@ -30,10 +33,4 @@ const mutations = {
   },
 }
 
-const state = new Statem<CanvasState>({
-  actions,
-  mutations,
-  initialState,
-})
-
-export default state
+export default stateMake<CanvasState>({ initialState, actions, mutations })

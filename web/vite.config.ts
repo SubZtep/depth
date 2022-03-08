@@ -1,5 +1,5 @@
 // import { resolve } from "node:path"
-// import { resolve } from "node:path"
+import { resolve } from "node:path"
 import { defineConfig } from "vite"
 import WindiCSS from "vite-plugin-windicss"
 // import Pug from "vite-plugin-pug"
@@ -21,6 +21,12 @@ export default defineConfig(({ command }) => {
     ],
     build: {
       target: ["edge90", "chrome90", "firefox90", "safari15"], // for top-level await
+      // rollupOptions: {
+      //   input: {
+      //     main: resolve(__dirname, "index.html"),
+      //     // nested: resolve(__dirname, "nested/index.html"),
+      //   },
+      // },
       //   sourcemap: isDev,
       //   cssCodeSplit: true,
       //   chunkSizeWarningLimit: 1_666,
