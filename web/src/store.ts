@@ -1,7 +1,12 @@
-// import Store from "beedle"
 import Statem from "@depth/statem"
 
-const initialState: State = {
+interface CanvasState {
+  running: boolean
+  antialias: boolean
+  preferOffscreen: boolean
+}
+
+const initialState: CanvasState = {
   running: false,
   antialias: false,
   preferOffscreen: true,
@@ -18,17 +23,17 @@ const actions = {
 
 const mutations = {
   setRunning(state, payload) {
-    // console.log("STAT$E", state)
     if (state.running !== payload) {
       state.running = payload
     }
     return state
   },
-  //
 }
 
-export default new Statem({
+const state = new Statem<CanvasState>({
   actions,
   mutations,
   initialState,
 })
+
+export default state

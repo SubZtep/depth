@@ -13,7 +13,7 @@
     "wipe": "pnpm recursive exec -- rm -rf node_modules build types tsconfig.tsbuildinfo pnpm-lock.yaml",
     "wiper": "sh scripts/wipe_all.sh",
     "dev": "pnpm --parallel --if-present dev",
-    "build": "pnpm --if-present build",
+    "build": "pnpm --recursive build",
     "web": "pnpm run dev --filter @depth/web",
     "canvas": "pnpm run dev --filter @depth/canvas",
     "misc": "pnpm run dev --filter @depth/misc",
