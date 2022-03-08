@@ -4,6 +4,10 @@ type Action<T extends object> = (context: Store<T>, payload?: any) => void
 type Mutation<T> = (state: T, payload?: any) => T
 type Callback<T> = (data: T, oldData: T) => void
 
+export interface Statem {
+  subscribe(callback: Fn, keyOnly: string): void
+}
+
 export interface StoreProps<State extends object> {
   initialState: State
   actions?: Record<string, Action<State>>
@@ -45,7 +49,7 @@ export class Store<State extends object> {
         if (state[key] !== value) {
           const oldState = { ...state }
           state[key] = value
-          self.processCallbacks(self.state, oldState, key)
+          self.processCallbacks(self.state, oldState, key as keyof State)
         }
 
         // Reset the status ready for the next operation
@@ -56,42 +60,25 @@ export class Store<State extends object> {
     })
   }
 
-  /**
-   * A dispatcher for actions that looks in the actions
-   * collection and runs the action if it can find it
-   */
+  /** A dispatcher for actions that looks in the actions collection and runs the action if it can find it. */
   dispatch(actionKey: keyof Store<State>["actions"], payload?: any) {
     const self = this
 
-    // Run a quick check to see if the action actually exists
-    // before we try to run it
+    // Run a quick check to see if the action actually exists before we try to run it
     if (typeof self.actions[actionKey] !== "function") {
       console.error(`Action "${actionKey}" doesn't exist.`)
       return false
     }
 
-    // Let anything that's watching the status know that we're dispatching an action
     self.status = "action"
 
     // Actually call the action and pass it the Store context and whatever payload was passed
     return self.actions[actionKey](self, payload)
   }
 
-  /**
-   * Look for a mutation and modify the state object
-   * if that mutation exists by calling it
-   */
+  /** Look for a mutation and modify the state object if that mutation exists by calling it. */
   commit(mutationKey: string, payload?: any) {
     const self = this
-
-    // Run a quick check to see if this mutation actually exists
-    // before trying to run it
-    if (typeof self.mutations[mutationKey] !== "function") {
-      console.error(`Mutation "${mutationKey}" doesn't exist`)
-      return
-    }
-
-    // Let anything that's watching the status know that we're mutating state
     self.status = "mutation"
 
     // Get a new version of the state by running the mutation and storing the result of it
@@ -107,14 +94,10 @@ export class Store<State extends object> {
    * We pass in some data as the one and only parameter.
    * Returns a boolean depending if callbacks were found or not
    */
-  processCallbacks(data: State, oldData: State, keyUpdated: keyof State | string | symbol) {
+  processCallbacks(data: State, oldData: State, keyUpdated: keyof State) {
     const self = this
-
-    for (const [key, fns] of self.callbacks.entries()) {
-      if (key === "all" || key === keyUpdated) {
-        fns.forEach(callback => key === "all" ? callback(data, oldData) : callback(data[key], oldData[key]))
-      }
-    }
+    self.callbacks.get("all")?.forEach(callback => callback(data, oldData))
+    self.callbacks.get(keyUpdated)?.forEach(callback => callback(data[keyUpdated], oldData[keyUpdated]))
   }
 
   /**

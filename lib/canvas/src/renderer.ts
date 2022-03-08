@@ -15,10 +15,17 @@ let renderRunning = false
 
 // export async function init(data: InitMessage) {
 export function init(data: InitMessage) {
-  console.log("Renderer init")
+  console.log("Renderer init", data)
   const { canvas } = data
 
   renderRunning = true
+
+  // TODO: make it work in worker
+  data.canvasState?.subscribe(running => {
+    if (!running) {
+      renderRunning = false
+    }
+  }, "running")
 
   let stats: Stats | undefined
   if (typeof document !== "undefined") {

@@ -1,6 +1,4 @@
 import { init, state, stopLooping } from "./renderer"
-// import { singleState } from "@depth/statem"
-// import { effect } from "@vue/reactivity"
 
 function size({ width, height }: SizeMessage) {
   state.width = width

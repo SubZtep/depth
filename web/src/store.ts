@@ -1,7 +1,7 @@
 import type { StoreProps } from  "@depth/statem"
 import { stateMake } from  "@depth/statem"
 
-interface CanvasState {
+export interface CanvasState {
   running: boolean
   antialias: boolean
   preferOffscreen: boolean

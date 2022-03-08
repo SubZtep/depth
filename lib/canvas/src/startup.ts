@@ -1,13 +1,19 @@
-// import { useSingleton } from "@depth/misc"
+// import type { CanvasState } from "../../../web/src/store"
+import { useSingleton } from "@depth/misc"
 import { init, state } from "./renderer"
 // @ts-ignore
 import OffscreenWorker from "./offscreen?worker&inline"
+
+const { singleton } = useSingleton()
+// console.log("AAA", singleton.get("canvasState"))
+// const canvasState = singleton.get("canvasState")
 
 function startWorker(canvas: HTMLCanvasElement) {
   const offscreen = canvas.transferControlToOffscreen!()
   const worker: Worker = new OffscreenWorker()
 
-  worker.postMessage({ type: "init", canvas: offscreen }, [offscreen])
+const message = { type: "init", canvas: offscreen /*, canvasState: singleton.get("canvasState")*/ }
+  worker.postMessage(message, [offscreen])
 
   return () => {
     const msg = {
@@ -20,7 +26,8 @@ function startWorker(canvas: HTMLCanvasElement) {
 }
 
 function startMainPage(canvas: HTMLCanvasElement) {
-  init({ canvas, type: "init" })
+  // console.log("YYY", canvasState)
+  init({ canvas, type: "init", canvasState: singleton.get("canvasState") })
 
   return () => {
     state.width = canvas.clientWidth
@@ -31,6 +38,7 @@ function startMainPage(canvas: HTMLCanvasElement) {
 interface LoopProps {
   canvas: HTMLCanvasElement
   preferOffscreen?: boolean
+  // canvasState: CanvasState
   // state: RendererState
 }
 

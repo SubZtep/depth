@@ -16,7 +16,7 @@ export class CanvasToolbar extends LitElement {
 
     const { singleton } = useSingleton()
     // console.log("SSS", singleton)
-    this.state = singleton.get("rendererState")
+    this.state = singleton.get("canvasState")
 
     this.state.subscribe(s => {
       this.running = s.running

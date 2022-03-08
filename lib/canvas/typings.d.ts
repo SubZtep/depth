@@ -3,9 +3,12 @@ interface HTMLCanvasElement {
   transferControlToOffscreen?: () => OffscreenCanvas & MessagePort
 }
 
+// type CanvasState = import("../../web/src/store").CanvasState
+
 interface InitMessage {
   type: "init"
   canvas: HTMLCanvasElement | OffscreenCanvas
+  canvasState: import("../../web/src/store").CanvasState & import("@depth/statem").Statem
 }
 
 interface SizeMessage extends Dimensions {
