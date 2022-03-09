@@ -4,7 +4,6 @@ export const singleFns: CanvasInjectedFn[] = []
 export let loopFns: CanvasInjectedFn[] = []
 
 const { single } = useSingleton()
-
 single("loopFns", [])
 
 interface CanvasInjectedFnProps {

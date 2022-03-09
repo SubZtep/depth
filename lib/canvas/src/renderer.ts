@@ -2,7 +2,7 @@ import { inputState } from "@depth/statem"
 import * as THREE from "three"
 import Stats from "stats.js"
 import { runInjectedFunctions } from "./inject"
-import { range } from "@depth/misc"
+import { range, useSingleton } from "@depth/misc"
 
 export const state: Dimensions = {
   width: 320,
@@ -10,8 +10,12 @@ export const state: Dimensions = {
 }
 
 let renderRunning = false
+// const { singleton } = useSingleton()
 
 export function init(data: InitMessage) {
+  // console.log(singleton)
+  // const inputState = singleton.get("inputState")
+
   console.log("Renderer init", data)
   const { canvas } = data
 

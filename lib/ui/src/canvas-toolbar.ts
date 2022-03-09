@@ -1,6 +1,7 @@
 import { LitElement, css, html } from "lit"
 import { customElement, property } from "lit/decorators.js"
 import { useSingleton } from "@depth/misc"
+import { canvasState } from "@depth/statem"
 
 @customElement("canvas-toolbar")
 export class CanvasToolbar extends LitElement {
@@ -14,8 +15,9 @@ export class CanvasToolbar extends LitElement {
   constructor() {
     super()
 
-    const { singleton } = useSingleton()
-    this.state = singleton.get("canvasState")
+    // const { singleton } = useSingleton()
+    // this.state = singleton.get("canvasState")
+    this.state = canvasState
 
     this.state.subscribe(s => {
       this.running = s.running

@@ -10,9 +10,10 @@ const initialState: InputStatem = {
   space: false
 }
 
-const inputState = stateMake<InputStatem>({ initialState })
+export default  stateMake<InputStatem>({ initialState })
+// const inputState = stateMake<InputStatem>({ initialState })
 
-const { singleton } = useSingleton()
-singleton.set("inputState", inputState)
+// const { singleton } = useSingleton()
+// singleton.set("inputState", inputState)
 
-export default inputState
+// export default inputState

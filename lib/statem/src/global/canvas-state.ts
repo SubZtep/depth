@@ -1,5 +1,5 @@
 import type { StoreProps } from "../store"
-import { useSingleton } from "@depth/misc"
+// import { useSingleton } from "@depth/misc"
 import { stateMake } from  "../index"
 
 export interface CanvasStatem {
@@ -11,7 +11,7 @@ export interface CanvasStatem {
 const initialState: CanvasStatem = {
   running: false,
   antialias: false,
-  preferOffscreen: true
+  preferOffscreen: false
 }
 
 const actions: StoreProps<CanvasStatem>["actions"] = {
@@ -32,9 +32,10 @@ const mutations: StoreProps<CanvasStatem>["mutations"] = {
   },
 }
 
-const canvasState = stateMake<CanvasStatem>({ initialState, actions, mutations })
+export default stateMake<CanvasStatem>({ initialState, actions, mutations })
+// const canvasState = stateMake<CanvasStatem>({ initialState, actions, mutations })
 
-const { singleton } = useSingleton()
-singleton.set("canvasState", canvasState)
+// const { singleton } = useSingleton()
+// singleton.set("canvasState", canvasState)
 
-export default canvasState
+// export default canvasState
