@@ -1,6 +1,5 @@
-import type { StoreProps } from "../../../lib/statem/src/store"
+import type { StoreProps as StoreProperties } from "../../../lib/statem/src/store"
 import { stateMake } from "../../../lib/statem/src/index"
-
 
 interface State {
   running: boolean
@@ -9,10 +8,10 @@ interface State {
 
 const initialState: State = {
   running: false,
-  txt: "test"
+  txt: "test",
 }
 
-const actions: StoreProps<State>["actions"] = {
+const actions: StoreProperties<State>["actions"] = {
   startLoop(context) {
     context.commit("setRunning", true)
   },
@@ -21,7 +20,7 @@ const actions: StoreProps<State>["actions"] = {
   },
 }
 
-const mutations: StoreProps<State>["mutations"] = {
+const mutations: StoreProperties<State>["mutations"] = {
   setRunning(state, payload) {
     if (state.running !== payload) {
       state.running = payload

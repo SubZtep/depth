@@ -1,7 +1,5 @@
-// import { exec3D, loop3D } from "@depth/canvas"
 import { exec3D, loop3D } from "@depth/canvas"
 import * as THREE from "three"
-// import { singleState } from "@depth/statem"
 
 console.log("page")
 
@@ -54,31 +52,13 @@ const startwithme = ({ scene }: any) => {
   scene.add(...cubes)
 }
 
-const loopWithMe = ({ time, deltaTime }: any) => {
+const loopWithMe = ({ time }: any) => {
   // console.log("T", [time, deltaTime])
   for (const [index, cube] of cubes.entries()) rotateObject(cube, time, (cubes.length - index) * 0.1)
 }
 
 export default () => {
   console.log("testplay")
-
-  // console.log("PAGEEEE xxx" + singleState.xxx.value)
-  // console.log("PAGEEEE 333" + singleState.find("three").precision)
   exec3D(startwithme)
-  // exec3D.call(null, startwithme)
-  // exec3D(startwithme)
-  // loop3D.call(null, loopWithMe)
   loop3D(loopWithMe)
-  // loop3D(() => 1)
-  // loop3D(() => 2)
-  // loop3D(() => 3)
-  // loop3D(() => 3)
-  // loop3D(() => 3)
-  // loop3D(() => 3)
-  // loop3D(() => 3)
-  // loop3D(() => 3)
-  // loop3D(() => 3)
-  // loop3D(() => 3)
-  // loop3D(() => {}, { inject: "rendered" })
-
 }

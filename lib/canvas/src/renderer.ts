@@ -1,19 +1,15 @@
 import * as THREE from "three"
 import Stats from "stats.js"
 import { runInjectedFunctions } from "./inject"
-import { range, sleep } from "@depth/misc"
-// import { runInjectedFunctions } from "./inject" // going to be microfunction
+import { range } from "@depth/misc"
 
 export const state: Dimensions = {
   width: 320,
   height: 200,
 }
 
-// let renderer: THREE.WebGLRenderer
-
 let renderRunning = false
 
-// export async function init(data: InitMessage) {
 export function init(data: InitMessage) {
   console.log("Renderer init", data)
   const { canvas } = data
@@ -34,7 +30,6 @@ export function init(data: InitMessage) {
     ;(canvas as HTMLCanvasElement).parentElement?.append(stats.dom)
   }
 
-  // renderer = new THREE.WebGLRenderer({
   const renderer = new THREE.WebGLRenderer({
     canvas,
     antialias: true,

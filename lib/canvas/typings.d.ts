@@ -3,12 +3,10 @@ interface HTMLCanvasElement {
   transferControlToOffscreen?: () => OffscreenCanvas & MessagePort
 }
 
-// type CanvasState = import("../../web/src/store").CanvasState
-
 interface InitMessage {
   type: "init"
   canvas: HTMLCanvasElement | OffscreenCanvas
-  canvasState: import("../../web/src/store").CanvasState & import("@depth/statem").Statem
+  canvasState: import("@depth/statem").CanvasState & import("@depth/statem").Statem
 }
 
 interface SizeMessage extends Dimensions {
@@ -21,13 +19,6 @@ type CanvasMessage<T = any> = T extends InitMessage["type"]
   ? SizeMessage
   : InitMessage | SizeMessage
 type CanvasCallback<T = InitMessage["type"] | SizeMessage["type"] | any> = (data: CanvasMessage<T>) => void
-
-// /** Three.js settings */
-// interface RendererState {
-//   /** Render Three.js in Worker or Main thread. */
-//   readonly useOffscreen?: boolean
-//   antialias?: import("three").WebGLRendererParameters["antialias"]
-// }
 
 interface Dimensions {
   width: number

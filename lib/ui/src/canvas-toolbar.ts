@@ -1,5 +1,5 @@
-import {LitElement, css, html} from "lit"
-import {customElement, property} from "lit/decorators.js"
+import { LitElement, css, html } from "lit"
+import { customElement, property } from "lit/decorators.js"
 import { useSingleton } from "@depth/misc"
 
 @customElement("canvas-toolbar")
@@ -9,13 +9,12 @@ export class CanvasToolbar extends LitElement {
   @property({ type: Boolean, attribute: false })
   preferOffscreen: boolean = false
 
-  state: any
+  state: CanvasStatem & Statem
 
   constructor() {
     super()
 
     const { singleton } = useSingleton()
-    // console.log("SSS", singleton)
     this.state = singleton.get("canvasState")
 
     this.state.subscribe(s => {
@@ -33,7 +32,6 @@ export class CanvasToolbar extends LitElement {
       gap: 0.5rem;
       padding: 0.5rem;
     }
-
     button {
       border: 3px outset #bbb;
       font: 1rem Verdana;
@@ -64,9 +62,13 @@ export class CanvasToolbar extends LitElement {
     return html`
       <div>
         <button @click=${() => (this.state.running = true)} ?disabled=${this.state.running}>Play</button>
-        <button @click=${() => (this.state.running = false)}  ?disabled=${!this.state.running}>Stop</button>
+        <button @click=${() => (this.state.running = false)} ?disabled=${!this.state.running}>Stop</button>
         <label>
-          <input type="checkbox" ?checked=${this.state.preferOffscreen} @change=${e => (this.state.preferOffscreen = e.target.checked)} />
+          <input
+            type="checkbox"
+            ?checked=${this.state.preferOffscreen}
+            @change=${e => (this.state.preferOffscreen = e.target.checked)}
+          />
           Prefer offscreen
         </label>
       </div>

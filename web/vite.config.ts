@@ -1,11 +1,9 @@
-// import { resolve } from "node:path"
-import { resolve } from "node:path"
 import { defineConfig } from "vite"
-import WindiCSS from "vite-plugin-windicss"
+// import WindiCSS from "vite-plugin-windicss"
 // import Pug from "vite-plugin-pug"
 import Pug from "./pug/index"
 
-export default defineConfig(({ command }) => {
+export default defineConfig(() => {
   // const isDev = command === "serve"
   return {
     // mode: command === "build" ? "production" : "development",

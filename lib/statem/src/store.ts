@@ -1,11 +1,9 @@
-// type Action<T> = any
-// type Action<T extends object> = (context: Store<T>, payload?: any) => void
 type Action<T extends object> = (context: Store<T>, payload?: any) => void
 type Mutation<T> = (state: T, payload?: any) => T
 type Callback<T> = (data: T, oldData: T) => void
 
 export interface Statem {
-  subscribe(callback: Fn, keyOnly: string): void
+  subscribe(callback: Fn, keyOnly?: string): void
 }
 
 export interface StoreProps<State extends object> {

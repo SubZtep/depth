@@ -1,14 +1,7 @@
 import { useSingleton } from "@depth/misc"
 
-// export const singleFns = new Set<CanvasInjectedFn>()
-// export const loopFns = new Set<CanvasInjectedFn>()
-// export const renderedSingleFns = new Set<CanvasInjectedFn>()
-// export const renderedLoopFns = new Set<CanvasInjectedFn>()
 export const singleFns: CanvasInjectedFn[] = []
 export let loopFns: CanvasInjectedFn[] = []
-// let loopFns: CanvasInjectedFn[] = []
-// export const renderedSingleFns: CanvasInjectedFn[] = []
-// export const renderedLoopFns: CanvasInjectedFn[] = []
 
 const { single } = useSingleton()
 
@@ -46,35 +39,16 @@ interface Loop3DParams {
  * @returns Stop function for remove `fn` from the loop
  */
 export const loop3D = (fn: CanvasInjectedFn, { inject }: Loop3DParams = {}) => {
-  // const loopFns = single("loopFns")
-  // console.log("i am loop3D", loopFns)
-  // if (inject) {
-  //   renderedLoopFns.push(fn)
-  //   return () => renderedLoopFns.delete(fn)
-  // }
-  // loopFns.add(fn)
-
-  // loopFns.splice(loopFns.length, 0, fn);
   loopFns.push(fn)
-  // loopFns = [fn]
-  // console.log("RES", loopFns)
-
-  return () => [] //loopFns.delete(fn)
-  // return () => loopFns.delete(fn)
+  return () => []
 }
 
 export const runInjectedFunctions = (props: CanvasInjectedFnProps) => (scheduled?: Loop3DParams["inject"]) => {
-  // const loopFns = single("loopFns")
-  // console.log("FWERFCVWE", [loopFns.length, renderedLoopFns.length])
   return Promise.race([
     new Promise<void>((resolve, reject) => {
-      // const singles = scheduled === "camupdated" ? singleFns : renderedSingleFns
       const singles = singleFns
-      // singles.size > 0 && console.log("Singles", singles.size)
-      // singles.length > 0 && console.log("Singles", singles.length)
       try {
         for (const fn of singles) fn(props)
-        // singles.clear()
         singles.length = 0
         resolve()
       } catch (error: any) {
@@ -82,12 +56,7 @@ export const runInjectedFunctions = (props: CanvasInjectedFnProps) => (scheduled
       }
     }),
     new Promise<void>((resolve, reject) => {
-      // const loopFns = single("loopFns")
-      // const loopFns = single("loopFns")
-      // const loopers = scheduled === "camupdated" ? loopFns : renderedLoopFns
       const loopers = loopFns
-      // loopers.size > 0 && console.log("Loopers", loopers.size)
-      // loopers.length > 0 && console.log("Loopers", loopers.length)
       try {
         for (const fn of loopers) fn(props)
         resolve()
@@ -97,5 +66,3 @@ export const runInjectedFunctions = (props: CanvasInjectedFnProps) => (scheduled
     }),
   ])
 }
-
-// loop3D(() => {}, { inject: "rendered" })

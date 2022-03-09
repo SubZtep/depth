@@ -1,6 +1,6 @@
 semi: false
 printWidth: 120
 arrowParens: "avoid"
-pugEmptyAttributes: "none",
-pugAttributeSeparator: "none",
+pugEmptyAttributes: "none"
+pugAttributeSeparator: "none"
 pugClosingBracketPosition: "last-line"

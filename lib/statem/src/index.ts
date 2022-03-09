@@ -8,3 +8,8 @@ export function stateMake<T extends object>(props: StoreProps<T>) {
   const store = new Store<T>(props)
   return store as IStore<T>
 }
+
+// PUBLIC STATE
+
+export { type CanvasStatem } from "./canvas-state"
+export { default as canvasState } from "./canvas-state"

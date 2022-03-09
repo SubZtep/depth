@@ -8,6 +8,9 @@
     "dev": "tsc -w",
     "build": "tsc"
   },
+  "dependencies": {
+    "@depth/misc": "workspace:*"
+  },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense"
 }

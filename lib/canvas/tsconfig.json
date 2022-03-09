@@ -2,12 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "dist",
-    // "paths": {
-    //   "@depth/misc": ["../misc"]
-    // }
+    "outDir": "dist"
   },
   "include": ["src/**/*", "typings.d.ts"],
-  // "include": ["src/**/*", "typings.d.ts", "../shared/index.d.ts"],
-  // "references": [{ "path": "../shared" }]
 }
