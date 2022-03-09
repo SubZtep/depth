@@ -11,5 +11,8 @@ export function stateMake<T extends object>(props: StoreProps<T>) {
 
 // PUBLIC STATE
 
-export { type CanvasStatem } from "./canvas-state"
-export { default as canvasState } from "./canvas-state"
+export { type CanvasStatem } from "./global/canvas-state"
+export { default as canvasState } from "./global/canvas-state"
+
+export { type InputStatem } from "./global/input-state"
+export { default as inputState } from "./global/input-state"

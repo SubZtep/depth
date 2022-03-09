@@ -1,3 +1,4 @@
+import { inputState } from "@depth/statem"
 import * as THREE from "three"
 import Stats from "stats.js"
 import { runInjectedFunctions } from "./inject"
@@ -52,10 +53,8 @@ export function init(data: InitMessage) {
 
   const clock = new THREE.Clock()
 
-  const cube = (y = 10) => new THREE.Mesh(
-    new THREE.BoxGeometry(10, y, 10, 10, 10, 10),
-    new THREE.MeshPhongMaterial({ color: 0x669913 })
-  )
+  const cube = (y = 10) =>
+    new THREE.Mesh(new THREE.BoxGeometry(10, y, 10, 10, 10, 10), new THREE.MeshPhongMaterial({ color: 0x669913 }))
 
   for (const i of range(10, 100)) {
     scene.add(cube(i * 2))
@@ -87,7 +86,8 @@ export function init(data: InitMessage) {
       return clearContext()
     }
 
-    camera.rotateY(0.05)
+    console.log(inputState.space) // FIXME: make it work
+    camera.rotateY(inputState.space ? 0 : 0.05)
     stats?.begin()
     time *= 0.001
     const deltaTime = clock.getDelta()

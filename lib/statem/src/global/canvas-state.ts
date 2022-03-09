@@ -1,6 +1,6 @@
-import type { StoreProps } from "./store"
+import type { StoreProps } from "../store"
 import { useSingleton } from "@depth/misc"
-import { stateMake } from  "./index"
+import { stateMake } from  "../index"
 
 export interface CanvasStatem {
   running: boolean

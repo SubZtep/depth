@@ -102,7 +102,7 @@ export class Store<State extends object> {
    * Allow an outside entity to subscribe to state changes with a valid callback.
    * Returns boolean based on wether or not the callback was added to the collection
    */
-  subscribe(callback: Callback<State>, keyOnly: keyof State | "all" = "all") {
+  subscribe(callback: Callback<State>, keyOnly: (keyof State | "all") = "all") {
     const self = this
 
     if (!self.callbacks.has(keyOnly)) {
