@@ -24,33 +24,18 @@ canvasState.subscribe(running => {
   }
 }, "running")
 
-// // PLAYER INPUT
-
-// let did = false
-// inputState.subscribe(async ({ space }) => {
-//   if (!did) {
-//     did = true
-//     await sleep(1100)
-//     Page()
-//   }
-// })
-
 if (window) {
   window.addEventListener(
     "keydown",
     ({ code }: KeyboardEvent) => {
-      if (code === "Space") {
-        inputState.space = true
-      }
+      inputState[code] = true
     },
     { passive: true }
   )
   window.addEventListener(
     "keyup",
     ({ code }: KeyboardEvent) => {
-      if (code === "Space") {
-        inputState.space = false
-      }
+      inputState[code] = false
     },
     { passive: true }
   )
