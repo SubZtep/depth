@@ -4,15 +4,15 @@ import { Store } from "./store"
 export default Store
 export { type IStore, type StoreProps, type Statem }
 
-export function stateMake<T extends object>(props: StoreProps<T>) {
-  const store = new Store<T>(props)
-  return store as IStore<T>
+export function stateMake(initialState: { [key: string]: any }) {
+  const store = new Store<typeof initialState>(initialState)
+  return store as IStore<typeof initialState>
 }
 
 // PUBLIC STATE
 
-export { type CanvasStatem } from "./global/canvas-state"
+// export { type CanvasStatem } from "./global/canvas-state"
 export { default as canvasState } from "./global/canvas-state"
 
-export { type InputStatem } from "./global/input-state"
-export { default as inputState } from "./global/input-state"
+// export { type InputStatem } from "./global/input-state"
+// export { default as inputState } from "./global/input-state"

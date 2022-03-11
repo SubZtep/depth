@@ -17,7 +17,9 @@
     "@depth/misc": "workspace:*",
     "@depth/statem": "workspace:*",
     "@depth/ui": "workspace:*",
-    "comlink": "^4.3.1"
+    "comlink": "^4.3.1",
+    "rollup": "^2.70.0",
+    "vite-plugin-worker": "^1.0.5"
   },
   "devDependencies": {
     "@windicss/plugin-scrollbar": "^1.2.3",

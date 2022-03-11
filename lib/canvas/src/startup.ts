@@ -3,7 +3,7 @@ import { init, state } from "./renderer"
 // @ts-ignore
 import OffscreenWorker from "./offscreen?worker&inline"
 
-const { singleton } = useSingleton()
+// const { singleton } = useSingleton()
 
 function startWorker(canvas: HTMLCanvasElement) {
   const offscreen = canvas.transferControlToOffscreen!()
@@ -23,7 +23,8 @@ const message = { type: "init", canvas: offscreen /*, canvasState: singleton.get
 }
 
 function startMainPage(canvas: HTMLCanvasElement) {
-  init({ canvas, type: "init", canvasState: singleton.get("canvasState") })
+  // init({ canvas, type: "init", canvasState: singleton.get("canvasState") })
+  init({ canvas, type: "init" })
 
   return () => {
     state.width = canvas.clientWidth
@@ -31,16 +32,11 @@ function startMainPage(canvas: HTMLCanvasElement) {
   }
 }
 
-interface LoopProps {
-  canvas: HTMLCanvasElement
-  preferOffscreen?: boolean
-}
 
-export function startLooping({ canvas, preferOffscreen = true }: LoopProps) {
-  const useWorker = preferOffscreen && "transferControlToOffscreen" in canvas
+export function startLooping({ canvas }: { canvas: HTMLCanvasElement }) {
+  const useWorker = false // "transferControlToOffscreen" in canvas
   const sendSize = useWorker ? startWorker(canvas) : startMainPage(canvas)
-  console.log("ENV", useWorker ? "Worker" : "Main thread")
 
   sendSize.call(canvas)
-  window.addEventListener("resize", sendSize, true)
+  // window.addEventListener("resize", sendSize, true)
 }

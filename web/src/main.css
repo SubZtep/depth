@@ -19,6 +19,11 @@
   pointer-events: all;
 }
 
+#ui > canvas {
+  width: inherit;
+  height: inherit;
+}
+
 #hud {
   pointer-events: none;
 }

@@ -8,8 +8,6 @@ export interface Statem {
 
 export interface StoreProps<State extends object> {
   initialState: State
-  actions?: Record<string, Action<State>>
-  mutations?: Record<string, Mutation<State>>
 }
 
 /** Store class */
@@ -21,15 +19,13 @@ export class Store<State extends object> {
   // callbacks: Callback<State>[] = []
   callbacks = new Map<keyof State | "all", Callback<State | any>[]>()
 
-  constructor(params: StoreProps<State>) {
+  constructor(initialState: State) {
     const self = this
-    params.hasOwnProperty("actions") && (self.actions = params.actions!)
-    params.hasOwnProperty("mutations") && (self.mutations = params.mutations!)
 
     this.callbacks.set("all", [])
 
     // Nain object property helpers (skip actions and mutations)
-    for (const key in params.initialState) {
+    for (const key in initialState) {
       Object.defineProperty(self, key, {
         set(v: any) {
           self.state[key] = v
@@ -41,50 +37,17 @@ export class Store<State extends object> {
     }
 
     // The state is a Proxy.
-    self.state = new Proxy<State>((params.initialState), {
+    self.state = new Proxy<State>(initialState, {
       set(state, key, value) {
-        // don't update (and callback) for an existing value
         if (state[key] !== value) {
           const oldState = { ...state }
           state[key] = value
           self.processCallbacks(self.state, oldState, key as keyof State)
         }
 
-        // Reset the status ready for the next operation
-        self.status = "resting"
-
         return true
       },
     })
-  }
-
-  /** A dispatcher for actions that looks in the actions collection and runs the action if it can find it. */
-  dispatch(actionKey: keyof Store<State>["actions"], payload?: any) {
-    const self = this
-
-    // Run a quick check to see if the action actually exists before we try to run it
-    if (typeof self.actions[actionKey] !== "function") {
-      console.error(`Action "${actionKey}" doesn't exist.`)
-      return false
-    }
-
-    self.status = "action"
-
-    // Actually call the action and pass it the Store context and whatever payload was passed
-    return self.actions[actionKey](self, payload)
-  }
-
-  /** Look for a mutation and modify the state object if that mutation exists by calling it. */
-  commit(mutationKey: string, payload?: any) {
-    const self = this
-    self.status = "mutation"
-
-    // Get a new version of the state by running the mutation and storing the result of it
-    // @ts-ignore
-    let newState = self.mutations[mutationKey](self.state, payload)
-
-    // Update the old state with the new state returned from our mutation
-    self.state = newState
   }
 
   /**

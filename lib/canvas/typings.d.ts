@@ -6,7 +6,7 @@ interface HTMLCanvasElement {
 interface InitMessage {
   type: "init"
   canvas: HTMLCanvasElement | OffscreenCanvas
-  canvasState: import("@depth/statem").CanvasState & import("@depth/statem").Statem
+  canvasState?: import("@depth/statem").CanvasState & import("@depth/statem").Statem
 }
 
 interface SizeMessage extends Dimensions {

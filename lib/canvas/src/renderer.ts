@@ -1,4 +1,4 @@
-import { inputState } from "@depth/statem"
+// import inputState from "@depth/statem"
 import * as THREE from "three"
 import Stats from "stats.js"
 import { runInjectedFunctions } from "./inject"
@@ -17,7 +17,7 @@ export function init(data: InitMessage) {
   // const inputState = singleton.get("inputState")
 
   console.log("Renderer init", data)
-  const { canvas } = data
+  // const { canvas } = data
 
   renderRunning = true
 
@@ -28,15 +28,16 @@ export function init(data: InitMessage) {
     }
   }, "running")
 
+  // Stats widget
   let stats: Stats | undefined
   if (typeof document !== "undefined") {
     stats = new Stats()
     stats.showPanel(0)
-    ;(canvas as HTMLCanvasElement).parentElement?.append(stats.dom)
+    ;(data.canvas as HTMLCanvasElement).parentElement?.append(stats.dom)
   }
 
   const renderer = new THREE.WebGLRenderer({
-    canvas,
+    canvas: data.canvas,
     antialias: true,
     powerPreference: "high-performance",
     logarithmicDepthBuffer: true,
@@ -46,8 +47,8 @@ export function init(data: InitMessage) {
   renderer.shadowMap.enabled = true
   renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
-  state.width = (canvas as HTMLCanvasElement).width
-  state.height = (canvas as HTMLCanvasElement).height
+  state.width = (data.canvas as HTMLCanvasElement).width
+  state.height = (data.canvas as HTMLCanvasElement).height
 
   const camera = new THREE.PerspectiveCamera(90, state.width / state.height, 1, 2000)
   camera.position.z = 100
@@ -90,8 +91,9 @@ export function init(data: InitMessage) {
       return clearContext()
     }
 
-    console.log(inputState.space) // FIXME: make it work
-    camera.rotateY(inputState.space ? 0 : 0.05)
+    // console.log(inputState.space) // FIXME: make it work
+    // camera.rotateY(inputState.space ? 0 : 0.05)
+    camera.rotateY(0.05)
     stats?.begin()
     time *= 0.001
     const deltaTime = clock.getDelta()
