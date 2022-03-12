@@ -72,6 +72,14 @@ export class CanvasToolbar extends LitElement {
       <div>
         <button @click=${() => (this.state.running = true)} ?disabled=${this.state.running}>▶</button>
         <button @click=${() => (this.state.running = false)} ?disabled=${!this.state.running}>⏹</button>
+        <label>
+          <input
+            type="checkbox"
+            ?checked=${this.state.preferOffscreen}
+            @change=${e => (this.state.offscreen = e.target.checked)}
+          />
+          Prefer offscreen
+        </label>
       </div>
     `
   }

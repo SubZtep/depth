@@ -3,7 +3,7 @@ import { stateMake } from  "../index"
 
 const initialState = {
   running: false,
-  antialias: false
+  offscreen: false
 }
 
 export default stateMake(initialState)

@@ -1,70 +1,26 @@
-// import inputState from "@depth/statem"
 import * as THREE from "three"
-import Stats from "stats.js"
-import { runInjectedFunctions } from "./inject"
-import { range, useSingleton } from "@depth/misc"
+import { createRenderer, createCamera, createScene } from "./builders"
 
-export const state: Dimensions = {
+export const state: RendererState = {
   width: 320,
   height: 200,
+  running: false,
+  singleEvals: [],
+  loopEvals: [],
+  singleFns: [],
+  loopFns: [],
 }
 
-let renderRunning = false
-// const { singleton } = useSingleton()
+export function init(props: InitMessage) {
+  state.running = true
 
-export function init(data: InitMessage) {
-  // console.log(singleton)
-  // const inputState = singleton.get("inputState")
+  state.width = props.canvas.width
+  state.height = props.canvas.height
 
-  console.log("Renderer init", data)
-  // const { canvas } = data
-
-  renderRunning = true
-
-  // TODO: make it work in worker
-  data.canvasState?.subscribe(running => {
-    if (!running) {
-      renderRunning = false
-    }
-  }, "running")
-
-  // Stats widget
-  let stats: Stats | undefined
-  if (typeof document !== "undefined") {
-    stats = new Stats()
-    stats.showPanel(0)
-    ;(data.canvas as HTMLCanvasElement).parentElement?.append(stats.dom)
-  }
-
-  const renderer = new THREE.WebGLRenderer({
-    canvas: data.canvas,
-    antialias: true,
-    powerPreference: "high-performance",
-    logarithmicDepthBuffer: true,
-  })
-  renderer.physicallyCorrectLights = true
-  renderer.outputEncoding = THREE.sRGBEncoding
-  renderer.shadowMap.enabled = true
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap
-
-  state.width = (data.canvas as HTMLCanvasElement).width
-  state.height = (data.canvas as HTMLCanvasElement).height
-
-  const camera = new THREE.PerspectiveCamera(90, state.width / state.height, 1, 2000)
-  camera.position.z = 100
-
-  const scene = new THREE.Scene()
-  scene.background = new THREE.Color(0x666600)
-
+  const renderer = createRenderer({ canvas: props.canvas })
+  const camera = createCamera(state)
+  const scene = createScene()
   const clock = new THREE.Clock()
-
-  const cube = (y = 10) =>
-    new THREE.Mesh(new THREE.BoxGeometry(10, y, 10, 10, 10, 10), new THREE.MeshPhongMaterial({ color: 0x669913 }))
-
-  for (const i of range(10, 100)) {
-    scene.add(cube(i * 2))
-    // await sleep(100)
-  }
 
   function resizeRendererToDisplaySize(renderer: THREE.WebGLRenderer) {
     const canvas = renderer.domElement
@@ -81,39 +37,34 @@ export function init(data: InitMessage) {
   function clearContext() {
     scene.clear()
     renderer.clear()
-    const gl = renderer.getContext()
-    gl.clearColor(0.6, 0.6, 0, 0.6)
-    gl.clear(gl.COLOR_BUFFER_BIT)
   }
 
   async function render(time: number) {
-    if (!renderRunning) {
+    if (!state.running) {
       return clearContext()
+    } else {
+      const deltaTime = clock.getDelta()
+      const props = { scene, renderer, clock, deltaTime, time, camera }
+      const evil = (fn: string) => void eval(";(" + fn + ")(props);")
+
+      await Promise.all([
+        ...state.singleFns.map(fn => fn(props)),
+        ...state.singleEvals.map(fn => evil(fn)),
+        ...state.loopFns.map(fn => fn(props)),
+        ...state.loopEvals.map(fn => evil(fn)),
+      ])
+      state.singleFns.length = 0
+      state.singleEvals.length = 0
+
+      renderer.render(scene, camera)
+      requestAnimationFrame(render)
+
+      if (resizeRendererToDisplaySize(renderer)) {
+        camera.aspect = state.width / state.height
+        camera.updateProjectionMatrix()
+      }
     }
-
-    // console.log(inputState.space) // FIXME: make it work
-    // camera.rotateY(inputState.space ? 0 : 0.05)
-    camera.rotateY(0.05)
-    stats?.begin()
-    time *= 0.001
-    const deltaTime = clock.getDelta()
-    const runner = runInjectedFunctions({ scene, renderer, clock, deltaTime, time, camera })
-    await runner()
-
-    renderer.render(scene, camera)
-    requestAnimationFrame(render)
-
-    // await runner("rendered")
-    if (resizeRendererToDisplaySize(renderer)) {
-      camera.aspect = state.width / state.height
-      camera.updateProjectionMatrix()
-    }
-    stats?.end()
   }
 
   requestAnimationFrame(render)
-}
-
-export function stopLooping() {
-  renderRunning = false
 }

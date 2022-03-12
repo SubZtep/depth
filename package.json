@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "cy:open": "cypress open",
-    "wipe": "pnpm recursive exec -- rm -rf node_modules build types tsconfig.tsbuildinfo pnpm-lock.yaml",
+    "wipe": "pnpm recursive exec -- rm -rf node_modules build dist types tsconfig.tsbuildinfo pnpm-lock.yaml",
     "wiper": "sh scripts/wipe_all.sh",
     "dev": "pnpm --parallel --if-present dev",
     "build": "pnpm --recursive build",
@@ -38,7 +38,7 @@
     "@typescript-eslint/typescript-estree": "^5.14.0",
     "cypress": "^9.5.1",
     "env-cmd": "^10.1.0",
-    "eslint": "^8.10.0",
+    "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-tsdoc": "^0.2.14",

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index",
-  "types": "types/index",
+  "types": "dist/index",
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc"
@@ -11,8 +11,8 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@depth/statem": "workspace:*",
     "@depth/misc": "workspace:*",
+    "@depth/statem": "workspace:*",
     "stats.js": "^0.17.0"
   },
   "devDependencies": {

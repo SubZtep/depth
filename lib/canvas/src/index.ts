@@ -1,4 +1,1 @@
-export * from "./inject"
-export { startLooping } from "./startup"
-export { stopLooping } from "./renderer"
-export * from "./inject"
+export { startLooping, stopLooping, exec3D, loop3D } from "./startup"

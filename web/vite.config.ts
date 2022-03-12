@@ -53,11 +53,11 @@ export default defineConfig(() => {
       //     },
       //   },
     },
-    // server: {
-    //   fs: {
-    //     allow: [".."],
-    //   },
-    //   // https: true,
-    // },
+    server: {
+      //   fs: {
+      //     allow: [".."],
+      //   },
+      // https: true,
+    },
   }
 })

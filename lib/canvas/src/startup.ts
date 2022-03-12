@@ -1,15 +1,14 @@
-import { useSingleton } from "@depth/misc"
 import { init, state } from "./renderer"
 // @ts-ignore
 import OffscreenWorker from "./offscreen?worker&inline"
 
-// const { singleton } = useSingleton()
+let worker: Worker | undefined
 
-function startWorker(canvas: HTMLCanvasElement) {
+async function startWorker(canvas: HTMLCanvasElement) {
+  worker = new OffscreenWorker()
   const offscreen = canvas.transferControlToOffscreen!()
-  const worker: Worker = new OffscreenWorker()
-
-const message = { type: "init", canvas: offscreen /*, canvasState: singleton.get("canvasState")*/ }
+  const message = { type: "init", canvas: offscreen }
+  // @ts-ignore
   worker.postMessage(message, [offscreen])
 
   return () => {
@@ -18,13 +17,15 @@ const message = { type: "init", canvas: offscreen /*, canvasState: singleton.get
       width: canvas.clientWidth,
       height: canvas.clientHeight,
     }
-    worker.postMessage(msg)
+    worker!.postMessage(msg)
   }
 }
 
 function startMainPage(canvas: HTMLCanvasElement) {
-  // init({ canvas, type: "init", canvasState: singleton.get("canvasState") })
-  init({ canvas, type: "init" })
+  init({
+    canvas,
+    type: "init",
+  })
 
   return () => {
     state.width = canvas.clientWidth
@@ -32,11 +33,31 @@ function startMainPage(canvas: HTMLCanvasElement) {
   }
 }
 
+interface StartLoopingProps {
+  /** Canvas with the potential of WebGL2 context */
+  canvas: HTMLCanvasElement
+  /** Prefer offscreen */
+  offscreen: boolean
+}
 
-export function startLooping({ canvas }: { canvas: HTMLCanvasElement }) {
-  const useWorker = false // "transferControlToOffscreen" in canvas
-  const sendSize = useWorker ? startWorker(canvas) : startMainPage(canvas)
-
+export async function startLooping({ canvas, offscreen }: StartLoopingProps) {
+  const useWorker = offscreen && "transferControlToOffscreen" in canvas
+  console.log(useWorker ? "Using worker" : "Using main page")
+  const sendSize = useWorker ? await startWorker(canvas) : startMainPage(canvas)
   sendSize.call(canvas)
+  // sendSize.canvas()
+  // @ts-ignore
   // window.addEventListener("resize", sendSize, true)
+}
+
+export function stopLooping() {
+  worker?.postMessage({ type: "stop" }) ?? (state.running = false)
+}
+
+export function exec3D(fn: CanvasInjectedFn) {
+  worker?.postMessage({ type: "exec3D", fn: fn.toString() }) ?? state.singleFns.push(fn)
+}
+
+export function loop3D(fn: CanvasInjectedFn) {
+  worker?.postMessage({ type: "loop3D", fn: fn.toString() }) ?? state.loopFns.push(fn)
 }
