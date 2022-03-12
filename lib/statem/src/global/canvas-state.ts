@@ -3,7 +3,9 @@ import { stateMake } from  "../index"
 
 const initialState = {
   running: false,
-  offscreen: false
+  offscreen: false,
+  fps: 60,
+  // fps: Infinity
 }
 
 export default stateMake(initialState)

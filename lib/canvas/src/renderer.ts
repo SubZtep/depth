@@ -1,5 +1,6 @@
 import * as THREE from "three"
 import { createRenderer, createCamera, createScene } from "./builders"
+import { canvasState } from "@depth/statem"
 
 export const state: RendererState = {
   width: 320,
@@ -9,6 +10,7 @@ export const state: RendererState = {
   loopEvals: [],
   singleFns: [],
   loopFns: [],
+  fps: Number.POSITIVE_INFINITY,
 }
 
 export function init(props: InitMessage) {
@@ -35,9 +37,18 @@ export function init(props: InitMessage) {
   }
 
   function clearContext() {
+    state.singleFns.length = 0
+    state.loopFns.length = 0
+    state.singleEvals.length = 0
+    state.loopEvals.length = 0
     scene.clear()
     renderer.clear()
   }
+
+  let fpsInterval: number
+  let then = performance.now()
+  let elapsed: number
+  let now: number
 
   async function render(time: number) {
     if (!state.running) {
@@ -47,17 +58,27 @@ export function init(props: InitMessage) {
       const props = { scene, renderer, clock, deltaTime, time, camera }
       const evil = (fn: string) => void eval(";(" + fn + ")(props);")
 
-      await Promise.all([
-        ...state.singleFns.map(fn => fn(props)),
-        ...state.singleEvals.map(fn => evil(fn)),
-        ...state.loopFns.map(fn => fn(props)),
-        ...state.loopEvals.map(fn => evil(fn)),
-      ])
-      state.singleFns.length = 0
-      state.singleEvals.length = 0
-
+      state.fps = canvasState.fps
       renderer.render(scene, camera)
       requestAnimationFrame(render)
+
+      now = performance.now()
+      elapsed = now - then
+
+      fpsInterval = 1000 / state.fps
+
+      if (elapsed > fpsInterval || state.fps === Number.POSITIVE_INFINITY) {
+        then = now - (elapsed % fpsInterval)
+
+        await Promise.all([
+          ...state.singleFns.map(fn => fn(props)),
+          ...state.singleEvals.map(fn => evil(fn)),
+          ...state.loopFns.map(fn => fn(props)),
+          ...state.loopEvals.map(fn => evil(fn)),
+        ])
+        state.singleFns.length = 0
+        state.singleEvals.length = 0
+      }
 
       if (resizeRendererToDisplaySize(renderer)) {
         camera.aspect = state.width / state.height

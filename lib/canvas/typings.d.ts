@@ -51,4 +51,5 @@ interface RendererState {
   loopEvals: CanvasInjectedEval[]
   singleFns: CanvasInjectedFn[]
   loopFns: CanvasInjectedFn[]
+  fps: number
 }

@@ -7,18 +7,12 @@ export class CanvasToolbar extends LitElement {
   @property({ type: Boolean, attribute: false })
   running: boolean = false
 
-  state: CanvasStatem & Statem
+  @property({ attribute: false, noAccessor: true })
+  state = canvasState
 
   constructor() {
     super()
-
-    this.state = canvasState
-
-    this.state.subscribe(s => {
-      Object.keys(s).forEach(k => {
-        this[k] = s[k]
-      })
-    })
+    this.state.subscribe(v => this.requestUpdate("state", v))
   }
 
   static styles = css`
@@ -29,7 +23,7 @@ export class CanvasToolbar extends LitElement {
       justify-content: center;
       gap: 0.6rem;
       padding: 0.3rem;
-      max-width: 15rem;
+      max-width: 55rem;
       margin: 0 auto;
     }
     button {
@@ -63,22 +57,37 @@ export class CanvasToolbar extends LitElement {
       opacity: 0.8;
     }
     label {
-      background-color: #eee;
+      background: radial-gradient(circle at 100%, #ccc 0%, #b30e08 75%, #666 45%);
+      color: #fff;
+      font: 1.1rem Verdana;
+      max-width: 10rem;
     }
   `
 
   render() {
     return html`
       <div>
-        <button @click=${() => (this.state.running = true)} ?disabled=${this.state.running}>▶</button>
-        <button @click=${() => (this.state.running = false)} ?disabled=${!this.state.running}>⏹</button>
+        <button @click=${() => (this.state.running = true)} ?disabled=${this.state.running} title="Play"> ▶ </button>
+        <button @click=${() => (this.state.running = false)} ?disabled=${!this.state.running} title="Stop 3D"> ⏏ </button>
         <label>
           <input
             type="checkbox"
             ?checked=${this.state.preferOffscreen}
-            @change=${e => (this.state.offscreen = e.target.checked)}
+            @change=${(e: { target: { checked: any } }) => (this.state.offscreen = e.target.checked)}
           />
           Prefer offscreen
+        </label>
+        <label>
+          fps limit ${this.state.fps}
+          <input
+            type="range"
+            min="0"
+            max="61"
+            value=${this.state.fps}
+            @input=${(v: { srcElement: { valueAsNumber: number } }) =>
+              (this.state.fps =
+                v.srcElement.valueAsNumber > 60 ? Number.POSITIVE_INFINITY : v.srcElement.valueAsNumber)}
+          />
         </label>
       </div>
     `

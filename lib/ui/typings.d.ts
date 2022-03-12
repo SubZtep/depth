@@ -1,6 +1,7 @@
 declare global {
   interface HTMLElementTagNameMap {
     "canvas-toolbar": CanvasToolbar
+    // "d-button": DButton
   }
 }
 
