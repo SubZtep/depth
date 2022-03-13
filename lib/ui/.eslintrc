@@ -1,0 +1,3 @@
+rules:
+  "no-unknown-tag-name": off,
+  "no-unknown-event": warn

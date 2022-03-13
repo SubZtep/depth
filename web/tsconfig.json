@@ -1,15 +1,12 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "composite": true,
     "baseUrl": ".",
-    "outDir": "./dist",
-    "resolveJsonModule": true,
-    "types": ["vite/client"],
-    "typeRoots": ["node_modules/@types", "./src/types"],
+    "rootDir": "src",
+    "outDir": "dist",
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["./src/*"]
     }
   },
-  "include": ["./src/**/*.ts", "./src/**/*.vue", "./src/**/*.json"]
+  "include": ["src/**/*", "typings.d.ts"]
 }

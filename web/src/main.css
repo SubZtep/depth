@@ -1,0 +1,80 @@
+
+#ui,
+#hud,
+#scene,
+#editor,
+.loadingScreen {
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+}
+
+#ui {
+  pointer-events: none;
+}
+
+#ui > * {
+  pointer-events: all;
+}
+
+#ui > canvas {
+  width: inherit;
+  height: inherit;
+}
+
+#hud {
+  pointer-events: none;
+}
+
+#hud > * {
+  pointer-events: all;
+}
+
+#editor {
+  pointer-events: none;
+}
+
+#editor > #playback {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+#editor > #components {
+  position: absolute;
+  right: 0;
+  height: 100vh;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#editor > #hierarchy {
+  position: absolute;
+  left: 0;
+  height: 100vh;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#editor > #playback > *,
+#editor > #components > *,
+#editor > #hierarchy > * {
+  pointer-events: all;
+}
+
+#scene.paused {
+  mask-image: radial-gradient(#000a, #000 69%);
+}
+
+#scene > canvas {
+  width: inherit;
+  height: inherit;
+}

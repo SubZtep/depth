@@ -1,10 +1,11 @@
-node_modules
-dist
-coverage
-/web/public/story/
-/web/public/libs/
 !/web/public/libs/.gitkeep
-/web/public/models/origin/
 .env
 .pnpm-debug.log
+coverage
+dist
+build
+node_modules
 tsconfig.tsbuildinfo
+web/public/libs/
+web/public/models/origin/
+web/public/story/

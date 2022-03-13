@@ -41,3 +41,7 @@ A [Vue3](https://v3.vuejs.org/api/sfc-script-setup.html) app uses composition AP
 ###### :trollface:
 
 _tbc._
+
+## Setup
+
+`yarn global add env-cmd`

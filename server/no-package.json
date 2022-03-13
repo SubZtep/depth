@@ -1,0 +1,37 @@
+{
+  "name": "@depth/server",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "typesVersions": {
+    "*": {
+      "index.d.ts": [
+        "dist/index.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "dev": "tsc -w",
+    "_build": "tsc",
+    "start": "nodemon --require dotenv/config dist/index.js",
+    "broadcast": "nodemon --require dotenv/config src/broadcast.mjs"
+  },
+  "author": "Andras Serfozo <subztep@gmail.com>",
+  "license": "Unlicense",
+  "devDependencies": {
+    "@types/node": "^17.0.16",
+    "@types/ws": "^8.2.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "nodemon": "^2.0.15",
+    "ws": "^8.5.0"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.6",
+    "utf-8-validate": "^5.0.8"
+  }
+}

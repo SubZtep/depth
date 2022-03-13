@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "composite": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "isolatedModules": false,
+    "typeRoots": ["node_modules/@types", "./src/types"],
+    "module": "ES2020",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["./src"]
+}
