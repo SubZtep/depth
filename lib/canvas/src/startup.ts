@@ -2,6 +2,11 @@ import { init, state } from "./renderer"
 // @ts-ignore
 import OffscreenWorker from "./offscreen?worker&inline"
 
+// const resizeObserver = new ResizeObserver(entries => {
+//   //
+// })
+
+let resize: ResizeObserver | undefined
 let worker: Worker | undefined
 
 async function startWorker(canvas: HTMLCanvasElement) {
@@ -16,6 +21,8 @@ async function startWorker(canvas: HTMLCanvasElement) {
       type: "size",
       width: canvas.clientWidth,
       height: canvas.clientHeight,
+      // width: canvas.parentElement!.clientWidth,
+      // height: canvas.parentElement!.clientHeight,
     }
     worker!.postMessage(msg)
   }
@@ -30,6 +37,8 @@ function startMainPage(canvas: HTMLCanvasElement) {
   return () => {
     state.width = canvas.clientWidth
     state.height = canvas.clientHeight
+    // state.width = canvas.parentElement!.clientWidth
+    // state.height = canvas.parentElement!.clientHeight
   }
 }
 
@@ -51,6 +60,7 @@ export async function startLooping({ canvas, offscreen }: StartLoopingProps) {
 }
 
 export function stopLooping() {
+  // resizeObserver.disconnect()
   worker?.postMessage({ type: "stop" }) ?? (state.running = false)
 }
 

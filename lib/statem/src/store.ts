@@ -1,5 +1,5 @@
-type Action<T extends object> = (context: Store<T>, payload?: any) => void
-type Mutation<T> = (state: T, payload?: any) => T
+// type Action<T extends object> = (context: Store<T>, payload?: any) => void
+// type Mutation<T> = (state: T, payload?: any) => T
 type Callback<T> = (data: T, oldData: T) => void
 
 export interface Statem {
@@ -10,13 +10,8 @@ export interface StoreProps<State extends object> {
   initialState: State
 }
 
-/** Store class */
 export class Store<State extends object> {
-  actions: Record<string, Action<State>> = {}
-  mutations: Record<string, Mutation<State>> = {}
   state!: State
-  status: "resting" | "action" | "mutation" = "resting"
-  // callbacks: Callback<State>[] = []
   callbacks = new Map<keyof State | "all", Callback<State | any>[]>()
 
   constructor(initialState: State) {
@@ -44,7 +39,6 @@ export class Store<State extends object> {
           state[key] = value
           self.processCallbacks(self.state, oldState, key as keyof State)
         }
-
         return true
       },
     })
@@ -76,8 +70,3 @@ export class Store<State extends object> {
     self.callbacks.get(keyOnly)!.push(callback)
   }
 }
-
-
-export type IStore<T extends object> = {
-  [key in keyof T]: T[key]
-} & Store<T>

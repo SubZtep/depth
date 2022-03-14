@@ -9,8 +9,12 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@depth/misc": "workspace:*"
+    "@depth/misc": "workspace:*",
+    "uuid": "^8.3.2"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
-  "license": "Unlicense"
+  "license": "Unlicense",
+  "devDependencies": {
+    "@types/uuid": "^8.3.4"
+  }
 }

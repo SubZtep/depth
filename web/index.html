@@ -5,35 +5,24 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>ⒹⒺⓅⓉⒽ depth 𓀼</title>
-    <style type="text/css">
-      html,
-      body {
-        margin: 0;
-        width: 100vw;
-        height: 100vh;
-      }
-      body {
-        background-image: repeating-conic-gradient(from 0deg, transparent 0deg 90deg, #d3d4d6 90deg 180deg);
-        /* background-image: repeating-conic-gradient(from 0deg, red 0deg 90deg, green 90deg 180deg); */
-        background-size: 1rem 1rem;
-        overflow: hidden;
-      }
-    </style>
-    <link rel="stylesheet" href="./src/main.css">
     <!-- <script src="https://kit.fontawesome.com/95e6f24ddc.js" crossorigin="anonymous"></script> -->
   </head>
   <body aria-hidden="true">
-    <div id="scene" class="paused-remove">
-      <!-- <canvas id="threejs"></canvas> -->
-    </div>
-    <div id="hud" style="text-align: center;">
-      <!-- <img src="myfeself.png" style="opacity: 0.95; width: 100vw; min-height: 100vh;" /> -->
-    </div>
-    <div id="ui"></div>
+    <br /><br />
 
+    <div class="holes">
+      <depth-hole></depth-hole>
+      <!-- <depth-hole></depth-hole> -->
+      <!-- <depth-hole uuid="aaa"></depth-hole>
+      <depth-hole uuid="bbb"></depth-hole> -->
+    </div>
+
+    <!-- <div id="scene" class="paused-remove"></div> -->
+
+    <!-- <div id="ui"></div>
     <template id="tpl-ui">
       <pug src="./src/ui.pug" />
-    </template>
+    </template> -->
 
     <script type="module" src="./src/main.ts"></script>
   </body>

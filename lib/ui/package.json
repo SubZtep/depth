@@ -11,11 +11,14 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@depth/statem": "workspace:*",
     "@depth/misc": "workspace:*",
-    "lit": "^2.2.0"
+    "@depth/statem": "workspace:*",
+    "@depth/canvas": "workspace:*",
+    "lit": "^2.2.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/uuid": "^8.3.4",
     "ts-lit-plugin": "^1.2.1",
     "tslib": "^2.3.1"
   }

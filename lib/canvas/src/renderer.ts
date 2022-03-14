@@ -1,6 +1,6 @@
 import * as THREE from "three"
 import { createRenderer, createCamera, createScene } from "./builders"
-import { canvasState } from "@depth/statem"
+import { statem } from "@depth/statem"
 
 export const state: RendererState = {
   width: 320,
@@ -18,6 +18,8 @@ export function init(props: InitMessage) {
 
   state.width = props.canvas.width
   state.height = props.canvas.height
+  console.log("INI", props)
+  // console.log("INI", [PROPSstate.width, state.height])
 
   const renderer = createRenderer({ canvas: props.canvas })
   const camera = createCamera(state)
@@ -25,12 +27,18 @@ export function init(props: InitMessage) {
   const clock = new THREE.Clock()
 
   function resizeRendererToDisplaySize(renderer: THREE.WebGLRenderer) {
-    const canvas = renderer.domElement
+    const parent = renderer.domElement.parentElement!
+    const canvasWidth = parent.clientWidth
+    const canvasHeight = parent.clientHeight
+    // const canvas = renderer.domElement
     const width = state.width
     const height = state.height
-    const needResize = canvas.width !== width || canvas.height !== height
+    // // console.log({ canvas, width, height })
+    // const needResize = canvas.width !== width || canvas.height !== height
+    const needResize = canvasWidth !== width || canvasHeight !== height
     if (needResize) {
       renderer.setSize(width, height, false)
+      // renderer.setSize(canvasWidth, canvasHeight, true)
       console.log("RESIZE", [width, height])
     }
     return needResize
@@ -51,6 +59,7 @@ export function init(props: InitMessage) {
   let now: number
 
   async function render(time: number) {
+    // console.log("RENDER")
     if (!state.running) {
       return clearContext()
     } else {
@@ -58,7 +67,7 @@ export function init(props: InitMessage) {
       const props = { scene, renderer, clock, deltaTime, time, camera }
       const evil = (fn: string) => void eval(";(" + fn + ")(props);")
 
-      state.fps = canvasState.fps
+      state.fps = 30 // canvasState.fps
       renderer.render(scene, camera)
       requestAnimationFrame(render)
 

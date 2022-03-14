@@ -1,23 +1,27 @@
 import { LitElement, css, html } from "lit"
 import { customElement, property } from "lit/decorators.js"
-import { canvasState } from "@depth/statem"
+import { statem } from "@depth/statem"
 
 @customElement("canvas-toolbar")
 export class CanvasToolbar extends LitElement {
-  @property({ type: Boolean, attribute: false })
-  running: boolean = false
+  // @property({ type: Boolean, attribute: false })
+  // running: boolean = false
 
   @property({ attribute: false, noAccessor: true })
-  state = canvasState
+  state
 
-  constructor() {
-    super()
+  @property()
+  uuid!: string
+
+  connectedCallback() {
+    super.connectedCallback()
+    this.state = statem(this.uuid)
     this.state.subscribe(v => this.requestUpdate("state", v))
   }
 
   static styles = css`
     div {
-      user-select: none;
+      /* user-select: none; */
       display: flex;
       background-image: radial-gradient(circle at center, #05675233 0%, #6669 30%, transparent 90%);
       justify-content: center;
@@ -67,14 +71,14 @@ export class CanvasToolbar extends LitElement {
   render() {
     return html`
       <div>
-        <button @click=${() => (this.state.running = true)} ?disabled=${this.state.running} title="Play"> ▶ </button>
-        <button @click=${() => (this.state.running = false)} ?disabled=${!this.state.running} title="Stop 3D"> ⏏ </button>
+        <button @click=${() => (this.state.running = true)} ?disabled=${this.state.running} title="Play">▶</button>
+        <button @click=${() => (this.state.running = false)} ?disabled=${!this.state.running} title="Stop 3D">⏏</button>
         <label>
           <input
             type="checkbox"
             ?checked=${this.state.preferOffscreen}
             @change=${(e: { target: { checked: any } }) => (this.state.offscreen = e.target.checked)}
-          />
+            />
           Prefer offscreen
         </label>
         <label>
