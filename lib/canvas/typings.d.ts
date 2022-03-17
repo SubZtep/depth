@@ -3,12 +3,15 @@ interface HTMLCanvasElement {
   transferControlToOffscreen?: () => OffscreenCanvas & MessagePort
 }
 
+type Fn = () => void
+
 type WebGLCanvas = NonNullable<import("three").WebGLRendererParameters["canvas"]>
 
 interface InitMessage {
   type: "init"
   canvas: HTMLCanvasElement
   canvasState?: import("@depth/statem").CanvasState & import("@depth/statem").Statem
+  statem: any
 }
 
 interface SizeMessage extends Dimensions {
@@ -51,5 +54,5 @@ interface RendererState {
   loopEvals: CanvasInjectedEval[]
   singleFns: CanvasInjectedFn[]
   loopFns: CanvasInjectedFn[]
-  fps: number
+  // fps: number
 }

@@ -1,15 +1,26 @@
+import { statem } from "@depth/statem"
 import { init, state } from "./renderer"
 // @ts-ignore
 import OffscreenWorker from "./offscreen?worker&inline"
 
-// const resizeObserver = new ResizeObserver(entries => {
-//   //
-// })
+let sendSize: Fn
+let canvas: HTMLCanvasElement
 
-let resize: ResizeObserver | undefined
+let canvasWidth = 0
+let canvasHeight = 0
+
 let worker: Worker | undefined
+const resize = new ResizeObserver(([entry]) => {
+  const { blockSize: width, inlineSize: height } = entry.contentBoxSize[0]
+  console.log("RESIZE", [width, height])
+  // canvasWidth = width
+  // canvasHeight = height
+  canvas.width = width
+  canvas.height = height
+  // sendSize.call(canvas)
+})
 
-async function startWorker(canvas: HTMLCanvasElement) {
+function startWorker() {
   worker = new OffscreenWorker()
   const offscreen = canvas.transferControlToOffscreen!()
   const message = { type: "init", canvas: offscreen }
@@ -19,24 +30,28 @@ async function startWorker(canvas: HTMLCanvasElement) {
   return () => {
     const msg = {
       type: "size",
-      width: canvas.clientWidth,
-      height: canvas.clientHeight,
-      // width: canvas.parentElement!.clientWidth,
-      // height: canvas.parentElement!.clientHeight,
+      // width: canvas.clientWidth,
+      // height: canvas.clientHeight,
+      width: canvasWidth,
+      height: canvasHeight,
     }
     worker!.postMessage(msg)
   }
 }
 
-function startMainPage(canvas: HTMLCanvasElement) {
+function startMainPage(statem: any) {
+  // console.log(statem)
   init({
     canvas,
     type: "init",
+    statem,
   })
 
   return () => {
-    state.width = canvas.clientWidth
-    state.height = canvas.clientHeight
+    // state.width = canvas.clientWidth
+    // state.height = canvas.clientHeight
+    state.width = canvasWidth
+    state.height = canvasHeight
     // state.width = canvas.parentElement!.clientWidth
     // state.height = canvas.parentElement!.clientHeight
   }
@@ -47,20 +62,33 @@ interface StartLoopingProps {
   canvas: HTMLCanvasElement
   /** Prefer offscreen */
   offscreen: boolean
+  /** Statem ID */
+  statem: any
 }
 
-export async function startLooping({ canvas, offscreen }: StartLoopingProps) {
+export async function startLooping({ canvas: c, offscreen, statem }: StartLoopingProps) {
+  canvas = c
+  // resize.observe(canvas)
+  // console.log("SDCGVERGR", statem)
+
+  // const sss = statem(statemId)
+  // state.subscribe(fps => {
+  //   //
+  // }, "fps")
+
   const useWorker = offscreen && "transferControlToOffscreen" in canvas
   console.log(useWorker ? "Using worker" : "Using main page")
-  const sendSize = useWorker ? await startWorker(canvas) : startMainPage(canvas)
-  sendSize.call(canvas)
+  sendSize = useWorker ? startWorker() : startMainPage(statem)
+
+  resize.observe(canvas)
+  // sendSize.call(canvas)
   // sendSize.canvas()
   // @ts-ignore
   // window.addEventListener("resize", sendSize, true)
 }
 
 export function stopLooping() {
-  // resizeObserver.disconnect()
+  resize.disconnect()
   worker?.postMessage({ type: "stop" }) ?? (state.running = false)
 }
 

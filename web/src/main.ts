@@ -1,12 +1,13 @@
 import * as THREE from "three"
-import { sleep } from "@depth/misc"
-// import { canvasState } from "@depth/statem"
-import { statem } from "@depth/statem"
-import { startLooping, stopLooping, exec3D, loop3D } from "@depth/canvas"
+// import { sleep } from "@depth/misc"
+// // import { canvasState } from "@depth/statem"
+// import { statem } from "@depth/statem"
+import { exec3D, loop3D } from "@depth/canvas"
 // import "@depth/ui/dist/d-button"
 import "./state"
-import "@depth/ui/dist/depth-hole"
-import "@depth/ui/dist/canvas-toolbar"
+import "@depth/ui/dist/d-button"
+import "@depth/ui/dist/d-canvas"
+import "@depth/ui/dist/d-toolbar"
 // import Page from "./pages/testplay"
 import "./styles/main.css"
 
@@ -17,30 +18,49 @@ import "./styles/main.css"
 // const scene = document.querySelector<HTMLDivElement>("#scene")!
 // let canvas: HTMLCanvasElement
 
-const canvasState = statem("aaa")
+document.querySelector("d-canvas")!.addEventListener("start", () => {
+  exec3D(({ scene }) => {
+    const cube = new THREE.Mesh(
+      new THREE.BoxGeometry(),
+      new THREE.MeshPhongMaterial({ color: 0x669913, wireframe: true })
+    )
+    cube.position.setZ(-2)
+    scene.add(cube)
+  })
 
-canvasState.subscribe(async running => {
-  // if (running) {
-  //   canvas = document.createElement("canvas")
-  //   scene.append(canvas)
+  loop3D(({ camera, deltaTime }) => {
+    camera.rotateZ(0.5 * deltaTime)
+  })
+})
 
-  //   await startLooping({ canvas, offscreen: canvasState.offscreen })
+// console.log("XXX", )
 
-  //   exec3D(({ scene }) => {
-  //     const cube = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshPhongMaterial({ color: 0x669913 }))
-  //     cube.position.setZ(95)
-  //     scene.add(cube)
-  //   })
+// const canvasState = statem("aaa")
 
-  //   loop3D(({ camera, deltaTime }) => {
-  //     console.log({ deltaTime })
-  //     camera.rotateY(0.05 * deltaTime)
-  //   })
-  // } else {
-  //   stopLooping()
-  //   canvas.remove()
-  // }
-}, "running")
+// canvasState.subscribe(async running => {
+//   if (running) {
+//     // canvas = document.createElement("canvas")
+//     // scene.append(canvas)
+
+//     // await startLooping({ canvas, offscreen: canvasState.offscreen })
+
+//     console.log("RUNNING")
+
+//     exec3D(({ scene }) => {
+//       const cube = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshPhongMaterial({ color: 0x669913 }))
+//       cube.position.setZ(95)
+//       scene.add(cube)
+//     })
+
+//     loop3D(({ camera, deltaTime }) => {
+//       console.log({ deltaTime })
+//       camera.rotateY(0.05 * deltaTime)
+//     })
+//   } else {
+//     // stopLooping()
+//     // canvas.remove()
+//   }
+// }, "running")
 
 // canvasState.subscribe(async running => {
 //   if (running) {
