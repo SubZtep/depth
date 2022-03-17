@@ -53,6 +53,9 @@ export class DToolbar extends LitElement {
       height: 1.5rem;
       fill: currentColor;
     }
+    button svg path:nth-of-type(2) {
+      opacity: 0.4;
+    }
     label {
       color: #fff;
       max-width: 10rem;
