@@ -1,0 +1,24 @@
+import { LitElement, css, html } from "lit"
+import { customElement, property } from "lit/decorators.js"
+import { statem } from "@depth/statem"
+import * as icon from "./icons"
+
+@customElement("d-icon")
+export class DIcon extends LitElement {
+  @property()
+  name = ""
+
+  static styles = css`
+    :host svg {
+      height: 1.5rem;
+      fill: currentColor;
+    }
+    :host svg path:nth-of-type(2) {
+      opacity: 0.4;
+    }
+  `
+
+  render() {
+    return icon[this.name]
+  }
+}

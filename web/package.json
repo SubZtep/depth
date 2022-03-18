@@ -21,7 +21,7 @@
   "devDependencies": {
     "@windicss/plugin-scrollbar": "^1.2.3",
     "picocolors": "^1.0.0",
-    "postcss": "^8.4.8",
+    "postcss": "^8.4.12",
     "postcss-preset-env": "^7.4.2",
     "pug": "^3.0.2",
     "vite": "^2.8.6",
