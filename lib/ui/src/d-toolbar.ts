@@ -10,9 +10,6 @@ export class DToolbar extends LitElement {
     button,
     input,
     css`
-      /* :host {
-        position: relative;
-      } */
       :host > div {
         display: flex;
         flex-wrap: wrap;

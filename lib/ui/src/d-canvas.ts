@@ -1,11 +1,10 @@
 import "./d-toolbar"
 import { v4 as uuidv4 } from "uuid"
 import { stateMake } from "@depth/statem"
-import { LitElement, css, html } from "lit"
-import { customElement, state, property } from "lit/decorators.js"
+import { LitElement, html } from "lit"
+import { customElement, property } from "lit/decorators.js"
 import { when } from "lit/directives/when.js"
 import { ref } from "lit/directives/ref.js"
-// import { startLooping, stopLooping } from "@depth/canvas"
 import { startLooping } from "@depth/canvas"
 import { throttle } from "@depth/misc"
 import { bgSquares, layers, resizable } from "./styles"
@@ -13,64 +12,45 @@ import { bgSquares, layers, resizable } from "./styles"
 const resize = new ResizeObserver(
   throttle<ResizeObserverCallback>(
     entries => entries.forEach(entry => (entry.target as DCanvas).resizeCallback(entry)),
-    50
+    100
   )
 )
 
+/**
+ * 3D canvas element.
+ */
 @customElement("d-canvas")
 export class DCanvas extends LitElement {
+  /** Immediately start rendering. */
   @property({ type: Boolean })
   autoplay = false
 
+  /** Run render inside a web worker. */
   @property({ type: Boolean })
   offscreen = false
 
   @property({ type: String })
   uuid = uuidv4()
 
-  state: any
-
-  // constructor() {
-  //   super()
-  //   console.log("!!!", this.offscreen)
-  //   this.state = stateMake(
-  //     {
-  //       running: false,
-  //       offscreen: this.offscreen,
-  //       fps: 60,
-  //       width: 0,
-  //       height: 0,
-  //     },
-  //     this.uuid
-  //   )
-  //   this.state.subscribe((v: typeof this.state) => this.requestUpdate("state", v))
-  // }
+  private state: any
 
   static styles = [bgSquares, layers, resizable]
 
   resizeCallback({ contentBoxSize: [{ blockSize, inlineSize }] }: ResizeObserverEntry) {
-    // console.log("RESIZE CALLBACK", [inlineSize, blockSize])
     this.state.width = inlineSize
     this.state.height = blockSize
-    // Object.assign(this.state, { width: inlineSize, height: blockSize })
+    //Object.assign(this.state, { width: inlineSize, height: blockSize })
   }
 
   stopLooping?: () => void
 
-  // async startStop(canvas?: any) {
   startStop(canvas?: any) {
     if (canvas) {
-      // console.log("A")
       const { stopLooping, exec3D, loop3D } = startLooping({ canvas, statem: this.state })
-      // const { stopLooping, exec3D, loop3D } = await startLooping({ canvas, statem: this.state })
-      // console.log("B")
       this.stopLooping = stopLooping as () => void
-      // await startLooping({ canvas, offscreen: this.state.offscreen, statem: this.state })
       this.dispatchEvent(
-        // new CustomEvent("start", { bubbles: false, cancelable: false, composed: false, detail: { exec3D, loop3D } })
         new CustomEvent("start", { bubbles: false, cancelable: false, composed: true, detail: { exec3D, loop3D } })
       )
-      // console.log("C")
     } else {
       this.stopLooping?.()
     }
@@ -78,15 +58,14 @@ export class DCanvas extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
-    // console.log("!!", this.offscreen)
-    // resize.observe(this)
-    // this.state.running = this.autoplay
+    resize.observe(this)
 
     this.state = stateMake(
       {
-        running: this.autoplay,
+        running: false,
         offscreen: this.offscreen,
-        fps: 60,
+        fps: Number.POSITIVE_INFINITY,
+        // fps: 60,
         width: 0,
         height: 0,
       },
@@ -94,7 +73,10 @@ export class DCanvas extends LitElement {
     )
     this.state.subscribe((v: typeof this.state) => this.requestUpdate("state", v))
 
-    resize.observe(this)
+    if (this.autoplay) {
+      // FIXME: Make it nice without break it.
+      setTimeout(() => (this.state.running = true), 666)
+    }
   }
 
   disconnectedCallback() {
@@ -103,7 +85,6 @@ export class DCanvas extends LitElement {
   }
 
   render() {
-    // console.log("!", this.offscreen)
     return html`
       <d-toolbar ?shifted=${true /*!this.autoplay*/}>
         <button @click=${this.startRunning} ?disabled=${this.state.running} title="Play">
@@ -122,10 +103,7 @@ export class DCanvas extends LitElement {
           ${this.state.fps}
         </label>
       </d-toolbar>
-      ${when(
-        this.state.running,
-        () => html`<canvas ${ref(this.startStop)} width="320" height="240"></canvas>`
-      )}
+      ${when(this.state.running, () => html`<canvas ${ref(this.startStop)}></canvas>`)}
     `
   }
 

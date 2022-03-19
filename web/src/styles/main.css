@@ -86,18 +86,19 @@ body {
   mask-image: radial-gradient(#000a, #000 69%);
 }
 
-#scene > canvas {
+/* #scene > canvas {
   width: inherit;
   height: inherit;
-}
+} */
 
 .holes {
   width: 100vw;
-  /* height: 300px; */
   box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  /* margin: 1rem; */
   gap: 1rem;
-  aspect-ratio: 3 / 1;
+}
+
+.holes d-canvas {
+  aspect-ratio: 2 / 1;
 }

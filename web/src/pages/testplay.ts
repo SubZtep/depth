@@ -1,4 +1,4 @@
-import { exec3D, loop3D } from "@depth/canvas"
+// import { exec3D, loop3D } from "@depth/canvas"
 import * as THREE from "three"
 
 console.log("page")
@@ -59,6 +59,6 @@ const loopWithMe = ({ time }: any) => {
 
 export default () => {
   console.log("testplay")
-  exec3D(startwithme)
-  loop3D(loopWithMe)
+  // exec3D(startwithme)
+  // loop3D(loopWithMe)
 }

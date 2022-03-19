@@ -21,6 +21,7 @@
     "serve": "pnpm recursive run serve --filter @depth/web",
     "lint": "eslint .",
     "ncu": "pnpm recursive exec -- ncu -u",
+    "wc:analyse": "npx web-component-analyzer ./lib/ui/src/d-canvas.ts",
     "test": "cypress run --config video=false --spec ./cypress/integration/statem/**/*"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",

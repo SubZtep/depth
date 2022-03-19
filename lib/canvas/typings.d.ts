@@ -57,3 +57,5 @@ interface RendererState {
   loopFns: CanvasInjectedFn[]
   fps: number
 }
+
+type SendSizeFn = ({ width, height }: { width: number; height: number }) => void

@@ -16,7 +16,6 @@ export function createRenderer({ canvas }: { canvas: InitMessage["canvas"] }) {
 
 export function createCamera({ width, height }: { width: number; height: number }) {
   const camera = new THREE.PerspectiveCamera(90, width / height, 1, 2000)
-  // camera.position.z = 100
   return camera
 }
 

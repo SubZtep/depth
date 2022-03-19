@@ -55,43 +55,15 @@ export const layers = css`
     position: relative !important;
     writing-mode: vertical-tb !important; // for ResizeObserverSize
   }
-  /* :host(canvas), :host(d-toolbar) { */
-  /* position: absolute !important;
-    top: 0 !important;
-    left: 0 !important; */
-  /* width: inherit !important;
-    height: inherit !important; */
-  /* } */
-  /* :host(canvas) { */
-  /* width: inherit !important;
-    height: inherit !important; */
-  /* background-color: #ff0 !important; */
-  /* } */
-  /* :host(*) { */
   d-toolbar {
     position: absolute !important;
   }
-  canvas {
-    border: 1px dashed #ff0;
-    /* width: inherit !important;
+  /* canvas { */
+  /* border: 1px dashed #ff0; */
+  /* width: inherit !important;
     height: inherit !important; */
-  }
+  /* } */
 `
-// export const layers = css`
-//   :host > div {
-//     position: relative;
-//     resize: both;
-//     width: 100%;
-//     height: 100%;
-//   }
-//   :host > div > * {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     width: inherit;
-//     height: inherit;
-//   }
-// `
 
 export const resizable = css`
   :host {
@@ -101,11 +73,3 @@ export const resizable = css`
     resize: both !important;
   }
 `
-
-// export const resizable = css`
-//   :host > div {
-//     min-width: 6rem;
-//     min-height: 6rem;
-//     resize: both;
-//   }
-// `
