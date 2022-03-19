@@ -22,11 +22,8 @@ export class DGazeClick extends LitElement {
     }
   `
 
-  @queryAssignedElements()
-  els!: Array<HTMLElement>
-
-  @state()
-  timer: NodeJS.Timeout | null = null
+  @queryAssignedElements() els!: Array<HTMLElement>
+  @state() timer: NodeJS.Timeout | null = null
 
   @eventOptions({ passive: true })
   start() {
@@ -50,13 +47,15 @@ export class DGazeClick extends LitElement {
   }
 
   render() {
-    return html`<div
-      class=${classMap({ waiting: !!this.timer })}
-      @mouseenter=${this.start}
-      @mouseleave=${this.stop}
-      @click=${this.stop}
-    >
-      <slot></slot>
-    </div>`
+    return html`
+      <div
+        class=${classMap({ waiting: !!this.timer })}
+        @mouseenter=${this.start}
+        @mouseleave=${this.stop}
+        @click=${this.stop}
+      >
+        <slot></slot>
+      </div>
+    `
   }
 }

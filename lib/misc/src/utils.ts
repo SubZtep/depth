@@ -7,15 +7,15 @@ export function sleep(ms: number): Promise<void> {
 }
 
 /**
- * Throttle function.
+ * Debounce function.
  * @param fn - The function to be executed
  * @param delay - The delay in milliseconds
  */
-export function throttle<T extends Fn>(fn: T, delay: number) {
+export function debounce<T extends Fn>(fn: T, delay: number) {
   let timer: NodeJS.Timer
   return function (...args: any[]) {
-    clearTimeout(timer) // FIXME: don't restart all the time
-    timer = setTimeout(() => fn.apply<null, any[], void>(null, args), delay)
+    clearTimeout(timer)
+    timer = setTimeout(() => fn(...args), delay)
   }
 }
 

@@ -29,11 +29,14 @@ const handlers: Record<string, any> = {
 
 function handleMessage(ev: MessageEvent<CanvasMessage>) {
   const fn = handlers[ev.data.type] as CanvasCallback<typeof ev.data.type>
-  const ret = fn(ev.data)
+  // const ret = fn(ev.data)
   if (ev.data.type === "init") {
-    handlers.stopLooping = ret
     state = ev.data.state
+    // handlers.stopLooping = ret
+    handlers.stopLooping = fn(ev.data)
+    return
   }
+  fn(ev.data)
 }
 
 self.addEventListener("message", handleMessage)

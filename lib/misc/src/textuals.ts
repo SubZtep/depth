@@ -47,7 +47,7 @@ export function kebabToTitle(text: string): string {
     .join(" ")
 }
 
-/** helloWorld -> Hello world */
+/** Trasform `helloWorld` to `Hello world` */
 export function camelToHuman(s: string) {
   if (s.length <= 1) return s
   const h = s.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase()

@@ -37,8 +37,7 @@ export class DToolbar extends LitElement {
     `,
   ]
 
-  @property({ type: Boolean })
-  shifted = false
+  @property({ type: Boolean }) shifted = false
 
   render() {
     return html`

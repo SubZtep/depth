@@ -4,8 +4,7 @@ import * as icon from "./icons"
 
 @customElement("d-icon")
 export class DIcon extends LitElement {
-  @property()
-  name = ""
+  @property() name = ""
 
   static styles = css`
     :host svg {

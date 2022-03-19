@@ -9,12 +9,11 @@ function startWorker({ canvas, state, worker }): SendSizeFn {
   worker.postMessage(message, [offscreen])
 
   return statem => {
-    const msg = {
+    worker.postMessage({
       type: "size",
       width: statem.width,
       height: statem.height,
-    }
-    worker.postMessage(msg)
+    })
   }
 }
 

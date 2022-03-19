@@ -9,6 +9,7 @@ extends:
   - "plugin:@typescript-eslint/recommended"
   - "prettier"
   - "plugin:unicorn/recommended"
+  - "plugin:lit/recommended"
 
 parserOptions:
   ecmaVersion: 12
@@ -63,15 +64,18 @@ rules:
   "unicorn/no-null": off
   "unicorn/no-object-as-default-parameter": off
   "unicorn/no-await-expression-member": off
+  "unicorn/prefer-export-from":
+    - error
+    - ignoreUsedVariables: true
   "unicorn/prevent-abbreviations":
     - warn
-    - ignore: ["props", "err", "el", "isDev", "Fn", "fn", "Param", "params", "src", "ext", "Ref", "obj", "i", "ev"]
+    - ignore: ["props", "err", "el", "isDev", "Fn", "fn", "Param", "params", "src", "ext", "Ref", "obj", "i", "ev", "args"]
 
 ignorePatterns:
   - "server"
   - "web.old"
   - "cypress/"
-  - "lib/*"
+  # - "lib/*"
   - "**node_modules/"
   - "**public/"
   - "**types/"

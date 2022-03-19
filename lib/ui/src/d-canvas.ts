@@ -1,4 +1,3 @@
-import "./d-toolbar"
 import { v4 as uuidv4 } from "uuid"
 import { stateMake } from "@depth/statem"
 import { LitElement, html } from "lit"
@@ -6,11 +5,14 @@ import { customElement, property } from "lit/decorators.js"
 import { when } from "lit/directives/when.js"
 import { ref } from "lit/directives/ref.js"
 import { startLooping } from "@depth/canvas"
-import { throttle } from "@depth/misc"
+import { debounce } from "@depth/misc"
 import { bgSquares, layers, resizable } from "./styles"
+import "./d-toolbar"
+import "./d-icon"
 
 const resize = new ResizeObserver(
-  throttle<ResizeObserverCallback>(
+  debounce<ResizeObserverCallback>(
+    // eslint-disable-next-line unicorn/no-array-for-each
     entries => entries.forEach(entry => (entry.target as DCanvas).resizeCallback(entry)),
     100
   )
@@ -22,15 +24,12 @@ const resize = new ResizeObserver(
 @customElement("d-canvas")
 export class DCanvas extends LitElement {
   /** Immediately start rendering. */
-  @property({ type: Boolean })
-  autoplay = false
+  @property({ type: Boolean }) autoplay = false
 
   /** Run render inside a web worker. */
-  @property({ type: Boolean })
-  offscreen = false
+  @property({ type: Boolean }) offscreen = false
 
-  @property({ type: String })
-  uuid = uuidv4()
+  @property({ type: String }) uuid = uuidv4()
 
   private state: any
 
@@ -65,7 +64,6 @@ export class DCanvas extends LitElement {
         running: false,
         offscreen: this.offscreen,
         fps: Number.POSITIVE_INFINITY,
-        // fps: 60,
         width: 0,
         height: 0,
       },
@@ -86,7 +84,7 @@ export class DCanvas extends LitElement {
 
   render() {
     return html`
-      <d-toolbar ?shifted=${true /*!this.autoplay*/}>
+      <d-toolbar ?shifted=${!this.autoplay}>
         <button @click=${this.startRunning} ?disabled=${this.state.running} title="Play">
           <d-icon name="play"></d-icon>
         </button>
@@ -95,11 +93,22 @@ export class DCanvas extends LitElement {
         </button>
         <label>
           Offscreen
-          <input type="checkbox" ?checked=${this.state.offscreen} @change=${this.updateOffscreen} />
+          <input
+            type="checkbox"
+            ?checked=${this.state.offscreen}
+            @change=${this.updateOffscreen}
+            ?disabled=${this.state.running}
+          />
         </label>
         <label>
           FPS Limit
-          <input type="range" min="0" max="61" value=${this.state.fps} @input=${this.updateFps} />
+          <input
+            type="range"
+            min="0"
+            max="61"
+            value=${this.state.fps === Number.POSITIVE_INFINITY ? 61 : this.state.fps}
+            @input=${this.updateFps}
+          />
           ${this.state.fps}
         </label>
       </d-toolbar>

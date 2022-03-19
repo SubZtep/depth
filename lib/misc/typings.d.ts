@@ -1,1 +1,1 @@
-type Fn = () => void
+type Fn = (...args: any[]) => void

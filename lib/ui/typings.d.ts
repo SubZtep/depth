@@ -1,13 +1,9 @@
-import { DIcon } from './src/d-icon';
-import { DToolbar } from './src/d-toolbar';
-import { DCanvas } from './src/d-canvas';
-import { DGazeClick } from './src/d-gaze-click';
 declare global {
   interface HTMLElementTagNameMap {
-    "d-canvas": DCanvas
-    "d-toolbar": DToolbar
-    "d-gaze-click": DGazeClick
-    "d-icon": DIcon
+    "d-canvas": import("./src/d-canvas").DCanvas
+    "d-toolbar": import("./src/d-toolbar").DToolbar
+    "d-gaze-click": import("./src/d-gaze-click").DGazeClick
+    "d-icon": import("./src/d-icon").DIcon
   }
 }
 

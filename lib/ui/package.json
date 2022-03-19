@@ -6,20 +6,22 @@
   "typings": "dist/index",
   "scripts": {
     "dev": "tsc -w",
-    "build": "tsc"
+    "build": "tsc",
+    "wc:analyse": "web-component-analyzer ./src/d-canvas.ts"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
+    "@depth/canvas": "workspace:*",
     "@depth/misc": "workspace:*",
     "@depth/statem": "workspace:*",
-    "@depth/canvas": "workspace:*",
     "lit": "^2.2.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/uuid": "^8.3.4",
     "ts-lit-plugin": "^1.2.1",
-    "tslib": "^2.3.1"
+    "tslib": "^2.3.1",
+    "web-component-analyzer": "^1.1.6"
   }
 }
