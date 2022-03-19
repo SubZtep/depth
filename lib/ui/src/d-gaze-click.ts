@@ -9,13 +9,13 @@ import { classMap } from "lit/directives/class-map.js"
 export class DGazeClick extends LitElement {
   static styles = css`
     :host > div {
-      cursor: pointer;
+      user-select: none;
       display: inline-block;
-      background-color: yellow;
-      transition: transform 1s linear 2s;
+      transition: transform 2s linear 1s;
+      line-height: 0;
     }
     :host > div:not(.waiting) {
-      transition: none !important;
+      transition: none;
     }
     .waiting {
       transform: rotate(360deg);

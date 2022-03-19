@@ -2,69 +2,146 @@ import "./d-toolbar"
 import { v4 as uuidv4 } from "uuid"
 import { stateMake } from "@depth/statem"
 import { LitElement, css, html } from "lit"
-import { customElement, property } from "lit/decorators.js"
+import { customElement, state, property } from "lit/decorators.js"
 import { when } from "lit/directives/when.js"
 import { ref } from "lit/directives/ref.js"
-import { startLooping, stopLooping, exec3D, loop3D } from "@depth/canvas"
+// import { startLooping, stopLooping } from "@depth/canvas"
+import { startLooping } from "@depth/canvas"
+import { throttle } from "@depth/misc"
+import { bgSquares, layers, resizable } from "./styles"
+
+const resize = new ResizeObserver(
+  throttle<ResizeObserverCallback>(
+    entries => entries.forEach(entry => (entry.target as DCanvas).resizeCallback(entry)),
+    50
+  )
+)
 
 @customElement("d-canvas")
 export class DCanvas extends LitElement {
-  @property()
+  @property({ type: Boolean })
+  autoplay = false
+
+  @property({ type: Boolean })
+  offscreen = false
+
+  @property({ type: String })
   uuid = uuidv4()
 
-  @property({ attribute: false, noAccessor: true })
-  state: any = stateMake(
-    {
-      running: false,
-      offscreen: false,
-      fps: 60,
-    },
-    this.uuid
-  )
+  state: any
 
-  constructor() {
-    super()
-    this.state.subscribe(v => this.requestUpdate("state", v))
+  // constructor() {
+  //   super()
+  //   console.log("!!!", this.offscreen)
+  //   this.state = stateMake(
+  //     {
+  //       running: false,
+  //       offscreen: this.offscreen,
+  //       fps: 60,
+  //       width: 0,
+  //       height: 0,
+  //     },
+  //     this.uuid
+  //   )
+  //   this.state.subscribe((v: typeof this.state) => this.requestUpdate("state", v))
+  // }
+
+  static styles = [bgSquares, layers, resizable]
+
+  resizeCallback({ contentBoxSize: [{ blockSize, inlineSize }] }: ResizeObserverEntry) {
+    // console.log("RESIZE CALLBACK", [inlineSize, blockSize])
+    this.state.width = inlineSize
+    this.state.height = blockSize
+    // Object.assign(this.state, { width: inlineSize, height: blockSize })
   }
 
-  // TODO: add no-resizable parameter, and in this case send sizes to @depth/canvas and don't start resize observer
-  static styles = css`
-    :host > div {
-      position: relative;
-      overflow: hidden;
-      resize: both;
-      width: 100%;
-      height: 100%;
-      background: repeating-conic-gradient(from 0deg, transparent 0deg 90deg, #fff3 90deg 180deg) 50% 50%/2rem 2rem;
-      transition: background 100ms linear;
-      min-width: 6rem;
-      min-height: 6rem;
-    }
-    :host > div:hover {
-      background-size: 1.945rem 1.945rem;
-    }
-    :host > div > * {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: inherit;
-      height: inherit;
-    }
-  `
+  stopLooping?: () => void
 
-  async startStop(canvas?: any) {
+  // async startStop(canvas?: any) {
+  startStop(canvas?: any) {
     if (canvas) {
-      await startLooping({ canvas, offscreen: this.state.offscreen, statem: this.state })
-      this.dispatchEvent(new CustomEvent("start", { bubbles: false, composed: false }))
+      // console.log("A")
+      const { stopLooping, exec3D, loop3D } = startLooping({ canvas, statem: this.state })
+      // const { stopLooping, exec3D, loop3D } = await startLooping({ canvas, statem: this.state })
+      // console.log("B")
+      this.stopLooping = stopLooping as () => void
+      // await startLooping({ canvas, offscreen: this.state.offscreen, statem: this.state })
+      this.dispatchEvent(
+        // new CustomEvent("start", { bubbles: false, cancelable: false, composed: false, detail: { exec3D, loop3D } })
+        new CustomEvent("start", { bubbles: false, cancelable: false, composed: true, detail: { exec3D, loop3D } })
+      )
+      // console.log("C")
     } else {
-      stopLooping()
+      this.stopLooping?.()
     }
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+    // console.log("!!", this.offscreen)
+    // resize.observe(this)
+    // this.state.running = this.autoplay
+
+    this.state = stateMake(
+      {
+        running: this.autoplay,
+        offscreen: this.offscreen,
+        fps: 60,
+        width: 0,
+        height: 0,
+      },
+      this.uuid
+    )
+    this.state.subscribe((v: typeof this.state) => this.requestUpdate("state", v))
+
+    resize.observe(this)
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback()
+    resize.unobserve(this)
   }
 
   render() {
-    return html`<div>
-      ${when(this.state.running, () => html`<canvas ${ref(this.startStop)}></canvas>`)}
-      <d-toolbar uuid=${this.uuid}></d-toolbar>
-    </div>`
+    // console.log("!", this.offscreen)
+    return html`
+      <d-toolbar ?shifted=${true /*!this.autoplay*/}>
+        <button @click=${this.startRunning} ?disabled=${this.state.running} title="Play">
+          <d-icon name="play"></d-icon>
+        </button>
+        <button @click=${this.stopRunning} ?disabled=${!this.state.running} title="Stop">
+          <d-icon name="stop"></d-icon>
+        </button>
+        <label>
+          Offscreen
+          <input type="checkbox" ?checked=${this.state.offscreen} @change=${this.updateOffscreen} />
+        </label>
+        <label>
+          FPS Limit
+          <input type="range" min="0" max="61" value=${this.state.fps} @input=${this.updateFps} />
+          ${this.state.fps}
+        </label>
+      </d-toolbar>
+      ${when(
+        this.state.running,
+        () => html`<canvas ${ref(this.startStop)} width="320" height="240"></canvas>`
+      )}
+    `
+  }
+
+  startRunning() {
+    this.state.running = true
+  }
+
+  stopRunning() {
+    this.state.running = false
+  }
+
+  updateOffscreen({ target: { checked } }) {
+    this.state.offscreen = checked
+  }
+
+  updateFps({ srcElement: { valueAsNumber } }) {
+    this.state.fps = valueAsNumber > 60 ? Number.POSITIVE_INFINITY : valueAsNumber
   }
 }

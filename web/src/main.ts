@@ -2,7 +2,7 @@ import * as THREE from "three"
 // import { sleep } from "@depth/misc"
 // // import { canvasState } from "@depth/statem"
 // import { statem } from "@depth/statem"
-import { exec3D, loop3D } from "@depth/canvas"
+// import { exec3D, loop3D } from "@depth/canvas"
 // import "@depth/ui/dist/d-button"
 import "./state"
 import "@depth/ui/dist/d-gaze-click"
@@ -20,20 +20,39 @@ import "./styles/main.css"
 // const scene = document.querySelector<HTMLDivElement>("#scene")!
 // let canvas: HTMLCanvasElement
 
-document.querySelector("d-canvas")!.addEventListener("start", () => {
-  exec3D(({ scene }) => {
-    const cube = new THREE.Mesh(
-      new THREE.BoxGeometry(),
-      new THREE.MeshPhongMaterial({ color: 0x669913, wireframe: true })
-    )
-    cube.position.setZ(-2)
-    scene.add(cube)
-  })
+for (const el of document.querySelectorAll("d-canvas")) {
+  el.addEventListener("start", ev => {
+    const { exec3D, loop3D } = ev.detail
+    exec3D(({ scene }) => {
+      const cube = new THREE.Mesh(
+        new THREE.BoxGeometry(),
+        new THREE.MeshPhongMaterial({ color: 0x669913, wireframe: true })
+      )
+      cube.position.setZ(-2)
+      scene.add(cube)
+    })
 
-  loop3D(({ camera, deltaTime }) => {
-    camera.rotateZ(0.5 * deltaTime)
+    loop3D(({ camera, deltaTime }) => {
+      camera.rotateZ(0.5 * deltaTime)
+    })
   })
-})
+}
+// document.querySelector("d-canvas")!.addEventListener("start", () => {
+//   // console.log("D-CANVAS STARTED (event)")
+//   exec3D(({ scene }) => {
+//     const cube = new THREE.Mesh(
+//       new THREE.BoxGeometry(),
+//       new THREE.MeshPhongMaterial({ color: 0x669913, wireframe: true })
+//     )
+//     cube.position.setZ(-2)
+//     scene.add(cube)
+//     console.log("SSSS", scene)
+//   })
+
+//   loop3D(({ camera, deltaTime }) => {
+//     camera.rotateZ(0.5 * deltaTime)
+//   })
+// })
 
 // console.log("XXX", )
 

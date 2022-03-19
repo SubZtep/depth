@@ -69,4 +69,11 @@ export class Store<State extends object> {
     // A valid function, so it belongs in our collection
     self.callbacks.get(keyOnly)!.push(callback)
   }
+
+  // patch(data: Partial<State>) {
+  //   // const self = this
+  //   // const oldState = { ...self.state }
+  //   Object.assign(self.state, data)
+  //   // self.processCallbacks(self.state, oldState, "all")
+  // }
 }

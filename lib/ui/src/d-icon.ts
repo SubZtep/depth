@@ -1,6 +1,5 @@
-import { LitElement, css, html } from "lit"
+import { LitElement, css } from "lit"
 import { customElement, property } from "lit/decorators.js"
-import { statem } from "@depth/statem"
 import * as icon from "./icons"
 
 @customElement("d-icon")
@@ -10,7 +9,7 @@ export class DIcon extends LitElement {
 
   static styles = css`
     :host svg {
-      height: 1.5rem;
+      height: 1rem;
       fill: currentColor;
     }
     :host svg path:nth-of-type(2) {
