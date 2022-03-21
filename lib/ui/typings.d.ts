@@ -9,3 +9,4 @@ declare global {
 
 type CanvasStatem = import("@depth/statem").CanvasState
 type Statem = import("@depth/statem").Statem
+type Fn = (...args: any[]) => void

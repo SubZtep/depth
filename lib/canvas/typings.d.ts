@@ -11,6 +11,13 @@ interface InitMessage {
   type: "init"
   canvas: HTMLCanvasElement
   state: RendererState
+  statem: {
+    fps: number
+    width: number
+    height: number
+    running: boolean
+    offscreen: boolean
+  }
   // canvasState?: import("@depth/statem").CanvasState & import("@depth/statem").Statem
   // statem: any
 }
@@ -48,14 +55,10 @@ type CanvasInjectedFn = (props: CanvasInjectedFnProps) => void
 type CanvasInjectedEval = string
 
 interface RendererState {
-  width: number
-  height: number
-  running: boolean
   singleEvals: CanvasInjectedEval[]
   loopEvals: CanvasInjectedEval[]
   singleFns: CanvasInjectedFn[]
   loopFns: CanvasInjectedFn[]
-  fps: number
 }
 
 type SendSizeFn = ({ width, height }: { width: number; height: number }) => void

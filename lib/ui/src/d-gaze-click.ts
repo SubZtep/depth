@@ -1,5 +1,5 @@
 import { LitElement, css, html } from "lit"
-import { customElement, state, eventOptions, queryAssignedElements } from "lit/decorators.js"
+import { customElement, property, state, eventOptions, queryAssignedElements } from "lit/decorators.js"
 import { classMap } from "lit/directives/class-map.js"
 
 /**
@@ -22,7 +22,8 @@ export class DGazeClick extends LitElement {
     }
   `
 
-  @queryAssignedElements() els!: Array<HTMLElement>
+  @property({ type: Number }) delay = 3000
+  @queryAssignedElements() els!: HTMLElement[]
   @state() timer: NodeJS.Timeout | null = null
 
   @eventOptions({ passive: true })

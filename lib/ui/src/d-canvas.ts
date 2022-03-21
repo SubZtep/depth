@@ -1,9 +1,11 @@
+/* eslint-disable unicorn/no-array-for-each */
 import { v4 as uuidv4 } from "uuid"
 import { stateMake } from "@depth/statem"
 import { LitElement, html } from "lit"
 import { customElement, property } from "lit/decorators.js"
 import { when } from "lit/directives/when.js"
 import { ref } from "lit/directives/ref.js"
+import type { RefOrCallback } from "lit/directives/ref.js"
 import { startLooping } from "@depth/canvas"
 import { debounce } from "@depth/misc"
 import { bgSquares, layers, resizable } from "./styles"
@@ -11,11 +13,11 @@ import "./d-toolbar"
 import "./d-icon"
 
 const resize = new ResizeObserver(
-  debounce<ResizeObserverCallback>(
-    // eslint-disable-next-line unicorn/no-array-for-each
-    entries => entries.forEach(entry => (entry.target as DCanvas).resizeCallback(entry)),
-    100
-  )
+  debounce((entries) => {
+    for (const entry of entries) {
+      entry.target.resizeCallback(entry)
+    }
+  }, 100)
 )
 
 /**
@@ -29,7 +31,8 @@ export class DCanvas extends LitElement {
   /** Run render inside a web worker. */
   @property({ type: Boolean }) offscreen = false
 
-  @property({ type: String }) uuid = uuidv4()
+  /** Statem ID */
+  @property({ type: String }) sid = uuidv4()
 
   private state: any
 
@@ -41,15 +44,13 @@ export class DCanvas extends LitElement {
     //Object.assign(this.state, { width: inlineSize, height: blockSize })
   }
 
-  stopLooping?: () => void
+  stopLooping?: Fn
 
-  startStop(canvas?: any) {
+  startStop: RefOrCallback = (canvas?: any) => {
     if (canvas) {
-      const { stopLooping, exec3D, loop3D } = startLooping({ canvas, statem: this.state })
-      this.stopLooping = stopLooping as () => void
-      this.dispatchEvent(
-        new CustomEvent("start", { bubbles: false, cancelable: false, composed: true, detail: { exec3D, loop3D } })
-      )
+      const { stopLooping, ...detail } = startLooping({ canvas, statem: this.state })
+      this.stopLooping = stopLooping
+      this.dispatchEvent(new CustomEvent("start", { bubbles: false, cancelable: false, composed: true, detail }))
     } else {
       this.stopLooping?.()
     }
@@ -67,7 +68,7 @@ export class DCanvas extends LitElement {
         width: 0,
         height: 0,
       },
-      this.uuid
+      this.sid
     )
     this.state.subscribe((v: typeof this.state) => this.requestUpdate("state", v))
 
@@ -85,10 +86,10 @@ export class DCanvas extends LitElement {
   render() {
     return html`
       <d-toolbar ?shifted=${!this.autoplay}>
-        <button @click=${this.startRunning} ?disabled=${this.state.running} title="Play">
+        <button @click=${() => (this.state.running = true)} ?disabled=${this.state.running}>
           <d-icon name="play"></d-icon>
         </button>
-        <button @click=${this.stopRunning} ?disabled=${!this.state.running} title="Stop">
+        <button @click=${this.stopRunning} ?disabled=${!this.state.running}>
           <d-icon name="stop"></d-icon>
         </button>
         <label>

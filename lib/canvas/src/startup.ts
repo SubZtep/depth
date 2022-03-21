@@ -8,7 +8,7 @@ function startWorker({ canvas, state, worker }): SendSizeFn {
 
   worker.postMessage(message, [offscreen])
 
-  return statem => {
+  return (statem) => {
     worker.postMessage({
       type: "size",
       width: statem.width,
@@ -17,20 +17,21 @@ function startWorker({ canvas, state, worker }): SendSizeFn {
   }
 }
 
-function startMainPage({ canvas, state }): SendSizeFn {
+function startMainPage({ canvas, state, statem }): SendSizeFn {
   init({
-    canvas,
     type: "init",
+    canvas,
     state,
+    statem,
   })
 
-  return statem => {
-    state.width = statem.width
-    state.height = statem.height
+  return (_statem) => {
+    // statem.width = statem.width
+    // statem.height = statem.height
   }
 }
 
-interface StartLoopingProps {
+interface Properties {
   canvas: HTMLCanvasElement
   state?: RendererState
   statem?: any
@@ -38,20 +39,16 @@ interface StartLoopingProps {
 }
 
 interface StartLoopingReturn {
-  stopLooping: () => void
+  stopLooping: Fn
   exec3D: (fn: CanvasInjectedFn) => void
   loop3D: (fn: CanvasInjectedFn) => void
 }
 
-export function startLooping({ canvas, statem }: StartLoopingProps): StartLoopingReturn {
-  const useWorker = statem.offscreen && "transferControlToOffscreen" in canvas
-  console.log(useWorker ? "3D render in worker thread" : "3D render on main thread")
+export function startLooping({ canvas, statem }: Properties): StartLoopingReturn {
+  statem.offscreen = "transferControlToOffscreen" in canvas && statem.offscreen
+  console.log(statem.offscreen ? "3D render in worker thread" : "3D render on main thread")
 
   const state: RendererState = {
-    fps: statem.fps,
-    width: statem.width,
-    height: statem.height,
-    running: false,
     singleEvals: [],
     loopEvals: [],
     singleFns: [],
@@ -61,26 +58,23 @@ export function startLooping({ canvas, statem }: StartLoopingProps): StartLoopin
   let worker: Worker | undefined
   let sendSize: SendSizeFn
 
-  if (useWorker) {
+  if (statem.offscreen) {
     worker = new OffscreenWorker()
     sendSize = startWorker({ canvas, state, worker })
   } else {
-    sendSize = startMainPage({ canvas, state })
+    sendSize = startMainPage({ canvas, state, statem })
   }
 
-  statem.subscribe(s => {
+  statem.subscribe((s) => {
     sendSize(s)
   })
 
   return {
-    stopLooping: () => {
-      worker?.postMessage({ type: "stop" }) ?? (state.running = false)
-    },
-    exec3D: (fn: CanvasInjectedFn) => {
-      worker?.postMessage({ type: "exec3D", fn: fn.toString() }) ?? state.singleFns.push(fn)
-    },
-    loop3D: (fn: CanvasInjectedFn) => {
-      worker?.postMessage({ type: "loop3D", fn: fn.toString() }) ?? state.loopFns.push(fn)
-    },
+    stopLooping: () =>
+      statem.offscreen ? worker!.postMessage({ type: "stop" }) : (statem.running = false) /* * * * * */,
+    exec3D: (fn: CanvasInjectedFn) =>
+      statem.offscreen ? worker?.postMessage({ type: "exec3D", fn: fn.toString() }) : state.singleFns.push(fn),
+    loop3D: (fn: CanvasInjectedFn) =>
+      statem.offscreen ? worker?.postMessage({ type: "loop3D", fn: fn.toString() }) : state.loopFns.push(fn),
   }
 }

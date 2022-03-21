@@ -1,25 +1,25 @@
 import * as THREE from "three"
 import { createRenderer, createCamera, createScene } from "./builders"
 
-export function init({ canvas, state }: InitMessage) {
-  state.running = true
+export function init({ canvas, state, statem }: InitMessage) {
+  statem.running = true
 
   let oldWidth = 0
   let oldHeight = 0
 
   const renderer = createRenderer({ canvas })
-  const camera = createCamera(state)
+  const camera = createCamera(statem)
   const scene = createScene()
   const clock = new THREE.Clock()
 
   function canvasResizer() {
     // if multi-canvas not really wotks try to currying renderer (and others) here
-    if (state.width === oldWidth || state.height === oldHeight) return
-    oldWidth = state.width
-    oldHeight = state.height
-    camera.aspect = state.width / state.height
+    if (statem.width === oldWidth || statem.height === oldHeight) return
+    oldWidth = statem.width
+    oldHeight = statem.height
+    camera.aspect = statem.width / statem.height
     camera.updateProjectionMatrix()
-    renderer.setSize(state.width, state.height, false)
+    renderer.setSize(statem.width, statem.height, false)
   }
 
   canvasResizer()
@@ -39,7 +39,7 @@ export function init({ canvas, state }: InitMessage) {
   let now: number
 
   async function render(time: number) {
-    if (!state.running) {
+    if (!statem.running) {
       return clearContext()
     } else {
       const deltaTime = clock.getDelta()
@@ -52,16 +52,16 @@ export function init({ canvas, state }: InitMessage) {
 
       now = performance.now()
       elapsed = now - then
-      fpsInterval = 1000 / state.fps
+      fpsInterval = 1000 / statem.fps
 
-      if (elapsed > fpsInterval || state.fps === Number.POSITIVE_INFINITY) {
+      if (elapsed > fpsInterval || statem.fps === Number.POSITIVE_INFINITY) {
         then = now - (elapsed % fpsInterval)
 
         await Promise.all([
-          ...state.singleFns.map(fn => fn(props)),
-          ...state.singleEvals.map(fn => evil(fn)),
-          ...state.loopFns.map(fn => fn(props)),
-          ...state.loopEvals.map(fn => evil(fn)),
+          ...state.singleFns.map((fn) => fn(props)),
+          ...state.singleEvals.map((fn) => evil(fn)),
+          ...state.loopFns.map((fn) => fn(props)),
+          ...state.loopEvals.map((fn) => evil(fn)),
         ])
         state.singleFns.length = 0
         state.singleEvals.length = 0

@@ -23,7 +23,9 @@ plugins:
   - "unicorn"
 
 rules:
+  "prefer-const": warn
   "prettier/prettier": warn
+  "tsdoc/syntax": warn
   "linebreak-style":
     - error
     - unix
@@ -37,25 +39,17 @@ rules:
     - warn
     - 2
     - SwitchCase: 1
-  "prefer-const": warn
 
-  # "no-unused-vars": off
   "@typescript-eslint/no-unused-vars":
     - warn
     - argsIgnorePattern: "^_"
 
-
-  "@typescript-eslint/no-inferrable-types":
-    - warn
-    # "ignore-params": "warn"
-    # "ignore-properties": "warn"
+  "@typescript-eslint/no-inferrable-types": warn
   "@typescript-eslint/explicit-module-boundary-types": off
   "@typescript-eslint/no-non-null-assertion": off
   "@typescript-eslint/ban-ts-comment": off
   "@typescript-eslint/no-empty-function": warn
   "@typescript-eslint/no-explicit-any": off
-  "tsdoc/syntax": warn
-  # "vue/prop-name-casing": off
   "unicorn/filename-case": off
   "unicorn/number-literal-case": off
   "unicorn/numeric-separators-style": off
@@ -69,13 +63,14 @@ rules:
     - ignoreUsedVariables: true
   "unicorn/prevent-abbreviations":
     - warn
-    - ignore: ["props", "err", "el", "isDev", "Fn", "fn", "Param", "params", "src", "ext", "Ref", "obj", "i", "ev", "args"]
+    - ignore: [
+        "props", "err", "el", "isDev", "Fn", "fn", "Param",
+        "params", "src", "ext", "Ref", "obj", "i", "ev", "args",
+      ]
 
 ignorePatterns:
-  - "server"
-  - "web.old"
+  # - "server"
   - "cypress/"
-  # - "lib/*"
   - "**node_modules/"
   - "**public/"
   - "**types/"
