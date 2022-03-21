@@ -1,22 +1,23 @@
 import { init } from "./renderer"
 
-let state: any
+let statem: any
+let injectedFunctions: any
 
 function size({ width, height }: SizeMessage) {
-  state.width = width
-  state.height = height
+  statem.width = width
+  statem.height = height
 }
 
 function stop() {
-  state.running = false
+  statem.running = false
 }
 
 function exec3D(fn: any) {
-  state.singleEvals.push(fn.fn)
+  injectedFunctions.singleEvals.push(fn.fn)
 }
 
 function loop3D(fn: any) {
-  state.loopEvals.push(fn.fn)
+  injectedFunctions.loopEvals.push(fn.fn)
 }
 
 const handlers: Record<string, any> = {
@@ -31,7 +32,8 @@ function handleMessage(ev: MessageEvent<CanvasMessage>) {
   const fn = handlers[ev.data.type] as CanvasCallback<typeof ev.data.type>
   // const ret = fn(ev.data)
   if (ev.data.type === "init") {
-    state = ev.data.state
+    injectedFunctions = ev.data.injectedFunctions
+    statem = ev.data.statem
     // handlers.stopLooping = ret
     handlers.stopLooping = fn(ev.data)
     return

@@ -7,17 +7,13 @@ type Fn = () => void
 
 type WebGLCanvas = NonNullable<import("three").WebGLRendererParameters["canvas"]>
 
+type CanvasStatem = import("./src/index").CanvasStatem
+
 interface InitMessage {
   type: "init"
   canvas: HTMLCanvasElement
-  state: RendererState
-  statem: {
-    fps: number
-    width: number
-    height: number
-    running: boolean
-    offscreen: boolean
-  }
+  injectedFunctions: InjectedFunctions
+  statem: CanvasStatem
   // canvasState?: import("@depth/statem").CanvasState & import("@depth/statem").Statem
   // statem: any
 }
@@ -48,13 +44,13 @@ interface CanvasInjectedFnProps {
   deltaTime: number
   /** requestAnimationFrame attr. */
   time: DOMHighResTimeStamp
-  camera: import("three").PerspectiveCamera | import("three").OrthographicCamera
+  camera: import("three").Camera
 }
 
 type CanvasInjectedFn = (props: CanvasInjectedFnProps) => void
 type CanvasInjectedEval = string
 
-interface RendererState {
+interface InjectedFunctions {
   singleEvals: CanvasInjectedEval[]
   loopEvals: CanvasInjectedEval[]
   singleFns: CanvasInjectedFn[]

@@ -2,9 +2,14 @@ import { init } from "./renderer"
 // @ts-ignore
 import OffscreenWorker from "./offscreen?worker&inline"
 
-function startWorker({ canvas, state, worker }): SendSizeFn {
+function startWorker({ canvas, injectedFunctions, statem, worker }): SendSizeFn {
   const offscreen = canvas.transferControlToOffscreen!()
-  const message = { type: "init", canvas: offscreen, state }
+  const message = {
+    type: "init",
+    canvas: offscreen,
+    injectedFunctions,
+    statem: { running: statem.running, fps: statem.fps, width: statem.width, height: statem.height },
+  }
 
   worker.postMessage(message, [offscreen])
 
@@ -17,11 +22,11 @@ function startWorker({ canvas, state, worker }): SendSizeFn {
   }
 }
 
-function startMainPage({ canvas, state, statem }): SendSizeFn {
+function startMainPage({ canvas, injectedFunctions, statem }): SendSizeFn {
   init({
     type: "init",
     canvas,
-    state,
+    injectedFunctions,
     statem,
   })
 
@@ -33,7 +38,7 @@ function startMainPage({ canvas, state, statem }): SendSizeFn {
 
 interface Properties {
   canvas: HTMLCanvasElement
-  state?: RendererState
+  injectedFunctions?: InjectedFunctions
   statem?: any
   worker?: any
 }
@@ -48,7 +53,7 @@ export function startLooping({ canvas, statem }: Properties): StartLoopingReturn
   statem.offscreen = "transferControlToOffscreen" in canvas && statem.offscreen
   console.log(statem.offscreen ? "3D render in worker thread" : "3D render on main thread")
 
-  const state: RendererState = {
+  const injectedFunctions: InjectedFunctions = {
     singleEvals: [],
     loopEvals: [],
     singleFns: [],
@@ -60,9 +65,9 @@ export function startLooping({ canvas, statem }: Properties): StartLoopingReturn
 
   if (statem.offscreen) {
     worker = new OffscreenWorker()
-    sendSize = startWorker({ canvas, state, worker })
+    sendSize = startWorker({ canvas, injectedFunctions, statem, worker })
   } else {
-    sendSize = startMainPage({ canvas, state, statem })
+    sendSize = startMainPage({ canvas, injectedFunctions, statem })
   }
 
   statem.subscribe((s) => {
@@ -70,11 +75,16 @@ export function startLooping({ canvas, statem }: Properties): StartLoopingReturn
   })
 
   return {
-    stopLooping: () =>
-      statem.offscreen ? worker!.postMessage({ type: "stop" }) : (statem.running = false) /* * * * * */,
+    stopLooping: () => {
+      statem.offscreen ? worker!.postMessage({ type: "stop" }) : (statem.running = false)
+    },
     exec3D: (fn: CanvasInjectedFn) =>
-      statem.offscreen ? worker?.postMessage({ type: "exec3D", fn: fn.toString() }) : state.singleFns.push(fn),
+      statem.offscreen
+        ? worker?.postMessage({ type: "exec3D", fn: fn.toString() })
+        : injectedFunctions.singleFns.push(fn),
     loop3D: (fn: CanvasInjectedFn) =>
-      statem.offscreen ? worker?.postMessage({ type: "loop3D", fn: fn.toString() }) : state.loopFns.push(fn),
+      statem.offscreen
+        ? worker?.postMessage({ type: "loop3D", fn: fn.toString() })
+        : injectedFunctions.loopFns.push(fn),
   }
 }

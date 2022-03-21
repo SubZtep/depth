@@ -1,14 +1,15 @@
-/* eslint-disable unicorn/no-array-for-each */
 import { v4 as uuidv4 } from "uuid"
 import { stateMake } from "@depth/statem"
 import { LitElement, html } from "lit"
 import { customElement, property } from "lit/decorators.js"
 import { when } from "lit/directives/when.js"
 import { ref } from "lit/directives/ref.js"
-import type { RefOrCallback } from "lit/directives/ref.js"
 import { startLooping } from "@depth/canvas"
 import { debounce } from "@depth/misc"
 import { bgSquares, layers, resizable } from "./styles"
+import type { RefOrCallback } from "lit/directives/ref.js"
+import type { CanvasStatem } from "@depth/canvas"
+import type Store from "@depth/statem"
 import "./d-toolbar"
 import "./d-icon"
 
@@ -34,14 +35,14 @@ export class DCanvas extends LitElement {
   /** Statem ID */
   @property({ type: String }) sid = uuidv4()
 
-  private state: any
+  private state!: Store<CanvasStatem> & CanvasStatem
 
   static styles = [bgSquares, layers, resizable]
 
   resizeCallback({ contentBoxSize: [{ blockSize, inlineSize }] }: ResizeObserverEntry) {
+    // TODO: update multiple values
     this.state.width = inlineSize
     this.state.height = blockSize
-    //Object.assign(this.state, { width: inlineSize, height: blockSize })
   }
 
   stopLooping?: Fn
@@ -58,9 +59,7 @@ export class DCanvas extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
-    resize.observe(this)
-
-    this.state = stateMake(
+    this.state = stateMake<CanvasStatem>(
       {
         running: false,
         offscreen: this.offscreen,
@@ -70,7 +69,8 @@ export class DCanvas extends LitElement {
       },
       this.sid
     )
-    this.state.subscribe((v: typeof this.state) => this.requestUpdate("state", v))
+    this.state.subscribe((v) => this.requestUpdate("state", v))
+    resize.observe(this)
 
     if (this.autoplay) {
       // FIXME: Make it nice without break it.
@@ -86,7 +86,7 @@ export class DCanvas extends LitElement {
   render() {
     return html`
       <d-toolbar ?shifted=${!this.autoplay}>
-        <button @click=${() => (this.state.running = true)} ?disabled=${this.state.running}>
+        <button @click=${this.startRunning} ?disabled=${this.state.running}>
           <d-icon name="play"></d-icon>
         </button>
         <button @click=${this.stopRunning} ?disabled=${!this.state.running}>
@@ -97,8 +97,8 @@ export class DCanvas extends LitElement {
           <input
             type="checkbox"
             ?checked=${this.state.offscreen}
-            @change=${this.updateOffscreen}
             ?disabled=${this.state.running}
+            @change=${this.updateOffscreen}
           />
         </label>
         <label>

@@ -20,7 +20,7 @@ import "./styles/main.css"
 // let canvas: HTMLCanvasElement
 
 for (const el of document.querySelectorAll("d-canvas")) {
-  el.addEventListener("start", ev => {
+  el.addEventListener("start", (ev) => {
     const { exec3D, loop3D } = ev.detail
     exec3D(({ scene }) => {
       const cube = new THREE.Mesh(

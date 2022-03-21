@@ -1,8 +1,10 @@
 import * as THREE from "three"
 import { createRenderer, createCamera, createScene } from "./builders"
 
-export function init({ canvas, state, statem }: InitMessage) {
-  statem.running = true
+export function init(initMessage: InitMessage) {
+  console.log("initMessage", initMessage)
+  const { canvas, injectedFunctions, statem } = initMessage
+  // statem.running = true
 
   let oldWidth = 0
   let oldHeight = 0
@@ -25,10 +27,10 @@ export function init({ canvas, state, statem }: InitMessage) {
   canvasResizer()
 
   function clearContext() {
-    state.singleFns.length = 0
-    state.loopFns.length = 0
-    state.singleEvals.length = 0
-    state.loopEvals.length = 0
+    injectedFunctions.singleFns.length = 0
+    injectedFunctions.loopFns.length = 0
+    injectedFunctions.singleEvals.length = 0
+    injectedFunctions.loopEvals.length = 0
     scene.clear()
     renderer.clear()
   }
@@ -58,13 +60,13 @@ export function init({ canvas, state, statem }: InitMessage) {
         then = now - (elapsed % fpsInterval)
 
         await Promise.all([
-          ...state.singleFns.map((fn) => fn(props)),
-          ...state.singleEvals.map((fn) => evil(fn)),
-          ...state.loopFns.map((fn) => fn(props)),
-          ...state.loopEvals.map((fn) => evil(fn)),
+          ...injectedFunctions.singleFns.map((fn) => fn(props)),
+          ...injectedFunctions.singleEvals.map((fn) => evil(fn)),
+          ...injectedFunctions.loopFns.map((fn) => fn(props)),
+          ...injectedFunctions.loopEvals.map((fn) => evil(fn)),
         ])
-        state.singleFns.length = 0
-        state.singleEvals.length = 0
+        injectedFunctions.singleFns.length = 0
+        injectedFunctions.singleEvals.length = 0
       }
 
       canvasResizer()

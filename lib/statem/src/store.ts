@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-this-alias, unicorn/no-this-assignment, unicorn/no-array-for-each */
 // type Action<T extends object> = (context: Store<T>, payload?: any) => void
 // type Mutation<T> = (state: T, payload?: any) => T
 type Callback<T> = (data: T, oldData: T) => void
@@ -6,9 +7,9 @@ export interface Statem {
   subscribe(callback: Fn, keyOnly?: string): void
 }
 
-export interface StoreProps<State extends object> {
-  initialState: State
-}
+// export interface StoreProps<State extends object> {
+//   initialState: State
+// }
 
 export class Store<State extends object> {
   state!: State
@@ -27,7 +28,7 @@ export class Store<State extends object> {
         },
         get() {
           return self.state[key]
-        }
+        },
       })
     }
 
@@ -51,15 +52,15 @@ export class Store<State extends object> {
    */
   processCallbacks(data: State, oldData: State, keyUpdated: keyof State) {
     const self = this
-    self.callbacks.get("all")?.forEach(callback => callback(data, oldData))
-    self.callbacks.get(keyUpdated)?.forEach(callback => callback(data[keyUpdated], oldData[keyUpdated]))
+    self.callbacks.get("all")?.forEach((callback) => callback(data, oldData))
+    self.callbacks.get(keyUpdated)?.forEach((callback) => callback(data[keyUpdated], oldData[keyUpdated]))
   }
 
   /**
    * Allow an outside entity to subscribe to state changes with a valid callback.
    * Returns boolean based on wether or not the callback was added to the collection
    */
-  subscribe(callback: Callback<State>, keyOnly: (keyof State | "all") = "all") {
+  subscribe(callback: Callback<State>, keyOnly: keyof State | "all" = "all") {
     const self = this
 
     if (!self.callbacks.has(keyOnly)) {

@@ -4,17 +4,23 @@ import { v4 as uuidv4 } from "uuid"
 
 export default Store
 
+// interface Statem<T extends object> {
+
+// }
+
+// export { Statem }
+
 globalThis.statem = new Map()
 
-export function stateMake(initialState: { [key: string]: any }, uuid?: string) {
-  if (!uuid) {
-    uuid = uuidv4()
+export function stateMake<T extends object>(initialState: T, sid?: string): Store<T> & T {
+  if (!sid) {
+    sid = uuidv4()
   }
-  const store = new Store(initialState)
-  globalThis.statem.set(uuid, store)
-  return store
+  const store = new Store<T>(initialState)
+  globalThis.statem.set(sid, store)
+  return store as Store<T> & T
 }
 
-export function statem(uuid: string) {
-  return globalThis.statem.get(uuid)
+export function statem(sid: string) {
+  return globalThis.statem.get(sid)
 }

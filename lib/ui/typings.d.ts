@@ -5,8 +5,12 @@ declare global {
     "d-gaze-click": import("./src/d-gaze-click").DGazeClick
     "d-icon": import("./src/d-icon").DIcon
   }
+
+  // interface CustomEventMap {
+  //   "start": CustomEvent<number>;
+  // }
 }
 
-type CanvasStatem = import("@depth/statem").CanvasState
+// type CanvasStatem = import("@depth/canvas").CanvasStatem
 type Statem = import("@depth/statem").Statem
 type Fn = (...args: any[]) => void

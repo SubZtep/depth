@@ -22,7 +22,7 @@
     "@windicss/plugin-scrollbar": "^1.2.3",
     "picocolors": "^1.0.0",
     "postcss": "^8.4.12",
-    "postcss-preset-env": "^7.4.2",
+    "postcss-preset-env": "^7.4.3",
     "pug": "^3.0.2",
     "vite": "^2.8.6",
     "vite-plugin-pug": "^0.3.1",
