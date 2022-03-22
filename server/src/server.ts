@@ -7,7 +7,7 @@ let toSend: MessageFromMeta
 
 export function doServerStuff() {
   const wss = new WebSocketServer({ port: process.env.WSS_PORT })
-  wss.on("connection", ws => {
+  wss.on("connection", (ws) => {
     ws.on("open", () => {
       //
     })

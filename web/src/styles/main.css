@@ -1,4 +1,4 @@
-@import "./reset.css";
+/* @import "./reset.css"; */
 
 html,
 body {
@@ -7,8 +7,16 @@ body {
   height: 100vh;
 }
 
+:root {
+  --bg0: linear-gradient(to right, #ed213a, #93291e);
+  --bg1: linear-gradient(132deg, #f4d03f 0%, #16a085 100%);
+  --bg2: linear-gradient(to right, #22c1c3, #fdbb2d);
+  --bg3: linear-gradient(to right, #5a3f37, #2c7744);
+  --bg4: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+  --bg5: linear-gradient(19deg, #3eecac 0%, #ee74e1 100%);
+}
 body {
-  background: linear-gradient(to right, #ed213a, #93291e);
+  background: var(--bg0);
 }
 
 #ui,

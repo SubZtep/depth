@@ -46,7 +46,7 @@ export default function (options?: PluginOptions, locals?: LocalsObject): Plugin
       transform(html, { server, filename: htmlfile }) {
         return pugs(
           html,
-          filename => {
+          (filename) => {
             const compile = (filepath: string) => compileFile(filepath, options)(locals)
             if (
               (typeof options?.localImports === "function" && options.localImports(htmlfile)) ||

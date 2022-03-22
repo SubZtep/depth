@@ -68,7 +68,6 @@ interface InjectedFunctions<T = CanvasInjectedFn | CanvasInjectedEval> {
 interface StartLoopingProps {
   canvas: HTMLCanvasElement
   statem: CanvasStatem & import("@depth/statem").Statem
-
 }
 
 interface StartMainProps extends StartLoopingProps {
@@ -80,9 +79,6 @@ interface StartWorkerProps extends StartLoopingProps {
   worker: Worker
 }
 
-interface StartLoopingReturn {
-  exec3D: (fn: CanvasInjectedFn) => void
-  loop3D: (fn: CanvasInjectedFn) => void
-}
+type StartLoopingReturn = import("./src/index").StartLoopingReturn
 
 type WorkerStatemFn = (seriStatem: CanvasStatemSerialised) => void

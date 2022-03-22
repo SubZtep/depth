@@ -1,3 +1,4 @@
+import { deEvilizer } from "@depth/misc"
 import { init } from "./renderer"
 // @ts-ignore
 import OffscreenWorker from "./offscreen?worker&inline"
@@ -58,11 +59,11 @@ export function startLooping({ canvas, statem }: StartLoopingProps): StartLoopin
   return {
     exec3D: (fn: CanvasInjectedFn) =>
       statem.offscreen
-        ? worker?.postMessage({ type: "exec3D", fn: fn.toString() })
+        ? worker?.postMessage({ type: "exec3D", fn: deEvilizer(fn.toString()) })
         : injectedFunctions.singleFns.push(fn),
     loop3D: (fn: CanvasInjectedFn) =>
       statem.offscreen
-        ? worker?.postMessage({ type: "loop3D", fn: fn.toString() })
+        ? worker?.postMessage({ type: "loop3D", fn: deEvilizer(fn.toString()) })
         : injectedFunctions.loopFns.push(fn),
   }
 }

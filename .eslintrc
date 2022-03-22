@@ -10,6 +10,7 @@ extends:
   - "prettier"
   - "plugin:unicorn/recommended"
   - "plugin:lit/recommended"
+  - "plugin:wc/recommended"
 
 parserOptions:
   ecmaVersion: 12
@@ -22,6 +23,12 @@ plugins:
   - "eslint-plugin-tsdoc"
   - "unicorn"
   - "lit"
+  - "wc"
+
+settings:
+  wc:
+    elementBaseClasses:
+      - "LitElement"
 
 rules:
   "prefer-const": warn
@@ -71,7 +78,6 @@ rules:
 
 ignorePatterns:
   # - "server"
-  - "cypress/"
   - "**node_modules/"
   - "**public/"
   - "**types/"

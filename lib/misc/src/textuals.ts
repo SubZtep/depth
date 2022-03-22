@@ -43,7 +43,7 @@ export function capitalize(word: string): string {
 export function kebabToTitle(text: string): string {
   return text
     .split("-")
-    .map(partial => capitalize(partial))
+    .map((partial) => capitalize(partial))
     .join(" ")
 }
 
@@ -52,4 +52,9 @@ export function camelToHuman(s: string) {
   if (s.length <= 1) return s
   const h = s.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase()
   return `${h.charAt(0).toUpperCase()}${h.slice(1)}`
+}
+
+/** Prepare JS source code to run `eval` (surely not safe). */
+export function deEvilizer(code: string): string {
+  return code.replaceAll("eval", "evil")
 }

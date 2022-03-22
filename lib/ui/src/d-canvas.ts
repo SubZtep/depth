@@ -1,14 +1,13 @@
 import { v4 as uuidv4 } from "uuid"
 import { stateMake } from "@depth/statem"
-import { LitElement, html } from "lit"
+import { LitElement, html, css } from "lit"
 import { customElement, property } from "lit/decorators.js"
 import { when } from "lit/directives/when.js"
 import { ref } from "lit/directives/ref.js"
 import { startLooping } from "@depth/canvas"
 import { debounce } from "@depth/misc"
-import { bgSquares, layers, resizable } from "./styles"
 import type { RefOrCallback } from "lit/directives/ref.js"
-import type { CanvasStatem } from "@depth/canvas"
+import type { CanvasStatem, StartLoopingReturn } from "@depth/canvas"
 import type Store from "@depth/statem"
 import "./d-toolbar"
 import "./d-icon"
@@ -21,29 +20,37 @@ const resize = new ResizeObserver(
   })
 )
 
-/**
- * 3D canvas element.
- */
+/** 3D canvas element. */
 @customElement("d-canvas")
 export class DCanvas extends LitElement {
-  static styles = [bgSquares, layers, resizable]
+  /** Start rendering immediately. */
   @property({ type: Boolean }) autoplay = false
+
+  /** Run rendering in web worker. */
   @property({ type: Boolean }) offscreen = false
+
+  /** Statem Id. */
   @property({ type: String }) sid = uuidv4()
 
-  private statem!: Store<CanvasStatem> & CanvasStatem
+  protected statem!: Store<CanvasStatem> & CanvasStatem
 
-  resizeCallback({ contentBoxSize: [{ blockSize, inlineSize }] }: ResizeObserverEntry) {
+  protected resizeCallback({ contentBoxSize: [{ blockSize, inlineSize }] }: ResizeObserverEntry) {
     this.statem.patch({
       width: inlineSize,
       height: blockSize,
     })
   }
 
-  startStop: RefOrCallback = (canvas?: any) => {
+  protected startStop: RefOrCallback = (canvas?: any) => {
     if (canvas) {
       const detail = startLooping({ canvas, statem: this.statem })
-      this.dispatchEvent(new CustomEvent("start", { bubbles: false, cancelable: false, composed: true, detail }))
+      const startEvent = new CustomEvent<StartLoopingReturn>("start", {
+        bubbles: false,
+        cancelable: false,
+        composed: true,
+        detail,
+      })
+      this.dispatchEvent(startEvent)
     } else {
       this.statem.running = false
     }
@@ -71,6 +78,30 @@ export class DCanvas extends LitElement {
     resize.unobserve(this)
     super.disconnectedCallback()
   }
+
+  static styles = css`
+    * {
+      font: 1rem "Trebuchet MS", Helvetica;
+      letter-spacing: 1px;
+    }
+    :host {
+      display: block;
+      position: relative;
+      writing-mode: vertical-tb; /* for ResizeObserverSize */
+      background: repeating-conic-gradient(from 0deg, transparent 0deg 90deg, #fff3 90deg 180deg) 50% 50%/2rem 2rem;
+      transition: background 100ms linear;
+      min-width: 6rem;
+      min-height: 6rem;
+      overflow: hidden;
+      resize: both;
+    }
+    :host(:hover) {
+      background-size: 1.945rem 1.945rem;
+    }
+    d-toolbar {
+      position: absolute;
+    }
+  `
 
   render() {
     return html`
@@ -105,19 +136,21 @@ export class DCanvas extends LitElement {
     `
   }
 
+  /** Create a canvas and start rendering. */
   startRunning() {
     this.statem.running = true
   }
 
+  /** Stop rendering and destroy canvas. */
   stopRunning() {
     this.statem.running = false
   }
 
-  updateOffscreen({ target: { checked } }) {
+  protected updateOffscreen({ target: { checked } }) {
     this.statem.offscreen = checked
   }
 
-  updateFps({ srcElement: { valueAsNumber } }) {
+  protected updateFps({ srcElement: { valueAsNumber } }) {
     this.statem.fps = valueAsNumber === 61 ? Number.POSITIVE_INFINITY : valueAsNumber
   }
 }

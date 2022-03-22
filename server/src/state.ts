@@ -18,7 +18,7 @@ export function getUuids() {
 
 /**
  * Add user to the real-time state.
- * @param uuid User UUID
+ * @param uuid - User UUID
  * @returns True if user was added, false if user already existed
  */
 export function addToState(uuid: string) {

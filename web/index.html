@@ -8,11 +8,22 @@
     <!-- <script src="https://kit.fontawesome.com/95e6f24ddc.js" crossorigin="anonymous"></script> -->
   </head>
   <body aria-hidden="true">
+    <select style="float: right; opacity: 0.5;" onchange="document.body.style.background='var(--bg'+this.selectedIndex+')';">
+      <option value="bg0">bg0</option>
+      <option value="bg1">bg1</option>
+      <option value="bg2">bg2</option>
+      <option value="bg3">bg3</option>
+      <option value="bg4">bg4</option>
+      <option value="bg5">bg5</option>
+    </select>
     <br /><br />
 
     <div class="holes">
-      <d-canvas autoplay></d-canvas>
-      <d-canvas autoplay offscreen></d-canvas>
+      <d-canvas sid="aaa"></d-canvas>
+      <d-canvas sid="aaa"></d-canvas>
+      <d-canvas sid="b"></d-canvas>
+      <!-- <d-canvas style="border: 1px solid #000; resize: none !important;"></d-canvas> -->
+      <!-- <d-canvas autoplay offscreen></d-canvas> -->
       <!-- <d-canvas autoplay offscreen></d-canvas> -->
       <!-- <d-canvas sid="aaa" autoplay offscreen style="width: 470px; height: 400px;"></d-canvas> -->
       <!-- <d-zzcanvas sid="bbb" autoplay offscreen style="width: 470px; height: 400px;"></d-canvas> -->

@@ -47,11 +47,9 @@
   "[postcss]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "workbench.colorTheme": "Plastic",
-  "[vue]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "[toml]": {
     "editor.defaultFormatter": "tamasfe.even-better-toml"
-  }
+  },
+  "lit-plugin.rules.no-unknown-attribute": "off",
+  "lit-plugin.rules.no-invalid-css": "off",
 }

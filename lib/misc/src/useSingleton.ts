@@ -1,5 +1,5 @@
 /**
- * Main object for fulfil the singleton pattern.\
+ * Main object for fulfil the singleton pattern.
  * It’s main advantage is to prevent object duplication during hot module replacement.
  */
 class Singleton {
@@ -25,8 +25,8 @@ Object.freeze(singleton)
 
 /**
  * Ensure that the provided object can only be instantiated once.
- * @param key Identifier in singleton map
- * @param object Object to be stored in singleton map
+ * @param key - Identifier in singleton map
+ * @param object - Object to be stored in singleton map
  * @returns Stored object
  */
 function single<T = any>(key: string, object?: T): T | undefined {

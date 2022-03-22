@@ -6,11 +6,9 @@ import { defineConfig } from "vite"
 // import Pug from "vite-plugin-pug"
 import Pug from "./pug/index"
 
-export default defineConfig(() => {
-  // const isDev = command === "serve"
+export default defineConfig(({ command }) => {
   return {
-    // mode: command === "build" ? "production" : "development",
-    mode: "development",
+    mode: command === "build" ? "production" : "development",
     // resolve: {
     //   alias: {
     //     "~/": `${resolve(import.meta.url, "src")}/`,
@@ -24,6 +22,7 @@ export default defineConfig(() => {
       // WindiCSS(),
     ],
     build: {
+      chunkSizeWarningLimit: 1024,
       target: ["edge90", "chrome90", "firefox90", "safari15"], // for top-level await
       // rollupOptions: {
       //   input: {
