@@ -18,7 +18,7 @@ const resize = new ResizeObserver(
     for (const entry of entries) {
       entry.target.resizeCallback(entry)
     }
-  }, 100)
+  })
 )
 
 /**
@@ -26,23 +26,18 @@ const resize = new ResizeObserver(
  */
 @customElement("d-canvas")
 export class DCanvas extends LitElement {
-  /** Immediately start rendering. */
+  static styles = [bgSquares, layers, resizable]
   @property({ type: Boolean }) autoplay = false
-
-  /** Run render inside a web worker. */
   @property({ type: Boolean }) offscreen = false
-
-  /** Statem ID */
   @property({ type: String }) sid = uuidv4()
 
   private state!: Store<CanvasStatem> & CanvasStatem
 
-  static styles = [bgSquares, layers, resizable]
-
   resizeCallback({ contentBoxSize: [{ blockSize, inlineSize }] }: ResizeObserverEntry) {
-    // TODO: update multiple values
-    this.state.width = inlineSize
-    this.state.height = blockSize
+    this.state.patch({
+      width: inlineSize,
+      height: blockSize,
+    })
   }
 
   stopLooping?: Fn
@@ -61,21 +56,19 @@ export class DCanvas extends LitElement {
     super.connectedCallback()
     this.state = stateMake<CanvasStatem>(
       {
-        running: false,
+        running: this.autoplay,
         offscreen: this.offscreen,
         fps: Number.POSITIVE_INFINITY,
-        width: 0,
-        height: 0,
+        width: this.clientWidth,
+        height: this.clientHeight,
       },
       this.sid
     )
-    this.state.subscribe((v) => this.requestUpdate("state", v))
-    resize.observe(this)
+    this.state.subscribe((v) => {
+      this.requestUpdate("state", v)
+    })
 
-    if (this.autoplay) {
-      // FIXME: Make it nice without break it.
-      setTimeout(() => (this.state.running = true), 666)
-    }
+    resize.observe(this)
   }
 
   disconnectedCallback() {
@@ -96,13 +89,13 @@ export class DCanvas extends LitElement {
           Offscreen
           <input
             type="checkbox"
-            ?checked=${this.state.offscreen}
+            .checked=${this.state.offscreen}
             ?disabled=${this.state.running}
             @change=${this.updateOffscreen}
           />
         </label>
         <label>
-          FPS Limit
+          FPS ${this.state.fps === Number.POSITIVE_INFINITY ? "∞" : this.state.fps}
           <input
             type="range"
             min="0"
@@ -110,7 +103,6 @@ export class DCanvas extends LitElement {
             value=${this.state.fps === Number.POSITIVE_INFINITY ? 61 : this.state.fps}
             @input=${this.updateFps}
           />
-          ${this.state.fps}
         </label>
       </d-toolbar>
       ${when(this.state.running, () => html`<canvas ${ref(this.startStop)}></canvas>`)}
@@ -130,6 +122,6 @@ export class DCanvas extends LitElement {
   }
 
   updateFps({ srcElement: { valueAsNumber } }) {
-    this.state.fps = valueAsNumber > 60 ? Number.POSITIVE_INFINITY : valueAsNumber
+    this.state.fps = valueAsNumber === 61 ? Number.POSITIVE_INFINITY : valueAsNumber
   }
 }

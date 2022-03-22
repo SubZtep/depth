@@ -2,9 +2,7 @@ import * as THREE from "three"
 import { createRenderer, createCamera, createScene } from "./builders"
 
 export function init(initMessage: InitMessage) {
-  console.log("initMessage", initMessage)
   const { canvas, injectedFunctions, statem } = initMessage
-  // statem.running = true
 
   let oldWidth = 0
   let oldHeight = 0

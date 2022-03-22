@@ -3,6 +3,8 @@ import { customElement, property } from "lit/decorators.js"
 import { when } from "lit/directives/when.js"
 import { button, input } from "./styles"
 import { classMap } from "lit/directives/class-map.js"
+import "./d-gaze-click"
+import "./d-icon"
 
 @customElement("d-toolbar")
 export class DToolbar extends LitElement {
@@ -10,19 +12,22 @@ export class DToolbar extends LitElement {
     button,
     input,
     css`
-      :host > div {
+      :host .toolbar {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         transform: translateX(-100%);
         transition: transform 250ms ease-out;
-        text-indent: 2rem;
         padding: 2px 0;
         width: 100%;
+        gap: 4px;
       }
-      :host > div.toolbar {
-        transform: translateX(0);
+      :host .toolbar:first-child {
+        margin-left: 30px;
+      }
+      :host .shifted {
         background-image: radial-gradient(circle at center, #05675233 0%, #6669 30%, transparent 90%);
+        transform: translateX(0);
       }
       d-gaze-click {
         position: absolute;
@@ -41,18 +46,18 @@ export class DToolbar extends LitElement {
 
   render() {
     return html`
-      <div class=${classMap({ toolbar: this.shifted })}>
-        ${when(this.shifted, () => html`<div><slot></slot></div>`)}
+      <div class=${classMap({ toolbar: true, shifted: this.shifted })}>
+        ${when(this.shifted, () => html`<slot></slot>`)}
       </div>
       <d-gaze-click>
-        <button @click=${this.toggle}>
+        <button @click=${this.toggleShifted}>
           <d-icon name="hamburger"></d-icon>
         </button>
       </d-gaze-click>
     `
   }
 
-  toggle() {
+  toggleShifted() {
     this.shifted = !this.shifted
   }
 }

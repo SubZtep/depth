@@ -11,7 +11,7 @@ export function sleep(ms: number): Promise<void> {
  * @param fn - The function to be executed
  * @param delay - The delay in milliseconds
  */
-export function debounce<T extends Fn, K = any>(fn: T, delay: number) {
+export function debounce<T extends Fn, K = any>(fn: T, delay = 100) {
   let timer: NodeJS.Timer
   return function (...args: K[]) {
     clearTimeout(timer)

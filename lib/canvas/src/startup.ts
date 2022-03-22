@@ -51,7 +51,6 @@ interface StartLoopingReturn {
 
 export function startLooping({ canvas, statem }: Properties): StartLoopingReturn {
   statem.offscreen = "transferControlToOffscreen" in canvas && statem.offscreen
-  console.log(statem.offscreen ? "3D render in worker thread" : "3D render on main thread")
 
   const injectedFunctions: InjectedFunctions = {
     singleEvals: [],
@@ -71,6 +70,7 @@ export function startLooping({ canvas, statem }: Properties): StartLoopingReturn
   }
 
   statem.subscribe((s) => {
+    // console.log("SENDSIZECB", s)
     sendSize(s)
   })
 

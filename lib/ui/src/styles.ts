@@ -5,10 +5,10 @@ export const button = css`
     color: #111;
     cursor: pointer;
     line-height: 0;
-    padding: 0.3rem 0.8rem;
+    padding: 2px 10px;
     border: 2px outset #bababa;
-    border-radius: 0.7rem;
-    background: linear-gradient(to top, #ccc 10%, #b30e08 75%);
+    border-radius: 6px;
+    background-color: #aa9;
     transition: all 0.1s;
   }
   ::slotted(*:hover) {
@@ -16,6 +16,9 @@ export const button = css`
   }
   ::slotted(button:active) {
     border-style: inset;
+  }
+  ::slotted(button:active) {
+    /* TODO: apply to #shadow-root content */
     transform: translate(2px, 2px);
   }
   ::slotted(button:disabled) {
@@ -53,7 +56,7 @@ export const layers = css`
   :host {
     display: block !important;
     position: relative !important;
-    writing-mode: vertical-tb !important; // for ResizeObserverSize
+    writing-mode: vertical-tb !important; /* for ResizeObserverSize */
   }
   d-toolbar {
     position: absolute !important;

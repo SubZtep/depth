@@ -1,4 +1,4 @@
-import { stateMake } from "@depth/statem"
+// import { stateMake } from "@depth/statem"
 
 // export const canvasStates = new Map()
 
@@ -21,23 +21,23 @@ import { stateMake } from "@depth/statem"
 // )
 // export const canvasStates = new Map()
 
-stateMake(
-  {
-    running: false,
-    offscreen: false,
-    fps: 60,
-  },
-  "aaa"
-)
+// stateMake(
+//   {
+//     running: false,
+//     offscreen: false,
+//     fps: 60,
+//   },
+//   "aaa"
+// )
 
-stateMake(
-  {
-    running: false,
-    offscreen: false,
-    fps: 60,
-  },
-  "bbb"
-)
+// stateMake(
+//   {
+//     running: false,
+//     offscreen: false,
+//     fps: 60,
+//   },
+//   "bbb"
+// )
 
 // export const state1 = stateMake(initialState)
 // export const state2 = stateMake(initialState)

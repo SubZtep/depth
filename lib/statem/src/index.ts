@@ -1,14 +1,7 @@
-// import type { StoreProps, Statem } from "./store"
 import { Store } from "./store"
 import { v4 as uuidv4 } from "uuid"
 
 export default Store
-
-// interface Statem<T extends object> {
-
-// }
-
-// export { Statem }
 
 globalThis.statem = new Map()
 
