@@ -1,5 +1,5 @@
 import * as THREE from "three"
-// import { sleep } from "@depth/misc"
+import { degInRad } from "@depth/misc"
 // // import { canvasState } from "@depth/statem"
 // import { statem } from "@depth/statem"
 // import { exec3D, loop3D } from "@depth/canvas"
@@ -32,7 +32,10 @@ for (const el of document.querySelectorAll("d-canvas")) {
     })
 
     loop3D(({ camera, deltaTime }) => {
-      camera.rotateZ(0.5 * deltaTime)
+      // camera.rotateZ(0.5 * deltaTime)
+      // camera.rotateZ(0.5 * deltaTime)
+      // console.log({ deltaTime })
+      camera.rotation.z += degInRad(100) * deltaTime
     })
   })
 }

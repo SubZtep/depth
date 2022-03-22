@@ -21,6 +21,7 @@ plugins:
   - "prettier"
   - "eslint-plugin-tsdoc"
   - "unicorn"
+  - "lit"
 
 rules:
   "prefer-const": warn

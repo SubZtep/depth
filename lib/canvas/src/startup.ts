@@ -70,7 +70,6 @@ export function startLooping({ canvas, statem }: Properties): StartLoopingReturn
   }
 
   statem.subscribe((s) => {
-    // console.log("SENDSIZECB", s)
     sendSize(s)
   })
 

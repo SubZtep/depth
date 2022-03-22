@@ -22,3 +22,7 @@ export function object3dTo2d(
   const y = (temporaryPos.y * -0.5 + 0.5) * height
   return [x, y]
 }
+
+export function degInRad(deg: number) {
+  return deg * (Math.PI / 180)
+}

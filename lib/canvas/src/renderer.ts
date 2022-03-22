@@ -34,28 +34,34 @@ export function init(initMessage: InitMessage) {
   }
 
   let fpsInterval: number
-  let then = performance.now()
+  let prenow = performance.now()
   let elapsed: number
   let now: number
+  let deltaTime = 0
 
   async function render(time: number) {
     if (!statem.running) {
       return clearContext()
     } else {
-      const deltaTime = clock.getDelta()
-
-      const props = { scene, renderer, clock, deltaTime, time, camera }
-      const evil = (fn: string) => void eval(";(" + fn + ")(props);")
+      const fps = statem.fps
 
       renderer.render(scene, camera)
       requestAnimationFrame(render)
+      deltaTime += clock.getDelta()
 
-      now = performance.now()
-      elapsed = now - then
-      fpsInterval = 1000 / statem.fps
+      if (fps !== Number.POSITIVE_INFINITY) {
+        now = performance.now()
+        elapsed = now - prenow
+        fpsInterval = 1000 / fps
+      }
 
-      if (elapsed > fpsInterval || statem.fps === Number.POSITIVE_INFINITY) {
-        then = now - (elapsed % fpsInterval)
+      if (fps === Number.POSITIVE_INFINITY || elapsed > fpsInterval) {
+        if (fps !== Number.POSITIVE_INFINITY) {
+          prenow = now - (elapsed % fpsInterval)
+        }
+        const props = { scene, renderer, clock, deltaTime, time, camera }
+        deltaTime = 0
+        const evil = (fn: string) => void eval(";(" + fn + ")(props);")
 
         await Promise.all([
           ...injectedFunctions.singleFns.map((fn) => fn(props)),

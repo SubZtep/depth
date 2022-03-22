@@ -67,7 +67,6 @@ export class DCanvas extends LitElement {
     this.state.subscribe((v) => {
       this.requestUpdate("state", v)
     })
-
     resize.observe(this)
   }
 

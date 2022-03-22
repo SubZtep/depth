@@ -30,11 +30,9 @@ const handlers: Record<string, any> = {
 
 function handleMessage(ev: MessageEvent<CanvasMessage>) {
   const fn = handlers[ev.data.type] as CanvasCallback<typeof ev.data.type>
-  // const ret = fn(ev.data)
   if (ev.data.type === "init") {
     injectedFunctions = ev.data.injectedFunctions
     statem = ev.data.statem
-    // handlers.stopLooping = ret
     handlers.stopLooping = fn(ev.data)
     return
   }
