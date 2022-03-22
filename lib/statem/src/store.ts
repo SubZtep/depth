@@ -6,7 +6,7 @@ export interface Statem {
 
 export class Store<State extends object> {
   private state!: State
-  private callbacks = new Set<Callback<State>>()
+  private callbacks = new Set<Callback<State>>() // TODO: WeakRef
   private patching = false
 
   constructor(initialState: State) {
@@ -57,6 +57,10 @@ export class Store<State extends object> {
    */
   subscribe(callback: Callback<State>) {
     this.callbacks.add(callback)
+  }
+
+  toString() {
+    return JSON.stringify(this.state)
   }
 
   /** Update multiple values and a single callback. */

@@ -31,30 +31,27 @@ export class DCanvas extends LitElement {
   @property({ type: Boolean }) offscreen = false
   @property({ type: String }) sid = uuidv4()
 
-  private state!: Store<CanvasStatem> & CanvasStatem
+  private statem!: Store<CanvasStatem> & CanvasStatem
 
   resizeCallback({ contentBoxSize: [{ blockSize, inlineSize }] }: ResizeObserverEntry) {
-    this.state.patch({
+    this.statem.patch({
       width: inlineSize,
       height: blockSize,
     })
   }
 
-  stopLooping?: Fn
-
   startStop: RefOrCallback = (canvas?: any) => {
     if (canvas) {
-      const { stopLooping, ...detail } = startLooping({ canvas, statem: this.state })
-      this.stopLooping = stopLooping
+      const detail = startLooping({ canvas, statem: this.statem })
       this.dispatchEvent(new CustomEvent("start", { bubbles: false, cancelable: false, composed: true, detail }))
     } else {
-      this.stopLooping?.()
+      this.statem.running = false
     }
   }
 
   connectedCallback() {
     super.connectedCallback()
-    this.state = stateMake<CanvasStatem>(
+    this.statem = stateMake<CanvasStatem>(
       {
         running: this.autoplay,
         offscreen: this.offscreen,
@@ -64,7 +61,7 @@ export class DCanvas extends LitElement {
       },
       this.sid
     )
-    this.state.subscribe((v) => {
+    this.statem.subscribe((v) => {
       this.requestUpdate("state", v)
     })
     resize.observe(this)
@@ -78,49 +75,49 @@ export class DCanvas extends LitElement {
   render() {
     return html`
       <d-toolbar ?shifted=${!this.autoplay}>
-        <button @click=${this.startRunning} ?disabled=${this.state.running}>
+        <button @click=${this.startRunning} ?disabled=${this.statem.running}>
           <d-icon name="play"></d-icon>
         </button>
-        <button @click=${this.stopRunning} ?disabled=${!this.state.running}>
+        <button @click=${this.stopRunning} ?disabled=${!this.statem.running}>
           <d-icon name="stop"></d-icon>
         </button>
         <label>
           Offscreen
           <input
             type="checkbox"
-            .checked=${this.state.offscreen}
-            ?disabled=${this.state.running}
+            .checked=${this.statem.offscreen}
+            ?disabled=${this.statem.running}
             @change=${this.updateOffscreen}
           />
         </label>
         <label>
-          FPS ${this.state.fps === Number.POSITIVE_INFINITY ? "∞" : this.state.fps}
+          FPS ${this.statem.fps === Number.POSITIVE_INFINITY ? "∞" : this.statem.fps}
           <input
             type="range"
             min="0"
             max="61"
-            value=${this.state.fps === Number.POSITIVE_INFINITY ? 61 : this.state.fps}
+            value=${this.statem.fps === Number.POSITIVE_INFINITY ? 61 : this.statem.fps}
             @input=${this.updateFps}
           />
         </label>
       </d-toolbar>
-      ${when(this.state.running, () => html`<canvas ${ref(this.startStop)}></canvas>`)}
+      ${when(this.statem.running, () => html`<canvas ${ref(this.startStop)}></canvas>`)}
     `
   }
 
   startRunning() {
-    this.state.running = true
+    this.statem.running = true
   }
 
   stopRunning() {
-    this.state.running = false
+    this.statem.running = false
   }
 
   updateOffscreen({ target: { checked } }) {
-    this.state.offscreen = checked
+    this.statem.offscreen = checked
   }
 
   updateFps({ srcElement: { valueAsNumber } }) {
-    this.state.fps = valueAsNumber === 61 ? Number.POSITIVE_INFINITY : valueAsNumber
+    this.statem.fps = valueAsNumber === 61 ? Number.POSITIVE_INFINITY : valueAsNumber
   }
 }

@@ -2,38 +2,31 @@ import { init } from "./renderer"
 // @ts-ignore
 import OffscreenWorker from "./offscreen?worker&inline"
 
-function startWorker({ canvas, injectedFunctions, statem, worker }): SendSizeFn {
+function startWorker({ canvas, injectedFunctions, statem, worker }) {
   const offscreen = canvas.transferControlToOffscreen!()
   const message = {
     type: "init",
     canvas: offscreen,
     injectedFunctions,
-    statem: { running: statem.running, fps: statem.fps, width: statem.width, height: statem.height },
   }
-
-  worker.postMessage(message, [offscreen])
-
-  return (statem) => {
+  const updateStatem = (seriStatem: string) => {
     worker.postMessage({
-      type: "size",
-      width: statem.width,
-      height: statem.height,
+      type: "updateStatem",
+      statem: seriStatem,
     })
   }
+  updateStatem(statem.toString())
+  worker.postMessage(message, [offscreen])
+  return updateStatem
 }
 
-function startMainPage({ canvas, injectedFunctions, statem }): SendSizeFn {
+function startMainPage({ canvas, injectedFunctions, statem }) {
   init({
     type: "init",
     canvas,
     injectedFunctions,
     statem,
   })
-
-  return (_statem) => {
-    // statem.width = statem.width
-    // statem.height = statem.height
-  }
 }
 
 interface Properties {
@@ -59,23 +52,26 @@ export function startLooping({ canvas, statem }: Properties): StartLoopingReturn
     loopFns: [],
   }
 
-  let worker: Worker | undefined
-  let sendSize: SendSizeFn
+  let worker: Worker
+  let sendStatem: Fn
 
   if (statem.offscreen) {
     worker = new OffscreenWorker()
-    sendSize = startWorker({ canvas, injectedFunctions, statem, worker })
+    sendStatem = startWorker({ canvas, injectedFunctions, statem, worker })
+    statem.subscribe((s: CanvasStatem) => {
+      if (!s.running) {
+        worker.terminate()
+        return
+      }
+      sendStatem(JSON.stringify(s))
+    })
   } else {
-    sendSize = startMainPage({ canvas, injectedFunctions, statem })
+    startMainPage({ canvas, injectedFunctions, statem })
   }
-
-  statem.subscribe((s) => {
-    sendSize(s)
-  })
 
   return {
     stopLooping: () => {
-      statem.offscreen ? worker!.postMessage({ type: "stop" }) : (statem.running = false)
+      statem.running = false
     },
     exec3D: (fn: CanvasInjectedFn) =>
       statem.offscreen

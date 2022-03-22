@@ -3,7 +3,7 @@ interface HTMLCanvasElement {
   transferControlToOffscreen?: () => OffscreenCanvas & MessagePort
 }
 
-type Fn = () => void
+type Fn = (...args: any[]) => void
 
 type WebGLCanvas = NonNullable<import("three").WebGLRendererParameters["canvas"]>
 
@@ -57,4 +57,5 @@ interface InjectedFunctions {
   loopFns: CanvasInjectedFn[]
 }
 
-type SendSizeFn = ({ width, height }: { width: number; height: number }) => void
+// type SendSizeFn = ({ width, height }: { width: number; height: number }) => void
+// type SendStatemFn = ({ width, height }: { width: number; height: number }) => void

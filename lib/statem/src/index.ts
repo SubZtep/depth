@@ -2,7 +2,6 @@ import { Store } from "./store"
 import { v4 as uuidv4 } from "uuid"
 
 export default Store
-
 globalThis.statem = new Map()
 
 export function stateMake<T extends object>(initialState: T, sid?: string): Store<T> & T {

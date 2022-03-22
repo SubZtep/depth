@@ -1,15 +1,14 @@
 import { init } from "./renderer"
 
-let statem: any
+// @ts-ignore
+const statem: CanvasStatem = {}
 let injectedFunctions: any
 
-function size({ width, height }: SizeMessage) {
-  statem.width = width
-  statem.height = height
-}
-
-function stop() {
-  statem.running = false
+function updateStatem(s: { statem: string }) {
+  Object.assign(statem, JSON.parse(s.statem))
+  if (statem.fps === null) {
+    statem.fps = Number.POSITIVE_INFINITY // FIXME: null isn't infinity
+  }
 }
 
 function exec3D(fn: any) {
@@ -22,8 +21,7 @@ function loop3D(fn: any) {
 
 const handlers: Record<string, any> = {
   init,
-  size,
-  stop,
+  updateStatem,
   exec3D,
   loop3D,
 }
@@ -32,7 +30,7 @@ function handleMessage(ev: MessageEvent<CanvasMessage>) {
   const fn = handlers[ev.data.type] as CanvasCallback<typeof ev.data.type>
   if (ev.data.type === "init") {
     injectedFunctions = ev.data.injectedFunctions
-    statem = ev.data.statem
+    ev.data.statem = statem
     handlers.stopLooping = fn(ev.data)
     return
   }
