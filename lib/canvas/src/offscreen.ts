@@ -2,21 +2,21 @@ import { init } from "./renderer"
 
 // @ts-ignore
 const statem: CanvasStatem = {}
-let injectedFunctions: any
+let injectedFunctions: InjectedFunctions
 
-function updateStatem(s: { statem: string }) {
-  Object.assign(statem, JSON.parse(s.statem))
+function updateStatem({ statem: newStatem }: StatemMessage) {
+  Object.assign(statem, JSON.parse(newStatem))
   if (statem.fps === null) {
     statem.fps = Number.POSITIVE_INFINITY // FIXME: null isn't infinity
   }
 }
 
-function exec3D(fn: any) {
-  injectedFunctions.singleEvals.push(fn.fn)
+function exec3D({ fn }: Exec3DMessage) {
+  injectedFunctions.singleFns.push(fn)
 }
 
-function loop3D(fn: any) {
-  injectedFunctions.loopEvals.push(fn.fn)
+function loop3D({ fn }: Loop3DMessage) {
+  injectedFunctions.loopFns.push(fn)
 }
 
 const handlers: Record<string, any> = {
@@ -26,15 +26,13 @@ const handlers: Record<string, any> = {
   loop3D,
 }
 
-function handleMessage(ev: MessageEvent<CanvasMessage>) {
-  const fn = handlers[ev.data.type] as CanvasCallback<typeof ev.data.type>
-  if (ev.data.type === "init") {
-    injectedFunctions = ev.data.injectedFunctions
-    ev.data.statem = statem
-    handlers.stopLooping = fn(ev.data)
-    return
+function handleMessage({ data }: MessageEvent<CanvasMessage>) {
+  const fn = handlers[data.type] as CanvasCallback<typeof data.type>
+  if (data.type === "init") {
+    injectedFunctions = data.injectedFunctions
+    data.statem = statem
   }
-  fn(ev.data)
+  fn(data)
 }
 
 self.addEventListener("message", handleMessage)

@@ -3,36 +3,46 @@ interface HTMLCanvasElement {
   transferControlToOffscreen?: () => OffscreenCanvas & MessagePort
 }
 
-type Fn = (...args: any[]) => void
-
+type Fn = () => void
 type WebGLCanvas = NonNullable<import("three").WebGLRendererParameters["canvas"]>
-
 type CanvasStatem = import("./src/index").CanvasStatem
+type CanvasStatemSerialised = string
 
 interface InitMessage {
   type: "init"
   canvas: HTMLCanvasElement
   injectedFunctions: InjectedFunctions
   statem: CanvasStatem
-  // canvasState?: import("@depth/statem").CanvasState & import("@depth/statem").Statem
-  // statem: any
 }
 
-interface SizeMessage extends Dimensions {
-  type: "size"
+interface StatemMessage {
+  type: "updateStatem"
+  statem: CanvasStatemSerialised
 }
 
-type CanvasMessage<T = any> = T extends InitMessage["type"]
+interface Exec3DMessage {
+  type: "exec3D"
+  fn: CanvasInjectedEval
+}
+
+interface Loop3DMessage {
+  type: "loop3D"
+  fn: CanvasInjectedEval
+}
+
+type MessageType = InitMessage["type"] | StatemMessage["type"] | Exec3DMessage["type"] | Loop3DMessage["type"]
+
+type CanvasMessage<T = MessageType> = T extends InitMessage["type"]
   ? InitMessage
-  : T extends SizeMessage["type"]
-  ? SizeMessage
-  : InitMessage | SizeMessage
-type CanvasCallback<T = InitMessage["type"] | SizeMessage["type"] | any> = (data: CanvasMessage<T>) => void
+  : T extends StatemMessage["type"]
+  ? StatemMessage
+  : T extends Exec3DMessage["type"]
+  ? Exec3DMessage
+  : T extends Loop3DMessage["type"]
+  ? Loop3DMessage
+  : never
 
-interface Dimensions {
-  width: number
-  height: number
-}
+type CanvasCallback<T = Pick<MessageType, "init" | "updateStatem">> = (data: CanvasMessage<T>) => void
 
 interface CanvasInjectedFnProps {
   renderer: import("three").WebGLRenderer
@@ -50,12 +60,29 @@ interface CanvasInjectedFnProps {
 type CanvasInjectedFn = (props: CanvasInjectedFnProps) => void
 type CanvasInjectedEval = string
 
-interface InjectedFunctions {
-  singleEvals: CanvasInjectedEval[]
-  loopEvals: CanvasInjectedEval[]
-  singleFns: CanvasInjectedFn[]
-  loopFns: CanvasInjectedFn[]
+interface InjectedFunctions<T = CanvasInjectedFn | CanvasInjectedEval> {
+  singleFns: T[]
+  loopFns: T[]
 }
 
-// type SendSizeFn = ({ width, height }: { width: number; height: number }) => void
-// type SendStatemFn = ({ width, height }: { width: number; height: number }) => void
+interface StartLoopingProps {
+  canvas: HTMLCanvasElement
+  statem: CanvasStatem & import("@depth/statem").Statem
+
+}
+
+interface StartMainProps extends StartLoopingProps {
+  injectedFunctions: InjectedFunctions //<CanvasInjectedFn>
+}
+
+interface StartWorkerProps extends StartLoopingProps {
+  injectedFunctions: InjectedFunctions //<CanvasInjectedEval>
+  worker: Worker
+}
+
+interface StartLoopingReturn {
+  exec3D: (fn: CanvasInjectedFn) => void
+  loop3D: (fn: CanvasInjectedFn) => void
+}
+
+type WorkerStatemFn = (seriStatem: CanvasStatemSerialised) => void

@@ -1,6 +1,6 @@
 import * as THREE from "three"
 
-export function createRenderer({ canvas }: { canvas: InitMessage["canvas"] }) {
+export function createRenderer(canvas: InitMessage["canvas"]) {
   const renderer = new THREE.WebGLRenderer({
     canvas,
     antialias: true,
@@ -14,7 +14,7 @@ export function createRenderer({ canvas }: { canvas: InitMessage["canvas"] }) {
   return renderer
 }
 
-export function createCamera({ width, height }: { width: number; height: number }) {
+export function createCamera({ width, height }: CanvasStatem) {
   const camera = new THREE.PerspectiveCamera(90, width / height, 1, 2000)
   return camera
 }

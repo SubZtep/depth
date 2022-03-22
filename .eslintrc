@@ -65,7 +65,7 @@ rules:
   "unicorn/prevent-abbreviations":
     - warn
     - ignore: [
-        "props", "err", "el", "isDev", "Fn", "fn", "Param",
+        "props", "Props", "err", "el", "isDev", "Fn", "fn", "Param",
         "params", "src", "ext", "Ref", "obj", "i", "ev", "args",
       ]
 

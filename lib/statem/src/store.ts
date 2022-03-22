@@ -1,7 +1,7 @@
 type Callback<T> = (data: T, oldData: T) => void
 
 export interface Statem {
-  subscribe<T>(callback: Callback<T>): void
+  subscribe<T>(callback: Callback<T>): Fn
 }
 
 export class Store<State extends object> {
@@ -42,8 +42,6 @@ export class Store<State extends object> {
 
   /**
    * Fire off each callback that's run whenever the state changes
-   * We pass in some data as the one and only parameter.
-   * Returns a boolean depending if callbacks were found or not
    */
   processCallbacks(data: State, oldData: State) {
     for (const callback of this.callbacks) {
@@ -53,10 +51,13 @@ export class Store<State extends object> {
 
   /**
    * Allow an outside entity to subscribe to state changes with a valid callback.
-   * Returns boolean based on wether or not the callback was added to the collection
+   * @returns Unsubscribe function
    */
   subscribe(callback: Callback<State>) {
     this.callbacks.add(callback)
+    return () => {
+      this.callbacks.delete(callback)
+    }
   }
 
   toString() {

@@ -1,5 +1,5 @@
 export { startLooping } from "./startup"
-
+  
 interface CanvasStatem {
   fps: number
   width: number

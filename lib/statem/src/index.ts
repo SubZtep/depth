@@ -16,3 +16,5 @@ export function stateMake<T extends object>(initialState: T, sid?: string): Stor
 export function statem(sid: string) {
   return globalThis.statem.get(sid)
 }
+
+export type { Statem } from "./store"

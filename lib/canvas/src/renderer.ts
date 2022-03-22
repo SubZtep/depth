@@ -1,19 +1,16 @@
 import * as THREE from "three"
 import { createRenderer, createCamera, createScene } from "./builders"
 
-export function init(initMessage: InitMessage) {
-  const { canvas, injectedFunctions, statem } = initMessage
-
+export function init({ canvas, injectedFunctions, statem }: InitMessage) {
   let oldWidth = 0
   let oldHeight = 0
 
-  const renderer = createRenderer({ canvas })
+  const renderer = createRenderer(canvas)
   const camera = createCamera(statem)
   const scene = createScene()
   const clock = new THREE.Clock()
 
   function canvasResizer() {
-    // if multi-canvas not really wotks try to currying renderer (and others) here
     if (statem.width === oldWidth || statem.height === oldHeight) return
     oldWidth = statem.width
     oldHeight = statem.height
@@ -27,8 +24,6 @@ export function init(initMessage: InitMessage) {
   function clearContext() {
     injectedFunctions.singleFns.length = 0
     injectedFunctions.loopFns.length = 0
-    injectedFunctions.singleEvals.length = 0
-    injectedFunctions.loopEvals.length = 0
     scene.clear()
     renderer.clear()
   }
@@ -61,16 +56,14 @@ export function init(initMessage: InitMessage) {
         }
         const props = { scene, renderer, clock, deltaTime, time, camera }
         deltaTime = 0
-        const evil = (fn: string) => void eval(";(" + fn + ")(props);")
+
+        const evil = statem.offscreen ? (fn: string) => void eval(";(" + fn + ")(props);") : null
 
         await Promise.all([
-          ...injectedFunctions.singleFns.map((fn) => fn(props)),
-          ...injectedFunctions.singleEvals.map((fn) => evil(fn)),
-          ...injectedFunctions.loopFns.map((fn) => fn(props)),
-          ...injectedFunctions.loopEvals.map((fn) => evil(fn)),
+          ...injectedFunctions.singleFns.map((fn: any) => (evil ? evil(fn) : fn(props))),
+          ...injectedFunctions.loopFns.map((fn: any) => (evil ? evil(fn) : fn(props))),
         ])
         injectedFunctions.singleFns.length = 0
-        injectedFunctions.singleEvals.length = 0
       }
 
       canvasResizer()

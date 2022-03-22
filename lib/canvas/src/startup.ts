@@ -2,14 +2,14 @@ import { init } from "./renderer"
 // @ts-ignore
 import OffscreenWorker from "./offscreen?worker&inline"
 
-function startWorker({ canvas, injectedFunctions, statem, worker }) {
+function startWorker({ canvas, injectedFunctions, statem, worker }: StartWorkerProps) {
   const offscreen = canvas.transferControlToOffscreen!()
   const message = {
     type: "init",
     canvas: offscreen,
     injectedFunctions,
   }
-  const updateStatem = (seriStatem: string) => {
+  const updateStatem: WorkerStatemFn = (seriStatem: CanvasStatemSerialised) => {
     worker.postMessage({
       type: "updateStatem",
       statem: seriStatem,
@@ -20,7 +20,7 @@ function startWorker({ canvas, injectedFunctions, statem, worker }) {
   return updateStatem
 }
 
-function startMainPage({ canvas, injectedFunctions, statem }) {
+function startMainPage({ canvas, injectedFunctions, statem }: StartMainProps) {
   init({
     type: "init",
     canvas,
@@ -29,37 +29,23 @@ function startMainPage({ canvas, injectedFunctions, statem }) {
   })
 }
 
-interface Properties {
-  canvas: HTMLCanvasElement
-  injectedFunctions?: InjectedFunctions
-  statem?: any
-  worker?: any
-}
-
-interface StartLoopingReturn {
-  stopLooping: Fn
-  exec3D: (fn: CanvasInjectedFn) => void
-  loop3D: (fn: CanvasInjectedFn) => void
-}
-
-export function startLooping({ canvas, statem }: Properties): StartLoopingReturn {
+export function startLooping({ canvas, statem }: StartLoopingProps): StartLoopingReturn {
   statem.offscreen = "transferControlToOffscreen" in canvas && statem.offscreen
 
   const injectedFunctions: InjectedFunctions = {
-    singleEvals: [],
-    loopEvals: [],
     singleFns: [],
     loopFns: [],
   }
 
   let worker: Worker
-  let sendStatem: Fn
+  let sendStatem: WorkerStatemFn
 
   if (statem.offscreen) {
     worker = new OffscreenWorker()
     sendStatem = startWorker({ canvas, injectedFunctions, statem, worker })
-    statem.subscribe((s: CanvasStatem) => {
+    const unsubscribe = statem.subscribe((s: CanvasStatem) => {
       if (!s.running) {
+        unsubscribe()
         worker.terminate()
         return
       }
@@ -70,9 +56,6 @@ export function startLooping({ canvas, statem }: Properties): StartLoopingReturn
   }
 
   return {
-    stopLooping: () => {
-      statem.running = false
-    },
     exec3D: (fn: CanvasInjectedFn) =>
       statem.offscreen
         ? worker?.postMessage({ type: "exec3D", fn: fn.toString() })

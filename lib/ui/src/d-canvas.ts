@@ -68,8 +68,8 @@ export class DCanvas extends LitElement {
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback()
     resize.unobserve(this)
+    super.disconnectedCallback()
   }
 
   render() {
