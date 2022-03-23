@@ -6,7 +6,8 @@
   "type": "module",
   "workspaces": [
     "web",
-    "lib/*"
+    "lib/*",
+    "tests"
   ],
   "scripts": {
     "cy:open": "cypress open",
@@ -22,7 +23,7 @@
     "lint": "eslint .",
     "ncu": "pnpm recursive exec -- ncu -u",
     "wc:anal": "pnpm run wc:analyse --filter @depth/ui",
-    "test": "echo \"Error: no test specified yet\" && exit 1"
+    "test": "pnpm run test --filter @depth/tests"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",

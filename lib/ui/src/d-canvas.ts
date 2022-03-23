@@ -44,13 +44,16 @@ export class DCanvas extends LitElement {
   protected startStop: RefOrCallback = (canvas?: any) => {
     if (canvas) {
       const detail = startLooping({ canvas, statem: this.statem })
-      const startEvent = new CustomEvent<StartLoopingReturn>("start", {
-        bubbles: false,
-        cancelable: false,
-        composed: true,
-        detail,
-      })
-      this.dispatchEvent(startEvent)
+
+      /** Fires when the 3D canvas start rendering. */
+      this.dispatchEvent(
+        new CustomEvent<StartLoopingReturn>("start", {
+          bubbles: false,
+          cancelable: false,
+          composed: true,
+          detail,
+        })
+      )
     } else {
       this.statem.running = false
     }

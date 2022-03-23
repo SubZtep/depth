@@ -1,0 +1,15 @@
+{
+  "name": "@depth/tests",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "author": "Andras Serfozo <subztep@gmail.com>",
+  "license": "Unlicense",
+  "devDependencies": {
+    "happy-dom": "^2.50.0",
+    "vitest": "^0.7.7"
+  }
+}

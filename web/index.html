@@ -2,26 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>ⒹⒺⓅⓉⒽ depth 𓀼</title>
-    <!-- <script src="https://kit.fontawesome.com/95e6f24ddc.js" crossorigin="anonymous"></script> -->
+    <title>ⒹⒺⓅⓉⒽ depth d̸͔́è̶̖̝̭m̸̯̪͆̋̈́̉͜o̵͖͍̪̮̾́̀̎.̶̧̰̫̤͐̔̉́̎l̸̡̛͕͍̞a̷̮̾͘ń̵̠̯d̶͈̫̎͝</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
   </head>
-  <body aria-hidden="true">
-    <select style="float: right; opacity: 0.5;" onchange="document.body.style.background='var(--bg'+this.selectedIndex+')';">
-      <option value="bg0">bg0</option>
-      <option value="bg1">bg1</option>
-      <option value="bg2">bg2</option>
-      <option value="bg3">bg3</option>
-      <option value="bg4">bg4</option>
-      <option value="bg5">bg5</option>
-    </select>
-    <br /><br />
+  <body>
+    <pug src="src/partials/bg-select.pug"></pug>
 
     <div class="holes">
       <d-canvas sid="aaa"></d-canvas>
       <d-canvas sid="aaa"></d-canvas>
-      <d-canvas sid="b"></d-canvas>
+      <d-canvas sid="aaa"></d-canvas>
+      <d-canvas sid="aaa"></d-canvas>
       <!-- <d-canvas style="border: 1px solid #000; resize: none !important;"></d-canvas> -->
       <!-- <d-canvas autoplay offscreen></d-canvas> -->
       <!-- <d-canvas autoplay offscreen></d-canvas> -->
@@ -31,7 +27,7 @@
 
     <!-- <div id="ui"></div>
     <template id="tpl-ui">
-      <pug src="./src/ui.pug" />
+      <pug src="./src/partials/ui.pug" />
     </template> -->
 
     <script type="module" src="./src/main.ts"></script>

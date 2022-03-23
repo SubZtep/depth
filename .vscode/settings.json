@@ -5,13 +5,10 @@
   "windicss.foldByLength": true,
   "css.validate": false,
   "css.lint.emptyRules": "ignore",
-  // "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "files.associations": {
     ".prettierrc": "yaml",
-    ".eslintrc": "yaml"
-    // ".*rc": "yaml"
+    "**/.eslintrc": "yaml"
   },
-  // "jest.autoRun": "off",
   "editor.quickSuggestions": {
     "strings": true
   },
@@ -22,6 +19,9 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "search.exclude": {
