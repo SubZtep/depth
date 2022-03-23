@@ -67,11 +67,12 @@ body {
 }
 
 .paused {
-  mask-image: radial-gradient(#000a, #000 69%);
+  /* mask-image: radial-gradient(#000a, #000 69%); */
 }
 
 .holes {
-  /* margin: 1rem 0; */
+  height: calc(100vh - 30px);
+  padding: 2rem 0;
   width: 100%;
   box-sizing: border-box;
   display: grid;
@@ -84,23 +85,27 @@ body {
 }
 
 .holes d-canvas {
-  aspect-ratio: 16 / 10;
+  box-sizing: content-box;
+  border-radius: 03px;
+  /* aspect-ratio: 16 / 10; */
+  aspect-ratio: 1;
   box-decoration-break: clone;
   transform: rotate3d(1, 1, 1, 5deg) scale(1.2);
   /* transition: all ease-in-out 1s; */
   /* box-shadow: 1px 1px 10px #000; */
 
   /* transform: rotate3d(1, 1, 1, 5deg) scale(1.2); */
-  border: 300px ridge #364;
-  transition: transform ease-in-out 1s, border ease-in 6s;
+  border: 20px groove #364;
+  transition: transform 500ms ease-in-out, border 500ms ease-in 6s, box-shadow 450ms ease-out;
   box-shadow: 48px 43px 45px #018;
 }
 
 .holes d-canvas:hover {
-  border-width: 3px;
-  transform: scale(1.5);
+  border-style: ridge;
+  transform: scale(1.4);
+  box-shadow: 10px 10px 21px var(--blood);
 }
 
 .holes d-canvas.zoom {
-  border-width: 3px !important;
+  border-width: 0 !important;
 }

@@ -3,6 +3,7 @@
 .pnpm-debug.log
 coverage
 dist
+!/web/dist
 build
 node_modules
 tsconfig.tsbuildinfo

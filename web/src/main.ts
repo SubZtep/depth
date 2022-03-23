@@ -4,7 +4,7 @@ import "@depth/ui"
 import "./styles/main.css"
 import * as THREE from "three"
 
-const numberOfCubes = 25
+const numberOfCubes = 13
 
 function createCube(i: number) {
   const width = i * 10

@@ -101,6 +101,10 @@ export class DCanvas extends LitElement {
     :host(:hover) {
       background-size: 1.945rem 1.945rem;
     }
+    :host(canvas) {
+      width: inherit;
+      height: inherit;
+    }
     d-toolbar {
       position: absolute;
     }
