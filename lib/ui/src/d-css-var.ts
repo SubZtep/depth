@@ -15,7 +15,7 @@ export class DCssVar extends LitElement {
   connectedCallback() {
     super.connectedCallback()
 
-    // wait for state existance...
+    // waiting for state existance...
     setTimeout(() => {
       this.state = statem(this.sid)
       this.state.subscribe(({ bodybg }) => {

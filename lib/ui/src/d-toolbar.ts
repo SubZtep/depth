@@ -8,8 +8,19 @@ import "./d-icon"
 @customElement("d-toolbar")
 export class DToolbar extends LitElement {
   static styles = css`
-    .toolbar {
+    :host {
+      position: relative;
+      width: 100%;
+      height: 100%;
       display: flex;
+      align-items: center;
+    }
+    .toolbar {
+      /* position: absolute; */
+      /* top: 0;
+      left: 0; */
+      display: flex;
+      align-content: center;
       flex-direction: column;
       flex-wrap: wrap;
       transform: translateX(-100%);
@@ -20,7 +31,9 @@ export class DToolbar extends LitElement {
       accent-color: #8a0303;
     }
     .shifted {
-      background-image: radial-gradient(circle at center, #05675233 0%, #6669 30%, transparent 90%);
+      background-image: radial-gradient(circle at center, #05675233 0%, #6669 30%, transparent 69%);
+      border: 1px solid #8a0303;
+      border-width: 1px 0;
       transform: translateX(0);
     }
     d-gaze-click {
@@ -59,7 +72,7 @@ export class DToolbar extends LitElement {
       border-style: inset;
     }
     ::slotted(button:active) {
-      /* TODO: apply to #shadow-root content */
+      /* TODO: apply to #shadow-root content to prevent button move. */
       transform: translate(2px, 2px);
     }
     ::slotted(button:disabled) {

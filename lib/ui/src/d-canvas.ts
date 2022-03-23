@@ -36,13 +36,11 @@ export class DCanvas extends LitElement {
   protected statem!: Store<CanvasStatem> & CanvasStatem
 
   protected resizeCallback({ contentBoxSize: [{ blockSize, inlineSize }] }: ResizeObserverEntry) {
-    this.statem.patch({
-      width: inlineSize,
-      height: blockSize,
-    })
+    this.statem.patch({ width: inlineSize, height: blockSize })
   }
 
-  protected startStop: RefOrCallback = (canvas?: any) => {
+  // @ts-ignore
+  protected startStop: RefOrCallback = (canvas?: HTMLCanvasElement) => {
     if (canvas) {
       const detail = startLooping({ canvas, statem: this.statem })
 
@@ -72,9 +70,7 @@ export class DCanvas extends LitElement {
       },
       this.sid
     )
-    this.statem.subscribe((v) => {
-      this.requestUpdate("state", v)
-    })
+    this.statem.subscribe((state) => this.requestUpdate("state", state))
     resize.observe(this)
   }
 
@@ -95,13 +91,16 @@ export class DCanvas extends LitElement {
       cursor: not-allowed;
     }
     :host {
+      cursor: cell;
       display: block;
       position: relative;
       writing-mode: vertical-tb; /* for ResizeObserverSize */
       background: repeating-conic-gradient(from 0deg, transparent 0deg 90deg, #fff3 90deg 180deg) 50% 50%/2rem 2rem;
       transition: background 100ms linear;
-      min-width: 6rem;
-      min-height: 6rem;
+      min-width: 8rem;
+      min-height: 4rem;
+      width: 100%;
+      height: 100%;
       overflow: hidden;
       resize: both;
     }
@@ -142,7 +141,7 @@ export class DCanvas extends LitElement {
             type="range"
             min="0"
             max="61"
-            value=${this.statem.fps === Number.POSITIVE_INFINITY ? 61 : this.statem.fps}
+            .value=${String(this.statem.fps === Number.POSITIVE_INFINITY ? 61 : this.statem.fps)}
             @input=${this.updateFps}
           />
         </label>

@@ -70,30 +70,41 @@ body {
 }
 
 .holes {
+  position: absolute;
+  width: fit-content;
+  block-size: fit-content;
+  /* max-width: 100% !important;
+  max-height: 100% !important; */
   height: calc(100vh - 30px);
-  padding: 2rem 0;
+  padding: 2rem;
   width: 100%;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(var(--col, 5), 1fr);
+  grid-template-columns: repeat(var(--col, 3), 1fr);
   gap: 2rem;
   overflow: hidden;
+  align-items: center;
+  justify-items: center;
 }
 
 .holes d-canvas {
-  box-sizing: content-box;
+  /* max-width: 50% !important;
+  max-height: 50% !important; */
+  /* box-sizing: content-box; */
   border-radius: 3px;
-  aspect-ratio: 1;
-  border: 8px groove var(--typepad);
+  aspect-ratio: 16 / 10;
+  border: 4px groove var(--typepad);
+  transform: rotate3d(1, -1, 0, 11deg) scale(1.1);
   transition: transform 450ms ease-out, border 450ms ease-in 6s, box-shadow 450ms ease-out;
-  box-shadow: 48px 43px 45px #018;
+  box-shadow: 13px 13px 13px #463;
 }
 
 .holes d-canvas:hover {
   z-index: 1;
   border-style: ridge;
-  transform: rotate3d(1, 0, 0.2, 11deg) scale(1.1);
-  box-shadow: 10px 10px 21px #000;
+  transform: rotate3d(1, -1, 0, 0deg) scale(1);
+  filter: blur(2px);
+  box-shadow: 10px 10px 15px #333;
 }
 
 .holes d-canvas.zoom {
