@@ -31,7 +31,7 @@ export class DGazeClick extends LitElement {
     this.timer = setTimeout(() => {
       this.timer = null
       this.els?.[0].click()
-    }, 3000)
+    }, this.delay)
   }
 
   @eventOptions({ passive: true })

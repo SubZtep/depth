@@ -10,17 +10,14 @@ export class DToolbar extends LitElement {
   static styles = css`
     .toolbar {
       display: flex;
+      flex-direction: column;
       flex-wrap: wrap;
-      align-items: center;
       transform: translateX(-100%);
       transition: transform 250ms ease-out;
       padding: 2px 0;
       width: 100%;
       gap: 4px;
       accent-color: #8a0303;
-    }
-    .toolbar:first-child {
-      margin-left: 30px;
     }
     .shifted {
       background-image: radial-gradient(circle at center, #05675233 0%, #6669 30%, transparent 90%);
@@ -38,9 +35,12 @@ export class DToolbar extends LitElement {
     }
     ::slotted(label) {
       color: #fff;
-      user-select: none;
       cursor: pointer;
+      user-select: none;
       white-space: nowrap;
+    }
+    ::slotted(.disabled) {
+      cursor: not-allowed;
     }
     ::slotted(button) {
       color: #111;

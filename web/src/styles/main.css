@@ -19,21 +19,24 @@ body {
   --blood: #8a0303;
   --terminal: #4af626;
   --typepad: #d2de61;
+  --bodybg: var(--bg0);
 }
 
 body {
-  background: var(--bg2);
+  background: var(--bodybg);
 }
 
 .bg-select {
   position: absolute;
   top: 0;
   right: 0;
-  opacity: 0.4;
+  opacity: 0.6;
+  transform: scale(1.5);
+  transform-origin: top right;
   transition: opacity 100ms linear;
 }
 .bg-select:hover {
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 #ui,
@@ -66,10 +69,6 @@ body {
   justify-content: center;
 }
 
-.paused {
-  /* mask-image: radial-gradient(#000a, #000 69%); */
-}
-
 .holes {
   height: calc(100vh - 30px);
   padding: 2rem 0;
@@ -79,24 +78,13 @@ body {
   grid-template-columns: repeat(var(--col, 5), 1fr);
   gap: 2rem;
   overflow: hidden;
-  transform-style: preserve-3d;
-  /* @media (min-width: 666px) {
-    grid-template-columns: repeat(2, 1fr);
-  } */
 }
 
 .holes d-canvas {
-  transform-style: preserve-3d;
   box-sizing: content-box;
   border-radius: 3px;
-  /* aspect-ratio: 16 / 10; */
   aspect-ratio: 1;
-  /* transform: rotate3d(1, 1, 1, 5deg) scale(1.2); */
-  /* transition: all ease-in-out 1s; */
-  /* box-shadow: 1px 1px 10px #000; */
-
-  /* transform: rotate3d(1, 1, 1, 5deg) scale(1.2); */
-  border: 20px groove #364;
+  border: 8px groove var(--typepad);
   transition: transform 450ms ease-out, border 450ms ease-in 6s, box-shadow 450ms ease-out;
   box-shadow: 48px 43px 45px #018;
 }
@@ -104,10 +92,10 @@ body {
 .holes d-canvas:hover {
   z-index: 1;
   border-style: ridge;
-  transform: rotate3d(1, 0, 0.2, 11deg) scale(1.2);
+  transform: rotate3d(1, 0, 0.2, 11deg) scale(1.1);
   box-shadow: 10px 10px 21px #000;
 }
 
 .holes d-canvas.zoom {
-  border-width: 0 !important;
+  border-color: transparent;
 }

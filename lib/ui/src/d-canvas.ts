@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid"
 import { stateMake } from "@depth/statem"
 import { LitElement, html, css } from "lit"
 import { customElement, property } from "lit/decorators.js"
+import { classMap } from "lit/directives/class-map.js"
 import { when } from "lit/directives/when.js"
 import { ref } from "lit/directives/ref.js"
 import { startLooping } from "@depth/canvas"
@@ -87,6 +88,12 @@ export class DCanvas extends LitElement {
       font: 1rem "Trebuchet MS", Helvetica;
       letter-spacing: 1px;
     }
+    input {
+      cursor: pointer;
+    }
+    input[disabled] {
+      cursor: not-allowed;
+    }
     :host {
       display: block;
       position: relative;
@@ -119,7 +126,7 @@ export class DCanvas extends LitElement {
         <button @click=${this.stopRunning} ?disabled=${!this.statem.running}>
           <d-icon name="stop"></d-icon>
         </button>
-        <label>
+        <label class=${classMap({ disabled: this.statem.running })}>
           Offscreen
           <input
             type="checkbox"
@@ -130,6 +137,7 @@ export class DCanvas extends LitElement {
         </label>
         <label>
           FPS ${this.statem.fps === Number.POSITIVE_INFINITY ? "∞" : this.statem.fps}
+          <br />
           <input
             type="range"
             min="0"

@@ -1,5 +1,5 @@
 select.bg-select(
-  onchange="document.body.style.background='var(--bg'+this.selectedIndex+')';")
+  onchange="globalThis.statem.get('myState').bodybg = `var(--bg${this.selectedIndex})`")
   option(value="bg0") bg0
   option(value="bg1") bg1
   option(value="bg2") bg2
