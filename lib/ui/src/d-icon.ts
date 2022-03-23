@@ -2,8 +2,10 @@ import { LitElement, css } from "lit"
 import { customElement, property } from "lit/decorators.js"
 import * as icon from "./icons"
 
+/** Display an SVG icon. */
 @customElement("d-icon")
 export class DIcon extends LitElement {
+  /** Icon name. */
   @property() name!: keyof typeof icon
 
   static styles = css`

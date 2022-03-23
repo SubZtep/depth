@@ -16,10 +16,13 @@ body {
   --bg5: linear-gradient(19deg, #3eecac 0%, #ee74e1 100%);
   --bg6: #fff;
   --bg7: #000;
+  --blood: #8a0303;
+  --terminal: #4af626;
+  --typepad: #d2de61;
 }
 
 body {
-  background: var(--bg0);
+  background: var(--bg2);
 }
 
 .bg-select {
@@ -33,7 +36,6 @@ body {
   opacity: 0.6;
 }
 
-
 #ui,
 #hud,
 #scene,
@@ -46,32 +48,7 @@ body {
   position: absolute;
 }
 
-#ui {
-  pointer-events: none;
-}
-
-#ui > * {
-  pointer-events: all;
-}
-
-#ui > canvas {
-  width: inherit;
-  height: inherit;
-}
-
-#hud {
-  pointer-events: none;
-}
-
-#hud > * {
-  pointer-events: all;
-}
-
-#editor {
-  pointer-events: none;
-}
-
-#editor > #playback {
+.flex-x {
   position: absolute;
   top: 0;
   width: 100vw;
@@ -79,7 +56,7 @@ body {
   justify-content: center;
 }
 
-#editor > #components {
+.flex-y {
   position: absolute;
   right: 0;
   height: 100vh;
@@ -89,43 +66,41 @@ body {
   justify-content: center;
 }
 
-#editor > #hierarchy {
-  position: absolute;
-  left: 0;
-  height: 100vh;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-#editor > #playback > *,
-#editor > #components > *,
-#editor > #hierarchy > * {
-  pointer-events: all;
-}
-
-#scene.paused {
+.paused {
   mask-image: radial-gradient(#000a, #000 69%);
 }
 
-/* #scene > canvas {
-  width: inherit;
-  height: inherit;
-} */
-
 .holes {
-  margin: 3rem 0;
+  /* margin: 1rem 0; */
   width: 100%;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  @media (min-width: 669px) {
+  grid-template-columns: repeat(var(--col, 5), 1fr);
+  gap: 2rem;
+  overflow: hidden;
+  /* @media (min-width: 666px) {
     grid-template-columns: repeat(2, 1fr);
-  }
+  } */
 }
 
 .holes d-canvas {
   aspect-ratio: 16 / 10;
+  box-decoration-break: clone;
+  transform: rotate3d(1, 1, 1, 5deg) scale(1.2);
+  /* transition: all ease-in-out 1s; */
+  /* box-shadow: 1px 1px 10px #000; */
+
+  /* transform: rotate3d(1, 1, 1, 5deg) scale(1.2); */
+  border: 300px ridge #364;
+  transition: transform ease-in-out 1s, border ease-in 6s;
+  box-shadow: 48px 43px 45px #018;
+}
+
+.holes d-canvas:hover {
+  border-width: 3px;
+  transform: scale(1.5);
+}
+
+.holes d-canvas.zoom {
+  border-width: 3px !important;
 }
