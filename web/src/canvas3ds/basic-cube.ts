@@ -10,7 +10,7 @@ export default function ({ detail: { exec3D, loop3D } }: Canvas3DProps) {
         opacity: 0.4,
         transparent: true,
         specular: 0xffff00,
-        side: THREE.DoubleSide,
+        side: 2, //THREE.DoubleSide,
       })
     )
     cube.position.setZ(-1)
