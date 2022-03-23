@@ -79,31 +79,33 @@ body {
   grid-template-columns: repeat(var(--col, 5), 1fr);
   gap: 2rem;
   overflow: hidden;
+  transform-style: preserve-3d;
   /* @media (min-width: 666px) {
     grid-template-columns: repeat(2, 1fr);
   } */
 }
 
 .holes d-canvas {
+  transform-style: preserve-3d;
   box-sizing: content-box;
-  border-radius: 03px;
+  border-radius: 3px;
   /* aspect-ratio: 16 / 10; */
   aspect-ratio: 1;
-  box-decoration-break: clone;
-  transform: rotate3d(1, 1, 1, 5deg) scale(1.2);
+  /* transform: rotate3d(1, 1, 1, 5deg) scale(1.2); */
   /* transition: all ease-in-out 1s; */
   /* box-shadow: 1px 1px 10px #000; */
 
   /* transform: rotate3d(1, 1, 1, 5deg) scale(1.2); */
   border: 20px groove #364;
-  transition: transform 500ms ease-in-out, border 500ms ease-in 6s, box-shadow 450ms ease-out;
+  transition: transform 450ms ease-out, border 450ms ease-in 6s, box-shadow 450ms ease-out;
   box-shadow: 48px 43px 45px #018;
 }
 
 .holes d-canvas:hover {
+  z-index: 1;
   border-style: ridge;
-  transform: scale(1.4);
-  box-shadow: 10px 10px 21px var(--blood);
+  transform: rotate3d(1, 0, 0.2, 11deg) scale(1.2);
+  box-shadow: 10px 10px 21px #000;
 }
 
 .holes d-canvas.zoom {

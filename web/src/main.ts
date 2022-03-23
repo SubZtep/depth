@@ -25,12 +25,12 @@ function createCube(i: number) {
 
   cube.receiveShadow = true
   cube.castShadow = true
-  // const light = new THREE.PointLight(0x69ff69, 1)
-  // light.power = 10
-  // light.decay = 2
-  // light.distance = width // Number.POSITIVE_INFINITY
-  // light.position.setZ(width / 2 + 1)
-  // cube.add(light)
+  const light = new THREE.PointLight(0x69ff69, 1)
+  light.power = 10
+  light.decay = 2
+  light.distance = width // Number.POSITIVE_INFINITY
+  light.position.setZ(width / 2 + 1)
+  cube.add(light)
   cube.position.set(randomInt(-50, 50), randomInt(-50, 50), randomInt(-50, 50))
   return cube
 }
