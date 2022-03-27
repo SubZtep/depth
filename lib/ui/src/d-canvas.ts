@@ -25,7 +25,7 @@ const resize = new ResizeObserver(
 @customElement("d-canvas")
 export class DCanvas extends LitElement {
   /** Start rendering immediately. */
-  @property({ type: Boolean }) autoplay = false
+  @property({ type: Boolean }) autoplay = true
 
   /** Run rendering in web worker. */
   @property({ type: Boolean }) offscreen = false
@@ -91,7 +91,7 @@ export class DCanvas extends LitElement {
       cursor: not-allowed;
     }
     :host {
-      cursor: cell;
+      cursor: crosshair;
       display: block;
       position: relative;
       writing-mode: vertical-tb; /* for ResizeObserverSize */

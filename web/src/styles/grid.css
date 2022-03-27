@@ -1,0 +1,23 @@
+.holes {
+  position: fixed;
+  inset: 35px 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+d-canvas:nth-child(4) {
+  grid-column: span 3 / auto;
+}
+
+.holes d-canvas {
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--blood);
+}
+
+.holes d-canvas:hover {
+  border-color: var(--typepad);
+}
+
+.holes d-canvas.zoom {
+  border-color: transparent;
+}

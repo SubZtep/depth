@@ -11,18 +11,26 @@
     <link rel="manifest" href="/site.webmanifest" />
   </head>
   <body>
-    <d-css-var
-      property="--bodybg"
-      values="['--bg0', '--bg1', '--bg2', '--bg3', '--bg4', '--bg5', '--bg6', '--bg7']"
-      sid="myState"
-    >
-    </d-css-var>
+    <div class="toolbar">
+      <d-css-var
+        property="--bodybg"
+        values="['--bg0', '--bg1', '--bg2', '--bg3', '--bg4', '--bg5', '--bg6', '--bg7', '--bg8']"
+        sid="myState"
+      >
+      </d-css-var>
 
-    <pug src="src/partials/background-select.pug"></pug>
-    <pug src="src/partials/column-select.pug"></pug>
-    <button onclick="globalThis.canvasgen()">ADD Canvas</button>
+      <pug src="src/partials/background-select.pug"></pug>
+      <pug src="src/partials/column-select.pug"></pug>
+      <button onclick="globalThis.canvasgen()">ADD Canvas</button>
+    </div>
 
-    <div class="holes"></div>
+    <div class="holes">
+      <d-canvas></d-canvas>
+      <d-canvas></d-canvas>
+      <d-canvas></d-canvas>
+
+      <d-canvas></d-canvas>
+    </div>
 
     <script type="module" src="./src/main.ts"></script>
   </body>

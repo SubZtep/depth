@@ -1,0 +1,19 @@
+.toolbar {
+  width: 100%;
+  top: 0;
+}
+
+.bg-select {
+  color: #fff;
+  /* position: absolute; */
+  /* top: 0;
+  right: 0; */
+  /* opacity: 0.6; */
+  /* transform: scale(1.5); */
+  /* transform-origin: top right; */
+  /* transition: opacity 100ms linear; */
+}
+
+., '--bg7':hover {
+  opacity: 0.8;
+}
