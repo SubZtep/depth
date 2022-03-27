@@ -26,11 +26,15 @@
     </div>
 
     <div class="holes">
-      <d-canvas></d-canvas>
-      <d-canvas></d-canvas>
-      <d-canvas></d-canvas>
+      <!-- <div></div>
+      <div></div>
+      <div></div> -->
+      <d-canvas id="blue" autoplay></d-canvas>
+      <d-canvas id="red" autoplay></d-canvas>
+      <canvas id="green"></canvas>
+      <!-- <d-canvas id="green" view="#rend" autoplay></d-canvas> -->
 
-      <d-canvas id="rend" autoplay></d-canvas>
+      <d-canvas id="rend" sid="mainc" autoplay></d-canvas>
     </div>
 
     <script type="module" src="./src/main.ts"></script>

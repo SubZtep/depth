@@ -1,4 +1,7 @@
 import basicCube from "./canvas3ds/basic-cube"
+import testScene from "./canvas3ds/test-scene"
+import cameraView from "./canvas3ds/camera-view"
+import blue from "./canvas3ds/blue"
 import { stateMake } from "@depth/statem"
 import "./styles/main.css"
 import "@depth/ui"
@@ -10,7 +13,10 @@ stateMake(
   "myState"
 )
 
-document.querySelector("#rend")?.addEventListener("start", basicCube)
+document.querySelector("#blue")?.addEventListener("start", blue)
+document.querySelector("#red")?.addEventListener("start", basicCube)
+document.querySelector("#rend")?.addEventListener("start", testScene)
+document.querySelector("#rend")?.addEventListener("start", cameraView)
 
 // globalThis.canvasgen = (sid: string = "666") => {
 //   const el = document.createElement("d-canvas")

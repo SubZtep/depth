@@ -66,6 +66,15 @@ export class Store<State extends object> {
 
   /** Update multiple values and a single callback. */
   patch(data: Partial<State>) {
+    let changed = false
+    for (const [key, value] of Object.entries(data)) {
+      if (this.state[key] !== value) {
+        changed = true
+        break
+      }
+    }
+    if (!changed) return
+
     const oldState = { ...this.state }
     this.patching = true
     //TODO: test, is it synchronous?

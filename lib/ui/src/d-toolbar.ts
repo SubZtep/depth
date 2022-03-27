@@ -8,8 +8,18 @@ import "./d-icon"
 @customElement("d-toolbar")
 export class DToolbar extends LitElement {
   static styles = css`
+    * {
+      font: 1rem "Trebuchet MS", Helvetica;
+      letter-spacing: 1px;
+    }
+    input {
+      cursor: pointer;
+    }
+    input[disabled] {
+      cursor: not-allowed;
+    }
     :host {
-      position: relative;
+      position: absolute;
       width: 100%;
       height: 100%;
       display: flex;
