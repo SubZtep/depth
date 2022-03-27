@@ -1,4 +1,5 @@
 import { init } from "./renderer"
+import * as THREE from "three"
 
 // @ts-ignore
 const statem: CanvasStatem = {}
@@ -31,6 +32,10 @@ function handleMessage({ data }: MessageEvent<CanvasMessage>) {
   if (data.type === "init") {
     injectedFunctions = data.injectedFunctions
     data.statem = statem
+    // data.scene = JSON.parse(data.scene)
+    data.scene = new THREE.ObjectLoader().parse(data.scene)
+    // data.scene = data.scene || new THREE.Scene()
+    // console.log("QWQ", data)
   }
   fn(data)
 }

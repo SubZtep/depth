@@ -14,7 +14,7 @@ export const Resizer = <T extends Constructor<LitElement>>(superclass: T) => {
   class ResizeMixinClass extends superclass {
     protected resizeCallback({ contentBoxSize: [{ blockSize, inlineSize }] }: ResizeObserverEntry) {
       // @ts-ignore
-      this.statem.patch({ width: Math.trunc(inlineSize), height: Math.trunc(blockSize) })
+      this.statem.patch({ width: Math.round(inlineSize), height: Math.round(blockSize) })
     }
 
     firstUpdated() {

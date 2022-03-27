@@ -3,12 +3,16 @@ import type { CanvasStatem, StartLoopingReturn } from "@depth/canvas"
 import type { DCanvas } from "./d-canvas"
 import type Store from "@depth/statem"
 import { startLooping } from "@depth/canvas"
+import * as THREE from "three"
+
+// const scene = new THREE.Scene()
+// scene.background = new THREE.Color(0xff0000)
 
 export class CanvasController implements ReactiveController {
   host: ReactiveControllerHost & DCanvas
   private statem!: Store<CanvasStatem> & CanvasStatem
   private startCallback: (props: StartLoopingReturn) => void
-  private viewEl: Element | null = null
+  // private viewEl: Element | null = null
 
   inited = false
 
@@ -23,11 +27,11 @@ export class CanvasController implements ReactiveController {
     this.startCallback = startCallback
   }
 
-  hostConnected() {
-    if (this.host.view) {
-      this.viewEl = document.querySelector(this.host.view)
-    }
-  }
+  // hostConnected() {
+  //   if (this.host.view) {
+  //     this.viewEl = document.querySelector(this.host.view)
+  //   }
+  // }
 
   // hostDisconnected() {
   //   if (this.host.view && this.viewEl && this.viewListener) {
@@ -36,13 +40,20 @@ export class CanvasController implements ReactiveController {
   // }
 
   hostUpdated() {
+    // console.log("q", this.host.view)
     const cameraView = !!this.host.view
 
     if (!cameraView) {
-      const detail = startLooping({ canvas: this.host.canvas, statem: this.statem, cameraView })
+      const detail = startLooping({
+        canvas: this.host.canvas,
+        statem: this.statem,
+        cameraView,
+        // scene,
+      })
       this.startCallback(detail)
     } else {
-      this.viewEl!.addEventListener("start", ({ detail: { scene } }: CustomEventInit) => {
+      // this.viewEl!.addEventListener("start", ({ detail: { scene } }: CustomEventInit) => {
+      document.querySelector(this.host.view!)!.addEventListener("start", ({ detail: { scene } }: CustomEventInit) => {
         startLooping({ canvas: this.host.canvas, statem: this.statem, cameraView, scene })
       })
     }

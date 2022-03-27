@@ -1,7 +1,7 @@
 import * as THREE from "three"
 
 export default function ({ detail: { exec3D, loop3D } }: Canvas3DProps) {
-  let boxid: number
+  // let boxid: number
   exec3D(({ scene, camera }) => {
     camera.position.set(3, 4, 2)
     camera.lookAt(0, 1, 0)
@@ -18,7 +18,8 @@ export default function ({ detail: { exec3D, loop3D } }: Canvas3DProps) {
     plane.rotateX(-Math.PI / 2)
     box.position.setY(0.5)
     scene.add(directionalLight, directionalLight.target, plane, box)
-    boxid = box.id
+    // boxid = box.id
+    box.name = "boxocska"
 
     // for (let i = -10; i < 10; i++) {
     //   for (let j = -10; j < 10; j++) {
@@ -32,6 +33,6 @@ export default function ({ detail: { exec3D, loop3D } }: Canvas3DProps) {
   })
 
   loop3D(({ scene, deltaTime }) => {
-    scene.getObjectById(boxid).rotation.y += 50 * (Math.PI / 180) * deltaTime
+    scene.getObjectByName("boxocska").rotation.y += 50 * (Math.PI / 180) * deltaTime
   })
 }

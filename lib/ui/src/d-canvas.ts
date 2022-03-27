@@ -53,6 +53,7 @@ export class DCanvas extends Resizer(LitElement) {
     super.connectedCallback()
     this.createState()
 
+    // console.log("QQQQ")
     this.canvasCtrl = new CanvasController(this, this.statem, (detail) => {
       /** Fires when the 3D canvas start rendering. */
       this.dispatchEvent(
@@ -84,6 +85,7 @@ export class DCanvas extends Resizer(LitElement) {
   ]
 
   render() {
+    // console.log("AADAE", this.statem.height)
     return html`
       <d-toolbar ?shifted=${!this.autoplay}>
         <button @click=${this.startRunning} ?disabled=${this.statem.running}>

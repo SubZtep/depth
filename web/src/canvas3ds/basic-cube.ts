@@ -11,7 +11,8 @@ export default function ({ detail: { exec3D, loop3D } }: Canvas3DProps) {
         opacity: 0.4,
         transparent: true,
         specular: 0xffff00,
-        side: 2, //THREE.DoubleSide,
+        side: THREE.DoubleSide,
+        // side: 2, //THREE.DoubleSide,
       })
     )
     cube.position.setZ(-1)
@@ -23,7 +24,7 @@ export default function ({ detail: { exec3D, loop3D } }: Canvas3DProps) {
   })
 
   loop3D(({ scene, deltaTime }) => {
-    scene.children[0].rotation.y += 80 * (Math.PI / 180) * deltaTime
-    scene.children[0].rotation.z += 100 * (Math.PI / 180) * deltaTime
+    scene.children[0].rotation.y += 10 * (Math.PI / 180) * deltaTime
+    scene.children[0].rotation.z += 20 * (Math.PI / 180) * deltaTime
   })
 }

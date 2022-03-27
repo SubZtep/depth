@@ -3,12 +3,14 @@ import { init } from "./renderer"
 import OffscreenWorker from "./offscreen?worker&inline"
 import * as THREE from "three"
 
-function startWorker({ canvas, injectedFunctions, statem, worker }: StartWorkerProps) {
+function startWorker({ canvas, injectedFunctions, statem, worker, scene }: StartWorkerProps) {
   const offscreen = canvas.transferControlToOffscreen!()
   const message = {
     type: "init",
     canvas: offscreen,
     injectedFunctions,
+    scene: scene.toJSON(),
+    // scene: JSON.stringify(scene),
   }
   const updateStatem: WorkerStatemFn = (seriStatem: CanvasStatemSerialised) => {
     worker.postMessage({
@@ -34,7 +36,9 @@ function startMainPage({ canvas, injectedFunctions, statem, scene }: StartMainPr
 export function startLooping({ canvas, statem, cameraView, scene }: StartLoopingProps): StartLoopingReturn {
   statem.offscreen = "transferControlToOffscreen" in canvas && statem.offscreen
 
+  // console.log("START " + statem, scene)
   if (!scene) {
+    // @ts-ignore
     scene = new THREE.Scene()
   }
 

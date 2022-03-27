@@ -1,5 +1,6 @@
 import basicCube from "./canvas3ds/basic-cube"
 import testScene from "./canvas3ds/test-scene"
+import blue from "./canvas3ds/blue"
 import { stateMake } from "@depth/statem"
 import "./styles/main.css"
 import "@depth/ui"

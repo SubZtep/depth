@@ -1,17 +1,27 @@
 import * as THREE from "three"
 import { createRenderer } from "./builders"
 
+// export function init({ canvas, injectedFunctions, statem }: InitMessage) {
 export function init({ canvas, injectedFunctions, statem, scene }: InitMessage) {
   const cameraView = !!injectedFunctions
   let oldWidth = 0
   let oldHeight = 0
+
+  console.log("SS", scene)
 
   const renderer = createRenderer(canvas)
 
   let camera = new THREE.PerspectiveCamera(90)
   // @ts-ignore
   camera.name = `camera-${statem.sid}`
-
+  if (camera.name === "camera-c1") {
+    camera.position.set(0, 5, 0)
+    camera.lookAt(0, 0, 0)
+  }
+  if (camera.name === "camera-c2") {
+    camera.position.set(5, 1, 0)
+    camera.lookAt(0, 0, 0)
+  }
   const clock = new THREE.Clock()
 
   function canvasResizer() {
@@ -23,14 +33,14 @@ export function init({ canvas, injectedFunctions, statem, scene }: InitMessage) 
     renderer.setSize(statem.width, statem.height, false)
   }
 
-  canvasResizer()
+  // canvasResizer()
 
   function clearContext() {
     if (!cameraView) {
       injectedFunctions!.singleFns.length = 0
       injectedFunctions!.loopFns.length = 0
     }
-    scene.clear()
+    // scene.clear()
     renderer.clear()
   }
 
@@ -46,14 +56,14 @@ export function init({ canvas, injectedFunctions, statem, scene }: InitMessage) 
     } else {
       const fps = statem.fps
 
-      if (camera.name === "camera-c1") {
-        camera.position.set(0, 5, 0)
-        camera.lookAt(0, 0, 0)
-      }
-      if (camera.name === "camera-c2") {
-        camera.position.set(5, 1, 0)
-        camera.lookAt(0, 0, 0)
-      }
+      // if (camera.name === "camera-c1") {
+      //   camera.position.set(0, 5, 0)
+      //   camera.lookAt(0, 0, 0)
+      // }
+      // if (camera.name === "camera-c2") {
+      //   camera.position.set(5, 1, 0)
+      //   camera.lookAt(0, 0, 0)
+      // }
 
       renderer.render(scene, camera)
       requestAnimationFrame(render)
@@ -80,6 +90,8 @@ export function init({ canvas, injectedFunctions, statem, scene }: InitMessage) 
         ])
         injectedFunctions!.singleFns.length = 0
       }
+
+      // TODO: update scene for offscreen if injected functions made change
 
       canvasResizer()
     }
