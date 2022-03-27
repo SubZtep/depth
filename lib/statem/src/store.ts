@@ -5,6 +5,7 @@ export interface Statem {
 }
 
 export class Store<State extends object> {
+  public sid
   private state!: State
   private callbacks = new Set<Callback<State>>() // TODO: WeakRef
   private patching = false

@@ -2,7 +2,7 @@ import { init } from "./renderer"
 
 // @ts-ignore
 const statem: CanvasStatem = {}
-let injectedFunctions: InjectedFunctions
+let injectedFunctions: InjectedFunctions | undefined
 
 function updateStatem({ statem: newStatem }: StatemMessage) {
   Object.assign(statem, JSON.parse(newStatem))
@@ -12,11 +12,11 @@ function updateStatem({ statem: newStatem }: StatemMessage) {
 }
 
 function exec3D({ fn }: Exec3DMessage) {
-  injectedFunctions.singleFns.push(fn)
+  injectedFunctions?.singleFns.push(fn)
 }
 
 function loop3D({ fn }: Loop3DMessage) {
-  injectedFunctions.loopFns.push(fn)
+  injectedFunctions?.loopFns.push(fn)
 }
 
 const handlers: Record<string, any> = {

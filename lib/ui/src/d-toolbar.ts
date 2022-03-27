@@ -26,9 +26,6 @@ export class DToolbar extends LitElement {
       align-items: center;
     }
     .toolbar {
-      /* position: absolute; */
-      /* top: 0;
-      left: 0; */
       display: flex;
       align-content: center;
       flex-direction: column;

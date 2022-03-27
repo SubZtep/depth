@@ -1,4 +1,4 @@
-export { startLooping } from "./startup"
+export * from "./startup"
 
 interface CanvasStatem {
   fps: number
@@ -11,6 +11,7 @@ interface CanvasStatem {
 interface StartLoopingReturn {
   exec3D: (fn: CanvasInjectedFn) => void
   loop3D: (fn: CanvasInjectedFn) => void
+  scene: THREE.Scene
 }
 
 export type { CanvasStatem, StartLoopingReturn }

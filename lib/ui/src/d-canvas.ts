@@ -1,12 +1,8 @@
 import { v4 as uuidv4 } from "uuid"
 import { stateMake } from "@depth/statem"
 import { LitElement, html, css } from "lit"
-import { customElement, property } from "lit/decorators.js"
+import { customElement, property, query } from "lit/decorators.js"
 import { classMap } from "lit/directives/class-map.js"
-import { when } from "lit/directives/when.js"
-import { Ref, ref, createRef } from "lit/directives/ref.js"
-import { startLooping } from "@depth/canvas"
-import type { RefOrCallback } from "lit/directives/ref.js"
 import type { CanvasStatem, StartLoopingReturn } from "@depth/canvas"
 import type Store from "@depth/statem"
 import { Resizer, styles as resizerStyles } from "./resizer"
@@ -14,11 +10,12 @@ import "./d-toolbar"
 import "./d-icon"
 import { CanvasController } from "./canvas-controller"
 
-// export class DCanvas extends Resizer(LitElement) {
 /** 3D canvas element. */
 @customElement("d-canvas")
 export class DCanvas extends Resizer(LitElement) {
-  private canvasRef!: Ref<HTMLCanvasElement>
+  @query(":host > canvas", false) canvas!: HTMLCanvasElement
+
+  // private canvasRef!: Ref<HTMLCanvasElement>
   private canvasCtrl!: CanvasController
 
   /** Start rendering immediately. */
@@ -30,35 +27,33 @@ export class DCanvas extends Resizer(LitElement) {
   /** Statem Id. */
   @property({ type: String }) sid = uuidv4()
 
+  /** Selector for the main `d-canvas` element. */
   @property({ type: String }) view?: string
 
   private statem!: Store<CanvasStatem> & CanvasStatem
 
-  connectedCallback() {
-    super.connectedCallback()
+  private createState() {
     this.statem = stateMake<CanvasStatem>(
       {
         running: this.autoplay,
-        offscreen: false, //this.offscreen,
+        offscreen: this.offscreen,
         fps: Number.POSITIVE_INFINITY,
         width: this.clientWidth,
         height: this.clientHeight,
       },
       this.sid
     )
+
     this.statem.subscribe((state) => {
       this.requestUpdate("state", state)
     })
-    this.canvasRef = createRef()
+  }
 
-    if (this.view) {
-      // document.querySelector(this.view)?.addEventListener("start", ({ detail: { exec3D, loop3D } }: any) => {
+  connectedCallback() {
+    super.connectedCallback()
+    this.createState()
 
-      // })
-      return
-    }
-
-    this.canvasCtrl = new CanvasController(this, this.canvasRef, this.statem, (detail) => {
+    this.canvasCtrl = new CanvasController(this, this.statem, (detail) => {
       /** Fires when the 3D canvas start rendering. */
       this.dispatchEvent(
         new CustomEvent<StartLoopingReturn>("start", {
@@ -81,10 +76,10 @@ export class DCanvas extends Resizer(LitElement) {
         height: 100%;
         overflow: hidden;
       }
-      :host(canvas) {
+      /* :host > canvas {
         width: inherit;
         height: inherit;
-      }
+      } */
     `,
   ]
 
@@ -118,7 +113,7 @@ export class DCanvas extends Resizer(LitElement) {
           />
         </label>
       </d-toolbar>
-      ${when(this.statem.running, () => html`<canvas ${ref(this.canvasRef)}></canvas>`)}
+      <canvas class=${this.view ?? "mennyehaza"}></canvas>
     `
   }
 

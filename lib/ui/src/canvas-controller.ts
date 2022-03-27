@@ -3,31 +3,48 @@ import type { CanvasStatem, StartLoopingReturn } from "@depth/canvas"
 import type { DCanvas } from "./d-canvas"
 import type Store from "@depth/statem"
 import { startLooping } from "@depth/canvas"
-import { Ref } from "lit/directives/ref"
 
 export class CanvasController implements ReactiveController {
   host: ReactiveControllerHost & DCanvas
-  private canvasRef!: Ref<HTMLCanvasElement>
   private statem!: Store<CanvasStatem> & CanvasStatem
   private startCallback: (props: StartLoopingReturn) => void
+  private viewEl: Element | null = null
+
+  inited = false
 
   constructor(
     host: ReactiveControllerHost & DCanvas,
-    canvasRef: Ref<HTMLCanvasElement>,
     statem: Store<CanvasStatem> & CanvasStatem,
     startCallback: (props: StartLoopingReturn) => void
   ) {
     this.host = host
-    this.canvasRef = canvasRef
     this.statem = statem
-    this.startCallback = startCallback
     this.host.addController(this)
+    this.startCallback = startCallback
   }
 
+  hostConnected() {
+    if (this.host.view) {
+      this.viewEl = document.querySelector(this.host.view)
+    }
+  }
+
+  // hostDisconnected() {
+  //   if (this.host.view && this.viewEl && this.viewListener) {
+  //     this.viewEl.removeEventListener("start", this.viewListener)
+  //   }
+  // }
+
   hostUpdated() {
-    if (this.statem.running) {
-      const detail = startLooping({ canvas: this.canvasRef.value, statem: this.statem })
+    const cameraView = !!this.host.view
+
+    if (!cameraView) {
+      const detail = startLooping({ canvas: this.host.canvas, statem: this.statem, cameraView })
       this.startCallback(detail)
+    } else {
+      this.viewEl!.addEventListener("start", ({ detail: { scene } }: CustomEventInit) => {
+        startLooping({ canvas: this.host.canvas, statem: this.statem, cameraView, scene })
+      })
     }
   }
 }

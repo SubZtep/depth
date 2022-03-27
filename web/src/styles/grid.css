@@ -10,6 +10,7 @@ d-canvas:nth-child(4) {
 }
 
 .holes d-canvas {
+  min-height: 200px;
   aspect-ratio: 16 / 10;
   border: 1px solid var(--blood);
 }

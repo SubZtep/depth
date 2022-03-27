@@ -12,4 +12,7 @@ declare global {
     "d-icon": import("./d-icon").DIcon
     "d-css-var": import("./d-css-var").DCssVar
   }
+  interface CustomEventMap {
+    start: CustomEvent<{ detail: import("@depth/canvas").StartLoopingReturn }>
+  }
 }

@@ -13,14 +13,3 @@ export function createRenderer(canvas: InitMessage["canvas"]) {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap
   return renderer
 }
-
-export function createCamera({ width, height }: CanvasStatem) {
-  const camera = new THREE.PerspectiveCamera(90, width / height, 1, 2000)
-  return camera
-}
-
-export function createScene() {
-  const scene = new THREE.Scene()
-  scene.background = new THREE.Color(0x666600)
-  return scene
-}

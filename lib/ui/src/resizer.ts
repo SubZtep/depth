@@ -1,10 +1,9 @@
 import { LitElement, css } from "lit"
 import { debounce } from "@depth/misc"
-type Constructor<T = {}> = new (...args: any[]) => T
+type Constructor<T = object> = new (...args: any[]) => T
 
 const resize = new ResizeObserver(
   debounce((entries) => {
-    // console.log(entries)
     for (const entry of entries) {
       entry.target.resizeCallback(entry)
     }
@@ -18,14 +17,18 @@ export const Resizer = <T extends Constructor<LitElement>>(superclass: T) => {
       this.statem.patch({ width: Math.trunc(inlineSize), height: Math.trunc(blockSize) })
     }
 
-    connectedCallback() {
-      super.connectedCallback()
+    firstUpdated() {
       resize.observe(this)
     }
 
+    // connectedCallback() {
+    //   super.connectedCallback()
+    //   resize.observe(this)
+    // }
+
     disconnectedCallback() {
-      resize.unobserve(this)
       super.disconnectedCallback()
+      resize.unobserve(this)
     }
   }
 

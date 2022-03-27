@@ -10,6 +10,7 @@ export function stateMake<T extends object>(initialState: T, sid = uuidv4()): St
     store = globalThis.statem.get(sid)
   } else {
     store = new Store<T>(initialState)
+    store.sid = sid
     globalThis.statem.set(sid, store)
   }
   return store as Store<T> & T
