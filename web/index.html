@@ -11,6 +11,7 @@
     <link rel="manifest" href="/site.webmanifest" />
   </head>
   <body>
+
     <div class="toolbar">
       <d-css-var
         property="--bodybg"
@@ -18,10 +19,10 @@
         sid="myState"
       >
       </d-css-var>
-
       <pug src="src/partials/background-select.pug"></pug>
-      <pug src="src/partials/column-select.pug"></pug>
-      <button onclick="globalThis.canvasgen()">ADD Canvas</button>
+      <!-- <pug src="src/partials/column-select.pug"></pug> -->
+      <!-- <button onclick="globalThis.canvasgen()">ADD Canvas</button> -->
+      <button onclick="">x</button>
     </div>
 
     <div class="holes">
@@ -29,7 +30,7 @@
       <d-canvas></d-canvas>
       <d-canvas></d-canvas>
 
-      <d-canvas></d-canvas>
+      <d-canvas id="rend" autoplay></d-canvas>
     </div>
 
     <script type="module" src="./src/main.ts"></script>

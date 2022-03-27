@@ -1,8 +1,8 @@
 .holes {
   position: fixed;
-  inset: 35px 0;
+  inset: 35px 0 0 0;
   display: grid;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 d-canvas:nth-child(4) {
@@ -15,7 +15,7 @@ d-canvas:nth-child(4) {
 }
 
 .holes d-canvas:hover {
-  border-color: var(--typepad);
+  outline: 1px solid #ff05;
 }
 
 .holes d-canvas.zoom {

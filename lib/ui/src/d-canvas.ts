@@ -25,7 +25,7 @@ const resize = new ResizeObserver(
 @customElement("d-canvas")
 export class DCanvas extends LitElement {
   /** Start rendering immediately. */
-  @property({ type: Boolean }) autoplay = true
+  @property({ type: Boolean }) autoplay = false
 
   /** Run rendering in web worker. */
   @property({ type: Boolean }) offscreen = false
@@ -91,7 +91,6 @@ export class DCanvas extends LitElement {
       cursor: not-allowed;
     }
     :host {
-      cursor: crosshair;
       display: block;
       position: relative;
       writing-mode: vertical-tb; /* for ResizeObserverSize */
@@ -103,6 +102,7 @@ export class DCanvas extends LitElement {
       height: 100%;
       overflow: hidden;
       resize: both;
+      box-shadow: inset 0 1px 0 0 #000, inset -1px 0 0 0 #000, inset 0 -1px 0 0 #000, inset 1px 0 0 0 #000;
     }
     :host(:hover) {
       background-size: 1.945rem 1.945rem;

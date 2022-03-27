@@ -1,4 +1,4 @@
-// import basicCube from "./canvas3ds/basic-cube"
+import basicCube from "./canvas3ds/basic-cube"
 import { stateMake } from "@depth/statem"
 import "./styles/main.css"
 import "@depth/ui"
@@ -9,6 +9,8 @@ stateMake(
   },
   "myState"
 )
+
+document.querySelector("#rend")?.addEventListener("start", basicCube)
 
 // globalThis.canvasgen = (sid: string = "666") => {
 //   const el = document.createElement("d-canvas")
