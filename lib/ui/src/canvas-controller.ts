@@ -4,6 +4,7 @@ import type { DCanvas } from "./d-canvas"
 import type Store from "@depth/statem"
 import { startLooping } from "@depth/canvas"
 import * as THREE from "three"
+import { statem } from "@depth/statem"
 
 // const scene = new THREE.Scene()
 // scene.background = new THREE.Color(0xff0000)
@@ -27,12 +28,6 @@ export class CanvasController implements ReactiveController {
     this.startCallback = startCallback
   }
 
-  // hostConnected() {
-  //   if (this.host.view) {
-  //     this.viewEl = document.querySelector(this.host.view)
-  //   }
-  // }
-
   // hostDisconnected() {
   //   if (this.host.view && this.viewEl && this.viewListener) {
   //     this.viewEl.removeEventListener("start", this.viewListener)
@@ -52,6 +47,13 @@ export class CanvasController implements ReactiveController {
       })
       this.startCallback(detail)
     } else {
+      // const sid = document.querySelector(this.host.view!)?.getAttribute("sid")
+      // const st = statem(sid!)
+      // console.log("XXCCC", st)
+      // st.subscribe((s, o) => {
+      //   console.log("ZXX", [s, o])
+      // })
+
       // this.viewEl!.addEventListener("start", ({ detail: { scene } }: CustomEventInit) => {
       document.querySelector(this.host.view!)!.addEventListener("start", ({ detail: { scene } }: CustomEventInit) => {
         startLooping({ canvas: this.host.canvas, statem: this.statem, cameraView, scene })

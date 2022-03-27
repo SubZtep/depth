@@ -36,10 +36,8 @@ function startMainPage({ canvas, injectedFunctions, statem, scene }: StartMainPr
 export function startLooping({ canvas, statem, cameraView, scene }: StartLoopingProps): StartLoopingReturn {
   statem.offscreen = "transferControlToOffscreen" in canvas && statem.offscreen
 
-  // console.log("START " + statem, scene)
   if (!scene) {
-    // @ts-ignore
-    scene = new THREE.Scene()
+    scene = new THREE.ObjectLoader().parse(statem.scene!)
   }
 
   const injectedFunctions: InjectedFunctions | undefined = cameraView
@@ -53,6 +51,7 @@ export function startLooping({ canvas, statem, cameraView, scene }: StartLooping
   let sendStatem: WorkerStatemFn
 
   if (statem.offscreen) {
+    // console.log("QWEQWE", canvas)
     worker = new OffscreenWorker()
     sendStatem = startWorker({ canvas, injectedFunctions, statem, worker, scene })
     const unsubscribe = statem.subscribe((s: CanvasStatem) => {

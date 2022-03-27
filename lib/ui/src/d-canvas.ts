@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid"
-import { stateMake } from "@depth/statem"
+import { stateMake, statem } from "@depth/statem"
 import { LitElement, html, css } from "lit"
 import { customElement, property, query } from "lit/decorators.js"
 import { classMap } from "lit/directives/class-map.js"
@@ -9,6 +9,7 @@ import { Resizer, styles as resizerStyles } from "./resizer"
 import "./d-toolbar"
 import "./d-icon"
 import { CanvasController } from "./canvas-controller"
+import * as THREE from "three"
 
 /** 3D canvas element. */
 @customElement("d-canvas")
@@ -25,7 +26,7 @@ export class DCanvas extends Resizer(LitElement) {
   @property({ type: Boolean }) offscreen = false
 
   /** Statem Id. */
-  @property({ type: String }) sid = uuidv4()
+  @property({ type: String, reflect: false }) sid = uuidv4()
 
   /** Selector for the main `d-canvas` element. */
   @property({ type: String }) view?: string
@@ -33,6 +34,22 @@ export class DCanvas extends Resizer(LitElement) {
   private statem!: Store<CanvasStatem> & CanvasStatem
 
   private createState() {
+    // if (this.view) {
+    //   //   // @ts-ignore
+    //   const sid = document.querySelector(this.view)?.getAttribute("sid")
+    //   const st = statem(sid!)
+    //   // console.log("XXCCC", s)
+    //   st.subscribe((s, o) => {
+    //     if (JSON.stringify(s.scene) !== JSON.stringify(o.scene)) {
+    //       this.statem.scene = s.scene
+    //       // console.log("SCENEchg", s.scene)
+    //       // this.canvasCtrl.setScene(s.scene)
+    //     }
+    //   })
+    // } else {
+    //   console.log("boss create state")
+    // }
+
     this.statem = stateMake<CanvasStatem>(
       {
         running: this.autoplay,
@@ -40,20 +57,34 @@ export class DCanvas extends Resizer(LitElement) {
         fps: Number.POSITIVE_INFINITY,
         width: this.clientWidth,
         height: this.clientHeight,
+        scene: this.view ? undefined : new THREE.Scene().toJSON(),
       },
       this.sid
     )
 
-    this.statem.subscribe((state) => {
-      this.requestUpdate("state", state)
+    this.statem.subscribe((state, old) => {
+      if (
+        state.width !== old.width ||
+        state.height !== old.height ||
+        state.fps !== old.fps ||
+        state.running !== old.running ||
+        state.offscreen !== old.offscreen
+      ) {
+        this.requestUpdate("state", state)
+      }
+
+      if (!this.view && JSON.stringify(state.scene) !== JSON.stringify(old.scene)) {
+        // console.log("BOOOOO", [state.scene, old.scene])
+      }
+      // this.canvasCtrl.setSize(state.width, state.height)
     })
   }
 
   connectedCallback() {
+    // console.log("QQQQ", this.sid)
     super.connectedCallback()
     this.createState()
 
-    // console.log("QQQQ")
     this.canvasCtrl = new CanvasController(this, this.statem, (detail) => {
       /** Fires when the 3D canvas start rendering. */
       this.dispatchEvent(

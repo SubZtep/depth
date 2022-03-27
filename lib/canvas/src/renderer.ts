@@ -7,7 +7,7 @@ export function init({ canvas, injectedFunctions, statem, scene }: InitMessage) 
   let oldWidth = 0
   let oldHeight = 0
 
-  console.log("SS", scene)
+  // console.log("SS", scene)
 
   const renderer = createRenderer(canvas)
 
@@ -20,6 +20,10 @@ export function init({ canvas, injectedFunctions, statem, scene }: InitMessage) 
   }
   if (camera.name === "camera-c2") {
     camera.position.set(5, 1, 0)
+    camera.lookAt(0, 0, 0)
+  }
+  if (camera.name === "camera-c3") {
+    camera.position.set(0, 0.5, 6)
     camera.lookAt(0, 0, 0)
   }
   const clock = new THREE.Clock()
@@ -89,7 +93,29 @@ export function init({ canvas, injectedFunctions, statem, scene }: InitMessage) 
           ...injectedFunctions!.loopFns.map((fn: any) => (evil ? evil(fn) : fn(props))),
         ])
         injectedFunctions!.singleFns.length = 0
+
+        // if (JSON.stringify(statem.scene) !== JSON.stringify(scene.toJSON())) {
+        //   // FIXME: only update when it's necessary
+        //   // console.log("UPPPDAPDAP")
+        //   statem.scene = scene.toJSON()
+        // }
+        // console.log(JSON.stringify(scene.toJSON()))
+        // @ts-ignore
+        // console.log(JSON.stringify(statem.scene.toJSON()))
+        // const json = scene.toJSON()
+        // console.log(JSON.stringify(json), JSON.stringify(statem.scene))
+        // console.log(JSON.stringify(json))
+        // console.log("QQQQQSSSSJJJ", JSON.stringify(json) === JSON.stringify(statem.scene))
       }
+
+      // if (
+      //   cameraView && // console.log(JSON.stringify(statem.toJSON()))
+      //   JSON.stringify(statem.scene) !== JSON.stringify(scene.toJSON())
+      // ) {
+      //   console.log("SDFVWERFE")
+      // }
+
+      // console.log(JSON.stringify(scene.toJSON()))
 
       // TODO: update scene for offscreen if injected functions made change
 
