@@ -1,8 +1,8 @@
 import * as THREE from "three"
 
-export function createRenderer(canvasRef: InitMessage["canvasRef"]) {
+export function createRenderer(canvas: InitMessage["canvas"]) {
   const renderer = new THREE.WebGLRenderer({
-    canvas: canvasRef.value,
+    canvas,
     antialias: true,
     powerPreference: "high-performance",
     logarithmicDepthBuffer: true,

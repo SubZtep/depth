@@ -1,6 +1,6 @@
 import { LitElement, css } from "lit"
 import { debounce } from "@depth/misc"
-type Constructor<T = object> = new (...args: any[]) => T
+type Constructor<T extends object> = new (...args: any[]) => T
 
 const resize = new ResizeObserver(
   debounce((entries) => {
@@ -13,8 +13,11 @@ const resize = new ResizeObserver(
 export const Resizer = <T extends Constructor<LitElement>>(superclass: T) => {
   class ResizeMixinClass extends superclass {
     protected resizeCallback({ contentBoxSize: [{ blockSize, inlineSize }] }: ResizeObserverEntry) {
+      // console.log(inlineSize)
       // @ts-ignore
-      this.statem.patch({ width: Math.round(inlineSize), height: Math.round(blockSize) })
+      this.width = Math.round(inlineSize)
+      // @ts-ignore
+      this.height = Math.round(blockSize)
     }
 
     firstUpdated() {
@@ -33,14 +36,10 @@ export const Resizer = <T extends Constructor<LitElement>>(superclass: T) => {
 export const styles = css`
   :host {
     writing-mode: vertical-tb; /* for ResizeObserverSize */
-    background: repeating-conic-gradient(from 0deg, transparent 0deg 90deg, #fff3 90deg 180deg) 50% 50%/2rem 2rem;
-    transition: background 100ms linear;
     min-width: 8rem;
     min-height: 4.5rem;
-    box-shadow: inset 0 1px 0 0 #000, inset -1px 0 0 0 #000, inset 0 -1px 0 0 #000, inset 1px 0 0 0 #000;
     resize: both;
   }
-  :host(:hover) {
-    background-size: 1.945rem 1.945rem;
-  }
 `
+
+export const LitElementWithResizeMixin = Resizer(LitElement)

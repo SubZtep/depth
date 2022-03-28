@@ -16,7 +16,8 @@
     "@depth/canvas": "workspace:*",
     "@depth/misc": "workspace:*",
     "@depth/statem": "workspace:*",
-    "@depth/ui": "workspace:*"
+    "@depth/ui": "workspace:*",
+    "three-globe": "^2.24.4"
   },
   "devDependencies": {
     "@windicss/plugin-scrollbar": "^1.2.3",

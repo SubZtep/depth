@@ -2,11 +2,13 @@ export * from "./startup"
 
 interface CanvasStatem {
   fps: number
-  width: number
-  height: number
+  // width: number
+  // height: number
   running: boolean
   offscreen: boolean
-  // scene?: string
+  // scene: THREE.Scene | any
+  // scene: THREE.Scene | any
+  scene?: string
   cameraPosition?: [number, number, number]
 }
 

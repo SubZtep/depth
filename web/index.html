@@ -12,23 +12,26 @@
   </head>
   <body>
     <div class="toolbar">
-      <d-css-var
+      <!-- <d-css-var
         property="--bodybg"
         values="['--bg0', '--bg1', '--bg2', '--bg3', '--bg4', '--bg5', '--bg6', '--bg7', '--bg8']"
         sid="myState"
       >
-      </d-css-var>
+      </d-css-var> -->
       <pug src="src/partials/background-select.pug"></pug>
       <!-- <button onclick="">x</button> -->
     </div>
 
+    <d-gameloop></d-gameloop>
+
     <div class="holes">
-      <d-canvas id="red" view="#rend" autoplay sid="c1" camera-position="[0,5,0]"></d-canvas>
-      <d-canvas id="green" view="#rend" autoplay sid="c2" camera-position="[5,1,0]"></d-canvas>
-      <d-canvas id="blue" view="#rend" autoplay sid="c3" camera-position="[0,0.5,6]"></d-canvas>
-      <d-canvas id="rend" autoplay sid="aaa"></d-canvas>
+      <!-- <d-canvas id="red" view="#rend" sid="666" camera-position="[0,5,110]"></d-canvas> -->
+      <!-- <d-canvas id="green" view="#rend" sid="666" camera-position="[5,1,0]"></d-canvas> -->
+      <!-- <d-canvas id="blue" view="#rend" autoplay sid="c3" camera-position="[0,0.5,6]"></d-canvas> -->
+      <!-- <d-canvas id="rend" sid="666"></d-canvas> -->
     </div>
 
     <script type="module" src="./src/main.ts"></script>
+
   </body>
 </html>

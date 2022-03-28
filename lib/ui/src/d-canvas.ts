@@ -1,30 +1,29 @@
-import type { CanvasStatem, StartLoopingReturn } from "@depth/canvas"
-import type { Ref } from "lit/directives/ref.js"
+import { CanvasStatem, startLooping, StartLoopingReturn } from "@depth/canvas"
+import type { Ref, RefOrCallback } from "lit/directives/ref.js"
 import type Store from "@depth/statem"
 import { v4 as uuidv4 } from "uuid"
 import { LitElement, html, css } from "lit"
 import { ref, createRef } from "lit/directives/ref.js"
-import { customElement, property } from "lit/decorators.js"
-import { Resizer, styles as resizerStyles } from "./partials/resizer"
+import { customElement, property, state } from "lit/decorators.js"
+import { LitElementWithResizeMixin, Resizer, styles as resizerStyles } from "./mixins/resizer"
 import { classMap } from "lit/directives/class-map.js"
-import { CanvasController } from "./partials/canvas"
-import { stateMake } from "@depth/statem"
+import { stateMake, statem } from "@depth/statem"
 import "./d-toolbar"
 import "./d-icon"
+import * as THREE from "three"
+import { when } from "lit/directives/when.js"
+import { sleep } from "@depth/misc"
+
+const scene = new THREE.Scene()
 
 /** 3D canvas element. */
 @customElement("d-canvas")
-export class DCanvas extends Resizer(LitElement) {
+export class DCanvas extends LitElementWithResizeMixin {
   // @query(":host > canvas", false) canvas!: HTMLCanvasElement
-  canvasRef: Ref = createRef<HTMLCanvasElement>()
+  // canvasRef: Ref = createRef<HTMLCanvasElement>()
 
-  private canvasCtrl!: CanvasController
-
-  /** Start rendering immediately. */
-  @property({ type: Boolean }) autoplay = false
-
-  /** Run rendering in web worker. */
-  @property({ type: Boolean }) offscreen = false
+  @state() width!: number
+  @state() height!: number
 
   /** Statem Id. */
   @property({ type: String, reflect: false }) sid = uuidv4()
@@ -42,48 +41,38 @@ export class DCanvas extends Resizer(LitElement) {
   }
 
   private createState() {
-    this.statem = stateMake<CanvasStatem>(
-      {
-        running: this.autoplay,
-        offscreen: this.offscreen,
-        fps: Number.POSITIVE_INFINITY,
-        width: this.clientWidth,
-        height: this.clientHeight,
-        // scene: this.view ? undefined : new THREE.Scene().toJSON(),
-        cameraPosition: this.cameraPosition,
-      },
-      this.sid
-    )
-
-    this.statem.subscribe((state, old) => {
-      if (
-        state.width !== old.width ||
-        state.height !== old.height ||
-        state.fps !== old.fps ||
-        state.running !== old.running ||
-        state.offscreen !== old.offscreen
-      ) {
-        this.requestUpdate("state", state)
-      }
-    })
+    // this.statem = statem(this.sid)
+    // @ts-ignore
+    // console.log(statem("myState"))
+    // this.statem.subscribe((state, old) => {
+    //   if (
+    //     // state.width !== old.width ||
+    //     // state.height !== old.height ||
+    //     state.fps !== old.fps ||
+    //     state.running !== old.running ||
+    //     state.offscreen !== old.offscreen
+    //   ) {
+    //     this.requestUpdate("state", state)
+    //   }
+    // })
   }
 
-  connectedCallback() {
-    super.connectedCallback()
-    this.createState()
+  // connectedCallback() {
+  //   super.connectedCallback()
+  //   // this.createState()
 
-    this.canvasCtrl = new CanvasController(this, this.statem, (detail) => {
-      /** Fires when the 3D canvas start rendering. */
-      this.dispatchEvent(
-        new CustomEvent<StartLoopingReturn>("start", {
-          bubbles: false,
-          cancelable: false,
-          composed: true,
-          detail,
-        })
-      )
-    })
-  }
+  //   this.canvasCtrl = new CanvasController(this, this.statem, (detail) => {
+  //     /** Fires when the 3D canvas start rendering. */
+  //     this.dispatchEvent(
+  //       new CustomEvent<StartLoopingReturn>("start", {
+  //         bubbles: false,
+  //         cancelable: false,
+  //         composed: true,
+  //         detail,
+  //       })
+  //     )
+  //   })
+  // }
 
   static styles = [
     resizerStyles,
@@ -95,52 +84,38 @@ export class DCanvas extends Resizer(LitElement) {
         height: 100%;
         overflow: hidden;
       }
-      /* :host > canvas {
-        width: inherit;
-        height: inherit;
-      } */
+      :host(:not([running])) {
+        background: repeating-conic-gradient(from 0deg, transparent 0deg 90deg, #fff3 90deg 180deg) 50% 50%/2rem 2rem;
+        transition: background 100ms linear;
+      }
+      :host(:not([running]:hover)) {
+        background-size: 1.945rem 1.945rem;
+      }
     `,
   ]
 
-  toolbarTemplate() {
-    return html`
-      <d-toolbar ?shifted=${!this.autoplay}>
-        <button @click=${() => (this.statem.running = true)} ?disabled=${this.statem.running}>
-          <d-icon name="play"></d-icon>
-        </button>
-        <button @click=${() => (this.statem.running = false)} ?disabled=${!this.statem.running}>
-          <d-icon name="stop"></d-icon>
-        </button>
-        <label class=${classMap({ disabled: this.statem.running })}>
-          Offscreen
-          <input
-            type="checkbox"
-            .checked=${this.statem.offscreen}
-            ?disabled=${this.statem.running}
-            @change=${({ target: { checked } }) => (this.statem.offscreen = checked)}
-          />
-        </label>
-        <label>
-          FPS ${this.statem.fps === Number.POSITIVE_INFINITY ? "∞" : this.statem.fps}
-          <br />
-          <input
-            type="range"
-            min="0"
-            max="61"
-            .value=${String(this.statem.fps === Number.POSITIVE_INFINITY ? 61 : this.statem.fps)}
-            @input=${({ srcElement: { valueAsNumber } }) =>
-              (this.statem.fps = valueAsNumber === 61 ? Number.POSITIVE_INFINITY : valueAsNumber)}
-          />
-        </label>
-      </d-toolbar>
-    `
+  startStop: RefOrCallback = async (canvas?: any) => {
+    if (canvas) {
+      await sleep(666)
+      const detail = startLooping({
+        canvas,
+        scene,
+        width: this.width,
+        height: this.height,
+        cameraPosition: this.cameraPosition,
+      })
+      // console.log(detail)
+      this.dispatchEvent(new CustomEvent("start", { bubbles: false, cancelable: false, composed: true, detail }))
+    }
   }
 
   canvasTemplate() {
-    return html`<canvas ${ref(this.canvasRef)}></canvas>`
+    // return html`<slot></slot><canvas ${ref(this.startStop)}></canvas>`
   }
 
   render() {
-    return html` ${this.cameraView ? "" : this.toolbarTemplate()} ${this.canvasTemplate()} `
+    // return html` ${/*this.cameraView ? "" : this.toolbarTemplate()*/ ""} ${this.canvasTemplate()} `
+    // return html` ${this.toolbarTemplate()} ${this.canvasTemplate()} `
+    return when(true, () => html`<canvas ${ref(this.startStop)}></canvas>`)
   }
 }

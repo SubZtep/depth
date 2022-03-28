@@ -2,23 +2,14 @@
   position: fixed;
   inset: 35px 0 0 0;
   display: grid;
-  gap: 0.25rem;
+  gap: 3px;
+  grid-template-rows: 1fr 5fr;
 }
 
-d-canvas:nth-child(4) {
-  grid-column: span 3 / auto;
-}
-
-.holes d-canvas {
-  min-height: 200px;
-  aspect-ratio: 16 / 10;
-  border: 1px solid var(--blood);
+d-canvas:nth-child(3) {
+  grid-column: span 2 / auto;
 }
 
 .holes d-canvas:hover {
   outline: 1px solid #ff05;
-}
-
-.holes d-canvas.zoom {
-  border-color: transparent;
 }

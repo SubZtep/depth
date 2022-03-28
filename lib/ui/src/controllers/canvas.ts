@@ -27,17 +27,17 @@ export class CanvasController implements ReactiveController {
   hostUpdated() {
     const cameraView = !!this.host.view
 
-    if (!cameraView) {
-      const detail = startLooping({
-        canvasRef: this.host.canvasRef,
-        statem: this.statem,
-        cameraView,
-      })
-      this.startCallback(detail)
-    } else {
-      document.querySelector(this.host.view!)!.addEventListener("start", ({ detail: { scene } }: CustomEventInit) => {
-        startLooping({ canvasRef: this.host.canvasRef, statem: this.statem, cameraView, scene })
-      })
-    }
+    // if (!cameraView) {
+    //   const detail = startLooping({
+    //     canvasRef: this.host.canvasRef,
+    //     statem: this.statem,
+    //     cameraView,
+    //   })
+    //   this.startCallback(detail)
+    // } else {
+    //   document.querySelector(this.host.view!)!.addEventListener("start", ({ detail: { scene } }: CustomEventInit) => {
+    //     startLooping({ canvasRef: this.host.canvasRef, statem: this.statem, cameraView, scene })
+    //   })
+    // }
   }
 }
