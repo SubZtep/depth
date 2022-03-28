@@ -37,21 +37,19 @@ export function startLooping({ canvas, statem, cameraView, scene }: StartLooping
   statem.offscreen = "transferControlToOffscreen" in canvas && statem.offscreen
 
   if (!scene) {
-    scene = new THREE.ObjectLoader().parse(statem.scene!)
+    scene = new THREE.Scene()
+    // scene = new THREE.ObjectLoader().parse(statem.scene!)
   }
 
-  const injectedFunctions: InjectedFunctions | undefined = cameraView
-    ? undefined
-    : {
-        singleFns: [],
-        loopFns: [],
-      }
+  const injectedFunctions: InjectedFunctions = {
+    singleFns: [],
+    loopFns: [],
+  }
 
   let worker: Worker
   let sendStatem: WorkerStatemFn
 
   if (statem.offscreen) {
-    // console.log("QWEQWE", canvas)
     worker = new OffscreenWorker()
     sendStatem = startWorker({ canvas, injectedFunctions, statem, worker, scene })
     const unsubscribe = statem.subscribe((s: CanvasStatem) => {
@@ -66,17 +64,19 @@ export function startLooping({ canvas, statem, cameraView, scene }: StartLooping
     startMainPage({ canvas, injectedFunctions, statem, scene })
   }
 
-  if (cameraView) {
-    return {
-      scene,
-      exec3D: (fn) => {
-        console.log("NO EXEC", fn)
-      },
-      loop3D: (fn) => {
-        console.log("NO LOOP", fn)
-      },
-    }
-  }
+  // if (cameraView) {
+  //   return {
+  //     scene,
+  //     exec3D: (fn) => {
+  //       console.log("NO EXEC", fn)
+  //     },
+  //     loop3D: (fn) => {
+  //       console.log("NO LOOP", fn)
+  //     },
+  //   }
+  // }
+
+  // console.log("XX", injectedFunctions)
 
   return {
     scene,

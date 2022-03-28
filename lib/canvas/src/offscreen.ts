@@ -3,7 +3,7 @@ import * as THREE from "three"
 
 // @ts-ignore
 const statem: CanvasStatem = {}
-let injectedFunctions: InjectedFunctions | undefined
+let injectedFunctions: InjectedFunctions
 
 function updateStatem({ statem: newStatem }: StatemMessage) {
   Object.assign(statem, JSON.parse(newStatem))
@@ -34,8 +34,6 @@ function handleMessage({ data }: MessageEvent<CanvasMessage>) {
     data.statem = statem
     // data.scene = JSON.parse(data.scene)
     data.scene = new THREE.ObjectLoader().parse(data.scene)
-    // data.scene = data.scene || new THREE.Scene()
-    // console.log("QWQ", data)
   }
   fn(data)
 }

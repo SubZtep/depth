@@ -6,7 +6,8 @@ interface CanvasStatem {
   height: number
   running: boolean
   offscreen: boolean
-  scene?: string
+  // scene?: string
+  cameraPosition?: [number, number, number]
 }
 
 interface StartLoopingReturn {

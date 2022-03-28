@@ -1,32 +1,18 @@
 import * as THREE from "three"
 import { createRenderer } from "./builders"
 
-// export function init({ canvas, injectedFunctions, statem }: InitMessage) {
 export function init({ canvas, injectedFunctions, statem, scene }: InitMessage) {
-  const cameraView = !!injectedFunctions
   let oldWidth = 0
   let oldHeight = 0
 
-  // console.log("SS", scene)
-
   const renderer = createRenderer(canvas)
-
-  let camera = new THREE.PerspectiveCamera(90)
-  // @ts-ignore
-  camera.name = `camera-${statem.sid}`
-  if (camera.name === "camera-c1") {
-    camera.position.set(0, 5, 0)
-    camera.lookAt(0, 0, 0)
-  }
-  if (camera.name === "camera-c2") {
-    camera.position.set(5, 1, 0)
-    camera.lookAt(0, 0, 0)
-  }
-  if (camera.name === "camera-c3") {
-    camera.position.set(0, 0.5, 6)
-    camera.lookAt(0, 0, 0)
-  }
   const clock = new THREE.Clock()
+
+  const camera = new THREE.PerspectiveCamera(90)
+  if (statem.cameraPosition) {
+    camera.position.fromArray(statem.cameraPosition)
+    camera.lookAt(0, 0, 0)
+  }
 
   function canvasResizer() {
     if (statem.width === oldWidth || statem.height === oldHeight) return
@@ -37,14 +23,12 @@ export function init({ canvas, injectedFunctions, statem, scene }: InitMessage) 
     renderer.setSize(statem.width, statem.height, false)
   }
 
-  // canvasResizer()
+  canvasResizer()
 
   function clearContext() {
-    if (!cameraView) {
-      injectedFunctions!.singleFns.length = 0
-      injectedFunctions!.loopFns.length = 0
-    }
-    // scene.clear()
+    injectedFunctions.singleFns = []
+    injectedFunctions.loopFns = []
+    scene.clear()
     renderer.clear()
   }
 
@@ -60,15 +44,6 @@ export function init({ canvas, injectedFunctions, statem, scene }: InitMessage) 
     } else {
       const fps = statem.fps
 
-      // if (camera.name === "camera-c1") {
-      //   camera.position.set(0, 5, 0)
-      //   camera.lookAt(0, 0, 0)
-      // }
-      // if (camera.name === "camera-c2") {
-      //   camera.position.set(5, 1, 0)
-      //   camera.lookAt(0, 0, 0)
-      // }
-
       renderer.render(scene, camera)
       requestAnimationFrame(render)
       deltaTime += clock.getDelta()
@@ -79,45 +54,22 @@ export function init({ canvas, injectedFunctions, statem, scene }: InitMessage) 
         fpsInterval = 1000 / fps
       }
 
-      if ((injectedFunctions && fps === Number.POSITIVE_INFINITY) || elapsed > fpsInterval) {
+      if (fps === Number.POSITIVE_INFINITY || elapsed > fpsInterval) {
         if (fps !== Number.POSITIVE_INFINITY) {
           prenow = now - (elapsed % fpsInterval)
         }
-        const props = { scene, renderer, clock, deltaTime, time, camera }
+
+        if (injectedFunctions.singleFns.length > 0 || injectedFunctions.loopFns.length > 0) {
+          const props = { scene, renderer, clock, deltaTime, time, camera }
+          const evil = statem.offscreen ? (fn: string) => void eval(";(" + fn + ")(props);") : null
+          await Promise.all([
+            ...injectedFunctions.singleFns.map((fn: any) => (evil ? evil(fn) : fn(props))),
+            ...injectedFunctions.loopFns.map((fn: any) => (evil ? evil(fn) : fn(props))),
+          ])
+          injectedFunctions.singleFns = []
+        }
         deltaTime = 0
-
-        const evil = statem.offscreen ? (fn: string) => void eval(";(" + fn + ")(props);") : null
-
-        await Promise.all([
-          ...injectedFunctions!.singleFns.map((fn: any) => (evil ? evil(fn) : fn(props))),
-          ...injectedFunctions!.loopFns.map((fn: any) => (evil ? evil(fn) : fn(props))),
-        ])
-        injectedFunctions!.singleFns.length = 0
-
-        // if (JSON.stringify(statem.scene) !== JSON.stringify(scene.toJSON())) {
-        //   // FIXME: only update when it's necessary
-        //   // console.log("UPPPDAPDAP")
-        //   statem.scene = scene.toJSON()
-        // }
-        // console.log(JSON.stringify(scene.toJSON()))
-        // @ts-ignore
-        // console.log(JSON.stringify(statem.scene.toJSON()))
-        // const json = scene.toJSON()
-        // console.log(JSON.stringify(json), JSON.stringify(statem.scene))
-        // console.log(JSON.stringify(json))
-        // console.log("QQQQQSSSSJJJ", JSON.stringify(json) === JSON.stringify(statem.scene))
       }
-
-      // if (
-      //   cameraView && // console.log(JSON.stringify(statem.toJSON()))
-      //   JSON.stringify(statem.scene) !== JSON.stringify(scene.toJSON())
-      // ) {
-      //   console.log("SDFVWERFE")
-      // }
-
-      // console.log(JSON.stringify(scene.toJSON()))
-
-      // TODO: update scene for offscreen if injected functions made change
 
       canvasResizer()
     }

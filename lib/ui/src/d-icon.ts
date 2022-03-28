@@ -1,6 +1,6 @@
 import { LitElement, css } from "lit"
 import { customElement, property } from "lit/decorators.js"
-import * as icon from "./icons"
+import * as icon from "./assets/icons"
 
 /** Display an SVG icon. */
 @customElement("d-icon")

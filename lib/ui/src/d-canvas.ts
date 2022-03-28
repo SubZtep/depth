@@ -1,15 +1,14 @@
-import { v4 as uuidv4 } from "uuid"
-import { stateMake, statem } from "@depth/statem"
-import { LitElement, html, css } from "lit"
-import { customElement, property, query } from "lit/decorators.js"
-import { classMap } from "lit/directives/class-map.js"
 import type { CanvasStatem, StartLoopingReturn } from "@depth/canvas"
 import type Store from "@depth/statem"
-import { Resizer, styles as resizerStyles } from "./resizer"
+import { v4 as uuidv4 } from "uuid"
+import { LitElement, html, css } from "lit"
+import { customElement, property, query } from "lit/decorators.js"
+import { Resizer, styles as resizerStyles } from "./partials/resizer"
+import { classMap } from "lit/directives/class-map.js"
+import { CanvasController } from "./partials/canvas"
+import { stateMake } from "@depth/statem"
 import "./d-toolbar"
 import "./d-icon"
-import { CanvasController } from "./canvas-controller"
-import * as THREE from "three"
 
 /** 3D canvas element. */
 @customElement("d-canvas")
@@ -28,28 +27,15 @@ export class DCanvas extends Resizer(LitElement) {
   /** Statem Id. */
   @property({ type: String, reflect: false }) sid = uuidv4()
 
-  /** Selector for the main `d-canvas` element. */
+  /** CSS(like) Selector for the main `d-canvas` element, this one is a helper view. */
   @property({ type: String }) view?: string
+
+  /** Camera position in view mode. */
+  @property({ type: Array, attribute: "camera-position" }) cameraPosition?: [number, number, number]
 
   private statem!: Store<CanvasStatem> & CanvasStatem
 
   private createState() {
-    // if (this.view) {
-    //   //   // @ts-ignore
-    //   const sid = document.querySelector(this.view)?.getAttribute("sid")
-    //   const st = statem(sid!)
-    //   // console.log("XXCCC", s)
-    //   st.subscribe((s, o) => {
-    //     if (JSON.stringify(s.scene) !== JSON.stringify(o.scene)) {
-    //       this.statem.scene = s.scene
-    //       // console.log("SCENEchg", s.scene)
-    //       // this.canvasCtrl.setScene(s.scene)
-    //     }
-    //   })
-    // } else {
-    //   console.log("boss create state")
-    // }
-
     this.statem = stateMake<CanvasStatem>(
       {
         running: this.autoplay,
@@ -57,7 +43,8 @@ export class DCanvas extends Resizer(LitElement) {
         fps: Number.POSITIVE_INFINITY,
         width: this.clientWidth,
         height: this.clientHeight,
-        scene: this.view ? undefined : new THREE.Scene().toJSON(),
+        // scene: this.view ? undefined : new THREE.Scene().toJSON(),
+        cameraPosition: this.cameraPosition,
       },
       this.sid
     )
@@ -72,16 +59,10 @@ export class DCanvas extends Resizer(LitElement) {
       ) {
         this.requestUpdate("state", state)
       }
-
-      if (!this.view && JSON.stringify(state.scene) !== JSON.stringify(old.scene)) {
-        // console.log("BOOOOO", [state.scene, old.scene])
-      }
-      // this.canvasCtrl.setSize(state.width, state.height)
     })
   }
 
   connectedCallback() {
-    // console.log("QQQQ", this.sid)
     super.connectedCallback()
     this.createState()
 
@@ -116,7 +97,7 @@ export class DCanvas extends Resizer(LitElement) {
   ]
 
   render() {
-    // console.log("AADAE", this.statem.height)
+    // console.log("qqqqqqqq")
     return html`
       <d-toolbar ?shifted=${!this.autoplay}>
         <button @click=${this.startRunning} ?disabled=${this.statem.running}>
@@ -146,7 +127,7 @@ export class DCanvas extends Resizer(LitElement) {
           />
         </label>
       </d-toolbar>
-      <canvas class=${this.view ?? "mennyehaza"}></canvas>
+      <canvas></canvas>
     `
   }
 
