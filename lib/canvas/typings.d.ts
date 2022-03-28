@@ -10,7 +10,7 @@ type CanvasStatemSerialised = string
 
 interface InitMessage {
   type: "init"
-  canvas: HTMLCanvasElement
+  canvasRef: Ref<HTMLCanvasElement>
   injectedFunctions: InjectedFunctions
   statem: CanvasStatem
   scene: any
@@ -67,7 +67,8 @@ interface InjectedFunctions<T = CanvasInjectedFn | CanvasInjectedEval> {
 }
 
 interface StartLoopingProps {
-  canvas: HTMLCanvasElement
+  // canvas: HTMLCanvasElement
+  canvasRef: import("lit/directives/ref.js").Ref<HTMLCanvasElement>
   statem: CanvasStatem & import("@depth/statem").Statem
   cameraView?: boolean
   cameraPosition?: [number, number, number]

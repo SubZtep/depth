@@ -11,4 +11,4 @@ stateMake(
 )
 
 // @ts-ignore
-document.querySelector("#rend")?.addEventListener("start", testScene, { once: true, passive: true })
+document.querySelector("#rend")?.addEventListener("start", testScene, { passive: true })

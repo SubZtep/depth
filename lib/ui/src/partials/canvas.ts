@@ -16,8 +16,8 @@ export class CanvasController implements ReactiveController {
   ) {
     this.host = host
     this.statem = statem
-    this.host.addController(this)
     this.startCallback = startCallback
+    this.host.addController(this)
   }
 
   hostDisconnected() {
@@ -29,14 +29,14 @@ export class CanvasController implements ReactiveController {
 
     if (!cameraView) {
       const detail = startLooping({
-        canvas: this.host.canvas,
+        canvasRef: this.host.canvasRef,
         statem: this.statem,
         cameraView,
       })
       this.startCallback(detail)
     } else {
       document.querySelector(this.host.view!)!.addEventListener("start", ({ detail: { scene } }: CustomEventInit) => {
-        startLooping({ canvas: this.host.canvas, statem: this.statem, cameraView, scene })
+        startLooping({ canvasRef: this.host.canvasRef, statem: this.statem, cameraView, scene })
       })
     }
   }

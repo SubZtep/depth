@@ -1,11 +1,11 @@
 import * as THREE from "three"
 import { createRenderer } from "./builders"
 
-export function init({ canvas, injectedFunctions, statem, scene }: InitMessage) {
+export function init({ canvasRef, injectedFunctions, statem, scene }: InitMessage) {
   let oldWidth = 0
   let oldHeight = 0
 
-  const renderer = createRenderer(canvas)
+  const renderer = createRenderer(canvasRef)
   const clock = new THREE.Clock()
 
   const camera = new THREE.PerspectiveCamera(90)

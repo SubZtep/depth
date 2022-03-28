@@ -3,8 +3,8 @@ import { init } from "./renderer"
 import OffscreenWorker from "./offscreen?worker&inline"
 import * as THREE from "three"
 
-function startWorker({ canvas, injectedFunctions, statem, worker, scene }: StartWorkerProps) {
-  const offscreen = canvas.transferControlToOffscreen!()
+function startWorker({ canvasRef, injectedFunctions, statem, worker, scene }: StartWorkerProps) {
+  const offscreen = canvasRef.value.transferControlToOffscreen!()
   const message = {
     type: "init",
     canvas: offscreen,
@@ -23,18 +23,18 @@ function startWorker({ canvas, injectedFunctions, statem, worker, scene }: Start
   return updateStatem
 }
 
-function startMainPage({ canvas, injectedFunctions, statem, scene }: StartMainProps) {
+function startMainPage({ canvasRef, injectedFunctions, statem, scene }: StartMainProps) {
   init({
     type: "init",
-    canvas,
+    canvasRef,
     injectedFunctions,
     statem,
     scene,
   })
 }
 
-export function startLooping({ canvas, statem, cameraView, scene }: StartLoopingProps): StartLoopingReturn {
-  statem.offscreen = "transferControlToOffscreen" in canvas && statem.offscreen
+export function startLooping({ canvasRef, statem, cameraView, scene }: StartLoopingProps): StartLoopingReturn {
+  statem.offscreen = "transferControlToOffscreen" in canvasRef.value && statem.offscreen
 
   if (!scene) {
     scene = new THREE.Scene()
@@ -51,7 +51,7 @@ export function startLooping({ canvas, statem, cameraView, scene }: StartLooping
 
   if (statem.offscreen) {
     worker = new OffscreenWorker()
-    sendStatem = startWorker({ canvas, injectedFunctions, statem, worker, scene })
+    sendStatem = startWorker({ canvasRef, injectedFunctions, statem, worker, scene })
     const unsubscribe = statem.subscribe((s: CanvasStatem) => {
       if (!s.running) {
         unsubscribe()
@@ -61,22 +61,17 @@ export function startLooping({ canvas, statem, cameraView, scene }: StartLooping
       sendStatem(JSON.stringify(s))
     })
   } else {
-    startMainPage({ canvas, injectedFunctions, statem, scene })
+    startMainPage({ canvasRef, injectedFunctions, statem, scene })
   }
 
-  // if (cameraView) {
-  //   return {
-  //     scene,
-  //     exec3D: (fn) => {
-  //       console.log("NO EXEC", fn)
-  //     },
-  //     loop3D: (fn) => {
-  //       console.log("NO LOOP", fn)
-  //     },
-  //   }
-  // }
-
-  // console.log("XX", injectedFunctions)
+  if (cameraView) {
+    /* eslint-disable @typescript-eslint/no-empty-function */
+    return {
+      scene,
+      exec3D: () => {},
+      loop3D: () => {},
+    }
+  }
 
   return {
     scene,

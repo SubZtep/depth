@@ -1,8 +1,10 @@
 import type { CanvasStatem, StartLoopingReturn } from "@depth/canvas"
+import type { Ref } from "lit/directives/ref.js"
 import type Store from "@depth/statem"
 import { v4 as uuidv4 } from "uuid"
 import { LitElement, html, css } from "lit"
-import { customElement, property, query } from "lit/decorators.js"
+import { ref, createRef } from "lit/directives/ref.js"
+import { customElement, property } from "lit/decorators.js"
 import { Resizer, styles as resizerStyles } from "./partials/resizer"
 import { classMap } from "lit/directives/class-map.js"
 import { CanvasController } from "./partials/canvas"
@@ -13,9 +15,9 @@ import "./d-icon"
 /** 3D canvas element. */
 @customElement("d-canvas")
 export class DCanvas extends Resizer(LitElement) {
-  @query(":host > canvas", false) canvas!: HTMLCanvasElement
+  // @query(":host > canvas", false) canvas!: HTMLCanvasElement
+  canvasRef: Ref = createRef<HTMLCanvasElement>()
 
-  // private canvasRef!: Ref<HTMLCanvasElement>
   private canvasCtrl!: CanvasController
 
   /** Start rendering immediately. */
@@ -34,6 +36,10 @@ export class DCanvas extends Resizer(LitElement) {
   @property({ type: Array, attribute: "camera-position" }) cameraPosition?: [number, number, number]
 
   private statem!: Store<CanvasStatem> & CanvasStatem
+
+  get cameraView() {
+    return !!this.view
+  }
 
   private createState() {
     this.statem = stateMake<CanvasStatem>(
@@ -96,14 +102,13 @@ export class DCanvas extends Resizer(LitElement) {
     `,
   ]
 
-  render() {
-    // console.log("qqqqqqqq")
+  toolbarTemplate() {
     return html`
       <d-toolbar ?shifted=${!this.autoplay}>
-        <button @click=${this.startRunning} ?disabled=${this.statem.running}>
+        <button @click=${() => (this.statem.running = true)} ?disabled=${this.statem.running}>
           <d-icon name="play"></d-icon>
         </button>
-        <button @click=${this.stopRunning} ?disabled=${!this.statem.running}>
+        <button @click=${() => (this.statem.running = false)} ?disabled=${!this.statem.running}>
           <d-icon name="stop"></d-icon>
         </button>
         <label class=${classMap({ disabled: this.statem.running })}>
@@ -112,7 +117,7 @@ export class DCanvas extends Resizer(LitElement) {
             type="checkbox"
             .checked=${this.statem.offscreen}
             ?disabled=${this.statem.running}
-            @change=${this.updateOffscreen}
+            @change=${({ target: { checked } }) => (this.statem.offscreen = checked)}
           />
         </label>
         <label>
@@ -123,29 +128,19 @@ export class DCanvas extends Resizer(LitElement) {
             min="0"
             max="61"
             .value=${String(this.statem.fps === Number.POSITIVE_INFINITY ? 61 : this.statem.fps)}
-            @input=${this.updateFps}
+            @input=${({ srcElement: { valueAsNumber } }) =>
+              (this.statem.fps = valueAsNumber === 61 ? Number.POSITIVE_INFINITY : valueAsNumber)}
           />
         </label>
       </d-toolbar>
-      <canvas></canvas>
     `
   }
 
-  /** Create a canvas and start rendering. */
-  startRunning() {
-    this.statem.running = true
+  canvasTemplate() {
+    return html`<canvas ${ref(this.canvasRef)}></canvas>`
   }
 
-  /** Stop rendering and destroy canvas. */
-  stopRunning() {
-    this.statem.running = false
-  }
-
-  protected updateOffscreen({ target: { checked } }) {
-    this.statem.offscreen = checked
-  }
-
-  protected updateFps({ srcElement: { valueAsNumber } }) {
-    this.statem.fps = valueAsNumber === 61 ? Number.POSITIVE_INFINITY : valueAsNumber
+  render() {
+    return html` ${this.cameraView ? "" : this.toolbarTemplate()} ${this.canvasTemplate()} `
   }
 }
