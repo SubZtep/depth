@@ -2,7 +2,7 @@ import "./d-gaze-click"
 import "./d-canvas"
 import "./d-toolbar"
 import "./d-icon"
-import "./d-css-var"
+import "./d-theme"
 import "./d-gameloop"
 
 declare global {
@@ -11,7 +11,7 @@ declare global {
     "d-toolbar": import("./d-toolbar").DToolbar
     "d-gaze-click": import("./d-gaze-click").DGazeClick
     "d-icon": import("./d-icon").DIcon
-    "d-css-var": import("./d-css-var").DCssVar
+    "d-css-var": import("./d-theme").DCssVar
     "d-gameloop": import("./d-gameloop").DGameloop
   }
   interface CustomEventMap {

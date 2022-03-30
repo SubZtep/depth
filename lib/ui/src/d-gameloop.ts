@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 /* eslint-disable unicorn/no-this-assignment */
+/**
+ * https://gist.github.com/addyosmani/5434533?permalink_comment_id=2057320#gistcomment-2057320
+ * */
 import { CanvasStatem, startLooping, StartLoopingReturn } from "@depth/canvas"
 import type { Ref, RefOrCallback } from "lit/directives/ref.js"
 import type Store from "@depth/statem"
@@ -16,58 +19,30 @@ import * as THREE from "three"
 import { when } from "lit/directives/when.js"
 import { sleep } from "@depth/misc"
 
-const scene = new THREE.Scene()
-
-/**
- * Keeps doing a series of actions over and over again,
- * 60fps would be nice.
- */
+/** Keeps doing a series of actions over and over again. */
 @customElement("d-gameloop")
 export class DGameloop extends LitElement {
-  @property({ type: Number }) fps = 60 //Number.POSITIVE_INFINITY
-
-  requestID: number = 0
+  @property({ type: Number }) fps = 60
+  requestID!: number
   interval!: number
 
-  // private fpsInterval!: number
-  // private prenow = performance.now()
-  // private elapsed!: number
-  // private now!: number
-  // private deltaTime = 0
-  // private clock = new THREE.Clock()
-
   theStuff(delta: number) {
-    console.log("THESTUFF", delta)
+    // console.log("THESTUFF", delta)
   }
 
-  /** https://gist.github.com/addyosmani/5434533?permalink_comment_id=2057320#gistcomment-2057320 */
   looper() {
     let then = performance.now()
-    const interval = 1000 / this.fps
     const tolerance = 0.1
     const loop = (now: number) => {
       this.requestID = requestAnimationFrame(loop)
       const delta = now - then
-      if (delta >= interval - tolerance) {
-        then = now - (delta % interval)
+      if (delta >= this.interval - tolerance) {
+        then = now - (delta % this.interval)
         this.theStuff(delta)
       }
     }
     this.requestID = requestAnimationFrame(loop)
   }
-
-  // looper() {
-  //   let then = performance.now()
-  //   const loop = (now: number) => {
-  //     this.requestID = requestAnimationFrame(loop)
-  //     const delta = now - then
-  //     if (delta > this.interval) {
-  //       then = now - (delta % this.interval)
-  //       this.theStuff(delta)
-  //     }
-  //   }
-  //   this.requestID = requestAnimationFrame(loop)
-  // }
 
   willUpdate(changedProperties: PropertyValues<this>) {
     if (changedProperties.has("fps")) {
@@ -83,10 +58,30 @@ export class DGameloop extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback()
     cancelAnimationFrame(this.requestID)
-    this.requestID = 0
   }
 
+  static styles = css`
+    :host {
+      grid-area: gameloop;
+    }
+  `
+
   render() {
-    return html`<slot>YO</slot>`
+    return html`
+      <label>
+        Limit to ${this.fps} FPS.
+        <br />
+        <input
+          type="range"
+          min="1"
+          max="60"
+          value="${this.fps}"
+          @input="${({ target }) => {
+            this.fps = target.valueAsNumber
+          }}"
+        />
+      </label>
+      <slot></slot>
+    `
   }
 }

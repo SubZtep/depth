@@ -5,21 +5,22 @@ import { customElement, property } from "lit/decorators.js"
 /** CSS var setter. */
 @customElement("d-css-var")
 export class DCssVar extends LitElement {
-  /** Css var name. */
-  @property({ type: String }) property!: string
-  /** Statem ID. */
+  /** statem ID */
   @property() sid!: string
 
-  protected state!: any
+  /** CSS  var name. */
+  @property({ type: String }) var?: string
+
+  state = statem(this.sid)
 
   connectedCallback() {
     super.connectedCallback()
 
     // waiting for state existance...
     setTimeout(() => {
-      this.state = statem(this.sid)
+      // this.state = statem(this.sid)
       this.state.subscribe(({ bodybg }) => {
-        document.documentElement.style.setProperty(this.property, bodybg)
+        this.var && document.documentElement.style.setProperty(this.var, bodybg)
       })
     }, 100)
   }

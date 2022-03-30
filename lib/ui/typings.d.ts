@@ -14,3 +14,7 @@
 // type CanvasStatem = import("@depth/canvas").CanvasStatem
 type Statem = import("@depth/statem").Statem
 type Fn = (...args: any[]) => void
+
+interface DMeterState {
+  value: number
+}

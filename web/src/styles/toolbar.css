@@ -1,8 +1,10 @@
 .toolbar {
-  width: 100%;
+  /* width: 100%; */
   height: 30px;
   display: flex;
   position: absolute;
+  right: 0;
   flex-direction: rows;
   justify-content: center;
+  align-content: right;
 }

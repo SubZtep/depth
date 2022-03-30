@@ -13,3 +13,23 @@ d-canvas:nth-child(3) {
 .holes d-canvas:hover {
   outline: 1px solid #ff05;
 }
+
+body {
+  display: grid;
+  grid-template-areas:
+    "theme ."
+    "gameloop meter";
+  gap: 0.30rem;
+}
+
+body > * {
+  /* background-color: #000; */
+  /* grid-area: auto / auto; */
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 90deg, #fff3 90deg 180deg) 50% 50%/2rem 2rem;
+  transition: background 100ms linear;
+}
+
+body > *:hover {
+  outline: solid 1px #ffa6;
+  background-size: 1.945rem 1.945rem;
+}
