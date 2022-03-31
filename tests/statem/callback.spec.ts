@@ -8,12 +8,7 @@ const obj = {
 describe("Execute callbacks", () => {
   const callbackSpy = vi.spyOn(obj, "cb")
 
-  const state = statem({
-    name: "x",
-    init: {
-      a: 1,
-    },
-  })
+  const state = statem("x", { a: 1 })
 
   afterEach(() => {
     vi.resetAllMocks()

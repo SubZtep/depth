@@ -4,10 +4,10 @@ type Callback<T> = (data: T, oldData: T) => void
 //   subscribe<T>(callback: Callback<T>): Fn
 // }
 
-// type State = any
+type State = any
 
 // export class Store<State extends object> {
-export class Store<State extends object> {
+export class Store {
   private state!: State
   private callbacks = new Set<Callback<State>>() // TODO: WeakRef
   private patching = false

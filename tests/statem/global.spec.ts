@@ -9,27 +9,19 @@ describe("Global Statem Map", () => {
     expect(globalThis.statem.size).toBe(0)
   })
   it("store created", () => {
-    statem({
-      name: "test",
-      init: {
-        abc: 123,
-      },
+    statem("test", {
+      abc: 123,
     })
     expect(globalThis.statem.size).toBe(1)
   })
 
   it("don't recreate", () => {
-    statem({
-      name: "test",
-    })
+    statem("test")
     expect(globalThis.statem.size).toBe(1)
   })
 
   it("multiple states", () => {
-    statem({
-      name: "test2",
-      // init: {},
-    })
+    statem("test2")
     expect(globalThis.statem.size).toBe(2)
   })
 
@@ -37,14 +29,11 @@ describe("Global Statem Map", () => {
     expect.assertions(1)
     await Promise.resolve()
     // @ts-ignore
-    expect(statem({ name: "test" }).abc).toBe(123)
+    expect(statem("test").abc).toBe(123)
   })
 
   it("deletable state", () => {
-    statem({
-      name: "test2",
-      init: null,
-    })
+    statem("test2", null)
     expect(globalThis.statem.size).toBe(1)
   })
 })
