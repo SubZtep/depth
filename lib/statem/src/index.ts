@@ -1,16 +1,17 @@
 /* eslint-disable no-var */
 import { Store } from "./store.js"
+import type { Statem, State } from "./store.js"
 
 declare global {
   /** All the states. */
-  var statem: Map<string, typeof Store>
+  var statem: Map<string, Statem>
 }
 
 // export default Store
 globalThis.statem = new Map()
 
-export function statem(name: string, values?: Record<string, any> | null) {
-  let state // : Store | undefined
+export function statem(name: string, values?: State | null) {
+  let state: Statem | undefined
   if (values === null) {
     globalThis.statem.delete(name)
   } else if (globalThis.statem.has(name)) {

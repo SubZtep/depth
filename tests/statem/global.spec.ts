@@ -9,9 +9,7 @@ describe("Global Statem Map", () => {
     expect(globalThis.statem.size).toBe(0)
   })
   it("store created", () => {
-    statem("test", {
-      abc: 123,
-    })
+    statem("test", { abc: 123 })
     expect(globalThis.statem.size).toBe(1)
   })
 

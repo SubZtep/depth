@@ -1,15 +1,17 @@
-type Callback<T> = (data: T, oldData: T) => void
+export type State = Record<string | symbol, any>
 
-// export interface Statem {
-//   subscribe<T>(callback: Callback<T>): Fn
-// }
+type Callback = (data: State, oldData: State) => void
 
-type State = any
+export interface Statem {
+  subscribe(callback: Callback): Fn
+  unsubscribe(callback: Callback): void
+  patch(values: State): void
+}
 
 // export class Store<State extends object> {
-export class Store {
+export class Store implements Statem {
   private state!: State
-  private callbacks = new Set<Callback<State>>() // TODO: WeakRef
+  private callbacks = new Set<Callback>() // TODO: WeakRef
   private patching = false
 
   constructor(initialState: State) {
@@ -56,14 +58,14 @@ export class Store {
    * Allow an outside entity to subscribe to state changes with a valid callback.
    * @returns Unsubscribe function
    */
-  subscribe(callback: Callback<State>) {
+  subscribe(callback: Callback) {
     this.callbacks.add(callback)
     return () => {
-      this.callbacks.delete(callback)
+      this.unsubscribe(callback)
     }
   }
 
-  unsubscribe(callback: Callback<State>) {
+  unsubscribe(callback: Callback) {
     if (this.callbacks.has(callback)) {
       this.callbacks.delete(callback)
     }
@@ -74,9 +76,9 @@ export class Store {
   }
 
   /** Update multiple values and a single callback. */
-  patch(data: Partial<State>) {
+  patch(values: State) {
     let changed = false
-    for (const [key, value] of Object.entries(data)) {
+    for (const [key, value] of Object.entries(values)) {
       if (this.state[key] !== value) {
         changed = true
         break
@@ -87,7 +89,7 @@ export class Store {
     const oldState = { ...this.state }
     this.patching = true
     //TODO: test, is it synchronous?
-    Object.assign(this.state, data)
+    Object.assign(this.state, values)
     this.processCallbacks(this.state, oldState)
     this.patching = false
   }
