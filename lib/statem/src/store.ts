@@ -1,11 +1,13 @@
 type Callback<T> = (data: T, oldData: T) => void
 
-export interface Statem {
-  subscribe<T>(callback: Callback<T>): Fn
-}
+// export interface Statem {
+//   subscribe<T>(callback: Callback<T>): Fn
+// }
 
+// type State = any
+
+// export class Store<State extends object> {
 export class Store<State extends object> {
-  public sid
   private state!: State
   private callbacks = new Set<Callback<State>>() // TODO: WeakRef
   private patching = false
@@ -57,6 +59,12 @@ export class Store<State extends object> {
   subscribe(callback: Callback<State>) {
     this.callbacks.add(callback)
     return () => {
+      this.callbacks.delete(callback)
+    }
+  }
+
+  unsubscribe(callback: Callback<State>) {
+    if (this.callbacks.has(callback)) {
       this.callbacks.delete(callback)
     }
   }

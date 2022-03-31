@@ -4,6 +4,9 @@ import { customElement, property, state } from "lit/decorators.js"
 
 @customElement("d-meter")
 export class DMeter extends LitElement {
+  /** Statem ID */
+  @property({ type: String }) statem?: string
+
   static styles = css`
     :host {
       grid-area: meter;

@@ -9,7 +9,9 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "devDependencies": {
-    "happy-dom": "^2.50.0",
-    "vitest": "^0.7.12"
+    "@depth/statem": "workspace:*",
+    "c8": "^7.11.0",
+    "happy-dom": "^2.52.0",
+    "vitest": "^0.8.1"
   }
 }
