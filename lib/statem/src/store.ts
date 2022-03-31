@@ -1,7 +1,7 @@
 type StateKey = string | symbol
 export type State = Record<StateKey, any>
 
-type Callback = (data: State, oldData: State) => void
+type Callback = (state: State, oldState: State) => void
 
 export interface Statem {
   /**
@@ -17,6 +17,9 @@ export interface Statem {
 interface CallbackOptions {
   /** Run callback only if the given key changes. */
   key?: StateKey
+
+  /** Run callback automatically with the subscription. */
+  immediate?: boolean
 }
 
 // export class Store<State extends object> {
@@ -60,15 +63,15 @@ export class Store implements Statem {
   /**
    * Fire off each callback that's run whenever the state changes
    */
-  processCallbacks(data: State, oldData: State) {
+  processCallbacks(state: State, oldState: State) {
     for (const callback of this.callbacks) {
       if (this.callbackOptions.has(callback)) {
         const options = this.callbackOptions.get(callback)!
-        if (options.key && data[options.key] === oldData[options.key]) {
+        if (options.key && state[options.key] === oldState[options.key]) {
           continue
         }
       }
-      callback(data, oldData)
+      callback(state, oldState)
     }
   }
 
@@ -76,6 +79,9 @@ export class Store implements Statem {
     this.callbacks.add(callback)
     if (options) {
       this.callbackOptions.set(callback, options)
+      if (options.immediate) {
+        callback(this.state, this.state)
+      }
     }
     return () => {
       this.unsubscribe(callback)

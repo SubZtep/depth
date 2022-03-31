@@ -43,3 +43,7 @@ export function fixedValues<T>(object: T, toFixed: number): T {
 // export function hasDifferences<T = any>(o1: { [K in keyof T]: T[K] }, o2: { [K in keyof T]: T[K] }): boolean {
 //   return Object.keys(o1).some(key => o1[key] !== o2[key])
 // }
+
+export function normalise(min: number, max: number) {
+  return (x: number) => (x - min) / (max - min)
+}

@@ -1,4 +1,3 @@
-/* eslint-disable no-constant-condition */
 import { init } from "./renderer"
 // @ts-ignore
 import OffscreenWorker from "./offscreen?worker&inline"
@@ -80,12 +79,8 @@ export function startLooping(props: StartLoopingProps): StartLoopingReturn {
   return {
     scene: new THREE.Scene(), //props.statem.scene,
     exec3D: (fn: CanvasInjectedFn) =>
-      false
-        ? worker?.postMessage({ type: "exec3D", fn: fn.toString() })
-        : injectedFunctions!.singleFns.push(fn),
+      false ? worker?.postMessage({ type: "exec3D", fn: fn.toString() }) : injectedFunctions!.singleFns.push(fn),
     loop3D: (fn: CanvasInjectedFn) =>
-      false
-        ? worker?.postMessage({ type: "loop3D", fn: fn.toString() })
-        : injectedFunctions!.loopFns.push(fn),
+      false ? worker?.postMessage({ type: "loop3D", fn: fn.toString() }) : injectedFunctions!.loopFns.push(fn),
   }
 }

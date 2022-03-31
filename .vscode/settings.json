@@ -53,5 +53,5 @@
   "lit-plugin.rules.no-unknown-attribute": "off",
   "lit-plugin.rules.no-invalid-css": "off",
   "window.title": "d̸͔́è̶̖̝̭m̸̯̪͆̋̈́̉͜o̵͖͍̪̮̾́̀̎.̶̧̰̫̤͐̔̉́̎l̸̡̛͕͍̞a̷̮̾͘ń̵̠̯d̶͈̫̎͝ⒹⒺⓅⓉⒽ 龴ↀ◡ↀ龴 ▂▃▅▇█▓▒░ ${activeEditorMedium}  ░▒▓█▇▅▃▂ ⺌${dirty}‿${dirty}⺌ ⒹⒺⓅⓉⒽd̸͔́è̶̖̝̭m̸̯̪͆̋̈́̉͜o̵͖͍̪̮̾́̀̎.̶̧̰̫̤͐̔̉́̎l̸̡̛͕͍̞a̷̮̾͘ń̵̠̯d̶͈̫̎͝",
-  "workbench.colorTheme": "Sea Green Theme",
+  "workbench.colorTheme": "chalice-color-theme-dark-mono",
 }

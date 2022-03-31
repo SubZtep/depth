@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // import { exec3D, loop3D } from "@depth/canvas"
 import * as THREE from "three"
 

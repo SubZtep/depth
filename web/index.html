@@ -12,8 +12,17 @@
   </head>
   <body>
     <d-theme></d-theme>
-    <d-gameloop></d-gameloop>
-    <d-meter></d-meter>
+    <d-gameloop fps="24"></d-gameloop>
+
+    <d-meter id="meter"></d-meter>
+    <script>
+      let val = 0
+      const meter = document.querySelector("#meter")
+
+      setInterval(() => {
+        meter.setAttribute("item", val++)
+      }, 1000)
+    </script>
 
     <script type="module" src="./src/main.ts"></script>
   </body>

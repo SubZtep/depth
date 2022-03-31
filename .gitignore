@@ -10,3 +10,4 @@ tsconfig.tsbuildinfo
 web/public/libs/
 web/public/models/origin/
 web/public/story/
+tests/coverage

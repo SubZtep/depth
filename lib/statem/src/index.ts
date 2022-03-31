@@ -1,6 +1,7 @@
 /* eslint-disable no-var */
 import { Store } from "./store.js"
 import type { Statem, State } from "./store.js"
+export type { Statem }
 
 declare global {
   /** All the states. */
@@ -11,11 +12,11 @@ declare global {
 globalThis.statem = new Map()
 
 export function statem(name: string, values?: State | null) {
-  let state: Statem | undefined
+  let state!: Statem
   if (values === null) {
     globalThis.statem.delete(name)
   } else if (globalThis.statem.has(name)) {
-    state = globalThis.statem.get(name)
+    state = globalThis.statem.get(name)!
     if (values) {
       state?.patch(values)
     }

@@ -31,7 +31,6 @@ settings:
       - "LitElement"
 
 rules:
-  "prefer-const": warn
   "prettier/prettier": warn
   "tsdoc/syntax": warn
   "linebreak-style":
@@ -47,6 +46,9 @@ rules:
     - warn
     - 2
     - SwitchCase: 1
+
+  "prefer-const": warn
+  "no-constant-condition": warn
 
   "@typescript-eslint/no-unused-vars":
     - warn

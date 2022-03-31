@@ -1,27 +1,54 @@
-import { LitElement } from "lit"
+/* eslint-disable indent */
+import { css, html, LitElement } from "lit"
 import { statem } from "@depth/statem"
-import { customElement, property } from "lit/decorators.js"
+import { customElement } from "lit/decorators.js"
+import { repeat } from "lit/directives/repeat.js"
 
-/** CSS var setter. */
-@customElement("d-css-var")
-export class DCssVar extends LitElement {
-  /** statem ID */
-  @property() sid!: string
-
-  /** CSS  var name. */
-  @property({ type: String }) var?: string
-
-  state = statem(this.sid)
+/** Background colour setting. */
+@customElement("d-theme")
+export class DTheme extends LitElement {
+  private state = statem("theme", {
+    property: "--bodybg",
+    values: ["--bg0", "--bg1", "--bg2", "--bg3", "--bg4", "--bg5", "--bg6", "--bg7"],
+    value: "--bg3",
+  })
 
   connectedCallback() {
     super.connectedCallback()
 
-    // waiting for state existance...
-    setTimeout(() => {
-      // this.state = statem(this.sid)
-      this.state.subscribe(({ bodybg }) => {
-        this.var && document.documentElement.style.setProperty(this.var, bodybg)
-      })
-    }, 100)
+    this.state.subscribe(
+      ({ value }) => {
+        document.documentElement.style.setProperty(this.state.property, `var(${value})`)
+      },
+      {
+        key: "value",
+        immediate: true,
+      }
+    )
+  }
+
+  static styles = css`
+    :host {
+      grid-area: theme;
+    }
+    label {
+      background-color: #000;
+      color: #fff;
+    }
+  `
+
+  render() {
+    return html`
+      <label>
+        Background:
+        <select @change=${({ target }) => (this.state.value = target.value)}>
+          ${repeat(
+            this.state.values as string[],
+            (v) => v,
+            (v) => html` <option value=${v} ?selected=${v === this.state.value}>${v}</option> `
+          )}
+        </select>
+      </label>
+    `
   }
 }
