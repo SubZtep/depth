@@ -1,17 +1,29 @@
-export type State = Record<string | symbol, any>
+type StateKey = string | symbol
+export type State = Record<StateKey, any>
 
 type Callback = (data: State, oldData: State) => void
 
 export interface Statem {
-  subscribe(callback: Callback): Fn
+  /**
+   * Allow an outside entity to subscribe to state changes with a valid callback.
+   * @returns Unsubscribe function
+   */
+  subscribe(callback: Callback, options?: CallbackOptions): Fn
   unsubscribe(callback: Callback): void
-  patch(values: State): void
+  // patch(values: State): void
+  [key: StateKey]: any
+}
+
+interface CallbackOptions {
+  /** Run callback only if the given key changes. */
+  key?: StateKey
 }
 
 // export class Store<State extends object> {
 export class Store implements Statem {
   private state!: State
   private callbacks = new Set<Callback>() // TODO: WeakRef
+  private callbackOptions = new Map<Callback, CallbackOptions>()
   private patching = false
 
   constructor(initialState: State) {
@@ -50,25 +62,29 @@ export class Store implements Statem {
    */
   processCallbacks(data: State, oldData: State) {
     for (const callback of this.callbacks) {
+      if (this.callbackOptions.has(callback)) {
+        const options = this.callbackOptions.get(callback)!
+        if (options.key && data[options.key] === oldData[options.key]) {
+          continue
+        }
+      }
       callback(data, oldData)
     }
   }
 
-  /**
-   * Allow an outside entity to subscribe to state changes with a valid callback.
-   * @returns Unsubscribe function
-   */
-  subscribe(callback: Callback) {
+  subscribe(callback: Callback, options?: CallbackOptions) {
     this.callbacks.add(callback)
+    if (options) {
+      this.callbackOptions.set(callback, options)
+    }
     return () => {
       this.unsubscribe(callback)
     }
   }
 
   unsubscribe(callback: Callback) {
-    if (this.callbacks.has(callback)) {
-      this.callbacks.delete(callback)
-    }
+    this.callbackOptions.delete(callback)
+    this.callbacks.delete(callback)
   }
 
   toString() {
@@ -88,7 +104,6 @@ export class Store implements Statem {
 
     const oldState = { ...this.state }
     this.patching = true
-    //TODO: test, is it synchronous?
     Object.assign(this.state, values)
     this.processCallbacks(this.state, oldState)
     this.patching = false
