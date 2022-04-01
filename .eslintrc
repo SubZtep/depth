@@ -22,13 +22,6 @@ plugins:
   - "prettier"
   - "eslint-plugin-tsdoc"
   - "unicorn"
-  - "lit"
-  - "wc"
-
-settings:
-  wc:
-    elementBaseClasses:
-      - "LitElement"
 
 rules:
   "prettier/prettier": warn
