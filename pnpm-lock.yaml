@@ -17,10 +17,10 @@ importers:
       eslint-plugin-unicorn: ^41.0.1
       eslint-plugin-wc: ^1.3.2
       prettier: ^2.6.1
-      three: ^0.139.0
+      three: ^0.139.2
       typescript: ^4.6.3
     dependencies:
-      three: 0.139.0
+      three: 0.139.2
     devDependencies:
       '@types/node': 17.0.23
       '@types/three': 0.139.0
@@ -96,13 +96,13 @@ importers:
     specifiers:
       '@depth/statem': workspace:*
       c8: ^7.11.0
-      happy-dom: ^2.52.0
+      happy-dom: ^2.55.0
       vitest: ^0.8.1
     devDependencies:
       '@depth/statem': link:../lib/statem
       c8: 7.11.0
-      happy-dom: 2.52.0
-      vitest: 0.8.1_c8@7.11.0+happy-dom@2.52.0
+      happy-dom: 2.55.0
+      vitest: 0.8.1_c8@7.11.0+happy-dom@2.55.0
 
   web:
     specifiers:
@@ -116,7 +116,7 @@ importers:
       postcss-preset-env: ^7.4.3
       pug: ^3.0.2
       three-globe: ^2.24.4
-      vite: ^2.9.0
+      vite: ^2.9.1
       vite-plugin-pug: ^0.3.1
       vite-plugin-windicss: ^1.8.3
       windicss: ^3.5.1
@@ -125,16 +125,16 @@ importers:
       '@depth/misc': link:../lib/misc
       '@depth/statem': link:../lib/statem
       '@depth/ui': link:../lib/ui
-      three-globe: 2.24.4_three@0.139.0
+      three-globe: 2.24.4_three@0.139.2
     devDependencies:
       '@windicss/plugin-scrollbar': 1.2.3
       picocolors: 1.0.0
       postcss: 8.4.12
       postcss-preset-env: 7.4.3_postcss@8.4.12
       pug: 3.0.2
-      vite: 2.9.0
-      vite-plugin-pug: 0.3.1_picocolors@1.0.0+vite@2.9.0
-      vite-plugin-windicss: 1.8.3_vite@2.9.0
+      vite: 2.9.1
+      vite-plugin-pug: 0.3.1_picocolors@1.0.0+vite@2.9.1
+      vite-plugin-windicss: 1.8.3_vite@2.9.1
       windicss: 3.5.1
 
 packages:
@@ -1987,8 +1987,8 @@ packages:
     engines: {node: '>=4', npm: '>=3', yarn: '>=1.3.0'}
     dev: false
 
-  /happy-dom/2.52.0:
-    resolution: {integrity: sha512-sNiMoku8/B5AHA2y93YNhv7HwwcWYshG1Hvms0kC+fDK4rPRPwZx/PDlUFleWymy9FP419IekYjVEOtLZb0QtA==}
+  /happy-dom/2.55.0:
+    resolution: {integrity: sha512-CHDMBRau+l/yKQL+ANmexRAC8FRCuYbXRSpu/GbLVyfqkrlBzV7OSNd5C5HZ+pVFtFv1bFJYC5r+xrqgGQuq5w==}
     dependencies:
       css.escape: 1.5.1
       he: 1.2.0
@@ -3745,7 +3745,7 @@ packages:
       qs: 6.10.3
     dev: true
 
-  /three-conic-polygon-geometry/1.5.1_three@0.139.0:
+  /three-conic-polygon-geometry/1.5.1_three@0.139.2:
     resolution: {integrity: sha512-T6O76fhvknLCSH6zl6gtNWFwqw5TQ9HbSkOvNelJemT0cJO9PVj1HIsvRZqGxNT4WAWsij1v5naeS25sozUmrg==}
     peerDependencies:
       three: '>=0.72.0'
@@ -3757,28 +3757,28 @@ packages:
       d3-scale: 4.0.2
       delaunator: 5.0.0
       earcut: 2.2.3
-      three: 0.139.0
+      three: 0.139.2
     dev: false
 
-  /three-fatline/0.5.3_three@0.139.0:
+  /three-fatline/0.5.3_three@0.139.2:
     resolution: {integrity: sha512-oKpBkodXLim6STcM6mbdZT4i0PwsXnjHzsEo6I0OO7HHkbkV1XJ+mvmuMDwmfAxT5PjJDbQhvrB1lfoGjEQdUg==}
     peerDependencies:
       three: '>=0.84.0'
     dependencies:
-      three: 0.139.0
+      three: 0.139.2
     dev: false
 
-  /three-geojson-geometry/1.1.7_three@0.139.0:
+  /three-geojson-geometry/1.1.7_three@0.139.2:
     resolution: {integrity: sha512-JhZ22lX4ghYsQ9XF6reaRfB+pnjJ8csDcS9Sy6TosBp0BkckbE+pqUWO8bn2tLY/3PqHf9Hcz/njNgvCLSRKzA==}
     peerDependencies:
       three: '>=0.72.0'
     dependencies:
       d3-geo: 3.0.1
       earcut: 2.2.3
-      three: 0.139.0
+      three: 0.139.2
     dev: false
 
-  /three-globe/2.24.4_three@0.139.0:
+  /three-globe/2.24.4_three@0.139.2:
     resolution: {integrity: sha512-+0t4XU4oV2sRnzTCWGJ+JyCIY7E3RbC/w9MU1MWBmiHfTaEkhbmacgU7H5Cow+VzWv+S6sxznc5NxxLi/Mufkw==}
     peerDependencies:
       three: '>=0.109.0'
@@ -3794,15 +3794,15 @@ packages:
       h3-js: 3.7.2
       index-array-by: 1.3.2
       kapsule: 1.13.7
-      three: 0.139.0
-      three-conic-polygon-geometry: 1.5.1_three@0.139.0
-      three-fatline: 0.5.3_three@0.139.0
-      three-geojson-geometry: 1.1.7_three@0.139.0
+      three: 0.139.2
+      three-conic-polygon-geometry: 1.5.1_three@0.139.2
+      three-fatline: 0.5.3_three@0.139.2
+      three-geojson-geometry: 1.1.7_three@0.139.2
       tinycolor2: 1.4.2
     dev: false
 
-  /three/0.139.0:
-    resolution: {integrity: sha512-hZ4LkCjgoEM82WLaOVptDKGpB3SkEyuJP2OHe36AFO8hS2I6CrEiNanXj7wwR3wIPT7V5wi5Y5pFnncS5SVHgQ==}
+  /three/0.139.2:
+    resolution: {integrity: sha512-gV7q7QY8rogu7HLFZR9cWnOQAUedUhu2WXAnpr2kdXZP9YDKsG/0ychwQvWkZN5PlNw9mv5MoCTin6zNTXoONg==}
     dev: false
 
   /tinycolor2/1.4.2:
@@ -3998,7 +3998,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite-plugin-pug/0.3.1_picocolors@1.0.0+vite@2.9.0:
+  /vite-plugin-pug/0.3.1_picocolors@1.0.0+vite@2.9.1:
     resolution: {integrity: sha512-LOyb1o1eaUjaSrIzZiK95n632CDu4lPJ3U/wKy03mp9OcLAFS0p5R5it7z/FcsqXUiqRtl7QtCO9HnhylC4waA==}
     peerDependencies:
       picocolors: ~1
@@ -4006,10 +4006,10 @@ packages:
     dependencies:
       picocolors: 1.0.0
       pug: 3.0.2
-      vite: 2.9.0
+      vite: 2.9.1
     dev: true
 
-  /vite-plugin-windicss/1.8.3_vite@2.9.0:
+  /vite-plugin-windicss/1.8.3_vite@2.9.1:
     resolution: {integrity: sha512-RIw2GD6H6cKNE8wZXVOBs4L1uTicVS0FaAkeqXvy1oyuXLC4SXmvnzEuoK0+qFuWJjW0ECNwE8eU+ZZhzNQKUg==}
     peerDependencies:
       vite: ^2.0.1
@@ -4017,7 +4017,7 @@ packages:
       '@windicss/plugin-utils': 1.8.3
       debug: 4.3.4
       kolorist: 1.5.1
-      vite: 2.9.0
+      vite: 2.9.1
       windicss: 3.5.1
     transitivePeerDependencies:
       - supports-color
@@ -4047,7 +4047,31 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.8.1_c8@7.11.0+happy-dom@2.52.0:
+  /vite/2.9.1:
+    resolution: {integrity: sha512-vSlsSdOYGcYEJfkQ/NeLXgnRv5zZfpAsdztkIrs7AZHV8RCMZQkwjo4DS5BnrYTqoWqLoUe1Cah4aVO4oNNqCQ==}
+    engines: {node: '>=12.2.0'}
+    hasBin: true
+    peerDependencies:
+      less: '*'
+      sass: '*'
+      stylus: '*'
+    peerDependenciesMeta:
+      less:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+    dependencies:
+      esbuild: 0.14.28
+      postcss: 8.4.12
+      resolve: 1.22.0
+      rollup: 2.70.1
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
+  /vitest/0.8.1_c8@7.11.0+happy-dom@2.55.0:
     resolution: {integrity: sha512-8HUyc9io1UInZTUKJWTgPG5fMEqd86IlMCjn2CEjGjli55M7iUJiiMwns9W21wKs6DMrRs2lu89X6rbfVvF53A==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
@@ -4070,7 +4094,7 @@ packages:
       '@types/chai-subset': 1.3.3
       c8: 7.11.0
       chai: 4.3.6
-      happy-dom: 2.52.0
+      happy-dom: 2.55.0
       local-pkg: 0.4.1
       tinypool: 0.1.2
       tinyspy: 0.3.0

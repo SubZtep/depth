@@ -29,7 +29,7 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
-    "three": "^0.139.0"
+    "three": "^0.139.2"
   },
   "devDependencies": {
     "@types/node": "^17.0.23",

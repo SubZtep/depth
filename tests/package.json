@@ -11,7 +11,7 @@
   "devDependencies": {
     "@depth/statem": "workspace:*",
     "c8": "^7.11.0",
-    "happy-dom": "^2.52.0",
+    "happy-dom": "^2.55.0",
     "vitest": "^0.8.1"
   }
 }

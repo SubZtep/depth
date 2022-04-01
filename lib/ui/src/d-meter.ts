@@ -18,9 +18,7 @@ export class DMeter extends LitElement {
 
   protected willUpdate(changedProperties: PropertyValues<this>) {
     if (changedProperties.has("min") || changedProperties.has("max")) {
-      if (this.min === this.max) {
-        this.max++ // prevent divide by zero
-      }
+      this.min === this.max && this.max++ // prevent divide by zero
       this.pc = normalise(this.min, this.max)
     }
     if (changedProperties.has("length")) {
@@ -40,13 +38,6 @@ export class DMeter extends LitElement {
       grid-area: meter;
       position: relative;
     }
-    label {
-      position: absolute;
-      top: 0;
-      left: 0;
-      color: #fff;
-      background-color: #000;
-    }
     svg {
       background-color: #cb4d3e;
       transform: scaleY(-1);
@@ -54,7 +45,15 @@ export class DMeter extends LitElement {
       height: 100%;
     }
     rect {
-      width: var(--bar, 10%);
+      width: var(--bar);
+      transition: all ease-in 50ms;
+    }
+    label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: #fff;
+      background-color: #000;
     }
   `
 
@@ -67,7 +66,7 @@ export class DMeter extends LitElement {
               this.queue,
               (v, i) =>
                 svg`<rect style=${styleMap({
-                  x: `calc(var(--bar, 10%) * ${i})`,
+                  x: `calc(var(--bar) * ${i})`,
                   height: `${this.pc(v) * 100}%`,
                 })}></rect>`
             )}
