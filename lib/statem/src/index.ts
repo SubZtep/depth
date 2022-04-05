@@ -20,9 +20,11 @@ export function statem(name: string, values?: State | null) {
     if (values) {
       state?.patch(values)
     }
-  } else {
-    state = new Store(values ?? {})
+  } else if (typeof values === "object") {
+    state = new Store(values)
     globalThis.statem.set(name, state)
+  } else {
+    throw new Error(`State "${name}" does not exist.`)
   }
   return state
 }

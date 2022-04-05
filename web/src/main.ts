@@ -19,3 +19,6 @@ import "./state"
 //   // height: this.clientHeight,
 //   scene: scene.toJSON(),
 // })!
+
+console.log(`
+`)

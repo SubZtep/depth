@@ -16,7 +16,7 @@
       "path": "./web"
     },
     {
-      "path": "./tests"
+      "path": "./test"
     }
   ]
 }

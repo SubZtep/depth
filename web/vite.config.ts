@@ -22,8 +22,8 @@ export default defineConfig(({ command }) => {
       // WindiCSS(),
     ],
     build: {
-      chunkSizeWarningLimit: 1024,
-      target: ["edge90", "chrome90", "firefox90", "safari15"], // for top-level await
+      // chunkSizeWarningLimit: 1024,
+      // target: ["edge90", "chrome90", "firefox90", "safari15"], // for top-level await
       // rollupOptions: {
       //   input: {
       //     main: resolve(__dirname, "index.html"),

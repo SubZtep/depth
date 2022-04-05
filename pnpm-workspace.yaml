@@ -1,4 +1,4 @@
 packages:
  - "lib/**"
  - "web"
- - "tests"
+ - "test"

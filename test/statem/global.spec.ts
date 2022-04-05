@@ -14,12 +14,12 @@ describe("Global Statem Map", () => {
   })
 
   it("don't recreate", () => {
-    statem("test")
+    statem("test", {})
     expect(globalThis.statem.size).toBe(1)
   })
 
   it("multiple states", () => {
-    statem("test2")
+    statem("test2", {})
     expect(globalThis.statem.size).toBe(2)
   })
 
@@ -33,5 +33,9 @@ describe("Global Statem Map", () => {
   it("deletable state", () => {
     statem("test2", null)
     expect(globalThis.statem.size).toBe(1)
+  })
+
+  it("unknown state", () => {
+    expect(() => statem("test3")).toThrowError()
   })
 })
