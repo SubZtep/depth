@@ -8,21 +8,21 @@ import { normalise } from "@depth/misc"
 
 @customElement("d-meter")
 export class DMeter extends LitElement {
-  @property({ type: Number }) length = 10
+  @property({ type: Number, reflect: true }) length = 16
   @property({ type: Number }) min = 0
   @property({ type: Number }) max = 200
   @property({ type: Number }) item!: number
-  @query("svg") host?: ReactiveElement
-  private queue: number[] = []
-  private pc: ReturnType<typeof normalise> = (v) => v
+  @query("svg") svgElem?: ReactiveElement
+  protected queue: number[] = []
+  protected n0rmal: ReturnType<typeof normalise> = (v) => v
 
   protected willUpdate(changedProperties: PropertyValues<this>) {
     if (changedProperties.has("min") || changedProperties.has("max")) {
       this.min === this.max && this.max++ // prevent divide by zero
-      this.pc = normalise(this.min, this.max)
+      this.n0rmal = normalise(this.min, this.max)
     }
     if (changedProperties.has("length")) {
-      this.host?.style.setProperty("--bar", `${100 / this.length}%`)
+      this.svgElem?.style.setProperty("--bar-width", `${100 / this.length}%`)
       const diff = this.queue.length - this.length
       diff > 0 && this.queue.splice(0, diff)
     }
@@ -39,37 +39,53 @@ export class DMeter extends LitElement {
       position: relative;
     }
     svg {
-      background-color: #cb4d3e;
+      /* background-color: #cb4d3e; */
       transform: scaleY(-1);
       width: 100%;
       height: 100%;
     }
     rect {
-      width: var(--bar);
-      transition: all ease-in 50ms;
+      width: calc(var(--bar-width) / 4);
+      transition: all linear 16ms;
     }
     label {
       position: absolute;
       top: 0;
       left: 0;
       color: #fff;
-      background-color: #000;
+      background-color: #333;
+    }
+    path {
+      transition: all linear 160ms;
+
+      fill: none;
+      stroke: #111;
+      stroke-width: 10;
+      stroke-linecap: round;
+      vector-effect: non-scaling-stroke;
     }
   `
 
+  path = ""
+
   render() {
+    this.path = "M 0 69"
     return html`
-      <svg xmlns="http:/www.w3.org/2000/svg" preserveAspectRatio="none">
+      <svg xmlns="http:/www.w3.org/2000/svg" viewbox="0 0 666 400">
         ${svg`
           <g fill="#3d5599">
-            ${repeat(
-              this.queue,
-              (v, i) =>
-                svg`<rect style=${styleMap({
-                  x: `calc(var(--bar) * ${i})`,
-                  height: `${this.pc(v) * 100}%`,
-                })}></rect>`
-            )}
+            ${repeat(this.queue, (v, i) => {
+              this.path += `L ${Math.min(666, Math.max(100, i * 2 * this.length))} ${this.n0rmal(v) * 300}`
+              return svg`
+              
+              <rect style=${styleMap({
+                x: `calc(var(--bar-width) * ${i})`,
+                height: `${this.n0rmal(v) * 100}%`,
+              })}></rect>
+              
+              <path d=${this.path}>
+              `
+            })}
           </g>
       `}
       </svg>

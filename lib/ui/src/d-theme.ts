@@ -10,7 +10,7 @@ export class DTheme extends LitElement {
   private state = statem("theme", {
     property: "--bodybg",
     values: ["--bg0", "--bg1", "--bg2", "--bg3", "--bg4", "--bg5", "--bg6", "--bg7"],
-    value: "--bg3",
+    value: "--bg4",
   })
 
   connectedCallback() {

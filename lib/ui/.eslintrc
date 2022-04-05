@@ -1,0 +1,15 @@
+extends:
+  - "plugin:lit/recommended"
+  - "plugin:wc/recommended"
+
+plugins:
+  - "lit"
+  - "wc"
+
+settings:
+  wc:
+    elementBaseClasses:
+      - "LitElement"
+
+rules:
+  indent: off
