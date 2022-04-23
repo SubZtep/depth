@@ -16,7 +16,7 @@
     "@depth/canvas": "workspace:*",
     "@depth/misc": "workspace:*",
     "@depth/statem": "workspace:*",
-    "@depth/ui": "workspace:*",
+    "@depth/wc": "workspace:*",
     "three-globe": "^2.24.4"
   },
   "devDependencies": {

@@ -1,0 +1,30 @@
+{
+  "name": "@depth/wc",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "babel -w --extensions \".ts\" src -d dist",
+    "build": "babel --extensions \".ts\" src -d dist",
+    "wc:analyse": "web-component-analyzer ./src/d-*.ts"
+  },
+  "author": "Andras Serfozo <subztep@gmail.com>",
+  "license": "Unlicense",
+  "dependencies": {
+    "@depth/canvas": "workspace:*",
+    "@depth/misc": "workspace:*",
+    "@depth/statem": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.9",
+    "@babel/plugin-transform-typescript": "^7.16.8",
+    "@types/preval.macro": "^3.0.0",
+    "babel-plugin-macros": "^3.1.0",
+    "preval.macro": "^5.0.0",
+    "pug": "^3.0.2",
+    "tslib": "^2.3.1",
+    "web-component-analyzer": "^1.1.6"
+  }
+}

@@ -13,6 +13,9 @@
       "path": "./lib/ui"
     },
     {
+      "path": "./lib/wc"
+    },
+    {
       "path": "./web"
     },
     {

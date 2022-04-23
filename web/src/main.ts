@@ -1,7 +1,8 @@
 // import testScene from "./canvas3ds/test-scene"
 // import { statem } from "@depth/statem"
 import "./styles/main.css"
-import "@depth/ui"
+// import "@depth/ui"
+import "@depth/wc"
 import "./state"
 // import * as THREE from "three"
 
@@ -19,6 +20,3 @@ import "./state"
 //   // height: this.clientHeight,
 //   scene: scene.toJSON(),
 // })!
-
-console.log(`
-`)

@@ -33,7 +33,7 @@
     "**/node_modules": true
   },
   "files.exclude": {
-    "**/dist": true,
+    "**/dist": false,
     "**/node_modules": true,
     "**/tsconfig.tsbuildinfo": true
   },
@@ -53,5 +53,5 @@
   "lit-plugin.rules.no-unknown-attribute": "off",
   "lit-plugin.rules.no-invalid-css": "off",
   "window.title": "d̸͔́è̶̖̝̭m̸̯̪͆̋̈́̉͜o̵͖͍̪̮̾́̀̎.̶̧̰̫̤͐̔̉́̎l̸̡̛͕͍̞a̷̮̾͘ń̵̠̯d̶͈̫̎͝ⒹⒺⓅⓉⒽ 龴ↀ◡ↀ龴 ▂▃▅▇█▓▒░ ${activeEditorMedium}  ░▒▓█▇▅▃▂ ⺌${dirty}‿${dirty}⺌ ⒹⒺⓅⓉⒽd̸͔́è̶̖̝̭m̸̯̪͆̋̈́̉͜o̵͖͍̪̮̾́̀̎.̶̧̰̫̤͐̔̉́̎l̸̡̛͕͍̞a̷̮̾͘ń̵̠̯d̶͈̫̎͝",
-  "workbench.colorTheme": "chalice-color-theme-dark-mono",
+  "workbench.colorTheme": "Cobalt2",
 }

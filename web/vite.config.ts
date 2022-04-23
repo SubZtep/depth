@@ -4,7 +4,7 @@ import { defineConfig } from "vite"
 // import worker, { pluginHelper } from "vite-plugin-worker"
 // import WindiCSS from "vite-plugin-windicss"
 // import Pug from "vite-plugin-pug"
-import Pug from "./pug/index"
+// import Pug from "./pug/index"
 
 export default defineConfig(({ command }) => {
   return {
@@ -18,7 +18,7 @@ export default defineConfig(({ command }) => {
       // comlink(),
       // pluginHelper(),
       // worker({}),
-      Pug(),
+      // Pug(),
       // WindiCSS(),
     ],
     build: {
