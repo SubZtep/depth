@@ -6,7 +6,11 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "babel -w --extensions \".ts\" src -d dist",
-    "build": "babel --extensions \".ts\" src -d dist",
+    "buildx": "babel --extensions \".ts\" src -d dist",
+    "build": "babel src -d dist --extensions \".ts\" --source-maps inline",
+    "type:check": "tsc --noEmit",
+    "type:build": "tsc --emitDeclarationOnly",
+    "type:watch": "pnpm type:build -- --watch",
     "wc:analyse": "web-component-analyzer ./src/d-*.ts"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
@@ -19,7 +23,7 @@
   "devDependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.9",
-    "@babel/plugin-transform-typescript": "^7.16.8",
+    "@babel/preset-typescript": "^7.16.7",
     "@types/babel-plugin-macros": "^2.8.5",
     "@types/pug": "^2.0.6",
     "babel-plugin-macros": "^3.1.0",

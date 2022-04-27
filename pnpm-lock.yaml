@@ -99,7 +99,7 @@ importers:
     specifiers:
       '@babel/cli': ^7.17.6
       '@babel/core': ^7.17.9
-      '@babel/plugin-transform-typescript': ^7.16.8
+      '@babel/preset-typescript': ^7.16.7
       '@depth/canvas': workspace:*
       '@depth/misc': workspace:*
       '@depth/statem': workspace:*
@@ -116,7 +116,7 @@ importers:
     devDependencies:
       '@babel/cli': 7.17.6_@babel+core@7.17.9
       '@babel/core': 7.17.9
-      '@babel/plugin-transform-typescript': 7.16.8_@babel+core@7.17.9
+      '@babel/preset-typescript': 7.16.7_@babel+core@7.17.9
       '@types/babel-plugin-macros': 2.8.5
       '@types/pug': 2.0.6
       babel-plugin-macros: 3.1.0
@@ -423,6 +423,20 @@ packages:
       '@babel/helper-create-class-features-plugin': 7.17.9_@babel+core@7.17.9
       '@babel/helper-plugin-utils': 7.16.7
       '@babel/plugin-syntax-typescript': 7.16.7_@babel+core@7.17.9
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@babel/preset-typescript/7.16.7_@babel+core@7.17.9:
+    resolution: {integrity: sha512-WbVEmgXdIyvzB77AQjGBEyYPZx+8tTsO50XtfozQrkW8QB2rLJpH2lgx0TRw5EJrBxOZQ+wCcyPVQvS8tjEHpQ==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.17.9
+      '@babel/helper-plugin-utils': 7.16.7
+      '@babel/helper-validator-option': 7.16.7
+      '@babel/plugin-transform-typescript': 7.16.8_@babel+core@7.17.9
     transitivePeerDependencies:
       - supports-color
     dev: true

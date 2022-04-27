@@ -31,7 +31,7 @@
     "**/node_modules": true
   },
   "files.exclude": {
-    "**/dist": true,
+    "**/dist": false,
     "**/node_modules": true,
     "**/tsconfig.tsbuildinfo": true
   },

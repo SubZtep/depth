@@ -10,8 +10,7 @@
     "test"
   ],
   "scripts": {
-    "wipe": "pnpm recursive exec -- rm -rf node_modules build dist types tsconfig.tsbuildinfo pnpm-lock.yaml",
-    "wiper": "sh scripts/wipe_all.sh",
+    "wipe": "pnpm recursive exec -- rm -rf node_modules build dist types tsconfig.tsbuildinfo pnpm-lock.yaml .pnpm-debug.log",
     "dev": "pnpm --parallel --if-present dev",
     "build": "pnpm --recursive build",
     "web": "pnpm run dev --filter @depth/web",

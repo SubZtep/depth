@@ -4,8 +4,7 @@
     "lib": ["ESNext", "DOM"],
     "baseUrl": ".",
     "rootDir": "src",
-    "outDir": "dist",
-    "noEmitOnError": false
+    "outDir": "dist"
   },
   "include": ["src/**/*.ts", "typings.d.ts", "src/pug.macro.cjs"]
 }
