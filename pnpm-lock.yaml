@@ -103,9 +103,9 @@ importers:
       '@depth/canvas': workspace:*
       '@depth/misc': workspace:*
       '@depth/statem': workspace:*
-      '@types/preval.macro': ^3.0.0
+      '@types/babel-plugin-macros': ^2.8.5
+      '@types/pug': ^2.0.6
       babel-plugin-macros: ^3.1.0
-      preval.macro: ^5.0.0
       pug: ^3.0.2
       tslib: ^2.4.0
       web-component-analyzer: ^1.1.6
@@ -117,9 +117,9 @@ importers:
       '@babel/cli': 7.17.6_@babel+core@7.17.9
       '@babel/core': 7.17.9
       '@babel/plugin-transform-typescript': 7.16.8_@babel+core@7.17.9
-      '@types/preval.macro': 3.0.0
+      '@types/babel-plugin-macros': 2.8.5
+      '@types/pug': 2.0.6
       babel-plugin-macros: 3.1.0
-      preval.macro: 5.0.0
       pug: 3.0.2
       tslib: 2.4.0
       web-component-analyzer: 1.1.6
@@ -700,6 +700,12 @@ packages:
     resolution: {integrity: sha512-lB9lMjuqjtuJrx7/kOkqQBtllspPIN+96OvTCeJ2j5FEzinoAXTdAMFnDAQT1KVPRlnYfBrqxtqP66vDM40xxQ==}
     dev: false
 
+  /@types/babel-plugin-macros/2.8.5:
+    resolution: {integrity: sha512-+NcIm/VBaSb4xaycov9f4Vmk4hMVPrgISoHEk+kalgVK6BlkwDZbXkW9kt1jCXVczTKXldL5RHIacExaWzxAkA==}
+    dependencies:
+      '@types/babel__core': 7.1.19
+    dev: true
+
   /@types/babel__core/7.1.19:
     resolution: {integrity: sha512-WEOTgRsbYkvA/KCsDwVEGkd7WAr1e3g31VHQ8zy5gul/V1qKullU/BU5I68X5v7V3GnB9eotmom4v5a5gjxorw==}
     dependencies:
@@ -783,8 +789,8 @@ packages:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
     dev: true
 
-  /@types/preval.macro/3.0.0:
-    resolution: {integrity: sha512-mm7qx+Aj9bhMcK9Y3UHNy6zCQneRj+GBFlCi+cxtx66iLU4yarOupVLrFadlG+Cd4TEsdo4og0REhzUQQ7m3fg==}
+  /@types/pug/2.0.6:
+    resolution: {integrity: sha512-SnHmG9wN1UVmagJOnyo/qkk0Z7gejYxOYYmaAwr5u2yFYfsupN3sg10kyzN8Hep/2zbHxCnsumxOoRIRMBwKCg==}
     dev: true
 
   /@types/qs/6.9.7:
@@ -1073,16 +1079,6 @@ packages:
       '@babel/runtime': 7.17.9
       cosmiconfig: 7.0.1
       resolve: 1.22.0
-    dev: true
-
-  /babel-plugin-preval/5.1.0:
-    resolution: {integrity: sha512-G5R+xmo5LS41A4UyZjOjV0mp9AvkuCyUOAJ6TOv/jTZS+VKh7L7HUDRcCSOb0YCM/u0fFarh7Diz0wjY8rFNFg==}
-    engines: {node: '>=10', npm: '>=6'}
-    dependencies:
-      '@babel/runtime': 7.17.9
-      '@types/babel__core': 7.1.19
-      babel-plugin-macros: 3.1.0
-      require-from-string: 2.0.2
     dev: true
 
   /babel-walk/3.0.0-canary-5:
@@ -3628,13 +3624,6 @@ packages:
     hasBin: true
     dev: true
 
-  /preval.macro/5.0.0:
-    resolution: {integrity: sha512-+OZRqZYx1pjZ7H5Jis8bPFXkiT7lwA46UzAT4IjuzFVKwkJK+TwIx1TCqrqNCf8U3e5O12mEJEz1BXslkCLWfQ==}
-    engines: {node: '>=10'}
-    dependencies:
-      babel-plugin-preval: 5.1.0
-    dev: true
-
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
     dev: true
@@ -3831,11 +3820,6 @@ packages:
 
   /require-directory/2.1.1:
     resolution: {integrity: sha1-jGStX9MNqxyXbiNE/+f3kqam30I=}
-    engines: {node: '>=0.10.0'}
-    dev: true
-
-  /require-from-string/2.0.2:
-    resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
     dev: true
 
