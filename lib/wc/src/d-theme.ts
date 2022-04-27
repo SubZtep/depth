@@ -1,5 +1,5 @@
 import { statem } from "@depth/statem"
-import pug from "./pug.macro.cjs"
+import pug from "pug.macro"
 
 const shadows = new WeakMap()
 

@@ -107,6 +107,7 @@ importers:
       '@types/pug': ^2.0.6
       babel-plugin-macros: ^3.1.0
       pug: ^3.0.2
+      pug.macro: ^0.1.0
       tslib: ^2.4.0
       web-component-analyzer: ^1.1.6
     dependencies:
@@ -121,6 +122,7 @@ importers:
       '@types/pug': 2.0.6
       babel-plugin-macros: 3.1.0
       pug: 3.0.2
+      pug.macro: 0.1.0
       tslib: 2.4.0
       web-component-analyzer: 1.1.6
 
@@ -1161,7 +1163,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001332
-      electron-to-chromium: 1.4.123
+      electron-to-chromium: 1.4.124
       escalade: 3.1.1
       node-releases: 2.0.3
       picocolors: 1.0.0
@@ -1674,8 +1676,8 @@ packages:
     resolution: {integrity: sha512-iRDI1QeCQIhMCZk48DRDMVgQSSBDmbzzNhnxIo+pwx3swkfjMh6vh0nWLq1NdvGHLKH6wIrAM3vQWeTj6qeoug==}
     dev: false
 
-  /electron-to-chromium/1.4.123:
-    resolution: {integrity: sha512-0pHGE53WkYoFbsgwYcVKEpWa6jbzlvkohIEA2CUoZ9b5KC+w/zlMiQHvW/4IBcOh7YoEFqRNavgTk02TBoUTUw==}
+  /electron-to-chromium/1.4.124:
+    resolution: {integrity: sha512-VhaE9VUYU6d2eIb+4xf83CATD+T+3bTzvxvlADkQE+c2hisiw3sZmvEDtsW704+Zky9WZGhBuQXijDVqSriQLA==}
     dev: true
 
   /emoji-regex/8.0.0:
@@ -3730,6 +3732,13 @@ packages:
 
   /pug-walk/2.0.0:
     resolution: {integrity: sha512-yYELe9Q5q9IQhuvqsZNwA5hfPkMJ8u92bQLIMcsMxf/VADjNtEYptU+inlufAFYcWdHlwNfZOEnOOQrZrcyJCQ==}
+    dev: true
+
+  /pug.macro/0.1.0:
+    resolution: {integrity: sha512-rSocXfN1xNa/89Fw1A37v8jWZ5KiKkL95V+xYLWUfwb/0iK7yhpl2c3YVZT6DOFYuXGkwt5yrF3SW9JOfNS+jQ==}
+    dependencies:
+      babel-plugin-macros: 3.1.0
+      pug: 3.0.2
     dev: true
 
   /pug/3.0.2:
