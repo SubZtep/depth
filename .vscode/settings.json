@@ -1,8 +1,6 @@
 {
   "deno.enable": false,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "windicss.enableCodeFolding": true,
-  "windicss.foldByLength": true,
   "css.validate": false,
   "css.lint.emptyRules": "ignore",
   "files.associations": {
@@ -34,7 +32,7 @@
   },
   "files.exclude": {
     "**/dist": false,
-    "**/node_modules": true,
+    "**/node_modules": false,
     "**/tsconfig.tsbuildinfo": true
   },
   "files.watcherExclude": {

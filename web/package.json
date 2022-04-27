@@ -13,6 +13,7 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
+    "@depth/core": "workspace:*",
     "@depth/canvas": "workspace:*",
     "@depth/misc": "workspace:*",
     "@depth/statem": "workspace:*",
@@ -20,14 +21,10 @@
     "three-globe": "^2.24.4"
   },
   "devDependencies": {
-    "@windicss/plugin-scrollbar": "^1.2.3",
     "picocolors": "^1.0.0",
     "postcss": "^8.4.12",
-    "postcss-preset-env": "^7.4.3",
+    "postcss-preset-env": "^7.4.4",
     "pug": "^3.0.2",
-    "vite": "^2.9.1",
-    "vite-plugin-pug": "^0.3.1",
-    "vite-plugin-windicss": "^1.8.3",
-    "windicss": "^3.5.1"
+    "vite": "^2.9.6"
   }
 }

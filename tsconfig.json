@@ -6,6 +6,9 @@
     {
       "path": "./lib/misc"
     },
+    // {
+    //   "path": "./lib/core"
+    // },
     {
       "path": "./lib/canvas"
     },

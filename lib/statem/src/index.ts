@@ -1,7 +1,7 @@
 /* eslint-disable no-var */
 import { Store } from "./store.js"
 import type { Statem, State } from "./store.js"
-export type { Statem }
+// export type { Statem }
 
 declare global {
   /** All the states. */
