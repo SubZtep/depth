@@ -27,6 +27,7 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
+    "pnpm": "^7.0.0",
     "three": "^0.139.2"
   },
   "devDependencies": {

@@ -7,11 +7,12 @@
   "scripts": {
     "dev": "babel -w --extensions \".ts\" src -d dist",
     "buildx": "babel --extensions \".ts\" src -d dist",
-    "build": "babel src -d dist --extensions \".ts\" --source-maps inline",
+    "buildy": "babel src -d dist --extensions \".ts\" --source-maps inline",
+    "build": "babel src -d dist --extensions \".ts\"",
     "type:check": "tsc --noEmit",
     "type:build": "tsc --emitDeclarationOnly",
     "type:watch": "pnpm type:build -- --watch",
-    "wc:analyse": "web-component-analyzer ./src/d-*.ts"
+    "wc:anal": "web-component-analyzer ./src/d-*.ts --outFile README.md"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
