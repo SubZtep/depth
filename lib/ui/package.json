@@ -15,7 +15,7 @@
     "@depth/canvas": "workspace:*",
     "@depth/misc": "workspace:*",
     "@depth/statem": "workspace:*",
-    "lit": "^2.2.2",
+    "lit": "^2.2.3",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

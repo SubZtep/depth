@@ -21,8 +21,8 @@
     "@depth/statem": "workspace:*"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.9",
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
     "@babel/preset-typescript": "^7.16.7",
     "@types/babel-plugin-macros": "^2.8.5",
     "@types/pug": "^2.0.6",
