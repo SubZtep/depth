@@ -20,7 +20,7 @@
     "serve": "http-server web/dist/",
     "lint": "eslint .",
     "ncu": "pnpm recursive exec -- ncu -u",
-    "wc:anal": "pnpm run wc:analyse --filter @depth/ui",
+    "wc:anal": "pnpm --parallel --if-present wc:anal",
     "test": "pnpm run test --filter @depth/test"
   },
   "author": "Andras Serfozo <subztep@gmail.com>",

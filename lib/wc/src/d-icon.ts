@@ -53,16 +53,22 @@ class DIcon extends HTMLElement {
     return ["name"]
   }
 
-  attributeChangedCallback(name: string, oldValue: string | null, newValue: string) {
+  attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
+    console.log({ name, oldValue, newValue })
     switch (name) {
       case "name":
         const svgEl = this.#root.lastElementChild!
-        if (!icons.has(newValue)) {
-          if (oldValue && icons.has(oldValue)) svgEl.outerHTML = pug`svg`
-          throw new Error(`Invalid icon shape name: ${newValue}`)
+
+        if (newValue && icons.has(newValue)) {
+          svgEl.outerHTML = icons.get(newValue)
+          break
         }
-        svgEl.outerHTML = icons.get(newValue)
-        break
+
+        if (oldValue && icons.has(oldValue)) {
+          svgEl.outerHTML = pug`svg`
+        }
+
+        throw new Error(`Invalid icon shape name: ${newValue ?? "_nothing_"}`)
       default:
         throw new Error(`Unknown attribute: ${name}`)
     }
