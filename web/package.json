@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "ts:dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
     "typecheck": "tsc --noEmit -p ."

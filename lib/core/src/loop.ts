@@ -1,5 +1,12 @@
-import type { Statem } from "@depth/statem"
-export type TickFn = (delta: number) => void
+// import type { Statem } from "@depth/statem"
+// export type TickFn = (delta: number) => void
+
+type TickFn = (
+  /** Deltatime */
+  delta: number
+) => void
+
+type Statem<T = any> = T
 
 interface LoopState {
   fps: number
@@ -15,7 +22,7 @@ interface Props {
   autoStart?: boolean
 }
 
-/** The Master-Ticker */
+/** The Master-Ticker-Blaster */
 export default class {
   tolerance = 0.1
   #rafID = 0

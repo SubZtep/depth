@@ -11,14 +11,16 @@
     "buildy": "babel src -d dist --extensions \".ts\" --source-maps inline",
     "build": "wireit",
     "ts:check": "tsc --noEmit",
-    "ts:build": "tsc --emitDeclarationOnly",
+    "ts:emit": "tsc src/index.ts --target esnext --skipLibCheck --declaration --emitDeclarationOnly --outDir dist",
+    "ts:dev": "tsc -w",
+    "ts:build": "tsc",
     "wc:anal": "web-component-analyzer ./src/d-*.ts --outFile README.md"
   },
   "wireit": {
     "dev": {
-      "command": "babel --config-file ../../.babelrc -w --extensions \".ts\" src -d dist",
+      "command": "babel --root-mode upward -w --extensions \".ts\" src -d dist",
       "dependencies": [
-        "ts:build"
+        "ts:emit"
       ],
       "files": [
         "src/**/*.ts",
@@ -29,9 +31,9 @@
       ]
     },
     "build": {
-      "command": "babel --config-file ../../.babelrc src -d dist --extensions \".ts\"",
+      "command": "babel --root-mode upward src -d dist --extensions \".ts\"",
       "dependencies": [
-        "ts:build",
+        "ts:emit",
         "wc:anal"
       ],
       "files": [

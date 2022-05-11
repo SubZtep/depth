@@ -9,7 +9,6 @@ extends:
   - "plugin:@typescript-eslint/recommended"
   - "prettier"
   - "plugin:unicorn/recommended"
-  - "plugin:lit/recommended"
   - "plugin:wc/recommended"
 
 parserOptions:

@@ -2,7 +2,6 @@
   "compilerOptions": {
     "module": "ESNext",
     "target": "ESNext",
-    "lib": ["ESNext", "DOM", "DOM.Iterable", "WebWorker"],
     "moduleResolution": "Node",
     "noEmitOnError": true,
     "allowJs": true,
@@ -11,7 +10,6 @@
     "composite": true,
     "declaration": true,
     "declarationMap": true,
-    "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "importHelpers": true,
@@ -20,7 +18,6 @@
     "noUnusedLocals": false,
     "removeComments": false,
     "resolveJsonModule": true,
-    "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
