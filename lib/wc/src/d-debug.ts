@@ -8,7 +8,7 @@ import { statem } from "@depth/statem"
  * @prop {String} statem - Statem ID
  */
 class DDebug extends HTMLElement {
-  #statemID: string | null = null
+  #unsubscribe?: Fn
 
   constructor() {
     super()
@@ -16,15 +16,17 @@ class DDebug extends HTMLElement {
   }
 
   connectedCallback() {
-    this.#statemID = this.getAttribute("statem")
-    if (!this.#statemID) throw new Error("Missing statem ID")
+    const shadowRoot = this.shadowRoot
+    if (!shadowRoot) throw new Error("Missing shadow root")
+    const statemID = this.getAttribute("statem")
+    if (!statemID) throw new Error("Missing statem ID")
+    const sm = statem(statemID)
+    const render = () => (shadowRoot.innerHTML = `<pre>${sm.toString()}</pre>`)
+    this.#unsubscribe = sm.subscribe(render, { immediate: true })
+  }
 
-    setTimeout(() => {
-      statem(this.#statemID!).subscribe(
-        (state) => (this.shadowRoot!.innerHTML = `<pre>${JSON.stringify(state, null, 2)}</pre>`),
-        { immediate: true }
-      )
-    }, 100)
+  disconnectedCallback() {
+    this.#unsubscribe?.()
   }
 }
 

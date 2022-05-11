@@ -28,3 +28,9 @@ globalThis.setFPS = (fps: number) => {
 
 const looper = new Loop(statem("core").fps, () => void console.log("Hello", Date.now()))
 looper.start()
+
+statem("core").subscribe(({ fps }) => (looper.fps = fps))
+
+document
+  .querySelector("#app")!
+  .replaceWith(document.querySelector<HTMLTemplateElement>("#appTemplate")!.content.cloneNode(true))

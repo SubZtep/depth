@@ -10,12 +10,13 @@ export default class {
 
   start() {
     let then = performance.now()
-    const interval = 1000 / this.fps
+    let interval = 1000 / this.fps
     const tolerance = 0.1
 
     const animateLoop = (now: DOMHighResTimeStamp) => {
       this.requestID = requestAnimationFrame(animateLoop)
       const delta = now - then
+      interval = Number.isFinite(this.fps) ? 1000 / this.fps : tolerance // FIXME: update when fps changes only
 
       if (delta >= interval - tolerance) {
         then = now - (delta % interval)

@@ -94,7 +94,7 @@ export class Store implements Statem {
   }
 
   toString() {
-    return JSON.stringify(this.state)
+    return JSON.stringify(this.state, null, 2)
   }
 
   /** Update multiple values and a single callback. */
