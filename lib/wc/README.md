@@ -1,3 +1,14 @@
+# d-debug
+
+Display statem value.
+
+## Properties
+
+| Property | Type     | Description |
+|----------|----------|-------------|
+| `statem` | `String` | Statem ID   |
+
+
 # d-icon
 
 Display a responsive, inline SVG icon.

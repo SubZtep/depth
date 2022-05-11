@@ -1,4 +1,4 @@
-class AnimationFrame {
+export default class {
   requestID = 0
   fps: number
   animate: TickFn

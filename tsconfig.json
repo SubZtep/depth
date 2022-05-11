@@ -4,13 +4,13 @@
   "include": [],
   "references": [
     {
-      "path": "./lib/misc"
-    },
-    // {
-    //   "path": "./lib/core"
-    // },
-    {
       "path": "./lib/canvas"
+    },
+    {
+      "path": "./lib/core"
+    },
+    {
+      "path": "./lib/misc"
     },
     {
       "path": "./lib/ui"

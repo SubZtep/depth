@@ -5,8 +5,8 @@
   "description": "depth test",
   "type": "module",
   "workspaces": [
-    "web",
     "lib/*",
+    "web",
     "test"
   ],
   "scripts": {

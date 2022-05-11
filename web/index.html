@@ -11,7 +11,11 @@
     <link rel="manifest" href="/site.webmanifest" />
   </head>
   <body>
+    <d-debug statem="core"></d-debug>
+
     <!-- <d-theme></d-theme> -->
+    <!-- <input type="range" min="1" max="60" oninput="console.log('qqq', this.value)" /> -->
+    <input type="range" min="1" max="60" oninput="setFPS(this.valueAsNumber)" />
     <d-icon name="play"></d-icon>
     <d-icon name="stop"></d-icon>
     <d-icon name="play"></d-icon>

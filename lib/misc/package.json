@@ -2,8 +2,8 @@
   "name": "@depth/misc",
   "version": "0.1.0",
   "type": "module",
-  "main": "dist/index",
-  "typings": "dist/index",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc"

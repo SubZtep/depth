@@ -1,9 +1,10 @@
 // import testScene from "./canvas3ds/test-scene"
-// import { statem } from "@depth/statem"
+import { statem } from "@depth/statem"
 import "./styles/main.css"
 // import "@depth/ui"
 import "@depth/wc"
 import "./state"
+import { Loop } from "@depth/core"
 // import * as THREE from "three"
 
 // statem("myState", {
@@ -20,3 +21,10 @@ import "./state"
 //   // height: this.clientHeight,
 //   scene: scene.toJSON(),
 // })!
+
+globalThis.setFPS = (fps: number) => {
+  statem("core").fps = fps
+}
+
+const looper = new Loop(statem("core").fps, () => void console.log("Hello", Date.now()))
+looper.start()
