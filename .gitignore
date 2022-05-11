@@ -1,4 +1,6 @@
 !/web/public/libs/.gitkeep
+.eslintcache
+.wireit
 .env
 .pnpm-debug.log
 coverage

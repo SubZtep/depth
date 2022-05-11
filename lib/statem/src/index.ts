@@ -1,17 +1,10 @@
-/* eslint-disable no-var */
 import { Store } from "./store"
-// import type { Statem, State } from "./store.js"
-// export type { Statem }
-// import type { Statem } from "../typings.d"
-
-import { Statem } from "../typings.d"
+import type { Statem } from "../typings.d"
 export type { Statem }
 
-// export default Store
 globalThis.statem = new Map<string, object>()
 
 export function statem<T extends object>(name: string, values?: T | null): Statem<T> {
-  // let state: T
   if (values === null) {
     globalThis.statem.delete(name)
     throw new Error("delete's for pussies")

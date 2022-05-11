@@ -4,25 +4,16 @@
   "include": [],
   "references": [
     {
-      "path": "./lib/canvas"
-    },
-    {
       "path": "./lib/core"
     },
     {
       "path": "./lib/misc"
     },
     {
-      "path": "./lib/ui"
-    },
-    {
       "path": "./lib/wc"
     },
     {
       "path": "./web"
-    },
-    {
-      "path": "./test"
     }
   ]
 }

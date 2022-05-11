@@ -1,5 +1,4 @@
 import pug from "pug.macro"
-import { statem } from "@depth/statem"
 
 const style = `<style>
   :host {

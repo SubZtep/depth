@@ -13,7 +13,6 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
-    "@depth/canvas": "workspace:*",
     "@depth/core": "workspace:*",
     "@depth/misc": "workspace:*",
     "@depth/statem": "workspace:*",
@@ -24,6 +23,6 @@
     "postcss": "^8.4.13",
     "postcss-preset-env": "^7.5.0",
     "pug": "^3.0.2",
-    "vite": "^2.9.8"
+    "vite": "^2.9.9"
   }
 }

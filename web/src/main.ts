@@ -4,7 +4,7 @@ import "./styles/main.css"
 import "@depth/wc"
 
 let cx = 0
-let root = document.documentElement
+const root = document.documentElement
 
 new Loop({
   autoStart: true,

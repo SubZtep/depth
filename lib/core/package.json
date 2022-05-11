@@ -5,8 +5,38 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "tsc -w",
-    "build": "tsc"
+    "dev": "wireit",
+    "build": "wireit",
+    "ts:check": "tsc --noEmit",
+    "ts:build": "tsc --emitDeclarationOnly"
+  },
+  "wireit": {
+    "dev": {
+      "command": "babel --config-file ../../.babelrc -w --extensions \".ts\" src -d dist",
+      "dependencies": [
+        "ts:build"
+      ],
+      "files": [
+        "src/**/*.ts",
+        "typings.d.ts"
+      ],
+      "output": [
+        "dist/**"
+      ]
+    },
+    "build": {
+      "command": "babel --config-file ../../.babelrc src -d dist --extensions \".ts\"",
+      "dependencies": [
+        "ts:build"
+      ],
+      "files": [
+        "src/**/*.ts",
+        "typings.d.ts"
+      ],
+      "output": [
+        "dist/**"
+      ]
+    }
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
