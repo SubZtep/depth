@@ -24,7 +24,7 @@ export function statem(name: string, values?: State | null) {
     state = new Store(values)
     globalThis.statem.set(name, state)
   } else {
-    throw new Error(`State "${name}" does not exist.`)
+    throw new TypeError(`State "${name}" does not exist.`)
   }
   return state
 }

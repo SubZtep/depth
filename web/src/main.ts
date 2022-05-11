@@ -22,15 +22,25 @@ import { Loop } from "@depth/core"
 //   scene: scene.toJSON(),
 // })!
 
-globalThis.setFPS = (fps: number) => {
-  statem("core").fps = fps
-}
+const looperSID = "core"
+const sm = statem(looperSID, {
+  fps: Number.POSITIVE_INFINITY,
+  dark: true,
+})
 
-const looper = new Loop(statem("core").fps, () => void console.log("Hello", Date.now()))
+Object.assign(globalThis, {
+  setFPS: (fps: number) => (sm.fps = fps),
+  toggleDark: () => (sm.dark = !sm.dark),
+})
+
+const looper = new Loop({
+  sid: looperSID,
+  cb: () => void console.log("Hello", Date.now()),
+})
 looper.start()
 
-statem("core").subscribe(({ fps }) => (looper.fps = fps))
+// statem("core").subscribe(({ fps }) => (looper.fps = fps))
 
-document
-  .querySelector("#app")!
-  .replaceWith(document.querySelector<HTMLTemplateElement>("#appTemplate")!.content.cloneNode(true))
+const template = document.querySelector<HTMLTemplateElement>("#appTemplate")
+const container = document.querySelector("#app")
+container && template && container.replaceWith(template.content.cloneNode(true))

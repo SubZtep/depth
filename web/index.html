@@ -13,7 +13,10 @@
   <body>
     <template id="appTemplate">
       <d-debug statem="core"></d-debug>
-      <input type="range" min="1" max="60" oninput="setFPS(this.valueAsNumber)" />
+      <div>
+        <input type="range" min="1" max="60" oninput="setFPS(this.valueAsNumber)" />
+        <button onclick="toggleDark()">!dark</button>
+      </div>
       <d-icon name="hamburger"></d-icon>
       <d-icon name="stop"></d-icon>
       <d-icon name="play"></d-icon>

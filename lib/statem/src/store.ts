@@ -1,20 +1,20 @@
 type StateKey = string | symbol
 export type State = Record<StateKey, any>
 
-type Callback = (state: State, oldState: State) => void
+type OnFn = (state: State, oldState: State) => void
 
 export interface Statem {
   /**
    * Allow an outside entity to subscribe to state changes with a valid callback.
    * @returns Unsubscribe function
    */
-  subscribe(callback: Callback, options?: CallbackOptions): Fn
-  unsubscribe(callback: Callback): void
+  subscribe(callback: OnFn, options?: CallSettings): Fn
+  unsubscribe(callback: OnFn): void
   // patch(values: State): void
   [key: StateKey]: any
 }
 
-interface CallbackOptions {
+interface CallSettings {
   /** Run callback only if the given key changes. */
   key?: StateKey
 
@@ -22,11 +22,11 @@ interface CallbackOptions {
   immediate?: boolean
 }
 
-// export class Store<State extends object> {
+// TODO: WeakRef // export class Store<State extends object> {
 export class Store implements Statem {
   private state!: State
-  private callbacks = new Set<Callback>() // TODO: WeakRef
-  private callbackOptions = new Map<Callback, CallbackOptions>()
+  private callbacks = new Set<OnFn>()
+  private callbackOptions = new Map<OnFn, CallSettings>()
   private patching = false
 
   constructor(initialState: State) {
@@ -34,16 +34,23 @@ export class Store implements Statem {
 
     this.state = new Proxy<State>(this.state, {
       set: (state, key, value) => {
-        if (state[key] === value) {
-          return true
-        }
-        const oldState = this.patching ? state : { ...state }
-        if (!Reflect.set(state, key, value)) {
-          return false
-        }
-        if (!this.patching) {
-          this.processCallbacks(state, oldState)
-        }
+        // if (state[key] === value) {
+        //   return true
+        // }
+        // const oldState = this.patching ? state : { ...state }
+        // if (!Reflect.set(state, key, value)) {
+        //   return false
+        // }
+        // if (!this.patching) {
+        //   this.processCallbacks(state, oldState)
+        // }
+
+        const oldState = { ...this.state }
+        // this.state[key] = value
+        Reflect.set(state, key, value)
+        // Object.assign<State, Partial<State>>(this.state, typeof key === "symbol" ? value : { [key]: value })
+        this.processCallbacks(this.state, oldState)
+
         return true
       },
     })
@@ -65,17 +72,15 @@ export class Store implements Statem {
    */
   processCallbacks(state: State, oldState: State) {
     for (const callback of this.callbacks) {
-      if (this.callbackOptions.has(callback)) {
-        const options = this.callbackOptions.get(callback)!
-        if (options.key && state[options.key] === oldState[options.key]) {
-          continue
-        }
-      }
+      const options = this.callbackOptions.get(callback)
+      const noMutation = options && options.key && state[options.key] === oldState[options.key]
+      if (noMutation) continue
+
       callback(state, oldState)
     }
   }
 
-  subscribe(callback: Callback, options?: CallbackOptions) {
+  subscribe(callback: OnFn, options?: CallSettings) {
     this.callbacks.add(callback)
     if (options) {
       this.callbackOptions.set(callback, options)
@@ -83,12 +88,10 @@ export class Store implements Statem {
         callback(this.state, this.state)
       }
     }
-    return () => {
-      this.unsubscribe(callback)
-    }
+    return () => this.unsubscribe(callback)
   }
 
-  unsubscribe(callback: Callback) {
+  unsubscribe(callback: OnFn) {
     this.callbackOptions.delete(callback)
     this.callbacks.delete(callback)
   }
@@ -98,15 +101,15 @@ export class Store implements Statem {
   }
 
   /** Update multiple values and a single callback. */
-  patch(values: State) {
-    let changed = false
-    for (const [key, value] of Object.entries(values)) {
-      if (this.state[key] !== value) {
-        changed = true
-        break
-      }
-    }
-    if (!changed) return
+  patch(values: Partial<State>) {
+    // let changed = false
+    // for (const [key, value] of Object.entries(values)) {
+    //   if (this.state[key] !== value) {
+    //     changed = true
+    //     break
+    //   }
+    // }
+    // if (!changed) return
 
     const oldState = { ...this.state }
     this.patching = true

@@ -1,4 +1,4 @@
-import { statem } from "@depth/statem"
+// import { statem } from "@depth/statem"
 
 // statem<DMeterState>({
 //   name: "meter",
@@ -10,9 +10,10 @@ import { statem } from "@depth/statem"
 //   values: ["--bg0", "--bg1", "--bg2", "--bg3", "--bg4", "--bg5", "--bg6", "--bg7"],
 // })
 
-statem("core", {
-  fps: 1,
-  // fps: 60,
-})
+// statem("core", {
+//   fps: Number.POSITIVE_INFINITY,
+//   dark: true,
+//   // fps: 60,
+// })
 
-// export {}
+export {}

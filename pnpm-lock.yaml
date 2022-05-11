@@ -57,8 +57,10 @@ importers:
   lib/core:
     specifiers:
       '@depth/misc': workspace:*
+      '@depth/statem': workspace:*
     dependencies:
       '@depth/misc': link:../misc
+      '@depth/statem': link:../statem
 
   lib/misc:
     specifiers:
