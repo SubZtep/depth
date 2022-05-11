@@ -1,5 +1,4 @@
-// import { statem } from "@depth/statem"
-
+import { statem } from "@depth/statem"
 // statem<DMeterState>({
 //   name: "meter",
 //   default: {},
@@ -16,4 +15,12 @@
 //   // fps: 60,
 // })
 
-export {}
+export const loopState = statem("core", {
+  fps: Number.POSITIVE_INFINITY,
+  dark: true,
+})
+
+Object.assign(globalThis, {
+  setFPS: (fps: number) => (loopState.fps = fps),
+  toggleDark: () => (loopState.dark = !loopState.dark),
+})

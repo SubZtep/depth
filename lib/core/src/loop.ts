@@ -1,61 +1,55 @@
-import { statem } from "@depth/statem"
-import type { Statem } from "@depth/statem/dist/store"
+import type { Statem } from "@depth/statem"
+export type TickFn = (delta: number) => void
 
-interface Props {
-  /** Statem ID */
-  sid: string
-  /** Function that executes in each tick. */
-  cb: TickFn
+interface LoopState {
+  fps: number
+  dark: boolean
 }
 
+interface Props {
+  /** Loop state. */
+  statem: Statem<LoopState>
+  /** Function that executes in each tick. */
+  cb: TickFn
+  /** Start looping straight after initialisation. */
+  autoStart?: boolean
+}
+
+/** The Master-Ticker */
 export default class {
   tolerance = 0.1
-  #rafid = 0
-  #statem: Statem
+  #rafID = 0
+  #statem: Statem<LoopState>
   #cb: TickFn
 
-  // #props: Props
-  // fps: number
-  // animate: TickFn
-
-  // constructor(props: Partial<Props> = {}) {
-  constructor({ sid, cb }: Props) {
-    this.#statem = statem(sid)
+  constructor({ statem, cb, autoStart }: Props) {
+    this.#statem = statem
     this.#cb = cb
-    // if (!props.fps) props.fps = 60
-    // if (!props.cb) props.cb = () => {}
-    // this.#props = props as Props
-    // if (!this.#props.fps) this.#props.fps = 60
-    // { fps = 60; animate: TickFn }
-    // this.fps = fps
-    // this.animate = animate
+    autoStart && this.start()
   }
 
   get interval() {
-    // FIXME: update when fps changes only
-    // return Number.isFinite(this.#props.fps) ? (1000 / this.#props.fps) : this.tolerance
-    // const sm = statem("core")
-    return Number.isFinite(this.#statem.fps) ? (1000 / this.#statem.fps) : this.tolerance
+    return Number.isFinite(this.#statem.fps) ? 1000 / this.#statem.fps : this.tolerance
   }
 
   start() {
     let then = performance.now()
-    let interval = this.interval
+    let interval: number
 
-    const animateLoop = (now: DOMHighResTimeStamp) => {
-      this.#rafid = requestAnimationFrame(animateLoop)
+    const gameLoop = (now: DOMHighResTimeStamp) => {
+      this.#rafID = requestAnimationFrame(gameLoop)
       interval !== this.interval && (interval = this.interval)
       const delta = now - then
 
-      if (delta >= this.interval - this.tolerance) {
-        then = now - (delta % this.interval)
+      if (delta >= interval - this.tolerance) {
+        then = now - (delta % interval)
         this.#cb(delta)
       }
     }
-    this.#rafid = requestAnimationFrame(animateLoop)
+    this.#rafID = requestAnimationFrame(gameLoop)
   }
 
   stop() {
-    cancelAnimationFrame(this.#rafid)
+    cancelAnimationFrame(this.#rafID)
   }
 }

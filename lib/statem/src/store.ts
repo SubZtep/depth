@@ -1,38 +1,17 @@
-type StateKey = string | symbol
-export type State = Record<StateKey, any>
-
-type OnFn = (state: State, oldState: State) => void
-
-export interface Statem {
-  /**
-   * Allow an outside entity to subscribe to state changes with a valid callback.
-   * @returns Unsubscribe function
-   */
-  subscribe(callback: OnFn, options?: CallSettings): Fn
-  unsubscribe(callback: OnFn): void
-  // patch(values: State): void
-  [key: StateKey]: any
-}
-
-interface CallSettings {
-  /** Run callback only if the given key changes. */
-  key?: StateKey
-
-  /** Run callback automatically with the subscription. */
-  immediate?: boolean
-}
+// import { Statem, OnFn, CallSettings, State } from "typings.js"
+import { Statem, OnFn, CallSettings, State } from "../typings.d"
 
 // TODO: WeakRef // export class Store<State extends object> {
-export class Store implements Statem {
-  private state!: State
+export class Store<T extends object> implements Statem<T> {
+  private state!: T
   private callbacks = new Set<OnFn>()
   private callbackOptions = new Map<OnFn, CallSettings>()
   private patching = false
 
-  constructor(initialState: State) {
+  constructor(initialState: T) {
     this.state = initialState
 
-    this.state = new Proxy<State>(this.state, {
+    this.state = new Proxy<T>(this.state, {
       set: (state, key, value) => {
         // if (state[key] === value) {
         //   return true

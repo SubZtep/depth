@@ -1,2 +1,2 @@
 type Fn = (...args: any[]) => void
-type TickFn = (delta: number) => void
+// type TickFn = (delta: number) => void

@@ -1,30 +1,31 @@
 /* eslint-disable no-var */
-import { Store } from "./store.js"
-import type { Statem, State } from "./store.js"
+import { Store } from "./store"
+// import type { Statem, State } from "./store.js"
 // export type { Statem }
+// import type { Statem } from "../typings.d"
 
-declare global {
-  /** All the states. */
-  var statem: Map<string, Statem>
-}
+import { Statem } from "../typings.d"
+export type { Statem }
 
 // export default Store
-globalThis.statem = new Map()
+globalThis.statem = new Map<string, object>()
 
-export function statem(name: string, values?: State | null) {
-  let state!: Statem
+export function statem<T extends object>(name: string, values?: T | null): Statem<T> {
+  // let state: T
   if (values === null) {
     globalThis.statem.delete(name)
-  } else if (globalThis.statem.has(name)) {
-    state = globalThis.statem.get(name)!
-    if (values) {
-      state?.patch(values)
-    }
-  } else if (typeof values === "object") {
-    state = new Store(values)
-    globalThis.statem.set(name, state)
-  } else {
-    throw new TypeError(`State "${name}" does not exist.`)
+    throw new Error("delete's for pussies")
   }
-  return state
+
+  if (globalThis.statem.has(name)) {
+    return globalThis.statem.get(name) as Statem<T>
+  }
+
+  if (typeof values === "object") {
+    const state = new Store<T>(values) as Statem<T>
+    globalThis.statem.set(name, state)
+    return state
+  }
+
+  throw new TypeError(`State "${name}" does not exist.`)
 }

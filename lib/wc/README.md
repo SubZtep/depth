@@ -20,9 +20,10 @@ Included shapes:
 
 ## Properties
 
-| Property | Attribute | Type     | Description              |
-|----------|-----------|----------|--------------------------|
-| `name`   | `name`    | `String` | Reactive icon shape name |
+| Property | Attribute | Modifiers | Type         | Description              |
+|----------|-----------|-----------|--------------|--------------------------|
+| `name`   | `name`    |           | `String`     | Reactive icon shape name |
+| `svgEl`  |           | readonly  | `SVGElement` |                          |
 
 ## CSS Custom Properties
 

@@ -2,30 +2,30 @@ import { LitElement, css } from "lit"
 import { debounce } from "@depth/misc"
 type Constructor<T extends object> = new (...args: any[]) => T
 
-const resize = new ResizeObserver(
-  debounce((entries) => {
-    for (const entry of entries) {
-      entry.target.resizeCallback(entry)
-    }
-  })
-)
+// const resize = new ResizeObserver(
+//   debounce((entries) => {
+//     for (const entry of entries) {
+//       entry.target.resizeCallback(entry)
+//     }
+//   })
+// )
 
 export const Resizer = <T extends Constructor<LitElement>>(superclass: T) => {
   class ResizeMixinClass extends superclass {
     protected resizeCallback({ contentBoxSize: [{ blockSize, inlineSize }] }: ResizeObserverEntry) {
-      // console.log(inlineSize)
-      // @ts-ignore
-      this.width = Math.round(inlineSize)
-      // @ts-ignore
-      this.height = Math.round(blockSize)
+      // // console.log(inlineSize)
+      // // @ts-ignore
+      // this.width = Math.round(inlineSize)
+      // // @ts-ignore
+      // this.height = Math.round(blockSize)
     }
 
     firstUpdated() {
-      resize.observe(this)
+      // resize.observe(this)
     }
 
     disconnectedCallback() {
-      resize.unobserve(this)
+      // resize.unobserve(this)
       super.disconnectedCallback()
     }
   }
