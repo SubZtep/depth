@@ -1,3 +1,21 @@
+# d-cube
+
+Display a 3D CSS cube.
+
+## Properties
+
+| Property | Type     | Description |
+|----------|----------|-------------|
+| `statem` | `String` | Statem ID   |
+
+## CSS Custom Properties
+
+| Property     | Default | Description             |
+|--------------|---------|-------------------------|
+| `--edge`     | "100px" | Cube edge size          |
+| `--rotate3d` | "0deg"  | 3D rotation on all axis |
+
+
 # d-debug
 
 Display statem value.
