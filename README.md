@@ -3,7 +3,7 @@
 ---
 
 > ## :warning::feelsgood: <sub>This file is super out-of-date.</sub>
-
+> :hospital: 『Buildless』 against 「Shiny Object Syndrome」 :trollface:
 ---
 
 # depth 🧘‍♀️ ~~perception~~

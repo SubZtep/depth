@@ -1,15 +1,27 @@
+/*
+** dOMbox element width includes the border width
+*/
 html {
   box-sizing: border-box;
 }
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+img {
+  /* HINT: keep provided image width and don't zoom proportion to the border size. */
+  box-sizing: content-box;
+}
+
+/*
+** Full-screen container
+*/
 
 body {
   margin: 0;
   width: 100vw;
   min-height: 100vh;
-}
-
-*, *::before, *::after {
-  box-sizing: inherit;
 }
 
 /***
