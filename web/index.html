@@ -11,18 +11,39 @@
     <link rel="manifest" href="/site.webmanifest" />
   </head>
   <body>
-    <template id="tpl">
-      <d-debug statem="core"></d-debug>
-      <div>
+    <template id="app-template">
+      <div class="toolbar">
+        <div>
+          <h3>Toolbar</h3>
+        </div>
         <input type="range" min="1" max="60" oninput="setFPS(this.valueAsNumber)" />
-        <button onclick="toggleDark()">!dark</button>
+        <button onclick="toggleDark()">
+          !dark
+        </button>
+        <button onclick="loop.start()">
+          <d-icon name="play"></d-icon>
+        </button>
+        <button onclick="loop.stop()">
+          <d-icon name="stop"></d-icon>
+        </button>
+        <button onclick="alert('Menu')">
+          <d-icon name="hamburger"></d-icon>
+        </button>
+        <div>Hammer the Play for Multiverse</div>
+      </div>
+      <div class="scene square-bg">
+        <h3>Scene</h3>
         <d-cube></d-cube>
       </div>
-      <d-icon name="hamburger"></d-icon>
+      <div class="panel square-bg">
+        <h3>Panel</h3>
+        <d-debug statem="core"></d-debug>
+      </div>
+      <!-- <d-icon name="hamburger"></d-icon>
       <d-icon name="stop"></d-icon>
-      <d-icon name="play"></d-icon>
+      <d-icon name="play"></d-icon> -->
     </template>
-    <div id="app"></div>
+    <div id="app-placeholder"></div>
     <script type="module" src="./src/main.ts"></script>
   </body>
 </html>

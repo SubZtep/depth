@@ -1,9 +1,9 @@
 /**
- * CSS variable setter.
+ * Compose a CSS variable/property setter function.
  * @param selector - The HTML Element that matches selectors holds the property.
  * @returns Currying the property name then the value.
  */
-export function cssProperty(selector: string) {
+export function setCssVar(selector: string) {
   const el = document.querySelector<HTMLElement>(selector)
   if (!el) throw new Error(`Unknown element for ${selector}`)
   return (property: string) =>

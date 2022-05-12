@@ -68,7 +68,7 @@ rules:
     - warn
     - ignore: [
         "props", "Props", "err", "el", "isDev", "Fn", "fn", "Param",
-        "params", "src", "ext", "Ref", "obj", "i", "ev", "args", "El",
+        "params", "src", "ext", "Ref", "obj", "i", "ev", "args", "El", "Var"
       ]
 
 ignorePatterns:

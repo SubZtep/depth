@@ -15,9 +15,6 @@
   "wireit": {
     "dev": {
       "command": "babel --root-mode upward -w --extensions \".ts\" src -d dist",
-      "dependencies": [
-        "ts:emit"
-      ],
       "files": [
         "src/**/*.ts",
         "typings.d.ts"

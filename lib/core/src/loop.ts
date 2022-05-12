@@ -16,9 +16,9 @@ interface LoopState {
 interface Props {
   /** Loop state. */
   statem: Statem<LoopState>
-  /** Function that executes in each tick. */
-  cb: TickFn
-  /** Start looping straight after initialisation. */
+  /** Callback function that executes with each ticks. */
+  callback: TickFn
+  /** Should it start looping straight after initialisation? */
   autoStart?: boolean
 }
 
@@ -27,11 +27,11 @@ export default class {
   tolerance = 0.1
   #rafID = 0
   #statem: Statem<LoopState>
-  #cb: TickFn
+  #callback: TickFn
 
-  constructor({ statem, cb, autoStart }: Props) {
+  constructor({ statem, callback, autoStart }: Props) {
     this.#statem = statem
-    this.#cb = cb
+    this.#callback = callback
     autoStart && this.start()
   }
 
@@ -50,7 +50,7 @@ export default class {
 
       if (delta >= interval - this.tolerance) {
         then = now - (delta % interval)
-        this.#cb(delta)
+        this.#callback(delta)
       }
     }
     this.#rafID = requestAnimationFrame(gameLoop)

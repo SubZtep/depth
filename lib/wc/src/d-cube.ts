@@ -17,7 +17,7 @@ const style = `<style>
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
+    font-size: 24px;
     color: #fff;
   }
   .front {

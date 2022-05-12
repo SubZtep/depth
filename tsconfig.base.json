@@ -12,7 +12,7 @@
     "declarationMap": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "isolatedModules": true,
     "noImplicitAny": false,
     "noUnusedLocals": false,
@@ -21,7 +21,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "useDefineForClassFields": false // should be true but lit-element isn't support that
+    "useDefineForClassFields": true
   },
   "exclude": ["node_modules"]
 }

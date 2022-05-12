@@ -1,35 +1,21 @@
-.holes {
-  position: fixed;
-  inset: 35px 0 0 0;
-  display: grid;
-  gap: 3px;
-  grid-template-rows: 1fr 5fr;
-}
-
-d-canvas:nth-child(3) {
-  grid-column: span 2 / auto;
-}
-
-.holes d-canvas:hover {
-  outline: 1px solid #ff05;
-}
-
 body {
   display: grid;
-  grid-template-areas:
-    "theme ."
-    "gameloop meter";
-  gap: 0.30rem;
+  gap: 5px;
+  grid-template-columns: 1fr 300px;
+  grid-template-rows: 50px 1fr;
 }
 
-body > * {
-  /* background-color: #000; */
-  /* grid-area: auto / auto; */
-  background: repeating-conic-gradient(from 0deg, transparent 0deg 90deg, #fff3 90deg 180deg) 50% 50%/2rem 2rem;
-  transition: background 100ms linear;
+.toolbar {
+  grid-column: 1 / 3;
+  grid-row: 1 / 2;
 }
 
-body > *:hover {
-  outline: solid 1px #ffa6;
-  background-size: 1.945rem 1.945rem;
+.scene {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+
+.panel {
+  grid-column: 2 / 3 ;
+  grid-row: 2 / 3;
 }

@@ -12,8 +12,8 @@
     "web"
   ],
   "scripts": {
-    "dev": "pnpm --parallel --if-present ts:dev",
-    "build": "wireit",
+    "dev": "pnpm --parallel --if-present dev",
+    "build": "pnpm -r run build",
     "serve": "wireit",
     "lint": "wireit",
     "ncu": "pnpm recursive exec -- ncu -u",
@@ -34,15 +34,10 @@
         ".eslintrc",
         "web/.eslintrc",
         "lib/*/.eslintrc"
-      ],
-      "output": []
-    },
-    "build": {
-      "command": "pnpm -r run build"
+      ]
     },
     "serve": {
-      "command": "pnpx http-server web/dist",
-      "dependencies": []
+      "command": "pnpx http-server web/dist"
     }
   },
   "devDependencies": {
@@ -62,7 +57,7 @@
     "eslint-plugin-unicorn": "^42.0.0",
     "eslint-plugin-wc": "^1.3.2",
     "prettier": "^2.6.2",
-    "pug.macro": "^0.1.0",
+    "pug.macro": "^0.1.1",
     "typescript": "^4.6.4",
     "wireit": "^0.4.1"
   },

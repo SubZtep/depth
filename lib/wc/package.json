@@ -19,30 +19,13 @@
   "wireit": {
     "dev": {
       "command": "babel --root-mode upward -w --extensions \".ts\" src -d dist",
-      "dependencies": [
-        "ts:emit"
-      ],
       "files": [
         "src/**/*.ts",
         "typings.d.ts"
-      ],
-      "output": [
-        "dist/**"
       ]
     },
     "build": {
-      "command": "babel --root-mode upward src -d dist --extensions \".ts\"",
-      "dependencies": [
-        "ts:emit",
-        "wc:anal"
-      ],
-      "files": [
-        "src/**/*.ts",
-        "typings.d.ts"
-      ],
-      "output": [
-        "dist/**"
-      ]
+      "command": "babel --root-mode upward src -d dist --extensions \".ts\""
     }
   },
   "author": "Andras Serfozo <subztep@gmail.com>",

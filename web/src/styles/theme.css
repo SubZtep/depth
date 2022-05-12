@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --bg0: linear-gradient(to right, #ed213a, #93291e);
   --bg1: linear-gradient(132deg, #f4d03f 0%, #16a085 100%);
   --bg2: linear-gradient(to right, #22c1c3, #fdbb2d);
@@ -13,4 +13,32 @@
   --typepad: #d2de61;
   --bodybg: var(--bg4);
   --opacity: 0.8;
+} */
+
+body {
+  background-color: #8a0303;
+}
+
+.toolbar {
+  background-color: #577590;
+  color: #000;
+}
+
+.scene {
+  background-color: #43aa8b;
+}
+
+.panel {
+  background-color: #f3722c;
+}
+
+.square-bg {
+  background-image: repeating-conic-gradient(from 0deg, transparent 0deg 90deg, #fff3 90deg 180deg);
+  background-position: 50% 50%;
+  background-size: 2rem 2rem;
+  transition: background 100ms linear;
+}
+
+.square-bg:hover {
+  background-size: 1.945rem 1.945rem;
 }

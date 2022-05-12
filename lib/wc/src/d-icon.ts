@@ -1,8 +1,14 @@
 import pug from "pug.macro"
 
 const style = `<style>
-  :host(svg) {
+  :host {
+    background-color: red;
+    position: relative;
+    display: inline-block;
     height: var(--icon-height, 1rem);
+    aspect-ratio: 1;
+  }
+  :host(svg) {
     fill: var(--icon-fill, currentColor);
     path:nth-of-type(2) {
       opacity: 0.4;
@@ -10,7 +16,7 @@ const style = `<style>
   }
 </style>`
 
-type Key = "play" | "stop" | "hamburger"
+// type Key = "play" | "stop" | "hamburger"
 
 const iconSVGs = new Map(
   Object.entries({

@@ -1,15 +1,22 @@
-import { cssProperty } from "@depth/misc"
+import { setCssVar, setMarkup } from "@depth/misc"
 import { Loop } from "@depth/core"
 import { loopState } from "./state"
-import "./init"
+import "./styles/main.css"
+import "@depth/wc"
 
-const setRotation = cssProperty("d-cube")("--rotation")
+setMarkup("#app-template", "#app-placeholder")
+
+const setRotation = setCssVar("d-cube")("--rotation")
 let cx = 0
 
-new Loop({
-  autoStart: true,
+const loop = new Loop({
+  autoStart: false,
   statem: loopState,
-  cb: (delta) => {
+  callback: (delta) => {
     setRotation(`${(cx += 0.1 * delta)}deg`)
   },
+})
+
+Object.assign(globalThis, {
+  loop,
 })
