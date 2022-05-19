@@ -1,12 +1,35 @@
 // import { Statem, OnFn, CallSettings, State } from "typings.js"
-import { Statem, OnFn, CallSettings, State } from "../typings.d"
+// import { Statem, OnFn, CallSettings, State } from "../typings.d"
 
-// TODO: WeakRef // export class Store<State extends object> {
-export class Store<T extends object> implements Statem<T> {
-  private state!: T
+type State = Record<string, any>
+type OnFn = (state: State, oldState: State) => void
+interface CallOptions {
+  /** Run callback only if the given key changes. */
+  key?: string
+
+  /** Run callback automatically with the subscription. */
+  immediate?: boolean
+}
+
+// interface Statem<T extends object> extends T {
+//   /**
+//    * Allow an outside entity to subscribe to state changes with a valid callback.
+//    * @returns Unsubscribe function
+//    */
+//   subscribe(callback: OnFn, options?: CallOptions): Fn
+//   unsubscribe(callback: OnFn): void
+//   // [key: keyof T]: T[key]
+//   // [key: StateKey]: any
+//   // [key: keyof T]: T[keyof T]
+// }
+
+// export class Store<T extends object> implements Statem<T> {
+// export class Store<T extends State> {
+export class Store<T extends object> {
+  private state: T
   private callbacks = new Set<OnFn>()
-  private callbackOptions = new Map<OnFn, CallSettings>()
-  private patching = false
+  private callbackOptions = new Map<OnFn, CallOptions>()
+  // private patching = false
 
   constructor(initialState: T) {
     this.state = initialState
@@ -50,7 +73,7 @@ export class Store<T extends object> implements Statem<T> {
    * Fire off each callback that's run whenever the state changes
    */
   processCallbacks(state: State, oldState: State) {
-    for (const callback of this.callbacks) {
+    for (const callback of this.callbacks.values()) {
       const options = this.callbackOptions.get(callback)
       const noMutation = options && options.key && state[options.key] === oldState[options.key]
       if (noMutation) continue
@@ -59,7 +82,7 @@ export class Store<T extends object> implements Statem<T> {
     }
   }
 
-  subscribe(callback: OnFn, options?: CallSettings) {
+  subscribe(callback: OnFn, options?: CallOptions) {
     this.callbacks.add(callback)
     if (options) {
       this.callbackOptions.set(callback, options)
@@ -79,21 +102,21 @@ export class Store<T extends object> implements Statem<T> {
     return JSON.stringify(this.state, null, 2)
   }
 
-  /** Update multiple values and a single callback. */
-  patch(values: Partial<State>) {
-    // let changed = false
-    // for (const [key, value] of Object.entries(values)) {
-    //   if (this.state[key] !== value) {
-    //     changed = true
-    //     break
-    //   }
-    // }
-    // if (!changed) return
+  // /** Update multiple values and a single callback. */
+  // patch(values: Partial<State>) {
+  //   // let changed = false
+  //   // for (const [key, value] of Object.entries(values)) {
+  //   //   if (this.state[key] !== value) {
+  //   //     changed = true
+  //   //     break
+  //   //   }
+  //   // }
+  //   // if (!changed) return
 
-    const oldState = { ...this.state }
-    this.patching = true
-    Object.assign(this.state, values)
-    this.processCallbacks(this.state, oldState)
-    this.patching = false
-  }
+  //   const oldState = { ...this.state }
+  //   this.patching = true
+  //   Object.assign(this.state, values)
+  //   this.processCallbacks(this.state, oldState)
+  //   this.patching = false
+  // }
 }

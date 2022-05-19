@@ -1,15 +1,4 @@
 @import "./reset.css";
-@import "./theme.css";
 @import "./grid.css";
-@import "./toolbar.css";
-
-html,
-body {
-  margin: 0;
-  width: 100%;
-  min-height: 100vh;
-}
-
-body {
-  background: var(--bodybg);
-}
+@import "./theme.css";
+@import "./elements.css";

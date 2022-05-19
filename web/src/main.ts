@@ -1,21 +1,22 @@
-import Loop from "@depth-lib/loop"
+import { setCssVar, setMarkup } from "@depth/misc"
+import { Loop } from "@depth/core"
 import { loopState } from "./state"
 import "./styles/main.css"
-import "@depth-wc/css3d-cube"
-import "@depth-wc/statem-debug"
-import "@depth-wc/svg-icon"
+import "@depth/wc"
 
+setMarkup("#app-template", "#app-placeholder")
+
+const setRotation = setCssVar("d-cube")("--rotation")
 let cx = 0
-const root = document.documentElement
 
-new Loop({
-  autoStart: true,
+const loop = new Loop({
+  autoStart: false,
   statem: loopState,
-  cb: (delta) => {
-    root.style.setProperty("--rotate3d", `${(cx += 0.1 * delta)}deg`)
+  callback: (delta) => {
+    setRotation(`${(cx += 0.1 * delta)}deg`)
   },
 })
 
-const template = document.querySelector<HTMLTemplateElement>("#tpl")
-const container = document.querySelector<HTMLElement>("#app")
-container && template && container.replaceWith(template.content.cloneNode(true))
+Object.assign(globalThis, {
+  loop,
+})

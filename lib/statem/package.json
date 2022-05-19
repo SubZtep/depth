@@ -8,33 +8,26 @@
     "dev": "wireit",
     "build": "wireit",
     "ts:check": "tsc --noEmit",
-    "ts:build": "tsc --emitDeclarationOnly"
+    "ts:emit": "tsc --emitDeclarationOnly",
+    "ts:dev": "tsc -w",
+    "ts:build": "tsc"
   },
   "wireit": {
     "dev": {
-      "command": "babel --config-file ../../.babelrc -w --extensions \".ts\" src -d dist",
-      "dependencies": [
-        "ts:build"
-      ],
+      "command": "babel --root-mode upward -w --extensions \".ts\" src -d dist",
       "files": [
         "src/**/*.ts",
         "typings.d.ts"
-      ],
-      "output": [
-        "dist/**"
       ]
     },
     "build": {
-      "command": "babel --config-file ../../.babelrc src -d dist --extensions \".ts\"",
+      "command": "babel --root-mode upward src -d dist --extensions \".ts\"",
       "dependencies": [
-        "ts:build"
+        "ts:emit"
       ],
       "files": [
         "src/**/*.ts",
         "typings.d.ts"
-      ],
-      "output": [
-        "dist/**"
       ]
     }
   },

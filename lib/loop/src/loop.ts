@@ -1,5 +1,12 @@
-import type { Statem } from "@depth-lib/statem"
-export type TickFn = (delta: number) => void
+// import type { Statem } from "@depth/statem"
+// export type TickFn = (delta: number) => void
+
+type TickFn = (
+  /** Deltatime */
+  delta: number
+) => void
+
+type Statem<T = any> = T
 
 interface LoopState {
   fps: number
@@ -9,22 +16,22 @@ interface LoopState {
 interface Props {
   /** Loop state. */
   statem: Statem<LoopState>
-  /** Function that executes in each tick. */
-  cb: TickFn
-  /** Start looping straight after initialisation. */
+  /** Callback function that executes with each ticks. */
+  callback: TickFn
+  /** Should it start looping straight after initialisation? */
   autoStart?: boolean
 }
 
-/** The Master-Ticker */
-export default class Loop {
+/** The Master-Ticker-Blaster */
+export default class {
   tolerance = 0.1
   #rafID = 0
   #statem: Statem<LoopState>
-  #cb: TickFn
+  #callback: TickFn
 
-  constructor({ statem, cb, autoStart }: Props) {
+  constructor({ statem, callback, autoStart }: Props) {
     this.#statem = statem
-    this.#cb = cb
+    this.#callback = callback
     autoStart && this.start()
   }
 
@@ -43,7 +50,7 @@ export default class Loop {
 
       if (delta >= interval - this.tolerance) {
         then = now - (delta % interval)
-        this.#cb(delta)
+        this.#callback(delta)
       }
     }
     this.#rafID = requestAnimationFrame(gameLoop)

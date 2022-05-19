@@ -9,21 +9,21 @@
   "type": "module",
   "workspaces": [
     "lib/*",
-    "wc/*",
     "web"
   ],
   "scripts": {
     "dev": "pnpm --parallel --if-present dev",
-    "build": "wireit",
+    "build": "pnpm -r run build",
     "serve": "wireit",
     "lint": "wireit",
     "ncu": "pnpm recursive exec -- ncu -u",
     "ts:check": "pnpm --parallel --if-present ts:check",
     "ts:build": "pnpm --parallel --if-present ts:build",
-    "wc:analx": "pnpm --parallel --if-present wc:anal",
-    "wc:anal": "web-component-analyzer wc/**/index.ts --outFile wc/README.md",
+    "wc:anal": "pnpm --parallel --if-present wc:anal",
     "test": "pnpm run test --filter @depth/test",
-    "wipe": "sh scripts/wipe.sh"
+    "wipe": "pnpm -r --reverse exec -- rm -rf node_modules/ dist/ .wireit/ .eslintcache pnpm-lock.yaml .pnpm-debug.log tsconfig.tsbuildinfo",
+    "wipex": "pnpm recursive exec -- rm -rf node_modules/ dist/ .wireit/ .eslintcache pnpm-lock.yaml .pnpm-debug.log tsconfig.tsbuildinfo",
+    "wipey": "sh scripts/wipe.sh"
   },
   "wireit": {
     "lint": {
@@ -34,17 +34,10 @@
         ".eslintrc",
         "web/.eslintrc",
         "lib/*/.eslintrc"
-      ],
-      "output": []
-    },
-    "build": {
-      "command": "pnpm -r run build"
+      ]
     },
     "serve": {
-      "command": "pnpx http-server web/dist",
-      "dependencies": [
-
-      ]
+      "command": "pnpx http-server web/dist"
     }
   },
   "devDependencies": {
@@ -52,23 +45,20 @@
     "@babel/core": "^7.17.10",
     "@babel/preset-typescript": "^7.16.7",
     "@types/babel-plugin-macros": "^2.8.5",
-    "@types/node": "^17.0.29",
-    "@types/three": "^0.139.0",
-    "@typescript-eslint/eslint-plugin": "^5.21.0",
-    "@typescript-eslint/parser": "^5.21.0",
-    "@typescript-eslint/typescript-estree": "^5.21.0",
+    "@types/node": "^17.0.32",
+    "@typescript-eslint/eslint-plugin": "^5.23.0",
+    "@typescript-eslint/parser": "^5.23.0",
+    "@typescript-eslint/typescript-estree": "^5.23.0",
     "babel-plugin-macros": "^3.1.0",
-    "eslint": "^8.14.0",
+    "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-lit": "^1.6.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-tsdoc": "^0.2.16",
     "eslint-plugin-unicorn": "^42.0.0",
     "eslint-plugin-wc": "^1.3.2",
     "prettier": "^2.6.2",
-    "pug.macro": "^0.1.0",
-    "typescript": "^4.6.3",
-    "web-component-analyzer": "^1.1.6",
+    "pug.macro": "^0.1.1",
+    "typescript": "^4.6.4",
     "wireit": "^0.4.1"
   },
   "engines": {
