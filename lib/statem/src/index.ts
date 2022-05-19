@@ -1,4 +1,4 @@
-import { Store } from "./store"
+import { Store } from "./store.js"
 // import type { Statem } from "../typings.d"
 // export type { Statem }
 
@@ -7,8 +7,7 @@ globalThis.statem = new Map<string, object>()
 // export function statem<T extends object>(name: string, values?: T | null): Statem<T> {
 export function statem<T extends object>(name: string, values?: T | null) {
   if (values === null) {
-    globalThis.statem.delete(name)
-    throw new Error("delete's for pussies")
+    return globalThis.statem.delete(name)
   }
 
   if (globalThis.statem.has(name)) {

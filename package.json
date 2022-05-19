@@ -17,10 +17,8 @@
     "build": "pnpm -r run build",
     "serve": "pnpm --filter @depth/web serve",
     "lint": "wireit",
-    "ncu": "pnpm recursive exec -- ncu -u & ncu -u",
-    "ts:check": "pnpm --parallel --if-present ts:check",
-    "ts:build": "pnpm --parallel --if-present ts:build",
-    "wc:anal": "pnpm --parallel --if-present wc:anal",
+    "ncu": "pnpm recursive exec -- ncu -u --packageFile package.json & ncu -u --packageFile package.json",
+    "wc:anal": "wca analyze wc/*/src/index.ts --format markdown --outFile wc/README.md",
     "test": "pnpm --filter @depth/test test",
     "wipe": "sh scripts/wipe.sh"
   },
@@ -55,6 +53,7 @@
     "prettier": "^2.6.2",
     "pug.macro": "^0.1.3",
     "typescript": "^4.6.4",
+    "web-component-analyzer": "2.0.0-next.4",
     "wireit": "^0.4.3"
   },
   "engines": {

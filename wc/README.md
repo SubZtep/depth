@@ -16,17 +16,6 @@ Display a 3D CSS cube.
 | `--rotate3d` | "0deg"  | 3D rotation on all axis |
 
 
-# d-debug
-
-Display statem value.
-
-## Properties
-
-| Property | Type     | Description |
-|----------|----------|-------------|
-| `statem` | `String` | Statem ID   |
-
-
 # statem-debug
 
 Display statem value.
@@ -49,10 +38,10 @@ Included shapes:
 
 ## Properties
 
-| Property | Attribute | Modifiers | Type         | Description              |
-|----------|-----------|-----------|--------------|--------------------------|
-| `name`   | `name`    |           | `String`     | Reactive icon shape name |
-| `svgEl`  |           | readonly  | `SVGElement` |                          |
+| Property | Attribute | Modifiers | Type      | Description              |
+|----------|-----------|-----------|-----------|--------------------------|
+| `name`   | `name`    |           | `String`  | Reactive icon shape name |
+| `svgEl`  |           | readonly  | `Element` |                          |
 
 ## CSS Custom Properties
 

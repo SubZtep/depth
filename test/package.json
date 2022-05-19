@@ -8,10 +8,18 @@
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
+  "dependencies": {
+    "@depth-lib/loop": "workspace:*",
+    "@depth-lib/statem": "workspace:*",
+    "@depth-lib/template": "workspace:*",
+    "@depth-wc/css3d-cube": "workspace:*",
+    "@depth-wc/statem-debug": "workspace:*",
+    "@depth-wc/svg-icon": "workspace:*"
+  },
   "devDependencies": {
     "@depth-lib/statem": "workspace:*",
-    "c8": "^7.11.2",
-    "happy-dom": "^3.2.0",
-    "vitest": "^0.12.4"
+    "c8": "^7.11.3",
+    "happy-dom": "^3.2.2",
+    "vitest": "^0.12.6"
   }
 }
