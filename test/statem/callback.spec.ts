@@ -1,14 +1,14 @@
 import type { SpyInstance } from "vitest"
-import type { Statem } from "@depth/statem"
+// import type { Statem } from "@depth-lib/statem"
 import { describe, expect, it, vi } from "vitest"
-import { statem } from "@depth/statem"
+import { statem } from "@depth-lib/statem"
 
 const obj = {
   cb() {},
 }
 
 describe("Execute callbacks", () => {
-  let state!: Statem
+  let state!: any
   let callbackSpy!: SpyInstance
 
   beforeAll(() => {
@@ -49,7 +49,7 @@ describe("Execute callbacks", () => {
 })
 
 describe("Callback options", () => {
-  let state!: Statem
+  let state!: any
   let callbackSpy!: SpyInstance
 
   beforeAll(() => {

@@ -8,5 +8,5 @@
       "~/*": ["./src/*"]
     },
   },
-  "include": ["src/**/*", "typings.d.ts", "@depth/ui/dist/index.d.ts"]
+  "include": ["src/**/*", "typings.d.ts"]
 }

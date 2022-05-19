@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { statem } from "@depth/statem"
+import { statem } from "@depth-lib/statem"
 
 describe("Global Statem Map", () => {
   it("exists", () => {

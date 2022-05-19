@@ -52,20 +52,16 @@ const html = `
 /**
  * Display a 3D CSS cube.
  *
- * @element d-cube
+ * @element css3d-cube
  *
  * @prop {String} statem - Statem ID
  * @cssprop [--edge=100px] - Cube edge size
  * @cssprop [--rotate3d=0deg] - 3D rotation on all axis
  */
-class DCube extends HTMLElement {
+export default class Cube extends HTMLElement {
   constructor() {
     super()
     const root = this.attachShadow({ mode: "open" })
     root.innerHTML = style + html
   }
 }
-
-customElements.define("d-cube", DCube)
-
-export {}

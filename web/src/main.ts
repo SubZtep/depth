@@ -1,12 +1,14 @@
-import { setCssVar, setMarkup } from "@depth/misc"
-import { Loop } from "@depth/core"
+import { setCssVar, setMarkup } from "@depth-lib/template"
+import Loop from "@depth-lib/loop"
 import { loopState } from "./state"
 import "./styles/main.css"
-import "@depth/wc"
+import "@depth-wc/css3d-cube"
+import "@depth-wc/statem-debug"
+import "@depth-wc/svg-icon"
 
 setMarkup("#app-template", "#app-placeholder")
 
-const setRotation = setCssVar("d-cube")("--rotation")
+const setRotation = setCssVar("css3d-cube")("--rotation")
 let cx = 0
 
 const loop = new Loop({

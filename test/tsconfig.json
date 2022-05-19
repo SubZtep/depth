@@ -4,5 +4,5 @@
     "rootDir": "../",
     "types": ["vitest/globals"]
   },
-  "include": ["**/*.ts", "../lib/ui/src/*.ts", "typings.d.ts"]
+  "include": ["**/*.ts", "../wc/*/src/**/*.ts", "typings.d.ts"]
 }

@@ -51,15 +51,22 @@ export default class SVGIcon extends HTMLElement {
   }
 
   get svgEl() {
-    return this.shadowRoot?.lastElementChild as SVGElement
+    if (!this.shadowRoot) throw new Error("No shadow root")
+    if (!this.shadowRoot.lastElementChild) throw new Error("No svg element")
+    return this.shadowRoot.lastElementChild
   }
 
-  attributeChangedCallback(name: string, vold: string | null, vnew: string | null) {
+  /**
+   * @param name string
+   * @param old string | null
+   * @param value string | null
+   */
+  attributeChangedCallback(name, old, value) {
     switch (name) {
       case "name":
-        if (vnew && iconSVGs.has(vnew)) this.svgEl.outerHTML = iconSVGs.get(vnew)
-        else if (vold && iconSVGs.has(vold)) this.svgEl.outerHTML = pug`svg`
-        else throw new Error(`Invalid icon shape name: ${vnew ?? "_nothing_"}`)
+        if (value && iconSVGs.has(value)) this.svgEl.outerHTML = iconSVGs.get(value)
+        else if (old && iconSVGs.has(old)) this.svgEl.outerHTML = pug`svg`
+        else throw new Error(`Invalid icon shape name: ${value ?? "_nothing_"}`)
         break
       default:
         throw new Error(`Unknown attribute: ${name}`)

@@ -19,6 +19,16 @@ export default defineConfig(({ command }) => {
       // worker({}),
       // Pug(),
     ],
+    // optimizeDeps: {
+    //   exclude: [
+    //     "@depth-lib/loop",
+    //     "@depth-lib/statem",
+    //     "@depth-lib/template",
+    //     "@depth-wc/css3d-cube",
+    //     "@depth-wc/statem-debug",
+    //     "@depth-wc/svg-icon"
+    //   ]
+    // },
     build: {
       // chunkSizeWarningLimit: 1024,
       // target: ["edge90", "chrome90", "firefox90", "safari15"], // for top-level await

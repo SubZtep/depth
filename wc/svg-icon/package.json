@@ -7,37 +7,29 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "wireit",
-    "buildx": "babel --extensions \".ts\" src -d dist",
-    "buildy": "babel src -d dist --extensions \".ts\" --source-maps inline",
     "build": "wireit",
     "ts:check": "tsc --noEmit",
     "ts:build": "tsc --emitDeclarationOnly"
   },
   "wireit": {
     "dev": {
-      "command": "babel --config-file ../../.babelrc -w --extensions \".ts\" src -d dist",
+      "command": "babel --root-mode upward -w --extensions \".ts\" src -d dist",
       "dependencies": [
         "ts:build"
       ],
       "files": [
         "src/**/*.ts",
         "typings.d.ts"
-      ],
-      "output": [
-        "dist/**"
       ]
     },
     "build": {
-      "command": "babel --config-file ../../.babelrc src -d dist --extensions \".ts\"",
+      "command": "babel --root-mode upward src -d dist --extensions \".ts\"",
       "dependencies": [
         "ts:build"
       ],
       "files": [
         "src/**/*.ts",
         "typings.d.ts"
-      ],
-      "output": [
-        "dist/**"
       ]
     }
   },

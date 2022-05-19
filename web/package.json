@@ -16,15 +16,15 @@
   "dependencies": {
     "@depth-lib/loop": "workspace:*",
     "@depth-lib/statem": "workspace:*",
+    "@depth-lib/template": "workspace:*",
     "@depth-wc/css3d-cube": "workspace:*",
     "@depth-wc/statem-debug": "workspace:*",
     "@depth-wc/svg-icon": "workspace:*"
   },
   "devDependencies": {
     "picocolors": "^1.0.0",
-    "postcss": "^8.4.13",
+    "postcss": "^8.4.14",
     "postcss-preset-env": "^7.5.0",
-    "pug": "^3.0.2",
     "vite": "^2.9.9"
   }
 }

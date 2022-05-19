@@ -3,7 +3,7 @@ import { statem } from "@depth-lib/statem"
 /**
  * Display statem value.
  *
- * @element d-debug
+ * @element statem-debug
  *
  * @prop {String} statem - Statem ID
  */

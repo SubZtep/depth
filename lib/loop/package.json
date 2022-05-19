@@ -1,5 +1,6 @@
 {
   "name": "@depth-lib/loop",
+  "description": "Game loop",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
@@ -8,9 +9,7 @@
     "dev": "wireit",
     "build": "wireit",
     "ts:check": "tsc --noEmit",
-    "ts:emit": "tsc --emitDeclarationOnly",
-    "ts:dev": "tsc -w",
-    "ts:build": "tsc"
+    "ts:build": "tsc --emitDeclarationOnly"
   },
   "wireit": {
     "dev": {
@@ -23,7 +22,7 @@
     "build": {
       "command": "babel --root-mode upward src -d dist --extensions \".ts\"",
       "dependencies": [
-        "ts:emit"
+        "ts:build"
       ],
       "files": [
         "src/**/*.ts",
