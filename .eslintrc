@@ -74,6 +74,7 @@ rules:
 
 ignorePatterns:
   # - "server"
+  - ".templates/"
   - "**node_modules/"
   - "**public/"
   - "**types/"

@@ -13,10 +13,11 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
-    "@depth/core": "workspace:*",
-    "@depth/misc": "workspace:*",
-    "@depth/statem": "workspace:*",
-    "@depth/wc": "workspace:*"
+    "@depth-lib/loop": "workspace:*",
+    "@depth-lib/statem": "workspace:*",
+    "@depth-wc/css3d-cube": "workspace:*",
+    "@depth-wc/statem-debug": "workspace:*",
+    "@depth-wc/svg-icon": "workspace:*"
   },
   "devDependencies": {
     "picocolors": "^1.0.0",

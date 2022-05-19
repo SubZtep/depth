@@ -1,4 +1,4 @@
-# d-cube
+# css3d-cube
 
 Display a 3D CSS cube.
 
@@ -27,7 +27,18 @@ Display statem value.
 | `statem` | `String` | Statem ID   |
 
 
-# d-icon
+# statem-debug
+
+Display statem value.
+
+## Properties
+
+| Property | Type     | Description |
+|----------|----------|-------------|
+| `statem` | `String` | Statem ID   |
+
+
+# svg-icon
 
 Display a responsive, inline SVG icon.
 
@@ -49,6 +60,3 @@ Included shapes:
 |-----------------|----------------|------------------|
 | `--icon-fill`   | "currentColor" | Primary colour   |
 | `--icon-height` | "1rem"         | Inline font size |
-
-
-# d-theme

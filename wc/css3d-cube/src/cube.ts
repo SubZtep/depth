@@ -60,7 +60,7 @@ const style = `<style>
  * @cssprop [--edge=100px] - Cube edge size
  * @cssprop [--rotate3d=0deg] - 3D rotation on all axis
  */
-class DCube extends HTMLElement {
+export default class Cube extends HTMLElement {
   constructor() {
     super()
     const root = this.attachShadow({ mode: "open" })
@@ -77,5 +77,3 @@ class DCube extends HTMLElement {
     `
   }
 }
-
-customElements.define("d-cube", DCube)

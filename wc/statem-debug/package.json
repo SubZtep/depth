@@ -1,6 +1,6 @@
 {
-  "name": "@depth/wc",
-  "description": "Web Components",
+  "name": "@depth-wc/statem-debug",
+  "description": "Statem debug web component",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
@@ -11,8 +11,7 @@
     "buildy": "babel src -d dist --extensions \".ts\" --source-maps inline",
     "build": "wireit",
     "ts:check": "tsc --noEmit",
-    "ts:build": "tsc --emitDeclarationOnly",
-    "wc:anal": "web-component-analyzer ./src/d-*.ts --outFile README.md"
+    "ts:build": "tsc --emitDeclarationOnly"
   },
   "wireit": {
     "dev": {
@@ -31,8 +30,7 @@
     "build": {
       "command": "babel --config-file ../../.babelrc src -d dist --extensions \".ts\"",
       "dependencies": [
-        "ts:build",
-        "wc:anal"
+        "ts:build"
       ],
       "files": [
         "src/**/*.ts",
@@ -44,12 +42,8 @@
     }
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
-  "license": "Unlicense",
+  "license": "SEE LICENSE IN ../../LICENSE",
   "dependencies": {
-    "@depth/misc": "workspace:*",
-    "@depth/statem": "workspace:*"
-  },
-  "devDependencies": {
-    "web-component-analyzer": "^1.1.6"
+    "@depth-lib/statem": "workspace:*"
   }
 }

@@ -1,7 +1,9 @@
-import { Loop } from "@depth/core"
+import Loop from "@depth-lib/loop"
 import { loopState } from "./state"
 import "./styles/main.css"
-import "@depth/wc"
+import "@depth-wc/css3d-cube"
+import "@depth-wc/statem-debug"
+import "@depth-wc/svg-icon"
 
 let cx = 0
 const root = document.documentElement

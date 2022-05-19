@@ -1,4 +1,4 @@
-import { statem } from "@depth/statem"
+import { statem } from "@depth-lib/statem"
 // statem<DMeterState>({
 //   name: "meter",
 //   default: {},

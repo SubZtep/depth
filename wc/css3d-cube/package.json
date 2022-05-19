@@ -1,11 +1,14 @@
 {
-  "name": "@depth-lib/statem",
+  "name": "@depth-wc/css3d-cube",
+  "description": "Cube web component",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "wireit",
+    "buildx": "babel --extensions \".ts\" src -d dist",
+    "buildy": "babel src -d dist --extensions \".ts\" --source-maps inline",
     "build": "wireit",
     "ts:check": "tsc --noEmit",
     "ts:build": "tsc --emitDeclarationOnly"
@@ -39,5 +42,5 @@
     }
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
-  "license": "Unlicense"
+  "license": "SEE LICENSE IN ../../LICENSE"
 }

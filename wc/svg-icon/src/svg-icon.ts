@@ -32,14 +32,14 @@ const iconSVGs = new Map(
  * - stop
  * - hamburger
  *
- * @element d-icon
+ * @element svg-icon
  *
  * @prop {String} name - Reactive icon shape name
  *
  * @cssprop [--icon-height=1rem] - Inline font size
  * @cssprop [--icon-fill=currentColor] - Primary colour
  */
-class DIcon extends HTMLElement {
+export default class SVGIcon extends HTMLElement {
   static get observedAttributes() {
     return ["name"]
   }
@@ -65,5 +65,3 @@ class DIcon extends HTMLElement {
     this.attachShadow({ mode: "open" }).innerHTML = style + pug`svg`
   }
 }
-
-customElements.define("d-icon", DIcon)

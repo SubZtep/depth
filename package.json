@@ -9,6 +9,7 @@
   "type": "module",
   "workspaces": [
     "lib/*",
+    "wc/*",
     "web"
   ],
   "scripts": {
@@ -19,11 +20,10 @@
     "ncu": "pnpm recursive exec -- ncu -u",
     "ts:check": "pnpm --parallel --if-present ts:check",
     "ts:build": "pnpm --parallel --if-present ts:build",
-    "wc:anal": "pnpm --parallel --if-present wc:anal",
+    "wc:analx": "pnpm --parallel --if-present wc:anal",
+    "wc:anal": "web-component-analyzer wc/**/index.ts --outFile wc/README.md",
     "test": "pnpm run test --filter @depth/test",
-    "wipe": "pnpm -r --reverse exec -- rm -rf node_modules/ dist/ .wireit/ .eslintcache pnpm-lock.yaml .pnpm-debug.log tsconfig.tsbuildinfo",
-    "wipex": "pnpm recursive exec -- rm -rf node_modules/ dist/ .wireit/ .eslintcache pnpm-lock.yaml .pnpm-debug.log tsconfig.tsbuildinfo",
-    "wipey": "sh scripts/wipe.sh"
+    "wipe": "sh scripts/wipe.sh"
   },
   "wireit": {
     "lint": {
@@ -68,6 +68,7 @@
     "prettier": "^2.6.2",
     "pug.macro": "^0.1.0",
     "typescript": "^4.6.3",
+    "web-component-analyzer": "^1.1.6",
     "wireit": "^0.4.1"
   },
   "engines": {

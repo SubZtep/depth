@@ -1,5 +1,5 @@
 {
-  "name": "@depth-lib/statem",
+  "name": "@depth-lib/loop",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
@@ -39,5 +39,8 @@
     }
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
-  "license": "Unlicense"
+  "license": "Unlicense",
+  "dependencies": {
+    "@depth-lib/statem": "workspace:*"
+  }
 }

@@ -4,13 +4,19 @@
   "include": [],
   "references": [
     {
-      "path": "./lib/core"
+      "path": "./lib/loop"
     },
     {
-      "path": "./lib/misc"
+      "path": "./lib/statem"
     },
     {
-      "path": "./lib/wc"
+      "path": "./wc/css3d-cube"
+    },
+    {
+      "path": "./wc/statem-debug"
+    },
+    {
+      "path": "./wc/svg-icon"
     },
     {
       "path": "./web"

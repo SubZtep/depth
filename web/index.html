@@ -12,15 +12,15 @@
   </head>
   <body>
     <template id="tpl">
-      <d-debug statem="core"></d-debug>
+      <statem-debug statem="core"></statem-debug>
       <div>
         <input type="range" min="1" max="60" oninput="setFPS(this.valueAsNumber)" />
         <button onclick="toggleDark()">!dark</button>
-        <d-cube></d-cube>
+        <css3d-cube></css3d-cube>
       </div>
-      <d-icon name="hamburger"></d-icon>
-      <d-icon name="stop"></d-icon>
-      <d-icon name="play"></d-icon>
+      <svg-icon name="hamburger"></svg-icon>
+      <svg-icon name="stop"></svg-icon>
+      <svg-icon name="play"></svg-icon>
     </template>
     <div id="app"></div>
     <script type="module" src="./src/main.ts"></script>

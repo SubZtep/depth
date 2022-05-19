@@ -1,4 +1,4 @@
-import type { Statem } from "@depth/statem"
+import type { Statem } from "@depth-lib/statem"
 export type TickFn = (delta: number) => void
 
 interface LoopState {
@@ -16,7 +16,7 @@ interface Props {
 }
 
 /** The Master-Ticker */
-export default class {
+export default class Loop {
   tolerance = 0.1
   #rafID = 0
   #statem: Statem<LoopState>

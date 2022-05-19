@@ -1,4 +1,4 @@
-import { statem } from "@depth/statem"
+import { statem } from "@depth-lib/statem"
 
 /**
  * Display statem value.
@@ -7,7 +7,7 @@ import { statem } from "@depth/statem"
  *
  * @prop {String} statem - Statem ID
  */
-class DDebug extends HTMLElement {
+class StatemDebug extends HTMLElement {
   #unsubscribe?: Fn
 
   constructor() {
@@ -30,4 +30,4 @@ class DDebug extends HTMLElement {
   }
 }
 
-customElements.define("d-debug", DDebug)
+customElements.define("statem-debug", StatemDebug)
