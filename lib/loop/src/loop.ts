@@ -40,6 +40,8 @@ export default class {
   }
 
   start() {
+    if (this.#rafID) throw new Error("Loop is already looping")
+
     let then = performance.now()
     let interval: number
 
@@ -57,6 +59,8 @@ export default class {
   }
 
   stop() {
+    if (this.#rafID === 0) throw new Error("Loop is already stucking")
     cancelAnimationFrame(this.#rafID)
+    this.#rafID = 0
   }
 }

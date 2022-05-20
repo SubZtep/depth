@@ -18,7 +18,8 @@
     "serve": "pnpm --filter @depth/web serve",
     "lint": "wireit",
     "ncu": "pnpm recursive exec -- ncu -u --packageFile package.json & ncu -u --packageFile package.json",
-    "wc:anal": "wca analyze wc/*/src/index.ts --format markdown --outFile wc/README.md",
+    "wc:md": "wca analyze wc/*/src/index.ts --format markdown --outFile wc/README.md",
+    "wc:vs": "wca analyze wc/*/src/index.ts --format vscode --outFile .vscode/wc.json",
     "test": "pnpm --filter @depth/test test",
     "wipe": "sh scripts/wipe.sh"
   },

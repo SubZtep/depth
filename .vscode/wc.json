@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "tags": [
+    {
+      "name": "css3d-cube",
+      "description": "Display a 3D CSS cube.\n\nProperties:\n\n  * `statem` {String} - Statem ID",
+      "attributes": []
+    },
+    {
+      "name": "statem-debug",
+      "description": "Display statem value.\n\nProperties:\n\n  * `statem` {String} - Statem ID",
+      "attributes": []
+    },
+    {
+      "name": "svg-icon",
+      "description": "Display a responsive, inline SVG icon.\n\nIncluded shapes:\n- play\n- stop\n- hamburger\n\nAttributes:\n\n  * `name` {String} - Reactive icon shape name\n\nProperties:\n\n  * `svgEl` {`Element`} - \n\n  * `name` {String} - Reactive icon shape name",
+      "attributes": [
+        {
+          "name": "name",
+          "description": "`name` {String} - Reactive icon shape name\n\nProperty: name"
+        }
+      ]
+    }
+  ],
+  "globalAttributes": [],
+  "valueSets": []
+}
