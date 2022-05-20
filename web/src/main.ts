@@ -5,16 +5,18 @@ import "./styles/main.css"
 import "@depth-wc/css3d-cube"
 import "@depth-wc/statem-debug"
 import "@depth-wc/svg-icon"
+import "@depth-wc/input"
 
 setMarkup("#app-template", "#app-placeholder")
 
-const setRotation = setCssVar("css3d-cube")("--rotation")
+const setRotation = setCssVar("body")("--rotation")
 let cx = 0
 
 const loop = new Loop({
-  autoStart: false,
+  autoStart: true,
   statem: loopState,
   callback: (delta) => {
+    if (loopState.dark) delta *= -1
     setRotation(`${(cx += 0.1 * delta)}deg`)
   },
 })

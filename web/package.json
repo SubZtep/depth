@@ -19,7 +19,8 @@
     "@depth-lib/template": "workspace:*",
     "@depth-wc/css3d-cube": "workspace:*",
     "@depth-wc/statem-debug": "workspace:*",
-    "@depth-wc/svg-icon": "workspace:*"
+    "@depth-wc/svg-icon": "workspace:*",
+    "@depth-wc/input": "workspace:*"
   },
   "devDependencies": {
     "picocolors": "^1.0.0",

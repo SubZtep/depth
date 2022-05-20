@@ -84,6 +84,9 @@ importers:
   wc/css3d-cube:
     specifiers: {}
 
+  wc/input:
+    specifiers: {}
+
   wc/statem-debug:
     specifiers:
       '@depth-lib/statem': workspace:*
@@ -99,6 +102,7 @@ importers:
       '@depth-lib/statem': workspace:*
       '@depth-lib/template': workspace:*
       '@depth-wc/css3d-cube': workspace:*
+      '@depth-wc/input': workspace:*
       '@depth-wc/statem-debug': workspace:*
       '@depth-wc/svg-icon': workspace:*
       picocolors: ^1.0.0
@@ -110,6 +114,7 @@ importers:
       '@depth-lib/statem': link:../lib/statem
       '@depth-lib/template': link:../lib/template
       '@depth-wc/css3d-cube': link:../wc/css3d-cube
+      '@depth-wc/input': link:../wc/input
       '@depth-wc/statem-debug': link:../wc/statem-debug
       '@depth-wc/svg-icon': link:../wc/svg-icon
     devDependencies:

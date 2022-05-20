@@ -16,6 +16,9 @@
       "path": "./wc/css3d-cube"
     },
     {
+      "path": "./wc/input"
+    },
+    {
       "path": "./wc/statem-debug"
     },
     {
