@@ -32,7 +32,7 @@
     "**/node_modules": true
   },
   "files.exclude": {
-    "**/dist": false,
+    "**/dist": true,
     "**/node_modules": true,
     "**/tsconfig.tsbuildinfo": true,
     "pnpm-lock.yaml": true,

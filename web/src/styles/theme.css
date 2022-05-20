@@ -33,6 +33,13 @@ body {
   position: relative;
 }
 
+.player {
+  width: 100px;
+  height: 100px;
+  border: 2px solid #000;
+  background-color: #696;
+}
+
 .panel {
   /* background-color: #b5b73d; */
   position: absolute;

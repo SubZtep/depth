@@ -1,4 +1,4 @@
-import { setCssVar, setMarkup } from "@depth-lib/template"
+import { setCssVar, appendTemplateToContainer } from "@depth-lib/template"
 import Loop from "@depth-lib/loop"
 import { loopState } from "./state"
 import "./styles/main.css"
@@ -7,9 +7,9 @@ import "@depth-wc/statem-debug"
 import "@depth-wc/svg-icon"
 import "@depth-wc/input"
 
-setMarkup("#app-template", "#app-placeholder")
+appendTemplateToContainer("#app-template", "#app-container")
 
-const setRotation = setCssVar("body")("--rotation")
+const setRotation = setCssVar()("--rotation")
 let cx = 0
 
 const loop = new Loop({

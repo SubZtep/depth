@@ -3,7 +3,7 @@
  * @param selector - The HTML Element that matches selectors holds the property.
  * @returns Currying the property name then the value.
  */
-export function setCssVar(selector: string) {
+export function setCssVar(selector: string = ":root") {
   const el = document.querySelector<HTMLElement>(selector)
   if (!el) throw new Error(`Unknown element for ${selector}`)
   return (property: string) =>
@@ -18,10 +18,9 @@ export function setCssVar(selector: string) {
  * @param templateSelector - The origin HTML template element.
  * @param containerSelector - Query for template placement.
  */
-export function setMarkup(templateSelector: string, containerSelector: string) {
+export function appendTemplateToContainer(templateSelector: string, containerSelector: string) {
   const template = document.querySelector<HTMLTemplateElement>(templateSelector)
   const container = document.querySelector<HTMLElement>(containerSelector)
   if (!template || !container) throw new Error(`Unkown ${templateSelector} + ${containerSelector} selectors.`)
-  // container.replaceWith(template.content.cloneNode(true))
   container.append(template.content.cloneNode(true))
 }

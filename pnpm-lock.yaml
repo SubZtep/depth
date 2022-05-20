@@ -5,10 +5,10 @@ importers:
   .:
     specifiers:
       '@babel/cli': ^7.17.10
-      '@babel/core': ^7.17.12
+      '@babel/core': ^7.18.0
       '@babel/preset-typescript': ^7.17.12
       '@types/babel-plugin-macros': ^2.8.5
-      '@types/node': ^17.0.34
+      '@types/node': ^17.0.35
       '@typescript-eslint/eslint-plugin': ^5.25.0
       '@typescript-eslint/parser': ^5.25.0
       '@typescript-eslint/typescript-estree': ^5.25.0
@@ -67,8 +67,8 @@ importers:
       '@depth-wc/statem-debug': workspace:*
       '@depth-wc/svg-icon': workspace:*
       c8: ^7.11.3
-      happy-dom: ^3.2.2
-      vitest: ^0.12.6
+      happy-dom: ^4.0.0
+      vitest: ^0.12.7
     dependencies:
       '@depth-lib/loop': link:../lib/loop
       '@depth-lib/statem': link:../lib/statem
@@ -78,8 +78,8 @@ importers:
       '@depth-wc/svg-icon': link:../wc/svg-icon
     devDependencies:
       c8: 7.11.3
-      happy-dom: 3.2.2
-      vitest: 0.12.6_c8@7.11.3+happy-dom@3.2.2
+      happy-dom: 4.0.0
+      vitest: 0.12.7_c8@7.11.3+happy-dom@4.0.0
 
   wc/css3d-cube:
     specifiers: {}
@@ -107,7 +107,7 @@ importers:
       '@depth-wc/svg-icon': workspace:*
       picocolors: ^1.0.0
       postcss: ^8.4.14
-      postcss-preset-env: ^7.5.0
+      postcss-preset-env: ^7.6.0
       vite: ^2.9.9
     dependencies:
       '@depth-lib/loop': link:../lib/loop
@@ -736,13 +736,13 @@ packages:
   /@types/concat-stream/1.6.1:
     resolution: {integrity: sha512-eHE4cQPoj6ngxBZMvVf6Hw7Mh4jMW4U9lpGmS5GBPB9RYxlFg+CHaVN7ErNY4W9XfLIEn20b4VDYaIrbq0q4uA==}
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 17.0.35
     dev: true
 
   /@types/form-data/0.0.33:
     resolution: {integrity: sha1-yayFsqX9GENbjIXZ7LUObWyJP/g=}
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 17.0.35
     dev: true
 
   /@types/istanbul-lib-coverage/2.0.4:
@@ -1988,8 +1988,8 @@ packages:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
     dev: true
 
-  /happy-dom/3.2.2:
-    resolution: {integrity: sha512-NgRLzVYeTs5Y12LwpD6C2qbn7FCaKVb1BewLQOuvxS9WOxfL/dy122jDwEFluGyzZbip/ogf9MLsN+ZBlit1aA==}
+  /happy-dom/4.0.0:
+    resolution: {integrity: sha512-ChbKeqfBcNLET+z2wrdqRPH23a8/Fxi5Ng5F8VjIqJZVmDWFw2SMmV/r0zdelca9TY9oq0sWMMM8783ln/A28A==}
     dependencies:
       css.escape: 1.5.1
       he: 1.2.0
@@ -3492,8 +3492,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.12.6_c8@7.11.3+happy-dom@3.2.2:
-    resolution: {integrity: sha512-YWbCTv0XKBuBw5YtuW/iufuguoi8QhGpYyi2g57Oo7akpscMkkWTAaZGgY0ux1oJJtO/pc/8GFt0EF32WFBUUQ==}
+  /vitest/0.12.7_c8@7.11.3+happy-dom@4.0.0:
+    resolution: {integrity: sha512-rQsb9i/zEw+HtiTNr+5p+tOUMu0Ojp0jtZc/6FfE4T1xL2bhMq74tfUgu7hav3rFF9eGKpJeZBVlEszjdCuYQg==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
@@ -3515,7 +3515,8 @@ packages:
       '@types/chai-subset': 1.3.3
       c8: 7.11.3
       chai: 4.3.6
-      happy-dom: 3.2.2
+      debug: 4.3.4
+      happy-dom: 4.0.0
       local-pkg: 0.4.1
       tinypool: 0.1.3
       tinyspy: 0.3.2
@@ -3524,6 +3525,7 @@ packages:
       - less
       - sass
       - stylus
+      - supports-color
     dev: true
 
   /void-elements/3.1.0:

@@ -1,3 +1,5 @@
+import pug from "pug.macro"
+
 const style = `<style>
   :host {
     --edge-full: var(--edge, 20vh);
@@ -50,20 +52,15 @@ const style = `<style>
   }
 </style>`
 
-const html = `
-  <div class="front">front</div>
-  <div class="back">back</div>
-  <div class="right">right</div>
-  <div class="left">left</div>
-  <div class="top">top</div>
-  <div class="bottom">bottom</div>
+const html = pug`
+  each val in ["front", "back", "right", "left", "top", "bottom"]
+    div(class=val) #{val}
 `
 
 /**
  * Display a 3D CSS cube.
  *
  * @element css3d-cube
- *
  * @prop {String} statem - Statem ID
  * @cssprop [--edge=100px] - Cube edge size
  * @cssprop [--rotate3d=0deg] - 3D rotation on all axis
