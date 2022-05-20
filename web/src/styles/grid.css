@@ -1,11 +1,22 @@
-body {
-  display: grid;
+.screen {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  /* align-items: scretch; */
   gap: 5px;
-  grid-template-columns: 1fr 300px;
-  grid-template-rows: 50px 1fr;
+  flex-direction: column;
+  /* grid-template-columns: 1fr 300px;
+  grid-template-rows: 50px 1fr; */
+}
+
+.screen > * {
+  height: 100%;
 }
 
 .toolbar {
+  height: 100px;
+}
+/* .toolbar {
   grid-column: 1 / 3;
   grid-row: 1 / 2;
 }
@@ -18,4 +29,4 @@ body {
 .panel {
   grid-column: 2 / 3 ;
   grid-row: 2 / 3;
-}
+} */

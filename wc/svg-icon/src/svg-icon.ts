@@ -2,11 +2,12 @@ import pug from "pug.macro"
 
 const style = `<style>
   :host {
-    background-color: red;
+    /*background-color: red;*/
     position: relative;
     display: inline-block;
     height: var(--icon-height, 1rem);
     aspect-ratio: 1;
+    margin: 4px;
   }
   :host(svg) {
     fill: var(--icon-fill, currentColor);

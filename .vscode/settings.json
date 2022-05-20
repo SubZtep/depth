@@ -33,7 +33,7 @@
   },
   "files.exclude": {
     "**/dist": false,
-    "**/node_modules": false,
+    "**/node_modules": true,
     "**/tsconfig.tsbuildinfo": true,
     "pnpm-lock.yaml": true,
     "**/.wireit": true

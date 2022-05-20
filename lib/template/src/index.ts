@@ -22,5 +22,6 @@ export function setMarkup(templateSelector: string, containerSelector: string) {
   const template = document.querySelector<HTMLTemplateElement>(templateSelector)
   const container = document.querySelector<HTMLElement>(containerSelector)
   if (!template || !container) throw new Error(`Unkown ${templateSelector} + ${containerSelector} selectors.`)
-  container.replaceWith(template.content.cloneNode(true))
+  // container.replaceWith(template.content.cloneNode(true))
+  container.append(template.content.cloneNode(true))
 }

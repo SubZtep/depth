@@ -13,9 +13,7 @@
   <body>
     <template id="app-template" lang="pug">
       <div class="toolbar">
-        <div>
-          <h3>Toolbar</h3>
-        </div>
+        <div>Toolbar</div>
         <input type="range" min="1" max="60" oninput="setFPS(this.valueAsNumber)" />
         <button onclick="toggleDark()">
           !dark
@@ -26,21 +24,18 @@
         <button onclick="loop.stop()">
           <svg-icon name="stop"></svg-icon>
         </button>
+        <statem-debug statem="core"></statem-debug>
         <button onclick="alert('Menu')">
           <svg-icon name="hamburger"></svg-icon>
         </button>
       </div>
       <div class="scene sky-gradient sky-gradient-16">
-        <h3>Scene</h3>
         <css3d-cube class="a"></css3d-cube>
         <css3d-cube class="b"></css3d-cube>
-      </div>
-      <div class="panel square-bg">
-        <h3>Panel</h3>
-        <statem-debug statem="core"></statem-debug>
+        <div class="panel square-bg"></div>
       </div>
     </template>
-    <div id="app-placeholder"></div>
+    <div id="app-placeholder" class="screen"></div>
     <script type="module" src="./src/main.ts"></script>
   </body>
 </html>
