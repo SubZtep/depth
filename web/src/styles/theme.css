@@ -33,11 +33,16 @@ body {
   position: relative;
 }
 
+:root {
+  --transform: matrix(1, 1, 0, 1, 0, 0);
+}
+
 .player {
   width: 100px;
   height: 100px;
   border: 2px solid #000;
   background-color: #696;
+  transform: var("--transform");
 }
 
 .panel {
@@ -48,7 +53,6 @@ body {
   bottom: 0;
   border-radius: 15px 15px 0 0;
   box-shadow: inset 0 10px 13px -3px #ff0a;
-  /* transform: skewY(-12.5deg); */
 }
 
 .square-bg {

@@ -7,6 +7,9 @@
       "path": "./lib/loop"
     },
     {
+      "path": "./lib/physics"
+    },
+    {
       "path": "./lib/statem"
     },
     {

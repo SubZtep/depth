@@ -22,9 +22,6 @@
       "files": [
         "src/**/*.ts",
         "typings.d.ts"
-      ],
-      "output": [
-        "dist/**"
       ]
     },
     "build": {
@@ -35,9 +32,6 @@
       "files": [
         "src/**/*.ts",
         "typings.d.ts"
-      ],
-      "output": [
-        "dist/**"
       ]
     }
   },

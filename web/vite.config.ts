@@ -30,6 +30,7 @@ export default defineConfig(({ command }) => {
     //   ]
     // },
     build: {
+      target: "esnext",
       // chunkSizeWarningLimit: 1024,
       // target: ["edge90", "chrome90", "firefox90", "safari15"], // for top-level await
       // rollupOptions: {
@@ -41,15 +42,17 @@ export default defineConfig(({ command }) => {
       //   sourcemap: isDev,
       //   cssCodeSplit: true,
       //   chunkSizeWarningLimit: 1_666,
-      //   rollupOptions: {
-      //     manualChunks: {
-      //       depth: ["./src/pages/DepthPage.vue"],
-      //       environment: ["./src/pages/EnvironmentPage.vue"],
-      //       video: ["./src/pages/VideoPage.vue"],
-      //       // "group-hands": ["./src/components/player/PlayerHands.vue"],
-      //       // "LogarithmicShell": ["./src/components/3d/LogarithmicShell.vue"],
-      //       // "HeatmapTerrain": ["./src/components/3d/HeatmapTerrain.vue"],
-      //     },
+      // rollupOptions: {
+      //   manualChunks: {
+      //     physics: ["@depth-lib/physics"]
+      //     // depth: ["./src/pages/DepthPage.vue"],
+      //     // environment: ["./src/pages/EnvironmentPage.vue"],
+      //     // video: ["./src/pages/VideoPage.vue"],
+      //     // "group-hands": ["./src/components/player/PlayerHands.vue"],
+      //     // "LogarithmicShell": ["./src/components/3d/LogarithmicShell.vue"],
+      //     // "HeatmapTerrain": ["./src/components/3d/HeatmapTerrain.vue"],
+      //   },
+      // },
       //     output: {
       //       sourcemap: isDev,
       //       manualChunks(id: string) {

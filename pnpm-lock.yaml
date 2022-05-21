@@ -52,6 +52,12 @@ importers:
     dependencies:
       '@depth-lib/statem': link:../statem
 
+  lib/physics:
+    specifiers:
+      '@dimforge/rapier2d-compat': 0.8.0-alpha.2
+    dependencies:
+      '@dimforge/rapier2d-compat': 0.8.0-alpha.2
+
   lib/statem:
     specifiers: {}
 
@@ -67,7 +73,7 @@ importers:
       '@depth-wc/statem-debug': workspace:*
       '@depth-wc/svg-icon': workspace:*
       c8: ^7.11.3
-      happy-dom: ^4.0.0
+      happy-dom: ^4.0.1
       vitest: ^0.12.7
     dependencies:
       '@depth-lib/loop': link:../lib/loop
@@ -78,8 +84,8 @@ importers:
       '@depth-wc/svg-icon': link:../wc/svg-icon
     devDependencies:
       c8: 7.11.3
-      happy-dom: 4.0.0
-      vitest: 0.12.7_c8@7.11.3+happy-dom@4.0.0
+      happy-dom: 4.0.1
+      vitest: 0.12.7_c8@7.11.3+happy-dom@4.0.1
 
   wc/css3d-cube:
     specifiers: {}
@@ -99,6 +105,7 @@ importers:
   web:
     specifiers:
       '@depth-lib/loop': workspace:*
+      '@depth-lib/physics': workspace:*
       '@depth-lib/statem': workspace:*
       '@depth-lib/template': workspace:*
       '@depth-wc/css3d-cube': workspace:*
@@ -111,6 +118,7 @@ importers:
       vite: ^2.9.9
     dependencies:
       '@depth-lib/loop': link:../lib/loop
+      '@depth-lib/physics': link:../lib/physics
       '@depth-lib/statem': link:../lib/statem
       '@depth-lib/template': link:../lib/template
       '@depth-wc/css3d-cube': link:../wc/css3d-cube
@@ -448,8 +456,8 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@csstools/postcss-cascade-layers/1.0.1_postcss@8.4.14:
-    resolution: {integrity: sha512-IpGtKHZ6XFj2cpRp9i45V/+fpcPv/W6Eybw7sFpqyVeCEH7UttHhrbop6JACESOhOYc/onTRb3tchHo/g3K4TA==}
+  /@csstools/postcss-cascade-layers/1.0.2_postcss@8.4.14:
+    resolution: {integrity: sha512-n5fSd3N/RTLjwC6TLnHjlVEt5tRg6S6Pu+LpRgXayX0QVJHvlMzE3+R12cd2F0we8WB4OE8o5r5iWgmBPpqUyQ==}
     engines: {node: ^12 || ^14 || >=16}
     peerDependencies:
       postcss: ^8.3
@@ -572,6 +580,10 @@ packages:
       postcss: 8.4.14
       postcss-selector-parser: 6.0.10
     dev: true
+
+  /@dimforge/rapier2d-compat/0.8.0-alpha.2:
+    resolution: {integrity: sha512-x0gZBGH8/rJ5esAgx+ElJAwQH/h+R7HEVO1d6npzkJAg4NkfX5F0PiZTfKRvIajkyLL+2NJabhyY6oZKPsJV3A==}
+    dev: false
 
   /@eslint/eslintrc/1.2.3:
     resolution: {integrity: sha512-uGo44hIwoLGNyduRpjdEpovcbMdd+Nv7amtmJxnKmI8xj6yd5LncmSwDa5NgX/41lIFJtkjD6YdVfgEzPfJ5UA==}
@@ -736,13 +748,13 @@ packages:
   /@types/concat-stream/1.6.1:
     resolution: {integrity: sha512-eHE4cQPoj6ngxBZMvVf6Hw7Mh4jMW4U9lpGmS5GBPB9RYxlFg+CHaVN7ErNY4W9XfLIEn20b4VDYaIrbq0q4uA==}
     dependencies:
-      '@types/node': 17.0.35
+      '@types/node': 8.10.66
     dev: true
 
   /@types/form-data/0.0.33:
     resolution: {integrity: sha1-yayFsqX9GENbjIXZ7LUObWyJP/g=}
     dependencies:
-      '@types/node': 17.0.35
+      '@types/node': 8.10.66
     dev: true
 
   /@types/istanbul-lib-coverage/2.0.4:
@@ -1988,8 +2000,8 @@ packages:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
     dev: true
 
-  /happy-dom/4.0.0:
-    resolution: {integrity: sha512-ChbKeqfBcNLET+z2wrdqRPH23a8/Fxi5Ng5F8VjIqJZVmDWFw2SMmV/r0zdelca9TY9oq0sWMMM8783ln/A28A==}
+  /happy-dom/4.0.1:
+    resolution: {integrity: sha512-GUj2ayfbWYHPeQfcK0N+lygRE/DsrjQbALJq0zrxHLc9KYzhFSCmaCOISuNgHV/21EEeVIX55KoPTqMcX362+g==}
     dependencies:
       css.escape: 1.5.1
       he: 1.2.0
@@ -2737,8 +2749,8 @@ packages:
       postcss: 8.4.14
     dev: true
 
-  /postcss-nesting/10.1.6_postcss@8.4.14:
-    resolution: {integrity: sha512-8C0X0pOOShlgqYkCzB4wlWLyulos+GXFpw7r2+x7g+ROQ1RwN8MlN2NCcpNQScNBPfbjxbjwY8e25raTcEXqmg==}
+  /postcss-nesting/10.1.7_postcss@8.4.14:
+    resolution: {integrity: sha512-Btho5XzDTpl117SmB3tvUHP8txg5n7Ayv7vQ5m4b1zXkfs1Y52C67uZjZ746h7QvOJ+rLRg50OlhhjFW+IQY6A==}
     engines: {node: ^12 || ^14 || >=16}
     peerDependencies:
       postcss: ^8.4
@@ -2786,7 +2798,7 @@ packages:
     peerDependencies:
       postcss: ^8.4
     dependencies:
-      '@csstools/postcss-cascade-layers': 1.0.1_postcss@8.4.14
+      '@csstools/postcss-cascade-layers': 1.0.2_postcss@8.4.14
       '@csstools/postcss-color-function': 1.1.0_postcss@8.4.14
       '@csstools/postcss-font-format-keywords': 1.0.0_postcss@8.4.14
       '@csstools/postcss-hwb-function': 1.0.1_postcss@8.4.14
@@ -2824,7 +2836,7 @@ packages:
       postcss-lab-function: 4.2.0_postcss@8.4.14
       postcss-logical: 5.0.4_postcss@8.4.14
       postcss-media-minmax: 5.0.0_postcss@8.4.14
-      postcss-nesting: 10.1.6_postcss@8.4.14
+      postcss-nesting: 10.1.7_postcss@8.4.14
       postcss-opacity-percentage: 1.1.2
       postcss-overflow-shorthand: 3.0.3_postcss@8.4.14
       postcss-page-break: 3.0.4_postcss@8.4.14
@@ -3492,7 +3504,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.12.7_c8@7.11.3+happy-dom@4.0.0:
+  /vitest/0.12.7_c8@7.11.3+happy-dom@4.0.1:
     resolution: {integrity: sha512-rQsb9i/zEw+HtiTNr+5p+tOUMu0Ojp0jtZc/6FfE4T1xL2bhMq74tfUgu7hav3rFF9eGKpJeZBVlEszjdCuYQg==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
@@ -3516,7 +3528,7 @@ packages:
       c8: 7.11.3
       chai: 4.3.6
       debug: 4.3.4
-      happy-dom: 4.0.0
+      happy-dom: 4.0.1
       local-pkg: 0.4.1
       tinypool: 0.1.3
       tinyspy: 0.3.2

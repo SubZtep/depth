@@ -1,0 +1,47 @@
+{
+  "name": "@depth-lib/physics",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "wireit",
+    "build": "wireit",
+    "ts:check": "tsc --noEmit",
+    "ts:emitx": "tsc --emitDeclarationOnly",
+    "ts:emitxx": "tsc src/index.ts --target esnext --skipLibCheck --declaration --emitDeclarationOnly --outDir dist",
+    "ts:emit": "tsc",
+    "ts:dev": "tsc -w",
+    "ts:build": "tsc"
+  },
+  "wireit": {
+    "dev": {
+      "command": "babel --root-mode upward -w --extensions \".ts\" src -d dist",
+      "dependencies": [
+        "ts:emitx"
+      ],
+      "files": [
+        "src/**/*.ts",
+        "typings.d.ts"
+      ],
+      "output": [
+        "dist/**"
+      ]
+    },
+    "build": {
+      "command": "babel --root-mode upward src -d dist --extensions \".ts\"",
+      "dependencies": [
+        "ts:emit"
+      ],
+      "files": [
+        "src/**/*.ts",
+        "typings.d.ts"
+      ]
+    }
+  },
+  "author": "Andras Serfozo <subztep@gmail.com>",
+  "license": "Unlicense",
+  "dependencies": {
+    "@dimforge/rapier2d-compat": "0.8.0-alpha.2"
+  }
+}
