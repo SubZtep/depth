@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import "@depth-wc/svg-icon"
+import "@depth/wc"
 
 describe("SVG icon", async () => {
   beforeEach(async () => {

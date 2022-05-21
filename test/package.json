@@ -9,17 +9,15 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@depth-lib/loop": "workspace:*",
-    "@depth-lib/statem": "workspace:*",
-    "@depth-lib/template": "workspace:*",
-    "@depth-wc/css3d-cube": "workspace:*",
-    "@depth-wc/statem-debug": "workspace:*",
-    "@depth-wc/svg-icon": "workspace:*"
+    "@depth/loop": "workspace:*",
+    "@depth/statem": "workspace:*",
+    "@depth/template": "workspace:*",
+    "@depth/wc": "workspace:*"
   },
   "devDependencies": {
-    "@depth-lib/statem": "workspace:*",
+    "@depth/statem": "workspace:*",
     "c8": "^7.11.3",
     "happy-dom": "^4.0.1",
-    "vitest": "^0.12.7"
+    "vitest": "^0.12.8"
   }
 }

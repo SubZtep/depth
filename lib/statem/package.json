@@ -1,5 +1,5 @@
 {
-  "name": "@depth-lib/statem",
+  "name": "@depth/statem",
   "description": "Global state",
   "version": "0.1.0",
   "type": "module",

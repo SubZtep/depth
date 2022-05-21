@@ -1,4 +1,4 @@
-import { statem } from "@depth-lib/statem"
+import { statem } from "@depth/statem"
 
 /**
  * Display statem value.
@@ -31,3 +31,5 @@ class StatemDebug extends HTMLElement {
 }
 
 customElements.define("statem-debug", StatemDebug)
+
+export {}

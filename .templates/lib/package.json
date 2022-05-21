@@ -1,5 +1,5 @@
 {
-  "name": "@depth-lib/[FTName % kebabcase]",
+  "name": "@depth/[FTName % kebabcase]",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",

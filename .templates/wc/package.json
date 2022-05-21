@@ -1,5 +1,5 @@
 {
-  "name": "@depth-wc/[FTName % kebabcase]",
+  "name": "@depth/[FTName % kebabcase]",
   "description": "[FTName % sentencecase] web component",
   "version": "0.1.0",
   "type": "module",

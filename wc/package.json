@@ -1,6 +1,6 @@
 {
-  "name": "@depth-wc/svg-icon",
-  "description": "SVG icon web component",
+  "name": "@depth/wc",
+  "description": "Web components",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
@@ -34,5 +34,8 @@
     }
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
-  "license": "SEE LICENSE IN ../../LICENSE"
+  "license": "SEE LICENSE IN ../LICENSE",
+  "dependencies": {
+    "@depth/statem": "workspace:*"
+  }
 }

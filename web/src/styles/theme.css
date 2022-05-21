@@ -20,29 +20,26 @@ body {
   overflow: hidden;
 }
 
-.toolbar {
-  background-color: #577590;
-  color: #ffd;
-  font-family: "Franklin Gothic", "Arial Bold";
-  font-size: 1.1rem;
-  accent-color: #d2de61;
-}
-
 .scene {
   /* background-color: #43aa8b; */
   position: relative;
 }
 
-:root {
+/* :root {
   --transform: matrix(1, 1, 0, 1, 0, 0);
-}
+  matrix(
+    -3792.139079876244,1264.386338436976,0,
+    1264.386338436976,-420.46432787226513,0,
+    0,0,-4213.603407748509)
+} */
 
 .player {
   width: 100px;
   height: 100px;
+  position: absolute;
   border: 2px solid #000;
   background-color: #696;
-  transform: var("--transform");
+  transform: var(--transform);
 }
 
 .panel {

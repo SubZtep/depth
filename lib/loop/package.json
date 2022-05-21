@@ -1,5 +1,5 @@
 {
-  "name": "@depth-lib/loop",
+  "name": "@depth/loop",
   "description": "Game loop",
   "version": "0.1.0",
   "type": "module",
@@ -33,6 +33,6 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@depth-lib/statem": "workspace:*"
+    "@depth/statem": "workspace:*"
   }
 }

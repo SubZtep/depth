@@ -79,3 +79,7 @@ export default class SVGIcon extends HTMLElement {
     this.attachShadow({ mode: "open" }).innerHTML = style + pug`svg`
   }
 }
+
+customElements.define("svg-icon", SVGIcon)
+
+export {}

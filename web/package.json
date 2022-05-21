@@ -14,14 +14,11 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
-    "@depth-lib/loop": "workspace:*",
-    "@depth-lib/physics": "workspace:*",
-    "@depth-lib/statem": "workspace:*",
-    "@depth-lib/template": "workspace:*",
-    "@depth-wc/css3d-cube": "workspace:*",
-    "@depth-wc/statem-debug": "workspace:*",
-    "@depth-wc/svg-icon": "workspace:*",
-    "@depth-wc/input": "workspace:*"
+    "@depth/loop": "workspace:*",
+    "@depth/physics": "workspace:*",
+    "@depth/statem": "workspace:*",
+    "@depth/template": "workspace:*",
+    "@depth/wc": "workspace:*"
   },
   "devDependencies": {
     "picocolors": "^1.0.0",

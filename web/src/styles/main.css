@@ -1,4 +1,21 @@
 @import "./reset.css";
-@import "./grid.css";
+/* @import "./grid.css"; */
+@import "./toolbar.css";
 @import "./theme.css";
 @import "./elements.css";
+
+.screen {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  gap: 5px;
+  flex-direction: column;
+}
+
+.screen > * {
+  height: 100%;
+}
+
+.toolbar {
+  height: 100px;
+}

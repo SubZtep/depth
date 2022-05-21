@@ -1,4 +1,4 @@
-import { statem } from "@depth-lib/statem"
+import { statem } from "@depth/statem"
 
 export const loopState = statem("core", {
   fps: Number.POSITIVE_INFINITY,

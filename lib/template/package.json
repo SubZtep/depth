@@ -1,5 +1,5 @@
 {
-  "name": "@depth-lib/template",
+  "name": "@depth/template",
   "description": "Template helpers",
   "version": "0.1.0",
   "type": "module",

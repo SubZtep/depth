@@ -9,7 +9,7 @@
   "type": "module",
   "workspaces": [
     "lib/*",
-    "wc/*",
+    "wc",
     "web"
   ],
   "scripts": {
@@ -18,8 +18,8 @@
     "serve": "pnpm --filter @depth/web serve",
     "lint": "wireit",
     "ncu": "pnpm recursive exec -- ncu -u --packageFile package.json & ncu -u --packageFile package.json",
-    "wc:md": "wca analyze wc/*/src/index.ts --format markdown --outFile wc/README.md",
-    "wc:vs": "wca analyze wc/*/src/index.ts --format vscode --outFile .vscode/wc.json",
+    "wc:md": "wca analyze wc/src/index.ts --format markdown --outFile wc/README.md",
+    "wc:vs": "wca analyze wc/src/index.ts --format vscode --outFile .vscode/wc.json",
     "test": "pnpm --filter @depth/test test",
     "wipe": "sh scripts/wipe.sh"
   },
@@ -45,7 +45,7 @@
     "@typescript-eslint/parser": "^5.25.0",
     "@typescript-eslint/typescript-estree": "^5.25.0",
     "babel-plugin-macros": "^3.1.0",
-    "eslint": "^8.15.0",
+    "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-tsdoc": "^0.2.16",

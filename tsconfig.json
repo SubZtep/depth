@@ -16,16 +16,7 @@
       "path": "./lib/template"
     },
     {
-      "path": "./wc/css3d-cube"
-    },
-    {
-      "path": "./wc/input"
-    },
-    {
-      "path": "./wc/statem-debug"
-    },
-    {
-      "path": "./wc/svg-icon"
+      "path": "./wc"
     },
     {
       "path": "./web"
