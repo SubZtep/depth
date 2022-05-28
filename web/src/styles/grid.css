@@ -9,9 +9,9 @@
   grid-template-rows: 50px 1fr; */
 }
 
-.screen > * {
+/* .screen > * {
   height: 100%;
-}
+} */
 
 .toolbar {
   height: 100px;

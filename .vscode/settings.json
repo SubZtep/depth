@@ -11,18 +11,7 @@
   "editor.quickSuggestions": {
     "strings": true
   },
-  "[yaml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "search.exclude": {
     "**/.git": true,
     "**/*.js": true,
@@ -55,8 +44,6 @@
   "lit-plugin.rules.no-invalid-css": "off",
   "window.title": "d̸͔́è̶̖̝̭m̸̯̪͆̋̈́̉͜o̵͖͍̪̮̾́̀̎.̶̧̰̫̤͐̔̉́̎l̸̡̛͕͍̞a̷̮̾͘ń̵̠̯d̶͈̫̎͝ⒹⒺⓅⓉⒽ 龴ↀ◡ↀ龴 ▂▃▅▇█▓▒░ ${activeEditorMedium}  ░▒▓█▇▅▃▂ ⺌${dirty}‿${dirty}⺌ ⒹⒺⓅⓉⒽd̸͔́è̶̖̝̭m̸̯̪͆̋̈́̉͜o̵͖͍̪̮̾́̀̎.̶̧̰̫̤͐̔̉́̎l̸̡̛͕͍̞a̷̮̾͘ń̵̠̯d̶͈̫̎͝",
   "workbench.colorTheme": "Red",
-  "html.customData": [
-    ".vscode/wc.json"
-  ],
+  "html.customData": [".vscode/wc.json"],
   "folderTemplates.templateFolderPath": ".templates"
 }
