@@ -1,89 +1,8 @@
-/* :root {
-  --bg0: linear-gradient(to right, #ed213a, #93291e);
-  --bg1: linear-gradient(132deg, #f4d03f 0%, #16a085 100%);
-  --bg2: linear-gradient(to right, #22c1c3, #fdbb2d);
-  --bg3: linear-gradient(to right, #5a3f37, #2c7744);
-  --bg4: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
-  --bg5: linear-gradient(19deg, #3eecac 0%, #ee74e1 100%);
-  --bg6: #fff;
-  --bg7: #000;
-  --bg8: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
-  --blood: #8a0303;
-  --terminal: #4af626;
-  --typepad: #d2de61;
-  --bodybg: var(--bg4);
-  --opacity: 0.8;
-} */
-
 body {
   background: #333c;
   overflow: hidden;
 }
 
-.scene {
-  /* background-color: #43aa8b; */
-  position: relative;
-  width: 640px;
-  height: 480px;
-}
-
-/* :root {
-  --transform: matrix(1, 1, 0, 1, 0, 0);
-  matrix(
-    -3792.139079876244,1264.386338436976,0,
-    1264.386338436976,-420.46432787226513,0,
-    0,0,-4213.603407748509)
-} */
-
-.player {
-  width: 100px;
-  height: 100px;
-  position: absolute;
-  border: 2px solid #000;
-  background-color: #696;
-  top: calc(var(--player-y) * 1px);
-  left: calc(var(--player-x) * 1px);
-  /* transform: var(--transform); */
-}
-
-.ground {
-  /* background-color: #b5b73d; */
-  position: absolute;
-  width: 640px;
-  height: 80px;
-  /* bottom: 0; */
-  top: calc(var(--ground-y) * 1px);
-  left: calc(var(--ground-x) * 1px);
-  border-radius: 15px 15px 0 0;
-  box-shadow: inset 0 10px 13px -3px #ff0a;
-}
-
-.square-bg {
-  background-image: repeating-conic-gradient(from 0deg, #b5b73d 0deg 90deg, #696c 90deg 180deg);
-  background-position: 50% 50%;
-  background-size: 2rem 2rem;
-  transition: background 100ms linear;
-}
-
-.square-bg:hover {
-  background-size: 1.945rem 1.945rem;
-}
-
-.sky-gradient {
-  /* text-indent: -9999px; */
-  /* position: relative; */
-  /* z-index: 1; */
-  /* float: left; */
-  /* width: 4%; height: 20%; */
-  /* cursor: pointer; */
-  /* transition:
-    box-shadow 150ms,
-    z-index 0ms; */
-}
-/* .sky-gradient:hover {
-  z-index: 2;
-  box-shadow: 0 -5px 10px black;
-} */
 .sky-gradient::after {
   content: "";
   position: absolute;
@@ -94,18 +13,10 @@ body {
   opacity: 0;
   transition: opacity 0s 1s;
 }
+
 .sky-gradient:hover::after {
   opacity: 1;
   transition: opacity 1s 0s;
-}
-
-.a {
-  margin-left: -10vw;
-  scale: 1.2;
-}
-
-.b {
-  margin-left: 20vw;
 }
 
 /* Gradients */
@@ -133,3 +44,20 @@ body {
 .sky-gradient-21 { background: linear-gradient(to bottom, #010A10 30%,#59230B 80%,#2F1107 100%); }
 .sky-gradient-22 { background: linear-gradient(to bottom, #090401 50%,#4B1D06 100%); }
 .sky-gradient-23 { background: linear-gradient(to bottom, #00000c 80%,#150800 100%); }
+
+
+/* .sky-gradient { */
+  /* text-indent: -9999px; */
+  /* position: relative; */
+  /* z-index: 1; */
+  /* float: left; */
+  /* width: 4%; height: 20%; */
+  /* cursor: pointer; */
+  /* transition:
+    box-shadow 150ms,
+    z-index 0ms; */
+/* } */
+/* .sky-gradient:hover {
+  z-index: 2;
+  box-shadow: 0 -5px 10px black;
+} */

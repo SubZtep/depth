@@ -23,4 +23,5 @@ export function appendTemplateToContainer(templateSelector: string, containerSel
   const container = document.querySelector<HTMLElement>(containerSelector)
   if (!template || !container) throw new Error(`Unkown ${templateSelector} + ${containerSelector} selectors.`)
   container.append(template.content.cloneNode(true))
+  // return { container }
 }

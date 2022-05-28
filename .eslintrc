@@ -61,6 +61,7 @@ rules:
   "unicorn/no-null": off
   "unicorn/no-object-as-default-parameter": off
   "unicorn/no-await-expression-member": off
+  "unicorn/prefer-math-trunc": off
   "unicorn/prefer-export-from":
     - error
     - ignoreUsedVariables: true

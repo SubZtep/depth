@@ -1,8 +1,8 @@
 @import "./reset.css";
-/* @import "./grid.css"; */
 @import "./toolbar.css";
-@import "./theme.css";
-@import "./elements.css";
+@import "./background.css";
+@import "./player.css";
+@import "./ground.css";
 
 .screen {
   display: flex;
@@ -17,5 +17,19 @@
 } */
 
 .toolbar {
-  height: 100px;
+  /* height: 100px; */
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.scene {
+  text-align: center;
+
+  /* background-color: #43aa8b; */
+  position: relative;
+  width: 640px;
+  height: 480px;
 }
