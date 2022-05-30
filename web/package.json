@@ -15,10 +15,9 @@
   "repository": "github:SubZtep/depth",
   "dependencies": {
     "@depth/loop": "workspace:*",
-    "@depth/physics": "workspace:*",
     "@depth/statem": "workspace:*",
-    "@depth/template": "workspace:*",
-    "@depth/wc": "workspace:*"
+    "@depth/wc": "workspace:*",
+    "@dimforge/rapier2d-compat": "0.8.0-alpha.2"
   },
   "devDependencies": {
     "picocolors": "^1.0.0",

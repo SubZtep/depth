@@ -1,6 +1,6 @@
 import RAPIER from "@dimforge/rapier2d-compat"
 import type { RigidBody, World, EventQueue } from "@dimforge/rapier2d-compat"
-import { setCssVar, appendTemplateToContainer } from "@depth/template"
+import { setCssVar, appendTemplateToContainer } from "./misc"
 
 const gravity = new RAPIER.Vector2(0, 9.81)
 

@@ -1,6 +1,6 @@
-import { setCssVar, appendTemplateToContainer } from "@depth/template"
+import { setCssVar, appendTemplateToContainer } from "./misc"
 import Loop from "@depth/loop"
-import { World2D } from "@depth/physics"
+import { World2D } from "./world2d"
 import { applyRealtimeSkyGradient, sleep } from "./misc"
 import { loopState } from "./state"
 import "./styles/main.css"

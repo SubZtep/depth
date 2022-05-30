@@ -7,13 +7,7 @@
       "path": "./lib/loop"
     },
     {
-      "path": "./lib/physics"
-    },
-    {
       "path": "./lib/statem"
-    },
-    {
-      "path": "./lib/template"
     },
     {
       "path": "./wc"
