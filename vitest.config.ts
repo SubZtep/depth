@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "happy-dom",
-    root: "../",
+    root: "./",
     watch: false,
     reporters: "verbose",
   },

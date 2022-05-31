@@ -72,3 +72,5 @@ export default class Cube extends HTMLElement {
     root.innerHTML = style + html
   }
 }
+
+customElements.define("css3d-cube", Cube)

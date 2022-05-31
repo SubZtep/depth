@@ -3,7 +3,7 @@
  *
  * @element input-range
  */
- class Range extends HTMLElement {
+class Range extends HTMLElement {
   // extend htmlinputelement?
 }
 

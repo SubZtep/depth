@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "wireit",
     "build": "wireit",
+    "test": "vitest",
     "ts:check": "tsc --noEmit",
     "ts:build": "tsc --emitDeclarationOnly"
   },
