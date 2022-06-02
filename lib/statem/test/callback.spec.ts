@@ -1,7 +1,7 @@
 import type { SpyInstance } from "vitest"
 // import type { Statem } from "@depth-lib/statem"
-import { describe, expect, it, vi } from "vitest"
-import { statem } from "@depth-lib/statem"
+import { beforeAll, afterAll, afterEach, describe, expect, it, vi } from "vitest"
+import { statem } from "../src"
 
 const obj = {
   cb() {},

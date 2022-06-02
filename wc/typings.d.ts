@@ -1,5 +1,6 @@
 import "../typings"
-import type { IWindow } from "happy-dom"
+
+type IWindow = import("happy-dom").IWindow
 declare global {
   interface Window extends IWindow {}
 }
