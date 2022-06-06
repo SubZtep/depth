@@ -2,8 +2,8 @@ root: true
 
 env:
   browser: true
-  node: true
   es2022: true
+  node: true
   jest: true
 
 parser: "@typescript-eslint/parser"
@@ -66,6 +66,7 @@ rules:
   tsdoc/syntax: warn
 
   "@typescript-eslint/no-inferrable-types": warn
+  "@typescript-eslint/no-non-null-asserted-optional-chain": off
   "@typescript-eslint/explicit-module-boundary-types": off
   "@typescript-eslint/no-non-null-assertion": off
   "@typescript-eslint/ban-ts-comment": off

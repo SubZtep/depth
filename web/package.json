@@ -17,12 +17,12 @@
     "@depth/loop": "workspace:*",
     "@depth/statem": "workspace:*",
     "@depth/wc": "workspace:*",
-    "@dimforge/rapier2d-compat": "0.8.0"
+    "@dimforge/rapier2d-compat": "0.8.1"
   },
   "devDependencies": {
     "picocolors": "^1.0.0",
     "postcss": "^8.4.14",
-    "postcss-preset-env": "^7.7.0",
+    "postcss-preset-env": "^7.7.1",
     "vite": "^2.9.9"
   }
 }
