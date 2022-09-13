@@ -32,5 +32,8 @@
     }
   },
   "author": "Andras Serfozo <subztep@gmail.com>",
-  "license": "Unlicense"
+  "license": "Unlicense",
+  "dependencies": {
+    "beedle": "^0.8.1"
+  }
 }

@@ -21,8 +21,8 @@
     "**/node_modules": true
   },
   "files.exclude": {
-    "**/dist": true,
-    "**/node_modules": true,
+    "**/dist": false,
+    "**/node_modules": false,
     "**/tsconfig.tsbuildinfo": true,
     "pnpm-lock.yaml": true,
     "**/.wireit": true

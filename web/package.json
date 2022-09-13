@@ -16,13 +16,13 @@
   "dependencies": {
     "@depth/loop": "workspace:*",
     "@depth/statem": "workspace:*",
-    "@depth/wc": "workspace:*",
-    "@dimforge/rapier2d-compat": "0.8.1"
+    "@depth/wc": "workspace:*"
   },
   "devDependencies": {
     "picocolors": "^1.0.0",
     "postcss": "^8.4.14",
-    "postcss-preset-env": "^7.7.1",
-    "vite": "^2.9.9"
+    "postcss-preset-env": "^7.7.2",
+    "vite": "^2.9.13",
+    "vite-plugin-pug": "../../vite-plugin-pug"
   }
 }

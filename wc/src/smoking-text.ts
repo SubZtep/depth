@@ -34,7 +34,10 @@ const rad = Math.PI / 180
 customElements.define(
   "smoking-text",
   class extends HTMLElement {
-    frames = 1
+    static get observedAttributes() {
+      return ["frames"]
+    }
+
     rafid = 0
     bfx!: number
     bfy!: number
@@ -45,25 +48,21 @@ customElements.define(
       this.attachShadow({ mode: "open" }).innerHTML = style + html
     }
 
-    anim = () => {
-      this.frames += 0.2
-      this.bfx = 0.03
-      this.bfy = 0.03
-      this.bfx += 0.005 * Math.cos(this.frames * rad)
-      this.bfy += 0.005 * Math.sin(this.frames * rad)
-      this.turbulence.setAttributeNS(null, "baseFrequency", `${String(this.bfx)} ${String(this.bfy)}`)
-      window.requestAnimationFrame(this.anim)
-    }
-
     connectedCallback() {
       this.turbulence = this.shadowRoot!.querySelector("#turbulence")!
-      // console.log([this.shadowRoot, this.filter])
-      // this.rafid = requestAnimationFrame(this.#animate.bind(this))
-      this.rafid = window.requestAnimationFrame(this.anim)
     }
 
-    disconnectedCallback() {
-      cancelAnimationFrame(this.rafid)
+    attributeChangedCallback(_name, _old, value) {
+      this.turbulence.setAttributeNS(null, "baseFrequency", this.freq(+value))
+    }
+
+    freq = (frames: number) => {
+      frames += 0.2
+      this.bfx = 0.03
+      this.bfy = 0.03
+      this.bfx += 0.005 * Math.cos(frames * rad)
+      this.bfy += 0.005 * Math.sin(frames * rad)
+      return `${String(this.bfx)} ${String(this.bfy)}`
     }
   }
 )

@@ -15,9 +15,7 @@
       <div class="toolbar">
         <div>Toolbar</div>
         <input type="range" min="1" max="60" oninput="setFPS(this.valueAsNumber)" />
-        <button onclick="toggleDark()">
-          !dark
-        </button>
+        <button onclick="toggleDark()">!dark</button>
         <button onclick="loop.start()">
           <svg-icon name="play"></svg-icon>
         </button>
@@ -28,13 +26,23 @@
         <button onclick="alert('Menu')">
           <svg-icon name="hamburger"></svg-icon>
         </button>
-        <smoking-text>YOLO</smoking-text>
+        <!-- <smoking-text>YOLO</smoking-text> -->
+
+        <section class="face-radio">
+          <label> <input type="radio" name="face" value="front" checked="" /> front </label>
+          <label> <input type="radio" name="face" value="right" /> right </label>
+          <label> <input type="radio" name="face" value="back" /> back</label>
+          <label> <input type="radio" name="face" value="left" /> left </label>
+          <label> <input type="radio" name="face" value="top" /> top </label>
+          <label> <input type="radio" name="face" value="bottom" /> bottom </label>
+        </section>
       </div>
       <div class="scene sky-gradient">
-        <!-- <css3d-cube class="a"></css3d-cube>
-        <css3d-cube class="b"></css3d-cube> -->
-        <div class="player"></div>
-        <div class="ground square-bg"></div>
+        <css3d-cube></css3d-cube>
+        <!-- <css3d-cube class="a"></css3d-cube> -->
+        <!-- <css3d-cube class="b"></css3d-cube> -->
+        <!-- <div class="player"></div>
+        <div class="ground square-bg"></div> -->
       </div>
     </template>
     <div id="app-container" class="screen"></div>
