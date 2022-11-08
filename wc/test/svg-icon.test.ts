@@ -9,7 +9,7 @@ describe("SVG icon", async () => {
     document.body.innerHTML = "<svg-icon·name=\"hamburger\"></svg-icon>"
     // @ts-ignore
     await window.happyDOM.whenAsyncComplete()
-    await new Promise((resolve) => setTimeout(resolve, 0))
+    await new Promise(resolve => setTimeout(resolve, 0))
   })
 
   it("exists", () => {

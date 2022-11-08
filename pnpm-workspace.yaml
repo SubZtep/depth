@@ -1,5 +1,4 @@
 packages:
- - "lib/**"
+ - "lib/*"
  - "wc"
  - "web"
- - "test"

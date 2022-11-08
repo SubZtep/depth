@@ -2,7 +2,6 @@
   "recommendations": [
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "google.wireit",
-    "Huuums.vscode-fast-folder-structure"
+    "google.wireit"
   ]
 }

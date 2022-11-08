@@ -32,18 +32,18 @@ let smokeFrames = 1
 const loop = new Loop({
   autoStart: true,
   statem: loopState,
-  callback: (delta) => {
+  callback: delta => {
     smokeFrames += 0.2 * delta
 
     smokingText?.setAttribute("frames", String(smokeFrames))
 
     // if (loopState.dark) delta *= -1
     // world.step()
-  },
+  }
 })
 
 Object.assign(globalThis, {
-  loop,
+  loop
 })
 
 document.querySelector(".scene")?.addEventListener("click", () => {

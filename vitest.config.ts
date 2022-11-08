@@ -6,6 +6,6 @@ export default defineConfig({
     environment: "happy-dom",
     root: "./",
     watch: false,
-    reporters: "verbose",
-  },
+    reporters: "verbose"
+  }
 })

@@ -7,7 +7,7 @@ let toSend: MessageFromMeta
 
 export function doServerStuff() {
   const wss = new WebSocketServer({ port: process.env.WSS_PORT })
-  wss.on("connection", (ws) => {
+  wss.on("connection", ws => {
     ws.on("open", () => {
       //
     })
@@ -22,7 +22,7 @@ export function doServerStuff() {
           const reentrant = state.addToState(received.uuid)
           toSend = {
             cmd: "users",
-            uuids: state.getUuids(),
+            uuids: state.getUuids()
           }
 
           if (reentrant) {

@@ -1,4 +1,3 @@
-.eslintcache
 .wireit
 .env
 .pnpm-debug.log
@@ -10,4 +9,3 @@ tsconfig.tsbuildinfo
 web/public/libs/
 web/public/models/origin/
 web/public/story/
-test/coverage

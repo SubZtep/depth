@@ -15,16 +15,24 @@
   "scripts": {
     "dev": "pnpm --parallel --if-present dev",
     "build": "pnpm -r run build",
-    "serve": "pnpm --filter @depth/web serve",
+    "start": "wireit",
     "lint": "wireit",
     "ncu": "pnpm recursive exec -- ncu -u --packageFile package.json & ncu -u --packageFile package.json",
     "wc:md": "wca analyze wc/src/index.ts --format markdown --outFile wc/README.md",
     "wc:vs": "wca analyze wc/src/index.ts --format vscode --outFile .vscode/wc.json",
     "test": "pnpm --parallel --if-present test",
-    "browserslist:update": "npx browserslist@latest --update-db",
+    "browsers": "pnpm dlx browserslist@latest --update-db",
+    "deadcode": "pnpm dlx ts-prune | grep -v '(used in module)'",
+    "depcheck": "pnpm dlx depcheck",
     "wipe": "sh scripts/wipe.sh"
   },
   "wireit": {
+    "start": {
+      "command": "pnpm --filter @depth/web serve",
+      "dependencies": [
+        "./web:build"
+      ]
+    },
     "lint": {
       "command": "eslint --color . --ext .ts",
       "files": [
@@ -37,34 +45,33 @@
     }
   },
   "devDependencies": {
-    "@babel/cli": "^7.18.6",
-    "@babel/core": "^7.18.6",
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.20.2",
     "@babel/preset-typescript": "^7.18.6",
-    "@emotion/css": "^11.9.0",
+    "@emotion/css": "^11.10.5",
     "@types/babel-plugin-macros": "^2.8.5",
-    "@types/node": "^18.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.30.5",
-    "@typescript-eslint/parser": "^5.30.5",
-    "@typescript-eslint/typescript-estree": "^5.30.5",
+    "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.42.0",
+    "@typescript-eslint/parser": "^5.42.0",
+    "@typescript-eslint/typescript-estree": "^5.42.0",
     "babel-plugin-macros": "^3.1.0",
-    "c8": "^7.11.3",
-    "eslint": "^8.19.0",
+    "eslint": "^8.27.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-compat": "^4.0.2",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-tsdoc": "^0.2.16",
-    "eslint-plugin-unicorn": "^43.0.0",
+    "eslint-plugin-tsdoc": "^0.2.17",
+    "eslint-plugin-unicorn": "^44.0.2",
     "eslint-plugin-wc": "^1.3.2",
-    "happy-dom": "^6.0.0",
+    "happy-dom": "^7.6.6",
     "prettier": "^2.7.1",
     "pug.macro": "^0.1.3",
-    "typescript": "^4.7.4",
-    "vitest": "^0.17.0",
+    "typescript": "^4.8.4",
+    "vitest": "^0.24.5",
     "web-component-analyzer": "2.0.0-next.4",
-    "wireit": "^0.7.1"
+    "wireit": "^0.7.2"
   },
   "engines": {
-    "node": ">=16 <20",
-    "pnpm": ">=6"
+    "node": ">=19",
+    "pnpm": ">=7"
   }
 }

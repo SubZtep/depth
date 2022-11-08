@@ -3,7 +3,7 @@
  * @param ms - Do nothing for adjusted milliseconds long
  */
 export function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms))
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 export function applyRealtimeSkyGradient(scene?: HTMLElement) {
@@ -15,7 +15,7 @@ export function applyRealtimeSkyGradient(scene?: HTMLElement) {
  * @param selector - The HTML Element that matches selectors holds the property.
  * @returns Currying the property name then the value.
  */
-export function setCssVar(selector: string = ":root") {
+export function setCssVar(selector = ":root") {
   const el = document.querySelector<HTMLElement>(selector)
   if (!el) throw new Error(`Unknown element for ${selector}`)
   return (property: string) =>

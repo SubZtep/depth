@@ -1,5 +1,8 @@
 semi: false
 printWidth: 120
-pugEmptyAttributes: "none"
-pugAttributeSeparator: "none"
-pugClosingBracketPosition: "last-line"
+trailingComma: none
+arrowParens: avoid
+endOfLine: lf
+pugEmptyAttributes: none
+pugAttributeSeparator: none
+pugClosingBracketPosition: last-line

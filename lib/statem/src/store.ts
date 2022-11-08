@@ -54,7 +54,7 @@ export class Store<T extends object> {
         this.processCallbacks(this.state, oldState)
 
         return true
-      },
+      }
     })
 
     for (const key in initialState) {
@@ -64,7 +64,7 @@ export class Store<T extends object> {
         },
         get: () => {
           return this.state[key]
-        },
+        }
       })
     }
   }

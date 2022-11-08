@@ -4,7 +4,7 @@ import { beforeAll, afterAll, afterEach, describe, expect, it, vi } from "vitest
 import { statem } from "../src"
 
 const obj = {
-  cb() {},
+  cb() {}
 }
 
 describe("Execute callbacks", () => {

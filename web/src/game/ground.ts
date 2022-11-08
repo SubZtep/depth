@@ -4,7 +4,6 @@
 // const rigidBody = world.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(0, this.height - height))
 // const collider = world.createCollider(RAPIER.ColliderDesc.cuboid(width / 2, height / 2), rigidBody.handle)
 
-export {
-  // rigidBody,
-  // collider,
-}
+export // rigidBody,
+// collider,
+{}
