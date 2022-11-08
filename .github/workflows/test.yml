@@ -10,51 +10,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-          run_install: true
-
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: "pnpm"
 
-      # - name: Create env file with secrets
-      #   run: |
-      #     echo VITE_SUPABASE_THROTTLE=250 > .env
-      #     echo VITE_SUPABASE_URL=${{ secrets.SUPABASE_URL }} >> .env
-      #     echo VITE_SUPABASE_KEY=${{ secrets.SUPABASE_SECRET }} >> .env
-
-      # - name: Create ecosystem config for PM2
-      #   run: |
-      #     echo "/* eslint-disable @typescript-eslint/no-var-requires */" > ecosystem.config.js
-      #     echo "module.exports = {" >> ecosystem.config.js
-      #     echo "  name: \"depth\"," >> ecosystem.config.js
-      #     echo "  script: \"serve\"," >> ecosystem.config.js
-      #     echo "  watch: true," >> ecosystem.config.js
-      #     echo "  cwd: require(\"path\").join(__dirname, \"web/dist\")," >> ecosystem.config.js
-      #     echo "  env: {" >> ecosystem.config.js
-      #     echo "    PM2_SERVER_PATH: \".\"," >> ecosystem.config.js
-      #     echo "    PM2_SERVE_PORT: 6669," >> ecosystem.config.js
-      #     echo "  }," >> ecosystem.config.js
-      #     echo "}" >> ecosystem.config.js
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+          run_install: true
 
       - name: Build project
         run: pnpm build
 
       - name: Run tests
         run: pnpm test
-
-      # - name: Deploy via SSH
-      #   uses: appleboy/scp-action@master
-      #   with:
-      #     overwrite: true
-      #     host: ${{ secrets.HOST }}
-      #     username: ${{ secrets.USERNAME }}
-      #     password: ${{ secrets.PASSWORD }}
-      #     port: ${{ secrets.PORT }}
-      #     source: "web/dist/*,web/dist/**/*"
-      #     target: ${{ secrets.TARGET }}
