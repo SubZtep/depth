@@ -1,13 +1,12 @@
-// import type { IWindow } from "happy-dom"
+import { Window } from "happy-dom"
 import { beforeEach, describe, expect, it } from "vitest"
-import "../src"
 
-// globalThis.happyDOM: IWindow
+const window = new Window()
+const document = window.document
 
 describe("SVG icon", async () => {
   beforeEach(async () => {
-    document.body.innerHTML = "<svg-icon·name=\"hamburger\"></svg-icon>"
-    // @ts-ignore
+    document.body.innerHTML = '<svg-icon·name="hamburger"></svg-icon>'
     await window.happyDOM.whenAsyncComplete()
     await new Promise(resolve => setTimeout(resolve, 0))
   })

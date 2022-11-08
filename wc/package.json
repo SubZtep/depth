@@ -37,6 +37,6 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "SEE LICENSE IN ../LICENSE",
   "dependencies": {
-    "@depth/statem": "workspace:*"
+    "@depth/statem": "workspace:0.1.0"
   }
 }

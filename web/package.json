@@ -14,15 +14,15 @@
   "license": "Unlicense",
   "repository": "github:SubZtep/depth",
   "dependencies": {
-    "@depth/loop": "workspace:*",
-    "@depth/statem": "workspace:*",
-    "@depth/wc": "workspace:*"
+    "@depth/loop": "workspace:0.1.0",
+    "@depth/statem": "workspace:0.1.0",
+    "@depth/wc": "workspace:0.1.0"
   },
   "devDependencies": {
     "picocolors": "^1.0.0",
     "postcss": "^8.4.18",
     "postcss-preset-env": "^7.8.2",
-    "vite": "^3.2.2",
-    "vite-plugin-pug": "../../vite-plugin-pug"
+    "vite": "^3.2.3",
+    "vite-plugin-pug": "link:..\\..\\vite-plugin-pug"
   }
 }
