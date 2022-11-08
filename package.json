@@ -1,6 +1,6 @@
 {
   "name": "depth",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "depth test",
   "author": "Andras Serfozo <subztep@gmail.com>",
@@ -71,7 +71,7 @@
     "wireit": "^0.7.2"
   },
   "engines": {
-    "node": ">=19",
+    "node": ">=18",
     "pnpm": ">=7"
   }
 }
