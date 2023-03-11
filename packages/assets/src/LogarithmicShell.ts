@@ -165,7 +165,7 @@ export default defineComponent({
       const vertices = Float32Array.from(shellPoints.flatMap(v => v.toArray()))
       const indices = Uint32Array.from(shellIndex)
       const colliderDesc = ColliderDesc.trimesh(vertices, indices)
-      collider = world.createCollider(colliderDesc, rigidBody.handle)
+      collider = world.createCollider(colliderDesc, rigidBody)
     })
 
     const spiral = new THREE.Line(spiralGeometry, new THREE.LineBasicMaterial({ color: "yellow" }))

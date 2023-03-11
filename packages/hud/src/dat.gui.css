@@ -13,7 +13,7 @@
   .folder .folder {
     transform: translateX(1rem);
   }
-
+/*
   > ul {
     @apply flex flex-col-reverse;
   }
@@ -134,4 +134,5 @@
   .closed + .close-button:hover {
     @apply text-emerald-500;
   }
+*/
 }

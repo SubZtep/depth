@@ -1,5 +1,6 @@
 import { useSingleton } from "@depth/misc"
 import Resources from "~/composables/resources"
+// import { useNProgress } from "@vueuse/integrations"
 
 export const resources = new Resources()
 
@@ -22,9 +23,9 @@ export default function useResources() {
    */
   const loader = async <T extends THREE.Object3D>(key: string, objectLoader: () => Promise<T>): Promise<T> => {
     if (!resources.has(key)) {
-      const { done } = useNProgress(0.5)
+      // const { done } = useNProgress(0.5)
       resources.set(key, await objectLoader())
-      done()
+      // done()
     }
     return resources.get(key) as T
   }

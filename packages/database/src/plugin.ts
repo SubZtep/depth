@@ -8,14 +8,14 @@ type Logger = any
 interface PluginOptions {
   url?: string
   key?: string
-  options?: SupabaseClientOptions
+  options?: SupabaseClientOptions<"metasnail">
 }
 
 export const SupabasePlugin: Plugin = function (_app, options: PluginOptions) {
-  const clientOptions: SupabaseClientOptions = {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
+  const clientOptions: SupabaseClientOptions<"metasnail"> = {
+    // autoRefreshToken: true,
+    // persistSession: true,
+    // detectSessionInUrl: true,
     ...options.options,
   }
 

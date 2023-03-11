@@ -13,8 +13,8 @@
   "dependencies": {
     "@depth/canvas": "workspace:*",
     "@mediapipe/face_mesh": "^0.4.1633559619",
-    "@mediapipe/hands": "^0.4.1635986972",
-    "@mediapipe/holistic": "^0.5.1635989137",
-    "@mediapipe/pose": "^0.5.1635988162"
+    "@mediapipe/hands": "^0.4.1675469240",
+    "@mediapipe/holistic": "^0.5.1675471629",
+    "@mediapipe/pose": "^0.5.1675469404"
   }
 }

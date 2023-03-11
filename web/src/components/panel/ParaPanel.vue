@@ -40,11 +40,11 @@ provide("hover", hovered)
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   border-width: 1px 1px 0 1px;
+}
 
-  h3 {
-    @apply cursor-pointer px-1 py-0.3;
-    font-weight: 600;
-    letter-spacing: 1px;
-  }
+.panel h3 {
+  @apply cursor-pointer px-1 py-0.3;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 </style>

@@ -7,6 +7,7 @@ ParaPanel(title="Ambient Light")
 </template>
 
 <script lang="ts" setup>
+import * as THREE from "three"
 import { useScene } from "@depth/canvas"
 
 const props = defineProps<{

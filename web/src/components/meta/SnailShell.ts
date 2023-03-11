@@ -3,6 +3,7 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
 import { loop3D, rotationFromQuaternion, useScene } from "@depth/canvas"
 import { useSingleton } from "@depth/misc"
 import { onScopeDispose, watchEffect } from "vue"
+// import { useNProgress } from "@vueuse/integrations"
 
 const gltfLoader = new GLTFLoader().setPath("/models/")
 gltfLoader.setDRACOLoader(new DRACOLoader().setDecoderPath("/libs/draco/"))
@@ -10,7 +11,7 @@ gltfLoader.setDRACOLoader(new DRACOLoader().setDecoderPath("/libs/draco/"))
 let model: THREE.Object3D
 
 function getModel(scale = 0.1): Promise<THREE.Object3D> {
-  const { progress } = useNProgress()
+  // const { progress } = useNProgress()
 
   return new Promise((resolve, reject) => {
     gltfLoader.load(
@@ -29,8 +30,8 @@ function getModel(scale = 0.1): Promise<THREE.Object3D> {
         // const pivot = new Object3D().add(group)
         // return resolve(pivot)
       },
-      xhr => set(progress, xhr.loaded / xhr.total),
-      error => reject(`Load error: ${error.message}`)
+      // xhr => set(progress, xhr.loaded / xhr.total),
+      // error => reject(`Load error: ${error.message}`)
     )
   })
 }

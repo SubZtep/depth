@@ -13,6 +13,6 @@
   "license": "Unlicense",
   "dependencies": {
     "@depth/canvas": "workspace:*",
-    "camera-controls": "^1.34.1"
+    "camera-controls": "^2.3.1"
   }
 }

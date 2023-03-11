@@ -13,6 +13,6 @@
   "dependencies": {
     "@depth/canvas": "workspace:*",
     "@depth/misc": "workspace:*",
-    "@dimforge/rapier3d-compat": "^0.7.6"
+    "@dimforge/rapier3d-compat": "^0.11.2"
   }
 }

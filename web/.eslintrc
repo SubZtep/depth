@@ -27,7 +27,7 @@ globals:
   useIntervalFn: true
   useMagicKeys: true
   useMediaControls: true
-  useNProgress: true
+  # useNProgress: true
   useTimeout: true
   useTimeoutFn: true
   useToast: true

@@ -23,7 +23,7 @@ export default defineComponent({
     const world = getWorld()
     const colliderDesc = ColliderDesc.cuboid(dimensions.value[0] / 2, dimensions.value[1] / 2, dimensions.value[2] / 2)
       .setTranslation(...position.value)
-      .setActiveEvents(ActiveEvents.INTERSECTION_EVENTS)
+      .setActiveEvents(ActiveEvents.COLLISION_EVENTS)
       .setSensor(true)
 
     const collider = world.createCollider(colliderDesc)

@@ -11,8 +11,9 @@ export function piniaToSupabase({ options: { supabase: pluginOptions }, store }:
     Object.fromEntries(fields.map(field => [field, store[field]]))
 
   store.$subscribe(async () => {
-    const { error } = await supabase.from(table).upsert(tableValues(store), { returning: "minimal" })
-    if (error) throw new Error(`piniaToSupabase ${error.message}`)
+    console.log({ store, table, fields, supabase, tableValues })
+    // const { error } = await supabase.from(table).upsert(tableValues(store), { returning: "minimal" })
+    // if (error) throw new Error(`piniaToSupabase ${error.message}`)
   })
 }
 

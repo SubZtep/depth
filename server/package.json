@@ -22,16 +22,16 @@
   "author": "Andras Serfozo <subztep@gmail.com>",
   "license": "Unlicense",
   "devDependencies": {
-    "@types/node": "^17.0.14",
-    "@types/ws": "^8.2.2"
+    "@types/node": "^18.15.0",
+    "@types/ws": "^8.5.4"
   },
   "dependencies": {
-    "dotenv": "^16.0.0",
-    "nodemon": "^2.0.15",
-    "ws": "^8.4.2"
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.21",
+    "ws": "^8.13.0"
   },
   "optionalDependencies": {
-    "bufferutil": "^4.0.6",
-    "utf-8-validate": "^5.0.8"
+    "bufferutil": "^4.0.7",
+    "utf-8-validate": "^6.0.3"
   }
 }

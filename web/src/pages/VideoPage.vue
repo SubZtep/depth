@@ -15,9 +15,10 @@ import { UseVirtualList } from "@vueuse/components"
 import VideoPlayer from "~/components/video/VideoPlayer.vue"
 import ImgMemfs from "~/components/video/ImgMemfs"
 import { useFFmpeg } from "@depth/video"
+// import { useNProgress } from "@vueuse/integrations"
 
 const toast = useToast()
-const { progress } = useNProgress()
+// const { progress } = useNProgress()
 
 const memfsDirectory = "/depth"
 const memfsFilename = "video.webm"
@@ -35,7 +36,7 @@ const { ff, files, generateThumbnails } = await useFFmpeg({
   memfsDirectory,
   memfsFilename,
   options: {
-    progress: ({ ratio }) => set(progress, ratio),
+    // progress: ({ ratio }) => set(progress, ratio),
     log: false,
   },
 })
