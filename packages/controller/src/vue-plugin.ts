@@ -5,12 +5,14 @@ import { loop3D } from "@depth/canvas"
 import FollowCamera from "./components/FollowCamera"
 
 export const ControllerPlugin: Plugin = function (app) {
+  // @ts-ignore
   CameraControls.install({ THREE })
 
   app.config.globalProperties.$initCameraControls = (
     camera: THREE.PerspectiveCamera | THREE.OrthographicCamera,
     canvas: HTMLCanvasElement
   ) => {
+    // @ts-ignore
     const cameraControls = new CameraControls(camera, canvas)
     // cameraControls.setPosition(0, 2, 5, false) // FIXME: camera controls (bug?), has to move to become interactive
     app.config.globalProperties.$cameraControls = cameraControls
